@@ -9,7 +9,6 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.foraD40b.view.Step4HypoglycemiaActionPlanView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -114,7 +113,7 @@ package collaboRhythm.plugins.foraD40b.model
 			manualBloodGlucose = text;
 		}
 
-		public function nextStep(source:String):void
+		public function nextStep(calledLocally:Boolean):void
 		{
 			if (currentView == StartHypoglycemiaActionPlanView)
 			{
@@ -134,14 +133,14 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 			else if (currentView == Step4HypoglycemiaActionPlanView)
 			{
-				saveHypoglycemiaHealthActionResult(source);
+				saveHypoglycemiaHealthActionResult(calledLocally);
 				currentStep = 0;
 				pushView(null);
 			}
 		}
 
 
-		public function submitBloodGlucose(source:String, bloodGlucoseAndDateArray:Array):void
+		public function submitBloodGlucose(bloodGlucoseAndDateArray:Array, calledLocally:Boolean):void
 		{
 			bloodGlucose = bloodGlucoseAndDateArray[0];
 			var date:Date = bloodGlucoseAndDateArray[1];
@@ -166,7 +165,7 @@ package collaboRhythm.plugins.foraD40b.model
 					_hypoglycemiaHealthActionResult.actions = new ArrayCollection();
 					_hypoglycemiaActionPlanInitialBloodGlucose = bloodGlucoseVitalSign;
 					_hypoglycemiaActionPlanInitialBloodGlucose.triggeredHealthActionResults.push(_hypoglycemiaHealthActionResult);
-					saveBloodGlucose(source, _hypoglycemiaActionPlanInitialBloodGlucose);
+					saveBloodGlucose(_hypoglycemiaActionPlanInitialBloodGlucose, calledLocally);
 					startHypoglycemiaActionPlan();
 				}
 				else
@@ -202,7 +201,7 @@ package collaboRhythm.plugins.foraD40b.model
 				}
 				else if (currentView == BloodGlucoseHealthActionInputView)
 				{
-					saveBloodGlucose(source, bloodGlucoseVitalSign);
+					saveBloodGlucose(bloodGlucoseVitalSign, calledLocally);
 					currentStep = 0;
 					pushView(null);
 				}
@@ -288,7 +287,8 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 		}
 
-		private function saveBloodGlucose(source:String, bloodGlucoseVitalSign:VitalSign):void
+		private function saveBloodGlucose(bloodGlucoseVitalSign:VitalSign,
+										  calledLocally:Boolean):void
 		{
 			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			results.push(bloodGlucoseVitalSign);
@@ -307,7 +307,7 @@ package collaboRhythm.plugins.foraD40b.model
 				}
 			}
 
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL)
+			if (calledLocally)
 			{
 				healthActionModelDetailsProvider.record.saveAllChanges();
 			}
@@ -315,7 +315,7 @@ package collaboRhythm.plugins.foraD40b.model
 			scheduleItemOccurrence = null;
 		}
 
-		private function saveHypoglycemiaHealthActionResult(source:String):void
+		private function saveHypoglycemiaHealthActionResult(calledLocally:Boolean):void
 		{
 			_hypoglycemiaHealthActionResult.pendingAction = DocumentBase.ACTION_CREATE;
 			healthActionModelDetailsProvider.record.addDocument(_hypoglycemiaHealthActionResult);
@@ -331,7 +331,7 @@ package collaboRhythm.plugins.foraD40b.model
 			healthActionModelDetailsProvider.record.addNewRelationship(HealthActionResult.RELATION_TYPE_TRIGGERED_HEALTH_ACTION_RESULT,
 					_hypoglycemiaActionPlanInitialBloodGlucose, _hypoglycemiaHealthActionResult);
 
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL)
+			if (calledLocally)
 			{
 				healthActionModelDetailsProvider.record.saveAllChanges();
 			}
@@ -354,9 +354,9 @@ package collaboRhythm.plugins.foraD40b.model
 			seconds--;
 		}
 
-		public function quitHypoglycemiaActionPlan(source:String):void
+		public function quitHypoglycemiaActionPlan(calledLocally:Boolean):void
 		{
-			saveHypoglycemiaHealthActionResult(source);
+			saveHypoglycemiaHealthActionResult(calledLocally);
 			pushView(null);
 		}
 
@@ -496,7 +496,7 @@ package collaboRhythm.plugins.foraD40b.model
 			_invalidBloodGlucose = value;
 		}
 
-		public function synchronizeBloodGlucoseHistoryListScrollerPosition(scrollPosition:Number):void
+		public function setBloodGlucoseHistoryListScrollerPosition(scrollPosition:Number):void
 		{
 			bloodGlucoseHistoryListScrollerPosition = scrollPosition;
 		}

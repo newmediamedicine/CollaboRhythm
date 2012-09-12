@@ -11,9 +11,6 @@ package collaboRhythm.shared.collaboration.model
 
 	public class CollaborationLobbyNetConnectionServiceProxy extends EventDispatcher implements ICollaborationLobbyNetConnectionServiceProxy
 	{
-		public static const LOCAL:String = "local";
-		public static const REMOTE:String = "remote";
-
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _applicationDomain:ApplicationDomain;
 
@@ -29,6 +26,7 @@ package collaboRhythm.shared.collaboration.model
 			_collaborationModel = _collaborationLobbyNetConnectionService.collaborationModel;
 			_netConnection = _collaborationLobbyNetConnectionService.netConnection;
 			_netConnection.client.receiveCollaborationViewSynchronization = receiveCollaborationViewSynchronization;
+			_netConnection.client.receiveCollaborationViewSynchronizationFailed = receiveCollaborationViewSynchronizationFailed;
 			_netConnection.client.receiveMessage = receiveMessage;
 			_registeredAliases = new Vector.<String>;
 		}
@@ -53,24 +51,36 @@ package collaboRhythm.shared.collaboration.model
 			dispatchEvent(collaborationMessageEvent);
 		}
 
-		public function sendCollaborationViewSynchronization(synchronizeClassName:String, synchronizeFunction:String,
-															 synchronizeData:* = null):void
+		public function sendCollaborationViewSynchronization(syncrhonizeClassName:String, synchronizeFunction:String,
+															 synchronizeData:* = null, executeLocally:Boolean = true):Boolean
 		{
-			var synchronizeDataName:String = getQualifiedClassName(synchronizeData);
-			var synchronizeDataByteArray:ByteArray = null;
-			if (synchronizeData != null)
+			if (_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
 			{
+				var synchronizeDataName:String = getQualifiedClassName(synchronizeData);
+				var synchronizeDataByteArray:ByteArray = null;
+				if (synchronizeData != null)
+				{
 
-				registerClassAliasForSynchronizeData(synchronizeDataName);
-				synchronizeDataByteArray = new ByteArray();
-				synchronizeDataByteArray.writeObject(synchronizeData);
-				synchronizeDataByteArray.position = 0;
+					registerClassAliasForSynchronizeData(synchronizeDataName);
+					synchronizeDataByteArray = new ByteArray();
+					synchronizeDataByteArray.writeObject(synchronizeData);
+					synchronizeDataByteArray.position = 0;
+				}
+				_netConnection.call("sendCollaborationViewSynchronization", null, syncrhonizeClassName,
+						synchronizeFunction,
+						synchronizeDataName,
+						synchronizeDataByteArray, executeLocally, _collaborationModel.activeAccount.accountId,
+						_collaborationModel.activeAccount.peerId, _collaborationModel.peerAccount.accountId,
+						_collaborationModel.peerAccount.peerId, _collaborationModel.passWord);
 			}
-			_netConnection.call("sendCollaborationViewSynchronization", null, synchronizeClassName, synchronizeFunction,
-					synchronizeDataName,
-					synchronizeDataByteArray, _collaborationModel.activeAccount.accountId,
-					_collaborationModel.activeAccount.peerId, _collaborationModel.peerAccount.accountId,
-					_collaborationModel.peerAccount.peerId, _collaborationModel.passWord);
+			else if (executeLocally)
+			{
+				dispatchCollaborationViewSynchronizationEvent(syncrhonizeClassName, synchronizeFunction, synchronizeData);
+			}
+
+			var serverCheckRequired:Boolean = true;
+
+			return serverCheckRequired;
 		}
 
 		public function receiveCollaborationViewSynchronization(synchronizeClassName:String, synchronizeFunction:String,
@@ -78,6 +88,16 @@ package collaboRhythm.shared.collaboration.model
 																synchronizeDataByteArray:ByteArray, sourcePeerId:String,
 																passWord:String):void
 		{
+			if (sourcePeerId != _collaborationModel.activeAccount.peerId)
+			{
+				_netConnection.call("acknowledgeCollaborationViewSynchronization", null, synchronizeClassName,
+						synchronizeFunction,
+						synchronizeDataName,
+						synchronizeDataByteArray, _collaborationModel.activeAccount.accountId,
+						_collaborationModel.activeAccount.peerId, _collaborationModel.peerAccount.accountId,
+						_collaborationModel.peerAccount.peerId, _collaborationModel.passWord);
+			}
+
 			var synchronizeData:*;
 			if (synchronizeDataByteArray != null)
 			{
@@ -85,9 +105,20 @@ package collaboRhythm.shared.collaboration.model
 				synchronizeData = synchronizeDataByteArray.readObject();
 			}
 
+			dispatchCollaborationViewSynchronizationEvent(synchronizeClassName, synchronizeFunction, synchronizeData);
+		}
+
+		private function dispatchCollaborationViewSynchronizationEvent(synchronizeClassName:String,
+							synchronizeFunction:String, synchronizeData:*):void
+		{
 			var collaborationViewSynchronizationEvent:CollaborationViewSynchronizationEvent = new CollaborationViewSynchronizationEvent(synchronizeClassName,
-					synchronizeFunction, synchronizeData);
-			dispatchEvent(collaborationViewSynchronizationEvent);
+								synchronizeFunction, synchronizeData);
+						dispatchEvent(collaborationViewSynchronizationEvent);
+		}
+
+		private function receiveCollaborationViewSynchronizationFailed():void
+		{
+			trace("failed");
 		}
 
 		private function registerClassAliasForSynchronizeData(synchronizeDataName:String):void

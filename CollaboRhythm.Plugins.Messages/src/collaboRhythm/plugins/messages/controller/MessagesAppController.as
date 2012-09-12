@@ -9,14 +9,11 @@ package collaboRhythm.plugins.messages.controller
 	import collaboRhythm.plugins.messages.view.PlayVideoMessageView;
 	import collaboRhythm.plugins.messages.view.RecordVideoMessageView;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
-	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
-
-	import flash.utils.getQualifiedClassName;
 
 	import mx.core.UIComponent;
 
@@ -29,6 +26,7 @@ package collaboRhythm.plugins.messages.controller
 		private var _messagesModel:MessagesModel;
 		private var _individualMessagesHealthRecordService:IndividualMessageHealthRecordService;
 		private var _collaborationLobbyNetConnectionServiceProxyLocal:CollaborationLobbyNetConnectionServiceProxy;
+		private var _synchronizationService:SynchronizationService;
 
 		public function MessagesAppController(constructorParams:AppControllerConstructorParams)
 		{
@@ -36,28 +34,16 @@ package collaboRhythm.plugins.messages.controller
 
 			_collaborationLobbyNetConnectionServiceProxyLocal = _collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
-			_collaborationLobbyNetConnectionServiceProxyLocal.addEventListener(getQualifiedClassName(this),
-					collaborationViewSynchronization_eventHandler);
+			_synchronizationService = new SynchronizationService(this,
+					_collaborationLobbyNetConnectionServiceProxyLocal);
 
 			_individualMessagesHealthRecordService = new IndividualMessageHealthRecordService(_settings.oauthChromeConsumerKey,
 					_settings.oauthChromeConsumerSecret, _settings.indivoServerBaseURL, _activeAccount,
 					_activeRecordAccount, _activeRecordAccount.messagesModel,
 					collaborationLobbyNetConnectionServiceProxy, _settings);
 
-			_componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IIndividualMessageHealthRecordService).name, IIndividualMessageHealthRecordService, _individualMessagesHealthRecordService);
-		}
-
-		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
-		{
-			if (event.synchronizeData)
-			{
-				this[event.synchronizeFunction](CollaborationLobbyNetConnectionServiceProxy.REMOTE,
-						event.synchronizeData);
-			}
-			else
-			{
-				this[event.synchronizeFunction](CollaborationLobbyNetConnectionServiceProxy.REMOTE);
-			}
+			_componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IIndividualMessageHealthRecordService).name,
+					IIndividualMessageHealthRecordService, _individualMessagesHealthRecordService);
 		}
 
 		override protected function createWidgetView():UIComponent
@@ -118,14 +104,11 @@ package collaboRhythm.plugins.messages.controller
 			_messagesModel = null;
 		}
 
-		public function showMessagesView(source:String):void
+		public function showMessagesView(calledLocally:Boolean):void
 		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
-					_collaborationLobbyNetConnectionServiceProxyLocal.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
+			if (_synchronizationService.synchronize("showMessagesView", calledLocally))
 			{
-				_collaborationLobbyNetConnectionServiceProxyLocal.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"showMessagesView");
+				return;
 			}
 
 			individualMessagesHealthRecordService.getAllMessages();
@@ -152,14 +135,11 @@ package collaboRhythm.plugins.messages.controller
 			_viewNavigator.pushView(RecordVideoMessageView, messagesModelAndController);
 		}
 
-		public function playVideoMessage(source:String, netStreamLocation:String):void
+		public function playVideoMessage(netStreamLocation:String, calledLocally:Boolean):void
 		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
-					_collaborationLobbyNetConnectionServiceProxyLocal.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
+			if (_synchronizationService.synchronize("playVideoMessage", calledLocally, netStreamLocation))
 			{
-				_collaborationLobbyNetConnectionServiceProxyLocal.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"playVideoMessage", netStreamLocation);
+				return;
 			}
 
 			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(_activeRecordAccount.messagesModel,

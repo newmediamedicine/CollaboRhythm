@@ -67,8 +67,7 @@
 
 		private function playVideoHandler(event:VideoAvailableEvent):void
 		{
-			_messagesAppController.playVideoMessage(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
-					event.netStreamLocation);
+			_messagesAppController.playVideoMessage(event.netStreamLocation, true);
 		}
 
 		private function messagesCollection_changeHandler(event:CollectionEvent):void

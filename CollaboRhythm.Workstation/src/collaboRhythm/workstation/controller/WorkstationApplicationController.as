@@ -300,7 +300,7 @@ package collaboRhythm.workstation.controller
 
 			if (_reloadWithFullView != null)
 			{
-				appControllersMediator.showFullView("local", _reloadWithFullView);
+				appControllersMediator.showFullView(_reloadWithFullView, true);
 				_reloadWithFullView = null;
 			}
 		}

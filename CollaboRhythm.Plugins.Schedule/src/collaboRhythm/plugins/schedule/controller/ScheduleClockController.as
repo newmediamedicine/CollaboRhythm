@@ -22,12 +22,10 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
-	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 
 	import flash.events.EventDispatcher;
-	import flash.utils.getQualifiedClassName;
 
 	import spark.components.ViewNavigator;
 
@@ -38,7 +36,7 @@ package collaboRhythm.plugins.schedule.controller
 		private var _scheduleWidgetView:ScheduleClockWidgetView;
 		private var _viewNavigator:ViewNavigator;
 
-		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+		private var _synchronizationService:SynchronizationService;
 
 		public function ScheduleClockController(scheduleAppController:ScheduleAppController,
 												scheduleModel:ScheduleModel, scheduleWidgetView:ScheduleClockWidgetView,
@@ -49,31 +47,17 @@ package collaboRhythm.plugins.schedule.controller
 			_scheduleWidgetView = scheduleWidgetView;
 			_viewNavigator = viewNavigator;
 
-			_collaborationLobbyNetConnectionServiceProxy = _scheduleAppController.collaborationLobbyNetConnectionServiceProxy as
-					CollaborationLobbyNetConnectionServiceProxy;
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
-					collaborationViewSynchronization_eventHandler);
+			_synchronizationService = new SynchronizationService(this,
+					scheduleAppController.collaborationLobbyNetConnectionServiceProxy as
+							CollaborationLobbyNetConnectionServiceProxy);
 		}
 
-		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
+		public function openScheduleReportingFullView(selectedScheduleGroup:ScheduleGroup, calledLocally:Boolean):void
 		{
-			if (event.synchronizeData)
+			if (_synchronizationService.synchronize("openScheduleReportingFullView", calledLocally,
+					selectedScheduleGroup))
 			{
-				this[event.synchronizeFunction]("remote", event.synchronizeData);
-			}
-			else
-			{
-				this[event.synchronizeFunction]("remote");
-			}
-		}
-
-		public function openScheduleReportingFullView(source:String, selectedScheduleGroup:ScheduleGroup):void
-		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL && _collaborationLobbyNetConnectionServiceProxy.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"openScheduleReportingFullView",
-						selectedScheduleGroup);
+				return;
 			}
 
 			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)

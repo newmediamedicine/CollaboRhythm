@@ -44,14 +44,11 @@ package collaboRhythm.tablet.controller
 		}
 
 		override protected function showFullViewResolved(appController:AppControllerBase,
-														 source:String):AppControllerBase
+														 calledLocally:Boolean):AppControllerBase
 		{
-			if (source == "local" &&
-					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
+			if (_synchronizationService.synchronize("showFullView", calledLocally, appController.name))
 			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"showFullView", appController.name);
+				return null;
 			}
 
 			// destroy all full views and widget views
@@ -83,7 +80,8 @@ package collaboRhythm.tablet.controller
 
 		override public function hideFullView(appController:AppControllerBase):void
 		{
-			var view:TabletFullViewContainer = _appControllerConstructorParams.viewNavigator.activeView as TabletFullViewContainer;
+			var view:TabletFullViewContainer = _appControllerConstructorParams.viewNavigator.activeView as
+					TabletFullViewContainer;
 			if (_appControllerConstructorParams.viewNavigator.length > 1 && view && view.app == appController)
 				_appControllerConstructorParams.viewNavigator.popView();
 		}

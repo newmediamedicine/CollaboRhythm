@@ -115,7 +115,7 @@
 
 		private function healthActionItemRenderer_clickHandler():void
 		{
-			_scheduleItemOccurrenceReportingController.handleHealthActionResult(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_scheduleItemOccurrenceReportingController.handleHealthActionResult(true);
 		}
 		]]>
 	    </fx:Script>

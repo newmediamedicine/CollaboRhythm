@@ -20,8 +20,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.model.ScheduleReportingModel;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
-	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 
 	import flash.events.EventDispatcher;
@@ -40,7 +39,9 @@ package collaboRhythm.plugins.schedule.controller
 		private var _scheduleReportingModel:ScheduleReportingModel;
 		protected var _logger:ILogger;
 		private var _viewNavigator:ViewNavigator;
-		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _synchronizationService:SynchronizationService;
 
 		public function ScheduleReportingController(scheduleModel:ScheduleModel,
 													scheduleReportingFullView:ScheduleReportingFullView,
@@ -48,27 +49,54 @@ package collaboRhythm.plugins.schedule.controller
 													collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
 			_viewNavigator = viewNavigator;
-			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy as
-					CollaborationLobbyNetConnectionServiceProxy;
+			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_scheduleModel = scheduleModel;
 			_scheduleReportingFullView = scheduleReportingFullView;
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
 
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
-					collaborationViewSynchronization_eventHandler);
+			_synchronizationService = new SynchronizationService(this, collaborationLobbyNetConnectionServiceProxy as
+					CollaborationLobbyNetConnectionServiceProxy);
 		}
 
-		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
+		public function goBack(calledLocally:Boolean):void
 		{
-			if (event.synchronizeData != null && !isNaN(event.synchronizeData))
+			if (_synchronizationService.synchronize("goBack", calledLocally))
 			{
-				this[event.synchronizeFunction]("remote", event.synchronizeData);
+				return;
 			}
-			else
+
+			viewNavigator.popView();
+		}
+
+		public function save(calledLocally:Boolean):void
+		{
+			if (_synchronizationService.synchronize("save", calledLocally))
 			{
-				this[event.synchronizeFunction]("remote");
+				return;
 			}
+
+			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
+			{
+				_scheduleModel.saveChangesToRecord();
+			}
+		}
+
+		public function setScheduleGroupReportingViewScrollPosition(verticalScrollPosition:Number,
+																	calledLocally:Boolean):void
+		{
+			if (_synchronizationService.synchronize("setScheduleGroupReportingViewScrollPosition", calledLocally,
+					verticalScrollPosition, false))
+			{
+				return;
+			}
+
+			_scheduleReportingModel.synchronizeScheduleGroupReportingViewScrollPosition(verticalScrollPosition);
+		}
+
+		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+		{
+			return _collaborationLobbyNetConnectionServiceProxy;
 		}
 
 		public function get viewNavigator():ViewNavigator
@@ -79,57 +107,6 @@ package collaboRhythm.plugins.schedule.controller
 		public function set viewNavigator(value:ViewNavigator):void
 		{
 			_viewNavigator = value;
-		}
-
-		public function goBack(source:String):void
-		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
-					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"goBack");
-			}
-
-			viewNavigator.popView();
-		}
-
-		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
-		{
-			return _collaborationLobbyNetConnectionServiceProxy;
-		}
-
-		public function synchronizeSaving(source:String):void
-		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
-					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"synchronizeSaving");
-			}
-
-			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
-			{
-				_scheduleModel.saveChangesToRecord();
-			}
-		}
-
-		public function synchronizeScheduleGroupReportingViewScrollPosition(source:String,
-																			verticalScrollPosition:Number):void
-		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
-					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"synchronizeScheduleGroupReportingViewScrollPosition", verticalScrollPosition);
-			}
-
-			if (source == CollaborationLobbyNetConnectionServiceProxy.REMOTE)
-			{
-				_scheduleReportingModel.synchronizeScheduleGroupReportingViewScrollPosition(verticalScrollPosition);
-			}
 		}
 	}
 }

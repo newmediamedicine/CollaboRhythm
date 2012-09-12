@@ -113,15 +113,13 @@
 		{
 			if (bloodGlucoseTextInput.enabled)
 			{
-				_dataInputController.updateManualBloodGlucose(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
-						bloodGlucoseTextInput.text);
+				_dataInputController.updateManualBloodGlucose(bloodGlucoseTextInput.text, true);
 			}
 		}
 
 		private function saveButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
-					[bloodGlucoseTextInput.text, _currentDateSource.now()]);
+			_dataInputController.submitBloodGlucose([bloodGlucoseTextInput.text, _currentDateSource.now()], true);
 		}
 		]]></fx:Script>
 	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle" horizontalCenter="0" top="200">

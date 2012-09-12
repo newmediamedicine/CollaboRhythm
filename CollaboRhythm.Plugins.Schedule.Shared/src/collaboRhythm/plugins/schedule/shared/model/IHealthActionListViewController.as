@@ -2,9 +2,9 @@ package collaboRhythm.plugins.schedule.shared.model
 {
 	public interface IHealthActionListViewController
 	{
-		function handleHealthActionResult(source:String):void;
+		function handleHealthActionResult(calledLocally:Boolean):void;
 
-		function handleHealthActionSelected(source:String):void;
+		function handleHealthActionSelected(calledLocally:Boolean):void;
 
 		function playVideo(instructionalVideo:String):void;
 

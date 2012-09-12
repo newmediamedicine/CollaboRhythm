@@ -5,10 +5,10 @@ package collaboRhythm.shared.model
 
 	public interface ICollaborationLobbyNetConnectionServiceProxy
 	{
-		function sendCollaborationViewSynchronization(syncrhonizeClassName:String, synchronizeFunction:String,
-													  synchronizeData:* = null):void;
+		function sendCollaborationViewSynchronization(synchronizeClassName:String, synchronizeFunction:String,
+													  synchronizeData:* = null, executeLocally:Boolean = true):Boolean;
 
-		function receiveCollaborationViewSynchronization(syncrhonizeClassName:String, synchronizeFunction:String,
+		function receiveCollaborationViewSynchronization(synchronizeClassName:String, synchronizeFunction:String,
 														 synchronizeDataName:String,
 														 synchronizeDataByteArray:ByteArray,
 														 sourcePeerId:String, passWord:String):void;

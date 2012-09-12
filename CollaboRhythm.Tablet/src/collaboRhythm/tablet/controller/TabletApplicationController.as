@@ -20,7 +20,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.core.controller.ApplicationControllerBase;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.shared.collaboration.model.CollaborationModel;
-	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.collaboration.view.CollaborationInvitationPopUp;
 	import collaboRhythm.shared.collaboration.view.CollaborationInvitationPopUpEvent;
 	import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
@@ -38,16 +38,13 @@ package collaboRhythm.tablet.controller
 
 	import mx.binding.utils.BindingUtils;
 	import mx.core.IVisualElementContainer;
+	import mx.core.mx_internal;
 	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
 
 	import spark.components.ViewNavigator;
 	import spark.components.supportClasses.ViewNavigatorAction;
-	import spark.events.PopUpEvent;
-	import spark.events.ViewNavigatorEvent;
 	import spark.transitions.SlideViewTransition;
-
-	import mx.core.mx_internal
 
 	public class TabletApplicationController extends ApplicationControllerBase
 	{
@@ -61,6 +58,7 @@ package collaboRhythm.tablet.controller
 
 		private var _collaborationInvitationPopUp:CollaborationInvitationPopUp;
 		private var _remoteBackCount:int = 0;
+		private var _synchronizationService:SynchronizationService;
 
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
 		{
@@ -78,8 +76,7 @@ package collaboRhythm.tablet.controller
 
 			initCollaborationController();
 			_collaborationController.viewNavigator = navigator;
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
-					collaborationViewSynchronization_eventHandler);
+			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
 
 			BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationController.collaborationModel,
 					"collaborationState");
@@ -95,18 +92,6 @@ package collaboRhythm.tablet.controller
 			createSession();
 		}
 
-		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
-		{
-			if (event.synchronizeData)
-			{
-				this[event.synchronizeFunction]("remote", event.synchronizeData);
-			}
-			else
-			{
-				this[event.synchronizeFunction]("remote");
-			}
-		}
-
 		private function collaborationState_changeHandler(collaborationState:String):void
 		{
 			if (collaborationState == CollaborationModel.COLLABORATION_INVITATION_SENT ||
@@ -114,9 +99,12 @@ package collaboRhythm.tablet.controller
 			{
 				_collaborationInvitationPopUp = new CollaborationInvitationPopUp();
 				_collaborationInvitationPopUp.init(_collaborationController, activeRecordAccount);
-				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.ACCEPT, collaborationInvitationPopUp_acceptHandler);
-				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.REJECT, collaborationInvitationPopUp_rejectHandler);
-				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.CANCEL, collaborationInvitationPopUp_cancelHandler);
+				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.ACCEPT,
+						collaborationInvitationPopUp_acceptHandler);
+				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.REJECT,
+						collaborationInvitationPopUp_rejectHandler);
+				_collaborationInvitationPopUp.addEventListener(CollaborationInvitationPopUpEvent.CANCEL,
+						collaborationInvitationPopUp_cancelHandler);
 				_collaborationInvitationPopUp.open(navigator.activeView as TabletViewBase, true);
 				PopUpManager.centerPopUp(_collaborationInvitationPopUp);
 			}
@@ -132,7 +120,8 @@ package collaboRhythm.tablet.controller
 					navigator.popToFirstView();
 				}
 
-				if (collaborationState == CollaborationModel.COLLABORATION_INACTIVE && navigator.activeView as CollaborationVideoView)
+				if (collaborationState == CollaborationModel.COLLABORATION_INACTIVE &&
+						navigator.activeView as CollaborationVideoView)
 				{
 					navigator.popView();
 				}
@@ -180,7 +169,7 @@ package collaboRhythm.tablet.controller
 
 			if (_reloadWithFullView)
 			{
-				appControllersMediator.showFullView("local", _reloadWithFullView);
+				appControllersMediator.showFullView(_reloadWithFullView, true);
 				_reloadWithFullView = null;
 			}
 		}
@@ -241,28 +230,25 @@ package collaboRhythm.tablet.controller
 			super.sendCollaborationInvitation();
 		}
 
-		override public function navigateHome(source:String):void
+		override public function navigateHome(calledLocally:Boolean):void
 		{
-			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
-					CollaborationModel.COLLABORATION_ACTIVE)
+			if (_synchronizationService.synchronize("navigateHome", calledLocally))
 			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"navigateHome");
+				return;
 			}
+
 			navigator.popToFirstView()
 		}
 
-		override public function synchronizeBack(source:String):void
+		override public function synchronizeBack(calledLocally:Boolean):void
 		{
-			if (_collaborationController.collaborationModel.collaborationState ==
-					CollaborationModel.COLLABORATION_ACTIVE)
+			if (_synchronizationService.synchronize("synchronizeBack", calledLocally, null, false))
 			{
-				if (source == "remote")
-				{
-					_remoteBackCount += 1;
-					navigator.popView();
-				}
+				return;
 			}
+
+			_remoteBackCount += 1;
+			navigator.popView();
 		}
 
 		private function get tabletHomeView():TabletHomeView
@@ -414,7 +400,8 @@ package collaboRhythm.tablet.controller
 				{
 					_remoteBackCount -= 1;
 				}
-				else if (_collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
+				else if (_collaborationController.collaborationModel.collaborationState ==
+						CollaborationModel.COLLABORATION_ACTIVE)
 				{
 					_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
 							"synchronizeBack");

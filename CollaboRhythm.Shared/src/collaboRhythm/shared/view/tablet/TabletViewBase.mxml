@@ -122,7 +122,7 @@
 
 		public function homeButton_clickHandler():void
 		{
-			_tabletApplicationController.navigateHome("local");
+			_tabletApplicationController.navigateHome(true);
 		}
 
 		protected function addedToStageHandler():void
