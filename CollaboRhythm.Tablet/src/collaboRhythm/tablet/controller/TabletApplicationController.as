@@ -170,7 +170,7 @@ package collaboRhythm.tablet.controller
 
 			if (_reloadWithFullView)
 			{
-				appControllersMediator.showFullView(_reloadWithFullView, true);
+				appControllersMediator.showFullView(true, _reloadWithFullView);
 				_reloadWithFullView = null;
 			}
 		}
@@ -401,11 +401,9 @@ package collaboRhythm.tablet.controller
 				{
 					_remoteBackCount -= 1;
 				}
-				else if (_collaborationController.collaborationModel.collaborationState ==
-						CollaborationModel.COLLABORATION_ACTIVE)
+				else
 				{
-					_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-							"synchronizeBack");
+					synchronizeBack(true);
 				}
 			}
 		}

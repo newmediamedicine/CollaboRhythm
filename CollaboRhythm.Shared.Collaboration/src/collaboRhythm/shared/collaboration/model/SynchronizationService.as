@@ -33,7 +33,7 @@ package collaboRhythm.shared.collaboration.model
 				}
 				else
 				{
-					_collaborationSynchronizationController[event.synchronizeFunction](event.synchronizeData, false);
+					_collaborationSynchronizationController[event.synchronizeFunction](false, event.synchronizeData);
 				}
 			}
 			else

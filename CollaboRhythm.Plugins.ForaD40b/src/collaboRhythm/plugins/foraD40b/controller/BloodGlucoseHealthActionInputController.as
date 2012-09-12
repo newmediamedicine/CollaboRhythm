@@ -7,12 +7,10 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
-	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
 
@@ -69,14 +67,14 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.nextStep(calledLocally);
 		}
 
-		public function submitBloodGlucose(bloodGlucoseAndDateArray:Array, calledLocally:Boolean):void
+		public function submitBloodGlucose(calledLocally:Boolean, bloodGlucoseAndDateArray:Array):void
 		{
 			if (_synchronizationService.synchronize("submitBloodGlucose", calledLocally, bloodGlucoseAndDateArray))
 			{
 				return;
 			}
 
-			_dataInputModel.submitBloodGlucose(bloodGlucoseAndDateArray, calledLocally);
+			_dataInputModel.submitBloodGlucose(calledLocally, bloodGlucoseAndDateArray);
 		}
 
 		private function currentView_changeHandler(currentView:Class):void
@@ -122,7 +120,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.startWaitTimer();
 		}
 
-		public function updateManualBloodGlucose(text:String, calledLocally:Boolean):void
+		public function updateManualBloodGlucose(calledLocally:Boolean, text:String):void
 		{
 			if (_synchronizationService.synchronize("updateManualBloodGlucose", calledLocally, text))
 			{
@@ -152,8 +150,8 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.addEatCarbsHealthAction(description);
 		}
 
-		public function showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSignDate:Date,
-															  calledLocally:Boolean):void
+		public function showHypoglycemiaActionPlanSummaryView(calledLocally:Boolean,
+															  bloodGlucoseVitalSignDate:Date):void
 		{
 			if (_synchronizationService.synchronize("showHypoglycemiaActionPlanSummaryView", calledLocally,
 					bloodGlucoseVitalSignDate))
@@ -165,7 +163,7 @@ package collaboRhythm.plugins.foraD40b.controller
 					[bloodGlucoseVitalSignDate, this, _dataInputModel]);
 		}
 
-		public function addWaitHealthAction(seconds:int, calledLocally:Boolean):void
+		public function addWaitHealthAction(calledLocally:Boolean, seconds:int):void
 		{
 			if (_synchronizationService.synchronize("addWaitHealthAction", calledLocally, seconds))
 			{
@@ -175,7 +173,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.addWaitHealthAction(seconds);
 		}
 
-		public function setBloodGlucoseHistoryListScrollPosition(scrollPosition:Number, calledLocally:Boolean):void
+		public function setBloodGlucoseHistoryListScrollPosition(calledLocally:Boolean, scrollPosition:Number = 0):void
 		{
 			if (_synchronizationService.synchronize("setBloodGlucoseHistoryListScrollPosition", calledLocally,
 					scrollPosition, false))
@@ -186,7 +184,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.setBloodGlucoseHistoryListScrollerPosition(scrollPosition);
 		}
 
-		public function simpleCarbsItemList_changeHandler(selectedIndex:int, calledLocally:Boolean):void
+		public function simpleCarbsItemList_changeHandler(calledLocally:Boolean, selectedIndex:int):void
 		{
 			if (_synchronizationService.synchronize("simpleCarbsItemList_changeHandler", calledLocally, selectedIndex,
 					false))
@@ -197,7 +195,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.simpleCarbsItemList_changeHandler(selectedIndex);
 		}
 
-		public function complexCarbs15gItemList_changeHandler(selectedIndex:int, calledLocally:Boolean):void
+		public function complexCarbs15gItemList_changeHandler(calledLocally:Boolean, selectedIndex:int):void
 		{
 			if (_synchronizationService.synchronize("complexCarbs15gItemList_changeHandler", calledLocally,
 					selectedIndex, false))
@@ -208,7 +206,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.complexCarbs15gItemList_changeHandler(selectedIndex);
 		}
 
-		public function complexCarbs30gItemList_changeHandler(selectedIndex:int, calledLocally:Boolean):void
+		public function complexCarbs30gItemList_changeHandler(calledLocally:Boolean, selectedIndex:int):void
 		{
 			if (_synchronizationService.synchronize("complexCarbs30gItemList_changeHandler", calledLocally,
 					selectedIndex, false))
@@ -219,7 +217,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.complexCarbs30gItemList_changeHandler(selectedIndex);
 		}
 
-		public function synchronizeActionsListScrollPosition(verticalScrollPosition:Number, calledLocally:Boolean):void
+		public function synchronizeActionsListScrollPosition(calledLocally:Boolean, verticalScrollPosition:Number = 0):void
 		{
 			if (_synchronizationService.synchronize("synchronizeActionsListScrollPosition", calledLocally,
 					verticalScrollPosition, false))

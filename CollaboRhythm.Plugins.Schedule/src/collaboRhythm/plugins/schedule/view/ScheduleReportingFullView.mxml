@@ -173,7 +173,7 @@
 			if (event.property == "verticalScrollPosition" && _touchInteraction)
 			{
 				var verticalScrollPosition:Number = event.newValue as Number;
-				_scheduleReportingController.setScheduleGroupReportingViewScrollPosition(verticalScrollPosition, false);
+				_scheduleReportingController.setScheduleGroupReportingViewScrollPosition(false, verticalScrollPosition);
 			}
 		}
 

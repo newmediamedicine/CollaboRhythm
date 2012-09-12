@@ -140,7 +140,7 @@ package collaboRhythm.plugins.foraD40b.model
 		}
 
 
-		public function submitBloodGlucose(bloodGlucoseAndDateArray:Array, calledLocally:Boolean):void
+		public function submitBloodGlucose(calledLocally:Boolean, bloodGlucoseAndDateArray:Array):void
 		{
 			bloodGlucose = bloodGlucoseAndDateArray[0];
 			var date:Date = bloodGlucoseAndDateArray[1];
@@ -165,7 +165,7 @@ package collaboRhythm.plugins.foraD40b.model
 					_hypoglycemiaHealthActionResult.actions = new ArrayCollection();
 					_hypoglycemiaActionPlanInitialBloodGlucose = bloodGlucoseVitalSign;
 					_hypoglycemiaActionPlanInitialBloodGlucose.triggeredHealthActionResults.push(_hypoglycemiaHealthActionResult);
-					saveBloodGlucose(_hypoglycemiaActionPlanInitialBloodGlucose, calledLocally);
+					saveBloodGlucose(calledLocally, _hypoglycemiaActionPlanInitialBloodGlucose);
 					startHypoglycemiaActionPlan();
 				}
 				else
@@ -201,7 +201,7 @@ package collaboRhythm.plugins.foraD40b.model
 				}
 				else if (currentView == BloodGlucoseHealthActionInputView)
 				{
-					saveBloodGlucose(bloodGlucoseVitalSign, calledLocally);
+					saveBloodGlucose(calledLocally, bloodGlucoseVitalSign);
 					currentStep = 0;
 					pushView(null);
 				}
@@ -287,8 +287,8 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 		}
 
-		private function saveBloodGlucose(bloodGlucoseVitalSign:VitalSign,
-										  calledLocally:Boolean):void
+		private function saveBloodGlucose(calledLocally:Boolean,
+										  bloodGlucoseVitalSign:VitalSign):void
 		{
 			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			results.push(bloodGlucoseVitalSign);

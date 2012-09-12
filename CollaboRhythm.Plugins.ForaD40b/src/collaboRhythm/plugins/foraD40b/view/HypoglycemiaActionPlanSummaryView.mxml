@@ -137,7 +137,7 @@
 			if (event.property == "verticalScrollPosition" && _touchInteraction)
 			{
 				var verticalScrollPosition:Number = event.newValue as Number;
-				_dataInputController.synchronizeActionsListScrollPosition(verticalScrollPosition, true);
+				_dataInputController.synchronizeActionsListScrollPosition(true, verticalScrollPosition);
 			}
 		}
 

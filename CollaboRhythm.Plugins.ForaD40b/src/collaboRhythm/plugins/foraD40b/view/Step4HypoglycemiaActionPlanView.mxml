@@ -95,7 +95,7 @@
 
 		private function complexCarbs15gItemList_changeHandler():void
 		{
-			_dataInputController.complexCarbs15gItemList_changeHandler(complexCarbs15gItemList.selectedIndex, true);
+			_dataInputController.complexCarbs15gItemList_changeHandler(true, complexCarbs15gItemList.selectedIndex);
 
 			if (complexCarbs15gItemList.selectedItem == null)
 			{
@@ -110,7 +110,7 @@
 
 		private function complexCarbs30gItemList_changeHandler():void
 		{
-			_dataInputController.complexCarbs30gItemList_changeHandler(complexCarbs30gItemList.selectedIndex, true);
+			_dataInputController.complexCarbs30gItemList_changeHandler(true, complexCarbs30gItemList.selectedIndex);
 
 			if (complexCarbs30gItemList.selectedItem == null)
 			{

@@ -17,15 +17,12 @@
 package collaboRhythm.tablet.controller
 {
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
-
-	import flash.utils.getQualifiedClassName;
 
 	import mx.core.IVisualElementContainer;
 
@@ -43,8 +40,8 @@ package collaboRhythm.tablet.controller
 			_tabletApplicationController = tabletApplicationController;
 		}
 
-		override protected function showFullViewResolved(appController:AppControllerBase,
-														 calledLocally:Boolean):AppControllerBase
+		override protected function showFullViewResolved(calledLocally:Boolean,
+														 appController:AppControllerBase):AppControllerBase
 		{
 			if (_synchronizationService.synchronize("showFullView", calledLocally, appController.name))
 			{

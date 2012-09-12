@@ -29,8 +29,6 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
 	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
-	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -362,28 +360,28 @@ package collaboRhythm.core.controller.apps
 			if (event.appController == null)
 			{
 				// TODO: use constant instead of magic string
-				appInstance = showFullView(event.applicationName, true);
+				appInstance = showFullView(true, event.applicationName);
 			}
 			else
 			{
-				appInstance = showFullViewResolved(event.appController, true);
+				appInstance = showFullViewResolved(true, event.appController);
 			}
 
 			if (appInstance)
 				InteractionLogUtil.logAppInstance(_logger, "Show full view", event.viaMechanism, appInstance);
 		}
 
-		public function showFullView(applicationName:String, calledLocally:Boolean):AppControllerBase
+		public function showFullView(calledLocally:Boolean, applicationName:String):AppControllerBase
 		{
 			var appController:AppControllerBase = _apps.getValueByKey(applicationName);
 			if (appController != null)
-				return showFullViewResolved(appController, calledLocally);
+				return showFullViewResolved(calledLocally, appController);
 			else
 				return null;
 		}
 
-		protected function showFullViewResolved(appController:AppControllerBase,
-												calledLocally:Boolean):AppControllerBase
+		protected function showFullViewResolved(calledLocally:Boolean,
+												appController:AppControllerBase):AppControllerBase
 		{
 			if (_synchronizationService.synchronize("showFullView", calledLocally, appController.name))
 			{

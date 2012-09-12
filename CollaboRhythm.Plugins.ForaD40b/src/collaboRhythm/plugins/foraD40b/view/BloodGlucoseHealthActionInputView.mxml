@@ -100,8 +100,8 @@
 
 		private function saveActionButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose([reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()],
-					true);
+			_dataInputController.submitBloodGlucose(true,
+					[reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
 		}
 
 		override public function homeButton_clickHandler():void

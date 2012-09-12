@@ -20,13 +20,13 @@ package collaboRhythm.plugins.schedule.shared.controller
 			_collaborationLobbyNetConnectionServiceProxy = _healthActionListViewModel.healthActionInputModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
 			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy,
-					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId());
+					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id);
 		}
 
 		public function handleHealthActionResult(calledLocally:Boolean):void
 		{
 			if (_synchronizationService.synchronize("handleHealthActionResult", calledLocally,
-					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId()))
+					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id))
 			{
 				return;
 			}
@@ -52,7 +52,7 @@ package collaboRhythm.plugins.schedule.shared.controller
 		public function handleHealthActionSelected(calledLocally:Boolean):void
 		{
 			if (_synchronizationService.synchronize("handleHealthActionSelected", calledLocally,
-					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId()))
+					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id))
 			{
 				return;
 			}

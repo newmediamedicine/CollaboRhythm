@@ -102,7 +102,7 @@
 
 		private function simpleCarbsItemList_changeHandler():void
 		{
-			_dataInputController.simpleCarbsItemList_changeHandler(simpleCarbsItemList.selectedIndex, true);
+			_dataInputController.simpleCarbsItemList_changeHandler(true, simpleCarbsItemList.selectedIndex);
 
 			if (simpleCarbsItemList.selectedItem != null &&
 					_dataInputModel.healthActionModelDetailsProvider.accountId ==

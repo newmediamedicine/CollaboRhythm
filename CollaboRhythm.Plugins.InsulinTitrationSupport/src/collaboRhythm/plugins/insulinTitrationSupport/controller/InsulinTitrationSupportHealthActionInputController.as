@@ -5,13 +5,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
-	import flash.utils.getQualifiedClassName;
 
 	import spark.components.ViewNavigator;
 
@@ -40,23 +38,18 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		public function handleHealthActionResult():void
 		{
-			prepareChartsForDecision(true);
+			prepareChartsForDecision();
 			showCharts();
 		}
 
 		public function handleHealthActionSelected():void
 		{
-			prepareChartsForDecision(true);
+			prepareChartsForDecision();
 			showCharts();
 		}
 
-		public function prepareChartsForDecision(calledLocally:Boolean):void
+		public function prepareChartsForDecision():void
 		{
-			if (_synchronizationService.synchronize("prepareChartsForDecision", calledLocally))
-			{
-				return;
-			}
-
 			_dataInputModel.prepareChartsForDecision();
 		}
 

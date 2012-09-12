@@ -135,7 +135,7 @@ package collaboRhythm.plugins.messages.controller
 			_viewNavigator.pushView(RecordVideoMessageView, messagesModelAndController);
 		}
 
-		public function playVideoMessage(netStreamLocation:String, calledLocally:Boolean):void
+		public function playVideoMessage(calledLocally:Boolean, netStreamLocation:String):void
 		{
 			if (_synchronizationService.synchronize("playVideoMessage", calledLocally, netStreamLocation))
 			{

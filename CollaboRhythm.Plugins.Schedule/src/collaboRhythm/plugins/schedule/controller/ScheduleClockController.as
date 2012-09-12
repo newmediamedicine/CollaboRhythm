@@ -52,7 +52,8 @@ package collaboRhythm.plugins.schedule.controller
 							CollaborationLobbyNetConnectionServiceProxy);
 		}
 
-		public function openScheduleReportingFullView(selectedScheduleGroup:ScheduleGroup, calledLocally:Boolean):void
+		public function openScheduleReportingFullView(calledLocally:Boolean,
+													  selectedScheduleGroup:ScheduleGroup):void
 		{
 			if (_synchronizationService.synchronize("openScheduleReportingFullView", calledLocally,
 					selectedScheduleGroup))

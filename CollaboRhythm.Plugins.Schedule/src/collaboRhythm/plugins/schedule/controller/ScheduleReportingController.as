@@ -82,8 +82,8 @@ package collaboRhythm.plugins.schedule.controller
 			}
 		}
 
-		public function setScheduleGroupReportingViewScrollPosition(verticalScrollPosition:Number,
-																	calledLocally:Boolean):void
+		public function setScheduleGroupReportingViewScrollPosition(calledLocally:Boolean,
+																	verticalScrollPosition:Number):void
 		{
 			if (_synchronizationService.synchronize("setScheduleGroupReportingViewScrollPosition", calledLocally,
 					verticalScrollPosition, false))

@@ -106,7 +106,7 @@
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.addWaitHealthAction(_dataInputModel.seconds, true);
+			_dataInputController.addWaitHealthAction(true, _dataInputModel.seconds);
 
 			super.nextStepButton_clickHandler();
 		}

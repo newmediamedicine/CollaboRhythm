@@ -85,8 +85,8 @@
 			var bloodGlucoseVitalSign:VitalSign = bloodGlucoseHistoryList.selectedItem;
 			if (bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0)
 			{
-				_dataInputController.showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSign.dateMeasuredStart,
-						true);
+				_dataInputController.showHypoglycemiaActionPlanSummaryView(true,
+						bloodGlucoseVitalSign.dateMeasuredStart);
 			}
 		}
 
@@ -125,7 +125,7 @@
 			if (event.property == "verticalScrollPosition" && _touchInteraction)
 			{
 				var verticalScrollPosition:Number = event.newValue as Number;
-				_dataInputController.setBloodGlucoseHistoryListScrollPosition(verticalScrollPosition, true);
+				_dataInputController.setBloodGlucoseHistoryListScrollPosition(true, verticalScrollPosition);
 			}
 		}
 
