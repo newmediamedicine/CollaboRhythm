@@ -122,7 +122,7 @@
 
 		public function homeButton_clickHandler():void
 		{
-			_tabletApplicationController.navigateHome("local");
+			_tabletApplicationController.navigateHome(true);
 		}
 
 		protected function addedToStageHandler():void
@@ -176,13 +176,6 @@
 		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>
 	</s:viewMenuItems>
 	<s:actionContent>
-		<s:BusyIndicator id="backgroundProgressIndicator"
-						 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
-						 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}"/>
-		<s:Label id="backgroundProgressLabel" text="{tabletApplicationController.backgroundProcessModel.summary}"
-				 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
-				 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}" paddingLeft="10"/>
 		<s:Button id="menuButton" click="menuButton_clickHandler(event)" icon="{MenuIcon}"/>
-
 	</s:actionContent>
 </s:View>

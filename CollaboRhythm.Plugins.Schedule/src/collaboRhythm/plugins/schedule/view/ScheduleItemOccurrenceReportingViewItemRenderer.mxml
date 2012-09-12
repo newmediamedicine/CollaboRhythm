@@ -144,7 +144,7 @@
 		private function adherenceCheckBoxClickHandler(event:MouseEvent):void
 		{
 			event.stopPropagation();
-			_scheduleItemOccurrenceReportingController.handleHealthActionResult(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_scheduleItemOccurrenceReportingController.handleHealthActionResult(true);
 		}
 
 		private function secondaryInstructionsLabel_clickHandler(event:MouseEvent):void
@@ -216,7 +216,7 @@
 
 		private function clickHandler():void
 		{
-			_scheduleItemOccurrenceReportingController.handleHealthActionSelected(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_scheduleItemOccurrenceReportingController.handleHealthActionSelected(true);
 		}
 		]]>
 	</fx:Script>

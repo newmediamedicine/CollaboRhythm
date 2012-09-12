@@ -26,7 +26,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
 			var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
-			if (healthActionSchedule && healthActionSchedule.scheduledHealthAction is HealthActionPlan)
+			if (healthActionSchedule && healthActionSchedule.scheduledHealthAction is HealthActionPlan && healthActionModelDetailsProvider.record)
 				return new InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			else
 				return currentHealthActionListViewAdapter;

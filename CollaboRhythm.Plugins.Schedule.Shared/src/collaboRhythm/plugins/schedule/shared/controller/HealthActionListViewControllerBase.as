@@ -3,17 +3,15 @@ package collaboRhythm.plugins.schedule.shared.controller
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
-	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 
 	import com.adobe.nativeExtensions.Vibration;
-
-	import flash.utils.getQualifiedClassName;
 
 	public class HealthActionListViewControllerBase implements IHealthActionListViewController
 	{
 		private var _healthActionListViewModel:IHealthActionListViewModel;
 		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+		private var _synchronizationService:SynchronizationService;
 
 		public function HealthActionListViewControllerBase(healthActionListViewModel:IHealthActionListViewModel)
 		{
@@ -21,29 +19,16 @@ package collaboRhythm.plugins.schedule.shared.controller
 
 			_collaborationLobbyNetConnectionServiceProxy = _healthActionListViewModel.healthActionInputModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
-					collaborationViewSynchronization_eventHandler);
+			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy,
+					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id);
 		}
 
-		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
+		public function handleHealthActionResult(calledLocally:Boolean):void
 		{
-			if (event.synchronizeData &&
-					event.synchronizeData as String ==
-							_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId())
+			if (_synchronizationService.synchronize("handleHealthActionResult", calledLocally,
+					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id))
 			{
-				this[event.synchronizeFunction](CollaborationLobbyNetConnectionServiceProxy.REMOTE);
-			}
-		}
-
-		public function handleHealthActionResult(source:String):void
-		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
-					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"handleHealthActionResult",
-						_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId());
+				return;
 			}
 
 			if (_healthActionListViewModel.scheduleItemOccurrence &&
@@ -64,15 +49,12 @@ package collaboRhythm.plugins.schedule.shared.controller
 			}
 		}
 
-		public function handleHealthActionSelected(source:String):void
+		public function handleHealthActionSelected(calledLocally:Boolean):void
 		{
-			if (source == CollaborationLobbyNetConnectionServiceProxy.LOCAL &&
-					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
+			if (_synchronizationService.synchronize("handleHealthActionSelected", calledLocally,
+					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id))
 			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"handleHealthActionSelected",
-						_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.getScheduleActionId());
+				return;
 			}
 
 			if (_healthActionListViewModel.healthActionInputController)
@@ -90,8 +72,7 @@ package collaboRhythm.plugins.schedule.shared.controller
 
 		public function removeEventListener():void
 		{
-			_collaborationLobbyNetConnectionServiceProxy.removeEventListener(getQualifiedClassName(this),
-					collaborationViewSynchronization_eventHandler);
+			_synchronizationService.removeEventListener(this);
 		}
 	}
 }

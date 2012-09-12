@@ -21,6 +21,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.ApplicationExitUtil;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.view.AboutApplicationView;
+	import collaboRhythm.core.view.BusyView;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -226,6 +227,9 @@ package collaboRhythm.workstation.controller
 			primaryWindow.addElement(_connectivityView);
 			initializeConnectivityView();
 
+			_busyView = new BusyView();
+			primaryWindow.addElement(_busyView);
+
 			_aboutApplicationView = new AboutApplicationView();
 			_aboutApplicationView.settings = settings;
 			primaryWindow.addElement(_aboutApplicationView);
@@ -300,7 +304,7 @@ package collaboRhythm.workstation.controller
 
 			if (_reloadWithFullView != null)
 			{
-				appControllersMediator.showFullView("local", _reloadWithFullView);
+				appControllersMediator.showFullView(true, _reloadWithFullView);
 				_reloadWithFullView = null;
 			}
 		}

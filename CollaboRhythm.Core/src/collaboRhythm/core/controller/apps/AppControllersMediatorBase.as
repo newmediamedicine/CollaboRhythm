@@ -29,8 +29,7 @@ package collaboRhythm.core.controller.apps
 	import collaboRhythm.shared.apps.socialHistory.controller.SocialHistoryAppController;
 	import collaboRhythm.shared.apps.vitals.controller.VitalsAppController;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
-	import collaboRhythm.shared.collaboration.model.CollaborationViewSynchronizationEvent;
+	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppControllerFactory;
@@ -77,6 +76,7 @@ package collaboRhythm.core.controller.apps
 		private var _appsInitialized:ArrayCollection;
 		protected var _appControllerConstructorParams:AppControllerConstructorParams;
 		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+		protected var _synchronizationService:SynchronizationService;
 
 		public function AppControllersMediatorBase(widgetContainers:Vector.<IVisualElementContainer>,
 												   fullParentContainer:IVisualElementContainer,
@@ -92,23 +92,12 @@ package collaboRhythm.core.controller.apps
 			_collaborationLobbyNetConnectionServiceProxy = appControllerConstructorParams.collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
 
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
-					collaborationViewSynchronization_eventHandler);
+			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
+//			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
+//					collaborationViewSynchronization_eventHandler);
 //			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
 
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-		}
-
-		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
-		{
-			if (event.synchronizeData)
-			{
-				this[event.synchronizeFunction]("remote", event.synchronizeData);
-			}
-			else
-			{
-				this[event.synchronizeFunction]("remote");
-			}
 		}
 
 		protected function get componentContainer():IComponentContainer
@@ -371,28 +360,34 @@ package collaboRhythm.core.controller.apps
 			if (event.appController == null)
 			{
 				// TODO: use constant instead of magic string
-				appInstance = showFullView("local", event.applicationName);
+				appInstance = showFullView(true, event.applicationName);
 			}
 			else
 			{
-				appInstance = showFullViewResolved(event.appController, "local");
+				appInstance = showFullViewResolved(true, event.appController);
 			}
 
 			if (appInstance)
 				InteractionLogUtil.logAppInstance(_logger, "Show full view", event.viaMechanism, appInstance);
 		}
 
-		public function showFullView(source:String, applicationName:String):AppControllerBase
+		public function showFullView(calledLocally:Boolean, applicationName:String):AppControllerBase
 		{
 			var appController:AppControllerBase = _apps.getValueByKey(applicationName);
 			if (appController != null)
-				return showFullViewResolved(appController, source);
+				return showFullViewResolved(calledLocally, appController);
 			else
 				return null;
 		}
 
-		protected function showFullViewResolved(appController:AppControllerBase, source:String):AppControllerBase
+		protected function showFullViewResolved(calledLocally:Boolean,
+												appController:AppControllerBase):AppControllerBase
 		{
+			if (_synchronizationService.synchronize("showFullView", calledLocally, appController.name))
+			{
+				return null;
+			}
+
 			var appInstance:AppControllerBase;
 
 			// TODO: use app id instead of name
@@ -414,11 +409,6 @@ package collaboRhythm.core.controller.apps
 				(widgetContainer as UIComponent).validateNow();
 			}
 
-			if (source == "local" && _collaborationLobbyNetConnectionServiceProxy.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
-			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-										"showFullView", appController.name);
-			}
 			return appInstance;
 		}
 

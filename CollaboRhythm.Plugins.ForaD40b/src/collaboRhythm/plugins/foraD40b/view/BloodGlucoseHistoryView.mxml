@@ -85,7 +85,7 @@
 			var bloodGlucoseVitalSign:VitalSign = bloodGlucoseHistoryList.selectedItem;
 			if (bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0)
 			{
-				_dataInputController.showHypoglycemiaActionPlanSummaryView(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+				_dataInputController.showHypoglycemiaActionPlanSummaryView(true,
 						bloodGlucoseVitalSign.dateMeasuredStart);
 			}
 		}
@@ -125,8 +125,7 @@
 			if (event.property == "verticalScrollPosition" && _touchInteraction)
 			{
 				var verticalScrollPosition:Number = event.newValue as Number;
-				_dataInputController.synchronizeBloodGlucoseHistoryListScrollPosition(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
-						verticalScrollPosition);
+				_dataInputController.setBloodGlucoseHistoryListScrollPosition(true, verticalScrollPosition);
 			}
 		}
 
@@ -142,7 +141,7 @@
 
 		override public function homeButton_clickHandler():void
 		{
-			_dataInputController.removeCollaborationViewSynchronizationEventListener(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_dataInputController.removeCollaborationViewSynchronizationEventListener(true);
 
 			super.homeButton_clickHandler();
 		}
@@ -151,7 +150,7 @@
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{
-				_dataInputController.removeCollaborationViewSynchronizationEventListener(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+				_dataInputController.removeCollaborationViewSynchronizationEventListener(true);
 			}
 
 			super.stage_keyUpHandler(event);

@@ -17,15 +17,12 @@
 package collaboRhythm.tablet.controller
 {
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
-	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
-
-	import flash.utils.getQualifiedClassName;
 
 	import mx.core.IVisualElementContainer;
 
@@ -43,15 +40,12 @@ package collaboRhythm.tablet.controller
 			_tabletApplicationController = tabletApplicationController;
 		}
 
-		override protected function showFullViewResolved(appController:AppControllerBase,
-														 source:String):AppControllerBase
+		override protected function showFullViewResolved(calledLocally:Boolean,
+														 appController:AppControllerBase):AppControllerBase
 		{
-			if (source == "local" &&
-					_collaborationLobbyNetConnectionServiceProxy.collaborationState ==
-							CollaborationModel.COLLABORATION_ACTIVE)
+			if (_synchronizationService.synchronize("showFullView", calledLocally, appController.name))
 			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"showFullView", appController.name);
+				return null;
 			}
 
 			// destroy all full views and widget views
@@ -83,7 +77,8 @@ package collaboRhythm.tablet.controller
 
 		override public function hideFullView(appController:AppControllerBase):void
 		{
-			var view:TabletFullViewContainer = _appControllerConstructorParams.viewNavigator.activeView as TabletFullViewContainer;
+			var view:TabletFullViewContainer = _appControllerConstructorParams.viewNavigator.activeView as
+					TabletFullViewContainer;
 			if (_appControllerConstructorParams.viewNavigator.length > 1 && view && view.app == appController)
 				_appControllerConstructorParams.viewNavigator.popView();
 		}

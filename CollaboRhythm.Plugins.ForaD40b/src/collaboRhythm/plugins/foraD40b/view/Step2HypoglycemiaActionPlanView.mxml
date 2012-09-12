@@ -49,7 +49,7 @@
 		{
 			hypoglycemiaWarningView.init(_dataInputModel);
 
-			_dataInputController.startWaitTimer(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_dataInputController.startWaitTimer(true);
 
 			updateTimerLabel(BloodGlucoseHealthActionInputModel.TIMER_COUNT);
 
@@ -106,8 +106,7 @@
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.addWaitHealthAction(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
-					_dataInputModel.seconds);
+			_dataInputController.addWaitHealthAction(true, _dataInputModel.seconds);
 
 			super.nextStepButton_clickHandler();
 		}

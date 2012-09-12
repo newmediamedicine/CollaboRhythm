@@ -83,13 +83,13 @@
 		{
 			if (event.commit)
 			{
-				_dataInputController.quitHypoglycemiaActionPlan(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+				_dataInputController.quitHypoglycemiaActionPlan(true);
 			}
 		}
 
 		protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.nextStep(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_dataInputController.nextStep(true);
 		}
 
 		public function get healthActionInputController():IHealthActionInputController

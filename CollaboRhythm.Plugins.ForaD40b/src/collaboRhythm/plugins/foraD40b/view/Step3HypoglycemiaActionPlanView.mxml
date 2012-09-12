@@ -74,7 +74,7 @@
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
+			_dataInputController.submitBloodGlucose(true,
 					[reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
 		}
 		]]></fx:Script>

@@ -68,7 +68,7 @@
 		private function sendButton_clickHandler():void
 		{
 			_messagesAppController.createAndSendMessage("<" + _netStreamLocation + ">");
-			_messagesAppController.showMessagesView(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_messagesAppController.showMessagesView(true);
 		}
 
 		private function trashButton_clickHandler():void

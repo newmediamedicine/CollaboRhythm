@@ -132,7 +132,7 @@
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{
-				_scheduleReportingController.synchronizeSaving(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+				_scheduleReportingController.save(true);
 			}
 
 			super.stage_keyUpHandler(event);
@@ -140,13 +140,13 @@
 
 		private function saveButton_clickHandler():void
 		{
-			_scheduleReportingController.synchronizeSaving(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
-			_scheduleReportingController.goBack(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_scheduleReportingController.save(true);
+			_scheduleReportingController.goBack(true);
 		}
 
 		override public function homeButton_clickHandler():void
 		{
-			_scheduleReportingController.synchronizeSaving(CollaborationLobbyNetConnectionServiceProxy.LOCAL);
+			_scheduleReportingController.save(true);
 			super.homeButton_clickHandler();
 		}
 
@@ -173,8 +173,7 @@
 			if (event.property == "verticalScrollPosition" && _touchInteraction)
 			{
 				var verticalScrollPosition:Number = event.newValue as Number;
-				_scheduleReportingController.synchronizeScheduleGroupReportingViewScrollPosition(CollaborationLobbyNetConnectionServiceProxy.LOCAL,
-						verticalScrollPosition);
+				_scheduleReportingController.setScheduleGroupReportingViewScrollPosition(false, verticalScrollPosition);
 			}
 		}
 
