@@ -110,6 +110,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
+		private var _persistedDosageChangeValue:Number;
 		private var _isAdherencePerfect:Boolean = true;
 		private var _algorithmSuggestsIncreaseDose:Boolean = true;
 		private var _algorithmSuggestsNoChangeDose:Boolean;
@@ -710,6 +711,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_currentDoseValue = _newDose = _medicationTitrationHelper.currentDoseValue;
 			_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
 			dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
+			persistedDosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 
 			updateIsAdherencePerfect();
 			updateBloodGlucoseAverage();
@@ -976,7 +978,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				return dosageChangeValue > 0 ? "+" + dosageChangeValue.toString() : dosageChangeValue.toString();
 		}
 
-		private function decisionAdherenceItemAlreadyPersisted():Boolean
+		public function decisionAdherenceItemAlreadyPersisted():Boolean
 		{
 			return decisionScheduleItemOccurrence && decisionScheduleItemOccurrence.adherenceItem != null &&
 					decisionScheduleItemOccurrence.adherenceItem.adherence;
@@ -1229,6 +1231,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set isNewDoseDifferentFromCurrent(value:Boolean):void
 		{
 			_isNewDoseDifferentFromCurrent = value;
+		}
+
+		public function get persistedDosageChangeValue():Number
+		{
+			return _persistedDosageChangeValue;
+		}
+
+		public function set persistedDosageChangeValue(value:Number):void
+		{
+			_persistedDosageChangeValue = value;
 		}
 	}
 }

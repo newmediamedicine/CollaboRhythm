@@ -315,7 +315,7 @@ package collaboRhythm.core.controller
 		private function checkAutoSyncTimer():void
 		{
 			var now:Date = _currentDateSource.now();
-			if (now.getTime() > _nextAutoSyncTime.getTime())
+			if (_nextAutoSyncTime && now.getTime() > _nextAutoSyncTime.getTime())
 			{
 				_logger.info("Performing automatic synchronization from activate event. Local time: " + now.toString() +
 						". Expected auto sync time: " + _nextAutoSyncTime.toString() +

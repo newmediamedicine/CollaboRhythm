@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.view
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.model.DosageChangeValueProxy;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionModelBase;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionPanelModel;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.SolidFillButtonSkin;
@@ -245,7 +246,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			var spinnerData:ArrayCollection = new ArrayCollection();
 			for (var i:Number = INSULIN_DOSE_CHANGE_SPINNER_LIST_MAX; i >= -INSULIN_DOSE_CHANGE_SPINNER_LIST_MAX; i--)
 			{
-				spinnerData.addItem(i);
+				spinnerData.addItem(new DosageChangeValueProxy(i, model));
 			}
 			_dosageChangeSpinnerListData = spinnerData;
 			_dosageChangeSpinnerList.labelFunction = dosageChangeLabelFunction;
@@ -325,8 +326,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			}
 		}
 
-		protected function dosageChangeLabelFunction(value:Number):String
+		protected function dosageChangeLabelFunction(valueProxy:DosageChangeValueProxy):String
 		{
+			var value:Number = valueProxy.value;
 			if (isNaN(value))
 				return "";
 			else if (value == 0)
@@ -342,7 +344,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		protected function setDosageChangeSpinnerListSelectedItem(value:Number, animate:Boolean = true):void
 		{
-			var selectedItem:Number = isNaN(value) ? 0 : value;
+			var selectedItemValue:Number = isNaN(value) ? 0 : value;
+			var selectedItem:DosageChangeValueProxy;
+			for each (var item:DosageChangeValueProxy in _dosageChangeSpinnerListData)
+			{
+				if (item.value == selectedItemValue)
+				{
+					selectedItem = item;
+					break;
+				}
+			}
+
 			if (animate)
 			{
 				var index:int = _dosageChangeSpinnerListData.getItemIndex(selectedItem);
@@ -601,7 +613,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function dosageChangeSpinnerList_changeHandler(event:Event):void
 		{
-			_model.dosageChangeValue = _dosageChangeSpinnerList.selectedItem;
+			_model.dosageChangeValue = (_dosageChangeSpinnerList.selectedItem as DosageChangeValueProxy).value;
 		}
 
 		public function get model():InsulinTitrationDecisionPanelModel
