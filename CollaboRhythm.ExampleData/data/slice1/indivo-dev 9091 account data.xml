@@ -191,6 +191,44 @@
     <recordSeed/>
   </AccountSource>
   <AccountSource>
+    <accountId>pricci@records.media.mit.edu</accountId>
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    <fullName>Paige Ricci</fullName>
+    <username>pricci</username>
+    <password>pricci-dope75</password>
+    <givenName>Paige</givenName>
+    <familyName>Ricci</familyName>
+    <streetAddress>654 Spinel Rd</streetAddress>
+    <postalCode>2142</postalCode>
+    <locality>Cambridge</locality>
+    <region>Massachusetts</region>
+    <country>US</country>
+    <timeZone>-5GMT</timeZone>
+    <emailPersonal>pricci@records.media.mit.edu</emailPersonal>
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    <instantMessengerName>pricci@records.media.mit.edu</instantMessengerName>
+    <dateOfBirth>1957-05-29T00:00:00Z</dateOfBirth>
+    <age>53</age>
+    <gender>Female</gender>
+    <ethnicity>White</ethnicity>
+    <language>English</language>
+    <maritalStatus>Married</maritalStatus>
+    <employmentStatus>Employed</employmentStatus>
+    <employmentIndustry>Medical</employmentIndustry>
+    <occupation>Certified Diabetes Educator</occupation>
+    <religion>Protestant</religion>
+    <highestEducation>University</highestEducation>
+    <organDonar>true</organDonar>
+    <recordId>50cde873-5b7d-4eb8-b8b4-e72f66fa0f5d</recordId>
+    <status>Demographics document created. Id: 502b956d-70c8-4736-99dd-3ecd5079491b</status>
+    <accessKey>VYWZj62YoIg8B3y0InNb</accessKey>
+    <accessSecret>ZpyjREzQjiYYuAHGKY8c</accessSecret>
+    <demographicsId>502b956d-70c8-4736-99dd-3ecd5079491b</demographicsId>
+    <notes>Demo health coach for Paige</notes>
+    <recordSeed/>
+  </AccountSource>
+  <AccountSource>
     <accountId>singlemed1@records.media.mit.edu</accountId>
     <contactEmail>sgilroy@mit.edu</contactEmail>
     <fullName>Single Medication Test1</fullName>
