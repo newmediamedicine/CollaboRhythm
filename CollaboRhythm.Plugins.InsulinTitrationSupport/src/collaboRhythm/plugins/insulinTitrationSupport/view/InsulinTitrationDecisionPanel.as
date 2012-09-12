@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.view
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.model.DosageChangeValueProxy;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionModelBase;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionPanelModel;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.SolidFillButtonSkin;
@@ -84,6 +85,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private static const GOAL_LABEL_FONT_SIZE:int = 21;
 		private static const ARROW_CALLOUT_INSTRUCTIONS_FONT_SIZE:int = 24;
+
+		private static const SEND_BUTTON_FONT_SIZE:int = 19;
+		private static const SEND_BUTTON_FONT_SIZE_SMALL:int = 14;
 
 		private var _model:InsulinTitrationDecisionPanelModel;
 
@@ -242,7 +246,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			var spinnerData:ArrayCollection = new ArrayCollection();
 			for (var i:Number = INSULIN_DOSE_CHANGE_SPINNER_LIST_MAX; i >= -INSULIN_DOSE_CHANGE_SPINNER_LIST_MAX; i--)
 			{
-				spinnerData.addItem(i);
+				spinnerData.addItem(new DosageChangeValueProxy(i, model));
 			}
 			_dosageChangeSpinnerListData = spinnerData;
 			_dosageChangeSpinnerList.labelFunction = dosageChangeLabelFunction;
@@ -257,13 +261,34 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			addElement(_dosageChangeSpinnerListContainer);
 
 			_sendButton = new Button();
-			_sendButton.label = "Send";
+			updateSendButtonLabel();
 			_sendButton.x = STEP4_X;
 			updateArrowButtonY(_sendButton);
 			_sendButton.width = STEP_WIDTH;
 			_sendButton.setStyle("skinClass", ButtonSkin);
 			_sendButton.addEventListener(MouseEvent.CLICK, sendButton_clickHandler);
 			addElement(_sendButton);
+		}
+
+		private function updateSendButtonLabel():void
+		{
+			if (model.isPatient)
+			{
+				_sendButton.label = "Send";
+				_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
+			}
+			else
+			{
+				if (model.isNewDoseDifferentFromCurrent)
+				{
+					_sendButton.label = "Advise\nChange";
+					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
+				} else
+				{
+					_sendButton.label = "Confirm";
+					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
+				}
+			}
 		}
 
 		private function updateInstructionsText():void
@@ -301,8 +326,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			}
 		}
 
-		protected function dosageChangeLabelFunction(value:Number):String
+		protected function dosageChangeLabelFunction(valueProxy:DosageChangeValueProxy):String
 		{
+			var value:Number = valueProxy.value;
 			if (isNaN(value))
 				return "";
 			else if (value == 0)
@@ -318,7 +344,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		protected function setDosageChangeSpinnerListSelectedItem(value:Number, animate:Boolean = true):void
 		{
-			var selectedItem:Number = isNaN(value) ? 0 : value;
+			var selectedItemValue:Number = isNaN(value) ? 0 : value;
+			var selectedItem:DosageChangeValueProxy;
+			for each (var item:DosageChangeValueProxy in _dosageChangeSpinnerListData)
+			{
+				if (item.value == selectedItemValue)
+				{
+					selectedItem = item;
+					break;
+				}
+			}
+
 			if (animate)
 			{
 				var index:int = _dosageChangeSpinnerListData.getItemIndex(selectedItem);
@@ -577,7 +613,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function dosageChangeSpinnerList_changeHandler(event:Event):void
 		{
-			_model.dosageChangeValue = _dosageChangeSpinnerList.selectedItem;
+			_model.dosageChangeValue = (_dosageChangeSpinnerList.selectedItem as DosageChangeValueProxy).value;
 		}
 
 		public function get model():InsulinTitrationDecisionPanelModel
@@ -624,6 +660,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			if (event.property == "instructionsHtml")
 			{
 				updateInstructionsText();
+			}
+			if (event.property == "isNewDoseDifferentFromCurrent")
+			{
+				updateSendButtonLabel();
 			}
 		}
 

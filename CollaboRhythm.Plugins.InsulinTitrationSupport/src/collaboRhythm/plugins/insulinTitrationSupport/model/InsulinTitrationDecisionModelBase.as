@@ -67,18 +67,21 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
+		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN:String = "Insulin titration: ";
+		private static const TITRATION_LEADING_PHRASE_TO_PATIENT_DISAGREE:String = "I disagree with your decision. Recommended insulin titration: ";
+		private static const TITRATION_LEADING_PHRASE_TO_PATIENT_AGREE:String = "I agree with your decision. Insulin titration: ";
 		/**
 		 * Phrase used to start the titration decision message when a change is made to the dose.
 		 * {0} previous dose
 		 * {1} change (including + or - operator)
 		 * {2} new dose
 		 */
-		private static const TITRATION_DECISION_PHRASE_WITH_CHANGE:String = "Insulin titration: {0} Units {1} Units = {2} Units";
+		private static const TITRATION_DECISION_PHRASE_WITH_CHANGE:String = "{0} Units {1} Units = {2} Units";
 		/**
 		 * Phrase used to start the titration decision message when no change is made to the dose.
 		 * {0} previous dose
 		 */
-		private static const TITRATION_DECISION_PHRASE_NO_CHANGE:String = "Insulin titration: no change, dose remains {0} Units";
+		private static const TITRATION_DECISION_PHRASE_NO_CHANGE:String = "no change, dose remains {0} Units";
 
 		/**
 		 * Message sent to clinician when insulin titration decision is made and the decision matches the protocol recommendation.
@@ -107,6 +110,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
+		private var _persistedDosageChangeValue:Number;
 		private var _isAdherencePerfect:Boolean = true;
 		private var _algorithmSuggestsIncreaseDose:Boolean = true;
 		private var _algorithmSuggestsNoChangeDose:Boolean;
@@ -155,6 +159,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _algorithmSuggestedDoseChangeLabel:String;
 		private var _instructionsHtml:String;
 		private var _algorithmPrerequisitesSatisfied:Boolean;
+		private var _isNewDoseDifferentFromCurrent:Boolean;
 
 		public function InsulinTitrationDecisionModelBase()
 		{
@@ -363,6 +368,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			_dosageChangeValue = value;
 			isChangeSpecified = !isNaN(_dosageChangeValue);
+			evaluateForSave();
+			isNewDoseDifferentFromCurrent = _newDose != _currentDoseValue;
 		}
 
 		public function get isAdherencePerfect():Boolean
@@ -704,6 +711,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_currentDoseValue = _newDose = _medicationTitrationHelper.currentDoseValue;
 			_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
 			dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
+			persistedDosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 
 			updateIsAdherencePerfect();
 			updateBloodGlucoseAverage();
@@ -733,43 +741,79 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				else
 				{
 					var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.currentSchedule;
-
-					// If revisiting/changing the decision, don't make a new AdherenceItem (just change the schedule/dose)
-					if (!decisionAdherenceItemAlreadyPersisted())
-					{
-						saveDecisionResult(plan);
-					}
-
-					// if dose is specified and is different, update existing and/or create a new schedule
-					if (_newDose != _currentDoseValue)
-					{
-						saveSucceeded = saveSucceeded && saveDosageChange(currentMedicationScheduleItem);
-					}
-
-					sendMessage();
+					if (isPatient)
+						saveSucceeded = saveForPatient(currentMedicationScheduleItem, plan, saveSucceeded);
+					else
+						saveSucceeded = saveForClinician(currentMedicationScheduleItem, plan, saveSucceeded);
 				}
 			}
 
 			return saveSucceeded;
 		}
 
-		private function sendMessage():void
+		private function saveForClinician(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
+										  saveSucceeded:Boolean):Boolean
+		{
+			var leadingPhrase:String;
+
+			if (_newDose == _currentDoseValue)
+			{
+				leadingPhrase = TITRATION_LEADING_PHRASE_TO_PATIENT_AGREE;
+			}
+			else
+			{
+				leadingPhrase = TITRATION_LEADING_PHRASE_TO_PATIENT_DISAGREE;
+			}
+			var message:String = getMessage(leadingPhrase);
+			sendMessage(message);
+			return saveSucceeded;
+		}
+
+		public function get isPatient():Boolean
+		{
+			return record.ownerAccountId == accountId;
+		}
+
+		private function saveForPatient(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
+										saveSucceeded:Boolean):Boolean
+		{
+			// If revisiting/changing the decision, don't make a new AdherenceItem (just change the schedule/dose)
+			if (!decisionAdherenceItemAlreadyPersisted())
+			{
+				saveDecisionResult(plan);
+			}
+
+			// if dose is specified and is different, update existing and/or create a new schedule
+			if (_newDose != _currentDoseValue)
+			{
+				saveSucceeded = saveSucceeded && saveDosageChange(currentMedicationScheduleItem);
+			}
+
+			sendMessage(getMessageToClinician());
+			return saveSucceeded;
+		}
+
+		private function sendMessage(message:String):void
 		{
 			var servicesArray:Array = componentContainer.resolveAll(IIndividualMessageHealthRecordService);
 			if (servicesArray && servicesArray.length > 0)
 			{
 				var messageService:IIndividualMessageHealthRecordService = servicesArray[0];
-				var message:String = getMessageForClinician();
 				messageService.createAndSendMessage(message);
 			}
 		}
 
-		private function getMessageForClinician():String
+		private function getMessageToClinician():String
 		{
-			var titrationPhrase:String = _newDose == _previousDoseValue ?
+			return getMessage(TITRATION_LEADING_PHRASE_TO_CLINICIAN);
+		}
+
+		private function getMessage(leadingPhrase:String):String
+		{
+			var titrationPhrase:String = leadingPhrase + (_newDose == _previousDoseValue ?
 					StringUtil.substitute(TITRATION_DECISION_PHRASE_NO_CHANGE, _previousDoseValue) :
 					StringUtil.substitute(TITRATION_DECISION_PHRASE_WITH_CHANGE, _previousDoseValue,
-							dosageChangeValueLabel, _newDose);
+							dosageChangeValueLabel, _newDose));
 			var message:String;
 			if (algorithmPrerequisitesSatisfied)
 			{
@@ -934,7 +978,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				return dosageChangeValue > 0 ? "+" + dosageChangeValue.toString() : dosageChangeValue.toString();
 		}
 
-		private function decisionAdherenceItemAlreadyPersisted():Boolean
+		public function decisionAdherenceItemAlreadyPersisted():Boolean
 		{
 			return decisionScheduleItemOccurrence && decisionScheduleItemOccurrence.adherenceItem != null &&
 					decisionScheduleItemOccurrence.adherenceItem.adherence;
@@ -1177,6 +1221,26 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set algorithmPrerequisitesSatisfied(value:Boolean):void
 		{
 			_algorithmPrerequisitesSatisfied = value;
+		}
+
+		public function get isNewDoseDifferentFromCurrent():Boolean
+		{
+			return _isNewDoseDifferentFromCurrent;
+		}
+
+		public function set isNewDoseDifferentFromCurrent(value:Boolean):void
+		{
+			_isNewDoseDifferentFromCurrent = value;
+		}
+
+		public function get persistedDosageChangeValue():Number
+		{
+			return _persistedDosageChangeValue;
+		}
+
+		public function set persistedDosageChangeValue(value:Number):void
+		{
+			_persistedDosageChangeValue = value;
 		}
 	}
 }

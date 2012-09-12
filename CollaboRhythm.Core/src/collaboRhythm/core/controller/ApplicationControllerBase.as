@@ -29,6 +29,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 	import collaboRhythm.core.pluginsManagement.PluginLoader;
 	import collaboRhythm.core.view.AboutApplicationView;
+	import collaboRhythm.core.view.BusyView;
 	import collaboRhythm.core.view.ConnectivityEvent;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.collaboration.controller.CollaborationController;
@@ -81,6 +82,7 @@ package collaboRhythm.core.controller
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElementContainer;
+	import mx.events.PropertyChangeEvent;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
@@ -116,6 +118,7 @@ package collaboRhythm.core.controller
 		private var _pendingCloseRecordAccount:Account;
 
 		protected var _connectivityView:ConnectivityView;
+		protected var _busyView:BusyView;
 		protected var _aboutApplicationView:AboutApplicationView;
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
 		private var failedRequestEvent:HealthRecordServiceEvent;
@@ -133,6 +136,7 @@ package collaboRhythm.core.controller
 			// TODO: add event listener to handle the fast forward mode of the date source
 			_autoSyncTimer = new Timer(0);
 			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
+			initializeBackgrounProcessModel();
 		}
 
 		private function updateAutoSyncTime():void
@@ -155,7 +159,7 @@ package collaboRhythm.core.controller
 
 		private function autoSyncTimer_timerHandler(event:TimerEvent):void
 		{
-			var now:Date = new Date();
+			var now:Date = _currentDateSource.now();
 			if (now.getTime() < _nextAutoSyncTime.getTime())
 			{
 				_logger.warn("Automatic synchronization timer went off before the expected time.");
@@ -305,6 +309,20 @@ package collaboRhythm.core.controller
 		private function nativeApplication_activateHandler(event:Event):void
 		{
 			InteractionLogUtil.log(_logger, "Application activate");
+			checkAutoSyncTimer();
+		}
+
+		private function checkAutoSyncTimer():void
+		{
+			var now:Date = _currentDateSource.now();
+			if (_nextAutoSyncTime && now.getTime() > _nextAutoSyncTime.getTime())
+			{
+				_logger.info("Performing automatic synchronization from activate event. Local time: " + now.toString() +
+						". Expected auto sync time: " + _nextAutoSyncTime.toString() +
+						". Previous timer delay (minutes): " + _autoSyncTimer.delay / ONE_MINUTE);
+				synchronize();
+				updateAutoSyncTime();
+			}
 		}
 
 		private function nativeApplication_deactivateHandler(event:Event):void
@@ -1380,6 +1398,16 @@ package collaboRhythm.core.controller
 		public function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void
 		{
 			_backgroundProcessModel = value;
+			initializeBackgrounProcessModel();
+		}
+
+		private function initializeBackgrounProcessModel():void
+		{
+			if (backgroundProcessModel)
+			{
+				backgroundProcessModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+						backgroundProcessModel_propertyChangeHandler, false, 0, true);
+			}
 		}
 
 		public function useDemoPreset(demoPresetIndex:int):void
@@ -1424,6 +1452,29 @@ package collaboRhythm.core.controller
 
 		public function synchronizeBack(calledLocally:Boolean):void
 		{
+		}
+
+		private function backgroundProcessModel_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+/*
+			<s:BusyIndicator id="backgroundProgressIndicator"
+							 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
+							 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}"/>
+			<s:Label id="backgroundProgressLabel" text="{tabletApplicationController.backgroundProcessModel.summary}"
+					 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
+					 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}" paddingLeft="10"/>
+*/
+
+			if (event.property == "isRunning")
+			{
+				if (_busyView)
+					_busyView.visible = backgroundProcessModel.isRunning;
+			}
+			else if (event.property == "summary")
+			{
+				if (_busyView)
+					_busyView.message = backgroundProcessModel.summary;
+			}
 		}
 	}
 }

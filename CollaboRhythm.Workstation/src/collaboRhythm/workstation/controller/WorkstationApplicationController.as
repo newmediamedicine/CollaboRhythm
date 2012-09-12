@@ -21,6 +21,7 @@ package collaboRhythm.workstation.controller
 	import collaboRhythm.core.controller.ApplicationExitUtil;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.view.AboutApplicationView;
+	import collaboRhythm.core.view.BusyView;
 	import collaboRhythm.core.view.ConnectivityView;
 	import collaboRhythm.shared.collaboration.view.CollaborationView;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
@@ -225,6 +226,9 @@ package collaboRhythm.workstation.controller
 			_connectivityView = new ConnectivityView();
 			primaryWindow.addElement(_connectivityView);
 			initializeConnectivityView();
+
+			_busyView = new BusyView();
+			primaryWindow.addElement(_busyView);
 
 			_aboutApplicationView = new AboutApplicationView();
 			_aboutApplicationView.settings = settings;

@@ -81,6 +81,7 @@ package collaboRhythm.shared.model.healthRecord
                             // assumes that the record that is not shared is the primary record
                             // TODO: Make sure this is the case. Checking to see if the account owning the record matches will not work because an account can own multiple records
                             _activeAccount.primaryRecord = record;
+							record.ownerAccountId = _activeAccount.accountId;
                         }
                     }
                 }
@@ -120,6 +121,7 @@ package collaboRhythm.shared.model.healthRecord
 
                 // set the record for the account
                 account.primaryRecord = record;
+				record.ownerAccountId = account.accountId;
 
                 // add the shared record account to the active account
                 _activeAccount.addSharedRecordAccount(account);

@@ -81,8 +81,8 @@
 							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866429">Metoprolol 25 MG Oral Tablet</name>
 							<scheduledBy>unknown@records.media.mit.edu</scheduledBy>
 							<dateScheduled>2012-08-28T12:00:00Z</dateScheduled>
-							<dateStart>2012-08-29T02:00:00Z</dateStart>
-        					<dateEnd>2012-08-29T06:00:00Z</dateEnd>
+							<dateStart>2012-08-29T18:00:00-04:00</dateStart>
+        					<dateEnd>2012-08-29T22:00:00-04:00</dateEnd>
 							<recurrenceRule>
 								<frequency>DAILY</frequency>
 								<count>120</count>

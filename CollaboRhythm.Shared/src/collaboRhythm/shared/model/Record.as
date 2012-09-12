@@ -48,6 +48,7 @@ package collaboRhythm.shared.model
 	public class Record implements IRecord, IRecordProxy
 	{
 		private var _id:String;
+		private var _ownerAccountId:String;
 		private var _label:String;
 		private var _shared:Boolean = false;
 		private var _role_label:String;
@@ -685,6 +686,16 @@ package collaboRhythm.shared.model
 		public function set healthActionOccurrencesModel(value:HealthActionOccurrencesModel):void
 		{
 			_healthActionOccurrencesModel = value;
+		}
+
+		public function get ownerAccountId():String
+		{
+			return _ownerAccountId;
+		}
+
+		public function set ownerAccountId(value:String):void
+		{
+			_ownerAccountId = value;
 		}
 	}
 }

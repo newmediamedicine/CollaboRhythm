@@ -1,5 +1,7 @@
 package collaboRhythm.plugins.insulinTitrationSupport.view
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.model.DosageChangeValueProxy;
+
 	import spark.components.SpinnerListItemRenderer;
 
 	public class DosageChangeSpinnerItemRenderer extends SpinnerListItemRenderer
@@ -28,6 +30,26 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 				setStyle("paddingRight", 2);
 				setStyle("textAlign", "center");
 			}
+		}
+		override protected function drawBackground(unscaledWidth:Number, unscaledHeight:Number):void
+		{
+			if (valueProxy.isCurrentPersistedDosageChange)
+			{
+				// draw a highlighted background
+				graphics.beginFill(0x33B5E5);
+				graphics.lineStyle();
+				graphics.drawRect(0, 0, unscaledWidth, unscaledHeight);
+				graphics.endFill();
+			}
+			else
+			{
+				super.drawBackground(unscaledWidth, unscaledHeight);
+			}
+		}
+
+		private function get valueProxy():DosageChangeValueProxy
+		{
+			return data as DosageChangeValueProxy;
 		}
 	}
 }
