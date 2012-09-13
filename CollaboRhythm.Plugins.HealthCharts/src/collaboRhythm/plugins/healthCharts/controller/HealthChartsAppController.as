@@ -3,26 +3,20 @@ package collaboRhythm.plugins.healthCharts.controller
 	import collaboRhythm.plugins.healthCharts.view.HealthChartsButtonWidgetView;
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsEvent;
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
-	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
-
-	import flash.events.Event;
 
 	import flash.events.MouseEvent;
 
 	import mx.core.IVisualElement;
-
 	import mx.core.UIComponent;
-	import mx.events.FlexEvent;
 	import mx.events.PropertyChangeEvent;
 
 	import spark.components.Button;
-
 	import spark.components.View;
-
-	import spark.components.ViewNavigator;
 	import spark.skins.mobile.TransparentActionButtonSkin;
 
 	public class HealthChartsAppController extends AppControllerBase
@@ -32,12 +26,16 @@ package collaboRhythm.plugins.healthCharts.controller
 		private var _widgetView:HealthChartsButtonWidgetView;
 		private var _fullView:SynchronizedHealthCharts;
 		private var _healthChartsModel:HealthChartsModel;
+		private var _synchronizationService:SynchronizationService;
 
 		public function HealthChartsAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
 			cacheFullView = true;
 			createFullViewOnInitialize = true;
+
+			_synchronizationService = new SynchronizationService(this,
+					_collaborationLobbyNetConnectionServiceProxy as CollaborationLobbyNetConnectionServiceProxy);
 		}
 
 		override public function initialize():void
@@ -113,7 +111,7 @@ package collaboRhythm.plugins.healthCharts.controller
 			{
 				_fullView.model = healthChartsModel;
 				_fullView.modality = modality;
-				_fullView.componentContainer  = _componentContainer;
+				_fullView.componentContainer = _componentContainer;
 				_fullView.activeAccountId = activeAccount.accountId;
 				_fullView.viewNavigator = _viewNavigator;
 			}
@@ -256,6 +254,17 @@ package collaboRhythm.plugins.healthCharts.controller
 		private function healthChartsModel_saveHandler(event:HealthChartsEvent):void
 		{
 			save();
+		}
+
+		public function showHealthChartsFullView(calledLocally:Boolean, viaMechanism:String):void
+		{
+			if (_synchronizationService.synchronize("showHealthChartsFullView", calledLocally,
+					viaMechanism))
+			{
+				return;
+			}
+
+			dispatchShowFullView(viaMechanism);
 		}
 	}
 }

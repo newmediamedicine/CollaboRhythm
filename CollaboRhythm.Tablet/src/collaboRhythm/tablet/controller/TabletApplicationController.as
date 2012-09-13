@@ -170,7 +170,7 @@ package collaboRhythm.tablet.controller
 
 			if (_reloadWithFullView)
 			{
-				appControllersMediator.showFullView(true, _reloadWithFullView);
+				appControllersMediator.showFullView(_reloadWithFullView);
 				_reloadWithFullView = null;
 			}
 		}

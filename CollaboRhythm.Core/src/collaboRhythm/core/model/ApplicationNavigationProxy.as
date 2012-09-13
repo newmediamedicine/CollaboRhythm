@@ -15,7 +15,7 @@ package collaboRhythm.core.model
 
 		public function showFullView(fullViewName:String):void
 		{
-			_applicationControllerBase.appControllersMediator.showFullView(true, fullViewName);
+			_applicationControllerBase.appControllersMediator.showFullView(fullViewName);
 		}
 
 		public function hideFullView(appController:AppControllerBase):void

@@ -40,14 +40,8 @@ package collaboRhythm.tablet.controller
 			_tabletApplicationController = tabletApplicationController;
 		}
 
-		override protected function showFullViewResolved(calledLocally:Boolean,
-														 appController:AppControllerBase):AppControllerBase
+		override protected function showFullViewResolved(appController:AppControllerBase):AppControllerBase
 		{
-			if (_synchronizationService.synchronize("showFullView", calledLocally, appController.name))
-			{
-				return null;
-			}
-
 			// destroy all full views and widget views
 
 			var appInstance:AppControllerBase;

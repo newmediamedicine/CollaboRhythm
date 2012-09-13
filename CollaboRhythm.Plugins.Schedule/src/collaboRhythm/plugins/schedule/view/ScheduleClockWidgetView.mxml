@@ -225,7 +225,7 @@
 
 		private function showScheduleTimelineFullViewButton_clickHandler():void
 		{
-			_scheduleClockController.showScheduleTimelineFullView("widget button click");
+			_scheduleClockController.showScheduleTimelineFullView(true, "widget button click");
 		}
 		]]>
 	</fx:Script>

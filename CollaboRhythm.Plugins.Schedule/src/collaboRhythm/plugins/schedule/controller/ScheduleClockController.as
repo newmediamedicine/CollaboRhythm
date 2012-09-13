@@ -52,8 +52,7 @@ package collaboRhythm.plugins.schedule.controller
 							CollaborationLobbyNetConnectionServiceProxy);
 		}
 
-		public function openScheduleReportingFullView(calledLocally:Boolean,
-													  selectedScheduleGroup:ScheduleGroup):void
+		public function openScheduleReportingFullView(calledLocally:Boolean, selectedScheduleGroup:ScheduleGroup):void
 		{
 			if (_synchronizationService.synchronize("openScheduleReportingFullView", calledLocally,
 					selectedScheduleGroup))
@@ -76,8 +75,14 @@ package collaboRhythm.plugins.schedule.controller
 			_viewNavigator.pushView(ScheduleReportingFullView, scheduleViewInitializationParameters);
 		}
 
-		public function showScheduleTimelineFullView(viaMechanism:String):void
+		public function showScheduleTimelineFullView(calledLocally:Boolean, viaMechanism:String):void
 		{
+			if (_synchronizationService.synchronize("showScheduleTimelineFullView", calledLocally,
+					viaMechanism))
+			{
+				return;
+			}
+
 			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, _scheduleAppController, null, null, viaMechanism));
 		}
 	}

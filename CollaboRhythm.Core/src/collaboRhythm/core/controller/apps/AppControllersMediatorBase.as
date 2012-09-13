@@ -76,7 +76,6 @@ package collaboRhythm.core.controller.apps
 		private var _appsInitialized:ArrayCollection;
 		protected var _appControllerConstructorParams:AppControllerConstructorParams;
 		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
-		protected var _synchronizationService:SynchronizationService;
 
 		public function AppControllersMediatorBase(widgetContainers:Vector.<IVisualElementContainer>,
 												   fullParentContainer:IVisualElementContainer,
@@ -91,11 +90,6 @@ package collaboRhythm.core.controller.apps
 			_appControllerConstructorParams = appControllerConstructorParams;
 			_collaborationLobbyNetConnectionServiceProxy = appControllerConstructorParams.collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
-
-			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
-//			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(this),
-//					collaborationViewSynchronization_eventHandler);
-//			_collaborationRoomNetConnectionService.netConnection.client.showFullView = showFullView;
 
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 		}
@@ -360,34 +354,28 @@ package collaboRhythm.core.controller.apps
 			if (event.appController == null)
 			{
 				// TODO: use constant instead of magic string
-				appInstance = showFullView(true, event.applicationName);
+				appInstance = showFullView(event.applicationName);
 			}
 			else
 			{
-				appInstance = showFullViewResolved(true, event.appController);
+				appInstance = showFullViewResolved(event.appController);
 			}
 
 			if (appInstance)
 				InteractionLogUtil.logAppInstance(_logger, "Show full view", event.viaMechanism, appInstance);
 		}
 
-		public function showFullView(calledLocally:Boolean, applicationName:String):AppControllerBase
+		public function showFullView(applicationName:String):AppControllerBase
 		{
 			var appController:AppControllerBase = _apps.getValueByKey(applicationName);
 			if (appController != null)
-				return showFullViewResolved(calledLocally, appController);
+				return showFullViewResolved(appController);
 			else
 				return null;
 		}
 
-		protected function showFullViewResolved(calledLocally:Boolean,
-												appController:AppControllerBase):AppControllerBase
+		protected function showFullViewResolved(appController:AppControllerBase):AppControllerBase
 		{
-			if (_synchronizationService.synchronize("showFullView", calledLocally, appController.name))
-			{
-				return null;
-			}
-
 			var appInstance:AppControllerBase;
 
 			// TODO: use app id instead of name
