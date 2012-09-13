@@ -59,13 +59,8 @@ package collaboRhythm.plugins.schedule.controller
 					CollaborationLobbyNetConnectionServiceProxy);
 		}
 
-		public function goBack(calledLocally:Boolean):void
+		public function goBack():void
 		{
-			if (_synchronizationService.synchronize("goBack", calledLocally))
-			{
-				return;
-			}
-
 			viewNavigator.popView();
 		}
 

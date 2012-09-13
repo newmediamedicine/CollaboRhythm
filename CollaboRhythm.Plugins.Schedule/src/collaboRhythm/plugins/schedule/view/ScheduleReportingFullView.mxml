@@ -141,7 +141,7 @@
 		private function saveButton_clickHandler():void
 		{
 			_scheduleReportingController.save(true);
-			_scheduleReportingController.goBack(true);
+			_scheduleReportingController.goBack();
 		}
 
 		override public function homeButton_clickHandler():void
