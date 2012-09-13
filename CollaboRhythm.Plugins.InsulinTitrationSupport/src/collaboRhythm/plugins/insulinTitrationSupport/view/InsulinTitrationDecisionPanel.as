@@ -281,7 +281,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			{
 				if (model.isNewDoseDifferentFromCurrent)
 				{
-					_sendButton.label = "Advise\nChange";
+					_sendButton.label = "Advise";
 					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
 				} else
 				{
