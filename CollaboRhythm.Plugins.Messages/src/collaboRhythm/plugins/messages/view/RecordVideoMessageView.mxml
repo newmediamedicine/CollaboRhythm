@@ -73,6 +73,7 @@
 
 		private function trashButton_clickHandler():void
 		{
+			videoPlayer.reset(true);
 			videoPlayer.visible = false;
 			trashButtonGroup.visible = false;
 			sendButtonGroup.visible = false;

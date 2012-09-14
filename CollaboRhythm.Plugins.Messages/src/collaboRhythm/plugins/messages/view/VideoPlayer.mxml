@@ -20,8 +20,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:view="collaboRhythm.plugins.messages.view.*"
 		 creationComplete="creationCompleteHandler()"
-		 resize="setVideoDisplaySize()"
-		 currentState="firstLoad">
+		 resize="setVideoDisplaySize()">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -42,37 +41,36 @@
 		}
 	</fx:Style>
 	<s:states>
-		<s:State name="firstLoad"/>
-		<s:State name="complete"/>
+		<s:State name="loading"/>
 		<s:State name="pausedOnFirstFrame"/>
+		<s:State name="playing"/>
 		<s:State name="buffering"/>
 		<s:State name="streamNotFound"/>
 		<s:State name="failedToPlay"/>
-		<s:State name="playing"/>
 	</s:states>
 	<fx:Script><![CDATA[
 		import mx.logging.ILogger;
 		import mx.logging.Log;
 
+		private const NETSTREAM_PLAY_STOP:String = "NetStream.Play.Stop";
 		private const NETSTREAM_BUFFER_EMPTY:String = "NetStream.Buffer.Empty";
 		private const NETSTREAM_BUFFER_FULL:String = "NetStream.Buffer.Full";
 		private const NETSTREAM_BUFFER_FLUSH:String = "NetStream.Buffer.Flush";
 		private const NETSTREAM_FAILED:String = "NetStream.Failed";
 		private const NETSTREAM_PLAY_FAILED:String = "NetStream.Play.Failed";
 		private const NETSTREAM_PLAY_INSUFFICIENTBW:String = "NetStream.Play.InsufficientBW";
+
 		private const NETSTREAM_PLAY_STREAMNOTFOUND:String = "NetStream.Play.StreamNotFound";
 
 		private var _netStreamLocation:String;
-
 		private var _netStream:NetStream;
 		[Bindable]
 		private var _netStreamTime:Number = 0;
+
 		[Bindable]
 		private var _netStreamDuration:Number = 0;
-
 		private var _playheadInterval:uint;
-		private var _hasLoadedMetaData:Boolean;
-		private var _isLoadingFirstFrame:Boolean;
+		private var _isMetaDataLoaded:Boolean;
 
 		[Embed("../../../../assets/swfs/buffering.swf")]
 		[Bindable]
@@ -82,7 +80,9 @@
 		public function init(netConnection:NetConnection, netStreamLocation:String):void
 		{
 			_netStreamLocation = netStreamLocation;
+			reset(true);
 			initializeNetStream(netConnection);
+			playNetStream();
 		}
 
 		private function creationCompleteHandler():void
@@ -90,11 +90,25 @@
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
-		public function initializeNetStream(netConnection:NetConnection):void
+		public function reset(resetMetaData:Boolean):void
 		{
-			_hasLoadedMetaData = false;
-			_isLoadingFirstFrame = true;
+			if (resetMetaData)
+			{
+				resetMetaDataFields();
+			}
+			updatePlayhead(0);
+			clearInterval(_playheadInterval);
+			_playheadInterval = NaN;
+		}
 
+		private function resetMetaDataFields():void
+		{
+			_netStreamDuration = 0;
+			_isMetaDataLoaded = false;
+		}
+
+		private function initializeNetStream(netConnection:NetConnection):void
+		{
 			_netStream = new NetStream(netConnection);
 			_netStream.client = {};
 			_netStream.client.onMetaData = handleMetaData;
@@ -104,34 +118,41 @@
 			// TODO: Determine why attaching the net stream does not work unless a null camera is first attached
 			videoDisplay.attachCamera(null);
 			videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
-
-			_netStream.play(_netStreamLocation);
 		}
 
-		public function togglePause():void
+		private function playNetStream():void
+		{
+			_netStream.play(_netStreamLocation);
+			currentState = "loading";
+		}
+
+		private function handleMetaData(metaData:Object):void
+		{
+			if (!_isMetaDataLoaded)
+			{
+				_netStreamDuration = metaData.duration;
+				_isMetaDataLoaded = true;
+			}
+			_netStream.pause();
+			updatePlayhead(0);
+			currentState = "pausedOnFirstFrame";
+		}
+
+		private function togglePause():void
 		{
 			if (!_playheadInterval)
 			{
 				_playheadInterval = setInterval(updatePlayhead, 100);
 			}
-			if (currentState == "complete")
+
+			_netStream.togglePause();
+			if (_netStream.bufferLength < _netStream.bufferTime)
 			{
-				_netStream.play(_netStreamLocation);
-				currentState = "playing";
+				currentState = "buffering";
 			}
 			else
 			{
-				_netStream.togglePause();
-			}
-		}
-
-		private function handleMetaData(metaData:Object):void
-		{
-			if (!_hasLoadedMetaData)
-			{
-				_netStreamDuration = metaData.duration;
-				updatePlayhead(0);
-				_hasLoadedMetaData = true;
+				currentState = "playing";
 			}
 		}
 
@@ -139,10 +160,8 @@
 		{
 			if (playStatus.code == "NetStream.Play.Complete")
 			{
-				currentState = "complete";
-				updatePlayhead();
-				clearInterval(_playheadInterval);
-				_playheadInterval = NaN;
+				reset(false);
+				playNetStream();
 			}
 		}
 
@@ -150,20 +169,20 @@
 		{
 			switch (event.info.code)
 			{
+				case NETSTREAM_PLAY_STOP:
+					if (currentState == "buffering")
+					{
+						currentState = "playing";
+					}
+					break;
 				case NETSTREAM_BUFFER_EMPTY:
-					if (currentState != "complete")
+					if (currentState == "playing")
 					{
 						currentState = "buffering";
 					}
 					break;
 				case NETSTREAM_BUFFER_FULL:
-					if (_isLoadingFirstFrame)
-					{
-						currentState = "pausedOnFirstFrame";
-						_netStream.pause();
-						_isLoadingFirstFrame = false;
-					}
-					else
+					if (currentState == "buffering")
 					{
 						currentState = "playing";
 					}
@@ -214,7 +233,7 @@
 			}
 		}
 
-		private function playButton_clickHandler(event:MouseEvent):void
+		private function playButton_clickHandler():void
 		{
 			togglePause();
 		}
@@ -257,9 +276,8 @@
 			<s:Group width="100%" height="100%">
 				<s:Button width="100" height="100" horizontalCenter="0" verticalCenter="0"
 						  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
-						  click="togglePause()"/>
-				<view:PlayButton horizontalCenter="0" verticalCenter="0" includeIn="pausedOnFirstFrame, complete"
-								 mouseEnabled="false" mouseChildren="false"/>
+						  click="playButton_clickHandler()"  includeIn="pausedOnFirstFrame"/>
+				<view:PlayButton horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false" includeIn="pausedOnFirstFrame"/>
 			</s:Group>
 			<s:Group width="100%" height="10%">
 				<s:Rect width="100%" height="100%">
