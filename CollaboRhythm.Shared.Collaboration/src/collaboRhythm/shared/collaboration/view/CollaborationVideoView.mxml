@@ -47,8 +47,11 @@
 			videoDisplay.mx_internal::videoPlayer.visible = true;
 
 			var camera:Camera = AudioVideoOutput.getVideoConferencingCamera();
-			_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(camera);
 			videoDisplayOut.attachCamera(camera);
+			if (_collaborationLobbyNetConnectionService.netStreamOut)
+			{
+				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(camera);
+			}
 		}
 
 		override protected function removedFromStageHandler():void

@@ -85,5 +85,13 @@ package collaboRhythm.plugins.schedule.controller
 
 			dispatchEvent(new AppEvent(AppEvent.SHOW_FULL_VIEW, _scheduleAppController, null, null, viaMechanism));
 		}
+
+		public function destroy():void
+		{
+			if (_synchronizationService)
+			{
+				_synchronizationService.removeEventListener(this);
+			}
+		}
 	}
 }

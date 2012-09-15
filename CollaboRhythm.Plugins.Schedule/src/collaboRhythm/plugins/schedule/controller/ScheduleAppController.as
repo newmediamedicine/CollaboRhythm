@@ -296,9 +296,21 @@ package collaboRhythm.plugins.schedule.controller
 
 			_activeRecordAccount.primaryRecord.appData.remove(ScheduleModelKey.SCHEDULE_MODEL_KEY);
 			_activeRecordAccount.primaryRecord.appData.remove(AdherencePerformanceModel.ADHERENCE_PERFORMANCE_MODEL_KEY);
-			_scheduleClockController = null;
-			_scheduleTimelineController = null;
-			_scheduleReportingController = null;
+			if (_scheduleClockController)
+			{
+				_scheduleClockController.destroy();
+				_scheduleClockController = null;
+			}
+			if (_scheduleTimelineController)
+			{
+				_scheduleTimelineController.destroy();
+				_scheduleTimelineController = null;
+			}
+			if (_scheduleReportingController)
+			{
+				_scheduleReportingController.destroy();
+				_scheduleReportingController = null;
+			}
 		}
 	}
 }

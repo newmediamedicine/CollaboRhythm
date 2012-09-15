@@ -360,14 +360,13 @@ package collaboRhythm.tablet.controller
 			return _tabletAppControllersMediator;
 		}
 
-		public function showCollaborationVideoView(source:String):void
+		public function showCollaborationVideoView(calledLocally:Boolean):void
 		{
-			if (source == "local" && _collaborationController.collaborationModel.collaborationState ==
-					CollaborationModel.COLLABORATION_ACTIVE)
+			if (_synchronizationService.synchronize("showCollaborationVideoView", calledLocally))
 			{
-				_collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(this),
-						"showCollaborationVideoView");
+				return;
 			}
+
 			navigator.pushView(CollaborationVideoView);
 		}
 
@@ -381,16 +380,18 @@ package collaboRhythm.tablet.controller
 			_collaborationController.prepareToExit();
 		}
 
-		public function setCollaborationLobbyConnectionStatusAway():void
+		public function setCollaborationLobbyConnectionStatus():void
 		{
-			activeRecordAccount.collaborationLobbyConnectionStatus = Account.COLLABORATION_LOBBY_AWAY;
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AWAY);
-		}
-
-		public function setCollaborationLobbyConnectionStatusAvailable():void
-		{
-			activeRecordAccount.collaborationLobbyConnectionStatus = Account.COLLABORATION_LOBBY_AVAILABLE;
-			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AVAILABLE);
+			if (activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE)
+			{
+				activeRecordAccount.collaborationLobbyConnectionStatus = Account.COLLABORATION_LOBBY_AWAY;
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AWAY);
+			}
+			else if (activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY)
+			{
+				activeRecordAccount.collaborationLobbyConnectionStatus = Account.COLLABORATION_LOBBY_AVAILABLE;
+				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.updateCollaborationLobbyConnectionStatus(Account.COLLABORATION_LOBBY_AVAILABLE);
+			}
 		}
 
 		private function viewNavigator_viewChangeStartHandler(event:Event):void

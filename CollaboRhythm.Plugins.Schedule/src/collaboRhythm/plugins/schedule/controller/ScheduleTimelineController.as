@@ -106,5 +106,10 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			_scheduleTimelineModel.unscheduleItem(moveData);
 		}
+
+		public function destroy():void
+		{
+
+		}
 	}
 }
