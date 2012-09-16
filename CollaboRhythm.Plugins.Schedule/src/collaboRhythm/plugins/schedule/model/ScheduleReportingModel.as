@@ -48,8 +48,11 @@ package collaboRhythm.plugins.schedule.model
 
 			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
 			{
-				scheduleGroup.scheduleItemsOccurrencesCollection.sort = sort;
-				scheduleGroup.scheduleItemsOccurrencesCollection.refresh();
+				if (scheduleGroup.scheduleItemsOccurrencesCollection.sort == null)
+				{
+					scheduleGroup.scheduleItemsOccurrencesCollection.sort = sort;
+					scheduleGroup.scheduleItemsOccurrencesCollection.refresh();
+				}
 			}
 		}
 
