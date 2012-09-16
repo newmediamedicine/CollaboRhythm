@@ -47,6 +47,8 @@
 		<s:State name="buffering"/>
 		<s:State name="streamNotFound"/>
 		<s:State name="failedToPlay"/>
+		<s:State name="failedToPlayNotConnected"/>
+		<s:State name="failedToPlayInsufficientBW"/>
 	</s:states>
 	<fx:Script><![CDATA[
 		import mx.logging.ILogger;
@@ -81,8 +83,10 @@
 		{
 			_netStreamLocation = netStreamLocation;
 			reset(true);
-			initializeNetStream(netConnection);
-			playNetStream();
+			if (initializeNetStream(netConnection))
+			{
+				playNetStream();
+			}
 		}
 
 		private function creationCompleteHandler():void
@@ -107,17 +111,27 @@
 			_isMetaDataLoaded = false;
 		}
 
-		private function initializeNetStream(netConnection:NetConnection):void
+		private function initializeNetStream(netConnection:NetConnection):Boolean
 		{
-			_netStream = new NetStream(netConnection);
-			_netStream.client = {};
-			_netStream.client.onMetaData = handleMetaData;
-			_netStream.client.onPlayStatus = handlePlayStatus;
-			_netStream.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
-			_netStream.addEventListener(ErrorEvent.ERROR, netStatusErrorHandler);
-			// TODO: Determine why attaching the net stream does not work unless a null camera is first attached
-			videoDisplay.attachCamera(null);
-			videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
+			if (netConnection.connected)
+			{
+				_netStream = new NetStream(netConnection);
+				_netStream.client = {};
+				_netStream.client.onMetaData = handleMetaData;
+				_netStream.client.onPlayStatus = handlePlayStatus;
+				_netStream.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+				_netStream.addEventListener(ErrorEvent.ERROR, netStatusErrorHandler);
+				// TODO: Determine why attaching the net stream does not work unless a null camera is first attached
+				videoDisplay.attachCamera(null);
+				videoDisplay.mx_internal::videoPlayer.attachNetStream(_netStream);
+
+				return true;
+			}
+			else
+			{
+				currentState = "failedToPlayNotConnected";
+				return false;
+			}
 		}
 
 		private function playNetStream():void
@@ -199,6 +213,7 @@
 					break;
 				case NETSTREAM_PLAY_INSUFFICIENTBW:
 					_logger.info("VideoPlayer status " + NETSTREAM_PLAY_INSUFFICIENTBW + " " + _netStreamLocation);
+					currentState = "failedToPlayInsufficientBW";
 					break;
 				case NETSTREAM_PLAY_STREAMNOTFOUND:
 					_logger.warn("VideoPlayer status " + NETSTREAM_PLAY_STREAMNOTFOUND + " " + _netStreamLocation);
@@ -255,7 +270,7 @@
 
 	<s:Group id="videoDisplayGroup" horizontalCenter="0" verticalCenter="0">
 		<mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
-		<s:Group width="100%" height="100%" includeIn="streamNotFound, failedToPlay">
+		<s:Group width="100%" height="100%" includeIn="streamNotFound, failedToPlay, failedToPlayNotConnected, failedToPlayInsufficientBW">
 			<s:Rect width="100%" height="100%">
 				<s:fill>
 					<s:SolidColor color="0x000000"/>
@@ -264,9 +279,15 @@
 			<s:Label text="The video could not be found." horizontalCenter="0" verticalCenter="0"
 					 includeIn="streamNotFound"
 					 styleName="errorLabel"/>
-			<s:Label text="The video could not be played." horizontalCenter="0" verticalCenter="0"
-					 includeIn="failedToPlay"
-					 styleName="errorLabel"/>
+			<s:VGroup horizontalCenter="0" verticalCenter="0">
+				<s:Label text="The video could not be played."
+						 includeIn="failedToPlay, failedToPlayNotConnected, failedToPlayInsufficientBW"
+						 styleName="errorLabel"/>
+				<s:Label text="Not connected to collaboration server." includeIn="failedToPlayNotConnected"
+						 styleName="errorLabel"/>
+				<s:Label text="Internet connection is poor (insufficient bandwidth)."
+						 includeIn="failedToPlayInsufficientBW" styleName="errorLabel"/>
+			</s:VGroup>
 		</s:Group>
 		<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center" includeIn="buffering">
 			<s:BusyIndicator width="100" height="100"/>
@@ -276,8 +297,9 @@
 			<s:Group width="100%" height="100%">
 				<s:Button width="100" height="100" horizontalCenter="0" verticalCenter="0"
 						  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
-						  click="playButton_clickHandler()"  includeIn="pausedOnFirstFrame"/>
-				<view:PlayButton horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false" includeIn="pausedOnFirstFrame"/>
+						  click="playButton_clickHandler()" includeIn="pausedOnFirstFrame"/>
+				<view:PlayButton horizontalCenter="0" verticalCenter="0" mouseEnabled="false" mouseChildren="false"
+								 includeIn="pausedOnFirstFrame"/>
 			</s:Group>
 			<s:Group width="100%" height="10%">
 				<s:Rect width="100%" height="100%">
