@@ -25,6 +25,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 
 public @interface BluetoothSocketThreadAnnotation {
-    public String bluetoothDeviceName();
-	public String bluetoothDeviceNameSecondary();
+    public String[] bluetoothDeviceNames();
 }
