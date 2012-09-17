@@ -92,6 +92,10 @@
 				 stateGroups="patient, Other, notHome, CollaborationActive, OtherCollaborationActive"/>
 	</s:states>
 	<fx:Style source="defaults.css"/>
+	<fx:Declarations>
+		<s:Fade id="synchronizeIconFadeEffect" target="{synchronizeIcon}" alphaFrom="1" alphaTo="0.1"
+				repeatBehavior="reverse" repeatCount="0"/>
+	</fx:Declarations>
 	<fx:Script><![CDATA[
 		import collaboRhythm.core.view.AboutApplicationView;
 		import collaboRhythm.core.view.BusyView;
@@ -223,6 +227,20 @@
 
 				currentState = _applicationController.settings.mode + activeView +
 						_collaborationController.collaborationModel.collaborationState;
+
+				if (_collaborationController.collaborationModel.collaborationState ==
+						CollaborationModel.COLLABORATION_OUT_OF_SYNC)
+				{
+					synchronizeIconFadeEffect.play();
+				}
+				else
+				{
+					if (synchronizeIconFadeEffect.isPlaying)
+					{
+						synchronizeIconFadeEffect.stop();
+					}
+					synchronizeIcon.alpha = 1;
+				}
 			}
 		}
 
@@ -346,46 +364,44 @@
 			</s:Group>
 			<s:HGroup gap="0" includeInLayout="{_applicationController.activeRecordAccount != null}"
 					  visible="{_applicationController.activeRecordAccount != null}">
-				<s:Group includeIn="patientCollaborationInactive, clinicianCollaborationInactive"
-						 includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"
-						 visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}">
+				<s:Group>
 					<s:Button width="44" height="46"
-							  click.clinicianCollaborationInactive="_applicationController.sendCollaborationInvitation()"
-							  click.patientCollaborationInactive="_applicationController.setCollaborationLobbyConnectionStatusAway()"/>
+							  enabled="false" enabled.patientCollaborationInactive="true"
+							  click="_applicationController.setCollaborationLobbyConnectionStatus()"/>
 					<sharedView:OnlineIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
-										   mouseEnabled="false" mouseChildren="false"/>
-				</s:Group>
-				<s:Group
-						includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"
-						visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}">
-					<s:Button width="44" height="46"/>
+										   mouseEnabled="false" mouseChildren="false"
+										   visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE}"/>
 					<sharedView:OfflineIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
-											mouseEnabled="false" mouseChildren="false"/>
-				</s:Group>
-				<s:Group includeIn="patientCollaborationInactive, clinicianCollaborationInactive"
-						 includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"
-						 visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}">
-					<s:Button width="44" height="46"
-							  click.patient="_applicationController.setCollaborationLobbyConnectionStatusAvailable()"
-							  click.clinician="_applicationController.sendCollaborationInvitation()"/>
+											mouseEnabled="false" mouseChildren="false"
+											visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_NOT_CONNECTED}"/>
 					<sharedView:AwayIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
-										 mouseEnabled="false" mouseChildren="false"/>
+										 mouseEnabled="false" mouseChildren="false"
+										 visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"/>
+				</s:Group>
+				<s:Group includeIn="clinicianCollaborationInactive"
+						 includeInLayout="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE || _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"
+						 visible="{_applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AVAILABLE || _applicationController.activeRecordAccount.collaborationLobbyConnectionStatus == Account.COLLABORATION_LOBBY_AWAY}"
+						 click="_applicationController.sendCollaborationInvitation()">
+					<s:Button width="46" height="46"/>
+					<view:CallIcon width="26" height="26" verticalCenter="0" horizontalCenter="0" mouseEnabled="false"
+								   mouseChildren="false"/>
 				</s:Group>
 				<s:Group includeIn="CollaborationInvitationReceived, CollaborationInvitationSent, CollaborationActive"
 						 click="_applicationController.endCollaboration()">
 					<s:Button width="44" height="46"/>
-					<view:EndCallIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
+					<view:EndCallIcon width="26" height="26" verticalCenter="0" horizontalCenter="0"
 									  mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
-				<s:Group includeIn="CollaborationOutOfSync"
+				<s:Group includeIn="CollaborationInactive, CollaborationOutOfSync"
 						 click="synchronize()">
 					<s:Button width="44" height="46"/>
-					<view:SynchronizeIcon width="24" height="32" verticalCenter="0" horizontalCenter="0"
+					<view:SynchronizeIcon id="synchronizeIcon" width="26" height="26" verticalCenter="0"
+										  horizontalCenter="0"
 										  mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
 				<s:Group includeIn="TabletHomeViewCollaborationActive, OtherCollaborationActive">
 					<s:Button width="46" height="46"
-							  click="_applicationController.showCollaborationVideoView('local')"/>
+							  click="_applicationController.showCollaborationVideoView(true)"/>
 					<view:VideoIcon width="23" height="23" verticalCenter="0" horizontalCenter="0" mouseEnabled="false"
 									mouseChildren="false"/>
 				</s:Group>

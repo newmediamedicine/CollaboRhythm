@@ -2,22 +2,19 @@
 <Graphic version="2.0" viewHeight="26" viewWidth="26" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
   <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="26" d:pageWidth="26" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:objID="29390900" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <Path x="2.5" y="2.5002" winding="nonZero" ai:objID="29280f00" ai:seqID="3" data="M1.19209e-006 4.64287C-0.00244021 2.71221 3.72949 -0.131056 4.60449 0.00468612 5.11572 0.0857408 8.61914 5.02568 8.54004 5.44609 8.49414 5.6873 6.11182 7.2293 4.69629 7.71562 5.60645 11.2679 11.4136 16.1619 13.1006 16.198 13.6445 15.035 14.5986
+    <Group ai:objID="e86d000" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path x="2.5" y="2.5002" winding="nonZero" ai:objID="e66f480" ai:seqID="3" data="M1.19209e-006 4.64287C-0.00244021 2.71221 3.72949 -0.131056 4.60449 0.00468612 5.11572 0.0857408 8.61914 5.02568 8.54004 5.44609 8.49414 5.6873 6.11182 7.2293 4.69629 7.71562 5.60645 11.2679 11.4136 16.1619 13.1006 16.198 13.6445 15.035 14.5986
  12.7898 15.1885 12.3709 15.501 12.1453 21.002 16.033 21 16.4715 20.999 17.0965 18.2666 20.9998 16.1162 20.9998 10.8149 20.9998 0.00586057 10.3855 1.19209e-006 4.64287Z">
         <fill>
-          <SolidColor color="#00A651"/>
+          <SolidColor color="#F3F3F3"/>
         </fill>
-        <stroke>
-          <SolidColorStroke caps="none" joints="miter" miterLimit="10" color="#424242"/>
-        </stroke>
       </Path>
     </Group>
   </Group>
   <Private>
       <ai:PrivateElement d:ref="#1">
         <ai:SaveOptions>
-          <ai:Dict data="B downsampleLinkedImages 0 I expandBlendsOption 5 I preserveFilterPolicy 3 I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveTextPolicy 4 B writeImages 1 I versionKey 2 B includeSymbol 0 B includeXMP 0 B aiEditCap 1 B includeObjectOutsideArtboard 0 "/>
+          <ai:Dict data="I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I expandBlendsOption 5 B downsampleLinkedImages 0 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 I versionKey 2 B writeImages 1 B includeXMP 0 B includeSymbol 0 B aiEditCap 1 "/>
         </ai:SaveOptions>
         <ai:DocData base="CallIcon.assets/images" rulerCanvasDiffH="13.5" rulerCanvasDiffV="13.5">
           <ai:DocRasterSettings>
@@ -28,7 +25,7 @@
           <ai:Dict/>
         </ai:AutoGenImageList>
       </ai:PrivateElement>
-      <ai:PrivateElement flm:hashcode="BD972A076AACDF3542528F375AA55325" d:ref="#2">
+      <ai:PrivateElement flm:hashcode="8E95EA35AA5E39744811B1E18E9A9F8A" d:ref="#2">
         <ai:LayerOptions color="5 79.31 257 128.502"/>
       </ai:PrivateElement>
     </Private>

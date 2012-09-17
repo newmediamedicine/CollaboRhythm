@@ -103,5 +103,13 @@ package collaboRhythm.plugins.schedule.controller
 		{
 			_viewNavigator = value;
 		}
+
+		public function destroy():void
+		{
+			if (_synchronizationService)
+			{
+				_synchronizationService.removeEventListener(this);
+			}
+		}
 	}
 }

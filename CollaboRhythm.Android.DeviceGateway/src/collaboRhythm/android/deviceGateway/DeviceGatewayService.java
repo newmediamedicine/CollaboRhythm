@@ -138,14 +138,16 @@ public class DeviceGatewayService extends Service {
 		for (String bluetoothSocketThreadName : mBluetoothSocketThreadNames) {
 			try {
 				BluetoothSocketThreadAnnotation bluetoothSocketThreadAnnotation = Class.forName(bluetoothSocketThreadName).getAnnotation(BluetoothSocketThreadAnnotation.class);
-				if (bluetoothDevice.getName().equals(bluetoothSocketThreadAnnotation.bluetoothDeviceName())) {
-					Class bluetoothSocketThreadClass = Class.forName(bluetoothSocketThreadName);
-					IBluetoothSocketThread bluetoothSocketThread = (IBluetoothSocketThread) bluetoothSocketThreadClass.newInstance();
-					bluetoothSocketThread.init(bluetoothSocket, mServiceMessageHandler);
-					if (bluetoothSocketThread.isThreadReady()) {
-						bluetoothSocketThread.start();
-					} else {
-						instructUserToRetry();
+				for (String bluetoothDeviceName : bluetoothSocketThreadAnnotation.bluetoothDeviceNames()) {
+					if (bluetoothDevice.getName().equals(bluetoothDeviceName)) {
+						Class bluetoothSocketThreadClass = Class.forName(bluetoothSocketThreadName);
+						IBluetoothSocketThread bluetoothSocketThread = (IBluetoothSocketThread) bluetoothSocketThreadClass.newInstance();
+						bluetoothSocketThread.init(bluetoothSocket, mServiceMessageHandler);
+						if (bluetoothSocketThread.isThreadReady()) {
+							bluetoothSocketThread.start();
+						} else {
+							instructUserToRetry();
+						}
 					}
 				}
 			} catch (ClassNotFoundException e) {
