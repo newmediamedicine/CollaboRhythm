@@ -217,7 +217,8 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.complexCarbs30gItemList_changeHandler(selectedIndex);
 		}
 
-		public function synchronizeActionsListScrollPosition(calledLocally:Boolean, verticalScrollPosition:Number = 0):void
+		public function synchronizeActionsListScrollPosition(calledLocally:Boolean,
+															 verticalScrollPosition:Number = 0):void
 		{
 			if (_synchronizationService.synchronize("synchronizeActionsListScrollPosition", calledLocally,
 					verticalScrollPosition, false))
@@ -235,14 +236,14 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function removeCollaborationViewSynchronizationEventListener(calledLocally:Boolean):void
 		{
-			if (_synchronizationService.synchronize("removeCollaborationViewSynchronizationEventListener",
-					calledLocally))
-			{
-				return;
-			}
-
 			if (_synchronizationService)
 			{
+				if (_synchronizationService.synchronize("removeCollaborationViewSynchronizationEventListener",
+						calledLocally))
+				{
+					return;
+				}
+
 				_synchronizationService.removeEventListener(this);
 			}
 		}

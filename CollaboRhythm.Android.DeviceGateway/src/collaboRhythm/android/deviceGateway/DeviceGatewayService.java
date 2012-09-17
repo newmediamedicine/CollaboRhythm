@@ -138,7 +138,7 @@ public class DeviceGatewayService extends Service {
 		for (String bluetoothSocketThreadName : mBluetoothSocketThreadNames) {
 			try {
 				BluetoothSocketThreadAnnotation bluetoothSocketThreadAnnotation = Class.forName(bluetoothSocketThreadName).getAnnotation(BluetoothSocketThreadAnnotation.class);
-				if (bluetoothDevice.getName().equals(bluetoothSocketThreadAnnotation.bluetoothDeviceName())) {
+				if (bluetoothDevice.getName().equals(bluetoothSocketThreadAnnotation.bluetoothDeviceName()) || bluetoothDevice.getName().equals(bluetoothSocketThreadAnnotation.bluetoothDeviceNameSecondary())) {
 					Class bluetoothSocketThreadClass = Class.forName(bluetoothSocketThreadName);
 					IBluetoothSocketThread bluetoothSocketThread = (IBluetoothSocketThread) bluetoothSocketThreadClass.newInstance();
 					bluetoothSocketThread.init(bluetoothSocket, mServiceMessageHandler);
