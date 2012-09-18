@@ -294,8 +294,8 @@ package collaboRhythm.core.model.healthRecord
 						documentToKeep.meta.id + " created " + DateUtil.toW3CDTF(documentToKeep.meta.createdAt));
 
 				if (VOID_ALL_DUPLICATES)
-					currentRecord.removeDocument(documentToDelete, DocumentBase.ACTION_VOID,
-							"automatic duplicate detection", true);
+					currentRecord.removeDocument(documentToDelete, true, true, DocumentBase.ACTION_VOID,
+							"automatic duplicate detection");
 			}
 
 			return documentToDelete;

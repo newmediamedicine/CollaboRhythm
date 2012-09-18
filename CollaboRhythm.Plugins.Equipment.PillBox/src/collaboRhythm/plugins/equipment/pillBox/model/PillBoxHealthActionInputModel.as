@@ -38,7 +38,7 @@ package collaboRhythm.plugins.equipment.pillBox.model
 			var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			adherenceResults.push(medicationAdministration);
 			scheduleItemOccurrence.createAdherenceItem(adherenceResults, healthActionModelDetailsProvider.record,
-					healthActionModelDetailsProvider.accountId);
+					healthActionModelDetailsProvider.accountId, true);
 
 			_urlVariables = value;
 		}

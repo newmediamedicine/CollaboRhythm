@@ -39,7 +39,7 @@ package collaboRhythm.plugins.equipment.insulinPen.model
 			var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			adherenceResults.push(medicationAdministration);
 			scheduleItemOccurrence.createAdherenceItem(adherenceResults, healthActionModelDetailsProvider.record,
-					healthActionModelDetailsProvider.accountId);
+					healthActionModelDetailsProvider.accountId, true);
 
 			_urlVariables = value;
 		}

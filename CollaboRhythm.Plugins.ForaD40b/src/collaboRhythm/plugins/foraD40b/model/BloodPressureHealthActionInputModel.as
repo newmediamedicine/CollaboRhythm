@@ -49,7 +49,7 @@ package collaboRhythm.plugins.foraD40b.model
 			if (scheduleItemOccurrence)
 			{
 				scheduleItemOccurrence.createAdherenceItem(results, healthActionModelDetailsProvider.record,
-						healthActionModelDetailsProvider.accountId);
+						healthActionModelDetailsProvider.accountId, true);
 			}
 			else
 			{

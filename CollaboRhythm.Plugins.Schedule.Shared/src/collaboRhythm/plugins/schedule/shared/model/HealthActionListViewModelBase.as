@@ -16,12 +16,12 @@ package collaboRhythm.plugins.schedule.shared.model
 			_healthActionInputModelDetailsProvider = healthActionModelDetailsProvider;
 		}
 
-		public function voidHealthActionResult():void
+		public function voidHealthActionResult(persist:Boolean):void
 		{
-			_scheduleItemOccurrence.voidAdherenceItem(_healthActionInputModelDetailsProvider.record);
+			_scheduleItemOccurrence.voidAdherenceItem(_healthActionInputModelDetailsProvider.record, persist);
 		}
 
-		public function createHealthActionResult():void
+		public function createHealthActionResult(persist:Boolean):void
 		{
 		}
 

@@ -74,8 +74,7 @@
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose(true,
-					[reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
+			_dataInputController.submitBloodGlucose([reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
 		}
 		]]></fx:Script>
 	<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaWarningView"/>

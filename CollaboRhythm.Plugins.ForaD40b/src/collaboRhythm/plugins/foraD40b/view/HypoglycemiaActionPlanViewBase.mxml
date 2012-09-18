@@ -83,13 +83,13 @@
 		{
 			if (event.commit)
 			{
-				_dataInputController.quitHypoglycemiaActionPlan(true);
+				_dataInputController.quitHypoglycemiaActionPlan();
 			}
 		}
 
 		protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.nextStep(true);
+			_dataInputController.nextStep();
 		}
 
 		public function get healthActionInputController():IHealthActionInputController

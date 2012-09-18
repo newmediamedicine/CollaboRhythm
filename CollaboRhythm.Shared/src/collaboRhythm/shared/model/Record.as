@@ -373,7 +373,7 @@ package collaboRhythm.shared.model
 		 * @param saveImmediately If true, a request will be made to persist the document to the server immediately;
 		 * otherwise, the document will not be persisted until requested.
 		 */
-		public function addDocument(document:IDocument, saveImmediately:Boolean = false):void
+		public function addDocument(document:IDocument, persist:Boolean = false):void
 		{
 			if (document.meta.type == null)
 				throw new Error("The type of the document must be set when it is created. A document cannot be deleted if no type is specified.");
@@ -381,6 +381,9 @@ package collaboRhythm.shared.model
 			var documentCollection:DocumentCollectionBase = documentCollections.getItem(document.meta.type);
 			if (!documentCollection)
 				throw new Error("Failed to get document collection for document type " + document.meta.type);
+
+			if (persist)
+				document.pendingAction = DocumentBase.ACTION_CREATE;
 
 			// we rely on the document.pendingAction flag to indicate if the document is being loaded from the server
 			if (document.pendingAction == null)
@@ -406,14 +409,6 @@ package collaboRhythm.shared.model
 			documentCollection.addDocument(document);
 
 			updateReplacedBy(document);
-
-			if (saveImmediately)
-			{
-				if (!storageService)
-					throw new Error("The storageService must be provided to connect the record to a storage service before addDocument with saveImmediately can be used.");
-
-				storageService.saveChanges(this, new ArrayCollection(new Array(document)), null);
-			}
 		}
 
 		private function updateReplacedBy(document:IDocument):void
@@ -424,16 +419,16 @@ package collaboRhythm.shared.model
 			}
 		}
 
-		public function removeDocument(document:IDocument, removeAction:String = DocumentBase.ACTION_DELETE,
-									   reason:String = null, recursive:Boolean = false):int
+		public function removeDocument(document:IDocument, persist:Boolean = false, recursive:Boolean = false,
+									   removeAction:String = DocumentBase.ACTION_DELETE, reason:String = null):int
 		{
 			if (recursive)
-				return removeDocumentAndDescendants(document, removeAction, reason);
+				return removeDocumentAndDescendants(document, persist, removeAction, reason);
 			else
-				return removeOneDocument(document, removeAction, reason);
+				return removeOneDocument(document, persist, removeAction, reason);
 		}
 
-		private function removeOneDocument(document:IDocument, removeAction:String, reason:String):int
+		private function removeOneDocument(document:IDocument, persist:Boolean, removeAction:String, reason:String):int
 		{
 			if (document.meta.type == null)
 				throw new Error("The type of the document must be set when it is created. A document cannot be deleted if no type is specified.");
@@ -477,11 +472,18 @@ package collaboRhythm.shared.model
 			}
 			else
 			{
-				document.pendingActionReason = reason;
-				if (document.pendingAction != removeAction)
+				if (persist)
 				{
-					document.pendingAction = removeAction;
-					return 1;
+					document.pendingActionReason = reason;
+					if (document.pendingAction != removeAction)
+					{
+						document.pendingAction = removeAction;
+						return 1;
+					}
+					else
+					{
+						return 0;
+					}
 				}
 				else
 				{
@@ -502,7 +504,8 @@ package collaboRhythm.shared.model
 			}
 		}
 
-		private function removeDocumentAndDescendants(document:IDocument, removeAction:String, reason:String):int
+		private function removeDocumentAndDescendants(document:IDocument, persist:Boolean, removeAction:String,
+													  reason:String):int
 		{
 			var deletedCount:int = 0;
 			var documents:Vector.<IDocument> = new <IDocument>[document];
@@ -515,7 +518,7 @@ package collaboRhythm.shared.model
 						documents.push(relationship.relatesTo);
 				}
 
-				deletedCount += removeOneDocument(currentDocument, removeAction, reason);
+				deletedCount += removeOneDocument(currentDocument, persist, removeAction, reason);
 			}
 			while (documents.length > 0);
 
@@ -561,8 +564,8 @@ package collaboRhythm.shared.model
 			_storageService = value;
 		}
 
-		public function addNewRelationship(relationshipType:String, fromDocument:DocumentBase,
-										   toDocument:DocumentBase):Relationship
+		public function addRelationship(relationshipType:String, fromDocument:DocumentBase, toDocument:DocumentBase,
+										persist:Boolean = false):Relationship
 		{
 			if (!relationshipType)
 				throw new ArgumentError("relationshipType must not be null");
@@ -577,7 +580,6 @@ package collaboRhythm.shared.model
 				throw new ArgumentError("fromDocument must be different than toDocument");
 
 			var relationship:Relationship = new Relationship();
-			relationship.pendingAction = Relationship.ACTION_CREATE;
 			relationship.type = relationshipType;
 			relationship.relatesFrom = fromDocument;
 			relationship.relatesTo = toDocument;
@@ -585,7 +587,11 @@ package collaboRhythm.shared.model
 			fromDocument.relatesTo.addItem(relationship);
 			toDocument.isRelatedFrom.addItem(relationship);
 
-			_newRelationships.addItem(relationship);
+			if (persist)
+			{
+				relationship.pendingAction = Relationship.ACTION_CREATE;
+				_newRelationships.addItem(relationship);
+			}
 			return relationship;
 		}
 

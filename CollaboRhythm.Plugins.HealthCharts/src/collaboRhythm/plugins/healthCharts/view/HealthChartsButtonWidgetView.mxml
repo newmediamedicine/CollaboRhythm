@@ -41,7 +41,7 @@
 
 		private function showFullViewButton_clickHandler():void
 		{
-			_controller.showHealthChartsFullView(true, "widgetButtonClick");
+			_controller.showHealthChartsFullView("widgetButtonClick");
 		}
 		]]>
 	</fx:Script>

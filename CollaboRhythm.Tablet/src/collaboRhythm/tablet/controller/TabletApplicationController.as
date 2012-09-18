@@ -29,12 +29,13 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.tablet.TabletViewBase;
+	import collaboRhythm.tablet.model.ViewNavigatorExtended;
+	import collaboRhythm.tablet.model.ViewNavigatorExtendedEvent;
 	import collaboRhythm.tablet.view.SelectRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
 	import collaboRhythm.tablet.view.TabletHomeView;
 
 	import flash.events.Event;
-	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.core.IVisualElementContainer;
@@ -57,7 +58,6 @@ package collaboRhythm.tablet.controller
 		private var _openingRecordAccount:Boolean = false;
 
 		private var _collaborationInvitationPopUp:CollaborationInvitationPopUp;
-		private var _remoteBackCount:int = 0;
 		private var _synchronizationService:SynchronizationService;
 
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
@@ -85,7 +85,7 @@ package collaboRhythm.tablet.controller
 			navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			navigator.addEventListener("viewChangeComplete",
 					viewNavigator_transitionCompleteHandler);
-			navigator.addEventListener("viewChangeStart", viewNavigator_viewChangeStartHandler);
+			navigator.addEventListener(ViewNavigatorExtendedEvent.VIEW_POPPED, viewNavigator_viewPopped);
 			navigator.addEventListener(Event.ADDED, viewNavigator_addedHandler);
 
 			initializeActiveView();
@@ -231,9 +231,9 @@ package collaboRhythm.tablet.controller
 			super.sendCollaborationInvitation();
 		}
 
-		override public function navigateHome(calledLocally:Boolean):void
+		override public function navigateHome():void
 		{
-			if (_synchronizationService.synchronize("navigateHome", calledLocally))
+			if (_synchronizationService.synchronize("navigateHome"))
 			{
 				return;
 			}
@@ -241,15 +241,14 @@ package collaboRhythm.tablet.controller
 			navigator.popToFirstView()
 		}
 
-		override public function synchronizeBack(calledLocally:Boolean):void
+		override public function synchronizeBack():void
 		{
-			if (_synchronizationService.synchronize("synchronizeBack", calledLocally, null, false))
+			if (_synchronizationService.synchronize("synchronizeBack", null, false))
 			{
 				return;
 			}
 
-			_remoteBackCount += 1;
-			navigator.popView();
+			(navigator as ViewNavigatorExtended).popViewRemote();
 		}
 
 		private function get tabletHomeView():TabletHomeView
@@ -360,9 +359,9 @@ package collaboRhythm.tablet.controller
 			return _tabletAppControllersMediator;
 		}
 
-		public function showCollaborationVideoView(calledLocally:Boolean):void
+		public function showCollaborationVideoView():void
 		{
-			if (_synchronizationService.synchronize("showCollaborationVideoView", calledLocally))
+			if (_synchronizationService.synchronize("showCollaborationVideoView"))
 			{
 				return;
 			}
@@ -394,19 +393,9 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
-		private function viewNavigator_viewChangeStartHandler(event:Event):void
+		private function viewNavigator_viewPopped(event:ViewNavigatorExtendedEvent):void
 		{
-			if (navigator.mx_internal::lastAction == ViewNavigatorAction.POP)
-			{
-				if (_remoteBackCount > 0)
-				{
-					_remoteBackCount -= 1;
-				}
-				else
-				{
-					synchronizeBack(true);
-				}
-			}
+			synchronizeBack();
 		}
 	}
 }

@@ -67,7 +67,7 @@
 
 		private function playVideoHandler(event:VideoAvailableEvent):void
 		{
-			_messagesAppController.playVideoMessage(true, event.netStreamLocation);
+			_messagesAppController.playVideoMessage(event.netStreamLocation);
 		}
 
 		private function messagesCollection_changeHandler(event:CollectionEvent):void

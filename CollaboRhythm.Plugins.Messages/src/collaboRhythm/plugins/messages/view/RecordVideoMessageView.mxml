@@ -68,7 +68,7 @@
 		private function sendButton_clickHandler():void
 		{
 			_messagesAppController.createAndSendMessage("<" + _netStreamLocation + ">");
-			_messagesAppController.showMessagesView(true);
+			_messagesAppController.showMessagesView();
 		}
 
 		private function trashButton_clickHandler():void

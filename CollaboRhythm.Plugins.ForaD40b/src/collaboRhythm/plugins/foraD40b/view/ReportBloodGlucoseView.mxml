@@ -113,13 +113,13 @@
 		{
 			if (bloodGlucoseTextInput.enabled)
 			{
-				_dataInputController.updateManualBloodGlucose(true, bloodGlucoseTextInput.text);
+				_dataInputController.updateManualBloodGlucose(bloodGlucoseTextInput.text);
 			}
 		}
 
 		private function saveButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose(true, [bloodGlucoseTextInput.text, _currentDateSource.now()]);
+			_dataInputController.submitBloodGlucose([bloodGlucoseTextInput.text, _currentDateSource.now()]);
 		}
 		]]></fx:Script>
 	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle" horizontalCenter="0" top="200">

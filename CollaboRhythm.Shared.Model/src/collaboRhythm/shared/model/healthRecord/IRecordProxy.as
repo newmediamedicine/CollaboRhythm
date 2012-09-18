@@ -16,7 +16,7 @@ package collaboRhythm.shared.model.healthRecord
 		 * @param saveImmediately If true, a request will be made to persist the document to the server immediately;
 		 * otherwise, the document will not be persisted until requested.
 		 */
-		function addDocument(document:IDocument, saveImmediately:Boolean=false):void;
+		function addDocument(document:IDocument, persist:Boolean = false):void;
 
 		/**
 		 * Removes (deletes, voids, or archives) the document from the record. Generally used for deleting a document that has
@@ -32,8 +32,8 @@ package collaboRhythm.shared.model.healthRecord
 		 * @return The number of documents removed (generally 1 if not recursive)
 		 */
 		// TODO: resolve compile error when DocumentBase.ACTION_DELETE is used as default for removeAction
-		function removeDocument(document:IDocument, removeAction:String = "delete",
-								reason:String = null, recursive:Boolean = false):int;
+		function removeDocument(document:IDocument, persist:Boolean = false,
+								recursive:Boolean = false, removeAction:String = "delete", reason:String = null):int ;
 
 		/**
 		 * Checks to see if there are unsaved changes (unsaved to the server) in a given record.
@@ -63,6 +63,7 @@ package collaboRhythm.shared.model.healthRecord
 		 * @param toDocument The document that the relationship should be to
 		 * @returns The new relationship
 		 */
-		function addNewRelationship(relationshipType:String, fromDocument:DocumentBase, toDocument:DocumentBase):Relationship;
+		function addRelationship(relationshipType:String, fromDocument:DocumentBase, toDocument:DocumentBase,
+									persist:Boolean = false):Relationship;
 	}
 }

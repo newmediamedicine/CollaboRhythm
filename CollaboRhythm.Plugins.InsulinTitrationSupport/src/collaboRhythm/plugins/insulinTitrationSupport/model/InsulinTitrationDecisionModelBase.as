@@ -867,7 +867,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				// TODO: switch to the new data types
 				//						decisionScheduleItemOccurrence.createHealthActionOccurrence(results, record,
 				//								accountId);
-				decisionScheduleItemOccurrence.createAdherenceItem(results, record, accountId);
+				decisionScheduleItemOccurrence.createAdherenceItem(results, record, accountId, true);
 			}
 			else
 			{
@@ -920,9 +920,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 							record.addDocument(newMedicationScheduleItem);
 
-							var relationship:Relationship = record.addNewRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
-									currentMedicationScheduleItem.scheduledMedicationOrder,
-									newMedicationScheduleItem);
+							var relationship:Relationship = record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+									currentMedicationScheduleItem.scheduledMedicationOrder, newMedicationScheduleItem,
+									true);
 							newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
 
 							// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation

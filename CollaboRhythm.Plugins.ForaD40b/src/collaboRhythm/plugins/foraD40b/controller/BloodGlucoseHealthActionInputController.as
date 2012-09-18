@@ -57,31 +57,31 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.handleUrlVariables(urlVariables);
 		}
 
-		public function nextStep(calledLocally:Boolean):void
+		public function nextStep():void
 		{
-			if (_synchronizationService.synchronize("nextStep", calledLocally))
+			if (_synchronizationService.synchronize("nextStep"))
 			{
 				return;
 			}
 
-			_dataInputModel.nextStep(calledLocally);
+			_dataInputModel.nextStep(_synchronizationService.initiatedLocally);
 		}
 
-		public function submitBloodGlucose(calledLocally:Boolean, bloodGlucoseAndDateArray:Array):void
+		public function submitBloodGlucose(bloodGlucoseAndDateArray:Array):void
 		{
-			if (_synchronizationService.synchronize("submitBloodGlucose", calledLocally, bloodGlucoseAndDateArray))
+			if (_synchronizationService.synchronize("submitBloodGlucose", bloodGlucoseAndDateArray))
 			{
 				return;
 			}
 
-			_dataInputModel.submitBloodGlucose(calledLocally, bloodGlucoseAndDateArray);
+			_dataInputModel.submitBloodGlucose(bloodGlucoseAndDateArray, _synchronizationService.initiatedLocally);
 		}
 
 		private function currentView_changeHandler(currentView:Class):void
 		{
 			if (currentView == null)
 			{
-				if (_dataInputModel.pushedViewCount != 0)
+				if (_synchronizationService && _synchronizationService.initiatedLocally && _dataInputModel.pushedViewCount != 0)
 				{
 					for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModel.pushedViewCount;
 						 pushedViewIndex++)
@@ -89,13 +89,24 @@ package collaboRhythm.plugins.foraD40b.controller
 						_viewNavigator.popView();
 					}
 					_dataInputModel.pushedViewCount = 0;
-					removeCollaborationViewSynchronizationEventListener(true);
 				}
+
+				removeCollaborationViewSynchronizationEventListener();
 			}
 			else
 			{
 				pushView(currentView);
 			}
+		}
+
+		private function popRemoteView():void
+		{
+			if (_synchronizationService.synchronize("popRemoteView", null, false))
+			{
+				return;
+			}
+
+			_viewNavigator.popView();
 		}
 
 		private function pushView(currentView:Class):void
@@ -110,9 +121,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
 
-		public function startWaitTimer(calledLocally:Boolean):void
+		public function startWaitTimer():void
 		{
-			if (_synchronizationService.synchronize("startWaitTimer", calledLocally))
+			if (_synchronizationService.synchronize("startWaitTimer"))
 			{
 				return;
 			}
@@ -120,9 +131,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.startWaitTimer();
 		}
 
-		public function updateManualBloodGlucose(calledLocally:Boolean, text:String):void
+		public function updateManualBloodGlucose(text:String = ""):void
 		{
-			if (_synchronizationService.synchronize("updateManualBloodGlucose", calledLocally, text))
+			if (_synchronizationService.synchronize("updateManualBloodGlucose", text))
 			{
 				return;
 			}
@@ -130,19 +141,19 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.updateManualBloodGlucose(text);
 		}
 
-		public function quitHypoglycemiaActionPlan(calledLocally:Boolean):void
+		public function quitHypoglycemiaActionPlan():void
 		{
-			if (_synchronizationService.synchronize("quitHypoglycemiaActionPlan", calledLocally))
+			if (_synchronizationService.synchronize("quitHypoglycemiaActionPlan"))
 			{
 				return;
 			}
 
-			_dataInputModel.quitHypoglycemiaActionPlan(calledLocally);
+			_dataInputModel.quitHypoglycemiaActionPlan(_synchronizationService.initiatedLocally);
 		}
 
-		public function addEatCarbsHealthAction(description:String, calledLocally:Boolean):void
+		public function addEatCarbsHealthAction(description:String):void
 		{
-			if (_synchronizationService.synchronize("addEatCarbsHealthAction", calledLocally, description))
+			if (_synchronizationService.synchronize("addEatCarbsHealthAction", description))
 			{
 				return;
 			}
@@ -150,11 +161,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.addEatCarbsHealthAction(description);
 		}
 
-		public function showHypoglycemiaActionPlanSummaryView(calledLocally:Boolean,
-															  bloodGlucoseVitalSignDate:Date):void
+		public function showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSignDate:Date):void
 		{
-			if (_synchronizationService.synchronize("showHypoglycemiaActionPlanSummaryView", calledLocally,
-					bloodGlucoseVitalSignDate))
+			if (_synchronizationService.synchronize("showHypoglycemiaActionPlanSummaryView", bloodGlucoseVitalSignDate))
 			{
 				return;
 			}
@@ -163,9 +172,9 @@ package collaboRhythm.plugins.foraD40b.controller
 					[bloodGlucoseVitalSignDate, this, _dataInputModel]);
 		}
 
-		public function addWaitHealthAction(calledLocally:Boolean, seconds:int):void
+		public function addWaitHealthAction(seconds:int):void
 		{
-			if (_synchronizationService.synchronize("addWaitHealthAction", calledLocally, seconds))
+			if (_synchronizationService.synchronize("addWaitHealthAction", seconds))
 			{
 				return;
 			}
@@ -173,10 +182,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.addWaitHealthAction(seconds);
 		}
 
-		public function setBloodGlucoseHistoryListScrollPosition(calledLocally:Boolean, scrollPosition:Number = 0):void
+		public function setBloodGlucoseHistoryListScrollPosition(scrollPosition:Number = 0):void
 		{
-			if (_synchronizationService.synchronize("setBloodGlucoseHistoryListScrollPosition", calledLocally,
-					scrollPosition, false))
+			if (_synchronizationService.synchronize("setBloodGlucoseHistoryListScrollPosition", scrollPosition, false))
 			{
 				return;
 			}
@@ -184,10 +192,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.setBloodGlucoseHistoryListScrollerPosition(scrollPosition);
 		}
 
-		public function simpleCarbsItemList_changeHandler(calledLocally:Boolean, selectedIndex:int):void
+		public function simpleCarbsItemList_changeHandler(selectedIndex:int):void
 		{
-			if (_synchronizationService.synchronize("simpleCarbsItemList_changeHandler", calledLocally, selectedIndex,
-					false))
+			if (_synchronizationService.synchronize("simpleCarbsItemList_changeHandler", selectedIndex, false))
 			{
 				return;
 			}
@@ -195,10 +202,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.simpleCarbsItemList_changeHandler(selectedIndex);
 		}
 
-		public function complexCarbs15gItemList_changeHandler(calledLocally:Boolean, selectedIndex:int):void
+		public function complexCarbs15gItemList_changeHandler(selectedIndex:int):void
 		{
-			if (_synchronizationService.synchronize("complexCarbs15gItemList_changeHandler", calledLocally,
-					selectedIndex, false))
+			if (_synchronizationService.synchronize("complexCarbs15gItemList_changeHandler", selectedIndex, false))
 			{
 				return;
 			}
@@ -206,10 +212,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.complexCarbs15gItemList_changeHandler(selectedIndex);
 		}
 
-		public function complexCarbs30gItemList_changeHandler(calledLocally:Boolean, selectedIndex:int):void
+		public function complexCarbs30gItemList_changeHandler(selectedIndex:int):void
 		{
-			if (_synchronizationService.synchronize("complexCarbs30gItemList_changeHandler", calledLocally,
-					selectedIndex, false))
+			if (_synchronizationService.synchronize("complexCarbs30gItemList_changeHandler", selectedIndex, false))
 			{
 				return;
 			}
@@ -217,11 +222,10 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.complexCarbs30gItemList_changeHandler(selectedIndex);
 		}
 
-		public function synchronizeActionsListScrollPosition(calledLocally:Boolean,
-															 verticalScrollPosition:Number = 0):void
+		public function synchronizeActionsListScrollPosition(verticalScrollPosition:Number = 0):void
 		{
-			if (_synchronizationService.synchronize("synchronizeActionsListScrollPosition", calledLocally,
-					verticalScrollPosition, false))
+			if (_synchronizationService.synchronize("synchronizeActionsListScrollPosition", verticalScrollPosition,
+					false))
 			{
 				return;
 			}
@@ -234,12 +238,11 @@ package collaboRhythm.plugins.foraD40b.controller
 			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
 		}
 
-		public function removeCollaborationViewSynchronizationEventListener(calledLocally:Boolean):void
+		public function removeCollaborationViewSynchronizationEventListener():void
 		{
 			if (_synchronizationService)
 			{
-				if (_synchronizationService.synchronize("removeCollaborationViewSynchronizationEventListener",
-						calledLocally))
+				if (_synchronizationService.synchronize("removeCollaborationViewSynchronizationEventListener"))
 				{
 					return;
 				}

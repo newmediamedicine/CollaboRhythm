@@ -132,7 +132,7 @@
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{
-				_scheduleReportingController.save(true);
+				_scheduleReportingController.save();
 			}
 
 			super.stage_keyUpHandler(event);
@@ -140,13 +140,13 @@
 
 		private function saveButton_clickHandler():void
 		{
-			_scheduleReportingController.save(true);
+			_scheduleReportingController.save();
 			_scheduleReportingController.goBack();
 		}
 
 		override public function homeButton_clickHandler():void
 		{
-			_scheduleReportingController.save(true);
+			_scheduleReportingController.save();
 			super.homeButton_clickHandler();
 		}
 
@@ -173,7 +173,7 @@
 			if (event.property == "verticalScrollPosition" && _touchInteraction)
 			{
 				var verticalScrollPosition:Number = event.newValue as Number;
-				_scheduleReportingController.setScheduleGroupReportingViewScrollPosition(false, verticalScrollPosition);
+				_scheduleReportingController.setScheduleGroupReportingViewScrollPosition(verticalScrollPosition);
 			}
 		}
 

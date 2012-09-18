@@ -48,8 +48,8 @@ package collaboRhythm.shared.controller
 
 		function get navigator():ViewNavigator;
 
-		function navigateHome(calledLocally:Boolean):void;
+		function navigateHome():void;
 
-		function synchronizeBack(calledLocally:Boolean):void;
+		function synchronizeBack():void;
 	}
 }

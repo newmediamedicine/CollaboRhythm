@@ -115,7 +115,7 @@
 
 		private function healthActionItemRenderer_clickHandler():void
 		{
-			_scheduleItemOccurrenceReportingController.handleHealthActionResult(true);
+			_scheduleItemOccurrenceReportingController.handleHealthActionResult();
 		}
 		]]>
 	    </fx:Script>

@@ -8,6 +8,9 @@ package collaboRhythm.shared.collaboration.model
 		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 		private var _documentId:String;
 
+		private var _primaryCall:Boolean = true;
+		private var _initiatedLocally:Boolean;
+
 		public function SynchronizationService(collaborationSynchronizationController:*,
 											   collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy,
 											   documentId:String = null)
@@ -22,33 +25,38 @@ package collaboRhythm.shared.collaboration.model
 
 		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
 		{
-			if (event.synchronizeData)
+			_primaryCall = false;
+			_initiatedLocally = event.initiatedLocally;
+
+			if (event.synchronizeData == null)
+			{
+				_collaborationSynchronizationController[event.synchronizeFunction]();
+			}
+			else
 			{
 				if (_documentId)
 				{
 					if (_documentId == event.synchronizeData as String)
 					{
-						_collaborationSynchronizationController[event.synchronizeFunction](false);
+						_collaborationSynchronizationController[event.synchronizeFunction]();
 					}
 				}
 				else
 				{
-					_collaborationSynchronizationController[event.synchronizeFunction](false, event.synchronizeData);
+					_collaborationSynchronizationController[event.synchronizeFunction](event.synchronizeData);
 				}
 			}
-			else
-			{
-				_collaborationSynchronizationController[event.synchronizeFunction](false);
-			}
+
+			_primaryCall = true;
 		}
 
-		public function synchronize(synchronizeFunction:String, calledLocally:Boolean, synchronizeData:* = null,
+		public function synchronize(synchronizeFunction:String, synchronizeData:* = null,
 									executeLocally:Boolean = true):Boolean
 		{
-			if (calledLocally)
+			if (_primaryCall)
 			{
 				var serverCheckRequired:Boolean = _collaborationLobbyNetConnectionServiceProxy.sendCollaborationViewSynchronization(getQualifiedClassName(_collaborationSynchronizationController),
-													synchronizeFunction, synchronizeData, executeLocally);
+						synchronizeFunction, synchronizeData, executeLocally);
 
 				return serverCheckRequired;
 			}
@@ -60,7 +68,13 @@ package collaboRhythm.shared.collaboration.model
 
 		public function removeEventListener(collaborationSynchronizationController:*):void
 		{
-			_collaborationLobbyNetConnectionServiceProxy.removeEventListener(getQualifiedClassName(collaborationSynchronizationController), collaborationViewSynchronization_eventHandler);
+			_collaborationLobbyNetConnectionServiceProxy.removeEventListener(getQualifiedClassName(collaborationSynchronizationController),
+					collaborationViewSynchronization_eventHandler);
+		}
+
+		public function get initiatedLocally():Boolean
+		{
+			return _initiatedLocally;
 		}
 	}
 }

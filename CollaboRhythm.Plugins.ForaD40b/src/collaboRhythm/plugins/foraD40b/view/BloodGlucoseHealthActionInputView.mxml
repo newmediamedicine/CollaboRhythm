@@ -100,13 +100,12 @@
 
 		private function saveActionButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose(true,
-					[reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
+			_dataInputController.submitBloodGlucose([reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
 		}
 
 		override public function homeButton_clickHandler():void
 		{
-			_dataInputController.removeCollaborationViewSynchronizationEventListener(true);
+			_dataInputController.removeCollaborationViewSynchronizationEventListener();
 
 			super.homeButton_clickHandler();
 		}
@@ -115,7 +114,7 @@
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{
-				_dataInputController.removeCollaborationViewSynchronizationEventListener(true);
+				_dataInputController.removeCollaborationViewSynchronizationEventListener();
 			}
 
 			super.stage_keyUpHandler(event);

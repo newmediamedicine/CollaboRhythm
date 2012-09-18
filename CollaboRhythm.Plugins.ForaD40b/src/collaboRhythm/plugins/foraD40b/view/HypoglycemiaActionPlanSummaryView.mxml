@@ -137,7 +137,7 @@
 			if (event.property == "verticalScrollPosition" && _touchInteraction)
 			{
 				var verticalScrollPosition:Number = event.newValue as Number;
-				_dataInputController.synchronizeActionsListScrollPosition(true, verticalScrollPosition);
+				_dataInputController.synchronizeActionsListScrollPosition(verticalScrollPosition);
 			}
 		}
 
@@ -153,7 +153,7 @@
 
 		override public function homeButton_clickHandler():void
 		{
-			_dataInputController.removeCollaborationViewSynchronizationEventListener(true);
+			_dataInputController.removeCollaborationViewSynchronizationEventListener();
 
 			super.homeButton_clickHandler();
 		}

@@ -36,7 +36,7 @@ package collaboRhythm.plugins.medications.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		override public function createHealthActionResult():void
+		override public function createHealthActionResult(persist:Boolean):void
 		{
 			if (_medicationScheduleItem)
 			{
@@ -48,8 +48,8 @@ package collaboRhythm.plugins.medications.model
 				var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 				adherenceResults.push(medicationAdministration);
 				scheduleItemOccurrence.createAdherenceItem(adherenceResults,
-						healthActionInputModelDetailsProvider.record,
-						healthActionInputModelDetailsProvider.accountId);
+						healthActionInputModelDetailsProvider.record, healthActionInputModelDetailsProvider.accountId,
+						persist);
 			}
 		}
 	}

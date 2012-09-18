@@ -1446,11 +1446,11 @@ package collaboRhythm.core.controller
 			_activeAccount = value;
 		}
 
-		public function navigateHome(calledLocally:Boolean):void
+		public function navigateHome():void
 		{
 		}
 
-		public function synchronizeBack(calledLocally:Boolean):void
+		public function synchronizeBack():void
 		{
 		}
 

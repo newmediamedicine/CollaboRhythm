@@ -203,7 +203,7 @@
 		private function scheduleGroupClockViewClickHandler(event:ScheduleClockWidgetViewEvent):void
 		{
 			var scheduleGroup:ScheduleGroup = event.scheduleGroup;
-			_scheduleClockController.openScheduleReportingFullView(true, scheduleGroup);
+			_scheduleClockController.openScheduleReportingFullView(scheduleGroup);
 		}
 
 		public function destroyChildren():void
@@ -225,7 +225,7 @@
 
 		private function showScheduleTimelineFullViewButton_clickHandler():void
 		{
-			_scheduleClockController.showScheduleTimelineFullView(true, "widget button click");
+			_scheduleClockController.showScheduleTimelineFullView("widget button click");
 		}
 		]]>
 	</fx:Script>

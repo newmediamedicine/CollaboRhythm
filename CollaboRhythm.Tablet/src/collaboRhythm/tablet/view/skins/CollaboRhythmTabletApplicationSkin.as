@@ -4,6 +4,7 @@ package collaboRhythm.tablet.view.skins
 	import collaboRhythm.core.view.AboutApplicationView;
 	import collaboRhythm.core.view.BusyView;
 	import collaboRhythm.core.view.ConnectivityView;
+	import collaboRhythm.tablet.model.ViewNavigatorExtended;
 
 	import flash.events.Event;
 
@@ -26,20 +27,23 @@ package collaboRhythm.tablet.view.skins
 
 		override protected function createChildren():void
 		{
-			super.createChildren();
-			
+			navigator = new ViewNavigatorExtended();
+			navigator.id = "navigator";
+
+			addChild(navigator);
+
 			connectivityView = new ConnectivityView();
 			connectivityView.width = 800;
 			connectivityView.height = 600;
 			connectivityView.visible = false;
 			addChild(connectivityView);
-			
+
 			busyView = new BusyView();
 			busyView.width = 800;
 			busyView.height = 600;
 			busyView.visible = false;
 			addChild(busyView);
-			
+
 			aboutApplicationView = new AboutApplicationView();
 			aboutApplicationView.width = 800;
 			aboutApplicationView.height = 600;

@@ -95,7 +95,7 @@
 
 		private function complexCarbs15gItemList_changeHandler():void
 		{
-			_dataInputController.complexCarbs15gItemList_changeHandler(true, complexCarbs15gItemList.selectedIndex);
+			_dataInputController.complexCarbs15gItemList_changeHandler(complexCarbs15gItemList.selectedIndex);
 
 			if (complexCarbs15gItemList.selectedItem == null)
 			{
@@ -110,7 +110,7 @@
 
 		private function complexCarbs30gItemList_changeHandler():void
 		{
-			_dataInputController.complexCarbs30gItemList_changeHandler(true, complexCarbs30gItemList.selectedIndex);
+			_dataInputController.complexCarbs30gItemList_changeHandler(complexCarbs30gItemList.selectedIndex);
 
 			if (complexCarbs30gItemList.selectedItem == null)
 			{
@@ -144,12 +144,12 @@
 			if (complexCarbs15gItemList.selectedItem != null)
 			{
 				_dataInputController.addEatCarbsHealthAction((complexCarbs15gItemList.selectedItem as
-						ComplexCarbsItem).text, true);
+						ComplexCarbsItem).text);
 			}
 			else if (complexCarbs30gItemList.selectedItem != null)
 			{
 				_dataInputController.addEatCarbsHealthAction((complexCarbs30gItemList.selectedItem as
-						ComplexCarbsItem).text, true);
+						ComplexCarbsItem).text);
 			}
 
 			super.nextStepButton_clickHandler();

@@ -36,6 +36,8 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
+		import avmplus.factoryXml;
+
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 
@@ -49,7 +51,7 @@
 		{
 			hypoglycemiaWarningView.init(_dataInputModel);
 
-			_dataInputController.startWaitTimer(true);
+			_dataInputController.startWaitTimer();
 
 			updateTimerLabel(BloodGlucoseHealthActionInputModel.TIMER_COUNT);
 
@@ -87,6 +89,11 @@
 				nextStepActionButton.enabled = true;
 				nextStepButton.enabled = true;
 			}
+			else
+			{
+				nextStepActionButton.enabled = false;
+				nextStepButton.enabled = false;
+			}
 		}
 
 		private function nextStepEarlyButton_clickHandler():void
@@ -106,7 +113,7 @@
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.addWaitHealthAction(true, _dataInputModel.seconds);
+			_dataInputController.addWaitHealthAction(_dataInputModel.seconds);
 
 			super.nextStepButton_clickHandler();
 		}
