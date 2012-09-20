@@ -292,7 +292,7 @@ package collaboRhythm.plugins.schedule.model
 
 			//TODO: Persist unscheduling a scheduleItem. If there is no data for the scheduleItem, it can be voided. Otherwise, the
 			//recurrenceRule of the scheduleItem should be changed as appropriate
-			_scheduleModel.record.removeDocument(scheduleItemOccurrence.scheduleItem, DocumentBase.ACTION_VOID);
+			_scheduleModel.record.removeDocument(scheduleItemOccurrence.scheduleItem, true, DocumentBase.ACTION_VOID);
 
 			stackingUpdated = true;
 		}

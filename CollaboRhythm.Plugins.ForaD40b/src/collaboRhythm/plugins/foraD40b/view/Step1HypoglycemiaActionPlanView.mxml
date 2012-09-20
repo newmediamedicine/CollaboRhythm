@@ -102,7 +102,7 @@
 
 		private function simpleCarbsItemList_changeHandler():void
 		{
-			_dataInputController.simpleCarbsItemList_changeHandler(true, simpleCarbsItemList.selectedIndex);
+			_dataInputController.simpleCarbsItemList_changeHandler(simpleCarbsItemList.selectedIndex);
 
 			if (simpleCarbsItemList.selectedItem != null &&
 					_dataInputModel.healthActionModelDetailsProvider.accountId ==
@@ -115,8 +115,7 @@
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.addEatCarbsHealthAction((simpleCarbsItemList.selectedItem as SimpleCarbsItem).text,
-					true);
+			_dataInputController.addEatCarbsHealthAction((simpleCarbsItemList.selectedItem as SimpleCarbsItem).text);
 
 			super.nextStepButton_clickHandler();
 		}

@@ -104,9 +104,9 @@ package collaboRhythm.plugins.messages.controller
 			_messagesModel = null;
 		}
 
-		public function showMessagesView(calledLocally:Boolean):void
+		public function showMessagesView():void
 		{
-			if (_synchronizationService.synchronize("showMessagesView", calledLocally))
+			if (_synchronizationService.synchronize("showMessagesView"))
 			{
 				return;
 			}
@@ -135,9 +135,9 @@ package collaboRhythm.plugins.messages.controller
 			_viewNavigator.pushView(RecordVideoMessageView, messagesModelAndController);
 		}
 
-		public function playVideoMessage(calledLocally:Boolean, netStreamLocation:String):void
+		public function playVideoMessage(netStreamLocation:String):void
 		{
-			if (_synchronizationService.synchronize("playVideoMessage", calledLocally, netStreamLocation))
+			if (_synchronizationService.synchronize("playVideoMessage", netStreamLocation))
 			{
 				return;
 			}

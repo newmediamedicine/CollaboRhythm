@@ -144,7 +144,7 @@
 		private function adherenceCheckBoxClickHandler(event:MouseEvent):void
 		{
 			event.stopPropagation();
-			_scheduleItemOccurrenceReportingController.handleHealthActionResult(true);
+			_scheduleItemOccurrenceReportingController.handleHealthActionResult();
 		}
 
 		private function secondaryInstructionsLabel_clickHandler(event:MouseEvent):void
@@ -216,7 +216,7 @@
 
 		private function clickHandler():void
 		{
-			_scheduleItemOccurrenceReportingController.handleHealthActionSelected(true);
+			_scheduleItemOccurrenceReportingController.handleHealthActionSelected();
 		}
 		]]>
 	</fx:Script>

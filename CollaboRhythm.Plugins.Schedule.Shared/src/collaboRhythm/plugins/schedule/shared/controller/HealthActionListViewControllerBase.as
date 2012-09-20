@@ -23,9 +23,9 @@ package collaboRhythm.plugins.schedule.shared.controller
 					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id);
 		}
 
-		public function handleHealthActionResult(calledLocally:Boolean):void
+		public function handleHealthActionResult():void
 		{
-			if (_synchronizationService.synchronize("handleHealthActionResult", calledLocally,
+			if (_synchronizationService.synchronize("handleHealthActionResult",
 					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id))
 			{
 				return;
@@ -34,7 +34,7 @@ package collaboRhythm.plugins.schedule.shared.controller
 			if (_healthActionListViewModel.scheduleItemOccurrence &&
 					_healthActionListViewModel.scheduleItemOccurrence.adherenceItem)
 			{
-				_healthActionListViewModel.voidHealthActionResult();
+				_healthActionListViewModel.voidHealthActionResult(_synchronizationService.initiatedLocally);
 			}
 			else
 			{
@@ -44,14 +44,14 @@ package collaboRhythm.plugins.schedule.shared.controller
 				}
 				else
 				{
-					_healthActionListViewModel.createHealthActionResult();
+					_healthActionListViewModel.createHealthActionResult(_synchronizationService.initiatedLocally);
 				}
 			}
 		}
 
-		public function handleHealthActionSelected(calledLocally:Boolean):void
+		public function handleHealthActionSelected():void
 		{
-			if (_synchronizationService.synchronize("handleHealthActionSelected", calledLocally,
+			if (_synchronizationService.synchronize("handleHealthActionSelected",
 					_healthActionListViewModel.scheduleItemOccurrence.scheduleItem.meta.id))
 			{
 				return;

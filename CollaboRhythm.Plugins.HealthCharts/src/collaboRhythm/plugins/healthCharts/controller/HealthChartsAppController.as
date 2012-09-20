@@ -256,10 +256,9 @@ package collaboRhythm.plugins.healthCharts.controller
 			save();
 		}
 
-		public function showHealthChartsFullView(calledLocally:Boolean, viaMechanism:String):void
+		public function showHealthChartsFullView(viaMechanism:String):void
 		{
-			if (_synchronizationService.synchronize("showHealthChartsFullView", calledLocally,
-					viaMechanism))
+			if (_synchronizationService.synchronize("showHealthChartsFullView", viaMechanism))
 			{
 				return;
 			}

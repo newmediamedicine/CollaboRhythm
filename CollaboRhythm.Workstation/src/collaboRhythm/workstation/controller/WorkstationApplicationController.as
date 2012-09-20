@@ -815,10 +815,8 @@ package collaboRhythm.workstation.controller
 				documents.addAll(documentCollection.documents);
 				for each (var document:IDocument in documents)
 				{
-					deletedCountByType += activeRecordAccount.primaryRecord.removeDocument(document,
-							deleteAction,
-							reason,
-							true);
+					deletedCountByType += activeRecordAccount.primaryRecord.removeDocument(document, true, true,
+							deleteAction, reason);
 				}
 				_logger.info("  Processed " + documents.length + " " + documentType + " documents. Marked " +
 						deletedCountByType + " documents (including children) to " + deleteAction);

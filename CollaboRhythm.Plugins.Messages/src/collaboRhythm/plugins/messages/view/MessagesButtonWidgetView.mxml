@@ -30,7 +30,7 @@
 
 		private function showMessagesViewButton_clickHandler():void
 		{
-			_messagesAppController.showMessagesView(true);
+			_messagesAppController.showMessagesView();
 		}
 		]]></fx:Script>
 	<sharedView:WidgetButton width="100%" height="100%"

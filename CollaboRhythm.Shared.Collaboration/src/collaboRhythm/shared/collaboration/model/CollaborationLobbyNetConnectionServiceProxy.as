@@ -51,7 +51,7 @@ package collaboRhythm.shared.collaboration.model
 			dispatchEvent(collaborationMessageEvent);
 		}
 
-		public function sendCollaborationViewSynchronization(syncrhonizeClassName:String, synchronizeFunction:String,
+		public function sendCollaborationViewSynchronization(synchronizeClassName:String, synchronizeFunction:String,
 															 synchronizeData:* = null, executeLocally:Boolean = true):Boolean
 		{
 			if (_collaborationModel.collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
@@ -66,7 +66,7 @@ package collaboRhythm.shared.collaboration.model
 					synchronizeDataByteArray.writeObject(synchronizeData);
 					synchronizeDataByteArray.position = 0;
 				}
-				_netConnection.call("sendCollaborationViewSynchronization", null, syncrhonizeClassName,
+				_netConnection.call("sendCollaborationViewSynchronization", null, synchronizeClassName,
 						synchronizeFunction,
 						synchronizeDataName,
 						synchronizeDataByteArray, executeLocally, _collaborationModel.activeAccount.accountId,
@@ -75,7 +75,8 @@ package collaboRhythm.shared.collaboration.model
 			}
 			else if (executeLocally)
 			{
-				dispatchCollaborationViewSynchronizationEvent(syncrhonizeClassName, synchronizeFunction, synchronizeData);
+				dispatchCollaborationViewSynchronizationEvent(synchronizeClassName, synchronizeFunction,
+						synchronizeData, true);
 			}
 
 			var serverCheckRequired:Boolean = true;
@@ -88,7 +89,9 @@ package collaboRhythm.shared.collaboration.model
 																synchronizeDataByteArray:ByteArray, sourcePeerId:String,
 																passWord:String):void
 		{
-			if (sourcePeerId != _collaborationModel.activeAccount.peerId)
+			var initiatedLocally:Boolean = (sourcePeerId == _collaborationModel.activeAccount.peerId);
+
+			if (!initiatedLocally)
 			{
 				_netConnection.call("acknowledgeCollaborationViewSynchronization", null, synchronizeClassName,
 						synchronizeFunction,
@@ -105,14 +108,16 @@ package collaboRhythm.shared.collaboration.model
 				synchronizeData = synchronizeDataByteArray.readObject();
 			}
 
-			dispatchCollaborationViewSynchronizationEvent(synchronizeClassName, synchronizeFunction, synchronizeData);
+			dispatchCollaborationViewSynchronizationEvent(synchronizeClassName, synchronizeFunction, synchronizeData,
+					initiatedLocally);
 		}
 
 		private function dispatchCollaborationViewSynchronizationEvent(synchronizeClassName:String,
-							synchronizeFunction:String, synchronizeData:*):void
+																	   synchronizeFunction:String, synchronizeData:*,
+																	   initiatedLocally:Boolean):void
 		{
 			var collaborationViewSynchronizationEvent:CollaborationViewSynchronizationEvent = new CollaborationViewSynchronizationEvent(synchronizeClassName,
-								synchronizeFunction, synchronizeData);
+					synchronizeFunction, synchronizeData, initiatedLocally);
 						dispatchEvent(collaborationViewSynchronizationEvent);
 		}
 

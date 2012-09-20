@@ -6,13 +6,16 @@ package collaboRhythm.shared.collaboration.model
 	{
 		private var _synchronizeFunction:String;
 		private var _synchronizeData:*;
+		private var _initiatedLocally:Boolean;
 
-		public function CollaborationViewSynchronizationEvent(type:String, synchronizeFunction:String, synchronizeData:*)
+		public function CollaborationViewSynchronizationEvent(type:String, synchronizeFunction:String,
+															  synchronizeData:*, initiatedLocally:Boolean)
 		{
 			super(type);
 
 			_synchronizeFunction = synchronizeFunction;
 			_synchronizeData = synchronizeData;
+			_initiatedLocally = initiatedLocally;
 		}
 
 		public function get synchronizeFunction():String
@@ -33,6 +36,16 @@ package collaboRhythm.shared.collaboration.model
 		public function set synchronizeData(value:*):void
 		{
 			_synchronizeData = value;
+		}
+
+		public function get initiatedLocally():Boolean
+		{
+			return _initiatedLocally;
+		}
+
+		public function set initiatedLocally(value:Boolean):void
+		{
+			_initiatedLocally = value;
 		}
 	}
 }

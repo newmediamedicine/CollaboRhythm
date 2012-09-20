@@ -4,8 +4,8 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	public interface IHealthActionListViewModel
 	{
-		function createHealthActionResult():void;
-		function voidHealthActionResult():void;
+		function createHealthActionResult(persist:Boolean):void;
+		function voidHealthActionResult(persist:Boolean):void;
 		function get scheduleItemOccurrence():ScheduleItemOccurrence;
 		function get healthActionInputController():IHealthActionInputController;
 		function set healthActionInputController(healthActionInputController:IHealthActionInputController):void;

@@ -64,9 +64,9 @@ package collaboRhythm.plugins.schedule.controller
 			viewNavigator.popView();
 		}
 
-		public function save(calledLocally:Boolean):void
+		public function save():void
 		{
-			if (_synchronizationService.synchronize("save", calledLocally))
+			if (_synchronizationService.synchronize("save"))
 			{
 				return;
 			}
@@ -77,10 +77,9 @@ package collaboRhythm.plugins.schedule.controller
 			}
 		}
 
-		public function setScheduleGroupReportingViewScrollPosition(calledLocally:Boolean,
-																	verticalScrollPosition:Number):void
+		public function setScheduleGroupReportingViewScrollPosition(verticalScrollPosition:Number):void
 		{
-			if (_synchronizationService.synchronize("setScheduleGroupReportingViewScrollPosition", calledLocally,
+			if (_synchronizationService.synchronize("setScheduleGroupReportingViewScrollPosition",
 					verticalScrollPosition, false))
 			{
 				return;

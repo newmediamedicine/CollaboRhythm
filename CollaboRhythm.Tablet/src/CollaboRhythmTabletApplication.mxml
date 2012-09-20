@@ -401,7 +401,7 @@
 				</s:Group>
 				<s:Group includeIn="TabletHomeViewCollaborationActive, OtherCollaborationActive">
 					<s:Button width="46" height="46"
-							  click="_applicationController.showCollaborationVideoView(true)"/>
+							  click="_applicationController.showCollaborationVideoView()"/>
 					<view:VideoIcon width="23" height="23" verticalCenter="0" horizontalCenter="0" mouseEnabled="false"
 									mouseChildren="false"/>
 				</s:Group>

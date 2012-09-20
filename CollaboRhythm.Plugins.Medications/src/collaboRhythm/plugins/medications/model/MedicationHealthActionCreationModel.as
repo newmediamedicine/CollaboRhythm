@@ -188,7 +188,8 @@ package collaboRhythm.plugins.medications.model
 				_activeRecordAccount.primaryRecord.addDocument(medicationScheduleItem);
 
 				medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
-				_activeRecordAccount.primaryRecord.addNewRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM, medicationOrder, medicationScheduleItem);
+				_activeRecordAccount.primaryRecord.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+						medicationOrder, medicationScheduleItem, true);
 
 				_medicationScheduleItems.push(medicationScheduleItem);
 				_oldMedicationScheduleItemIds.push(medicationScheduleItem.meta.id);
@@ -239,7 +240,8 @@ package collaboRhythm.plugins.medications.model
 				_activeRecordAccount.primaryRecord.addDocument(medicationFill);
 
 				medicationOrder.medicationFill = medicationFill;
-				_activeRecordAccount.primaryRecord.addNewRelationship(MedicationOrder.RELATION_TYPE_MEDICATION_FILL, medicationOrder, medicationFill);
+				_activeRecordAccount.primaryRecord.addRelationship(MedicationOrder.RELATION_TYPE_MEDICATION_FILL,
+						medicationOrder, medicationFill, true);
 			}
 		}
 

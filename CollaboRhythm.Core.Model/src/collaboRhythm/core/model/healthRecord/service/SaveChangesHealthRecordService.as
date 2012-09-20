@@ -33,7 +33,9 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _connectionErrorsChangeSet:ChangeSet = new ChangeSet();
 		private const REMOVE_RELATES_TO_RELATIONSHIPS_FROM_UPDATED_DOCUMENTS:Boolean = false;
 
-		public function SaveChangesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String, account:Account, healthRecordServiceFacade:HealthRecordServiceFacade)
+		public function SaveChangesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
+													   account:Account,
+													   healthRecordServiceFacade:HealthRecordServiceFacade)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
 			_healthRecordServiceFacade = healthRecordServiceFacade;
@@ -90,6 +92,17 @@ package collaboRhythm.core.model.healthRecord.service
 				// TODO: handle other actions
 			}
 
+			if (record.newRelationships)
+			{
+				for each (var relationship:Relationship in record.newRelationships)
+				{
+					if (relationship.pendingAction == Relationship.ACTION_CREATE)
+					{
+						return true;
+					}
+				}
+			}
+
 			return false;
 		}
 
@@ -110,7 +123,7 @@ package collaboRhythm.core.model.healthRecord.service
 		 * @param documents The documents to save
 		 * @param relationships The relationships to save
 		 */
-		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection=null):void
+		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection = null):void
 		{
 			for each (var document:IDocument in documents)
 			{
@@ -176,7 +189,10 @@ package collaboRhythm.core.model.healthRecord.service
 
 		private function get pendingOperationsSummary():String
 		{
-			return "Pending documents (create, update, remove): " + pendingCreateDocuments.size() + ", " + pendingUpdateDocuments.size() + ", " + pendingRemoveDocuments.size() + ". Relationships (being created, requiring documents): " + pendingRelateDocuments.length + ", " + relationshipsRequiringDocuments.length;
+			return "Pending documents (create, update, remove): " + pendingCreateDocuments.size() + ", " +
+					pendingUpdateDocuments.size() + ", " + pendingRemoveDocuments.size() +
+					". Relationships (being created, requiring documents): " + pendingRelateDocuments.length + ", " +
+					relationshipsRequiringDocuments.length;
 		}
 
 		public function get errorsSavingSummary():String
@@ -204,7 +220,8 @@ package collaboRhythm.core.model.healthRecord.service
 				if (relationship.relatesFrom == null || relationship.relatesTo == null || relationship.type == null)
 				{
 					const invalidRelationshipMessage:String = "Warning: failed to create a {0} relationship. relatesFrom={1} relatesFromId={2} relatesTo={3} relatesToId={4}. This can happen if either the relatesFrom or relatesTo document has been deleted, voided, archived, or replaced, or if it has failed to load for some other reason.";
-					_logger.warn(invalidRelationshipMessage, relationship.type, relationship.relatesFrom, relationship.relatesFromId, relationship.relatesTo, relationship.relatesToId);
+					_logger.warn(invalidRelationshipMessage, relationship.type, relationship.relatesFrom,
+							relationship.relatesFromId, relationship.relatesTo, relationship.relatesToId);
 					relationshipsRequiringDocuments.removeItemAt(relationshipsRequiringDocuments.getItemIndex(relationship));
 				}
 				else
@@ -217,14 +234,16 @@ package collaboRhythm.core.model.healthRecord.service
 						if (pendingCreateDocuments.getItem(relationship.relatesFrom.meta.id) == null &&
 								!unexpectedErrorsChangeSet.containsCreateDocument(relationship.relatesFrom.meta.id) &&
 								!connectionErrorsChangeSet.containsCreateDocument(relationship.relatesFrom.meta.id))
-							_logger.warn(waitingToCreateMessage, relationship.type, "from", relationship.relatesFrom.meta.id, relationship.relatesFrom.pendingAction);
+							_logger.warn(waitingToCreateMessage, relationship.type, "from",
+									relationship.relatesFrom.meta.id, relationship.relatesFrom.pendingAction);
 					}
 					if (!relatesToDocumentReady)
 					{
 						if (pendingCreateDocuments.getItem(relationship.relatesTo.meta.id) == null &&
 								!unexpectedErrorsChangeSet.containsCreateDocument(relationship.relatesTo.meta.id) &&
 								!connectionErrorsChangeSet.containsCreateDocument(relationship.relatesTo.meta.id))
-							_logger.warn(waitingToCreateMessage, relationship.type, "to", relationship.relatesTo.meta.id, relationship.relatesTo.pendingAction);
+							_logger.warn(waitingToCreateMessage, relationship.type, "to",
+									relationship.relatesTo.meta.id, relationship.relatesTo.pendingAction);
 					}
 					if (relatesFromDocumentReady && relatesToDocumentReady)
 					{
@@ -243,16 +262,14 @@ package collaboRhythm.core.model.healthRecord.service
 			return service.marshallToXml(document);
 		}
 
-		override protected function deleteDocumentCompleteHandler(event:IndivoClientEvent,
-																  responseXml:XML,
+		override protected function deleteDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 																  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			super.deleteDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
 			finishRemove(responseXml, healthRecordServiceRequestDetails);
 		}
 
-		override protected function voidDocumentCompleteHandler(event:IndivoClientEvent,
-																responseXml:XML,
+		override protected function voidDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 																healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			super.voidDocumentCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
@@ -286,8 +303,7 @@ package collaboRhythm.core.model.healthRecord.service
 			updateIsSaving();
 		}
 
-		override protected function createDocumentCompleteHandler(event:IndivoClientEvent,
-																  responseXml:XML,
+		override protected function createDocumentCompleteHandler(event:IndivoClientEvent, responseXml:XML,
 																  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
 			if (handleCreateUpdateResponse(event, responseXml, healthRecordServiceRequestDetails, false))
@@ -320,12 +336,15 @@ package collaboRhythm.core.model.healthRecord.service
 			else if (responseXml.@type.toString() == "")
 			{
 				failureWarning = "Document was created (id = " + responseXml.@id.toString() + "), but has no type " +
-						"(expected " + document.meta.type + "). XML of submitted document may be incompatible with schema on server. You may want to delete the document and try again.";
+						"(expected " + document.meta.type +
+						"). XML of submitted document may be incompatible with schema on server. You may want to delete the document and try again.";
 			}
 			else if (document.meta.type != responseXml.@type.toString())
 			{
-				failureWarning = "Unexpected response. Document was created (id = " + responseXml.@id.toString() + "), but has the wrong type " +
-						"(expected " + document.meta.type + ", actual " + responseXml.@type.toString() + "). You may want to delete the document and try again.";
+				failureWarning = "Unexpected response. Document was created (id = " + responseXml.@id.toString() +
+						"), but has the wrong type " +
+						"(expected " + document.meta.type + ", actual " + responseXml.@type.toString() +
+						"). You may want to delete the document and try again.";
 			}
 
 			var record:Record = healthRecordServiceRequestDetails.record;
@@ -347,7 +366,8 @@ package collaboRhythm.core.model.healthRecord.service
 			if (failureWarning)
 			{
 				documentCollection.removeDocument(document);
-				_logger.warn(failureWarning + " Submitted document XML: " + event.requestXml + " Response: " + responseXml);
+				_logger.warn(failureWarning + " Submitted document XML: " + event.requestXml + " Response: " +
+						responseXml);
 				return false;
 			}
 
@@ -454,7 +474,8 @@ package collaboRhythm.core.model.healthRecord.service
 
 			if (failureWarning)
 			{
-				_logger.warn(failureWarning + " Submitted request: " + event.relativePath + " Response: " + responseXml);
+				_logger.warn(failureWarning + " Submitted request: " + event.relativePath + " Response: " +
+						responseXml);
 			}
 
 			relationship.pendingAction = null;
@@ -489,13 +510,15 @@ package collaboRhythm.core.model.healthRecord.service
 			if (_healthRecordServiceFacade.isSaving != isSaving)
 			{
 				_healthRecordServiceFacade.isSaving = isSaving;
-				_logger.info("Saving " + (isSaving ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") + errorsSavingSummary);
+				_logger.info("Saving " + (isSaving ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") +
+						errorsSavingSummary);
 			}
 		}
 
 		private function get numPendingOperations():int
 		{
-			return pendingCreateDocuments.size() + pendingUpdateDocuments.size() + pendingRemoveDocuments.size() + pendingRelateDocuments.length;
+			return pendingCreateDocuments.size() + pendingUpdateDocuments.size() + pendingRemoveDocuments.size() +
+					pendingRelateDocuments.length;
 		}
 
 		private function get errorsSavingCount():int
@@ -552,7 +575,8 @@ package collaboRhythm.core.model.healthRecord.service
 				}
 				else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_NEW_DOCUMENT)
 				{
-					throw new Error("Unexpected indivoApiCall on response healthRecordServiceRequestDetails: " + healthRecordServiceRequestDetails.indivoApiCall);
+					throw new Error("Unexpected indivoApiCall on response healthRecordServiceRequestDetails: " +
+							healthRecordServiceRequestDetails.indivoApiCall);
 				}
 				else if (healthRecordServiceRequestDetails.indivoApiCall == RELATE_DOCUMENTS)
 				{

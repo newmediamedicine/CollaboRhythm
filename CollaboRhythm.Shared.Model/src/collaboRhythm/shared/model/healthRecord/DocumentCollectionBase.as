@@ -57,7 +57,7 @@ package collaboRhythm.shared.model.healthRecord
 				throw new Error("The recordProxy must be provided to connect the document collection to the record before addDocumentToRecord can be used.");
 
 			validateDocumentType(document);
-			recordProxy.addDocument(document, saveImmediately);
+			recordProxy.addDocument(document);
 		}
 
 		/**
@@ -108,7 +108,7 @@ package collaboRhythm.shared.model.healthRecord
 			if (!recordProxy)
 				throw new Error("The recordProxy must be provided to connect the document collection to the record before removeDocumentFromRecord can be used.");
 
-			return recordProxy.removeDocument(document, removeAction, reason, recursive);
+			return recordProxy.removeDocument(document, true, recursive, removeAction, reason);
 		}
 
 		/**
