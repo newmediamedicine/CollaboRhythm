@@ -1,0 +1,1131 @@
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<insulinTitrationDecisionSupportStates xmlns="http://collaborhythm.org/application/insulinTitrationDecisionSupportStates">
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNone</selector>
+			<selector>clinicianDecisionNone</selector>
+			<selector>protocolConditionsMet</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303
+					Protocol is only a guide based on your average blood glucose. It does not account for diet,
+					exercise, and other important factors.
+				</stepText>
+			</step>
+			<step>
+				<stepText>Choose the change in dose that you think is most appropriate with the spinner.</stepText>
+			</step>
+			<step>
+				<stepText>Click the Send button to save your choice and send a message to your coach. Remember to check
+					for feedback from your coach before using a new dose of insulin.
+				</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNone</selector>
+						<selector>clinicianDecisionNone</selector>
+			<selector>insufficientAdherence</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended because your medication adherence has not been perfect
+					for the past 4 days. Increasing your dose when your adherence has not been perfect can lead to
+					hypoglycemia.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>The 303 protocol is only a guide. You can change your dose if there are factors that make it
+					appropriate.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click back if you do not want to make a change. Click Send to save your choice and send a
+					message to your coach. Remember to check for feedback from your coach before using a new dose of
+					insulin.
+				</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNone</selector>
+						<selector>clinicianDecisionNone</selector>
+			<selector>insufficientBloodGlucose</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>Your average blood glucose could not be plotted because you do not have 3 eligible blood
+					glucose readings.
+				</stepText>
+				<subSteps>
+					<subStep>1 each morning before eating (including today)</subStep>
+					<subStep>Until you have 3 since your last change in insulin dose</subStep>
+					<subStep>But the 3 readings must be within the past 4 days</subStep>
+				</subSteps>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>The 303 protocol is only a guide. You can change your dose if there are factors that make it
+					appropriate.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click back if you do not want to make a change. Click Send to save your choice and send a
+					message to your coach. Remember to check for feedback from your coach before using a new dose of
+					insulin.
+				</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+						<selector>clinicianDecisionNone</selector>
+			<selector>protocolConditionsMet</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303
+					Protocol is only a guide based on your average blood glucose. It does not account for diet,
+					exercise, and other important factors.
+				</stepText>
+			</step>
+			<step>
+				<stepText>Your choice is highlighted in blue. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepText>Click back if you do not want to update your choice. Click Send to save your choice and send a
+					message to your coach. Remember to check for feedback from your coach before using a new dose of
+					insulin.
+				</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+			<selector>clinicianDecisionNone</selector>
+			<selector>insufficientAdherence</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended because your medication adherence has not been perfect
+					for the past 4 days. Increasing your dose when your adherence has not been perfect can lead to
+					hypoglycemia.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Your choice is highlighted in blue. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click back if you do not want to update your choice. Click Send to save your choice and send a
+					message to your coach. Remember to check for feedback from your coach before using a new dose of
+					insulin.
+				</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+			<selector>clinicianDecisionNone</selector>
+			<selector>insufficientBloodGlucose</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>Your average blood glucose could not be plotted because you do not have 3 eligible blood
+					glucose readings.
+				</stepText>
+				<subSteps>
+					<subStep>1 each morning before eating (including today)</subStep>
+					<subStep>Until you have 3 since your last change in insulin dose</subStep>
+					<subStep>But the 3 readings must be within the past 4 days</subStep>
+				</subSteps>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Your choice is highlighted in blue. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click back if you do not want to update your choice. Click Send to save your choice and send a
+					message to your coach. Remember to check for feedback from your coach before using a new dose of
+					insulin.
+				</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>protocolConditionsMet</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303
+					Protocol is only a guide based on your average blood glucose. It does not account for diet,
+					exercise, and other important factors.
+				</stepText>
+			</step>
+			<step>
+				<stepText>Your choice is highlighted in blue. Your coach's advice is highlighted in purple. Choose this
+					same change to agree or a different change to send your opinion.
+				</stepText>
+			</step>
+			<step>
+				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>insufficientAdherence</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended because your medication adherence has not been perfect
+					for the past 4 days. Increasing your dose when your adherence has not been perfect can lead to
+					hypoglycemia.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Your choice is highlighted in blue. Your coach's advice is highlighted in purple. Choose this
+					same change to agree or a different change to send your opinion.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>insufficientBloodGlucose</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>Your average blood glucose could not be plotted because you do not have 3 eligible blood
+					glucose readings.
+				</stepText>
+				<subSteps>
+					<subStep>1 each morning before eating (including today)</subStep>
+					<subStep>Until you have 3 since your last change in insulin dose</subStep>
+					<subStep>But the 3 readings must be within the past 4 days</subStep>
+				</subSteps>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Your choice is highlighted in blue. Your coach's advice is highlighted in purple. Choose this
+					same change to agree or a different change to send your opinion.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+			<selector>clinicianDecisionAgree</selector>
+			<selector>protocolConditionsMet</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303
+					Protocol is only a guide based on your average blood glucose. It does not account for diet,
+					exercise, and other important factors.
+				</stepText>
+			</step>
+			<step>
+				<stepText>Your coach has agreed with your choice, and it is highlighted in purple. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepText>Click back if you do not want to update your choice. Click the Send button to save a new choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+			<selector>clinicianDecisionAgree</selector>
+			<selector>insufficientAdherence</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended because your medication adherence has not been perfect
+					for the past 4 days. Increasing your dose when your adherence has not been perfect can lead to
+					hypoglycemia.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Your coach has agreed with your choice, and it is highlighted in purple. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click back if you do not want to update your choice. Click the Send button to save a new choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNew</selector>
+			<selector>clinicianDecisionAgree</selector>
+			<selector>insufficientBloodGlucose</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>Your average blood glucose could not be plotted because you do not have 3 eligible blood
+					glucose readings.
+				</stepText>
+				<subSteps>
+					<subStep>1 each morning before eating (including today)</subStep>
+					<subStep>Until you have 3 since your last change in insulin dose</subStep>
+					<subStep>But the 3 readings must be within the past 4 days</subStep>
+				</subSteps>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Your coach has agreed with your choice, and it is highlighted in purple. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click back if you do not want to update your choice. Click the Send button to save a new choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNone</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>protocolConditionsMet</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303
+					Protocol is only a guide based on your average blood glucose. It does not account for diet,
+					exercise, and other important factors.
+				</stepText>
+			</step>
+			<step>
+				<stepText>Your coach's advice is highlighted in purple. Choose this same change to agree or a different change to send your opinion.</stepText>
+			</step>
+			<step>
+				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNone</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>insufficientAdherence</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended because your medication adherence has not been perfect
+					for the past 4 days. Increasing your dose when your adherence has not been perfect can lead to
+					hypoglycemia.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Your coach's advice is highlighted in purple. Choose this same change to agree or a different change to send your opinion.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>patientDecisionNone</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>insufficientBloodGlucose</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>Your average blood glucose could not be plotted because you do not have 3 eligible blood
+					glucose readings.
+				</stepText>
+				<subSteps>
+					<subStep>1 each morning before eating (including today)</subStep>
+					<subStep>Until you have 3 since your last change in insulin dose</subStep>
+					<subStep>But the 3 readings must be within the past 4 days</subStep>
+				</subSteps>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Your coach's advice is highlighted in purple. Choose this same change to agree or a different change to send your opinion.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>patientDecisionAgree</selector>
+			<selector>protocolConditionsMet</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303
+					Protocol is only a guide based on your average blood glucose. It does not account for diet,
+					exercise, and other important factors.
+				</stepText>
+			</step>
+			<step>
+				<stepText>You have agreed with your coach's choice, and it is highlighted in blue. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepText>Click back if you do not want to update your choice. Click the Send button to save a new choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>patientDecisionAgree</selector>
+			<selector>insufficientAdherence</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepText>The average of your last 3 blood glucose measurements has been plotted with the diamond.
+				</stepText>
+			</step>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended because your medication adherence has not been perfect
+					for the past 4 days. Increasing your dose when your adherence has not been perfect can lead to
+					hypoglycemia.
+				</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>You have agreed with your coach's choice, and it is highlighted in blue. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click back if you do not want to update your choice. Click the Send button to save a new choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+	<insulinTitrationDecisionSupportState>
+		<selectors>
+			<selector>patient</selector>
+			<selector>clinicianDecisionNew</selector>
+			<selector>patientDecisionAgree</selector>
+			<selector>insufficientBloodGlucose</selector>
+		</selectors>
+		<steps>
+			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>Your average blood glucose could not be plotted because you do not have 3 eligible blood
+					glucose readings.
+				</stepText>
+				<subSteps>
+					<subStep>1 each morning before eating (including today)</subStep>
+					<subStep>Until you have 3 since your last change in insulin dose</subStep>
+					<subStep>But the 3 readings must be within the past 4 days</subStep>
+				</subSteps>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>You have agreed with your coach's choice, and it is highlighted in blue. You can update your choice with the spinner.</stepText>
+			</step>
+			<step>
+				<stepColor>grey</stepColor>
+				<stepText>Click back if you do not want to update your choice. Click the Send button to save a new choice and send a message to your coach.</stepText>
+			</step>
+		</steps>
+	</insulinTitrationDecisionSupportState>
+
+
+
+	<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNone</selector>
+				<selector>clinicianDecisionNone</selector>
+				<selector>protocolConditionsMet</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303 Protocol is only a guide based on the average blood glucose. It does not account for diet, exercise, and other important factors
+					</stepText>
+				</step>
+				<step>
+					<stepText>Choose the change in dose that you think is most appropriate with the spinner.</stepText>
+				</step>
+				<step>
+					<stepText>Click the Advise button to save your advice and send a message to your patient.
+					</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNone</selector>
+				<selector>clinicianDecisionNone</selector>
+				<selector>insufficientAdherence</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended because your patient's medication adherence has not been perfect
+						for the past 4 days. Increasing the dose when adherence has not been perfect can lead to
+						hypoglycemia.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>The 303 protocol is only a guide. You can advise a change in dose if there are factors that make it appropriate.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your patient.
+					</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNone</selector>
+				<selector>clinicianDecisionNone</selector>
+				<selector>insufficientBloodGlucose</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>The average blood glucose could not be plotted because there are not 3 eligible blood glucose readings.
+					</stepText>
+					<subSteps>
+						<subStep>1 each morning before eating (including today)</subStep>
+						<subStep>Until there are 3 since the last change in insulin dose</subStep>
+						<subStep>But the 3 readings must be within the past 4 days</subStep>
+					</subSteps>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>The 303 protocol is only a guide. You can advise a change in dose if there are factors that make it appropriate.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your patient.
+					</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionNone</selector>
+				<selector>protocolConditionsMet</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303 Protocol is only a guide based on the average blood glucose. It does not account for diet, exercise, and other important factors
+					</stepText>
+				</step>
+				<step>
+					<stepText>Your patient's choice is highlighted in blue. Choose this same change to agree or a different change to advise.</stepText>
+				</step>
+				<step>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
+					</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionNone</selector>
+				<selector>insufficientAdherence</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended because your patient's medication adherence has not been perfect
+						for the past 4 days. Increasing the dose when adherence has not been perfect can lead to
+						hypoglycemia.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Your patient's choice is highlighted in blue. Choose this same change to agree or a different change to advise.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
+					</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionNone</selector>
+				<selector>insufficientBloodGlucose</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>The average blood glucose could not be plotted because there are not 3 eligible blood glucose readings.
+					</stepText>
+					<subSteps>
+						<subStep>1 each morning before eating (including today)</subStep>
+						<subStep>Until there are 3 since the last change in insulin dose</subStep>
+						<subStep>But the 3 readings must be within the past 4 days</subStep>
+					</subSteps>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Your patient's choice is highlighted in blue. Choose this same change to agree or a different change to advise.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
+					</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>protocolConditionsMet</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303 Protocol is only a guide based on the average blood glucose. It does not account for diet, exercise, and other important factors
+					</stepText>
+				</step>
+				<step>
+					<stepText>Your advice is highlighted in purple. Your patient's choice is highlighted in blue. Choose this same change to agree or a different change to advise.
+					</stepText>
+				</step>
+				<step>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>insufficientAdherence</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended because your patient's medication adherence has not been perfect
+						for the past 4 days. Increasing the dose when adherence has not been perfect can lead to
+						hypoglycemia.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Your advice is highlighted in purple. Your patient's choice is highlighted in blue. Choose this same change to agree or a different change to advise.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>insufficientBloodGlucose</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>The average blood glucose could not be plotted because there are not 3 eligible blood glucose readings.
+					</stepText>
+					<subSteps>
+						<subStep>1 each morning before eating (including today)</subStep>
+						<subStep>Until there are 3 since the last change in insulin dose</subStep>
+						<subStep>But the 3 readings must be within the past 4 days</subStep>
+					</subSteps>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Your advice is highlighted in purple. Your patient's choice is highlighted in blue. Choose this same change to agree or a different change to advise.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionAgree</selector>
+				<selector>protocolConditionsMet</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303 Protocol is only a guide based on the average blood glucose. It does not account for diet, exercise, and other important factors
+					</stepText>
+				</step>
+				<step>
+					<stepText>You have agreed with your patient's choice, and it is highlighted in purple. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionAgree</selector>
+				<selector>insufficientAdherence</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended because your patient's medication adherence has not been perfect
+						for the past 4 days. Increasing the dose when adherence has not been perfect can lead to
+						hypoglycemia.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>You have agreed with your patient's choice, and it is highlighted in purple. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNew</selector>
+				<selector>clinicianDecisionAgree</selector>
+				<selector>insufficientBloodGlucose</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>The average blood glucose could not be plotted because there are not 3 eligible blood glucose readings.
+					</stepText>
+					<subSteps>
+						<subStep>1 each morning before eating (including today)</subStep>
+						<subStep>Until there are 3 since the last change in insulin dose</subStep>
+						<subStep>But the 3 readings must be within the past 4 days</subStep>
+					</subSteps>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>You have agreed with your patient's choice, and it is highlighted in purple. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNone</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>protocolConditionsMet</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303 Protocol is only a guide based on the average blood glucose. It does not account for diet, exercise, and other important factors
+					</stepText>
+				</step>
+				<step>
+					<stepText>Your advice is highlighted in purple. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNone</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>insufficientAdherence</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended because your patient's medication adherence has not been perfect
+						for the past 4 days. Increasing the dose when adherence has not been perfect can lead to
+						hypoglycemia.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Your advice is highlighted in purple. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>patientDecisionNone</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>insufficientBloodGlucose</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>The average blood glucose could not be plotted because there are not 3 eligible blood glucose readings.
+					</stepText>
+					<subSteps>
+						<subStep>1 each morning before eating (including today)</subStep>
+						<subStep>Until there are 3 since the last change in insulin dose</subStep>
+						<subStep>But the 3 readings must be within the past 4 days</subStep>
+					</subSteps>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Your advice is highlighted in purple. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>patientDecisionAgree</selector>
+				<selector>protocolConditionsMet</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepText>The recommended change in dose has been highlighted in orange. Keep in mind that the 303 Protocol is only a guide based on the average blood glucose. It does not account for diet, exercise, and other important factors
+					</stepText>
+				</step>
+				<step>
+					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>patientDecisionAgree</selector>
+				<selector>insufficientAdherence</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepText>The average of your patient's last 3 blood glucose measurements has been plotted with the diamond.
+					</stepText>
+				</step>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended because your patient's medication adherence has not been perfect
+						for the past 4 days. Increasing the dose when adherence has not been perfect can lead to
+						hypoglycemia.
+					</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+		<insulinTitrationDecisionSupportState>
+			<selectors>
+				<selector>clinician</selector>
+				<selector>clinicianDecisionNew</selector>
+				<selector>patientDecisionAgree</selector>
+				<selector>insufficientBloodGlucose</selector>
+			</selectors>
+			<steps>
+				<step>
+					<stepIcon>warning</stepIcon>
+					<stepColor>grey</stepColor>
+					<stepText>The average blood glucose could not be plotted because there are not 3 eligible blood glucose readings.
+					</stepText>
+					<subSteps>
+						<subStep>1 each morning before eating (including today)</subStep>
+						<subStep>Until there are 3 since the last change in insulin dose</subStep>
+						<subStep>But the 3 readings must be within the past 4 days</subStep>
+					</subSteps>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>A change in dose cannot be recommended without an average blood glucose.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+				</step>
+				<step>
+					<stepColor>grey</stepColor>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+				</step>
+			</steps>
+		</insulinTitrationDecisionSupportState>
+</insulinTitrationDecisionSupportStates>

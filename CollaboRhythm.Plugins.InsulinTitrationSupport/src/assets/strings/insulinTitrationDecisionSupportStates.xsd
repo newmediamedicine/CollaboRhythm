@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema id="insulinTitrationDecisionSupportStates"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns="http://collaborhythm.org/application/insulinTitrationDecisionSupportStates"
+		   targetNamespace="http://collaborhythm.org/application/insulinTitrationDecisionSupportStates"
+		   attributeFormDefault="unqualified"
+		   elementFormDefault="qualified">
+
+	<xs:element name="insulinTitrationDecisionSupportStates" type="insulinTitrationDecisionSupportStates"/>
+
+	<xs:complexType name="insulinTitrationDecisionSupportStates">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				A collection of all of the insulinTitrationDecisionSupportState. Each
+				insulinTitrationDecisionSupportState defines all of the text that should be displayed for decision
+				support when the preconditions defined by the selectors are met.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="insulinTitrationDecisionSupportState" type="insulinTitrationDecisionSupportState"
+						maxOccurs="unbounded" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="insulinTitrationDecisionSupportState">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Each insulinTitrationDecisionSupportState defines all of the text that should be displayed for
+				decision support when the preconditions defined by the selectors are met.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="selectors" maxOccurs="1" minOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="selector" maxOccurs="unbounded" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									Each selector defines one of the preconditions that must be met for the
+									insulinTitrationDecisionSupportState to be applicable.
+								</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="patient"/>
+									<xs:enumeration value="clinician"/>
+									<xs:enumeration value="patientDecisionNone"/>
+									<xs:enumeration value="patientDecisionNew"/>
+									<xs:enumeration value="patientDecisionAgree"/>
+									<xs:enumeration value="clinicianDecisionNone"/>
+									<xs:enumeration value="clinicianDecisionNew"/>
+									<xs:enumeration value="clinicianDecisionAgree"/>
+									<xs:enumeration value="protocolConditionsMet"/>
+									<xs:enumeration value="insufficientAdherence"/>
+									<xs:enumeration value="insufficientBloodGlucose"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="steps" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Collection of the steps to show in the decision support. There should be 4 steps.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="step" type="step" maxOccurs="4" minOccurs="4"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="step">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Each step has text and can have an icon and text color specified (optional). SubSteps can also be
+				specified.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="stepText" type="xs:string" maxOccurs="1" minOccurs="1"/>
+			<xs:element name="stepIcon" type="xs:string" maxOccurs="1" minOccurs="0"/>
+			<xs:element name="stepColor" type="xs:string" maxOccurs="1" minOccurs="0"/>
+			<xs:element name="subSteps" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="subStep" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+</xs:schema>
