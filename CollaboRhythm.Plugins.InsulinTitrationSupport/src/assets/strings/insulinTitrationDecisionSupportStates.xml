@@ -17,7 +17,7 @@
 <insulinTitrationDecisionSupportStates xmlns="http://collaborhythm.org/application/insulinTitrationDecisionSupportStates">
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
 			<selector>decisionClinicianNone</selector>
 			<selector>protocolConditionsMet</selector>
@@ -45,10 +45,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
-						<selector>decisionClinicianNone</selector>
-			<selector>insufficientAdherence</selector>
+			<selector>decisionClinicianNone</selector>
+			<selector>protocolInsufficientAdherence</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -80,10 +80,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
 						<selector>decisionClinicianNone</selector>
-			<selector>insufficientBloodGlucose</selector>
+			<selector>protocolInsufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -120,7 +120,7 @@
 
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 						<selector>decisionClinicianNone</selector>
 			<selector>protocolConditionsMet</selector>
@@ -149,10 +149,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 			<selector>decisionClinicianNone</selector>
-			<selector>insufficientAdherence</selector>
+			<selector>protocolInsufficientAdherence</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -182,10 +182,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 			<selector>decisionClinicianNone</selector>
-			<selector>insufficientBloodGlucose</selector>
+			<selector>protocolInsufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -220,7 +220,7 @@
 
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 			<selector>decisionClinicianNew</selector>
 			<selector>protocolConditionsMet</selector>
@@ -248,10 +248,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 			<selector>decisionClinicianNew</selector>
-			<selector>insufficientAdherence</selector>
+			<selector>protocolInsufficientAdherence</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -280,10 +280,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 			<selector>decisionClinicianNew</selector>
-			<selector>insufficientBloodGlucose</selector>
+			<selector>protocolInsufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -317,7 +317,7 @@
 
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 			<selector>decisionClinicianAgree</selector>
 			<selector>protocolConditionsMet</selector>
@@ -343,10 +343,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 			<selector>decisionClinicianAgree</selector>
-			<selector>insufficientAdherence</selector>
+			<selector>protocolInsufficientAdherence</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -373,10 +373,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
 			<selector>decisionClinicianAgree</selector>
-			<selector>insufficientBloodGlucose</selector>
+			<selector>protocolInsufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -408,7 +408,7 @@
 
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
 			<selector>decisionClinicianNew</selector>
 			<selector>protocolConditionsMet</selector>
@@ -434,10 +434,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
 			<selector>decisionClinicianNew</selector>
-			<selector>insufficientAdherence</selector>
+			<selector>protocolInsufficientAdherence</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -464,10 +464,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
 			<selector>decisionClinicianNew</selector>
-			<selector>insufficientBloodGlucose</selector>
+			<selector>protocolInsufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -499,7 +499,7 @@
 
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionClinicianNew</selector>
 			<selector>decisionPatientAgree</selector>
 			<selector>protocolConditionsMet</selector>
@@ -525,10 +525,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionClinicianNew</selector>
 			<selector>decisionPatientAgree</selector>
-			<selector>insufficientAdherence</selector>
+			<selector>protocolInsufficientAdherence</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -555,10 +555,10 @@
 	</insulinTitrationDecisionSupportState>
 	<insulinTitrationDecisionSupportState>
 		<selectors>
-			<selector>patient</selector>
+			<selector>modePatient</selector>
 			<selector>decisionClinicianNew</selector>
 			<selector>decisionPatientAgree</selector>
-			<selector>insufficientBloodGlucose</selector>
+			<selector>protocolInsufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
 			<step>
@@ -592,7 +592,7 @@
 
 	<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNone</selector>
 				<selector>decisionClinicianNone</selector>
 				<selector>protocolConditionsMet</selector>
@@ -610,17 +610,17 @@
 					<stepText>Choose the change in dose that you think is most appropriate with the spinner.</stepText>
 				</step>
 				<step>
-					<stepText>Click the Advise button to save your advice and send a message to your patient.
+					<stepText>Click the Advise button to save your advice and send a message to your modePatient.
 					</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNone</selector>
 				<selector>decisionClinicianNone</selector>
-				<selector>insufficientAdherence</selector>
+				<selector>protocolInsufficientAdherence</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -642,17 +642,17 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your patient.
+					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your modePatient.
 					</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNone</selector>
 				<selector>decisionClinicianNone</selector>
-				<selector>insufficientBloodGlucose</selector>
+				<selector>protocolInsufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -677,7 +677,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your patient.
+					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your modePatient.
 					</stepText>
 				</step>
 			</steps>
@@ -685,7 +685,7 @@
 
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianNone</selector>
 				<selector>protocolConditionsMet</selector>
@@ -703,17 +703,17 @@
 					<stepText>Your patient's choice is highlighted in blue. Choose this same change to agree or a different change to advise.</stepText>
 				</step>
 				<step>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.
 					</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianNone</selector>
-				<selector>insufficientAdherence</selector>
+				<selector>protocolInsufficientAdherence</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -734,17 +734,17 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.
 					</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianNone</selector>
-				<selector>insufficientBloodGlucose</selector>
+				<selector>protocolInsufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -768,7 +768,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.
 					</stepText>
 				</step>
 			</steps>
@@ -776,7 +776,7 @@
 
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianNew</selector>
 				<selector>protocolConditionsMet</selector>
@@ -795,16 +795,16 @@
 					</stepText>
 				</step>
 				<step>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianNew</selector>
-				<selector>insufficientAdherence</selector>
+				<selector>protocolInsufficientAdherence</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -826,16 +826,16 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianNew</selector>
-				<selector>insufficientBloodGlucose</selector>
+				<selector>protocolInsufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -860,14 +860,14 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianAgree</selector>
 				<selector>protocolConditionsMet</selector>
@@ -885,16 +885,16 @@
 					<stepText>You have agreed with your patient's choice, and it is highlighted in purple. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianAgree</selector>
-				<selector>insufficientAdherence</selector>
+				<selector>protocolInsufficientAdherence</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -915,16 +915,16 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNew</selector>
 				<selector>decisionClinicianAgree</selector>
-				<selector>insufficientBloodGlucose</selector>
+				<selector>protocolInsufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -948,14 +948,14 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNone</selector>
 				<selector>decisionClinicianNew</selector>
 				<selector>protocolConditionsMet</selector>
@@ -973,16 +973,16 @@
 					<stepText>Your advice is highlighted in purple. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNone</selector>
 				<selector>decisionClinicianNew</selector>
-				<selector>insufficientAdherence</selector>
+				<selector>protocolInsufficientAdherence</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -1003,16 +1003,16 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionPatientNone</selector>
 				<selector>decisionClinicianNew</selector>
-				<selector>insufficientBloodGlucose</selector>
+				<selector>protocolInsufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -1036,14 +1036,14 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionClinicianNew</selector>
 				<selector>decisionPatientAgree</selector>
 				<selector>protocolConditionsMet</selector>
@@ -1058,19 +1058,19 @@
 					</stepText>
 				</step>
 				<step>
-					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+					<stepText>Your modePatient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionClinicianNew</selector>
 				<selector>decisionPatientAgree</selector>
-				<selector>insufficientAdherence</selector>
+				<selector>protocolInsufficientAdherence</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -1087,20 +1087,20 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+					<stepText>Your modePatient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
 		<insulinTitrationDecisionSupportState>
 			<selectors>
-				<selector>clinician</selector>
+				<selector>modeClinician</selector>
 				<selector>decisionClinicianNew</selector>
 				<selector>decisionPatientAgree</selector>
-				<selector>insufficientBloodGlucose</selector>
+				<selector>protocolInsufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
 				<step>
@@ -1120,11 +1120,11 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+					<stepText>Your modePatient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>

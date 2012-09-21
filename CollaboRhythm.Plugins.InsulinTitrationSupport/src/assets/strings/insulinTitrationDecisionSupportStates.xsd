@@ -59,8 +59,8 @@
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
-									<xs:enumeration value="patient"/>
-									<xs:enumeration value="clinician"/>
+									<xs:enumeration value="modePatient"/>
+									<xs:enumeration value="modeClinician"/>
 									<xs:enumeration value="decisionPatientNone"/>
 									<xs:enumeration value="decisionPatientNew"/>
 									<xs:enumeration value="decisionPatientAgree"/>
@@ -68,8 +68,8 @@
 									<xs:enumeration value="decisionClinicianNew"/>
 									<xs:enumeration value="decisionClinicianAgree"/>
 									<xs:enumeration value="protocolConditionsMet"/>
-									<xs:enumeration value="insufficientAdherence"/>
-									<xs:enumeration value="insufficientBloodGlucose"/>
+									<xs:enumeration value="protocolInsufficientAdherence"/>
+									<xs:enumeration value="protocolInsufficientBloodGlucose"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
