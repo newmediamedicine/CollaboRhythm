@@ -11,6 +11,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult";
 		public static const RELATION_TYPE_MEASUREMENT:String = "http://indivo.org/vocab/documentrels#measurement";
 		public static const RELATION_TYPE_TRIGGERED_HEALTH_ACTION_RESULT:String = "http://indivo.org/vocab/documentrels#triggeredHealthActionResult";
+		public static const RELATION_TYPE_TITRATION_DECISION:String = "http://indivo.org/vocab/documentrels#titrationDecision";
 
 		private var _name:CodedValue;
 		private var _planType:String;

@@ -5,6 +5,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
@@ -18,6 +19,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.StopCondition;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
@@ -25,17 +28,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.dougmccune.controls.LimitedLinearAxis;
 
 	import flash.events.Event;
-
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
-
 	import mx.charts.LinearAxis;
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 	import mx.logging.ILogger;
-
 	import mx.logging.Log;
 	import mx.utils.StringUtil;
 
@@ -108,6 +108,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		 */
 		private static const DISABLE_CREATION_OF_NEW_SCHEDULE:Boolean = false;
 
+		private static const TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME:String = "Titration Decision";
+		private static const PATIENT_DECISION_ACTION_STEP_RESULT_NAME:String = "Patient Decision";
+		private static const CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME:String = "Clinician Decision";
+		private static const AGREE_STOP_CONDITION_NAME:String = "Agree";
+		private static const NEW_DECISION_STOP_CONDITION_NAME:String = "New Decision";
+		private static const ADVISE_STOP_CONDITION_NAME:String = "Advise";
+
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
 		private var _persistedDosageChangeValue:Number;
@@ -160,6 +167,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _instructionsHtml:String;
 		private var _algorithmPrerequisitesSatisfied:Boolean;
 		private var _isNewDoseDifferentFromCurrent:Boolean;
+		private var _otherPartyLatestDecisionDose:Number;
 
 		public function InsulinTitrationDecisionModelBase()
 		{
@@ -713,8 +721,71 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 			persistedDosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 
+			updateOtherPartyLatestDecision();
+
 			updateIsAdherencePerfect();
 			updateBloodGlucoseAverage();
+		}
+
+		private function updateOtherPartyLatestDecision():void
+		{
+			_otherPartyLatestDecisionDose = getOtherPartyLatestDecisionDose();
+		}
+
+		private function getOtherPartyLatestDecisionDose():Number
+		{
+			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult(_scheduleDetails.currentSchedule);
+			if (parentForTitrationDecisionResult)
+			{
+				var titrationResult:HealthActionResult = getOtherPartyLatestDecisionResult(parentForTitrationDecisionResult);
+				if (titrationResult && titrationResult.actions && titrationResult.actions.length > 0)
+				{
+					var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
+
+					if (actionStepResult && actionStepResult.occurrences && actionStepResult.occurrences.length > 0)
+					{
+						var occurrence:Occurrence = actionStepResult.occurrences[0] as Occurrence;
+						if (occurrence.stopCondition && occurrence.stopCondition.value)
+						{
+							return Number(occurrence.stopCondition.value.value);
+						}
+					}
+				}
+			}
+			// No decision from other party or failed to determine the decision
+			return NaN;
+		}
+
+		private function getOtherPartyLatestDecisionResult(parentForTitrationDecisionResult:DocumentBase):HealthActionResult
+		{
+			var otherPartyLatestDecisionResult:HealthActionResult;
+			var thisPartyActionStepResultName:String = isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME;
+
+			// Loop through all relationships on the parent to find the potential latest titration result from the other party
+			for each (var relationship:Relationship in parentForTitrationDecisionResult.relatesTo)
+			{
+				if (relationship.type == HealthActionResult.RELATION_TYPE_TITRATION_DECISION)
+				{
+					var titrationResult:HealthActionResult = relationship.relatesTo as HealthActionResult;
+					if (titrationResult && titrationResult.name &&
+							titrationResult.name.text == TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME &&
+							titrationResult.actions && titrationResult.actions.length > 0)
+					{
+						var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
+
+						if (actionStepResult && actionStepResult.name &&
+								actionStepResult.name.text != thisPartyActionStepResultName &&
+								(otherPartyLatestDecisionResult == null ||
+										(titrationResult.dateReported && otherPartyLatestDecisionResult.dateReported &&
+												titrationResult.dateReported.valueOf() >
+														otherPartyLatestDecisionResult.dateReported.valueOf())))
+						{
+							otherPartyLatestDecisionResult = titrationResult;
+						}
+					}
+				}
+			}
+			return otherPartyLatestDecisionResult;
 		}
 
 		public function save():Boolean
@@ -745,10 +816,60 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						saveSucceeded = saveForPatient(currentMedicationScheduleItem, plan, saveSucceeded);
 					else
 						saveSucceeded = saveForClinician(currentMedicationScheduleItem, plan, saveSucceeded);
+
+					saveTitrationResult(currentMedicationScheduleItem);
 				}
 			}
 
 			return saveSucceeded;
+		}
+
+		private function saveTitrationResult(currentMedicationScheduleItem:MedicationScheduleItem):void
+		{
+			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult(currentMedicationScheduleItem);
+
+			var titrationResult:HealthActionResult = new HealthActionResult();
+			titrationResult.name = new CodedValue(null, null, null, TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME);
+			titrationResult.reportedBy = accountId;
+			titrationResult.dateReported = currentDateSource.now();
+			var actionStepResult:ActionStepResult = new ActionStepResult();
+			actionStepResult.name = new CodedValue(null, null, null, isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME);
+			actionStepResult.occurrences = new ArrayCollection();
+			var occurrence:Occurrence = new Occurrence();
+			occurrence.stopCondition = new StopCondition();
+			occurrence.stopCondition.name = new CodedValue(null, null, null, newDoseIsInAgreement() ? AGREE_STOP_CONDITION_NAME : (isPatient ? NEW_DECISION_STOP_CONDITION_NAME : ADVISE_STOP_CONDITION_NAME));
+			occurrence.stopCondition.value = new ValueAndUnit(_newDose.toString(), createUnitsCodedValue());
+			actionStepResult.occurrences.addItem(occurrence);
+			titrationResult.actions = new ArrayCollection();
+			titrationResult.actions.addItem(actionStepResult);
+
+			record.addDocument(titrationResult, true);
+
+			record.addRelationship(HealthActionResult.RELATION_TYPE_TITRATION_DECISION, parentForTitrationDecisionResult, titrationResult, true);
+		}
+
+		private function newDoseIsInAgreement():Boolean
+		{
+			return _otherPartyLatestDecisionDose == _newDose;
+		}
+
+		private function getParentForTitrationDecisionResult(currentMedicationScheduleItem:MedicationScheduleItem):DocumentBase
+		{
+			var administeredOccurrenceCount:int = _scheduleDetails.occurrence.recurrenceIndex;
+			if (administeredOccurrenceCount > 0)
+			{
+				return currentMedicationScheduleItem;
+			}
+			else if (_scheduleDetails.previousSchedule)
+			{
+				return _scheduleDetails.previousSchedule;
+			}
+			else
+			{
+				// When we are changing the dose of the first scheduled occurrence of the medication, there is no
+				// previous schedule to record titration decision results against, so use the MedicationOrder instead.
+				return _scheduleDetails.currentSchedule.scheduledMedicationOrder;
+			}
 		}
 
 		private function saveForClinician(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
@@ -780,7 +901,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			// If revisiting/changing the decision, don't make a new AdherenceItem (just change the schedule/dose)
 			if (!decisionAdherenceItemAlreadyPersisted())
 			{
-				saveDecisionResult(plan);
+				saveScheduledDecisionResult(plan);
 			}
 
 			// if dose is specified and is different, update existing and/or create a new schedule
@@ -845,7 +966,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return _algorithmPrerequisitesSatisfied;
 		}
 
-		private function saveDecisionResult(plan:HealthActionPlan):void
+		private function saveScheduledDecisionResult(plan:HealthActionPlan):void
 		{
 			// create new HealthActionOccurrence, related to HealthActionSchedule
 			// create new HealthActionResult, related to HealthActionOccurrence
@@ -900,34 +1021,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 						if (!DISABLE_CREATION_OF_NEW_SCHEDULE)
 						{
-							// create new MedicationScheduleItem with new dose starting at cut off day
-							var newMedicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
-							newMedicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
-							newMedicationScheduleItem.dose = new ValueAndUnit(_newDose.toString(),
-									new CodedValue("http://indivo.org/codes/units#", "Units", "U", "Units"));
-							newMedicationScheduleItem.name = currentMedicationScheduleItem.name.clone();
-							newMedicationScheduleItem.scheduledBy = accountId;
-							newMedicationScheduleItem.dateScheduled = currentDateSource.now();
-							newMedicationScheduleItem.dateStart = _scheduleDetails.occurrence.dateStart;
-							newMedicationScheduleItem.dateEnd = _scheduleDetails.occurrence.dateEnd;
-							newMedicationScheduleItem.recurrenceRule = new RecurrenceRule();
-							if (currentMedicationScheduleItem.recurrenceRule.frequency)
-								newMedicationScheduleItem.recurrenceRule.frequency = currentMedicationScheduleItem.recurrenceRule.frequency.clone();
-							if (currentMedicationScheduleItem.recurrenceRule.interval)
-								newMedicationScheduleItem.recurrenceRule.interval = currentMedicationScheduleItem.recurrenceRule.interval.clone();
-							newMedicationScheduleItem.recurrenceRule.count = remainingOccurrenceCount;
-							newMedicationScheduleItem.instructions = currentMedicationScheduleItem.instructions;
-
-							record.addDocument(newMedicationScheduleItem);
-
-							var relationship:Relationship = record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
-									currentMedicationScheduleItem.scheduledMedicationOrder, newMedicationScheduleItem,
-									true);
-							newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
-
-							// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
-							currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
-									newMedicationScheduleItem);
+							createNewMedicationScheduleItem(currentMedicationScheduleItem, remainingOccurrenceCount);
 						}
 					}
 					else
@@ -948,6 +1042,43 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				currentMedicationScheduleItem.dose.value = _newDose.toString();
 			}
 			return saveSucceeded;
+		}
+
+		private function createNewMedicationScheduleItem(currentMedicationScheduleItem:MedicationScheduleItem,
+														 remainingOccurrenceCount:int):void
+		{
+			// create new MedicationScheduleItem with new dose starting at cut off day
+			var newMedicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
+			newMedicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
+			newMedicationScheduleItem.dose = new ValueAndUnit(_newDose.toString(), createUnitsCodedValue());
+			newMedicationScheduleItem.name = currentMedicationScheduleItem.name.clone();
+			newMedicationScheduleItem.scheduledBy = accountId;
+			newMedicationScheduleItem.dateScheduled = currentDateSource.now();
+			newMedicationScheduleItem.dateStart = _scheduleDetails.occurrence.dateStart;
+			newMedicationScheduleItem.dateEnd = _scheduleDetails.occurrence.dateEnd;
+			newMedicationScheduleItem.recurrenceRule = new RecurrenceRule();
+			if (currentMedicationScheduleItem.recurrenceRule.frequency)
+				newMedicationScheduleItem.recurrenceRule.frequency = currentMedicationScheduleItem.recurrenceRule.frequency.clone();
+			if (currentMedicationScheduleItem.recurrenceRule.interval)
+				newMedicationScheduleItem.recurrenceRule.interval = currentMedicationScheduleItem.recurrenceRule.interval.clone();
+			newMedicationScheduleItem.recurrenceRule.count = remainingOccurrenceCount;
+			newMedicationScheduleItem.instructions = currentMedicationScheduleItem.instructions;
+
+			record.addDocument(newMedicationScheduleItem);
+
+			var relationship:Relationship = record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+					currentMedicationScheduleItem.scheduledMedicationOrder, newMedicationScheduleItem,
+					true);
+			newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
+
+			// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
+			currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
+					newMedicationScheduleItem);
+		}
+
+		private static function createUnitsCodedValue():CodedValue
+		{
+			return new CodedValue("http://indivo.org/codes/units#", "Units", "U", "Units");
 		}
 
 		public function isMeasurementEligible(vitalSign:VitalSign):Boolean
