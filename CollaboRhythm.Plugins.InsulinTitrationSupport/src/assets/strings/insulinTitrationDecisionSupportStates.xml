@@ -18,8 +18,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNone</selector>
-			<selector>clinicianDecisionNone</selector>
+			<selector>decisionPatientNone</selector>
+			<selector>decisionClinicianNone</selector>
 			<selector>protocolConditionsMet</selector>
 		</selectors>
 		<steps>
@@ -46,8 +46,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNone</selector>
-						<selector>clinicianDecisionNone</selector>
+			<selector>decisionPatientNone</selector>
+						<selector>decisionClinicianNone</selector>
 			<selector>insufficientAdherence</selector>
 		</selectors>
 		<steps>
@@ -81,8 +81,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNone</selector>
-						<selector>clinicianDecisionNone</selector>
+			<selector>decisionPatientNone</selector>
+						<selector>decisionClinicianNone</selector>
 			<selector>insufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
@@ -121,8 +121,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-						<selector>clinicianDecisionNone</selector>
+			<selector>decisionPatientNew</selector>
+						<selector>decisionClinicianNone</selector>
 			<selector>protocolConditionsMet</selector>
 		</selectors>
 		<steps>
@@ -150,8 +150,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-			<selector>clinicianDecisionNone</selector>
+			<selector>decisionPatientNew</selector>
+			<selector>decisionClinicianNone</selector>
 			<selector>insufficientAdherence</selector>
 		</selectors>
 		<steps>
@@ -183,8 +183,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-			<selector>clinicianDecisionNone</selector>
+			<selector>decisionPatientNew</selector>
+			<selector>decisionClinicianNone</selector>
 			<selector>insufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
@@ -221,8 +221,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-			<selector>clinicianDecisionNew</selector>
+			<selector>decisionPatientNew</selector>
+			<selector>decisionClinicianNew</selector>
 			<selector>protocolConditionsMet</selector>
 		</selectors>
 		<steps>
@@ -249,8 +249,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-			<selector>clinicianDecisionNew</selector>
+			<selector>decisionPatientNew</selector>
+			<selector>decisionClinicianNew</selector>
 			<selector>insufficientAdherence</selector>
 		</selectors>
 		<steps>
@@ -281,8 +281,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-			<selector>clinicianDecisionNew</selector>
+			<selector>decisionPatientNew</selector>
+			<selector>decisionClinicianNew</selector>
 			<selector>insufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
@@ -318,8 +318,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-			<selector>clinicianDecisionAgree</selector>
+			<selector>decisionPatientNew</selector>
+			<selector>decisionClinicianAgree</selector>
 			<selector>protocolConditionsMet</selector>
 		</selectors>
 		<steps>
@@ -344,8 +344,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-			<selector>clinicianDecisionAgree</selector>
+			<selector>decisionPatientNew</selector>
+			<selector>decisionClinicianAgree</selector>
 			<selector>insufficientAdherence</selector>
 		</selectors>
 		<steps>
@@ -374,8 +374,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNew</selector>
-			<selector>clinicianDecisionAgree</selector>
+			<selector>decisionPatientNew</selector>
+			<selector>decisionClinicianAgree</selector>
 			<selector>insufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
@@ -409,8 +409,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNone</selector>
-			<selector>clinicianDecisionNew</selector>
+			<selector>decisionPatientNone</selector>
+			<selector>decisionClinicianNew</selector>
 			<selector>protocolConditionsMet</selector>
 		</selectors>
 		<steps>
@@ -435,8 +435,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNone</selector>
-			<selector>clinicianDecisionNew</selector>
+			<selector>decisionPatientNone</selector>
+			<selector>decisionClinicianNew</selector>
 			<selector>insufficientAdherence</selector>
 		</selectors>
 		<steps>
@@ -465,8 +465,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>patientDecisionNone</selector>
-			<selector>clinicianDecisionNew</selector>
+			<selector>decisionPatientNone</selector>
+			<selector>decisionClinicianNew</selector>
 			<selector>insufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
@@ -500,8 +500,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>clinicianDecisionNew</selector>
-			<selector>patientDecisionAgree</selector>
+			<selector>decisionClinicianNew</selector>
+			<selector>decisionPatientAgree</selector>
 			<selector>protocolConditionsMet</selector>
 		</selectors>
 		<steps>
@@ -526,8 +526,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>clinicianDecisionNew</selector>
-			<selector>patientDecisionAgree</selector>
+			<selector>decisionClinicianNew</selector>
+			<selector>decisionPatientAgree</selector>
 			<selector>insufficientAdherence</selector>
 		</selectors>
 		<steps>
@@ -556,8 +556,8 @@
 	<insulinTitrationDecisionSupportState>
 		<selectors>
 			<selector>patient</selector>
-			<selector>clinicianDecisionNew</selector>
-			<selector>patientDecisionAgree</selector>
+			<selector>decisionClinicianNew</selector>
+			<selector>decisionPatientAgree</selector>
 			<selector>insufficientBloodGlucose</selector>
 		</selectors>
 		<steps>
@@ -593,8 +593,8 @@
 	<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNone</selector>
-				<selector>clinicianDecisionNone</selector>
+				<selector>decisionPatientNone</selector>
+				<selector>decisionClinicianNone</selector>
 				<selector>protocolConditionsMet</selector>
 			</selectors>
 			<steps>
@@ -618,8 +618,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNone</selector>
-				<selector>clinicianDecisionNone</selector>
+				<selector>decisionPatientNone</selector>
+				<selector>decisionClinicianNone</selector>
 				<selector>insufficientAdherence</selector>
 			</selectors>
 			<steps>
@@ -650,8 +650,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNone</selector>
-				<selector>clinicianDecisionNone</selector>
+				<selector>decisionPatientNone</selector>
+				<selector>decisionClinicianNone</selector>
 				<selector>insufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
@@ -686,8 +686,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionNone</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianNone</selector>
 				<selector>protocolConditionsMet</selector>
 			</selectors>
 			<steps>
@@ -711,8 +711,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionNone</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianNone</selector>
 				<selector>insufficientAdherence</selector>
 			</selectors>
 			<steps>
@@ -742,8 +742,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionNone</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianNone</selector>
 				<selector>insufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
@@ -777,8 +777,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionNew</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianNew</selector>
 				<selector>protocolConditionsMet</selector>
 			</selectors>
 			<steps>
@@ -802,8 +802,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionNew</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianNew</selector>
 				<selector>insufficientAdherence</selector>
 			</selectors>
 			<steps>
@@ -833,8 +833,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionNew</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianNew</selector>
 				<selector>insufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
@@ -868,8 +868,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionAgree</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianAgree</selector>
 				<selector>protocolConditionsMet</selector>
 			</selectors>
 			<steps>
@@ -892,8 +892,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionAgree</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianAgree</selector>
 				<selector>insufficientAdherence</selector>
 			</selectors>
 			<steps>
@@ -922,8 +922,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNew</selector>
-				<selector>clinicianDecisionAgree</selector>
+				<selector>decisionPatientNew</selector>
+				<selector>decisionClinicianAgree</selector>
 				<selector>insufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
@@ -956,8 +956,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNone</selector>
-				<selector>clinicianDecisionNew</selector>
+				<selector>decisionPatientNone</selector>
+				<selector>decisionClinicianNew</selector>
 				<selector>protocolConditionsMet</selector>
 			</selectors>
 			<steps>
@@ -980,8 +980,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNone</selector>
-				<selector>clinicianDecisionNew</selector>
+				<selector>decisionPatientNone</selector>
+				<selector>decisionClinicianNew</selector>
 				<selector>insufficientAdherence</selector>
 			</selectors>
 			<steps>
@@ -1010,8 +1010,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>patientDecisionNone</selector>
-				<selector>clinicianDecisionNew</selector>
+				<selector>decisionPatientNone</selector>
+				<selector>decisionClinicianNew</selector>
 				<selector>insufficientBloodGlucose</selector>
 			</selectors>
 			<steps>
@@ -1044,8 +1044,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>clinicianDecisionNew</selector>
-				<selector>patientDecisionAgree</selector>
+				<selector>decisionClinicianNew</selector>
+				<selector>decisionPatientAgree</selector>
 				<selector>protocolConditionsMet</selector>
 			</selectors>
 			<steps>
@@ -1068,8 +1068,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>clinicianDecisionNew</selector>
-				<selector>patientDecisionAgree</selector>
+				<selector>decisionClinicianNew</selector>
+				<selector>decisionPatientAgree</selector>
 				<selector>insufficientAdherence</selector>
 			</selectors>
 			<steps>
@@ -1098,8 +1098,8 @@
 		<insulinTitrationDecisionSupportState>
 			<selectors>
 				<selector>clinician</selector>
-				<selector>clinicianDecisionNew</selector>
-				<selector>patientDecisionAgree</selector>
+				<selector>decisionClinicianNew</selector>
+				<selector>decisionPatientAgree</selector>
 				<selector>insufficientBloodGlucose</selector>
 			</selectors>
 			<steps>

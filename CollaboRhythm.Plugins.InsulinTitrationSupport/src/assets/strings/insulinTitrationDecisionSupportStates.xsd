@@ -53,19 +53,20 @@
 							<xs:annotation>
 								<xs:documentation xml:lang="en">
 									Each selector defines one of the preconditions that must be met for the
-									insulinTitrationDecisionSupportState to be applicable.
+									insulinTitrationDecisionSupportState to be applicable. For a given State, all of the
+									preconditions must be met.
 								</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:enumeration value="patient"/>
 									<xs:enumeration value="clinician"/>
-									<xs:enumeration value="patientDecisionNone"/>
-									<xs:enumeration value="patientDecisionNew"/>
-									<xs:enumeration value="patientDecisionAgree"/>
-									<xs:enumeration value="clinicianDecisionNone"/>
-									<xs:enumeration value="clinicianDecisionNew"/>
-									<xs:enumeration value="clinicianDecisionAgree"/>
+									<xs:enumeration value="decisionPatientNone"/>
+									<xs:enumeration value="decisionPatientNew"/>
+									<xs:enumeration value="decisionPatientAgree"/>
+									<xs:enumeration value="decisionClinicianNone"/>
+									<xs:enumeration value="decisionClinicianNew"/>
+									<xs:enumeration value="decisionClinicianAgree"/>
 									<xs:enumeration value="protocolConditionsMet"/>
 									<xs:enumeration value="insufficientAdherence"/>
 									<xs:enumeration value="insufficientBloodGlucose"/>
