@@ -364,15 +364,23 @@ package collaboRhythm.shared.model
 		 * <p>
 		 * If document.pendingAction is null, the document will be considered a persisted part of the record (a subsequent
 		 * deletion/void/archive operation will remove the document from the "current" but not the "original" list of
-		 * documents, so that the operation can be persisted or reverted at a later time).
+		 * documents, so that the operation can be persisted or reverted at a later time). Note that, if the document is
+		 * added during collaboration, the document.pendingAction is null. It is still considered a persisted part of the
+		 * record. There is the possibility that the initiating client, which is supposed to persist the document, will
+		 * fail to do so. This case needs to be handled in the future.
+		 * <p>
 		 * If document.pendingAction is DocumentBase.ACTION_CREATE, the document will
 		 * be considered part of the "current" list of documents, but if subsequently deleted (before being persisted)
 		 * it will be completely gone.
 		 *
 		 * @param document The document to add to the record.
-		 * @param saveImmediately If true, a request will be made to persist the document to the server immediately;
-		 * otherwise, the document will not be persisted until requested.
+		 * @param persist If true, the pending action for the document will be set to DocumentBase.ACTION_CREATE. Otherwise
+		 * whether or not the document is persisted on a save operation will depend on the value of document.pendingAction set outside of
+		 * this method. Persist is set to false in collaboration on the receiving client since the change is persisted
+		 * by the initiating client.
 		 */
+		// TODO: Deal with the case that the document is added during collaboration, and is considered a persisted part
+		// of the record by the receiving client, but the sending client never persists the document.
 		public function addDocument(document:IDocument, persist:Boolean = false):void
 		{
 			if (document.meta.type == null)
@@ -419,6 +427,19 @@ package collaboRhythm.shared.model
 			}
 		}
 
+		/**
+		 * Removes the document to the record.
+		 *
+		 * @param document The document to remove from the record.
+		 * @param persist If true, the pendingAction for the document will be set to the removeAction specified. Otherwise the
+		 * document is removed from the record, but the pendingAction is not set. Persist is set to false in collaboration
+		 * on the receiving client since the change is persisted by the initiating client.
+		 * @param recursive If true, all documents that the document "relatesTo" will also be removed.
+		 * @param removeAction If persist is true, this remove action will be used in persisting the removal of the
+		 * document. The options are DocumentBase.ACTION_DELETE, DocumentBase.ACTION_VOID, DocumentBase.ACTION_ARCHIVE.
+		 * @param reason A string describing the reason that the document was removed. This is only used in persisting
+		 * the removal.
+		 */
 		public function removeDocument(document:IDocument, persist:Boolean = false, recursive:Boolean = false,
 									   removeAction:String = DocumentBase.ACTION_DELETE, reason:String = null):int
 		{
@@ -564,6 +585,17 @@ package collaboRhythm.shared.model
 			_storageService = value;
 		}
 
+		/**
+		 * Adds a relationship to the record. The documents involved are also stitched.
+		 *
+		 * @param relationshipType The type of relationship between the two documents.
+		 * @param fromDocument The document in the subject of the relationship.
+		 * @param toDocument The document in the predicate of the relationship.
+		 * @param persist If persist is true, the pendingAction for the relationship will be set to Relationship.ACTION_CREATE.
+		 * Otherwise, whether or not the relationship will be persisted on a save operation will depend on the value of pendingAction
+		 * set outside of this method to calling this method. Persist is set to false in collaboration on the receiving client
+		 * since the change is persisted by the initiating client.
+		 */
 		public function addRelationship(relationshipType:String, fromDocument:DocumentBase, toDocument:DocumentBase,
 										persist:Boolean = false):Relationship
 		{
