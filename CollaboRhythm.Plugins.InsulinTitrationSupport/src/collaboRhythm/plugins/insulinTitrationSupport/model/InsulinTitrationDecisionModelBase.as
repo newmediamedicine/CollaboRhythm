@@ -165,7 +165,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _algorithmSuggestedDoseChangeLabel:String;
 		private var _instructionsHtml:String;
 		private var _algorithmPrerequisitesSatisfied:Boolean;
-		private var _isNewDoseDifferentFromCurrent:Boolean;
+		private var _isNewDoseDifferentFromOtherPartyLatest:Boolean;
 
 		private var _latestDecisionResult:HealthActionResult;
 		private var _patientLatestDecisionResult:HealthActionResult;
@@ -385,7 +385,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_dosageChangeValue = value;
 			isChangeSpecified = !isNaN(_dosageChangeValue);
 			evaluateForSave();
-			isNewDoseDifferentFromCurrent = _newDose != _currentDoseValue;
+			isNewDoseDifferentFromOtherPartyLatest = _newDose != _otherPartyLatestDecisionDose;
 		}
 
 		public function get isAdherencePerfect():Boolean
@@ -726,10 +726,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES);
 			_currentDoseValue = _newDose = _medicationTitrationHelper.currentDoseValue;
 			_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
-			dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
+			_dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 			persistedDosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 
 			updateLatestDecisionDoses();
+
+			isChangeSpecified = !isNaN(_dosageChangeValue);
+			isNewDoseDifferentFromOtherPartyLatest = _newDose != _otherPartyLatestDecisionDose;
 
 			updateIsAdherencePerfect();
 			updateBloodGlucoseAverage();
@@ -1418,14 +1421,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_algorithmPrerequisitesSatisfied = value;
 		}
 
-		public function get isNewDoseDifferentFromCurrent():Boolean
+		public function get isNewDoseDifferentFromOtherPartyLatest():Boolean
 		{
-			return _isNewDoseDifferentFromCurrent;
+			return _isNewDoseDifferentFromOtherPartyLatest;
 		}
 
-		public function set isNewDoseDifferentFromCurrent(value:Boolean):void
+		public function set isNewDoseDifferentFromOtherPartyLatest(value:Boolean):void
 		{
-			_isNewDoseDifferentFromCurrent = value;
+			_isNewDoseDifferentFromOtherPartyLatest = value;
 		}
 
 		public function get persistedDosageChangeValue():Number

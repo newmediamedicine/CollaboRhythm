@@ -86,7 +86,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private static const GOAL_LABEL_FONT_SIZE:int = 21;
 		private static const ARROW_CALLOUT_INSTRUCTIONS_FONT_SIZE:int = 24;
 
-		private static const SEND_BUTTON_FONT_SIZE:int = 19;
+		private static const SEND_BUTTON_FONT_SIZE:int = 17;
 		private static const SEND_BUTTON_FONT_SIZE_SMALL:int = 14;
 
 		private var _model:InsulinTitrationDecisionPanelModel;
@@ -123,6 +123,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _connectorMinLine:DottedLine;
 		private var _instructionsScroller:Scroller;
 		private var _instructionsRichText:RichEditableText;
+
+		private var _decisionClinicianNew:DecisionClinicianNew;
+		private var _decisionClinicianAgree:DecisionClinicianAgree;
+		private var _decisionPatientNew:DecisionPatientNew;
+		private var _decisionPatientAgree:DecisionPatientAgree;
 
 		public function InsulinTitrationDecisionPanel()
 		{
@@ -260,6 +265,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			addElement(_dosageChangeSpinnerListContainer);
 
+			_decisionClinicianNew = new DecisionClinicianNew();
+			initializeIcon(_decisionClinicianNew);
+			_decisionClinicianAgree = new DecisionClinicianAgree();
+			initializeIcon(_decisionClinicianAgree);
+			_decisionPatientNew = new DecisionPatientNew();
+			initializeIcon(_decisionPatientNew);
+			_decisionPatientAgree = new DecisionPatientAgree();
+			initializeIcon(_decisionPatientAgree);
+
 			_sendButton = new Button();
 			updateSendButtonLabel();
 			_sendButton.x = STEP4_X;
@@ -270,24 +284,33 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			addElement(_sendButton);
 		}
 
+		public function initializeIcon(icon:SpriteVisualElement):void
+		{
+			icon.width = icon.height = 22;
+/*
+			var glowFilter:GlowFilter = new GlowFilter();
+			glowFilter.color = 0xFFFFFF;
+			glowFilter.alpha = 0.7;
+			glowFilter.blurX = icon.width / 8;
+			glowFilter.blurY = icon.width / 8;
+			glowFilter.strength = icon.width / 8;
+
+			icon.filters = [glowFilter];
+*/
+		}
 		private function updateSendButtonLabel():void
 		{
-			if (model.isPatient)
+			_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
+			if (model.isNewDoseDifferentFromOtherPartyLatest)
 			{
-				_sendButton.label = "Send";
+				_sendButton.label = model.isPatient ? "Send" : "Advise";
+				_sendButton.setStyle("icon", model.isPatient ? _decisionPatientNew : _decisionClinicianNew);
 				_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
-			}
-			else
+			} else
 			{
-				if (model.isNewDoseDifferentFromCurrent)
-				{
-					_sendButton.label = "Advise";
-					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
-				} else
-				{
-					_sendButton.label = "Confirm";
-					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
-				}
+				_sendButton.label = "Agree";
+				_sendButton.setStyle("icon", model.isPatient ? _decisionPatientAgree : _decisionClinicianAgree);
+				_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
 			}
 		}
 
@@ -661,7 +684,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			{
 				updateInstructionsText();
 			}
-			if (event.property == "isNewDoseDifferentFromCurrent")
+			if (event.property == "isNewDoseDifferentFromOtherPartyLatest")
 			{
 				updateSendButtonLabel();
 			}
