@@ -18,6 +18,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 {
 
 	import collaboRhythm.shared.model.*;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	public class MedicationScheduleItemStitcher extends ScheduleItemStitcherBase
@@ -25,6 +26,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
         public function MedicationScheduleItemStitcher(record:Record)
 		{
 			super(record, MedicationScheduleItem.DOCUMENT_TYPE);
+			addRequiredDocumentType(HealthActionResult.DOCUMENT_TYPE);
 		}
 	}
 }

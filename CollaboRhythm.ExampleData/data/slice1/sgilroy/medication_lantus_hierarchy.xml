@@ -98,7 +98,7 @@
 												<occurrences>
 													<occurrence>
 														<stopCondition>
-															<name>New Decision</name>
+															<name>New</name>
 															<value>
 																<indivo:value>15</indivo:value>
 																<indivo:unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</indivo:unit>

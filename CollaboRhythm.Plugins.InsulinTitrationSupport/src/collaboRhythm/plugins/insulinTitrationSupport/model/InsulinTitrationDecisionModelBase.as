@@ -109,11 +109,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private static const DISABLE_CREATION_OF_NEW_SCHEDULE:Boolean = false;
 
 		private static const TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME:String = "Titration Decision";
-		private static const PATIENT_DECISION_ACTION_STEP_RESULT_NAME:String = "Patient Decision";
-		private static const CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME:String = "Clinician Decision";
+		public static const PATIENT_DECISION_ACTION_STEP_RESULT_NAME:String = "Patient Decision";
+		public static const CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME:String = "Clinician Decision";
 		private static const AGREE_STOP_CONDITION_NAME:String = "Agree";
-		private static const NEW_DECISION_STOP_CONDITION_NAME:String = "New Decision";
-		private static const ADVISE_STOP_CONDITION_NAME:String = "Advise";
+		private static const NEW_STOP_CONDITION_NAME:String = "New";
 
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
@@ -167,6 +166,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _instructionsHtml:String;
 		private var _algorithmPrerequisitesSatisfied:Boolean;
 		private var _isNewDoseDifferentFromCurrent:Boolean;
+
+		private var _latestDecisionResult:HealthActionResult;
+		private var _patientLatestDecisionResult:HealthActionResult;
+		private var _clinicianLatestDecisionResult:HealthActionResult;
+		private var _otherPartyLatestDecisionResult:HealthActionResult;
+
+		private var _latestDecisionDose:Number;
+		private var _patientLatestDecisionDose:Number;
+		private var _clinicianLatestDecisionDose:Number;
 		private var _otherPartyLatestDecisionDose:Number;
 
 		public function InsulinTitrationDecisionModelBase()
@@ -721,45 +729,85 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 			persistedDosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 
-			updateOtherPartyLatestDecision();
+			updateLatestDecisionDoses();
 
 			updateIsAdherencePerfect();
 			updateBloodGlucoseAverage();
 		}
 
-		private function updateOtherPartyLatestDecision():void
-		{
-			_otherPartyLatestDecisionDose = getOtherPartyLatestDecisionDose();
-		}
-
-		private function getOtherPartyLatestDecisionDose():Number
+		private function updateLatestDecisionDoses():void
 		{
 			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult(_scheduleDetails.currentSchedule);
 			if (parentForTitrationDecisionResult)
 			{
-				var titrationResult:HealthActionResult = getOtherPartyLatestDecisionResult(parentForTitrationDecisionResult);
-				if (titrationResult && titrationResult.actions && titrationResult.actions.length > 0)
-				{
-					var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
+				getLatestDecisionResults(parentForTitrationDecisionResult);
+				_latestDecisionDose = getDecisionDoseFromResult(_latestDecisionResult);
+				_patientLatestDecisionDose = getDecisionDoseFromResult(_patientLatestDecisionResult);
+				_clinicianLatestDecisionDose = getDecisionDoseFromResult(_clinicianLatestDecisionResult);
+				_otherPartyLatestDecisionDose = getDecisionDoseFromResult(_otherPartyLatestDecisionResult);
+			}
+		}
 
-					if (actionStepResult && actionStepResult.occurrences && actionStepResult.occurrences.length > 0)
+		private function getDecisionDoseFromResult(titrationResult:HealthActionResult):Number
+		{
+			if (titrationResult && titrationResult.actions && titrationResult.actions.length > 0)
+			{
+				var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
+
+				if (actionStepResult && actionStepResult.occurrences && actionStepResult.occurrences.length > 0)
+				{
+					var occurrence:Occurrence = actionStepResult.occurrences[0] as Occurrence;
+					if (occurrence.stopCondition && occurrence.stopCondition.value)
 					{
-						var occurrence:Occurrence = actionStepResult.occurrences[0] as Occurrence;
-						if (occurrence.stopCondition && occurrence.stopCondition.value)
-						{
-							return Number(occurrence.stopCondition.value.value);
-						}
+						return Number(occurrence.stopCondition.value.value);
 					}
 				}
 			}
+
 			// No decision from other party or failed to determine the decision
 			return NaN;
 		}
 
-		private function getOtherPartyLatestDecisionResult(parentForTitrationDecisionResult:DocumentBase):HealthActionResult
+		public function isDecisionResultAgreement(titrationResult:HealthActionResult):Boolean
 		{
-			var otherPartyLatestDecisionResult:HealthActionResult;
-			var thisPartyActionStepResultName:String = isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME;
+			if (titrationResult && titrationResult.actions && titrationResult.actions.length > 0)
+			{
+				var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
+
+				if (actionStepResult && actionStepResult.occurrences && actionStepResult.occurrences.length > 0)
+				{
+					var occurrence:Occurrence = actionStepResult.occurrences[0] as Occurrence;
+					if (occurrence.stopCondition && occurrence.stopCondition.name)
+					{
+						return occurrence.stopCondition.name.text == AGREE_STOP_CONDITION_NAME;
+					}
+				}
+			}
+
+			// No decision from other party or failed to determine the decision
+			return false;
+		}
+
+		public function isDecisionResultByPatient(titrationResult:HealthActionResult):Boolean
+		{
+			if (titrationResult && titrationResult.actions && titrationResult.actions.length > 0)
+			{
+				var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
+
+				if (actionStepResult && actionStepResult.name)
+				{
+					return actionStepResult.name.text == AGREE_STOP_CONDITION_NAME;
+				}
+			}
+
+			return false;
+		}
+
+		private function getLatestDecisionResults(parentForTitrationDecisionResult:DocumentBase):void
+		{
+			_latestDecisionResult = null;
+			_patientLatestDecisionResult = null;
+			_clinicianLatestDecisionResult = null;
 
 			// Loop through all relationships on the parent to find the potential latest titration result from the other party
 			for each (var relationship:Relationship in parentForTitrationDecisionResult.relatesTo)
@@ -772,20 +820,36 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 							titrationResult.actions && titrationResult.actions.length > 0)
 					{
 						var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
-
-						if (actionStepResult && actionStepResult.name &&
-								actionStepResult.name.text != thisPartyActionStepResultName &&
-								(otherPartyLatestDecisionResult == null ||
-										(titrationResult.dateReported && otherPartyLatestDecisionResult.dateReported &&
-												titrationResult.dateReported.valueOf() >
-														otherPartyLatestDecisionResult.dateReported.valueOf())))
-						{
-							otherPartyLatestDecisionResult = titrationResult;
-						}
+						_latestDecisionResult = getLatestMatchingResult(actionStepResult,
+								_latestDecisionResult, titrationResult,
+								function(a:ActionStepResult):Boolean { return true;});
+						_patientLatestDecisionResult = getLatestMatchingResult(actionStepResult,
+								_patientLatestDecisionResult, titrationResult,
+								function(a:ActionStepResult):Boolean { return a && a.name && a.name.text == PATIENT_DECISION_ACTION_STEP_RESULT_NAME;});
+						_clinicianLatestDecisionResult = getLatestMatchingResult(actionStepResult,
+								_clinicianLatestDecisionResult, titrationResult,
+								function(a:ActionStepResult):Boolean { return a && a.name && a.name.text == CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME;});
 					}
 				}
 			}
-			return otherPartyLatestDecisionResult;
+
+			_otherPartyLatestDecisionResult = isPatient ? _clinicianLatestDecisionResult : _patientLatestDecisionResult;
+		}
+
+		private function getLatestMatchingResult(actionStepResult:ActionStepResult,
+												 latestMatchingResult:HealthActionResult,
+												 titrationResult:HealthActionResult,
+												 matchingFunction:Function):HealthActionResult
+		{
+			if (matchingFunction(actionStepResult) &&
+					(latestMatchingResult == null ||
+							(titrationResult.dateReported && latestMatchingResult.dateReported &&
+									titrationResult.dateReported.valueOf() >
+											latestMatchingResult.dateReported.valueOf())))
+			{
+				latestMatchingResult = titrationResult;
+			}
+			return latestMatchingResult;
 		}
 
 		public function save():Boolean
@@ -837,7 +901,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			actionStepResult.occurrences = new ArrayCollection();
 			var occurrence:Occurrence = new Occurrence();
 			occurrence.stopCondition = new StopCondition();
-			occurrence.stopCondition.name = new CodedValue(null, null, null, newDoseIsInAgreement() ? AGREE_STOP_CONDITION_NAME : (isPatient ? NEW_DECISION_STOP_CONDITION_NAME : ADVISE_STOP_CONDITION_NAME));
+			occurrence.stopCondition.name = new CodedValue(null, null, null, newDoseIsInAgreement() ? AGREE_STOP_CONDITION_NAME : NEW_STOP_CONDITION_NAME);
 			occurrence.stopCondition.value = new ValueAndUnit(_newDose.toString(), createUnitsCodedValue());
 			actionStepResult.occurrences.addItem(occurrence);
 			titrationResult.actions = new ArrayCollection();
@@ -1372,6 +1436,31 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set persistedDosageChangeValue(value:Number):void
 		{
 			_persistedDosageChangeValue = value;
+		}
+
+		public function get latestDecisionDose():Number
+		{
+			return _latestDecisionDose;
+		}
+
+		public function get patientLatestDecisionDose():Number
+		{
+			return _patientLatestDecisionDose;
+		}
+
+		public function get clinicianLatestDecisionDose():Number
+		{
+			return _clinicianLatestDecisionDose;
+		}
+
+		public function get otherPartyLatestDecisionDose():Number
+		{
+			return _otherPartyLatestDecisionDose;
+		}
+
+		public function get latestDecisionResult():HealthActionResult
+		{
+			return _latestDecisionResult;
 		}
 	}
 }
