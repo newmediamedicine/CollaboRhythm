@@ -38,6 +38,8 @@
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/HealthChartsPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/MedicationsPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/EquipmentPluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/InsulinPluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/InsulinTitrationSupportPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins</pluginSearchPath>
 		<!-- The following paths are to allow the plugins to load during development without deploying them -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
@@ -53,6 +55,8 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/HealthChartsPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/MedicationsPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/EquipmentPluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/InsulinPluginModule.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/InsulinTitrationSupportPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
 	<demoModeEnabled>true</demoModeEnabled>
