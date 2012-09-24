@@ -86,7 +86,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private static const GOAL_LABEL_FONT_SIZE:int = 21;
 		private static const ARROW_CALLOUT_INSTRUCTIONS_FONT_SIZE:int = 24;
 
-		private static const SEND_BUTTON_FONT_SIZE:int = 17;
+		private static const SEND_BUTTON_FONT_SIZE:int = 16;
 		private static const SEND_BUTTON_FONT_SIZE_SMALL:int = 14;
 
 		private var _model:InsulinTitrationDecisionPanelModel;
@@ -275,6 +275,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			initializeIcon(_decisionPatientAgree);
 
 			_sendButton = new Button();
+			_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
 			updateSendButtonLabel();
 			_sendButton.x = STEP4_X;
 			updateArrowButtonY(_sendButton);
@@ -286,8 +287,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		public function initializeIcon(icon:SpriteVisualElement):void
 		{
-			icon.width = icon.height = 22;
-/*
+			icon.width = icon.height = 20;
 			var glowFilter:GlowFilter = new GlowFilter();
 			glowFilter.color = 0xFFFFFF;
 			glowFilter.alpha = 0.7;
@@ -296,21 +296,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			glowFilter.strength = icon.width / 8;
 
 			icon.filters = [glowFilter];
-*/
 		}
 		private function updateSendButtonLabel():void
 		{
-			_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
 			if (model.isNewDoseDifferentFromOtherPartyLatest)
 			{
 				_sendButton.label = model.isPatient ? "Send" : "Advise";
 				_sendButton.setStyle("icon", model.isPatient ? _decisionPatientNew : _decisionClinicianNew);
-				_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
 			} else
 			{
 				_sendButton.label = "Agree";
 				_sendButton.setStyle("icon", model.isPatient ? _decisionPatientAgree : _decisionClinicianAgree);
-				_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
 			}
 		}
 
