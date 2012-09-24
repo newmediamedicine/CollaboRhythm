@@ -3,6 +3,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
@@ -192,6 +193,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _chartDescriptorsUpdateQueue:Vector.<IChartDescriptor> = new Vector.<IChartDescriptor>();
 		private const _isSimulationSupported:Boolean = false;
 		private var _collectionEventListeners:Dictionary = new Dictionary();
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -700,7 +702,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function createChartModelDetails():ChartModelDetails
 		{
-			return new ChartModelDetails(model.record, _activeAccountId, model.currentDateSource, model, this, componentContainer);
+			return new ChartModelDetails(model.record, _activeAccountId, model.currentDateSource, model, this, componentContainer, _collaborationLobbyNetConnectionServiceProxy);
 		}
 
 		/**
@@ -3032,6 +3034,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 					return false;
 			}
 			return true;
+		}
+
+		public function set collaborationLobbyNetConnectionServiceProxy(collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):void
+		{
+			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 		}
 	}
 }

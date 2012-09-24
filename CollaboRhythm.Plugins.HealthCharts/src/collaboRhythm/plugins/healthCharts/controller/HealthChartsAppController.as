@@ -7,6 +7,7 @@ package collaboRhythm.plugins.healthCharts.controller
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import flash.events.MouseEvent;
@@ -114,6 +115,7 @@ package collaboRhythm.plugins.healthCharts.controller
 				_fullView.componentContainer = _componentContainer;
 				_fullView.activeAccountId = activeAccount.accountId;
 				_fullView.viewNavigator = _viewNavigator;
+				_fullView.collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 			}
 		}
 

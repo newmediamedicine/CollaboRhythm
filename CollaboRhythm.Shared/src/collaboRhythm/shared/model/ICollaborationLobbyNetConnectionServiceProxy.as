@@ -1,9 +1,10 @@
 package collaboRhythm.shared.model
 {
+	import flash.events.IEventDispatcher;
 	import flash.net.NetConnection;
 	import flash.utils.ByteArray;
 
-	public interface ICollaborationLobbyNetConnectionServiceProxy
+	public interface ICollaborationLobbyNetConnectionServiceProxy extends IEventDispatcher
 	{
 		function sendCollaborationViewSynchronization(synchronizeClassName:String, synchronizeFunction:String,
 													  synchronizeData:* = null, executeLocally:Boolean = true):Boolean;

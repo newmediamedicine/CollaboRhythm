@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.view
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationDecisionPanelController;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.DosageChangeValueProxy;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionModelBase;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionPanelModel;
@@ -128,6 +129,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _decisionClinicianAgree:DecisionClinicianAgree;
 		private var _decisionPatientNew:DecisionPatientNew;
 		private var _decisionPatientAgree:DecisionPatientAgree;
+		private var _controller:InsulinTitrationDecisionPanelController;
 
 		public function InsulinTitrationDecisionPanel()
 		{
@@ -559,8 +561,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			button.setStyle("fontSize", fontSize);
 			button.addEventListener(MouseEvent.CLICK,
 			            function(event:MouseEvent):void {
-							setDosageChangeSpinnerListSelectedItem(dosageChangeValue);
-							_model.dosageChangeValue = dosageChangeValue;
+							_controller.setDosageChangeValue(dosageChangeValue);
 			            });
 			addElement(button);
 			return button;
@@ -632,7 +633,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function dosageChangeSpinnerList_changeHandler(event:Event):void
 		{
-			_model.dosageChangeValue = (_dosageChangeSpinnerList.selectedItem as DosageChangeValueProxy).value;
+			_controller.setDosageChangeValue((_dosageChangeSpinnerList.selectedItem as DosageChangeValueProxy).value);
 		}
 
 		public function get model():InsulinTitrationDecisionPanelModel
@@ -683,6 +684,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			if (event.property == "isNewDoseDifferentFromOtherPartyLatest")
 			{
 				updateSendButtonLabel();
+			}
+			if (event.property == "dosageChangeValue")
+			{
+				setDosageChangeSpinnerListSelectedItem(_model.dosageChangeValue);
 			}
 		}
 
@@ -763,6 +768,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 				bloodGlucoseChange = -1;
 			}
 			_model.bloodGlucoseAverage += bloodGlucoseChange;
+		}
+
+		public function set controller(controller:InsulinTitrationDecisionPanelController):void
+		{
+			_controller = controller;
 		}
 	}
 }

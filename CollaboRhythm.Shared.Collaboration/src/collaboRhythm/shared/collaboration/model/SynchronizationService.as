@@ -1,18 +1,20 @@
 package collaboRhythm.shared.collaboration.model
 {
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
+
 	import flash.utils.getQualifiedClassName;
 
 	public class SynchronizationService
 	{
 		private var _collaborationSynchronizationController:*;
-		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 		private var _documentId:String;
 
 		private var _primaryCall:Boolean = true;
 		private var _initiatedLocally:Boolean;
 
 		public function SynchronizationService(collaborationSynchronizationController:*,
-											   collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy,
+											   collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy,
 											   documentId:String = null)
 		{
 			_collaborationSynchronizationController = collaborationSynchronizationController;
