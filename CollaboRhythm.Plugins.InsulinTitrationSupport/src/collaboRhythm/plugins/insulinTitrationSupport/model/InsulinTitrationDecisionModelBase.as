@@ -1,5 +1,9 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportState;
+	import collaboRhythm.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.RecurrenceRule;
@@ -176,11 +180,24 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _patientLatestDecisionDose:Number;
 		private var _clinicianLatestDecisionDose:Number;
 		private var _otherPartyLatestDecisionDose:Number;
+		private var _states:ArrayCollection;
 
 		public function InsulinTitrationDecisionModelBase()
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_medicationTitrationHelper = new MedicationTitrationHelper(record, currentDateSource);
+			initializeStates();
+		}
+
+		public function initializeStates():void
+		{
+			var array:Array = componentContainer.resolveAll(IInsulinTitrationDecisionSupportStatesFileStore);
+			if (array && array.length > 0)
+			{
+				var fileStore:InsulinTitrationDecisionSupportStatesFileStore = array[0] as
+						InsulinTitrationDecisionSupportStatesFileStore;
+				_states = fileStore.insulinTitrationDecisionSupportStates;
+			}
 		}
 
 		public function get record():Record
@@ -337,37 +354,42 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function updateInstructions():void
 		{
-			if (algorithmPrerequisitesSatisfied)
+			var steps:ArrayCollection = getSteps();
+			var stepsHtml:String = "";
+
+			for each (var step:Step in steps)
 			{
-				instructionsHtml = "<ol>" +
-						"<li>The average of your last 3 blood glucose measurements has been calculated.<br/></li>" +
-						"<li>The recommended change in dose has been highlighted. Keep in mind that this change does not account for diet, exercise, and other important factors.<br/></li>" +
-						"<li>You should choose the change in dose that you think is most appropriate.<br/></li>" +
-						"<li>Click Send to save your decision and send a message to your coach. Remember to check for feedback from your coach before using a new dose of insulin.</li>" +
-						"</ol>";
+				var subStepsHtml:String = "";
+				if (step.subSteps && step.subSteps.length > 0)
+				{
+					subStepsHtml = "<ul>";
+					for each (var subStep:String in step.subSteps)
+					{
+						subStepsHtml += "<li>" +
+								subStep +
+								// put a line break in the last <li> in order to get the vertical spacing we want; putting the br elsewhere seems to result in two line breaks
+								(subStep == step.subSteps[step.subSteps.length - 1] ? "<br/>" : "") +
+								"</li>";
+					}
+					subStepsHtml += "</ul>";
+				}
+				else
+				{
+					subStepsHtml = "<br/>";
+				}
+
+				var stepHtml:String = "<Font color='" +
+						(step.stepColor == "grey" ? "0x888888" : "0x000000") +
+						"'><li>" +
+						step.stepText +
+						subStepsHtml +
+						"</li></Font>";
+				stepsHtml += stepHtml;
 			}
-			else if (step2State == STEP_STOP)
-			{
-				instructionsHtml = "<ol>" +
-						"<li>The average of your last 3 blood glucose measurements has been calculated.<br/></li>" +
-						"<Font color='0x888888'>" +
-						"<li>The 303 protocol requires perfect medication adherence. A change in dose is not recommended because your adherence is not perfect in the last 4 days.<br/></li>" +
-						"<li>Changing your dose without perfect medication adherence can be dangerous. It can lead to hypoglycemia.</li>" +
-						"</Font></ol>";
-			}
-			else
-			{
-				instructionsHtml = "<ol><Font color='0x888888'>" +
-						"<li>You do not have three acceptable blood glucose measurements for the protocol. The rules are:<br/>" +
-						"<ul><li>Only the first measurement each day</li>" +
-						"<li>Before eating (preprandial)</li>" +
-						"<li>Since your last change in insulin dose</li>" +
-						"<li>Within the past 4 days (one must be this morning)<br/></li></ul>" +
-						"</li>" +
-						"<li>Without an average blood glucose, a change in dose cannot be recommended.<br/></li>" +
-						"<li>Changing your dose without 3 blood glucose measurements can be dangerous. It can lead to hypoglycemia.</li>" +
-						"</Font></ol>";
-			}
+
+			instructionsHtml = "<ol>" +
+					stepsHtml +
+					"</ol>"
 		}
 
 		public function get isChangeSpecified():Boolean
@@ -1469,6 +1491,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get evaluateTodayOnly():Boolean
 		{
 			return false;
+		}
+
+		public function getSteps():ArrayCollection
+		{
+			for each (var state:InsulinTitrationDecisionSupportState in _states)
+			{
+				if (state.selectors.contains("mode" + (isPatient ? "Patient" : "Clinician")) &&
+						state.selectors.contains("decisionPatient" + (_patientLatestDecisionResult ? (isDecisionResultAgreement(_patientLatestDecisionResult) ? "Agree" : "New") : "None")) &&
+						state.selectors.contains("decisionClinician" + (_clinicianLatestDecisionResult ? (isDecisionResultAgreement(_clinicianLatestDecisionResult) ? "Agree" : "New") : "None")) &&
+						state.selectors.contains("protocol" + (algorithmPrerequisitesSatisfied ? "ConditionsMet" : (areBloodGlucoseRequirementsMet ? "InsufficientAdherence" : "InsufficientBloodGlucose")))
+					)
+				{
+					return state.steps;
+				}
+			}
+			// no match; return empty array collection
+			return new ArrayCollection();
 		}
 	}
 }

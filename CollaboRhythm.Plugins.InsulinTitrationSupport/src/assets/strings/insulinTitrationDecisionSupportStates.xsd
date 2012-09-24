@@ -49,30 +49,7 @@
 			<xs:element name="selectors" maxOccurs="1" minOccurs="1">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="selector" maxOccurs="unbounded" minOccurs="0">
-							<xs:annotation>
-								<xs:documentation xml:lang="en">
-									Each selector defines one of the preconditions that must be met for the
-									insulinTitrationDecisionSupportState to be applicable. For a given State, all of the
-									preconditions must be met.
-								</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:enumeration value="modePatient"/>
-									<xs:enumeration value="modeClinician"/>
-									<xs:enumeration value="decisionPatientNone"/>
-									<xs:enumeration value="decisionPatientNew"/>
-									<xs:enumeration value="decisionPatientAgree"/>
-									<xs:enumeration value="decisionClinicianNone"/>
-									<xs:enumeration value="decisionClinicianNew"/>
-									<xs:enumeration value="decisionClinicianAgree"/>
-									<xs:enumeration value="protocolConditionsMet"/>
-									<xs:enumeration value="protocolInsufficientAdherence"/>
-									<xs:enumeration value="protocolInsufficientBloodGlucose"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:element>
+						<xs:element name="selector" type="selector" maxOccurs="unbounded" minOccurs="0"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -90,6 +67,29 @@
 			</xs:element>
 		</xs:all>
 	</xs:complexType>
+
+	<xs:simpleType name="selector">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Each selector defines one of the preconditions that must be met for the
+				insulinTitrationDecisionSupportState to be applicable. For a given State, all of the
+				preconditions must be met.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="modePatient"/>
+			<xs:enumeration value="modeClinician"/>
+			<xs:enumeration value="decisionPatientNone"/>
+			<xs:enumeration value="decisionPatientNew"/>
+			<xs:enumeration value="decisionPatientAgree"/>
+			<xs:enumeration value="decisionClinicianNone"/>
+			<xs:enumeration value="decisionClinicianNew"/>
+			<xs:enumeration value="decisionClinicianAgree"/>
+			<xs:enumeration value="protocolConditionsMet"/>
+			<xs:enumeration value="protocolInsufficientAdherence"/>
+			<xs:enumeration value="protocolInsufficientBloodGlucose"/>
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:complexType name="step">
 		<xs:annotation>

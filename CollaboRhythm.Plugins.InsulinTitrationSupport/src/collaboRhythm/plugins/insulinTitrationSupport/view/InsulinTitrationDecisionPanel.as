@@ -314,7 +314,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			_instructionsRichText.textFlow = TextConverter.importToFlow("<p align='center'><Font size='30'>303 Protocol for Insulin Titration</Font></p><p/>" +
 					model.instructionsHtml +
-					"<p align='center'><br/><a href='http://www.ncbi.nlm.nih.gov/pubmed/17924873'>Learn more about the 303 Protocol</a></p>",
+					"<p align='center'><a href='http://www.ncbi.nlm.nih.gov/pubmed/17924873'>Learn more about the 303 Protocol</a></p>",
 					TextConverter.TEXT_FIELD_HTML_FORMAT);
 		}
 
