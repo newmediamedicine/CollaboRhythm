@@ -5,7 +5,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+	import flash.filesystem.File;
 
 	import mx.collections.ArrayCollection;
 
@@ -28,8 +31,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
 			if (healthActionSchedule && healthActionSchedule.scheduledHealthAction is HealthActionPlan && healthActionModelDetailsProvider.record)
 				return new InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
-			else
-				return currentHealthActionListViewAdapter;
+
+
+			var medicationScheduleItem:MedicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+			if (medicationScheduleItem)
+			{
+				if (InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES.indexOf(medicationScheduleItem.name.value) != -1)
+				{
+					return new TitratingInsulinHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider, currentHealthActionListViewAdapter);
+				}
+			}
+			return currentHealthActionListViewAdapter;
 		}
 	}
 }

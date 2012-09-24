@@ -45,5 +45,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			return _healthActionModelDetailsProvider ? _healthActionModelDetailsProvider.currentDateSource : null;
 		}
+
+		override public function get evaluateTodayOnly():Boolean
+		{
+			return true;
+		}
 	}
 }

@@ -42,5 +42,10 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 		{
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
+
+		public function useDefaultHandleHealthActionResult():Boolean
+		{
+			return false;
+		}
 	}
 }

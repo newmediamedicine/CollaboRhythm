@@ -35,6 +35,7 @@ package collaboRhythm.plugins.medications.model
 		private var _instructionalVideo:String = "";
 
 		private var _imageCacheService:IImageCacheService;
+		private var _medicationCode:String;
 
 		public function MedicationHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -51,13 +52,19 @@ package collaboRhythm.plugins.medications.model
 			}
 
 			if (_medicationOrder)
+			{
 				_medicationName = MedicationNameUtil.parseName(_medicationOrder.name.text);
+				_medicationCode = _medicationOrder.name.value;
+			}
 			else if (_medicationScheduleItem)
+			{
 				_medicationName = MedicationNameUtil.parseName(_medicationScheduleItem.name.text);
+				_medicationCode = _medicationScheduleItem.name.value;
+			}
 
 			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
 
-			_medicationHealthAction = new MedicationHealthAction(_medicationName.rawName);
+			_medicationHealthAction = new MedicationHealthAction(_medicationName.rawName, _medicationCode);
 
 			_model = new MedicationHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider, _medicationOrder);
 

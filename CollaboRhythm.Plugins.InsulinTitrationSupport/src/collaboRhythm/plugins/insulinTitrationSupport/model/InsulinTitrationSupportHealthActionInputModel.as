@@ -6,21 +6,29 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 	public class InsulinTitrationSupportHealthActionInputModel extends HealthActionInputModelBase
 	{
-		public function InsulinTitrationSupportHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
+		private var _decisionScheduleItemOccurrence:ScheduleItemOccurrence;
+
+		public function InsulinTitrationSupportHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null, decisionScheduleItemOccurrence:ScheduleItemOccurrence = null,
 																	  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
 		{
 			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			_decisionScheduleItemOccurrence = decisionScheduleItemOccurrence;
 		}
 
 		public function prepareChartsForDecision():void
 		{
 			//TODO: I have not been able to reproduce it, but the record was null once
-			healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration", scheduleItemOccurrence);
+			healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration", decisionScheduleItemOccurrence);
 		}
 
 		public function showCharts():void
 		{
 			healthActionModelDetailsProvider.navigationProxy.showFullView("Health Charts");
+		}
+
+		public function get decisionScheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			return _decisionScheduleItemOccurrence;
 		}
 	}
 }

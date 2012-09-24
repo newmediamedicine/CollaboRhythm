@@ -55,5 +55,10 @@ package collaboRhythm.plugins.foraD40b.controller
 		{
 			return HEALTH_ACTION_INPUT_VIEW_CLASS;
 		}
+
+		public function useDefaultHandleHealthActionResult():Boolean
+		{
+			return false;
+		}
 	}
 }

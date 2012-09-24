@@ -723,7 +723,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (decisionScheduleItemOccurrence == null)
 				return;
 
-			_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES);
+			_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES, evaluateTodayOnly);
 			_currentDoseValue = _newDose = _medicationTitrationHelper.currentDoseValue;
 			_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
 			_dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
@@ -799,7 +799,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 				if (actionStepResult && actionStepResult.name)
 				{
-					return actionStepResult.name.text == AGREE_STOP_CONDITION_NAME;
+					return actionStepResult.name.text == PATIENT_DECISION_ACTION_STEP_RESULT_NAME;
 				}
 			}
 
@@ -1464,6 +1464,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get latestDecisionResult():HealthActionResult
 		{
 			return _latestDecisionResult;
+		}
+
+		public function get evaluateTodayOnly():Boolean
+		{
+			return false;
 		}
 	}
 }

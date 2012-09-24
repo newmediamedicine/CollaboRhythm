@@ -28,5 +28,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * the active view of the ViewNavigator corresponds to the view of this input controller.
 		 */
 		function get healthActionInputViewClass():Class;
+
+		function useDefaultHandleHealthActionResult():Boolean;
 	}
 }
