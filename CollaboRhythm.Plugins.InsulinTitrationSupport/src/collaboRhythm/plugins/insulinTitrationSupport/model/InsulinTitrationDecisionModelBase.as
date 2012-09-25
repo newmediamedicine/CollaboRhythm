@@ -1500,7 +1500,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				if (state.selectors.contains("mode" + (isPatient ? "Patient" : "Clinician")) &&
 						state.selectors.contains("decisionPatient" + (_patientLatestDecisionResult ? (isDecisionResultAgreement(_patientLatestDecisionResult) ? "Agree" : "New") : "None")) &&
 						state.selectors.contains("decisionClinician" + (_clinicianLatestDecisionResult ? (isDecisionResultAgreement(_clinicianLatestDecisionResult) ? "Agree" : "New") : "None")) &&
-						state.selectors.contains("protocol" + (algorithmPrerequisitesSatisfied ? "ConditionsMet" : (areBloodGlucoseRequirementsMet ? "InsufficientAdherence" : "InsufficientBloodGlucose")))
+						state.selectors.contains("protocol" + (algorithmPrerequisitesSatisfied ? "ConditionsMet" : (step2State == InsulinTitrationDecisionModelBase.STEP_STOP ? "InsufficientAdherence" : "InsufficientBloodGlucose")))
 					)
 				{
 					return state.steps;
