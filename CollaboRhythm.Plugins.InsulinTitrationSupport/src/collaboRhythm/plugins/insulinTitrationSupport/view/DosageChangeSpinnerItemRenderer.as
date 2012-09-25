@@ -112,10 +112,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			{
 				_decisionClinicianNew.visible = true;
 			}
+
+			drawBackground(unscaledWidth, unscaledHeight);
 		}
 
 		override protected function drawBackground(unscaledWidth:Number, unscaledHeight:Number):void
 		{
+			graphics.clear();
 			if (valueProxy.isLatestAgreementDosageChange)
 			{
 				highlight(unscaledWidth, unscaledHeight, valueProxy.isLatestDecisionByPatient ? PATIENT_LATEST_DECISION_HIGHLIGHT_COLOR : CLINICIAN_LATEST_DECISION_HIGHLIGHT_COLOR);

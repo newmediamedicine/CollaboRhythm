@@ -71,9 +71,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
-		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN:String = "Insulin titration: ";
-		private static const TITRATION_LEADING_PHRASE_TO_PATIENT_DISAGREE:String = "I disagree with your decision. Recommended insulin titration: ";
-		private static const TITRATION_LEADING_PHRASE_TO_PATIENT_AGREE:String = "I agree with your decision. Insulin titration: ";
+		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN:String = "[Automated Message] New insulin titration: ";
+		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN_AGREE:String = "[Automated Message] Agreed insulin titration: ";
+		private static const TITRATION_LEADING_PHRASE_TO_PATIENT_DISAGREE:String = "[Automated Message] Advised insulin titration: ";
+		private static const TITRATION_LEADING_PHRASE_TO_PATIENT_AGREE:String = "[Automated Message] Agreed insulin titration: ";
 		/**
 		 * Phrase used to start the titration decision message when a change is made to the dose.
 		 * {0} previous dose
@@ -181,6 +182,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _clinicianLatestDecisionDose:Number;
 		private var _otherPartyLatestDecisionDose:Number;
 		private var _states:ArrayCollection;
+		private var _initializedDosageChangeValue:Boolean;
 
 		public function InsulinTitrationDecisionModelBase()
 		{
@@ -746,9 +748,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				return;
 
 			_scheduleDetails = _medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES, evaluateTodayOnly);
-			_currentDoseValue = _newDose = _medicationTitrationHelper.currentDoseValue;
+			_currentDoseValue = _medicationTitrationHelper.currentDoseValue;
 			_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
-			_dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
+			if (!_initializedDosageChangeValue)
+			{
+				_newDose = _medicationTitrationHelper.currentDoseValue;
+				_dosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
+				_initializedDosageChangeValue = true;
+			}
 			persistedDosageChangeValue = _medicationTitrationHelper.dosageChangeValue;
 
 			updateLatestDecisionDoses();
@@ -907,6 +914,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						saveSucceeded = saveForClinician(currentMedicationScheduleItem, plan, saveSucceeded);
 
 					saveTitrationResult(currentMedicationScheduleItem);
+					evaluateForInitialize();
 				}
 			}
 
