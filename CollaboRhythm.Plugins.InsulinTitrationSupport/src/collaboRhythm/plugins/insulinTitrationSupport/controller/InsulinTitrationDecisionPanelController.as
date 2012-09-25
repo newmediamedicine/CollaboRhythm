@@ -27,5 +27,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 			_model.dosageChangeValue = value;
 		}
+
+		public function send():void
+		{
+			_model.record.healthChartsModel.save();
+		}
 	}
 }

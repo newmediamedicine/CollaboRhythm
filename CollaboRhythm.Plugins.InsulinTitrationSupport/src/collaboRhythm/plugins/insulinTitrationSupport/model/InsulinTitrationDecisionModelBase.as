@@ -188,6 +188,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _initializedDosageChangeValue:Boolean;
 
 		private var _confirmationMessage:String;
+		private var _instructionsSteps:ArrayCollection;
 
 		public function InsulinTitrationDecisionModelBase()
 		{
@@ -361,42 +362,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function updateInstructions():void
 		{
-			var steps:ArrayCollection = getSteps();
-			var stepsHtml:String = "";
+			instructionsSteps = getSteps();
+		}
 
-			for each (var step:Step in steps)
-			{
-				var subStepsHtml:String = "";
-				if (step.subSteps && step.subSteps.length > 0)
-				{
-					subStepsHtml = "<ul>";
-					for each (var subStep:String in step.subSteps)
-					{
-						subStepsHtml += "<li>" +
-								subStep +
-								// put a line break in the last <li> in order to get the vertical spacing we want; putting the br elsewhere seems to result in two line breaks
-								(subStep == step.subSteps[step.subSteps.length - 1] ? "<br/>" : "") +
-								"</li>";
-					}
-					subStepsHtml += "</ul>";
-				}
-				else
-				{
-					subStepsHtml = "<br/>";
-				}
+		public function get instructionsSteps():ArrayCollection
+		{
+			return _instructionsSteps;
+		}
 
-				var stepHtml:String = "<Font color='" +
-						(step.stepColor == "grey" ? "0x888888" : "0x000000") +
-						"'><li>" +
-						step.stepText +
-						subStepsHtml +
-						"</li></Font>";
-				stepsHtml += stepHtml;
-			}
-
-			instructionsHtml = "<ol>" +
-					stepsHtml +
-					"</ol>"
+		public function set instructionsSteps(instructionsSteps:ArrayCollection):void
+		{
+			_instructionsSteps = instructionsSteps;
 		}
 
 		public function get isChangeSpecified():Boolean
