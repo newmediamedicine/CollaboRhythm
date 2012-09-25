@@ -38,7 +38,7 @@ package collaboRhythm.plugins.schedule.shared.controller
 			}
 			else
 			{
-				if (_healthActionListViewModel.healthActionInputController)
+				if (_healthActionListViewModel.healthActionInputController && !_healthActionListViewModel.healthActionInputController.useDefaultHandleHealthActionResult())
 				{
 					_healthActionListViewModel.healthActionInputController.handleHealthActionResult();
 				}

@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationDecisionPanelController;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.ConfirmChangePopUp;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationDecisionPanel;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
@@ -219,8 +220,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 					if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
 					{
+						var panelController:InsulinTitrationDecisionPanelController = new InsulinTitrationDecisionPanelController(chartModelDetails.collaborationLobbyNetConnectionServiceProxy,
+								_insulinTitrationDecisionPanelModel);
 						var panel:InsulinTitrationDecisionPanel = new InsulinTitrationDecisionPanel();
 						panel.model = _insulinTitrationDecisionPanelModel;
+						panel.controller = panelController;
 						panel.percentHeight = 100;
 						extraPanel = panel;
 
@@ -287,7 +291,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 			else
 			{
-				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.previousDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValueLabel, _insulinTitrationDecisionPanelModel.newDose);
+				confirmChangePopUp.model = new ConfirmChangePopUpModel(_insulinTitrationDecisionPanelModel.previousDoseValue, _insulinTitrationDecisionPanelModel.dosageChangeValueLabel, _insulinTitrationDecisionPanelModel.newDose, _insulinTitrationDecisionPanelModel.confirmationMessage);
 				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
 				confirmChangePopUp.open(chartModelDetails.owner, true);
 				PopUpManager.centerPopUp(confirmChangePopUp);

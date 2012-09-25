@@ -18,6 +18,7 @@ package collaboRhythm.core.controller
 {
 
 	import castle.flexbridge.kernel.IKernel;
+	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
 	import collaboRhythm.core.model.AboutApplicationModel;
@@ -42,6 +43,9 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
 	import collaboRhythm.shared.controller.ICollaborationController;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportState;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
@@ -80,6 +84,7 @@ package collaboRhythm.core.controller
 	import flash.net.NetworkInterface;
 	import flash.text.Font;
 	import flash.utils.Timer;
+	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
@@ -578,6 +583,24 @@ package collaboRhythm.core.controller
 			_pluginLoader.loadPlugins();
 		}
 
+		public function readStates():void
+		{
+// TODO: move the classes to the plugin and register the component from the plugin
+//			_componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationDecisionSupportStatesFileStore).name, InsulinTitrationDecisionSupportStatesFileStore, new InsulinTitrationDecisionSupportStatesFileStore());
+			var array:Array = componentContainer.resolveAll(IInsulinTitrationDecisionSupportStatesFileStore);
+			if (array && array.length > 0)
+			{
+				var state:InsulinTitrationDecisionSupportState = new InsulinTitrationDecisionSupportState();
+				var defState:Object = getDefinitionByName(ReflectionUtils.getClassInfo(InsulinTitrationDecisionSupportState).name);
+				var step:Step = new Step();
+				var defStep:Object = getDefinitionByName(ReflectionUtils.getClassInfo(Step).name);
+
+				var fileStore:IInsulinTitrationDecisionSupportStatesFileStore = array[0] as
+						IInsulinTitrationDecisionSupportStatesFileStore;
+				fileStore.readStates();
+			}
+		}
+
 		/**
 		 * Method that should be called by subclasses to create a connection with the Flash Media Server.
 		 */
@@ -1040,6 +1063,8 @@ package collaboRhythm.core.controller
 			_logger.info("Plugins loaded.");
 			var array:Array = _componentContainer.resolveAll(AppControllerInfo);
 			_logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0).toString());
+
+			readStates();
 
 			if (_reloadWithRecordAccount)
 				openRecordAccount(_reloadWithRecordAccount);

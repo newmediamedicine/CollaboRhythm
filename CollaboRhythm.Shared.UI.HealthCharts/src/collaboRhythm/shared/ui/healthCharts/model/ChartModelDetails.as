@@ -1,6 +1,7 @@
 package collaboRhythm.shared.ui.healthCharts.model
 {
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -15,12 +16,14 @@ package collaboRhythm.shared.ui.healthCharts.model
 		private var _healthChartsModel:HealthChartsModel;
 		private var _owner:DisplayObjectContainer;
 		private var _componentContainer:IComponentContainer;
+		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 
 		public function ChartModelDetails(record:Record, accountId:String,
 										  currentDateSource:ICurrentDateSource,
 										  healthChartsModel:HealthChartsModel,
 										  owner:DisplayObjectContainer,
-										  componentContainer:IComponentContainer)
+										  componentContainer:IComponentContainer,
+										  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
 			_record = record;
 			_accountId = accountId;
@@ -28,6 +31,7 @@ package collaboRhythm.shared.ui.healthCharts.model
 			_healthChartsModel = healthChartsModel;
 			_owner = owner;
 			_componentContainer = componentContainer;
+			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 		}
 
 		public function get record():Record
@@ -63,6 +67,11 @@ package collaboRhythm.shared.ui.healthCharts.model
 		public function set componentContainer(value:IComponentContainer):void
 		{
 			_componentContainer = value;
+		}
+
+		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+		{
+			return _collaborationLobbyNetConnectionServiceProxy;
 		}
 	}
 }

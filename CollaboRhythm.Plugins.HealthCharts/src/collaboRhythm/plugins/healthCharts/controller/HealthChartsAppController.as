@@ -4,9 +4,11 @@ package collaboRhythm.plugins.healthCharts.controller
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsEvent;
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import flash.events.MouseEvent;
@@ -114,6 +116,7 @@ package collaboRhythm.plugins.healthCharts.controller
 				_fullView.componentContainer = _componentContainer;
 				_fullView.activeAccountId = activeAccount.accountId;
 				_fullView.viewNavigator = _viewNavigator;
+				_fullView.collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 			}
 		}
 
@@ -247,7 +250,8 @@ package collaboRhythm.plugins.healthCharts.controller
 				if (_healthChartsModel && _healthChartsModel.record)
 					_healthChartsModel.record.saveAllChanges();
 
-				closeFullView();
+				if (_collaborationLobbyNetConnectionServiceProxy.collaborationState != CollaborationModel.COLLABORATION_ACTIVE)
+					closeFullView();
 			}
 		}
 

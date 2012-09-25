@@ -1,5 +1,8 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationHealthActionConditionsMet;
+	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationHealthActionInsufficientAdherence;
+	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationHealthActionInsufficientBloodGlucose;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
@@ -14,7 +17,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import mx.core.IVisualElement;
 	import mx.events.PropertyChangeEvent;
 
+	import spark.components.Group;
 	import spark.components.Image;
+	import spark.core.SpriteVisualElement;
 	import spark.filters.ColorMatrixFilter;
 	import spark.skins.spark.ImageSkin;
 
@@ -96,6 +101,61 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 		}
 
+		public function createCustomView():IVisualElement
+		{
+			var group:Group = new Group();
+			group.percentWidth = 100;
+			group.percentHeight = 100;
+
+			var insufficientBloodGlucoseIcon:InsulinTitrationHealthActionInsufficientBloodGlucose = new InsulinTitrationHealthActionInsufficientBloodGlucose();
+			initializeIcon(insufficientBloodGlucoseIcon, group);
+			var insufficientAdherenceIcon:InsulinTitrationHealthActionInsufficientAdherence = new InsulinTitrationHealthActionInsufficientAdherence();
+			initializeIcon(insufficientAdherenceIcon, group);
+			var conditionsMetIcon:InsulinTitrationHealthActionConditionsMet = new InsulinTitrationHealthActionConditionsMet();
+			initializeIcon(conditionsMetIcon, group);
+
+			updateIconsForPrerequisites(insufficientBloodGlucoseIcon, insufficientAdherenceIcon, conditionsMetIcon);
+			_decisionModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, function (event:PropertyChangeEvent):void
+					{
+						if (event.property == "algorithmPrerequisitesSatisfied" || event.property == "step2State")
+						{
+							updateIconsForPrerequisites(insufficientBloodGlucoseIcon, insufficientAdherenceIcon, conditionsMetIcon);
+						}
+					}, false, 0, true);
+
+			return group;
+		}
+
+		private function updateIconsForPrerequisites(insufficientBloodGlucoseIcon:InsulinTitrationHealthActionInsufficientBloodGlucose,
+													 insufficientAdherenceIcon:InsulinTitrationHealthActionInsufficientAdherence,
+													 conditionsMetIcon:InsulinTitrationHealthActionConditionsMet):void
+		{
+			insufficientBloodGlucoseIcon.visible = false;
+			insufficientAdherenceIcon.visible = false;
+			conditionsMetIcon.visible = false;
+			if (_decisionModel)
+			{
+				if (_decisionModel.algorithmPrerequisitesSatisfied)
+				{
+					conditionsMetIcon.visible = true;
+				}
+				else if (_decisionModel.step2State == InsulinTitrationDecisionModelBase.STEP_STOP)
+				{
+					insufficientAdherenceIcon.visible = true;
+				}
+				else
+				{
+					insufficientBloodGlucoseIcon.visible = true;
+				}
+			}
+		}
+
+		private function initializeIcon(icon:SpriteVisualElement, group:Group):void
+		{
+			icon.percentWidth = icon.percentHeight = 100;
+			group.addElement(icon);
+		}
+
 		public function get name():String
 		{
 			return InsulinTitrationSupportHealthAction.HEALTH_ACTION_TYPE;
@@ -159,11 +219,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				_controller = new HealthActionListViewControllerBase(_model)
 			}
 			return _controller;
-		}
-
-		public function createCustomView():IVisualElement
-		{
-			return null;
 		}
 	}
 }

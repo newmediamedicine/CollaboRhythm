@@ -1,13 +1,18 @@
 package collaboRhythm.plugins.insulinTitrationSupport.view
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationDecisionPanelController;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.DosageChangeValueProxy;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionModelBase;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionPanelModel;
+	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step1Icon;
+	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step2Icon;
+	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step3Icon;
+	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step4Icon;
+	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.WarningIcon;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.SolidFillButtonSkin;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.TransparentButtonSkin;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
-
-	import flash.display.InteractiveObject;
 
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -22,18 +27,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	import mx.core.ClassFactory;
-	import mx.core.IButton;
 	import mx.core.IVisualElement;
 	import mx.core.mx_internal;
 	import mx.events.PropertyChangeEvent;
 	import mx.graphics.SolidColor;
 	import mx.graphics.SolidColorStroke;
-	import mx.managers.IFocusManager;
 	import mx.managers.IFocusManagerComponent;
 
 	import spark.components.Button;
 	import spark.components.CalloutButton;
 	import spark.components.Group;
+	import spark.components.HGroup;
 	import spark.components.Label;
 	import spark.components.RichEditableText;
 	import spark.components.RichText;
@@ -86,7 +90,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private static const GOAL_LABEL_FONT_SIZE:int = 21;
 		private static const ARROW_CALLOUT_INSTRUCTIONS_FONT_SIZE:int = 24;
 
-		private static const SEND_BUTTON_FONT_SIZE:int = 19;
+		private static const SEND_BUTTON_FONT_SIZE:int = 16;
 		private static const SEND_BUTTON_FONT_SIZE_SMALL:int = 14;
 
 		private var _model:InsulinTitrationDecisionPanelModel;
@@ -122,7 +126,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private var _connectorMaxLine:DottedLine;
 		private var _connectorMinLine:DottedLine;
 		private var _instructionsScroller:Scroller;
-		private var _instructionsRichText:RichEditableText;
+
+		private var _decisionClinicianNew:DecisionClinicianNew;
+		private var _decisionClinicianAgree:DecisionClinicianAgree;
+		private var _decisionPatientNew:DecisionPatientNew;
+		private var _decisionPatientAgree:DecisionPatientAgree;
+		private var _controller:InsulinTitrationDecisionPanelController;
+		private var _instructionsGroup:VGroup;
 
 		public function InsulinTitrationDecisionPanel()
 		{
@@ -143,17 +153,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_instructionsScroller.includeInLayout = false;
 			addElement(_instructionsScroller);
 
-			var instructionsGroup:VGroup = new VGroup();
-			_instructionsScroller.viewport = instructionsGroup;
-
-			_instructionsRichText = new RichEditableText();
-			_instructionsRichText.editable = false;
-//			_instructionsRichText.setStyle("paragraphSpaceAfter", 10);
-			_instructionsRichText.setStyle("paddingLeft", 20);
+			_instructionsGroup = new VGroup();
+			_instructionsScroller.viewport = _instructionsGroup;
 			updateInstructionsText();
-//			_instructionsRichText.textFlow.addEventListener(FlowElementMouseEvent.CLICK, instructionsFlowElementMouseEventHandler);
-
-			instructionsGroup.addElement(_instructionsRichText);
 
 			_step1Badge = new Step1Badge();
 			_step1Badge.bottom = 0;
@@ -260,7 +262,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			addElement(_dosageChangeSpinnerListContainer);
 
+			_decisionClinicianNew = new DecisionClinicianNew();
+			initializeIcon(_decisionClinicianNew);
+			_decisionClinicianAgree = new DecisionClinicianAgree();
+			initializeIcon(_decisionClinicianAgree);
+			_decisionPatientNew = new DecisionPatientNew();
+			initializeIcon(_decisionPatientNew);
+			_decisionPatientAgree = new DecisionPatientAgree();
+			initializeIcon(_decisionPatientAgree);
+
 			_sendButton = new Button();
+			_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
 			updateSendButtonLabel();
 			_sendButton.x = STEP4_X;
 			updateArrowButtonY(_sendButton);
@@ -270,33 +282,114 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			addElement(_sendButton);
 		}
 
+		private function createInstructionsRichText(source:String, parentGroup:Group):RichEditableText
+		{
+			var richText:RichEditableText = new RichEditableText();
+			richText.editable = false;
+//			richText.setStyle("paragraphSpaceAfter", 10);
+			richText.setStyle("paddingTop", 7);
+			richText.setStyle("paddingBottom", 8);
+			richText.setStyle("paddingLeft", 5);
+//			richText.textFlow.addEventListener(FlowElementMouseEvent.CLICK, instructionsFlowElementMouseEventHandler);
+
+			richText.textFlow = TextConverter.importToFlow(source, TextConverter.TEXT_FIELD_HTML_FORMAT);
+			richText.percentWidth = 100;
+
+			parentGroup.addElement(richText);
+			return richText;
+		}
+
+		public function initializeIcon(icon:SpriteVisualElement):void
+		{
+			icon.width = icon.height = 20;
+			var glowFilter:GlowFilter = new GlowFilter();
+			glowFilter.color = 0xFFFFFF;
+			glowFilter.alpha = 0.7;
+			glowFilter.blurX = icon.width / 8;
+			glowFilter.blurY = icon.width / 8;
+			glowFilter.strength = icon.width / 8;
+
+			icon.filters = [glowFilter];
+		}
 		private function updateSendButtonLabel():void
 		{
-			if (model.isPatient)
+			if (model.isNewDoseDifferentFromOtherPartyLatest)
 			{
-				_sendButton.label = "Send";
-				_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
-			}
-			else
+				_sendButton.label = model.isPatient ? "Send" : "Advise";
+				_sendButton.setStyle("icon", model.isPatient ? _decisionPatientNew : _decisionClinicianNew);
+			} else
 			{
-				if (model.isNewDoseDifferentFromCurrent)
-				{
-					_sendButton.label = "Advise";
-					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
-				} else
-				{
-					_sendButton.label = "Confirm";
-					_sendButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
-				}
+				_sendButton.label = "Agree";
+				_sendButton.setStyle("icon", model.isPatient ? _decisionPatientAgree : _decisionClinicianAgree);
 			}
 		}
 
 		private function updateInstructionsText():void
 		{
-			_instructionsRichText.textFlow = TextConverter.importToFlow("<p align='center'><Font size='30'>303 Protocol for Insulin Titration</Font></p><p/>" +
-					model.instructionsHtml +
-					"<p align='center'><br/><a href='http://www.ncbi.nlm.nih.gov/pubmed/17924873'>Learn more about the 303 Protocol</a></p>",
-					TextConverter.TEXT_FIELD_HTML_FORMAT);
+			_instructionsGroup.removeAllElements();
+			createInstructionsRichText("<p align='center'><Font size='30'>303 Protocol for Insulin Titration</Font></p>",
+					_instructionsGroup);
+
+			var steps:ArrayCollection = model.instructionsSteps;
+			var stepIcons:Vector.<SpriteVisualElement> = new Vector.<SpriteVisualElement>();
+			stepIcons.push(new Step1Icon());
+			stepIcons.push(new Step2Icon());
+			stepIcons.push(new Step3Icon());
+			stepIcons.push(new Step4Icon());
+
+			var currentStep:int = 0;
+			for each (var step:Step in steps)
+			{
+				var subStepsHtml:String = "";
+				if (step.subSteps && step.subSteps.length > 0)
+				{
+					subStepsHtml = "<ul>";
+					for each (var subStep:String in step.subSteps)
+					{
+						subStepsHtml += "<li>" +
+								subStep +
+								"</li>";
+					}
+					subStepsHtml += "</ul>";
+				}
+
+				var stepHtml:String = "<Font color='" +
+						(step.stepColor == "grey" ? "0x888888" : "0x000000") +
+						"'>" +
+						step.stepText +
+						subStepsHtml +
+						"</Font>";
+				var stepGroup:HGroup = new HGroup();
+				stepGroup.percentWidth = 100;
+				if (currentStep < stepIcons.length)
+				{
+					var stepIcon:SpriteVisualElement = stepIcons[currentStep];
+					currentStep++;
+
+					if (step.stepColor == "grey")
+					{
+						stepIcon.filters = [_greyScaleFilter];
+						stepIcon.alpha = 0.3;
+					}
+					stepGroup.addElement(stepIcon);
+				}
+				stepGroup.paddingLeft = 20;
+
+				if (step.stepIcon == "warning")
+				{
+					var warningIcon:WarningIcon = new WarningIcon();
+					warningIcon.includeInLayout = false;
+					warningIcon.x = 1;
+					warningIcon.y = 2;
+					stepGroup.addElement(warningIcon)
+				}
+
+				createInstructionsRichText(stepHtml, stepGroup);
+				_instructionsGroup.addElement(stepGroup);
+			}
+
+			createInstructionsRichText("<p align='center'><a href='http://www.ncbi.nlm.nih.gov/pubmed/17924873'>Learn more about the 303 Protocol</a></p>",
+					_instructionsGroup);
 		}
 
 		private function instructionsFlowElementMouseEventHandler( event:FlowElementMouseEvent ):void
@@ -540,8 +633,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			button.setStyle("fontSize", fontSize);
 			button.addEventListener(MouseEvent.CLICK,
 			            function(event:MouseEvent):void {
-							setDosageChangeSpinnerListSelectedItem(dosageChangeValue);
-							_model.dosageChangeValue = dosageChangeValue;
+							_controller.setDosageChangeValue(dosageChangeValue);
 			            });
 			addElement(button);
 			return button;
@@ -613,7 +705,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function dosageChangeSpinnerList_changeHandler(event:Event):void
 		{
-			_model.dosageChangeValue = (_dosageChangeSpinnerList.selectedItem as DosageChangeValueProxy).value;
+			_controller.setDosageChangeValue((_dosageChangeSpinnerList.selectedItem as DosageChangeValueProxy).value);
 		}
 
 		public function get model():InsulinTitrationDecisionPanelModel
@@ -657,13 +749,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			{
 				invalidateDisplayList();
 			}
-			if (event.property == "instructionsHtml")
+			if (event.property == "instructionsSteps")
 			{
 				updateInstructionsText();
 			}
-			if (event.property == "isNewDoseDifferentFromCurrent")
+			if (event.property == "isNewDoseDifferentFromOtherPartyLatest")
 			{
 				updateSendButtonLabel();
+			}
+			if (event.property == "dosageChangeValue")
+			{
+				setDosageChangeSpinnerListSelectedItem(_model.dosageChangeValue);
 			}
 		}
 
@@ -695,7 +791,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_instructionsScroller.y = -_instructionsScroller.height - chartsContainerPaddingTop;
 			_instructionsScroller.x = chartsContainer ? chartsContainer.gap : 0;
 			_instructionsScroller.width = this.width - _instructionsScroller.x;
-			_instructionsRichText.width = _instructionsScroller.width;
 		}
 
 		private function updateConnectors():void
@@ -729,7 +824,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function sendButton_clickHandler(event:MouseEvent):void
 		{
-			_model.record.healthChartsModel.save();
+			_controller.send();
 		}
 
 		protected override function keyDownHandler(event:KeyboardEvent):void
@@ -744,6 +839,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 				bloodGlucoseChange = -1;
 			}
 			_model.bloodGlucoseAverage += bloodGlucoseChange;
+		}
+
+		public function set controller(controller:InsulinTitrationDecisionPanelController):void
+		{
+			_controller = controller;
 		}
 	}
 }

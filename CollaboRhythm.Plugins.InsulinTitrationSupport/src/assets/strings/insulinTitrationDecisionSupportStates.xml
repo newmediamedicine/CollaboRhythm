@@ -95,7 +95,7 @@
 				<subSteps>
 					<subStep>1 each morning before eating (including today)</subStep>
 					<subStep>Until you have 3 since your last change in insulin dose</subStep>
-					<subStep>But the 3 readings must be within the past 4 days</subStep>
+					<subStep>The 3 readings must be within the past 4 days</subStep>
 				</subSteps>
 			</step>
 			<step>
@@ -197,7 +197,7 @@
 				<subSteps>
 					<subStep>1 each morning before eating (including today)</subStep>
 					<subStep>Until you have 3 since your last change in insulin dose</subStep>
-					<subStep>But the 3 readings must be within the past 4 days</subStep>
+					<subStep>The 3 readings must be within the past 4 days</subStep>
 				</subSteps>
 			</step>
 			<step>
@@ -295,7 +295,7 @@
 				<subSteps>
 					<subStep>1 each morning before eating (including today)</subStep>
 					<subStep>Until you have 3 since your last change in insulin dose</subStep>
-					<subStep>But the 3 readings must be within the past 4 days</subStep>
+					<subStep>The 3 readings must be within the past 4 days</subStep>
 				</subSteps>
 			</step>
 			<step>
@@ -388,7 +388,7 @@
 				<subSteps>
 					<subStep>1 each morning before eating (including today)</subStep>
 					<subStep>Until you have 3 since your last change in insulin dose</subStep>
-					<subStep>But the 3 readings must be within the past 4 days</subStep>
+					<subStep>The 3 readings must be within the past 4 days</subStep>
 				</subSteps>
 			</step>
 			<step>
@@ -479,7 +479,7 @@
 				<subSteps>
 					<subStep>1 each morning before eating (including today)</subStep>
 					<subStep>Until you have 3 since your last change in insulin dose</subStep>
-					<subStep>But the 3 readings must be within the past 4 days</subStep>
+					<subStep>The 3 readings must be within the past 4 days</subStep>
 				</subSteps>
 			</step>
 			<step>
@@ -570,7 +570,7 @@
 				<subSteps>
 					<subStep>1 each morning before eating (including today)</subStep>
 					<subStep>Until you have 3 since your last change in insulin dose</subStep>
-					<subStep>But the 3 readings must be within the past 4 days</subStep>
+					<subStep>The 3 readings must be within the past 4 days</subStep>
 				</subSteps>
 			</step>
 			<step>
@@ -610,7 +610,7 @@
 					<stepText>Choose the change in dose that you think is most appropriate with the spinner.</stepText>
 				</step>
 				<step>
-					<stepText>Click the Advise button to save your advice and send a message to your modePatient.
+					<stepText>Click the Advise button to save your advice and send a message to your patient.
 					</stepText>
 				</step>
 			</steps>
@@ -642,7 +642,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your modePatient.
+					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your patient.
 					</stepText>
 				</step>
 			</steps>
@@ -663,7 +663,7 @@
 					<subSteps>
 						<subStep>1 each morning before eating (including today)</subStep>
 						<subStep>Until there are 3 since the last change in insulin dose</subStep>
-						<subStep>But the 3 readings must be within the past 4 days</subStep>
+						<subStep>The 3 readings must be within the past 4 days</subStep>
 					</subSteps>
 				</step>
 				<step>
@@ -677,7 +677,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your modePatient.
+					<stepText>Click back if you do not want to advise a change. Click Send to save your advice and send a message to your patient.
 					</stepText>
 				</step>
 			</steps>
@@ -703,7 +703,7 @@
 					<stepText>Your patient's choice is highlighted in blue. Choose this same change to agree or a different change to advise.</stepText>
 				</step>
 				<step>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
 					</stepText>
 				</step>
 			</steps>
@@ -734,7 +734,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
 					</stepText>
 				</step>
 			</steps>
@@ -755,7 +755,7 @@
 					<subSteps>
 						<subStep>1 each morning before eating (including today)</subStep>
 						<subStep>Until there are 3 since the last change in insulin dose</subStep>
-						<subStep>But the 3 readings must be within the past 4 days</subStep>
+						<subStep>The 3 readings must be within the past 4 days</subStep>
 					</subSteps>
 				</step>
 				<step>
@@ -768,7 +768,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.
 					</stepText>
 				</step>
 			</steps>
@@ -795,7 +795,7 @@
 					</stepText>
 				</step>
 				<step>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.</stepText>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -826,7 +826,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.</stepText>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -846,7 +846,7 @@
 					<subSteps>
 						<subStep>1 each morning before eating (including today)</subStep>
 						<subStep>Until there are 3 since the last change in insulin dose</subStep>
-						<subStep>But the 3 readings must be within the past 4 days</subStep>
+						<subStep>The 3 readings must be within the past 4 days</subStep>
 					</subSteps>
 				</step>
 				<step>
@@ -860,7 +860,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click the Agree/Advise button to save your choice and send a message to your modePatient.</stepText>
+					<stepText>Click the Agree/Advise button to save your choice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -885,7 +885,7 @@
 					<stepText>You have agreed with your patient's choice, and it is highlighted in purple. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -915,7 +915,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -935,7 +935,7 @@
 					<subSteps>
 						<subStep>1 each morning before eating (including today)</subStep>
 						<subStep>Until there are 3 since the last change in insulin dose</subStep>
-						<subStep>But the 3 readings must be within the past 4 days</subStep>
+						<subStep>The 3 readings must be within the past 4 days</subStep>
 					</subSteps>
 				</step>
 				<step>
@@ -948,7 +948,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -973,7 +973,7 @@
 					<stepText>Your advice is highlighted in purple. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -1003,7 +1003,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -1023,7 +1023,7 @@
 					<subSteps>
 						<subStep>1 each morning before eating (including today)</subStep>
 						<subStep>Until there are 3 since the last change in insulin dose</subStep>
-						<subStep>But the 3 readings must be within the past 4 days</subStep>
+						<subStep>The 3 readings must be within the past 4 days</subStep>
 					</subSteps>
 				</step>
 				<step>
@@ -1036,7 +1036,7 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -1058,10 +1058,10 @@
 					</stepText>
 				</step>
 				<step>
-					<stepText>Your modePatient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -1087,11 +1087,11 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Your modePatient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>
@@ -1111,7 +1111,7 @@
 					<subSteps>
 						<subStep>1 each morning before eating (including today)</subStep>
 						<subStep>Until there are 3 since the last change in insulin dose</subStep>
-						<subStep>But the 3 readings must be within the past 4 days</subStep>
+						<subStep>The 3 readings must be within the past 4 days</subStep>
 					</subSteps>
 				</step>
 				<step>
@@ -1120,11 +1120,11 @@
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Your modePatient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
+					<stepText>Your patient has agreed with your advice, and it is highlighted in blue. You can update your advice with the spinner.</stepText>
 				</step>
 				<step>
 					<stepColor>grey</stepColor>
-					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your modePatient.</stepText>
+					<stepText>Click back if you do not want to update your advice. Click the Advise button to save new advice and send a message to your patient.</stepText>
 				</step>
 			</steps>
 		</insulinTitrationDecisionSupportState>

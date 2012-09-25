@@ -1,6 +1,7 @@
 package collaboRhythm.shared.ui.healthCharts.model
 {
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -31,5 +32,7 @@ package collaboRhythm.shared.ui.healthCharts.model
 		 * and services.
 		 */
 		function get componentContainer():IComponentContainer;
+
+		function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy;
 	}
 }

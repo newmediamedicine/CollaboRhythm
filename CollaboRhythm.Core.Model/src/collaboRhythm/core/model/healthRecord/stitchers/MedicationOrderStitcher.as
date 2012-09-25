@@ -21,6 +21,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -38,6 +39,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 			super(record, MedicationOrder.DOCUMENT_TYPE);
 			addRequiredDocumentType(MedicationFill.DOCUMENT_TYPE);
 			addRequiredDocumentType(MedicationScheduleItem.DOCUMENT_TYPE);
+			addRequiredDocumentType(HealthActionResult.DOCUMENT_TYPE);
 		}
 
 		override protected function stitchSpecialReferencesOnDocument(document:IDocument):void

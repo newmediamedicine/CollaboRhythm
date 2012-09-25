@@ -250,5 +250,10 @@ package collaboRhythm.plugins.foraD40b.controller
 				_synchronizationService.removeEventListener(this);
 			}
 		}
+
+		public function useDefaultHandleHealthActionResult():Boolean
+		{
+			return false;
+		}
 	}
 }

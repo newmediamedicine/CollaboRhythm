@@ -27,7 +27,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 																		   viewNavigator:ViewNavigator,
 																		   collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
 		{
-			_dataInputModel = new InsulinTitrationSupportHealthActionInputModel(scheduleItemOccurrence,
+			_dataInputModel = new InsulinTitrationSupportHealthActionInputModel(scheduleItemOccurrence, scheduleItemOccurrence,
 					healthActionModelDetailsProvider);
 			_viewNavigator = viewNavigator;
 			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy as
@@ -64,7 +64,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		public function get healthActionInputViewClass():Class
 		{
-			return null;
+			return HEALTH_ACTION_INPUT_VIEW_CLASS;
+		}
+
+		public function useDefaultHandleHealthActionResult():Boolean
+		{
+			return false;
 		}
 	}
 }

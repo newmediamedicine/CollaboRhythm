@@ -18,7 +18,7 @@
 <s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 						   xmlns:s="library://ns.adobe.com/flex/spark"
 						   xmlns:view="collaboRhythm.plugins.insulinTitrationSupport.view.*"
-						   width="470">
+						   minWidth="470">
 	<fx:Declarations>
 		<s:ColorMatrixFilter id="grayScaleFilter"
 							 matrix="0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0,	0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0"/>
@@ -26,7 +26,7 @@
 	<fx:Style>
 		#mainLabel {
 			fontSize: 21;
-			color: #43C0EF;
+			color: #F3F3F3;
 		}
 
 		.operandLabel {
@@ -68,16 +68,7 @@
 		</s:fill>
 	</s:Rect>
 	<s:VGroup gap="0" width="100%">
-		<s:HGroup width="100%" paddingLeft="10" paddingRight="10" paddingTop="17" paddingBottom="15"
-				  verticalAlign="middle" horizontalAlign="center">
-			<s:Label id="mainLabel" textAlign="center" text="Please confirm change in insulin dose."/>
-		</s:HGroup>
-		<s:Line width="100%">
-			<s:stroke>
-				<s:SolidColorStroke color="0x43C0EF"/>
-			</s:stroke>
-		</s:Line>
-		<s:Spacer width="100%" height="30"/>
+		<s:Spacer width="100%" height="10"/>
 		<s:Group width="100%">
 			<s:Label styleName="operandLabel"
 					 text="Previous dose"
@@ -89,7 +80,7 @@
 			<s:Label styleName="operandLabel"
 					 text="Units"
 					 visible="{!isNaN(_model.previousDoseValue)}"
-					 paddingLeft="0" left="327" paddingTop="20" paddingBottom="0"/>
+					 paddingLeft="0" left="{width - 143}" paddingTop="20" paddingBottom="0"/>
 		</s:Group>
 		<s:Group width="100%">
 			<s:Label styleName="operandLabel"
@@ -100,7 +91,7 @@
 					 paddingLeft="56" right="150" paddingTop="20" paddingBottom="0"/>
 			<s:Label styleName="operandLabel"
 					 text="Units"
-					 paddingLeft="0" left="327" paddingTop="20" paddingBottom="0"/>
+					 paddingLeft="0" left="{width - 143}" paddingTop="20" paddingBottom="0"/>
 		</s:Group>
 		<s:Spacer width="100%" height="26"/>
 		<s:Group width="100%">
@@ -120,9 +111,12 @@
 					 paddingLeft="56" right="150" paddingTop="20" paddingBottom="0"/>
 			<s:Label styleName="sumLabel"
 					 text="Units"
-					 paddingLeft="0" left="327" paddingTop="20" paddingBottom="0"/>
+					 paddingLeft="0" left="{width - 143}" paddingTop="20" paddingBottom="0"/>
 		</s:Group>
-		<s:Spacer width="100%" height="64"/>
+		<s:HGroup width="100%" paddingLeft="20" paddingRight="20" paddingTop="40" paddingBottom="15"
+				  verticalAlign="middle" horizontalAlign="center">
+			<s:Label id="mainLabel" textAlign="center" text="{_model.confirmationMessage}"/>
+		</s:HGroup>
 		<s:Line width="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="0x444444"/>

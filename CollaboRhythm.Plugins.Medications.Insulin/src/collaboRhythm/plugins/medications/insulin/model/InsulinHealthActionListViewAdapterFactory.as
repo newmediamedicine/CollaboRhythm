@@ -33,9 +33,9 @@ package collaboRhythm.plugins.medications.insulin.model
 															   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
-			if (ReflectionUtils.getClass(scheduleItemOccurrence.scheduleItem) == MedicationScheduleItem)
+			var medicationScheduleItem:MedicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
+			if (medicationScheduleItem)
 			{
-				var medicationScheduleItem:MedicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 				if (INSULIN_MEDICATION_CODES.indexOf(medicationScheduleItem.name.value) != -1)
 				{
 					if (currentHealthActionListViewAdapter)

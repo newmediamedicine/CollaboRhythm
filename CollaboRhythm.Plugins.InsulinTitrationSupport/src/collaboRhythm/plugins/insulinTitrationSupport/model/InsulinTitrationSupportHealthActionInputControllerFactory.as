@@ -1,11 +1,13 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
 	import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationSupportHealthActionInputController;
+	import collaboRhythm.plugins.insulinTitrationSupport.controller.TitratingInsulinHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.MedicationHealthAction;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
@@ -30,6 +32,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				return new InsulinTitrationSupportHealthActionInputController(scheduleItemOccurrence,
 						healthActionModelDetailsProvider, viewNavigator, collaborationLobbyNetConnectionServiceProxy);
+			}
+			else if (healthAction.type == MedicationHealthAction.TYPE )
+			{
+				var medicationHealthAction:MedicationHealthAction = healthAction as MedicationHealthAction;
+				if (medicationHealthAction && InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES.indexOf(medicationHealthAction.medicationCode) != -1)
+				{
+					return new TitratingInsulinHealthActionInputController(scheduleItemOccurrence,
+							healthActionModelDetailsProvider, viewNavigator, collaborationLobbyNetConnectionServiceProxy);
+				}
 			}
 			return currentHealthActionInputController;
 		}

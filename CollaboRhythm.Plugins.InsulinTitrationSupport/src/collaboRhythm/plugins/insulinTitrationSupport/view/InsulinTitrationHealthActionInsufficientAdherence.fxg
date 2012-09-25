@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="100" viewWidth="100" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:seqID="2" d:type="layer" d:userLabel="Layer 1">
+      <Group ai:seqID="3">
+        <Group ai:seqID="4">
+          <mask>
+            <Group ai:spare="1">
+              <Rect width="100" height="100" ai:seqID="5">
+                <fill>
+                  <SolidColor color="#FFFFFF"/>
+                </fill>
+              </Rect>
+            </Group>
+          </mask>
+          <Group y="7" ai:seqID="6">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="68.6094" ai:seqID="7">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <BitmapImage scaleX="0.066225" scaleY="0.066225" source="@Embed('InsulinTitrationHealthActionInsufficientAdherence.assets/images/Image_0001.png')" fillMode="clip" ai:seqID="8"/>
+          </Group>
+          <Group ai:seqID="9">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="100" ai:seqID="10">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Path y="64.5" winding="nonZero" ai:seqID="11" data="M28 14C28 21.7305 21.7314 28 14 28 6.26807 28 0 21.7305 0 14 0 6.26758 6.26807 0 14 0 21.7314 0 28 6.26758 28 14">
+              <fill>
+                <SolidColor color="#DBDBDC"/>
+              </fill>
+            </Path>
+          </Group>
+          <RichText rotation="360" x="7.34424" y="68.54" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="off" color="#AEAFB1" whiteSpaceCollapse="preserve" ai:aa="2" ai:seqID="12">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">1</span></p></content>
+          </RichText>
+          <Group ai:seqID="13">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="100" ai:seqID="14">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Path x="24" y="64.5" winding="nonZero" ai:seqID="15" data="M28 14C28 21.7305 21.7314 28 14 28 6.26855 28 0 21.7305 0 14 0 6.26758 6.26855 0 14 0 21.7314 0 28 6.26758 28 14">
+              <fill>
+                <SolidColor color="#DBDBDC"/>
+              </fill>
+            </Path>
+          </Group>
+          <RichText rotation="360" x="32.4688" y="68.54" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="off" color="#AEAFB1" whiteSpaceCollapse="preserve" ai:aa="2" ai:seqID="16">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">2</span></p></content>
+          </RichText>
+          <Group ai:seqID="17">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="100" ai:seqID="18">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Path x="48" y="64.5" winding="nonZero" ai:seqID="19" data="M28 14C28 21.7305 21.7314 28 14 28 6.26855 28 0 21.7305 0 14 0 6.26758 6.26855 0 14 0 21.7314 0 28 6.26758 28 14">
+              <fill>
+                <SolidColor color="#DBDBDC"/>
+              </fill>
+            </Path>
+          </Group>
+          <RichText rotation="360" x="56.5938" y="68.54" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="off" color="#AEAFB1" whiteSpaceCollapse="preserve" ai:aa="2" ai:seqID="20">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">3</span></p></content>
+          </RichText>
+          <Group ai:seqID="21">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="100" ai:seqID="22">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Path x="72" y="64.5" winding="nonZero" ai:seqID="23" data="M28 14C28 21.7305 21.7314 28 14 28 6.26855 28 0 21.7305 0 14 0 6.26758 6.26855 0 14 0 21.7314 0 28 6.26758 28 14">
+              <fill>
+                <SolidColor color="#DBDBDC"/>
+              </fill>
+            </Path>
+          </Group>
+          <RichText rotation="360" x="79.8438" y="68.54" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="off" color="#AEAFB1" whiteSpaceCollapse="preserve" ai:aa="2" ai:seqID="24">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">4</span></p></content>
+          </RichText>
+          <RichText rotation="360" x="20.6338" y="20.3262" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="21" kerning="off" whiteSpaceCollapse="preserve" ai:aa="2" ai:seqID="25">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro" trackingRight="0.9%">I</span><span fontFamily="Myriad Pro">nsulin</span></p></content>
+          </RichText>
+          <RichText rotation="360" x="12.8009" y="40.5293" columnCount="1" tabStops="S36 S72" fontFamily="Myriad Pro" fontSize="21" kerning="off" whiteSpaceCollapse="preserve" ai:aa="2" ai:seqID="26">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro" trackingRight="-1.1%">T</span><span fontFamily="Myriad Pro">it</span><span fontFamily="Myriad Pro" trackingRight="-0.4%">r</span><span fontFamily="Myriad Pro" trackingRight="-0.3%">a</span><span fontFamily="Myriad Pro">tion</span></p></content>
+          </RichText>
+        </Group>
+      </Group>
+      <Ellipse y="64.5" width="28" height="28" ai:seqID="27">
+        <fill>
+          <SolidColor color="#F79520"/>
+        </fill>
+      </Ellipse>
+      <Group x="-1.5" y="66.4512" ai:seqID="28" flm:knockout="false">
+        <Group y="3.04883" ai:seqID="29">
+          <Rect width="30" height="24.5" ai:seqID="30"/>
+          <Path x="11.3403" y="1.4375" winding="nonZero" ai:seqID="31" data="M3.16846 1.96875 3.12061 1.96875 0.408203 3.43359 0 1.82422 3.4082 0 5.2085 0 5.2085 15.6016 3.16846 15.6016 3.16846 1.96875Z">
+            <fill>
+              <SolidColor/>
+            </fill>
+          </Path>
+        </Group>
+      </Group>
+    </Group>
+  </Group>
+  <Private>
+      <d:FontMap>
+        <d:Map fontFamily="Myriad Pro" fontStyle="normal" fontWeight="normal" postScriptName="MyriadPro-Regular"/>
+      </d:FontMap>
+    </Private>
+  </Graphic>
