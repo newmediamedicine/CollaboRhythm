@@ -1,15 +1,14 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportState;
-	import collaboRhythm.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
@@ -71,7 +70,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
-		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN:String = "[Automated Message] New insulin titration: ";
+		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN_DISAGREE:String = "[Automated Message] New insulin titration: ";
 		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN_AGREE:String = "[Automated Message] Agreed insulin titration: ";
 		private static const TITRATION_LEADING_PHRASE_TO_PATIENT_DISAGREE:String = "[Automated Message] Advised insulin titration: ";
 		private static const TITRATION_LEADING_PHRASE_TO_PATIENT_AGREE:String = "[Automated Message] Agreed insulin titration: ";
@@ -118,6 +117,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public static const CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME:String = "Clinician Decision";
 		private static const AGREE_STOP_CONDITION_NAME:String = "Agree";
 		private static const NEW_STOP_CONDITION_NAME:String = "New";
+
+		private static const AGREE:String = "Agree";
+		private static const NEW:String = "New";
+		private static const NONE:String = "None";
 
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
@@ -183,6 +186,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _otherPartyLatestDecisionDose:Number;
 		private var _states:ArrayCollection;
 		private var _initializedDosageChangeValue:Boolean;
+
+		private var _confirmationMessage:String;
 
 		public function InsulinTitrationDecisionModelBase()
 		{
@@ -740,6 +745,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				_previousDoseValue = _medicationTitrationHelper.previousDoseValue;
 				_newDose = (isNaN(_previousDoseValue) ? 0 : _previousDoseValue) + dosageChangeValue;
 			}
+
+			_confirmationMessage = !isPatient ||
+					!_clinicianLatestDecisionResult ? (algorithmPrerequisitesSatisfied ? (_dosageChangeValue ==
+					algorithmSuggestedDoseChange ? "This change agrees with the 303 Protocol." : "This change does not agree with the 303 Protocol.") : "Prerequisites of the 303 Protocol not met.") : (_newDose ==
+					_clinicianLatestDecisionDose ? "This change agrees with your coach’s advice." : "This change does not agree with your coach’s advice.")
 		}
 
 		public function evaluateForInitialize():void
@@ -972,17 +982,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function saveForClinician(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
 										  saveSucceeded:Boolean):Boolean
 		{
-			var leadingPhrase:String;
-
-			if (_newDose == _currentDoseValue)
-			{
-				leadingPhrase = TITRATION_LEADING_PHRASE_TO_PATIENT_AGREE;
-			}
-			else
-			{
-				leadingPhrase = TITRATION_LEADING_PHRASE_TO_PATIENT_DISAGREE;
-			}
-			var message:String = getMessage(leadingPhrase);
+			var message:String = getMessage(_newDose == _patientLatestDecisionDose ?
+					TITRATION_LEADING_PHRASE_TO_PATIENT_AGREE : TITRATION_LEADING_PHRASE_TO_PATIENT_DISAGREE);
 			sendMessage(message);
 			return saveSucceeded;
 		}
@@ -1007,7 +1008,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				saveSucceeded = saveSucceeded && saveDosageChange(currentMedicationScheduleItem);
 			}
 
-			sendMessage(getMessageToClinician());
+			var message:String = getMessage(_newDose == _clinicianLatestDecisionDose ?
+					TITRATION_LEADING_PHRASE_TO_CLINICIAN_AGREE : TITRATION_LEADING_PHRASE_TO_CLINICIAN_DISAGREE);
+			sendMessage(message);
 			return saveSucceeded;
 		}
 
@@ -1019,11 +1022,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				var messageService:IIndividualMessageHealthRecordService = servicesArray[0];
 				messageService.createAndSendMessage(message);
 			}
-		}
-
-		private function getMessageToClinician():String
-		{
-			return getMessage(TITRATION_LEADING_PHRASE_TO_CLINICIAN);
 		}
 
 		private function getMessage(leadingPhrase:String):String
@@ -1503,12 +1501,36 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function getSteps():ArrayCollection
 		{
+			var patient:String = (_patientLatestDecisionResult ? (isDecisionResultAgreement(_patientLatestDecisionResult) ? AGREE : NEW) : NONE);
+			var clinician:String = (_clinicianLatestDecisionResult ? (isDecisionResultAgreement(_clinicianLatestDecisionResult) ? AGREE : NEW) : NONE);
+			var protocol:String = (algorithmPrerequisitesSatisfied ? "ConditionsMet" : (step2State == InsulinTitrationDecisionModelBase.STEP_STOP ? "InsufficientAdherence" : "InsufficientBloodGlucose"));
+
+			if (patient == AGREE && clinician == AGREE)
+			{
+				if (_latestDecisionResult == _patientLatestDecisionResult)
+				{
+					clinician = NEW;
+				}
+				else
+				{
+					patient = NEW;
+				}
+			}
+			else if (patient == AGREE && clinician == NONE)
+			{
+				clinician = NEW;
+			}
+			else if (patient == NONE && clinician == AGREE)
+			{
+				patient = NEW;
+			}
+
 			for each (var state:InsulinTitrationDecisionSupportState in _states)
 			{
 				if (state.selectors.contains("mode" + (isPatient ? "Patient" : "Clinician")) &&
-						state.selectors.contains("decisionPatient" + (_patientLatestDecisionResult ? (isDecisionResultAgreement(_patientLatestDecisionResult) ? "Agree" : "New") : "None")) &&
-						state.selectors.contains("decisionClinician" + (_clinicianLatestDecisionResult ? (isDecisionResultAgreement(_clinicianLatestDecisionResult) ? "Agree" : "New") : "None")) &&
-						state.selectors.contains("protocol" + (algorithmPrerequisitesSatisfied ? "ConditionsMet" : (step2State == InsulinTitrationDecisionModelBase.STEP_STOP ? "InsufficientAdherence" : "InsufficientBloodGlucose")))
+						state.selectors.contains("decisionPatient" + patient) &&
+						state.selectors.contains("decisionClinician" + clinician) &&
+						state.selectors.contains("protocol" + protocol)
 					)
 				{
 					return state.steps;
@@ -1516,6 +1538,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 			// no match; return empty array collection
 			return new ArrayCollection();
+		}
+
+		public function get confirmationMessage():String
+		{
+			return _confirmationMessage;
 		}
 	}
 }
