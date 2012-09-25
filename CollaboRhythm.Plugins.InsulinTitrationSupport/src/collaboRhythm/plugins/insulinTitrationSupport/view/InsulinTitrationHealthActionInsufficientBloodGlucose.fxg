@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="100" viewWidth="100" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:seqID="2" d:type="layer" d:userLabel="Layer 1">
+      <BitmapImage scaleX="0.066225" scaleY="0.066225" y="7" source="@Embed('InsulinTitrationHealthActionInsufficientBloodGlucose.assets/images/Image_0001.png')" fillMode="clip" ai:seqID="3"/>
+      <Ellipse y="64.5" width="28" height="28" ai:seqID="4">
+        <fill>
+          <SolidColor color="#DBDBDC"/>
+        </fill>
+      </Ellipse>
+      <RichText x="-1.5" y="68.5398" columnCount="1" textAlign="center" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="on" color="#AEAFB1" whiteSpaceCollapse="preserve" width="30" height="24.5" ai:aa="2" ai:seqID="5">
+        <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">1</span></p></content>
+      </RichText>
+      <Ellipse x="24" y="64.5" width="28" height="28" ai:seqID="6">
+        <fill>
+          <SolidColor color="#DBDBDC"/>
+        </fill>
+      </Ellipse>
+      <Group x="23.625" y="66.4512" ai:seqID="7" flm:knockout="false">
+        <Group y="3.04883" ai:seqID="8">
+          <Rect width="30" height="24.5" ai:seqID="9"/>
+          <Path x="9.92383" y="1.17383" winding="nonZero" ai:seqID="10" data="M0 15.8652 0 14.5703 1.65625 12.9609C5.64063 9.16992 7.46484 7.15234 7.46484 4.80078 7.46484 3.2168 6.7207 1.75195 4.39258 1.75195 2.97656 1.75195 1.80078 2.47266 1.08008 3.07227L0.408203 1.58398C1.46484 0.697266 3.02539 0 4.80078 0 8.16113 0
+ 9.57715 2.30469 9.57715 4.53711 9.57715 7.41797 7.48926 9.74609 4.20117 12.9141L2.97656 14.0664 2.97656 14.1133 9.96094 14.1133 9.96094 15.8652 0 15.8652Z">
+            <fill>
+              <SolidColor color="#AEAFB1"/>
+            </fill>
+          </Path>
+        </Group>
+      </Group>
+      <Ellipse x="48" y="64.5" width="28" height="28" ai:seqID="11">
+        <fill>
+          <SolidColor color="#DBDBDC"/>
+        </fill>
+      </Ellipse>
+      <Group x="47.75" y="66.4512" ai:seqID="12" flm:knockout="false">
+        <Group y="3.04883" ai:seqID="13">
+          <Rect width="30" height="24.5" ai:seqID="14"/>
+          <Path x="9.85254" y="1.17383" winding="nonZero" ai:seqID="15" data="M0.575195 13.4648C1.17578 13.8262 2.54395 14.4258 4.03223 14.4258 6.7207 14.4258 7.58398 12.7207 7.56055 11.4004 7.53613 9.2168 5.56836 8.28125 3.52832 8.28125L2.35254 8.28125 2.35254 6.69727 3.52832 6.69727C5.06445 6.69727 7.00879 5.9043 7.00879
+ 4.05664 7.00879 2.80859 6.2168 1.70508 4.27246 1.70508 3.02441 1.70508 1.82324 2.25586 1.15137 2.73633L0.575195 1.20117C1.41602 0.599609 3 0 4.68066 0 7.75293 0 9.14453 1.82422 9.14453 3.7207 9.14453 5.35352 8.16016 6.7207 6.26465 7.41797L6.26465
+ 7.46484C8.18457 7.82422 9.7207 9.26563 9.74512 11.4492 9.74512 13.9453 7.77637 16.1289 4.05566 16.1289 2.30371 16.1289 0.768555 15.5781 0 15.0742L0.575195 13.4648Z">
+            <fill>
+              <SolidColor color="#AEAFB1"/>
+            </fill>
+          </Path>
+        </Group>
+      </Group>
+      <Ellipse x="72" y="64.5" width="28" height="28" ai:seqID="16">
+        <fill>
+          <SolidColor color="#DBDBDC"/>
+        </fill>
+      </Ellipse>
+      <Group x="71" y="66.4512" ai:seqID="17" flm:knockout="false">
+        <Group y="3.04883" ai:seqID="18">
+          <Rect width="30" height="24.5" ai:seqID="19"/>
+          <Path x="9.2041" y="1.4375" winding="nonZero" ai:seqID="20" data="M7.24902 15.6016 7.24902 11.3301 0 11.3301 0 9.96094 6.96094 0 9.24121 0 9.24121 9.69727 11.4248 9.69727 11.4248 11.3301 9.24121 11.3301 9.24121 15.6016 7.24902 15.6016ZM7.24902 9.69727 7.24902 4.48828C7.24902 3.67383 7.27246 2.85742 7.32129 2.04102
+L7.24902 2.04102C6.76855 2.95313 6.38477 3.625 5.95215 4.3457L2.13574 9.65039 2.13574 9.69727 7.24902 9.69727Z">
+            <fill>
+              <SolidColor color="#AEAFB1"/>
+            </fill>
+          </Path>
+        </Group>
+      </Group>
+      <RichText x="7.5625" y="15.3258" columnCount="1" textAlign="center" tabStops="S36 S72" fontFamily="Myriad Pro" fontSize="21" kerning="on" whiteSpaceCollapse="preserve" width="84.4375" height="48.334" ai:aa="2" ai:seqID="21">
+        <content><p fontFamily="Myriad Pro" baselineShift="-5"><span fontFamily="Myriad Pro">Insulin</span></p><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">Titration</span></p></content>
+      </RichText>
+    </Group>
+  </Group>
+  <Private>
+      <d:FontMap>
+        <d:Map fontFamily="Myriad Pro" fontStyle="normal" fontWeight="normal" postScriptName="MyriadPro-Regular"/>
+      </d:FontMap>
+    </Private>
+  </Graphic>
