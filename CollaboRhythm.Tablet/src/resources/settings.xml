@@ -26,7 +26,8 @@
 	<primaryClinicianTeamMember>jking@records.media.mit.edu</primaryClinicianTeamMember>
 	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>true</useTraceTarget>
-	<useSyslogTarget>true</useSyslogTarget>
+	<useSyslogTarget>false</useSyslogTarget>
+	<useGoogleAnalytics>false</useGoogleAnalytics>
 	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
 	<syslogServerIpAddress>collaborhythm.media.mit.edu</syslogServerIpAddress>
 	<rtmpBaseURI>rtmfp://collaborhythm.media.mit.edu</rtmpBaseURI>

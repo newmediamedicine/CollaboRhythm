@@ -1,6 +1,7 @@
 package collaboRhythm.shared.collaboration.model
 {
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.ICollaborationModel;
 
 	import flash.events.EventDispatcher;
 	import flash.net.NetConnection;
@@ -143,6 +144,11 @@ package collaboRhythm.shared.collaboration.model
 		public function get netConnection():NetConnection
 		{
 			return _netConnection;
+		}
+
+		public function get collaborationModel():ICollaborationModel
+		{
+			return _collaborationModel;
 		}
 	}
 }

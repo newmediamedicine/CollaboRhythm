@@ -25,6 +25,7 @@
 		protected var _activeAccount:Account;
 		[Bindable]
 		protected var _activeRecordAccount:Account;
+		private var _trackingUrl:String;
 
 		private function reloadPluginsViewMenuItem_clickHandler():void
 		{
@@ -151,6 +152,16 @@
 				return "Enable Voiding";
 			}
 		}
+
+		public function get trackingUrl():String
+		{
+			return _trackingUrl;
+		}
+
+		public function set trackingUrl(value:String):void
+		{
+			_trackingUrl = value;
+		}
 		]]></fx:Script>
 	<s:viewMenuItems>
 		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 0)}" includeIn="debuggingToolsEnabled"
@@ -167,8 +178,13 @@
 				label="{(_tabletApplicationController &amp;&amp; _tabletApplicationController.fastForwardEnabled ? 'Stop' : 'Start') + ' Fast Forward'}"
 				includeIn="debuggingToolsEnabled"
 				click="toggleFastForwardMenuItem_clickHandler(event)"/>
-		<s:ViewMenuItem label="Select Record" id="selectRecordMenuItem" click="selectRecordMenuItem_clickHandler(event)" visible="{_tabletApplicationController.settings.isClinicianMode}" includeInLayout="{_tabletApplicationController.settings.isClinicianMode}"/>
-		<s:ViewMenuItem id="enableVoidingMenuItem" label="{determineEnableVoidingMenuItemLabel(_tabletApplicationController.settings.adherenceVoidingEnabled)}" visible="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}" includeInLayout="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}"
+		<s:ViewMenuItem label="Select Record" id="selectRecordMenuItem" click="selectRecordMenuItem_clickHandler(event)"
+						visible="{_tabletApplicationController.settings.isClinicianMode}"
+						includeInLayout="{_tabletApplicationController.settings.isClinicianMode}"/>
+		<s:ViewMenuItem id="enableVoidingMenuItem"
+						label="{determineEnableVoidingMenuItemLabel(_tabletApplicationController.settings.adherenceVoidingEnabled)}"
+						visible="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}"
+						includeInLayout="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}"
 						click="_tabletApplicationController.settings.adherenceVoidingEnabled = !_tabletApplicationController.settings.adherenceVoidingEnabled"/>
 		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
 						click="reloadPluginsViewMenuItem_clickHandler()"/>

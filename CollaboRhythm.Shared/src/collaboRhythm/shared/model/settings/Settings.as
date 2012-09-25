@@ -33,14 +33,16 @@ package collaboRhythm.shared.model.settings
 		private var _clinicianTeamMembers:ArrayCollection;
 		private var _primaryClinicianTeamMember:String;
 		private var _useFileTarget:Boolean;
-        private var _useTraceTarget:Boolean;
-        private var _useSyslogTarget:Boolean;
+		private var _useTraceTarget:Boolean;
+		private var _useSyslogTarget:Boolean;
+		private var _syslogServerIpAddress:String;
+		private var _useGoogleAnalytics:Boolean;
+		private var _googleAnalyticsTrackingId:String;
 		private var _debuggingToolsEnabled:Boolean;
 		private var _oauthChromeConsumerKey:String;
 		private var _oauthChromeConsumerSecret:String;
 		private var _indivoServerBaseURL:String;
 		private var _logSourceIdentifier:String;
-        private var _syslogServerIpAddress:String;
 		private var _mode:String;
 		private var _rtmpBaseURI:String;
 		private var _useSingleScreen:Boolean;
@@ -95,16 +97,6 @@ package collaboRhythm.shared.model.settings
 			_logSourceIdentifier = value;
 		}
 
-        public function get syslogServerIpAddress():String
-        {
-            return _syslogServerIpAddress;
-        }
-
-        public function set syslogServerIpAddress(value:String):void
-        {
-            _syslogServerIpAddress = value;
-        }
-
 		public function get oauthChromeConsumerKey():String
 		{
 			return _oauthChromeConsumerKey;
@@ -145,35 +137,65 @@ package collaboRhythm.shared.model.settings
 			_username = value;
 		}
 
-        public function get useFileTarget():Boolean
-        {
-            return _useFileTarget;
-        }
+		public function get useFileTarget():Boolean
+		{
+			return _useFileTarget;
+		}
 
-        public function set useFileTarget(value:Boolean):void
-        {
-            _useFileTarget = value;
-        }
+		public function set useFileTarget(value:Boolean):void
+		{
+			_useFileTarget = value;
+		}
 
-        public function get useTraceTarget():Boolean
-        {
-            return _useTraceTarget;
-        }
+		public function get useTraceTarget():Boolean
+		{
+			return _useTraceTarget;
+		}
 
-        public function set useTraceTarget(value:Boolean):void
-        {
-            _useTraceTarget = value;
-        }
+		public function set useTraceTarget(value:Boolean):void
+		{
+			_useTraceTarget = value;
+		}
 
-        public function get useSyslogTarget():Boolean
-        {
-            return _useSyslogTarget;
-        }
+		public function get useSyslogTarget():Boolean
+		{
+			return _useSyslogTarget;
+		}
 
-        public function set useSyslogTarget(value:Boolean):void
-        {
-            _useSyslogTarget = value;
-        }
+		public function set useSyslogTarget(value:Boolean):void
+		{
+			_useSyslogTarget = value;
+		}
+
+		public function get syslogServerIpAddress():String
+		{
+			return _syslogServerIpAddress;
+		}
+
+		public function set syslogServerIpAddress(value:String):void
+		{
+			_syslogServerIpAddress = value;
+		}
+
+		public function get useGoogleAnalytics():Boolean
+		{
+			return _useGoogleAnalytics;
+		}
+
+		public function set useGoogleAnalytics(value:Boolean):void
+		{
+			_useGoogleAnalytics = value;
+		}
+
+		public function get googleAnalyticsTrackingId():String
+		{
+			return _googleAnalyticsTrackingId;
+		}
+
+		public function set googleAnalyticsTrackingId(value:String):void
+		{
+			_googleAnalyticsTrackingId = value;
+		}
 
 		public function get mode():String
 		{

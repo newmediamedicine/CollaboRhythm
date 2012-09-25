@@ -46,6 +46,7 @@ package collaboRhythm.mobile.controller
 
 		public function MobileApplicationController(mobileApplication:CollaboRhythmMobileApplication)
 		{
+			super(mobileApplication);
 			_mobileApplication = mobileApplication;
 		}
 

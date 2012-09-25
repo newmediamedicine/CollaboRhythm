@@ -45,6 +45,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
@@ -68,6 +69,8 @@ package collaboRhythm.core.controller
 
 	import com.coltware.airxlib.log.TCPSyslogTarget;
 	import com.daveoncode.logging.LogFileTarget;
+	import com.google.analytics.AnalyticsTracker;
+	import com.google.analytics.GATracker;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
@@ -88,6 +91,8 @@ package collaboRhythm.core.controller
 	import mx.logging.LogEventLevel;
 	import mx.logging.targets.TraceTarget;
 
+	import spark.components.Application;
+
 	import spark.components.ViewNavigator;
 
 	[Bindable]
@@ -96,6 +101,7 @@ package collaboRhythm.core.controller
 		private static const ONE_MINUTE:int = 1000 * 60;
 		private static const DEBUG_LOG_FONTS:Boolean = false;
 
+		private var _application:*;
 		protected var _applicationControllerModel:ApplicationControllerModel;
 		protected var _kernel:IKernel;
 		protected var _settingsFileStore:SettingsFileStore;
@@ -105,34 +111,36 @@ package collaboRhythm.core.controller
 		private var _activeRecordAccount:Account;
 		protected var _collaborationController:CollaborationController;
 		protected var _logger:ILogger;
+		protected var _analyticsTracker:AnalyticsTracker;
 		protected var _componentContainer:IComponentContainer;
 		protected var _pluginLoader:PluginLoader;
 		protected var _reloadWithRecordAccount:Account;
 		protected var _reloadWithFullView:String;
 		protected var _healthRecordServiceFacade:HealthRecordServiceFacade;
+
 		protected var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _serviceIsSavingPrevious:Boolean = false;
-
 		private var _pendingReloadData:Boolean;
+
 		private var _pendingExit:Boolean;
 		private var _pendingCloseRecordAccount:Account;
-
 		protected var _connectivityView:ConnectivityView;
 		protected var _busyView:BusyView;
 		protected var _aboutApplicationView:AboutApplicationView;
+
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
 		private var failedRequestEvent:HealthRecordServiceEvent;
-
 		private var _nextAutoSyncTime:Date;
+
 		private var _autoSyncTimer:Timer;
 		protected var _currentDateSource:ICurrentDateSource;
-
 		private var _backgroundProcessModel:BackgroundProcessCollectionModel = new BackgroundProcessCollectionModel();
 		protected var _navigationProxy:IApplicationNavigationProxy;
 		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 
-		public function ApplicationControllerBase()
+		public function ApplicationControllerBase(application:Application)
 		{
+			_application = application;
 			// TODO: add event listener to handle the fast forward mode of the date source
 			_autoSyncTimer = new Timer(0);
 			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
@@ -179,6 +187,8 @@ package collaboRhythm.core.controller
 		 */
 		public function main():void
 		{
+			_kernel = WorkstationKernel.instance;
+
 			_applicationControllerModel = new ApplicationControllerModel();
 			_applicationControllerModel.isLoading = true;
 			BindingUtils.bindSetter(applicationControllerModel_isLoadingChangeHandler, _applicationControllerModel,
@@ -308,8 +318,15 @@ package collaboRhythm.core.controller
 
 		private function nativeApplication_activateHandler(event:Event):void
 		{
+			activateTracking();
 			InteractionLogUtil.log(_logger, "Application activate");
 			checkAutoSyncTimer();
+		}
+
+		// virtual method to be overridden by subclasses
+		protected function activateTracking():void
+		{
+
 		}
 
 		private function checkAutoSyncTimer():void
@@ -327,6 +344,7 @@ package collaboRhythm.core.controller
 
 		private function nativeApplication_deactivateHandler(event:Event):void
 		{
+			deactivateTracking();
 			InteractionLogUtil.log(_logger, "Application deactivate");
 
 			if (isAutoSaveOnDeactivateEnabled && activeRecordAccount)
@@ -341,6 +359,12 @@ package collaboRhythm.core.controller
 					prepareToDeactivate();
 				}
 			}
+		}
+
+		// virtual method to be overridden by subclasses
+		protected function deactivateTracking():void
+		{
+
 		}
 
 		private function get isAutoSaveOnDeactivateEnabled():Boolean
@@ -459,6 +483,11 @@ package collaboRhythm.core.controller
 				Log.addTarget(tcpSyslogTarget);
 			}
 
+			if (_settings.useGoogleAnalytics)
+			{
+				_analyticsTracker = new GATracker(_application, _settings.googleAnalyticsTrackingId, "AS3");
+			}
+
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 
 			_logger.info("Logging initialized");
@@ -518,8 +547,6 @@ package collaboRhythm.core.controller
 
 		private function initComponents():void
 		{
-			_kernel = WorkstationKernel.instance;
-
 			//	_kernel.registerComponentInstance("CurrentDateSource", ICurrentDateSource, new DefaultCurrentDateSource());
 			var dateSource:ICurrentDateSource;
 			if (_settings.demoModeEnabled || _settings.debuggingToolsEnabled)
@@ -1475,6 +1502,16 @@ package collaboRhythm.core.controller
 				if (_busyView)
 					_busyView.message = backgroundProcessModel.summary;
 			}
+		}
+
+		public function get analyticsTracker():AnalyticsTracker
+		{
+			return _analyticsTracker;
+		}
+
+		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+		{
+			return _collaborationLobbyNetConnectionServiceProxy;
 		}
 	}
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="gaforflash-SA" default="main" basedir=".">
+    
+    <target name="define">
+        
+        <property name="FLEX_HOME_MAC" value="/OpenSource/Flex/sdks/4.5.0" />
+        <property name="FLEX_HOME_WIN" value="c:/OpenSource/Flex/sdks/4.5.0" />
+        
+        <property name="local.flashplayerversion" value="10" />
+        
+        <condition property="FLEX_HOME" value="${FLEX_HOME_MAC}">
+            <os family="mac" />
+        </condition>
+        
+        <condition property="FLEX_HOME" value="${FLEX_HOME_WIN}">
+            <os family="windows" />
+        </condition>
+        
+        <property file="src/com/google/analytics/version.properties"/>
+        <property file="build/build.properties"/>
+        
+        <tstamp>
+            <format property="TODAY" pattern="dd MMMM yyyy" />
+        </tstamp>
+        
+        <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+        
+    </target>
+    
+    <target name="clean" depends="define">
+        <delete dir="${basedir}/${release.dir}" />
+        <delete dir="${basedir}/${asdoc.output}" />
+    </target>
+    
+    <import file="meta.xml" />
+    
+</project>

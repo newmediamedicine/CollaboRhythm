@@ -1,0 +1,18 @@
+
+## for contributors
+## as you checkout source code from https
+## you have to copy 'contributor.tmp' to 'contributor.properties'
+## and edit the following properties
+## 
+## contributor.username = <your svn login>
+## contributor.password = <your svn password>
+## 
+## you can also define general properties
+## no.package = true
+## no.source = false
+## etc.
+## 
+
+contributor.username = 
+contributor.password = 
+

@@ -2,6 +2,7 @@ package collaboRhythm.shared.controller
 {
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
+	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import spark.components.ViewNavigator;
@@ -51,5 +52,7 @@ package collaboRhythm.shared.controller
 		function navigateHome():void;
 
 		function synchronizeBack():void;
+
+		function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
 	}
 }
