@@ -43,6 +43,15 @@ package collaboRhythm.core.pluginsManagement
 			comonentsArray = componentArraysByType[typeName];
 			comonentsArray.push(componentInstance);
 		}
+
+		public function unregisterServiceType(serviceType:Class):void
+		{
+			var typeName:String = ReflectionUtils.getClassInfo(serviceType).name;
+			if (componentArraysByType.hasOwnProperty(typeName))
+			{
+				delete componentArraysByType[typeName];
+			}
+		}
 		
 		public function resolveAll(serviceType:Class):Array
 		{

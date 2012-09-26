@@ -102,6 +102,7 @@ package collaboRhythm.plugins.messages.controller
 		protected override function removeUserData():void
 		{
 			_messagesModel = null;
+			_componentContainer.unregisterServiceType(IIndividualMessageHealthRecordService);
 		}
 
 		public function showMessagesView():void

@@ -33,7 +33,14 @@ package collaboRhythm.shared.model.services
 		 * @param componentInstance The component instance (which must be of a class that implements the service).
 		 */
 		function registerComponentInstance(componentKey:String, serviceType:Class, componentInstance:Object):void;
-		
+
+		/**
+		 * Unregisers all of the component instances of a specified service type.
+		 *
+		 * @param serviceType The service class or interface.
+		 */
+		function unregisterServiceType(serviceType:Class):void;
+
 		/**
 		 * Gets an instance of each component that implements the specified service.
 		 * 
