@@ -234,5 +234,15 @@ package collaboRhythm.core.model
 		{
 			return _record;
 		}
+
+		public function updateIsSynchronizing(isSynchronizing:Boolean):void
+		{
+			if (_synchronizationService.synchronize("updateIsSynchronizing", isSynchronizing, false))
+			{
+				return;
+			}
+
+			updateSynchronizingBackgroundProcess(isSynchronizing);
+		}
 	}
 }

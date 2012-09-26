@@ -522,6 +522,11 @@ package collaboRhythm.core.model.healthRecord.service
 				_logger.info("Saving " + (isSaving ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") +
 						errorsSavingSummary);
 			}
+
+			if (recordSynchronizer)
+			{
+				recordSynchronizer.updateIsSynchronizing(isSaving);
+			}
 		}
 
 		private function get numPendingOperations():int

@@ -13,5 +13,7 @@ package collaboRhythm.core.model.healthRecord.service
 		function synchronizeRelationship(record:Record,
 										 relationship:Relationship,
 										 isSynchronizing:Boolean):void;
+
+		function updateIsSynchronizing(isSynchronizing:Boolean):void;
 	}
 }
