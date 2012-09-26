@@ -19,6 +19,7 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	public class MedicationScheduleItemsHealthRecordService extends ScheduleItemsHealthRecordServiceBase
@@ -31,6 +32,17 @@ package collaboRhythm.core.model.healthRecord.service
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
 				  MedicationScheduleItem.DOCUMENT_TYPE, MedicationScheduleItem, Schemas.MedicationScheduleItemSchema,
 				  "medicationscheduleitems", null, 1000, "dateStart");
+		}
+
+		override public function unmarshallDocumentXml(documentXml:XML):IDocument
+		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
+
+			_logger.info("medicationScheduleItem - " +  documentXml.name.toString() + " - dateStart from XML: " + documentXml.dateStart.toString());
+			var document:IDocument = super.unmarshallDocumentXml(documentXml);
+			_logger.info("medicationScheduleItem - " +  documentXml.name.toString() + " - dateStart from Class: " + (document as MedicationScheduleItem).dateStart.toString());
+
+			return document;
 		}
 	}
 }
