@@ -42,8 +42,16 @@ package collaboRhythm.plugins.messages.controller
 					_activeRecordAccount, _activeRecordAccount.messagesModel,
 					collaborationLobbyNetConnectionServiceProxy, _settings);
 
-			_componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IIndividualMessageHealthRecordService).name,
-					IIndividualMessageHealthRecordService, _individualMessagesHealthRecordService);
+			registerIndividualMessageHealthRecordService();
+		}
+
+		private function registerIndividualMessageHealthRecordService():void
+		{
+			if (_individualMessagesHealthRecordService)
+			{
+				_componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IIndividualMessageHealthRecordService).name,
+								IIndividualMessageHealthRecordService, _individualMessagesHealthRecordService);
+			}
 		}
 
 		override protected function createWidgetView():UIComponent
@@ -55,6 +63,7 @@ package collaboRhythm.plugins.messages.controller
 		override public function reloadUserData():void
 		{
 			removeUserData();
+			registerIndividualMessageHealthRecordService();
 
 			super.reloadUserData();
 		}
