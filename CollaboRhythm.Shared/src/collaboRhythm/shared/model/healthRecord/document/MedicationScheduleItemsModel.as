@@ -57,7 +57,8 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		override public function handleUpdatedId(oldId:String, document:IDocument):void
 		{
-			super.removeDocument(document);
+			var oldDocument:IDocument = medicationScheduleItems.getItem(oldId);
+			super.removeDocument(oldDocument ? oldDocument : document);
 			medicationScheduleItems.remove(oldId);
 
 			addDocument(document);
