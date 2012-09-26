@@ -51,7 +51,8 @@ package collaboRhythm.tablet.controller
 
 	public class TabletApplicationController extends ApplicationControllerBase
 	{
-		private static const SESSION_IDLE_TIMEOUT:int = 20;
+		private static const SESSION_IDLE_TIMEOUT:int = 60;
+		private static const ACCOUNT_ID_SUFFIX:String = "@records.media.mit.edu";
 
 		private var _tabletApplication:CollaboRhythmTabletApplication;
 		private var _tabletAppControllersMediator:TabletAppControllersMediator;
@@ -103,7 +104,8 @@ package collaboRhythm.tablet.controller
 
 			createSession();
 
-			createSessionIdleTimer();
+			setGoogleAnalyticsUserDefinedValue();
+			createGoogleAnalyticsSessionIdleTimer();
 		}
 
 		private function collaborationState_changeHandler(collaborationState:String):void
@@ -141,7 +143,7 @@ package collaboRhythm.tablet.controller
 				}
 			}
 
-			updateUserDefinedValue();
+			trackActiveView();
 		}
 
 		private function collaborationInvitationPopUp_acceptHandler(event:CollaborationInvitationPopUpEvent):void
@@ -189,7 +191,6 @@ package collaboRhythm.tablet.controller
 				_reloadWithFullView = null;
 			}
 
-			updateUserDefinedValue();
 			trackActiveView();
 		}
 
@@ -218,94 +219,18 @@ package collaboRhythm.tablet.controller
 			view.tabletApplicationController = this;
 		}
 
-		override protected function activateTracking():void
-		{
-			if (settings.useGoogleAnalytics)
-			{
-				_sessionIdleTimer.start();
-				updateUserDefinedValue();
-				trackActiveView();
-			}
-		}
-
-		override protected function deactivateTracking():void
-		{
-			if (settings.useGoogleAnalytics)
-			{
-				_sessionIdleTimer.reset();
-				trackActiveView("deactivated");
-				_analyticsTracker.resetSession();
-			}
-		}
-
-		private function trackActiveView(detail:String = null):void
-		{
-			if (settings.useGoogleAnalytics)
-			{
-				var viewTrackingName:String;
-
-				if (navigator.activeView as TabletFullViewContainer)
-				{
-					viewTrackingName = navigator.activeView.title;
-				}
-				else
-				{
-					viewTrackingName = navigator.activeView.className;
-				}
-
-				if (detail)
-				{
-					_analyticsTracker.trackPageview("/" + viewTrackingName + "/" + detail);
-				}
-				else
-				{
-					_analyticsTracker.trackPageview("/" + viewTrackingName);
-				}
-			}
-		}
-
-		private function updateUserDefinedValue():void
+		private function setGoogleAnalyticsUserDefinedValue():void
 		{
 			if (settings.useGoogleAnalytics)
 			{
 				var mode:String = settings.mode;
-
 				var accountId:String = settings.username;
-				var recordId:String;
 
-				if (mode == Settings.MODE_CLINICIAN)
-				{
-					if (activeRecordAccount && activeRecordAccount.accountId)
-						recordId = activeRecordAccount.accountId;
-				}
-				else
-				{
-					recordId = accountId;
-				}
-
-				var collaborationState:String = collaborationLobbyNetConnectionServiceProxy.collaborationModel.collaborationState;
-				var peerId:String;
-				if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
-				{
-					peerId = collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
-				}
-
-				_userDefinedValue = "mode='" + mode + "'&accountId='" + accountId + "'&recordId='" +
-						recordId + "'&collaborationState='" + collaborationState;
-				if (peerId)
-				{
-					_userDefinedValue += "'&peerId='" + peerId + "'";
-				}
-				else
-				{
-					_userDefinedValue += "'";
-				}
-
-				_analyticsTracker.setVar(_userDefinedValue);
+				_analyticsTracker.setVar("mode='" + mode + "'&accountId='" + accountId + "'");
 			}
 		}
 
-		private function createSessionIdleTimer():void
+		private function createGoogleAnalyticsSessionIdleTimer():void
 		{
 			if (settings.useGoogleAnalytics)
 			{
@@ -313,6 +238,16 @@ package collaboRhythm.tablet.controller
 				_sessionIdleTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
 						sessionIdleTimer_TimerCompleteEventHandler);
 				_sessionIdleTimer.start();
+			}
+		}
+
+		public function sessionIdleTimer_TimerCompleteEventHandler(event:TimerEvent):void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				_sessionIdleTimer.reset();
+				trackActiveView("idle");
+				_analyticsTracker.resetSession();
 			}
 		}
 
@@ -328,7 +263,6 @@ package collaboRhythm.tablet.controller
 				else
 				{
 					_sessionIdleTimer.start();
-					updateUserDefinedValue();
 					trackActiveView();
 				}
 
@@ -340,13 +274,79 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
-		public function sessionIdleTimer_TimerCompleteEventHandler(event:TimerEvent):void
+		override protected function activateTracking():void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				_sessionIdleTimer.start();
+				trackActiveView();
+			}
+		}
+
+		override protected function deactivateTracking():void
 		{
 			if (settings.useGoogleAnalytics)
 			{
 				_sessionIdleTimer.reset();
-				trackActiveView("idle");
+				trackActiveView("deactivated");
 				_analyticsTracker.resetSession();
+			}
+		}
+
+		override protected function exitTracking():void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				trackActiveView("exited");
+				_analyticsTracker.resetSession();
+			}
+		}
+
+		private function trackActiveView(detail:String = null):void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				var pageName:String;
+				if (navigator.activeView as TabletFullViewContainer)
+				{
+					pageName = navigator.activeView.title;
+				}
+				else
+				{
+					pageName = navigator.activeView.className;
+				}
+
+				var recordAccountId:String;
+				if (settings.mode == Settings.MODE_CLINICIAN)
+				{
+					if (activeRecordAccount && activeRecordAccount.accountId)
+						recordAccountId = activeRecordAccount.accountId;
+				}
+				else
+				{
+					recordAccountId = settings.username + ACCOUNT_ID_SUFFIX;
+				}
+
+				var collaborationState:String = collaborationLobbyNetConnectionServiceProxy.collaborationModel.collaborationState;
+				var peerId:String;
+				if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
+				{
+					peerId = collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
+				}
+
+				var completePageName:String = "/" + pageName + "/recordAccountId=" + recordAccountId +
+						"/collaborationState=" + collaborationState;
+				if (peerId)
+				{
+					completePageName = completePageName + "/peerId=" + peerId;
+				}
+
+				if (detail)
+				{
+					completePageName = completePageName + "/" + detail;
+				}
+
+				_analyticsTracker.trackPageview(completePageName);
 			}
 		}
 
@@ -375,7 +375,7 @@ package collaboRhythm.tablet.controller
 				navigator.popToFirstView();
 			}
 
-			updateUserDefinedValue();
+			trackActiveView();
 		}
 
 		override public function sendCollaborationInvitation():void

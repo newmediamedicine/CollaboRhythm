@@ -230,7 +230,8 @@ package collaboRhythm.core.controller
 			_logger.info("  Mode: " + _settings.mode);
 			_logger.info("  Username: " + _settings.username);
 			if (_settings.demoModeEnabled)
-				_logger.info("  Demo mode ON; target date: " + (_settings.targetDate ? _settings.targetDate.toLocaleString() : "(not specified)"));
+				_logger.info("  Demo mode ON; target date: " +
+						(_settings.targetDate ? _settings.targetDate.toLocaleString() : "(not specified)"));
 			else
 				_logger.info("  Demo mode OFF");
 
@@ -287,6 +288,7 @@ package collaboRhythm.core.controller
 
 		private function nativeApplication_exitingHandler(event:Event):void
 		{
+			exitTracking();
 			if (activeRecordAccount)
 			{
 				autoSave();
@@ -368,6 +370,12 @@ package collaboRhythm.core.controller
 
 		// virtual method to be overridden by subclasses
 		protected function deactivateTracking():void
+		{
+
+		}
+
+		// virtual method to be overridden by subclasses
+		protected function exitTracking():void
 		{
 
 		}
@@ -952,7 +960,8 @@ package collaboRhythm.core.controller
 			// Enter the collaboration lobby, so that the user can see when other account owners are online
 			_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(MessageEvent.MESSAGE, collaborationMessage_eventHandler);
+			_collaborationLobbyNetConnectionServiceProxy.addEventListener(MessageEvent.MESSAGE,
+					collaborationMessage_eventHandler);
 		}
 
 		private function collaborationMessage_eventHandler(event:MessageEvent):void
@@ -1062,7 +1071,8 @@ package collaboRhythm.core.controller
 		{
 			_logger.info("Plugins loaded.");
 			var array:Array = _componentContainer.resolveAll(AppControllerInfo);
-			_logger.info("  Number of registered AppControllerInfo objects (apps): " + (array ? array.length : 0).toString());
+			_logger.info("  Number of registered AppControllerInfo objects (apps): " +
+					(array ? array.length : 0).toString());
 
 			readStates();
 
@@ -1508,14 +1518,14 @@ package collaboRhythm.core.controller
 
 		private function backgroundProcessModel_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
-/*
-			<s:BusyIndicator id="backgroundProgressIndicator"
-							 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
-							 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}"/>
-			<s:Label id="backgroundProgressLabel" text="{tabletApplicationController.backgroundProcessModel.summary}"
-					 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
-					 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}" paddingLeft="10"/>
-*/
+			/*
+			 <s:BusyIndicator id="backgroundProgressIndicator"
+			 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
+			 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}"/>
+			 <s:Label id="backgroundProgressLabel" text="{tabletApplicationController.backgroundProcessModel.summary}"
+			 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
+			 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}" paddingLeft="10"/>
+			 */
 
 			if (event.property == "isRunning")
 			{
