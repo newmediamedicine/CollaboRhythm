@@ -61,6 +61,7 @@ package collaboRhythm.shared.model.healthRecord
 			_type = value;
 		}
 
+		[Transient]
 		public function get shortType():String
 		{
 			if (!type) return null;
@@ -165,6 +166,7 @@ package collaboRhythm.shared.model.healthRecord
 			_replacedById = value;
 		}
 
+		[Transient]
 		public function get replacedBy():IDocument
 		{
 			return _replacedBy;
