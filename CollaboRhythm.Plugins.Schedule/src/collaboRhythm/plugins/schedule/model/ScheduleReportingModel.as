@@ -118,7 +118,7 @@ package collaboRhythm.plugins.schedule.model
 			_currentScheduleGroup = value;
 		}
 
-		public function synchronizeScheduleGroupReportingViewScrollPosition(verticalScrollPosition:Number):void
+		public function setScheduleGroupReportingViewScrollPosition(verticalScrollPosition:Number):void
 		{
 			scheduleGroupReportingViewScrollPosition = verticalScrollPosition;
 		}

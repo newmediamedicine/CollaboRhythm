@@ -85,7 +85,7 @@ package collaboRhythm.plugins.schedule.controller
 				return;
 			}
 
-			_scheduleReportingModel.synchronizeScheduleGroupReportingViewScrollPosition(verticalScrollPosition);
+			_scheduleReportingModel.setScheduleGroupReportingViewScrollPosition(verticalScrollPosition);
 		}
 
 		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy

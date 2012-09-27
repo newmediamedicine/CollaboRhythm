@@ -221,7 +221,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
 					{
 						var panelController:InsulinTitrationDecisionPanelController = new InsulinTitrationDecisionPanelController(chartModelDetails.collaborationLobbyNetConnectionServiceProxy,
-								_insulinTitrationDecisionPanelModel);
+								_insulinTitrationDecisionPanelModel, chartModelDetails.viewNavigator);
 						var panel:InsulinTitrationDecisionPanel = new InsulinTitrationDecisionPanel();
 						panel.model = _insulinTitrationDecisionPanelModel;
 						panel.controller = panelController;

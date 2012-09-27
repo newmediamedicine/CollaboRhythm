@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   creationComplete="creationCompleteHandler()">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationFAQController;
+		import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationFAQModel;
+		import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationFAQModelAndController;
+
+		import flashx.textLayout.conversion.TextConverter;
+
+		import mx.binding.utils.BindingUtils;
+
+		import mx.events.PropertyChangeEvent;
+
+		[Embed(source="/assets/strings/insulinTitrationFrequentlyAskedQuestions.html", mimeType="application/octet-stream")] var frequentlyAskedQuestionsHtml:Class;
+
+		private var _insulinTitrationFAQModel:InsulinTitrationFAQModel;
+		private var _insulinTitrationFAQController:InsulinTitrationFAQController;
+		private var _touchInteraction:Boolean = false;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var insulinTitrationFAQModelAndController:InsulinTitrationFAQModelAndController = value as
+					InsulinTitrationFAQModelAndController;
+
+			_insulinTitrationFAQModel = insulinTitrationFAQModelAndController.insulinTitrationFAQModel;
+			_insulinTitrationFAQController = insulinTitrationFAQModelAndController.insulinTitrationFAQController;
+		}
+
+		private function creationCompleteHandler():void
+		{
+			var frequentlyAskedQuestionsString:String = new frequentlyAskedQuestionsHtml();
+			frequentlyAskedQuestionsString = frequentlyAskedQuestionsString.replace(/[\t\r\n]/g, "");
+			faqRichEditableText.textFlow = TextConverter.importToFlow(frequentlyAskedQuestionsString,
+					TextConverter.TEXT_FIELD_HTML_FORMAT);
+
+			faqRichEditableText.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, propertyChangeHandler);
+
+			BindingUtils.bindSetter(faqRichEditableTextScrollPosition_changeHandler, _insulinTitrationFAQModel,
+					"faqRichEditableTextScrollPosition");
+		}
+
+		override protected function removedFromStageHandler():void
+		{
+			super.removedFromStageHandler();
+
+			_insulinTitrationFAQController.removeSynchronizationServiceEventListener();
+		}
+
+		private function faqRichEditableTextScrollPosition_changeHandler(verticalScollPosition:Number):void
+		{
+			if (!isNaN(verticalScollPosition) && faqRichEditableText)
+			{
+				faqRichEditableText.verticalScrollPosition = verticalScollPosition;
+			}
+		}
+
+		private function propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (event.property == "verticalScrollPosition" && _touchInteraction)
+			{
+				var verticalScrollPosition:Number = event.newValue as Number;
+				_insulinTitrationFAQController.setFaqRichEditableTextScrollPosition(verticalScrollPosition);
+			}
+		}
+
+		private function faqRichEditableText_touchInteractionStartHandler():void
+		{
+			_touchInteraction = true
+		}
+
+		private function faqRichEditableText_touchInteractionEndHandler():void
+		{
+			_touchInteraction = false;
+		}
+		]]></fx:Script>
+	<s:Scroller width="100%" height="100%">
+		<s:RichEditableText id="faqRichEditableText" width="100%" height="100%"
+							paragraphSpaceAfter="10" paddingLeft="30" paddingRight="30"
+							clipAndEnableScrolling="true" interactionMode="touch" editable="false" selectable="false"
+							touchInteractionStart="faqRichEditableText_touchInteractionStartHandler()"
+							touchInteractionEnd="faqRichEditableText_touchInteractionEndHandler"/>
+	</s:Scroller>
+</tablet:TabletViewBase>

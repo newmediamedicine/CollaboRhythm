@@ -8,6 +8,8 @@ package collaboRhythm.shared.ui.healthCharts.model
 
 	import flash.display.DisplayObjectContainer;
 
+	import spark.components.ViewNavigator;
+
 	public class ChartModelDetails implements IChartModelDetails
 	{
 		private var _record:Record;
@@ -17,13 +19,15 @@ package collaboRhythm.shared.ui.healthCharts.model
 		private var _owner:DisplayObjectContainer;
 		private var _componentContainer:IComponentContainer;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _viewNavigator:ViewNavigator;
 
 		public function ChartModelDetails(record:Record, accountId:String,
 										  currentDateSource:ICurrentDateSource,
 										  healthChartsModel:HealthChartsModel,
 										  owner:DisplayObjectContainer,
 										  componentContainer:IComponentContainer,
-										  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
+										  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy,
+										  viewNavigator:ViewNavigator)
 		{
 			_record = record;
 			_accountId = accountId;
@@ -32,6 +36,7 @@ package collaboRhythm.shared.ui.healthCharts.model
 			_owner = owner;
 			_componentContainer = componentContainer;
 			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
+			_viewNavigator = viewNavigator;
 		}
 
 		public function get record():Record
@@ -72,6 +77,11 @@ package collaboRhythm.shared.ui.healthCharts.model
 		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
 		{
 			return _collaborationLobbyNetConnectionServiceProxy;
+		}
+
+		public function get viewNavigator():ViewNavigator
+		{
+			return _viewNavigator;
 		}
 	}
 }

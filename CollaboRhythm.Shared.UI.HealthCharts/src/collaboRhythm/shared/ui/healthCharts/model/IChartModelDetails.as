@@ -8,6 +8,8 @@ package collaboRhythm.shared.ui.healthCharts.model
 
 	import flash.display.DisplayObjectContainer;
 
+	import spark.components.ViewNavigator;
+
 	/**
 	 * Provides data and services used by an IChartModifier instance.
 	 */
@@ -34,5 +36,6 @@ package collaboRhythm.shared.ui.healthCharts.model
 		function get componentContainer():IComponentContainer;
 
 		function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy;
+		function get viewNavigator():ViewNavigator;
 	}
 }
