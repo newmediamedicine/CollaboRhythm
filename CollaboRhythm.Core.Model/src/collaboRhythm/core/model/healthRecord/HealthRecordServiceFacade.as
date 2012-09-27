@@ -8,7 +8,7 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.HealthActionResultsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.HealthActionSchedulesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.HealthChartsInitializationService;
-	import collaboRhythm.core.model.healthRecord.service.IRecordSynchronizer;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.IRecordSynchronizer;
 	import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationFillsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationOrdersHealthRecordService;

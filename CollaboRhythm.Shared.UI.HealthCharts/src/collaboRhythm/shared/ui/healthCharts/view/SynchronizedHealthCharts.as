@@ -3040,5 +3040,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 		}
+
+		public function destroy():void
+		{
+			for each (var chartModifier:IChartModifier in _chartModifiers.values())
+			{
+				chartModifier.destroy();
+			}
+		}
 	}
 }

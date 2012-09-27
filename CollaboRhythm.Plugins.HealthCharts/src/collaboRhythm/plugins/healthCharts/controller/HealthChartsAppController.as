@@ -174,6 +174,10 @@ package collaboRhythm.plugins.healthCharts.controller
 
 		protected override function removeUserData():void
 		{
+			if (_fullView)
+			{
+				_fullView.destroy();
+			}
 			_healthChartsModel = null;
 		}
 

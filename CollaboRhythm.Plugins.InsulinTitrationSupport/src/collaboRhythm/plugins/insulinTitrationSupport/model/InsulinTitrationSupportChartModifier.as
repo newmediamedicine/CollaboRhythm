@@ -53,6 +53,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _seriesDataCollection:ArrayCollection;
 		private var confirmChangePopUp:ConfirmChangePopUp = new ConfirmChangePopUp();
 		private var _changeConfirmed:Boolean = false;
+		private var _panelController:InsulinTitrationDecisionPanelController;
 
 		public function InsulinTitrationSupportChartModifier(chartDescriptor:IChartDescriptor,
 															 chartModelDetails:IChartModelDetails,
@@ -60,6 +61,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			super(chartDescriptor, chartModelDetails, currentChartModifier);
 			initializeInsulinTitrationDecisionPanelModel();
+			_panelController = new InsulinTitrationDecisionPanelController(chartModelDetails.collaborationLobbyNetConnectionServiceProxy,
+					_insulinTitrationDecisionPanelModel);
 		}
 
 		public function modifyCartesianChart(chart:ScrubChart,
@@ -225,11 +228,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 					if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
 					{
-						var panelController:InsulinTitrationDecisionPanelController = new InsulinTitrationDecisionPanelController(chartModelDetails.collaborationLobbyNetConnectionServiceProxy,
-								_insulinTitrationDecisionPanelModel);
 						var panel:InsulinTitrationDecisionPanel = new InsulinTitrationDecisionPanel();
 						panel.model = _insulinTitrationDecisionPanelModel;
-						panel.controller = panelController;
+						panel.controller = _panelController;
 						panel.percentHeight = 100;
 						extraPanel = panel;
 
@@ -332,6 +333,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				_seriesDataCollection.removeAll();
 				var collection:ArrayCollection = createProxiesForDecision(_vitalSignsDataCollection);
 				_seriesDataCollection.addAll(collection);
+			}
+		}
+
+		override public function destroy():void
+		{
+			super.destroy();
+			if (_panelController)
+			{
+				_panelController.destroy();
 			}
 		}
 	}

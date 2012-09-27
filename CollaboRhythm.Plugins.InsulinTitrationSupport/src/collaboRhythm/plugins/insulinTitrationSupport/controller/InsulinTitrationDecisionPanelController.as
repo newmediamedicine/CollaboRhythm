@@ -32,5 +32,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		{
 			_model.record.healthChartsModel.save();
 		}
+
+		public function destroy():void
+		{
+			if (_synchronizationService)
+			{
+				_synchronizationService.removeEventListener(this);
+			}
+		}
 	}
 }

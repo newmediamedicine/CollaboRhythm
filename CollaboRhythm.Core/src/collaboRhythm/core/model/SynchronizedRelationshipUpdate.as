@@ -2,13 +2,13 @@ package collaboRhythm.core.model
 {
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 
-	public class SynchronizedUpdateRelationship
+	public class SynchronizedRelationshipUpdate
 	{
 		private var _ownerAccountId:String;
 		private var _relationship:Relationship;
 		private var _isSynchronizing:Boolean;
 
-		public function SynchronizedUpdateRelationship(ownerAccountId:String=null,
+		public function SynchronizedRelationshipUpdate(ownerAccountId:String=null,
 													   relationship:Relationship=null,
 													   isSynchronizing:Boolean=false)
 		{

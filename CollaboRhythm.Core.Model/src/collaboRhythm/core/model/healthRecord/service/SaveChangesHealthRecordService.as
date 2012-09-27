@@ -2,6 +2,8 @@ package collaboRhythm.core.model.healthRecord.service
 {
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.supportClasses.ChangeSet;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.ExpectedOperations;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.IRecordSynchronizer;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -170,7 +172,10 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 
 			if (numPendingOperations > 0)
+			{
+				recordSynchronizer.startSynchronizing(new ExpectedOperations(pendingCreateDocuments.size() + pendingUpdateDocuments.size(), relationshipsRequiringDocuments.length));
 				_logger.info("Save changes initiated. " + pendingOperationsSummary);
+			}
 
 			updateIsSaving();
 		}
@@ -523,9 +528,14 @@ package collaboRhythm.core.model.healthRecord.service
 						errorsSavingSummary);
 			}
 
-			if (recordSynchronizer)
+			if (recordSynchronizer && !isSaving)
 			{
-				recordSynchronizer.updateIsSynchronizing(isSaving);
+				recordSynchronizer.stopSynchronizing(new ExpectedOperations(connectionErrorsChangeSet.createDocuments.size() +
+						connectionErrorsChangeSet.updateDocuments.size() +
+						unexpectedErrorsChangeSet.createDocuments.size() +
+						unexpectedErrorsChangeSet.updateDocuments.size(),
+						connectionErrorsChangeSet.createRelationships.length +
+								unexpectedErrorsChangeSet.createRelationships.length));
 			}
 		}
 

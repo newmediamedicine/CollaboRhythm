@@ -66,5 +66,10 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		{
 			return null;
 		}
+
+		public function destroy():void
+		{
+
+		}
 	}
 }

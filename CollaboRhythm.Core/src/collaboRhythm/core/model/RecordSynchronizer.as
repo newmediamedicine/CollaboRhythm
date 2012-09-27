@@ -2,8 +2,8 @@ package collaboRhythm.core.model
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
-	import collaboRhythm.core.model.healthRecord.service.IRecordSynchronizer;
-	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.ExpectedOperations;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.IRecordSynchronizer;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
@@ -49,6 +49,9 @@ package collaboRhythm.core.model
 	import flash.net.registerClassAlias;
 	import flash.utils.getQualifiedClassName;
 
+	import j2as3.collection.HashMap;
+
+	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
@@ -98,7 +101,14 @@ package collaboRhythm.core.model
 			RecurrenceRule,
 		];
 		private var _backgroundProcessModel:BackgroundProcessCollectionModel;
-		private var _shouldClearLocalNonSynchedDocuments:Boolean = true;
+
+		private var _isSynchronizationStarted:Boolean;
+		private var _expectedDocumentsCount:int = 0;
+		private var _expectedRelationshipsCount:int = 0;
+		[ArrayElementType("collaboRhythm.core.model.SynchronizedDocumentUpdate")]
+		private var _pendingSynchronizedDocumentUpdates:ArrayCollection = new ArrayCollection();
+		[ArrayElementType("collaboRhythm.core.model.SynchronizedRelationshipUpdate")]
+		private var _pendingSynchronizedRelationshipUpdates:ArrayCollection = new ArrayCollection();
 
 		public function RecordSynchronizer(record:Record,
 										   collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy,
@@ -116,6 +126,16 @@ package collaboRhythm.core.model
 		private function registerClassForSynchronization(type:Class):void
 		{
 			registerClassAlias(ReflectionUtils.getClassInfo(type).name, type);
+		}
+
+		private function addPendingSynchronizedUpdateDocument(update:SynchronizedDocumentUpdate):void
+		{
+			_pendingSynchronizedDocumentUpdates.addItem(update);
+		}
+
+		private function addPendingSynchronizedUpdateRelationship(update:SynchronizedRelationshipUpdate):void
+		{
+			_pendingSynchronizedRelationshipUpdates.addItem(update);
 		}
 
 		public function synchronizeDocument(record:Record,
@@ -138,6 +158,12 @@ package collaboRhythm.core.model
 				return;
 			}
 
+			addPendingSynchronizedUpdateDocument(value);
+			processPendingUpdates();
+		}
+
+		private function processSynchronizedDocumentUpdate(value:SynchronizedDocumentUpdate):void
+		{
 			updateSynchronizingBackgroundProcess();
 
 			if (!value.isUpdate)
@@ -175,9 +201,6 @@ package collaboRhythm.core.model
 				record.completeDocumentsById.put(document.meta.id, document);
 				record.currentDocumentsById.put(document.meta.id, document);
 			}
-
-			record.isLoading = value.isSynchronizing;
-			updateSynchronizingBackgroundProcess(value.isSynchronizing);
 		}
 
 		private function updateSynchronizingBackgroundProcess(isRunning:Boolean = true):void
@@ -193,10 +216,10 @@ package collaboRhythm.core.model
 				relationship.relatesFromId = relationship.relatesFrom.meta.id;
 			if (relationship.relatesTo && relationship.relatesTo.meta && relationship.relatesTo.meta.id)
 				relationship.relatesToId = relationship.relatesTo.meta.id;
-			updateRelationship(new SynchronizedUpdateRelationship(record.ownerAccountId, relationship, isSynchronizing));
+			updateRelationship(new SynchronizedRelationshipUpdate(record.ownerAccountId, relationship, isSynchronizing));
 		}
 
-		public function updateRelationship(value:SynchronizedUpdateRelationship):void
+		public function updateRelationship(value:SynchronizedRelationshipUpdate):void
 		{
 			if (_synchronizationService.synchronize("updateRelationship", value, false))
 			{
@@ -209,6 +232,40 @@ package collaboRhythm.core.model
 				return;
 			}
 
+			addPendingSynchronizedUpdateRelationship(value);
+			processPendingUpdates();
+		}
+
+		private function processPendingUpdates():void
+		{
+			if (_isSynchronizationStarted)
+			{
+				while (_pendingSynchronizedDocumentUpdates.length > 0)
+				{
+					processSynchronizedDocumentUpdate(_pendingSynchronizedDocumentUpdates.removeItemAt(0) as SynchronizedDocumentUpdate);
+					_expectedDocumentsCount--;
+				}
+
+				if (_expectedDocumentsCount == 0)
+				{
+					while (_pendingSynchronizedRelationshipUpdates.length > 0)
+					{
+						processSynchronizedRelationshipUpdate(_pendingSynchronizedRelationshipUpdates.removeItemAt(0) as SynchronizedRelationshipUpdate);
+						_expectedRelationshipsCount--;
+					}
+
+					if (_expectedRelationshipsCount == 0)
+					{
+						_isSynchronizationStarted = false;
+						record.isLoading = false;
+						updateSynchronizingBackgroundProcess(false);
+					}
+				}
+			}
+		}
+
+		private function processSynchronizedRelationshipUpdate(value:SynchronizedRelationshipUpdate):void
+		{
 			updateSynchronizingBackgroundProcess();
 
 			if (value.relationship)
@@ -220,9 +277,6 @@ package collaboRhythm.core.model
 					record.addRelationship(value.relationship.type, fromDocument, toDocument);
 				}
 			}
-
-			record.isLoading = value.isSynchronizing;
-			updateSynchronizingBackgroundProcess(value.isSynchronizing);
 		}
 
 		public function closeRecord():void
@@ -237,24 +291,40 @@ package collaboRhythm.core.model
 			return _record;
 		}
 
-		public function updateIsSynchronizing(isSynchronizing:Boolean):void
+		public function startSynchronizing(expectedOperations:ExpectedOperations):void
 		{
-			if (_synchronizationService.synchronize("updateIsSynchronizing", isSynchronizing, false))
+			if (_synchronizationService.synchronize("startSynchronizing", expectedOperations, false))
 			{
 				return;
 			}
 
-			if (isSynchronizing && _shouldClearLocalNonSynchedDocuments)
+			if (_isSynchronizationStarted || _expectedDocumentsCount > 0 || _expectedRelationshipsCount > 0)
 			{
-				clearLocalNonSynchedDocuments();
-				_shouldClearLocalNonSynchedDocuments = false;
-			}
-			else if (!isSynchronizing)
-			{
-				_shouldClearLocalNonSynchedDocuments = true;
+				_logger.warn("Attempted to synchronize when previous synchronization was not complete. _isSynchronizationStarted=" +
+						_isSynchronizationStarted + " _expectedDocumentsCount=" + _expectedDocumentsCount +
+						" _expectedRelationshipsCount=" + _expectedRelationshipsCount);
+				return;
 			}
 
-			updateSynchronizingBackgroundProcess(isSynchronizing);
+			_isSynchronizationStarted = true;
+			_expectedDocumentsCount = expectedOperations.updateDocumentsCount;
+			_expectedRelationshipsCount = expectedOperations.updateRelationshipsCount;
+			updateSynchronizingBackgroundProcess();
+			record.isLoading = true;
+			clearLocalNonSynchedDocuments();
+			processPendingUpdates();
+		}
+
+		public function stopSynchronizing(failedOperations:ExpectedOperations):void
+		{
+			if (_synchronizationService.synchronize("stopSynchronizing", failedOperations, false))
+			{
+				return;
+			}
+
+			_expectedDocumentsCount -= failedOperations.updateDocumentsCount;
+			_expectedRelationshipsCount -= failedOperations.updateRelationshipsCount;
+			processPendingUpdates();
 		}
 
 		private function clearLocalNonSynchedDocuments():void

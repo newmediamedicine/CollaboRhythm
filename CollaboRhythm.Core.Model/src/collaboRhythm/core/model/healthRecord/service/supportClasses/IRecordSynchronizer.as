@@ -1,4 +1,4 @@
-package collaboRhythm.core.model.healthRecord.service
+package collaboRhythm.core.model.healthRecord.service.supportClasses
 {
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
@@ -14,6 +14,7 @@ package collaboRhythm.core.model.healthRecord.service
 										 relationship:Relationship,
 										 isSynchronizing:Boolean):void;
 
-		function updateIsSynchronizing(isSynchronizing:Boolean):void;
+		function startSynchronizing(expectedOperations:ExpectedOperations):void;
+		function stopSynchronizing(failedOperations:ExpectedOperations):void;
 	}
 }
