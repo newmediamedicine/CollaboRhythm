@@ -121,6 +121,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private static const HORIZONTAL_AXIS_CHART_KEY:String = "horizontalAxisChart";
 
 		private static const SPARK_COMPONENTS_CALLOUT_SELECTOR:String = "spark.components.Callout";
+		private static const ENABLE_MEDICATION_SCHEDULE_ITEM_COLLECTION_DEBUGGING:Boolean = false;
 
 		private var _textFormat:TextFormat = new TextFormat("Myriad Pro, Verdana, Helvetica, Arial", 16, 0, true);
 
@@ -607,21 +608,20 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				createVitalSignChartDescriptor(vitalSignKey);
 			}
-
-			/*var measurementChartDescriptor:MeasurementChartDescriptor = new MeasurementChartDescriptor();
-						measurementChartDescriptor.measurementCode = "Performance";
-						addChartDescriptor(measurementChartDescriptor);*/
 		}
 
 		private static function debugPrintMedicationScheduleItemCollection(prefix:String,
 																		   collection:ArrayCollection):void
 		{
-			var nameCollection:Array = new Array();
-			for each (var medicationScheduleItem:MedicationScheduleItem in collection)
+			if (ENABLE_MEDICATION_SCHEDULE_ITEM_COLLECTION_DEBUGGING)
 			{
-				nameCollection.push(medicationScheduleItem.name.text);
+				var nameCollection:Array = new Array();
+				for each (var medicationScheduleItem:MedicationScheduleItem in collection)
+				{
+					nameCollection.push(medicationScheduleItem.name.text);
+				}
+				trace(prefix, nameCollection.join(", "));
 			}
-			trace(prefix, nameCollection.join(", "));
 		}
 
 		private function medicationSortCompareFunction(objA:Object, objB:Object, fields:Array = null):int

@@ -47,6 +47,9 @@ package collaboRhythm.shared.model
 	[Bindable]
 	public class Record implements IRecord, IRecordProxy
 	{
+		public static const SKIP_PERSIST_DOCUMENT_ID_PREFIX:String = "skip-persist-";
+		public static const PRE_PERSIST_DOCUMENT_ID_PREFIX:String = "local-";
+
 		private var _id:String;
 		private var _ownerAccountId:String;
 		private var _label:String;
@@ -396,13 +399,18 @@ package collaboRhythm.shared.model
 			// we rely on the document.pendingAction flag to indicate if the document is being loaded from the server
 			if (document.pendingAction == null)
 			{
+				if (document.meta.id == null)
+				{
+					document.meta.id = SKIP_PERSIST_DOCUMENT_ID_PREFIX + UIDUtil.createUID();
+				}
+
 				originalDocumentsById.put(document.meta.id, document);
 			}
 			else if (document.pendingAction == DocumentBase.ACTION_CREATE)
 			{
 				if (document.meta.id == null)
 				{
-					document.meta.id = UIDUtil.createUID();
+					document.meta.id = PRE_PERSIST_DOCUMENT_ID_PREFIX + UIDUtil.createUID();
 				}
 			}
 			else

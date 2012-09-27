@@ -169,19 +169,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			for each (var medicationCode:String in INSULIN_MEDICATION_CODES)
 			{
 				insulinDescriptorTemplate.medicationCode = medicationCode;
-				var matchingInsulinChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey) as
-						IChartDescriptor;
-				if (matchingInsulinChartDescriptor)
-					matchingInsulinChartDescriptors.push(matchingInsulinChartDescriptor);
+				if (chartDescriptors.getValueByKey(insulinDescriptorTemplate.descriptorKey) != null)
+				{
+					var matchingInsulinChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey) as
+							IChartDescriptor;
+					if (matchingInsulinChartDescriptor)
+						matchingInsulinChartDescriptors.push(matchingInsulinChartDescriptor);
+				}
 			}
-//			if (matchingInsulinChartDescriptor)
-//			{
-//				matchingInsulinChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey);
-//			}
 
 			var bloodGlucoseDescriptorTemplate:VitalSignChartDescriptor = new VitalSignChartDescriptor();
 			bloodGlucoseDescriptorTemplate.vitalSignCategory = VitalSignsModel.BLOOD_GLUCOSE_CATEGORY;
-			var matchingBloodGlucoseChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(bloodGlucoseDescriptorTemplate.descriptorKey) as IChartDescriptor;
+			var matchingBloodGlucoseChartDescriptor:IChartDescriptor;
+			if (chartDescriptors.getValueByKey(bloodGlucoseDescriptorTemplate.descriptorKey) != null)
+			{
+				matchingBloodGlucoseChartDescriptor = chartDescriptors.removeByKey(bloodGlucoseDescriptorTemplate.descriptorKey) as
+						IChartDescriptor;
+			}
 
 			var reorderedChartDescriptors:OrderedMap = new OrderedMap();
 			for each (var otherChartDescriptor:IChartDescriptor in chartDescriptors.values())
@@ -198,7 +202,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				}
 			}
 			if (matchingBloodGlucoseChartDescriptor)
-				reorderedChartDescriptors.addKeyValue(matchingBloodGlucoseChartDescriptor.descriptorKey, matchingBloodGlucoseChartDescriptor);
+				reorderedChartDescriptors.addKeyValue(matchingBloodGlucoseChartDescriptor.descriptorKey,
+						matchingBloodGlucoseChartDescriptor);
 
 			return reorderedChartDescriptors;
 		}

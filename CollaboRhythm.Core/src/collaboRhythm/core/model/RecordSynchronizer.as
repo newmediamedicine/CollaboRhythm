@@ -3,6 +3,7 @@ package collaboRhythm.core.model
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.core.model.healthRecord.service.IRecordSynchronizer;
+	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
@@ -97,6 +98,7 @@ package collaboRhythm.core.model
 			RecurrenceRule,
 		];
 		private var _backgroundProcessModel:BackgroundProcessCollectionModel;
+		private var _shouldClearLocalNonSynchedDocuments:Boolean = true;
 
 		public function RecordSynchronizer(record:Record,
 										   collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy,
@@ -242,7 +244,31 @@ package collaboRhythm.core.model
 				return;
 			}
 
+			if (isSynchronizing && _shouldClearLocalNonSynchedDocuments)
+			{
+				clearLocalNonSynchedDocuments();
+				_shouldClearLocalNonSynchedDocuments = false;
+			}
+			else if (!isSynchronizing)
+			{
+				_shouldClearLocalNonSynchedDocuments = true;
+			}
+
 			updateSynchronizingBackgroundProcess(isSynchronizing);
+		}
+
+		private function clearLocalNonSynchedDocuments():void
+		{
+			for each (var document:IDocument in record.completeDocumentsById.values())
+			{
+				if (document.meta && document.meta.id && document.meta.id.indexOf(Record.SKIP_PERSIST_DOCUMENT_ID_PREFIX) != -1)
+				{
+					// setting the pendingAction will ensure that the document is removed from completeDocumentsById
+					document.pendingAction = DocumentBase.ACTION_CREATE;
+					record.removeDocument(document);
+				}
+			}
+
 		}
 	}
 }
