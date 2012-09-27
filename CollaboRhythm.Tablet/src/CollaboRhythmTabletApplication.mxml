@@ -105,6 +105,7 @@
 		import collaboRhythm.shared.collaboration.model.CollaborationPointerSynchronizationEvent;
 		import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.model.settings.Settings;
 		import collaboRhythm.shared.view.tablet.TabletViewBase;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
 		import collaboRhythm.tablet.view.SelectRecordView;
@@ -128,7 +129,10 @@
 		public var aboutApplicationView:AboutApplicationView;
 
 		[SkinPart(required="false")]
-		public var pointer:Graphic;
+		public var patientPointer:Graphic;
+
+		[SkinPart(required="false")]
+		public var clinicianPointer:Graphic;
 
 		[Bindable]
 		private var _collaborationController:CollaborationController;
@@ -279,11 +283,31 @@
 				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendCollaborationPointerSynchronization(CollaborationPointerSynchronizationEvent.SHOW_POINTER,
 						x, y);
 			}
-			else if (source == "remote")
+
+			updatePointer(source, true, x, y);
+		}
+
+		private function updatePointer(source:String, visible:Boolean, x:int = NaN, y:int = NaN):void
+		{
+			if ((source == "local" && _applicationController.settings.mode == Settings.MODE_PATIENT) ||
+					(source == "remote" && _applicationController.settings.mode == Settings.MODE_CLINICIAN))
 			{
-				pointer.x = x;
-				pointer.y = y;
-				pointer.visible = true;
+				patientPointer.visible = visible;
+				if (visible)
+				{
+					patientPointer.x = x;
+					patientPointer.y = y;
+				}
+			}
+			else if ((source == "local" && _applicationController.settings.mode == Settings.MODE_CLINICIAN) ||
+					(source == "remote" && _applicationController.settings.mode == Settings.MODE_PATIENT))
+			{
+				clinicianPointer.visible = visible;
+				if (visible)
+				{
+					clinicianPointer.x = x;
+					clinicianPointer.y = y;
+				}
 			}
 		}
 
@@ -303,11 +327,8 @@
 				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendCollaborationPointerSynchronization(CollaborationPointerSynchronizationEvent.MOVE_POINTER,
 						x, y);
 			}
-			else if (source == "remote")
-			{
-				pointer.x = x;
-				pointer.y = y;
-			}
+
+			updatePointer(source, true, x,  y);
 		}
 
 		private function mouseUpHandler(event:MouseEvent):void
@@ -327,10 +348,8 @@
 				_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.sendCollaborationPointerSynchronization(CollaborationPointerSynchronizationEvent.HIDE_POINTER,
 						x, y);
 			}
-			else if (source == "remote")
-			{
-				pointer.visible = false;
-			}
+
+			updatePointer(source, false);
 		}
 
 		private function homeButton_clickHandler():void

@@ -18,7 +18,8 @@ package collaboRhythm.tablet.view.skins
 		public var connectivityView:ConnectivityView;
 		public var busyView:BusyView;
 		public var aboutApplicationView:AboutApplicationView;
-		public var pointer:Graphic;
+		public var patientPointer:Graphic;
+		public var clinicianPointer:Graphic;
 
 		public function CollaboRhythmTabletApplicationSkin()
 		{
@@ -50,12 +51,19 @@ package collaboRhythm.tablet.view.skins
 			aboutApplicationView.visible = false;
 			addChild(aboutApplicationView);
 
-			pointer = new Graphic();
-			pointer.graphics.beginFill(0xFFF200, 0.7);
-			pointer.graphics.drawCircle(0, 0, 30);
-			pointer.graphics.endFill();
-			pointer.visible = false;
-			addChild(pointer);
+			patientPointer = new Graphic();
+			patientPointer.graphics.beginFill(0x2EB5E5, 0.5);
+			patientPointer.graphics.drawCircle(0, 0, 30);
+			patientPointer.graphics.endFill();
+			patientPointer.visible = false;
+			addChild(patientPointer);
+
+			clinicianPointer = new Graphic();
+			clinicianPointer.graphics.beginFill(0x9C69AD, 0.5);
+			clinicianPointer.graphics.drawCircle(0, 0, 30);
+			clinicianPointer.graphics.endFill();
+			clinicianPointer.visible = false;
+			addChild(clinicianPointer);
 		}
 
 		private function resizeHandler(event:Event):void
