@@ -129,6 +129,9 @@ package collaboRhythm.core.model.healthRecord.service
 		 */
 		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection = null):void
 		{
+			var expectedUpdateDocumentsCount:int = 0;
+			var expectedUpdateRelationshipsCount:int = 0;
+
 			for each (var document:IDocument in documents)
 			{
 				if (document == null)
@@ -138,7 +141,10 @@ package collaboRhythm.core.model.healthRecord.service
 				else if (document.pendingAction == DocumentBase.ACTION_CREATE)
 				{
 					if (addPendingOperation(pendingCreateDocuments, document))
+					{
 						createDocument(record, document, getDocumentXml(document));
+						expectedUpdateDocumentsCount++;
+					}
 				}
 				else if (document.pendingAction == DocumentBase.ACTION_VOID)
 				{
@@ -153,7 +159,10 @@ package collaboRhythm.core.model.healthRecord.service
 				else if (document.pendingAction == DocumentBase.ACTION_UPDATE)
 				{
 					if (addPendingOperation(pendingUpdateDocuments, document))
+					{
 						updateDocument(record, document, getDocumentXml(document));
+						expectedUpdateDocumentsCount++;
+					}
 				}
 				// TODO: handle other actions
 			}
@@ -166,6 +175,7 @@ package collaboRhythm.core.model.healthRecord.service
 					if (!relationshipsRequiringDocuments.contains(relationship))
 					{
 						relationshipsRequiringDocuments.addItem(relationship);
+						expectedUpdateRelationshipsCount++;
 					}
 				}
 				checkRelationshipsRequiringDocuments(record);
@@ -173,8 +183,12 @@ package collaboRhythm.core.model.healthRecord.service
 
 			if (numPendingOperations > 0)
 			{
-				recordSynchronizer.startSynchronizing(new ExpectedOperations(pendingCreateDocuments.size() + pendingUpdateDocuments.size(), relationshipsRequiringDocuments.length));
 				_logger.info("Save changes initiated. " + pendingOperationsSummary);
+			}
+
+			if (expectedUpdateDocumentsCount > 0 || expectedUpdateRelationshipsCount > 0)
+			{
+				recordSynchronizer.startSynchronizing(new ExpectedOperations(expectedUpdateDocumentsCount, expectedUpdateRelationshipsCount));
 			}
 
 			updateIsSaving();

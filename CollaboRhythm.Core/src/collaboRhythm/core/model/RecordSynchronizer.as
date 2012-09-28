@@ -303,12 +303,11 @@ package collaboRhythm.core.model
 				_logger.warn("Attempted to synchronize when previous synchronization was not complete. _isSynchronizationStarted=" +
 						_isSynchronizationStarted + " _expectedDocumentsCount=" + _expectedDocumentsCount +
 						" _expectedRelationshipsCount=" + _expectedRelationshipsCount);
-				return;
 			}
 
 			_isSynchronizationStarted = true;
-			_expectedDocumentsCount = expectedOperations.updateDocumentsCount;
-			_expectedRelationshipsCount = expectedOperations.updateRelationshipsCount;
+			_expectedDocumentsCount += expectedOperations.updateDocumentsCount;
+			_expectedRelationshipsCount += expectedOperations.updateRelationshipsCount;
 			updateSynchronizingBackgroundProcess();
 			record.isLoading = true;
 			clearLocalNonSynchedDocuments();
