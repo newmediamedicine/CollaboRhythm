@@ -302,20 +302,10 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
-		private function trackActiveView(detail:String = null):void
+		private function trackActiveView(applicationState:String = null):void
 		{
 			if (settings.useGoogleAnalytics)
 			{
-				var pageName:String;
-				if (navigator.activeView as TabletFullViewContainer)
-				{
-					pageName = navigator.activeView.title;
-				}
-				else
-				{
-					pageName = navigator.activeView.className;
-				}
-
 				var recordAccountId:String;
 				if (settings.mode == Settings.MODE_CLINICIAN)
 				{
@@ -334,17 +324,27 @@ package collaboRhythm.tablet.controller
 					peerId = collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
 				}
 
-				var completePageName:String = "/" + pageName + "/recordAccountId=" + recordAccountId +
-						"/collaborationState=" + collaborationState;
+				var pageName:String;
+				if (navigator.activeView as TabletFullViewContainer)
+				{
+					pageName = navigator.activeView.title;
+				}
+				else
+				{
+					pageName = navigator.activeView.className;
+				}
+
+				if (!applicationState)
+				{
+					applicationState = "activated";
+				}
+
+				var completePageName:String = "/applicationState=" + applicationState + "/recordAccountId=" + recordAccountId + "/collaborationState=" + collaborationState;
 				if (peerId)
 				{
 					completePageName = completePageName + "/peerId=" + peerId;
 				}
-
-				if (detail)
-				{
-					completePageName = completePageName + "/" + detail;
-				}
+				completePageName = completePageName + "/pageName=" + pageName;
 
 				_analyticsTracker.trackPageview(completePageName);
 			}
