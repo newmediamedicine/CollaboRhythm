@@ -16,6 +16,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -1087,6 +1088,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			// determine cut off date for schedule change
 			// update existing MedicationScheduleItem (old dose) to end the recurrence by cut off date
 
+			// Fix data corruption (missing relationship) if there is an obvious solution by finding a MedicationOrder with a matching name for the MedicationScheduleItem
+			if (currentMedicationScheduleItem.scheduledMedicationOrder == null)
+			{
+				var matchingMedicationOrder:MedicationOrder = getMatchingMedicationOrder(currentMedicationScheduleItem);
+				if (matchingMedicationOrder)
+				{
+					currentMedicationScheduleItem.scheduledMedicationOrder = matchingMedicationOrder;
+					record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+							matchingMedicationOrder, currentMedicationScheduleItem,
+							true);
+				}
+			}
+
 			var administeredOccurrenceCount:int = _scheduleDetails.occurrence.recurrenceIndex;
 			if (administeredOccurrenceCount > 0)
 			{
@@ -1122,6 +1136,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				currentMedicationScheduleItem.dose.value = _newDose.toString();
 			}
 			return saveSucceeded;
+		}
+
+		private function getMatchingMedicationOrder(medicationScheduleItem:MedicationScheduleItem):MedicationOrder
+		{
+			for each (var medicationOrder:MedicationOrder in
+					record.medicationOrdersModel.medicationOrdersCollection)
+			{
+				if (medicationOrder.name && medicationOrder.name.value && medicationScheduleItem.name && medicationScheduleItem.name.value && medicationOrder.name.value == medicationScheduleItem.name.value)
+				{
+					return medicationOrder;
+				}
+			}
+			return null;
 		}
 
 		private function createNewMedicationScheduleItem(currentMedicationScheduleItem:MedicationScheduleItem,
