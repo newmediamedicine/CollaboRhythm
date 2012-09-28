@@ -229,7 +229,6 @@ package collaboRhythm.workstation.controller
 			initializeConnectivityView();
 
 			_busyView = new BusyView();
-			primaryWindow.addElement(_busyView);
 
 			_aboutApplicationView = new AboutApplicationView();
 			_aboutApplicationView.settings = settings;

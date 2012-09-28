@@ -1146,14 +1146,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 			record.addDocument(newMedicationScheduleItem);
 
-			var relationship:Relationship = record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
-					currentMedicationScheduleItem.scheduledMedicationOrder, newMedicationScheduleItem,
-					true);
-			newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
+			if (currentMedicationScheduleItem.scheduledMedicationOrder)
+			{
+				var relationship:Relationship = record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+						currentMedicationScheduleItem.scheduledMedicationOrder, newMedicationScheduleItem,
+						true);
+				newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
 
-			// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
-			currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
-					newMedicationScheduleItem);
+				// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
+				currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
+						newMedicationScheduleItem);
+			}
 		}
 
 		private static function createUnitsCodedValue():CodedValue

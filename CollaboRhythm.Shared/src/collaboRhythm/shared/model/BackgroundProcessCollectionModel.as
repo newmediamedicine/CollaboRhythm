@@ -1,7 +1,9 @@
 package collaboRhythm.shared.model
 {
 
-    import com.theory9.data.types.OrderedMap;
+	import collaboRhythm.shared.model.BackgroundProcessModel;
+
+	import com.theory9.data.types.OrderedMap;
 
     public class BackgroundProcessCollectionModel
 	{
@@ -38,14 +40,24 @@ package collaboRhythm.shared.model
 			isRunning = _processes.length > 0;
 			if (isRunning)
 			{
-				if (_processes.length == 1)
+				var singleProcess:BackgroundProcessModel = _processes.getValueByIndex(0) as BackgroundProcessModel;
+				summary = singleProcess.message;
+				if (_processes.length > 1)
 				{
-					var singleProcess:BackgroundProcessModel = _processes.getValueByIndex(0) as BackgroundProcessModel;
-					summary = singleProcess.message;
-				}
-				else
-				{
-					summary = _processes.length.toString() + " processes running...";
+					var previousMessage:String;
+					var messagesAllMatch:Boolean = true;
+					for each (var process:BackgroundProcessModel in _processes)
+					{
+						if (previousMessage != null && previousMessage != process.message)
+						{
+							messagesAllMatch = false;
+							break;
+						}
+						previousMessage = process.message
+					}
+
+					if (!messagesAllMatch)
+						summary += " (" + _processes.length.toString() + " tasks)";
 				}
 			}
 		}

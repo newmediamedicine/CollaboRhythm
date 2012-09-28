@@ -8,13 +8,18 @@ package collaboRhythm.plugins.healthCharts.controller
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
+	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
+
+	import flash.events.Event;
 
 	import flash.events.MouseEvent;
 
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
+	import mx.events.FlexEvent;
 	import mx.events.PropertyChangeEvent;
 
 	import spark.components.Button;
@@ -24,14 +29,17 @@ package collaboRhythm.plugins.healthCharts.controller
 	public class HealthChartsAppController extends AppControllerBase
 	{
 		public static const DEFAULT_NAME:String = "Health Charts";
+		private static const HEALTHCHARTSAPPCONTROLLER_UPDATINGVIEW:String = "HealthChartsAppController_UpdatingView";
 
 		private var _widgetView:HealthChartsButtonWidgetView;
 		private var _fullView:SynchronizedHealthCharts;
 		private var _healthChartsModel:HealthChartsModel;
 		private var _synchronizationService:SynchronizationService;
+		private var _backgroundProcessModel:BackgroundProcessCollectionModel;
 
 		public function HealthChartsAppController(constructorParams:AppControllerConstructorParams)
 		{
+			_backgroundProcessModel = BackgroundProcessCollectionModel(WorkstationKernel.instance.resolve(BackgroundProcessCollectionModel));
 			super(constructorParams);
 			cacheFullView = true;
 			createFullViewOnInitialize = true;
@@ -184,7 +192,6 @@ package collaboRhythm.plugins.healthCharts.controller
 		override protected function hideFullViewComplete():void
 		{
 			super.hideFullViewComplete();
-			healthChartsModel.finishedDecision();
 			updateFullViewTitle();
 		}
 
@@ -202,6 +209,10 @@ package collaboRhythm.plugins.healthCharts.controller
 			updateFullViewTitle();
 			if (fullView)
 			{
+				backgroundProcessModel.updateProcess(HEALTHCHARTSAPPCONTROLLER_UPDATINGVIEW, "Updating...", true);
+				fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, view_updateCompleteHandler2,
+						false, 0, true);
+
 				_fullView.prepareToShowView(sparkView);
 				updateSaveButton(healthChartsModel.decisionPending);
 			}
@@ -271,7 +282,37 @@ package collaboRhythm.plugins.healthCharts.controller
 				return;
 			}
 
+			healthChartsModel.finishedDecision();
 			dispatchShowFullView(viaMechanism);
+		}
+
+		private function fullView_addedToStageHandler(event:Event):void
+		{
+			var view:UIComponent = event.target as UIComponent;
+			if (view)
+			{
+				backgroundProcessModel.updateProcess(HEALTHCHARTSAPPCONTROLLER_UPDATINGVIEW, "Updating...", true);
+				event.target.addEventListener(FlexEvent.UPDATE_COMPLETE, view_updateCompleteHandler2,
+						false, 0, true);
+			}
+		}
+
+		private function view_updateCompleteHandler1(event:FlexEvent):void
+		{
+			event.target.removeEventListener(FlexEvent.UPDATE_COMPLETE, view_updateCompleteHandler1);
+			event.target.addEventListener(FlexEvent.UPDATE_COMPLETE, view_updateCompleteHandler2,
+					false, 0, true);
+		}
+
+		private function view_updateCompleteHandler2(event:FlexEvent):void
+		{
+			event.target.removeEventListener(FlexEvent.UPDATE_COMPLETE, view_updateCompleteHandler2);
+			backgroundProcessModel.updateProcess(HEALTHCHARTSAPPCONTROLLER_UPDATINGVIEW, "Updating...", false);
+		}
+
+		public function get backgroundProcessModel():BackgroundProcessCollectionModel
+		{
+			return _backgroundProcessModel;
 		}
 	}
 }

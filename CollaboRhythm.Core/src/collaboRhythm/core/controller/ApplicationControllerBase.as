@@ -96,9 +96,9 @@ package collaboRhythm.core.controller
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
 	import mx.logging.targets.TraceTarget;
+	import mx.managers.PopUpManager;
 
 	import spark.components.Application;
-
 	import spark.components.ViewNavigator;
 
 	[Bindable]
@@ -107,7 +107,7 @@ package collaboRhythm.core.controller
 		private static const ONE_MINUTE:int = 1000 * 60;
 		private static const DEBUG_LOG_FONTS:Boolean = false;
 
-		private var _application:*;
+		protected var _application:Application;
 		protected var _applicationControllerModel:ApplicationControllerModel;
 		protected var _kernel:IKernel;
 		protected var _settingsFileStore:SettingsFileStore;
@@ -152,7 +152,7 @@ package collaboRhythm.core.controller
 			// TODO: add event listener to handle the fast forward mode of the date source
 			_autoSyncTimer = new Timer(0);
 			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
-			initializeBackgrounProcessModel();
+			initializeBackgroundProcessModel();
 		}
 
 		private function updateAutoSyncTime():void
@@ -586,6 +586,8 @@ package collaboRhythm.core.controller
 
 			var imageCacheService:DefaultImageCacheService = new DefaultImageCacheService();
 			_kernel.registerComponentInstance("ImageCacheService", IImageCacheService, imageCacheService);
+
+			_kernel.registerComponentInstance("BackgroundProcessCollectionModel", BackgroundProcessCollectionModel, backgroundProcessModel);
 
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader(_settings);
@@ -1471,10 +1473,10 @@ package collaboRhythm.core.controller
 		public function set backgroundProcessModel(value:BackgroundProcessCollectionModel):void
 		{
 			_backgroundProcessModel = value;
-			initializeBackgrounProcessModel();
+			initializeBackgroundProcessModel();
 		}
 
-		private function initializeBackgrounProcessModel():void
+		private function initializeBackgroundProcessModel():void
 		{
 			if (backgroundProcessModel)
 			{
@@ -1529,19 +1531,21 @@ package collaboRhythm.core.controller
 
 		private function backgroundProcessModel_propertyChangeHandler(event:PropertyChangeEvent):void
 		{
-			/*
-			 <s:BusyIndicator id="backgroundProgressIndicator"
-			 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
-			 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}"/>
-			 <s:Label id="backgroundProgressLabel" text="{tabletApplicationController.backgroundProcessModel.summary}"
-			 visible="{tabletApplicationController.backgroundProcessModel.isRunning}"
-			 includeInLayout="{tabletApplicationController.backgroundProcessModel.isRunning}" paddingLeft="10"/>
-			 */
-
 			if (event.property == "isRunning")
 			{
 				if (_busyView)
-					_busyView.visible = backgroundProcessModel.isRunning;
+				{
+					if (backgroundProcessModel.isRunning)
+					{
+						_busyView.open(_application, true);
+						PopUpManager.centerPopUp(_busyView);
+						_busyView.visible = true;
+					}
+					else
+					{
+						_busyView.close();
+					}
+				}
 			}
 			else if (event.property == "summary")
 			{

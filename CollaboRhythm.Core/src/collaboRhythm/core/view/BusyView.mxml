@@ -15,17 +15,12 @@
   - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   - <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.core.view.*"
-		 hideEffect="{hideEffect}"
-		 showEffect="{showEffect}"
-		 height="100%" width="100%"
-		 resize="resizeHandler(event)">
-	<fx:Declarations>
-		<s:Fade id="hideEffect" target="this" alphaFrom="1" alphaTo="0"/>
-		<s:Fade id="showEffect" target="this" alphaFrom="0" alphaTo="1" duration="100"/>
-	</fx:Declarations>
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.core.view.*"
+		backgroundAlpha="0.3"
+		backgroundColor="0x000000"
+		resize="resizeHandler(event)">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -88,11 +83,6 @@
 			dialogGroup.width = dialogWidth;
 		}
 		]]></fx:Script>
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="#000000" alpha="0.3"/>
-		</s:fill>
-	</s:Rect>
 	<s:Group id="dialogGroup" verticalCenter="0" horizontalCenter="0" width="80%">
 		<s:Rect width="100%" height="100%">
 			<s:stroke>
@@ -110,4 +100,4 @@
 			<s:BusyIndicator id="busyIndicator" symbolColor="0xFFFFFF" width="200" height="200"/>
 		</s:VGroup>
 	</s:Group>
-</s:Group>
+</s:SkinnablePopUpContainer>

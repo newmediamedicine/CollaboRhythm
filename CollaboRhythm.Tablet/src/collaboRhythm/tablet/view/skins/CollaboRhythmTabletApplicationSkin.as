@@ -42,8 +42,6 @@ package collaboRhythm.tablet.view.skins
 			busyView = new BusyView();
 			busyView.width = 800;
 			busyView.height = 600;
-			busyView.visible = false;
-			addChild(busyView);
 
 			aboutApplicationView = new AboutApplicationView();
 			aboutApplicationView.width = 800;

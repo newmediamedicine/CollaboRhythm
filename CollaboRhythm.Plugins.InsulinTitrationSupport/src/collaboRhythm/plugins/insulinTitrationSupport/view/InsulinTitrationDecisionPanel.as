@@ -17,10 +17,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.events.TextEvent;
+	import flash.geom.Point;
 	import flash.ui.Keyboard;
 
 	import flashx.textLayout.conversion.TextConverter;
+	import flashx.textLayout.elements.FlowElement;
+	import flashx.textLayout.elements.FlowGroupElement;
 	import flashx.textLayout.elements.LinkElement;
+	import flashx.textLayout.elements.TextFlow;
 	import flashx.textLayout.events.FlowElementMouseEvent;
 
 	import mx.binding.utils.BindingUtils;
@@ -28,6 +33,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import mx.controls.Alert;
 	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
+	import mx.core.InteractionMode;
 	import mx.core.mx_internal;
 	import mx.events.PropertyChangeEvent;
 	import mx.graphics.SolidColor;
@@ -287,11 +293,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			var richText:RichEditableText = new RichEditableText();
 			richText.editable = false;
 			richText.selectable = false;
-//			richText.setStyle("paragraphSpaceAfter", 10);
+			richText.setStyle("interactionMode", InteractionMode.TOUCH);
 			richText.setStyle("paddingTop", 7);
 			richText.setStyle("paddingBottom", 8);
 			richText.setStyle("paddingLeft", 5);
-//			richText.textFlow.addEventListener(FlowElementMouseEvent.CLICK, instructionsFlowElementMouseEventHandler);
 
 			richText.textFlow = TextConverter.importToFlow(source, TextConverter.TEXT_FIELD_HTML_FORMAT);
 			richText.percentWidth = 100;
@@ -354,27 +359,21 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 					subStepsHtml += "</ul>";
 				}
 
+				var isGrey:Boolean = step.stepColor == "grey";
 				var stepHtml:String = "<Font color='" +
-						(step.stepColor == "grey" ? "0x888888" : "0x000000") +
+						(isGrey ? "0x888888" : "0x000000") +
 						"'>" +
 						step.stepText +
 						subStepsHtml +
 						"</Font>";
-				var stepGroup:HGroup = new HGroup();
-				stepGroup.percentWidth = 100;
+
+				var stepIcon:SpriteVisualElement = null;
 				if (currentStep < stepIcons.length)
 				{
-					var stepIcon:SpriteVisualElement = stepIcons[currentStep];
-					currentStep++;
-
-					if (step.stepColor == "grey")
-					{
-						stepIcon.filters = [_greyScaleFilter];
-						stepIcon.alpha = 0.3;
-					}
-					stepGroup.addElement(stepIcon);
+					stepIcon = stepIcons[currentStep];
 				}
-				stepGroup.paddingLeft = 20;
+				var stepGroup:HGroup = createStepGroup(stepIcon, isGrey);
+				currentStep++;
 
 				if (step.stepIcon == "warning")
 				{
@@ -389,13 +388,89 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 				_instructionsGroup.addElement(stepGroup);
 			}
 
-			createInstructionsRichText("<p align='center'><a href='http://www.ncbi.nlm.nih.gov/pubmed/17924873'>Learn more about the 303 Protocol</a></p>",
-					_instructionsGroup);
+			var spacerIcon:Step1Icon = new Step1Icon();
+			spacerIcon.visible = false;
+			var learnMoreGroup:HGroup = createStepGroup(spacerIcon, false);
+			var learnMoreLinkRichText:RichEditableText = createInstructionsRichText("<a>Learn more about insulin titration</a>",
+					learnMoreGroup);
+			addLinkClickHandler(learnMoreLinkRichText.textFlow, learnMoreLinkClickEventHandler);
+			_instructionsGroup.addElement(learnMoreGroup);
 		}
 
-		private function instructionsFlowElementMouseEventHandler( event:FlowElementMouseEvent ):void
+		private function createStepGroup(stepIcon:SpriteVisualElement, isGrey:Boolean):HGroup
 		{
-			Alert.show( "html link with ID clicked: " + ( event.flowElement as LinkElement ).href );
+			var stepGroup:HGroup = new HGroup();
+			stepGroup.percentWidth = 100;
+			stepGroup.paddingLeft = 20;
+			if (stepIcon)
+			{
+				if (isGrey)
+				{
+					stepIcon.filters = [_greyScaleFilter];
+					stepIcon.alpha = 0.3;
+				}
+				stepGroup.addElement(stepIcon);
+			}
+			return stepGroup;
+		}
+
+		/**
+		 * Converts the html string (from the resources) into a TextFlow object
+		 * using the TextConverter class. Then it iterates through all the
+		 * elements in the TextFlow until it finds a LinkElement, and adds a
+		 * FlowElementMouseEvent.CLICK event handler to that Link Element.
+		 *
+		 * @author http://flexdevtips.blogspot.com/2010/10/displaying-html-text-in-labels.html
+		 */
+		public static function addLinkClickHandler(textFlow:TextFlow, linkClickedHandler:Function):TextFlow
+		{
+			var link:LinkElement = findLinkElement(textFlow);
+			if (link != null)
+			{
+				link.addEventListener(FlowElementMouseEvent.CLICK,
+						linkClickedHandler, false, 0, true);
+			} else
+			{
+				trace("Warning - couldn't find link tag");
+			}
+			return textFlow;
+		}
+
+		/**
+		 * Finds the first LinkElement recursively and returns it.
+		 */
+		private static function findLinkElement(group:FlowGroupElement):LinkElement
+		{
+			var childGroups:Array = [];
+			// First check all the child elements of the current group,
+			// Also save any children that are FlowGroupElement
+			for (var i:int = 0; i < group.numChildren; i++)
+			{
+				var element:FlowElement = group.getChildAt(i);
+				if (element is LinkElement)
+				{
+					return (element as LinkElement);
+				} else if (element is FlowGroupElement)
+				{
+					childGroups.push(element);
+				}
+			}
+			// Recursively check the child FlowGroupElements now
+			for (i = 0; i < childGroups.length; i++)
+			{
+				var childGroup:FlowGroupElement = childGroups[i];
+				var link:LinkElement = findLinkElement(childGroup);
+				if (link != null)
+				{
+					return link;
+				}
+			}
+			return null;
+		}
+
+		private function learnMoreLinkClickEventHandler(event:FlowElementMouseEvent):void
+		{
+			_controller.showInsulinTitrationFaq();
 		}
 
 		private function createConnectorLine():DottedLine
