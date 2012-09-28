@@ -1,0 +1,46 @@
+
+verbose = false;
+
+showConstructorList = false;
+showAllAsSimpleTrace = false;
+showSimpleTraceDepth = 1;
+
+showPrinterShortTests = true;
+showPrinterDetails    = true;
+
+showPrintHeader   = true;
+showPrintErrors   = true;
+showPrintFailures = true;
+showPrintFooter   = true;
+
+showEmptyTests       = true;
+showObjectSource     = true;
+invertExpectedActual = false;
+testInheritedTests   = true;
+maxColumn            = 38;
+
+defectHeaderAsError = false;
+allowErrorTrace     = true;
+allowStackTrace     = true;
+filterErrorStack    = true;
+cleanupErrorStack   = true;
+
+//default
+cleanupPattern     = new RegExp( "" );
+cleanupReplacement = "";
+
+filteredPatterns = [
+  "buRRRn.ASTUce.framework::TestResult",
+  "buRRRn.ASTUce.framework::TestCase",
+  "buRRRn.ASTUce.framework::TestSuite",
+  "buRRRn.ASTUce.ui",
+  "buRRRn.ASTUce::Runner",
+  "buRRRn.ASTUce::Application",
+  "at MethodInfo",
+  "at ()",
+  "at <anonymous>()",
+  "global$init()",
+  "at Function/http://adobe.com/AS3/2006/builtin::call()",
+  "at Function/http://adobe.com/AS3/2006/builtin::apply()"
+];
+

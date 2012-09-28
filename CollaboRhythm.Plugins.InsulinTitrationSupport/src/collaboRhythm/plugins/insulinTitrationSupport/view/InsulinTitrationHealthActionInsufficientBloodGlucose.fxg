@@ -1,74 +1,202 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Graphic version="2.0" viewHeight="100" viewWidth="100" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="100" viewWidth="100" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
-  <Group ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:seqID="2" d:type="layer" d:userLabel="Layer 1">
-      <BitmapImage scaleX="0.066225" scaleY="0.066225" y="7" source="@Embed('InsulinTitrationHealthActionInsufficientBloodGlucose.assets/images/Image_0001.png')" fillMode="clip" ai:seqID="3"/>
-      <Ellipse y="64.5" width="28" height="28" ai:seqID="4">
-        <fill>
-          <SolidColor color="#DBDBDC"/>
-        </fill>
-      </Ellipse>
-      <RichText x="-1.5" y="68.5398" columnCount="1" textAlign="center" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="on" color="#AEAFB1" whiteSpaceCollapse="preserve" width="30" height="24.5" ai:aa="2" ai:seqID="5">
-        <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">1</span></p></content>
-      </RichText>
-      <Ellipse x="24" y="64.5" width="28" height="28" ai:seqID="6">
-        <fill>
-          <SolidColor color="#DBDBDC"/>
-        </fill>
-      </Ellipse>
-      <Group x="23.625" y="66.4512" ai:seqID="7" flm:knockout="false">
-        <Group y="3.04883" ai:seqID="8">
-          <Rect width="30" height="24.5" ai:seqID="9"/>
-          <Path x="9.92383" y="1.17383" winding="nonZero" ai:seqID="10" data="M0 15.8652 0 14.5703 1.65625 12.9609C5.64063 9.16992 7.46484 7.15234 7.46484 4.80078 7.46484 3.2168 6.7207 1.75195 4.39258 1.75195 2.97656 1.75195 1.80078 2.47266 1.08008 3.07227L0.408203 1.58398C1.46484 0.697266 3.02539 0 4.80078 0 8.16113 0
- 9.57715 2.30469 9.57715 4.53711 9.57715 7.41797 7.48926 9.74609 4.20117 12.9141L2.97656 14.0664 2.97656 14.1133 9.96094 14.1133 9.96094 15.8652 0 15.8652Z">
-            <fill>
-              <SolidColor color="#AEAFB1"/>
-            </fill>
-          </Path>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="59835e00" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Group ai:objID="35c13580" ai:seqID="3">
+        <Group ai:objID="35c11b80" ai:seqID="4">
+          <mask>
+            <Group ai:spare="1">
+              <Rect width="100" height="100" ai:objID="5591b480" ai:seqID="5">
+                <fill>
+                  <SolidColor color="#FFFFFF"/>
+                </fill>
+              </Rect>
+            </Group>
+          </mask>
+          <Group y="7.00049" ai:objID="35c1c380" ai:seqID="6">
+            <mask>
+              <Group y="0.000488281" ai:spare="1">
+                <Rect width="100" height="69" ai:objID="55925500" ai:seqID="7">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Group ai:objID="35c18a80" ai:seqID="8">
+              <mask>
+                <Group ai:spare="1">
+                  <Rect width="100" height="68.9995" ai:objID="5591bd80" ai:seqID="9">
+                    <fill>
+                      <SolidColor color="#FFFFFF"/>
+                    </fill>
+                  </Rect>
+                </Group>
+              </mask>
+              <BitmapImage source="@Embed('InsulinTitrationHealthActionConditionsMet.assets/images/Image_00001.png')" fillMode="clip" ai:embed="1" ai:objID="6b9f1b00" ai:seqID="10"/>
+            </Group>
+          </Group>
+          <Group ai:objID="35c17080" ai:seqID="11">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="100" ai:objID="5591f980" ai:seqID="12">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Path y="64.5" winding="nonZero" ai:objID="6b9f3d80" ai:seqID="13" data="M28 14C28 21.7305 21.7314 28 14 28 6.26758 28 0 21.7305 0 14 0 6.26758 6.26758 0 14 0 21.7314 0 28 6.26758 28 14">
+              <fill>
+                <SolidColor color="#DBDBDC"/>
+              </fill>
+            </Path>
+          </Group>
+          <RichText rotation="360" x="7.34424" y="68.54" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="off" color="#AEAFB1" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c18880" ai:seqID="14" flm:variant="1" d:id="3">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">1</span></p></content>
+          </RichText>
+          <Group ai:objID="35c19a80" ai:seqID="15">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="100" ai:objID="5591ef00" ai:seqID="16">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Path x="24" y="64.5" winding="nonZero" ai:objID="6b9f8280" ai:seqID="17" data="M28 14C28 21.7305 21.7314 28 14 28 6.26855 28 0 21.7305 0 14 0 6.26758 6.26855 0 14 0 21.7314 0 28 6.26758 28 14">
+              <fill>
+                <SolidColor color="#DBDBDC"/>
+              </fill>
+            </Path>
+          </Group>
+          <RichText rotation="360" x="32.4688" y="68.54" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="off" color="#AEAFB1" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c15980" ai:seqID="18" flm:variant="2" d:id="4">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">2</span></p></content>
+          </RichText>
+          <Group ai:objID="35c11e80" ai:seqID="19">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="100" ai:objID="5591c380" ai:seqID="20">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Path x="48" y="64.5" winding="nonZero" ai:objID="6b9ef400" ai:seqID="21" data="M28 14C28 21.7305 21.7314 28 14 28 6.26855 28 0 21.7305 0 14 0 6.26758 6.26855 0 14 0 21.7314 0 28 6.26758 28 14">
+              <fill>
+                <SolidColor color="#DBDBDC"/>
+              </fill>
+            </Path>
+          </Group>
+          <RichText rotation="360" x="56.5938" y="68.54" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="off" color="#AEAFB1" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c13e80" ai:seqID="22" flm:variant="3" d:id="5">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">3</span></p></content>
+          </RichText>
+          <Group ai:objID="35c14080" ai:seqID="23">
+            <mask>
+              <Group ai:spare="1">
+                <Rect width="100" height="100" ai:objID="5592aa80" ai:seqID="24">
+                  <fill>
+                    <SolidColor color="#FFFFFF"/>
+                  </fill>
+                </Rect>
+              </Group>
+            </mask>
+            <Path x="72" y="64.5" winding="nonZero" ai:objID="6b9f2100" ai:seqID="25" data="M28 14C28 21.7305 21.7314 28 14 28 6.26855 28 0 21.7305 0 14 0 6.26758 6.26855 0 14 0 21.7314 0 28 6.26758 28 14">
+              <fill>
+                <SolidColor color="#DBDBDC"/>
+              </fill>
+            </Path>
+          </Group>
+          <RichText rotation="360" x="79.8438" y="68.54" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="24" kerning="off" color="#AEAFB1" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c0fe80" ai:seqID="26" flm:variant="4" d:id="6">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">4</span></p></content>
+          </RichText>
+          <RichText rotation="360" x="20.6338" y="21.3262" columnCount="1" tabStops="S36" fontFamily="Myriad Pro" fontSize="21" kerning="off" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c1bf80" ai:seqID="27" flm:variant="5" d:id="7">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro" trackingRight="0.9%">I</span><span fontFamily="Myriad Pro">nsulin</span></p></content>
+          </RichText>
+          <RichText rotation="360" x="12.8009" y="41.5293" columnCount="1" tabStops="S36 S72" fontFamily="Myriad Pro" fontSize="21" kerning="off" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c16580" ai:seqID="28" flm:variant="6" d:id="8">
+            <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro" trackingRight="-1.1%">T</span><span fontFamily="Myriad Pro">it</span><span fontFamily="Myriad Pro" trackingRight="-0.4%">r</span><span fontFamily="Myriad Pro" trackingRight="-0.3%">a</span><span fontFamily="Myriad Pro">tion</span></p></content>
+          </RichText>
         </Group>
       </Group>
-      <Ellipse x="48" y="64.5" width="28" height="28" ai:seqID="11">
-        <fill>
-          <SolidColor color="#DBDBDC"/>
-        </fill>
-      </Ellipse>
-      <Group x="47.75" y="66.4512" ai:seqID="12" flm:knockout="false">
-        <Group y="3.04883" ai:seqID="13">
-          <Rect width="30" height="24.5" ai:seqID="14"/>
-          <Path x="9.85254" y="1.17383" winding="nonZero" ai:seqID="15" data="M0.575195 13.4648C1.17578 13.8262 2.54395 14.4258 4.03223 14.4258 6.7207 14.4258 7.58398 12.7207 7.56055 11.4004 7.53613 9.2168 5.56836 8.28125 3.52832 8.28125L2.35254 8.28125 2.35254 6.69727 3.52832 6.69727C5.06445 6.69727 7.00879 5.9043 7.00879
- 4.05664 7.00879 2.80859 6.2168 1.70508 4.27246 1.70508 3.02441 1.70508 1.82324 2.25586 1.15137 2.73633L0.575195 1.20117C1.41602 0.599609 3 0 4.68066 0 7.75293 0 9.14453 1.82422 9.14453 3.7207 9.14453 5.35352 8.16016 6.7207 6.26465 7.41797L6.26465
- 7.46484C8.18457 7.82422 9.7207 9.26563 9.74512 11.4492 9.74512 13.9453 7.77637 16.1289 4.05566 16.1289 2.30371 16.1289 0.768555 15.5781 0 15.0742L0.575195 13.4648Z">
-            <fill>
-              <SolidColor color="#AEAFB1"/>
-            </fill>
-          </Path>
-        </Group>
-      </Group>
-      <Ellipse x="72" y="64.5" width="28" height="28" ai:seqID="16">
-        <fill>
-          <SolidColor color="#DBDBDC"/>
-        </fill>
-      </Ellipse>
-      <Group x="71" y="66.4512" ai:seqID="17" flm:knockout="false">
-        <Group y="3.04883" ai:seqID="18">
-          <Rect width="30" height="24.5" ai:seqID="19"/>
-          <Path x="9.2041" y="1.4375" winding="nonZero" ai:seqID="20" data="M7.24902 15.6016 7.24902 11.3301 0 11.3301 0 9.96094 6.96094 0 9.24121 0 9.24121 9.69727 11.4248 9.69727 11.4248 11.3301 9.24121 11.3301 9.24121 15.6016 7.24902 15.6016ZM7.24902 9.69727 7.24902 4.48828C7.24902 3.67383 7.27246 2.85742 7.32129 2.04102
-L7.24902 2.04102C6.76855 2.95313 6.38477 3.625 5.95215 4.3457L2.13574 9.65039 2.13574 9.69727 7.24902 9.69727Z">
-            <fill>
-              <SolidColor color="#AEAFB1"/>
-            </fill>
-          </Path>
-        </Group>
-      </Group>
-      <RichText x="7.5625" y="15.3258" columnCount="1" textAlign="center" tabStops="S36 S72" fontFamily="Myriad Pro" fontSize="21" kerning="on" whiteSpaceCollapse="preserve" width="84.4375" height="48.334" ai:aa="2" ai:seqID="21">
-        <content><p fontFamily="Myriad Pro" baselineShift="-5"><span fontFamily="Myriad Pro">Insulin</span></p><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">Titration</span></p></content>
-      </RichText>
     </Group>
   </Group>
-  <Private>
+  <Private variant:using="" mngo:using="" xmlns:mngo="http://ns.adobe.com/flamingo/apd" xmlns:variant="http://ns.adobe.com/flame/2008/apd">
       <d:FontMap>
         <d:Map fontFamily="Myriad Pro" fontStyle="normal" fontWeight="normal" postScriptName="MyriadPro-Regular"/>
       </d:FontMap>
+      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="860FE154AF74C95000033B5CE4C11E7B" flm:original="1" d:ref="#3">
+        <variant:RichText rotation="360" x="7.34424" y="86.54" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c18880" ai:seqID="14" d:id="9">
+          <variant:content><variant:p fontFamily="Arial" d:id="10"><variant:span fontFamily="Arial" d:id="11">1</variant:span></variant:p></variant:content>
+        </variant:RichText>
+      </mngo:VariantContent>
+      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="80B6EF668B88488CA884ADEDA7A52B33" flm:original="2" d:ref="#4">
+        <variant:RichText rotation="360" x="32.4688" y="86.54" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c15980" ai:seqID="18" d:id="12">
+          <variant:content><variant:p fontFamily="Arial" d:id="13"><variant:span fontFamily="Arial" d:id="14">2</variant:span></variant:p></variant:content>
+        </variant:RichText>
+      </mngo:VariantContent>
+      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="298E3DF0E7259709F3AA380CDB970DA2" flm:original="3" d:ref="#5">
+        <variant:RichText rotation="360" x="56.5938" y="86.54" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c13e80" ai:seqID="22" d:id="15">
+          <variant:content><variant:p fontFamily="Arial" d:id="16"><variant:span fontFamily="Arial" d:id="17">3</variant:span></variant:p></variant:content>
+        </variant:RichText>
+      </mngo:VariantContent>
+      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="2BF0958B3BCB85C43BD4F55B7B80B547" flm:original="4" d:ref="#6">
+        <variant:RichText rotation="360" x="79.8438" y="86.54" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c0fe80" ai:seqID="26" d:id="18">
+          <variant:content><variant:p fontFamily="Arial" d:id="19"><variant:span fontFamily="Arial" d:id="20">4</variant:span></variant:p></variant:content>
+        </variant:RichText>
+      </mngo:VariantContent>
+      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="D37D0EE3FDD142AAABF6011D68FDF02F" flm:original="5" d:ref="#7">
+        <variant:RichText rotation="360" x="20.6338" y="37.0762" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c1bf80" ai:seqID="27" d:id="21">
+          <variant:content><variant:p fontFamily="Arial" d:id="22"><variant:span fontFamily="Arial" d:id="23">I</variant:span><variant:span fontFamily="Arial" d:id="24">nsulin</variant:span></variant:p></variant:content>
+        </variant:RichText>
+      </mngo:VariantContent>
+      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="5652F8D22786313E03AA8583D3F527FB" flm:original="6" d:ref="#8">
+        <variant:RichText rotation="360" x="12.8218" y="57.2793" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="35c16580" ai:seqID="28" d:id="25">
+          <variant:content><variant:p fontFamily="Arial" d:id="26"><variant:span fontFamily="Arial" d:id="27">T</variant:span><variant:span fontFamily="Arial" d:id="28">it</variant:span><variant:span fontFamily="Arial" d:id="29">r</variant:span><variant:span fontFamily="Arial" d:id="30">a</variant:span><variant:span fontFamily="Arial" d:id="31">tion</variant:span></variant:p></variant:content>
+        </variant:RichText>
+      </mngo:VariantContent>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I expandBlendsOption 5 B downsampleLinkedImages 0 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 I versionKey 2 B writeImages 1 B includeXMP 0 B includeSymbol 0 B aiEditCap 1 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="InsulinTitrationHealthActionInsufficientBloodGlucose.assets/images" rulerCanvasDiffH="15.5" rulerCanvasDiffV="13.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict>
+            <ai:Entry name="0" value="Image_0002.png" valueType="U"/>
+          </ai:Dict>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="EB0D10F73F8567CEB20F980B69FFB53F" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#aeafb1" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="24" ATE:C_horizontalScale="1" ATE:C_kerning="noauto" ATE:C_leading="28.8" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="false" ATE:O_contextualLigatures="false" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="0330C535B068680E61BB2631E23A7C0A" d:ref="#9"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#10"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#11"/>
+      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#aeafb1" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="24" ATE:C_horizontalScale="1" ATE:C_kerning="noauto" ATE:C_leading="28.8" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="false" ATE:O_contextualLigatures="false" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="702F95877EB413A59E4005D06247212F" d:ref="#12"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#13"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#14"/>
+      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#aeafb1" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="24" ATE:C_horizontalScale="1" ATE:C_kerning="noauto" ATE:C_leading="28.8" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="false" ATE:O_contextualLigatures="false" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="6FC35AD1FE635693CA764FC05B7D3E80" d:ref="#15"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#16"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#17"/>
+      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#aeafb1" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="24" ATE:C_horizontalScale="1" ATE:C_kerning="noauto" ATE:C_leading="28.8" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="false" ATE:O_contextualLigatures="false" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="9369EB2AF51B2EB12D95C2DBF8BA5C46" d:ref="#18"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#19"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#20"/>
+      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="21" ATE:C_horizontalScale="1" ATE:C_kerning="noauto" ATE:C_leading="25.2" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="false" ATE:O_contextualLigatures="false" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="8613F4A1636911CAFF9715C4764A227D" d:ref="#21"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#22"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" ATE:C_tracking="9" d:ref="#23"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#24"/>
+      <ATE:ATEAttributes ATE:C_autoLeading="true" ATE:C_baseLine="normal" ATE:C_baselineShift="0" ATE:C_charRotation="0" ATE:C_color="#000000" ATE:C_fill="true" ATE:C_fillFirst="true" ATE:C_fillOverprint="false" ATE:C_fillVisible="true" ATE:C_font="MyriadPro-Regular" ATE:C_fontCaps="normal" ATE:C_fontSize="21" ATE:C_horizontalScale="1" ATE:C_kerning="noauto" ATE:C_leading="25.2" ATE:C_lineCapType="buttCap" ATE:C_lineDashOffset="0" ATE:C_lineJoinType="miterJoin" ATE:C_lineWidth="1" ATE:C_miterLimit="10" ATE:C_noBreak="false" ATE:C_strikethroughPos="off" ATE:C_stroke="false" ATE:C_strokeOverprint="false" ATE:C_strokeVisible="true" ATE:C_tracking="0" ATE:C_underlineOffset="0" ATE:C_underlinePos="off" ATE:C_verticalScale="1" ATE:JC_leftAki="-1" ATE:JC_rightAki="-1" ATE:JC_styleRunAlign="byRomanHori_centerVertical" ATE:JC_tusme="0" ATE:JO_japAltFeature="default" ATE:JO_kana="false" ATE:JO_language="english" ATE:JO_proportionalMetrics="false" ATE:JO_romanItalics="false" ATE:JO_ruby="false" ATE:JP_autoTCY="0" ATE:JP_burasagariType="none" ATE:JP_hangingRoman="false" ATE:JP_kurikaeshiMojiShori="false" ATE:JP_leadingType="roman" ATE:MC_diacVPosition="openType" ATE:MC_diacXPos="0" ATE:MC_diacYPos="0" ATE:MC_digitSet="default" ATE:MC_directionOverride="default" ATE:MC_kashidas="default" ATE:MO_justificationAlt="false" ATE:MO_overlapSwash="false" ATE:MO_stretchedAlt="false" ATE:MP_justificationMethod="default" ATE:O_alternateLigatures="false" ATE:O_connectionForms="false" ATE:O_contextualLigatures="false" ATE:O_discretionaryLigatures="false" ATE:O_figureStyle="default" ATE:O_fontOTPos="normal" ATE:O_fractions="false" ATE:O_ligature="true" ATE:O_oldStyle="false" ATE:O_ordinals="false" ATE:O_ornaments="false" ATE:O_stylisticAlternates="false" ATE:O_swash="false" ATE:O_titling="false" ATE:P_autoHyphenate="true" ATE:P_autoLeadingPercentage="1.2" ATE:P_composerEngine="latinCJK" ATE:P_consecutiveHyphenLimit="0" ATE:P_defaultTabWidth="36" ATE:P_endIndent="0" ATE:P_everyLineComposer="false" ATE:P_firstlineIndent="0" ATE:P_glyphScaling="1" ATE:P_hyphenateCapitalized="true" ATE:P_hyphenatedWordSize="6" ATE:P_hyphenationPreference="0.5" ATE:P_hyphenationZone="36" ATE:P_letterSpacing="0" ATE:P_maxGlyphScaling="1" ATE:P_maxLetterSpacing="0" ATE:P_maxWordSpacing="1.33" ATE:P_minGlyphScaling="1" ATE:P_minLetterSpacing="0" ATE:P_minWordSpacing="0.8" ATE:P_paragraphDirection="ltr" ATE:P_postHyphenSize="2" ATE:P_preHyphenSize="2" ATE:P_singleWordJustif="fullJustifyLastLineFull" ATE:P_spaceAfter="0" ATE:P_spaceBefore="0" ATE:P_startIndent="0" ATE:P_textAlign="left" ATE:P_wordSpacing="1" ATE:TA_columnCount="1" ATE:TA_height="0" ATE:TA_lineOrientation="horiz" ATE:TA_spacing="0" ATE:TA_width="0" ATE:T_baselineDirection="withStream" ATE:T_leftRightAdjust="0" ATE:T_upDownAdjust="0" ATE:W_lineCount="2" ATE:W_lineGap="0" ATE:W_orphanAmount="2" ATE:W_scale="0.5" ATE:W_warichuEnabled="false" ATE:W_warichuJustification="autoJustify" ATE:W_widowAmount="2" flm:hashcode="36CDCD524E47D969FCB99653A1B06E72" d:ref="#25"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#26"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" ATE:C_tracking="-11" d:ref="#27"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#28"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" ATE:C_tracking="-4" d:ref="#29"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" ATE:C_tracking="-3" d:ref="#30"/>
+      <ATE:ATEAttributes ATE:C_kerning="noauto" d:ref="#31"/>
     </Private>
   </Graphic>

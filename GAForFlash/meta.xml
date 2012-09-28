@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="eden" default="main" basedir=".">
+    
+    <target name="clean">
+        <delete dir="${basedir}/${release.dir}" />
+        <delete dir="${basedir}/${asdoc.output}" />
+    </target>
+    
+    <target name="before">
+        <mkdir dir="${basedir}/${release.dir}" />
+        <mkdir dir="${basedir}/${asdoc.output}" />
+    </target>
+    
+    <target name="main" depends="clean,before,getrev,info,build-doc,build-swc,build-swc-debug,after">
+        
+    </target>
+
+    <target name="getrev">
+        <exec executable="svn" outputproperty="revision.number">
+            <arg line="info -r HEAD"/>
+            <redirector>
+                <outputfilterchain>
+                    <linecontainsregexp>
+                        <regexp pattern='^Revision' />
+                    </linecontainsregexp>
+                    <tokenfilter>
+                        <replaceregex pattern='[\D]+([\d]+)' replace="\1" />
+                    </tokenfilter>
+                </outputfilterchain>
+            </redirector>
+        </exec>
+
+        <!-- <echo message="revision number = ${revision.number}"/> -->
+        <property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${revision.number}"/>
+    </target>
+
+    <target name="info">
+        <echo message="${project.name} v${project.fullversion}"/>
+    </target>
+
+    <target name="build-doc" unless="${build.nodocumentation}">
+        <asdoc
+        output="${basedir}/${asdoc.output}"
+        target-player="${local.flashplayerversion}"
+        main-title="${asdoc.main.title}"
+        footer="${asdoc.footer}"
+        window-title="${asdoc.window.title}"
+        left-frameset-width="300"
+        failonerror="true"
+        >
+            <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
+            <load-config filename="${basedir}/build/config.xml"/>
+            <keep-xml>true</keep-xml>
+            <doc-sources path-element="${basedir}/${project.src}"/>
+            <verbose-stacktraces>true</verbose-stacktraces>
+            <source-path path-element="${basedir}/${project.src}" />
+            <external-library-path dir="${basedir}/${project.lib-swc}/" append="true">
+               <include name="logd.swc"/>
+               <include name="core.swc"/>
+            </external-library-path>
+            <exclude-sources path-element="${basedir}/${project.src}/gaforflash.as" />
+            <exclude-sources path-element="${basedir}/${project.src}/gaforflash_test.as" />
+            <exclude-sources path-element="${basedir}/${project.src}/gaforflash_example.as" />
+            <exclude-sources path-element="${basedir}/${project.src}/TestRunner.as" />
+            <packages.package name="com.google.analytics" description="${project.fullname}" />
+        </asdoc>
+    </target>
+
+    <target name="build-swc">
+        <compc
+            output="${basedir}/${release.dir}/${project.swc}"
+            target-player="${local.flashplayerversion}"
+        >
+            <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
+            <load-config filename="${basedir}/build/config.xml"/>
+            <namespace uri="${project.namespace}" manifest="${basedir}/${project.manifest}" />
+            <include-namespaces uri="${project.namespace}" />
+            <strict>true</strict>
+            <optimize>true</optimize>
+            <warnings>true</warnings>
+            <verbose-stacktraces>false</verbose-stacktraces>
+            <compute-digest>false</compute-digest>
+            <external-library-path dir="${basedir}/${project.lib-swc}/" append="true">
+               <include name="logd.swc"/>
+               <include name="core.swc"/>
+            </external-library-path>
+            <source-path path-element="${basedir}/${project.src}" />
+            <include-sources dir="${basedir}/${project.src}/com/google/analytics" includes="**/*.as" />
+            <metadata date="${TODAY}" title="${project.name}">
+                <publisher name="${project.publisher}" />
+                <creator name="${project.creator}" />
+            </metadata>
+        </compc>
+    </target>
+
+    <target name="build-swc-debug">
+        <compc
+            output="${basedir}/${release.dir}/${project.swc-debug}"
+            target-player="${local.flashplayerversion}"
+        >
+            <load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
+            <load-config filename="${basedir}/build/config-debug.xml"/>
+            <namespace uri="${project.namespace}" manifest="${basedir}/${project.manifest}" />
+            <include-namespaces uri="${project.namespace}" />
+            <debug>true</debug>
+            <strict>true</strict>
+            <optimize>false</optimize>
+            <warnings>true</warnings>
+            <verbose-stacktraces>true</verbose-stacktraces>
+            <compute-digest>false</compute-digest>
+            <external-library-path dir="${basedir}/${project.lib-swc}/" append="true">
+               <include name="logd.swc"/>
+               <include name="core.swc"/>
+            </external-library-path>
+            <source-path path-element="${basedir}/${project.src}" />
+            <include-sources dir="${basedir}/${project.src}/com/google/analytics" includes="**/*.as" />
+            <metadata date="${TODAY}" title="${project.name}">
+                <publisher name="${project.publisher}" />
+                <creator name="${project.creator}" />
+            </metadata>
+        </compc>
+    </target>
+
+
+    <target name="after" unless="${build.norelease}">
+        <copy todir="${basedir}/${release.dir}/doc">
+            <fileset dir="${basedir}/${asdoc.output}"/>
+        </copy>
+        
+        <copy file="changelog.txt" todir="${basedir}/${release.dir}"/>
+        
+        <zip destfile="${basedir}/${release.dir}/${project.name}-${project.fullversion}.zip"
+             basedir="${basedir}/${release.dir}"/>
+    </target>
+    
+</project>

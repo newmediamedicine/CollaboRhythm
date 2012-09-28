@@ -1,0 +1,110 @@
+* 1.1.0
+- modified the build
+  made it simpler and faster
+- removed support for "visual" SWC
+  now it's 1 SWC for everyone and you have to initialize the lib by code
+- updated libraries dependencies
+  now we reuse core.swc, logd.swc, etc. from the project maashaack
+  see:
+   http://code.google.com/p/maashaack/wiki/core
+   http://code.google.com/p/maashaack/wiki/logd
+- removed class UserAgent, replaced by function util core.strings.userAgent()
+- removed class Protocols, replaced by strings
+- removed class URL, replaced by class util core.uri
+- removed class Version, replaced by core.version
+- removed IdleTimer
+- removed the package com.google.analytics.debug
+- replaced the log system with logd library
+- added singleton com.google.analytics.log
+- refactored GIFRequest
+- AnalyticsTracker interface changed
+  removed get/set debug
+  removed get/set visualdebug
+  added function get requests():Array;
+  added function clearRequests():void;
+- updated GATracker to reflect AnalyticsTracker interface changes
+
+
+* 1.0.2
+- v1.0.2 small fix (not publicly released)
+- Fixed event tracker to send a value if optional label is not present
+- Fix passing config to GATracker constructor
+- adding a check to not send invalid GET requests
+
+* 1.0.1.319
+- v1.0.1 build fix
+- fixed Event Tracking request
+- fixed a security error when allowscriptaccess=never
+- fixed a small bug in cookie expiration
+- fixed the build for Windows
+- updated the gif request debug to show an id
+- updated the visual debug to allow to click-trough the background
+- cleaned up and organized the examples
+
+* 1.0.0.234
+- v1.0 release
+- fixed default debug options
+  visualDebug=true|false will show the debug
+  to activate more option you need to set to true
+  various options in tracker.debug.*
+- now visual debug have 3 modes: basic|advanced|geek
+  VisualDebugMode.geek + debug.verbose trace everything
+- fixed various small bugs
+
+* 0.7.0.177
+- directory structure reorganization
+  instead of having different project roots
+  as GA-AS3, GA_Flex, GA_Flash
+  we keep all under one root
+  easier for maintenance and code sync
+- Full component architecture
+  based on AnalyticsTracker
+  we have
+  FlashTracker (analytics_flash.swc, Flash CS3 visual component)
+  FlexTracker (analytics_flex.swc, Flex 3 visual component)
+  GATrackerLibrary/GATracker (analytics.swc, AS3 code library)
+- fix bug with HTMLDOM cacheproperties
+- fix bug with visual debug compiled in Flex
+- added component logo
+- modified the build to generate 2 SWC: analytics.swc and analytics_felx.swc
+- analytics_flash.swc need to be generated from Flash CS3
+  open /fla/Analytics.fla
+  right click 'Analytics'(compiled clip), select 'Component Definition...', click 'OK'
+  right click 'Analytics'(compiled clip), select 'Export SWC File...', save as 'analytics_flash.swc'
+- hello world samples
+
+* 0.6.0.149
+- Library component
+- Flex component
+- Flash component
+
+* 0.6.0.142
+- fix a small bug in Buffer
+  now stored utmz are read correctly
+
+* 0.6.0.141
+- all package-level declarations are removed
+- now we can generate a SWC compatible with Flash CS3
+- Gif Requests are stored by id as GifRequestObject
+  which allow a better handling of add/remove events
+
+* 0.6.0.138
+- fixing some code for when we don't initialize the visual debug
+  (note: there is still a bug, we do not have requests without debug)
+- removed the two singleton config and debug,
+  they are now initialized in the GATracker factory
+
+* 0.6.0.137
+- Event Tracking added
+- EventInfo works as DocumentInfo etc.
+- Users should be able to extends or create instance
+  of EvenTracker to automate their repetitive even tracking
+- You can also create EventTracker instance in AS3 for the Bridge mode
+
+* 0.6.0.134
+- Flex SWC tested, be careful the namespace are not showing
+  in the syntax completion (cf: com.google.analytics.core.as3_api)
+- use "ant help" for the documentation of the build
+
+* 0.6.0.132
+- automated build with Ant

@@ -31,7 +31,7 @@
 			
 			private function main() : void
 			{
-				var workstationController:WorkstationApplicationController = new WorkstationApplicationController();
+				var workstationController:WorkstationApplicationController = new WorkstationApplicationController(this);
                 workstationController.main();
 			}
 		]]>

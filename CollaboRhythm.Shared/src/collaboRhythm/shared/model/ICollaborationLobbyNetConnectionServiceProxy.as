@@ -18,7 +18,7 @@ package collaboRhythm.shared.model
 
 		function sendMessage(accountId:String, messageData:*):void;
 		function get netConnection():NetConnection
-
+		function get collaborationModel():ICollaborationModel;
 		function get collaborationState():String;
 	}
 }

@@ -19,17 +19,30 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 
 	public class HealthActionSchedulesHealthRecordService extends ScheduleItemsHealthRecordServiceBase
 	{
 		public function HealthActionSchedulesHealthRecordService(consumerKey:String, consumerSecret:String,
-																  baseURL:String, account:Account,
-																  debuggingToolsEnabled:Boolean)
+																 baseURL:String, account:Account,
+																 debuggingToolsEnabled:Boolean)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
-				  HealthActionSchedule.DOCUMENT_TYPE, HealthActionSchedule, Schemas.HealthActionScheduleSchema,
-				  "healthactionschedules", "dateStart");
+					HealthActionSchedule.DOCUMENT_TYPE, HealthActionSchedule, Schemas.HealthActionScheduleSchema,
+					"healthactionschedules", "dateStart");
+		}
+
+		override public function unmarshallDocumentXml(documentXml:XML):IDocument
+		{
+			default xml namespace = "http://indivo.org/vocab/xml/documents#";
+
+			_logger.info("healthActionSchedule - " +  documentXml.name.toString() + " - dateStart from XML: " + documentXml.dateStart.toString());
+			var document:IDocument = super.unmarshallDocumentXml(documentXml);
+			_logger.info("healthActionSchedule - " +  documentXml.name.toString() + " - dateStart from Class: " +
+					(document as HealthActionSchedule).dateStart.toString());
+
+			return document;
 		}
 	}
 }

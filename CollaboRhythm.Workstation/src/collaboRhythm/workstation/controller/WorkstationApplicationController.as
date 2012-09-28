@@ -92,8 +92,9 @@ package collaboRhythm.workstation.controller
 		[Embed("/resources/settings.xml", mimeType="application/octet-stream")]
 		private var _applicationSettingsEmbeddedFile:Class;
 
-		public function WorkstationApplicationController()
+		public function WorkstationApplicationController(workstationApplication:WorkstationApplication)
 		{
+			super(workstationApplication)
 		}
 
 		public override function main():void

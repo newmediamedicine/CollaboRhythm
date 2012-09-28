@@ -36,19 +36,23 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.tablet.view.TabletHomeView;
 
 	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
+	import flash.utils.getTimer;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.core.IVisualElementContainer;
-	import mx.core.mx_internal;
 	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
 
 	import spark.components.ViewNavigator;
-	import spark.components.supportClasses.ViewNavigatorAction;
 	import spark.transitions.SlideViewTransition;
 
 	public class TabletApplicationController extends ApplicationControllerBase
 	{
+		private static const SESSION_IDLE_TIMEOUT:int = 20;
+
 		private var _tabletApplication:CollaboRhythmTabletApplication;
 		private var _tabletAppControllersMediator:TabletAppControllersMediator;
 		private var _fullContainer:IVisualElementContainer;
@@ -60,8 +64,13 @@ package collaboRhythm.tablet.controller
 		private var _collaborationInvitationPopUp:CollaborationInvitationPopUp;
 		private var _synchronizationService:SynchronizationService;
 
+		private var _sessionIdleTimer:Timer;
+		private var _userDefinedValue:String;
+
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
 		{
+			super(collaboRhythmTabletApplication);
+
 			_tabletApplication = collaboRhythmTabletApplication;
 			_connectivityView = collaboRhythmTabletApplication.connectivityView;
 			_busyView = collaboRhythmTabletApplication.busyView;
@@ -82,6 +91,8 @@ package collaboRhythm.tablet.controller
 			BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationController.collaborationModel,
 					"collaborationState");
 
+			_tabletApplication.addEventListener(MouseEvent.MOUSE_DOWN, application_mouseDownHandler);
+
 			navigator.addEventListener(Event.COMPLETE, viewNavigator_transitionCompleteHandler);
 			navigator.addEventListener("viewChangeComplete",
 					viewNavigator_transitionCompleteHandler);
@@ -91,6 +102,8 @@ package collaboRhythm.tablet.controller
 			initializeActiveView();
 
 			createSession();
+
+			createSessionIdleTimer();
 		}
 
 		private function collaborationState_changeHandler(collaborationState:String):void
@@ -127,6 +140,8 @@ package collaboRhythm.tablet.controller
 					navigator.popView();
 				}
 			}
+
+			updateUserDefinedValue();
 		}
 
 		private function collaborationInvitationPopUp_acceptHandler(event:CollaborationInvitationPopUpEvent):void
@@ -173,6 +188,9 @@ package collaboRhythm.tablet.controller
 				appControllersMediator.showFullView(_reloadWithFullView);
 				_reloadWithFullView = null;
 			}
+
+			updateUserDefinedValue();
+			trackActiveView();
 		}
 
 		private function viewNavigator_addedHandler(event:Event):void
@@ -184,19 +202,151 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
-		private function initializeView(view:TabletViewBase):void
-		{
-			view.tabletApplicationController = this;
-			view.activeAccount = activeAccount;
-			view.activeRecordAccount = activeRecordAccount;
-		}
-
 		public function initializeActiveView():void
 		{
 			var view:TabletViewBase = _tabletApplication.navigator.activeView as TabletViewBase;
 			if (view)
 			{
 				initializeView(view);
+			}
+		}
+
+		private function initializeView(view:TabletViewBase):void
+		{
+			view.activeAccount = activeAccount;
+			view.activeRecordAccount = activeRecordAccount;
+			view.tabletApplicationController = this;
+		}
+
+		override protected function activateTracking():void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				_sessionIdleTimer.start();
+				updateUserDefinedValue();
+				trackActiveView();
+			}
+		}
+
+		override protected function deactivateTracking():void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				_sessionIdleTimer.reset();
+				trackActiveView("deactivated");
+				_analyticsTracker.resetSession();
+			}
+		}
+
+		private function trackActiveView(detail:String = null):void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				var viewTrackingName:String;
+
+				if (navigator.activeView as TabletFullViewContainer)
+				{
+					viewTrackingName = navigator.activeView.title;
+				}
+				else
+				{
+					viewTrackingName = navigator.activeView.className;
+				}
+
+				if (detail)
+				{
+					_analyticsTracker.trackPageview("/" + viewTrackingName + "/" + detail);
+				}
+				else
+				{
+					_analyticsTracker.trackPageview("/" + viewTrackingName);
+				}
+			}
+		}
+
+		private function updateUserDefinedValue():void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				var mode:String = settings.mode;
+
+				var accountId:String = settings.username;
+				var recordId:String;
+
+				if (mode == Settings.MODE_CLINICIAN)
+				{
+					if (activeRecordAccount && activeRecordAccount.accountId)
+						recordId = activeRecordAccount.accountId;
+				}
+				else
+				{
+					recordId = accountId;
+				}
+
+				var collaborationState:String = collaborationLobbyNetConnectionServiceProxy.collaborationModel.collaborationState;
+				var peerId:String;
+				if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
+				{
+					peerId = collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
+				}
+
+				_userDefinedValue = "mode='" + mode + "'&accountId='" + accountId + "'&recordId='" +
+						recordId + "'&collaborationState='" + collaborationState;
+				if (peerId)
+				{
+					_userDefinedValue += "'&peerId='" + peerId + "'";
+				}
+				else
+				{
+					_userDefinedValue += "'";
+				}
+
+				_analyticsTracker.setVar(_userDefinedValue);
+			}
+		}
+
+		private function createSessionIdleTimer():void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				_sessionIdleTimer = new Timer(SESSION_IDLE_TIMEOUT * 1000, 1); //milliseconds
+				_sessionIdleTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
+						sessionIdleTimer_TimerCompleteEventHandler);
+				_sessionIdleTimer.start();
+			}
+		}
+
+		private function application_mouseDownHandler(event:MouseEvent):void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				if (_sessionIdleTimer.running)
+				{
+					_sessionIdleTimer.reset();
+					_sessionIdleTimer.start();
+				}
+				else
+				{
+					_sessionIdleTimer.start();
+					updateUserDefinedValue();
+					trackActiveView();
+				}
+
+				if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.collaborationState ==
+						CollaborationModel.COLLABORATION_ACTIVE)
+				{
+					_analyticsTracker.trackEvent("activity", "mouseDown", _userDefinedValue);
+				}
+			}
+		}
+
+		public function sessionIdleTimer_TimerCompleteEventHandler(event:TimerEvent):void
+		{
+			if (settings.useGoogleAnalytics)
+			{
+				_sessionIdleTimer.reset();
+				trackActiveView("idle");
+				_analyticsTracker.resetSession();
 			}
 		}
 
@@ -224,6 +374,8 @@ package collaboRhythm.tablet.controller
 				_openingRecordAccount = true;
 				navigator.popToFirstView();
 			}
+
+			updateUserDefinedValue();
 		}
 
 		override public function sendCollaborationInvitation():void

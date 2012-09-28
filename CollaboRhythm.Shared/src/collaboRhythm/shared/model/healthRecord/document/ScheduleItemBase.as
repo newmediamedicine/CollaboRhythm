@@ -66,7 +66,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _instructions:String;
 
 		private var _logger:ILogger;
-		private const _logGetScheduleItemOccurrences:Boolean = false;
+		private const _logGetScheduleItemOccurrences:Boolean = true;
 
 		public function ScheduleItemBase():void
 		{

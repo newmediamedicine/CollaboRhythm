@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<flex-config>
+    <compiler>
+        <!--
+        When you update the defines you need to do a Project Clean... 
+        for the the compiler to take into account the changes
+        -->
+        <define append="true">
+            <name>LOG::P</name>
+            <value>true</value>
+        </define>
+   </compiler>
+</flex-config>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="GAForFlash">
+    <configurations>
+      <configuration name="GAForFlash" target-platform="Desktop" output-type="Library" output-file="GAForFlash.swc" output-folder="$MODULE_DIR$/../out/production/GAForFlash">
+        <dependencies target-player="11.1">
+          <entries>
+            <entry library-id="82fdc18e-2ac7-4e1c-8386-679bb8d3cd79">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="4.6.0" />
+        </dependencies>
+        <compiler-options>
+          <option name="additionalConfigFilePath" value="$MODULE_DIR$/build/config.xml" />
+        </compiler-options>
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="82fdc18e-2ac7-4e1c-8386-679bb8d3cd79" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib-swc" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/lib-swc" recursive="false" />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+
