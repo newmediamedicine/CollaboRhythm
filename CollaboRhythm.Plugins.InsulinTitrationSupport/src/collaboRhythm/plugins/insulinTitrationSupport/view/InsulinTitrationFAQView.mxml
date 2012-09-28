@@ -32,6 +32,7 @@
 
 		[Embed(source="/assets/strings/insulinTitrationFrequentlyAskedQuestions.html", mimeType="application/octet-stream")] var frequentlyAskedQuestionsHtml:Class;
 
+		[Bindable]
 		private var _insulinTitrationFAQModel:InsulinTitrationFAQModel;
 		private var _insulinTitrationFAQController:InsulinTitrationFAQController;
 		private var _touchInteraction:Boolean = false;
@@ -50,7 +51,7 @@
 		private function creationCompleteHandler():void
 		{
 			var frequentlyAskedQuestionsString:String = new frequentlyAskedQuestionsHtml();
-			frequentlyAskedQuestionsString = frequentlyAskedQuestionsString.replace(/[\t\r\n]/g, "");
+			frequentlyAskedQuestionsString = frequentlyAskedQuestionsString.replace(/[\t\r\n]/g, " ");
 			faqRichEditableText.textFlow = TextConverter.importToFlow(frequentlyAskedQuestionsString,
 					TextConverter.TEXT_FIELD_HTML_FORMAT);
 

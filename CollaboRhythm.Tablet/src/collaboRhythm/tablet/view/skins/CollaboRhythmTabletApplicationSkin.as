@@ -56,6 +56,7 @@ package collaboRhythm.tablet.view.skins
 			patientPointer.graphics.drawCircle(0, 0, 30);
 			patientPointer.graphics.endFill();
 			patientPointer.visible = false;
+			patientPointer.mouseEnabled = false;
 			addChild(patientPointer);
 
 			clinicianPointer = new Graphic();
@@ -63,6 +64,7 @@ package collaboRhythm.tablet.view.skins
 			clinicianPointer.graphics.drawCircle(0, 0, 30);
 			clinicianPointer.graphics.endFill();
 			clinicianPointer.visible = false;
+			clinicianPointer.mouseEnabled = false;
 			addChild(clinicianPointer);
 		}
 

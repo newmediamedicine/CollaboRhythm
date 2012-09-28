@@ -11,7 +11,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function setFaqRichEditableTextScrollPosition(verticalScrollPosition:Number):void
 		{
-			_faqRichEditableTextScrollPosition = verticalScrollPosition;
+			faqRichEditableTextScrollPosition = verticalScrollPosition;
 		}
 
 		public function get faqRichEditableTextScrollPosition():Number
