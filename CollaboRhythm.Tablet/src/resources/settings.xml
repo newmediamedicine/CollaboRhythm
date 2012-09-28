@@ -78,9 +78,9 @@
 		</appGroup>
 		<appGroup id="buttonWidgets">
 			<appDescriptors>
-				<appDescriptor>collaboRhythm.plugins.healthActions.controller::HealthActionsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.messages.controller::MessagesAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.insulinTitrationSupport.controller::InsulinTitrationFAQAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
 	</appGroups>

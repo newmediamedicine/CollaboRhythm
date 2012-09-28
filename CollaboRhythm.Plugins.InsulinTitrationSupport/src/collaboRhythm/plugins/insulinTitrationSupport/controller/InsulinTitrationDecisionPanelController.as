@@ -43,9 +43,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			_model.record.healthChartsModel.save();
 		}
 
-		public function showFrequentlyAskedQuestionsView():void
+		public function showInsulinTitrationFaq():void
 		{
-			if (_synchronizationService.synchronize("showFrequentlyAskedQuestionsView"))
+			if (_synchronizationService.synchronize("showInsulinTitrationFaq"))
 			{
 				return;
 			}

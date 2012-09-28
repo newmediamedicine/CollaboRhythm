@@ -24,6 +24,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import collaboRhythm.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
+	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
@@ -40,12 +41,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		public function registerComponents(componentContainer:IComponentContainer):void
 		{
-            componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportHealthActionListViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new InsulinTitrationSupportHealthActionListViewAdapterFactory());
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportHealthActionInputControllerFactory).name, IHealthActionInputControllerFactory, new InsulinTitrationSupportHealthActionInputControllerFactory());
+			var typeName:String = ReflectionUtils.getClassInfo(InsulinTitrationFAQAppController).name;
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+					new AppControllerInfo(InsulinTitrationFAQAppController));
 
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportChartModifierFactory).name, IChartModifierFactory, new InsulinTitrationSupportChartModifierFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportHealthActionListViewAdapterFactory).name,
+					IHealthActionListViewAdapterFactory,
+					new InsulinTitrationSupportHealthActionListViewAdapterFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportHealthActionInputControllerFactory).name,
+					IHealthActionInputControllerFactory,
+					new InsulinTitrationSupportHealthActionInputControllerFactory());
 
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IInsulinTitrationDecisionSupportStatesFileStore).name, IInsulinTitrationDecisionSupportStatesFileStore, new InsulinTitrationDecisionSupportStatesFileStore());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportChartModifierFactory).name,
+					IChartModifierFactory, new InsulinTitrationSupportChartModifierFactory());
+
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IInsulinTitrationDecisionSupportStatesFileStore).name,
+					IInsulinTitrationDecisionSupportStatesFileStore,
+					new InsulinTitrationDecisionSupportStatesFileStore());
 		}
 	}
 }

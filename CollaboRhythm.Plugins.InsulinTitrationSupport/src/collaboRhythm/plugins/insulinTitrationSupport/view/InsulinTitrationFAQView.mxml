@@ -19,6 +19,11 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   creationComplete="creationCompleteHandler()">
+	<fx:Style>
+		#faqRichEditableText {
+			fontSize: 20;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationFAQController;
 		import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationFAQModel;
@@ -51,7 +56,7 @@
 		private function creationCompleteHandler():void
 		{
 			var frequentlyAskedQuestionsString:String = new frequentlyAskedQuestionsHtml();
-			frequentlyAskedQuestionsString = frequentlyAskedQuestionsString.replace(/[\t\r\n]/g, " ");
+			frequentlyAskedQuestionsString = frequentlyAskedQuestionsString.replace(/>\s*</g, "><");
 			faqRichEditableText.textFlow = TextConverter.importToFlow(frequentlyAskedQuestionsString,
 					TextConverter.TEXT_FIELD_HTML_FORMAT);
 

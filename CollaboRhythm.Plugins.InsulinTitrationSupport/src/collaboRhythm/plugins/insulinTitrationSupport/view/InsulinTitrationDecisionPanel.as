@@ -286,6 +286,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			var richText:RichEditableText = new RichEditableText();
 			richText.editable = false;
+			richText.selectable = false;
 //			richText.setStyle("paragraphSpaceAfter", 10);
 			richText.setStyle("paddingTop", 7);
 			richText.setStyle("paddingBottom", 8);
@@ -294,7 +295,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			richText.textFlow = TextConverter.importToFlow(source, TextConverter.TEXT_FIELD_HTML_FORMAT);
 			richText.percentWidth = 100;
-			richText.addEventListener(MouseEvent.CLICK, instructionsFlowElementMouseEventHandler);
 
 			parentGroup.addElement(richText);
 			return richText;
@@ -393,11 +393,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 					_instructionsGroup);
 		}
 
-		private function instructionsFlowElementMouseEventHandler( event:MouseEvent ):void
+		private function instructionsFlowElementMouseEventHandler( event:FlowElementMouseEvent ):void
 		{
-//			Alert.show( "html link with ID clicked: " + ( event.flowElement as LinkElement ).href );
-
-			_controller.showFrequentlyAskedQuestionsView();
+			Alert.show( "html link with ID clicked: " + ( event.flowElement as LinkElement ).href );
 		}
 
 		private function createConnectorLine():DottedLine
