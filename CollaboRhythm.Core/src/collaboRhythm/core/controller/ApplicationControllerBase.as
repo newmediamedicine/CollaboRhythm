@@ -24,6 +24,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.model.AboutApplicationModel;
 	import collaboRhythm.core.model.ApplicationControllerModel;
 	import collaboRhythm.core.model.ApplicationNavigationProxy;
+	import collaboRhythm.core.model.RecordSynchronizer;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.MessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
@@ -142,6 +143,8 @@ package collaboRhythm.core.controller
 		private var _backgroundProcessModel:BackgroundProcessCollectionModel = new BackgroundProcessCollectionModel();
 		protected var _navigationProxy:IApplicationNavigationProxy;
 		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+		private var _recordSynchronizer:RecordSynchronizer;
+
 
 		public function ApplicationControllerBase(application:Application)
 		{
@@ -1026,6 +1029,12 @@ package collaboRhythm.core.controller
 			_autoSyncTimer.stop();
 			if (_healthRecordServiceFacade)
 				_healthRecordServiceFacade.closeRecord();
+
+			if (_recordSynchronizer)
+			{
+				_recordSynchronizer.closeRecord();
+				_recordSynchronizer = null;
+			}
 		}
 
 		public function set targetDate(value:Date):void
@@ -1133,9 +1142,11 @@ package collaboRhythm.core.controller
 		protected function loadDocuments(recordAccount:Account):void
 		{
 			// TODO: What if we are already saving or loading? What if there are unsaved pending changes?
+			_recordSynchronizer = new RecordSynchronizer(recordAccount.primaryRecord,
+					_collaborationLobbyNetConnectionServiceProxy, backgroundProcessModel);
 			_healthRecordServiceFacade = new HealthRecordServiceFacade(settings.oauthChromeConsumerKey,
 					settings.oauthChromeConsumerSecret, settings.indivoServerBaseURL, _activeAccount,
-					settings.debuggingToolsEnabled);
+					settings.debuggingToolsEnabled, _recordSynchronizer);
 			BindingUtils.bindSetter(serviceIsLoading_changeHandler, _healthRecordServiceFacade, "isLoading");
 			BindingUtils.bindSetter(serviceIsSaving_changeHandler, _healthRecordServiceFacade, "isSaving");
 			BindingUtils.bindSetter(serviceHasConnectionErrorsSaving_changeHandler, _healthRecordServiceFacade,

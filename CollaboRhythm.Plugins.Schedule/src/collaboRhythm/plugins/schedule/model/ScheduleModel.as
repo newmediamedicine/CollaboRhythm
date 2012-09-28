@@ -39,6 +39,7 @@ package collaboRhythm.plugins.schedule.model
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
+	import mx.events.PropertyChangeEvent;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
@@ -71,6 +72,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _documentCollectionDependenciesArray:Array = new Array();
 
 		private var _scheduleItemsCollectionsArray:Array = new Array();
+		private var _inputDocumentCollectionsArray:Array = new Array();
 		private var _changeWatchers:Vector.<ChangeWatcher> = new Vector.<ChangeWatcher>();
 
 		private var _healthActionListViewAdapterFactory:MasterHealthActionListViewAdapterFactory;
@@ -83,6 +85,7 @@ package collaboRhythm.plugins.schedule.model
 		private var _activeAccount:Account;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 		private var _componentContainer:IComponentContainer;
+		private var _inputDocumentsChanged:Boolean;
 
 		public function ScheduleModel(componentContainer:IComponentContainer,
 									  activeAccount:Account,
@@ -106,6 +109,7 @@ package collaboRhythm.plugins.schedule.model
 
 			_documentCollectionDependenciesArray = [_record.medicationOrdersModel, _record.medicationScheduleItemsModel, _record.equipmentModel, _record.healthActionSchedulesModel, _record.adherenceItemsModel];
 			_scheduleItemsCollectionsArray = [_record.medicationScheduleItemsModel.medicationScheduleItemCollection, _record.healthActionSchedulesModel.healthActionScheduleCollection];
+			_inputDocumentCollectionsArray = [_record.medicationScheduleItemsModel.medicationScheduleItemCollection, _record.healthActionSchedulesModel.healthActionScheduleCollection, _record.adherenceItemsModel.documents];
 
 			for each (var documentCollection:DocumentCollectionBase in _documentCollectionDependenciesArray)
 			{
@@ -138,15 +142,21 @@ package collaboRhythm.plugins.schedule.model
 					return;
 				}
 				addCollectionChangeEventListeners();
+				addRecordChangeEventListener();
 				updateScheduleModelForToday();
 				isInitialized = true;
 				dispatchEvent(new ScheduleModelEvent(ScheduleModelEvent.INITIALIZED));
 			}
 		}
 
+		private function addRecordChangeEventListener():void
+		{
+			_record.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, record_propertyChangeHandler)
+		}
+
 		private function addCollectionChangeEventListeners():void
 		{
-			for each (var scheduleItemsCollectionsArray:ArrayCollection in _scheduleItemsCollectionsArray)
+			for each (var scheduleItemsCollectionsArray:ArrayCollection in _inputDocumentCollectionsArray)
 			{
 				// Use as higher priority value of 1 so that the schedule model will be updated before other listeners
 				scheduleItemsCollectionsArray.addEventListener(CollectionEvent.COLLECTION_CHANGE,
@@ -156,9 +166,16 @@ package collaboRhythm.plugins.schedule.model
 
 		private function documentCollection_changeHandler(event:CollectionEvent):void
 		{
-			if (event.kind == CollectionEventKind.ADD)
+			if (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE)
 			{
-				updateScheduleModelForToday();
+				if (_record.isLoading)
+				{
+					_inputDocumentsChanged = true;
+				}
+				else
+				{
+					updateScheduleModelForToday();
+				}
 			}
 		}
 
@@ -474,6 +491,15 @@ package collaboRhythm.plugins.schedule.model
 		public function get currentDateSource():ICurrentDateSource
 		{
 			return _currentDateSource;
+		}
+
+		private function record_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			if (_inputDocumentsChanged && (event.property == "isLoading") && !_record.isLoading)
+			{
+				updateScheduleModelForToday();
+				_inputDocumentsChanged = false;
+			}
 		}
 	}
 }

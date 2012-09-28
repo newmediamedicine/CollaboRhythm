@@ -1,6 +1,5 @@
 package collaboRhythm.core.model.healthRecord
 {
-
 	import collaboRhythm.core.model.healthRecord.service.AdherenceItemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
 	import collaboRhythm.core.model.healthRecord.service.EquipmentHealthRecordService;
@@ -9,11 +8,11 @@ package collaboRhythm.core.model.healthRecord
 	import collaboRhythm.core.model.healthRecord.service.HealthActionResultsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.HealthActionSchedulesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.HealthChartsInitializationService;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.IRecordSynchronizer;
 	import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationFillsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationOrdersHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MedicationScheduleItemsHealthRecordService;
-	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.SaveChangesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.VitalSignHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.stitchers.AdherenceItemStitcher;
@@ -36,7 +35,6 @@ package collaboRhythm.core.model.healthRecord
 	import com.adobe.utils.DateUtil;
 
 	import flash.events.Event;
-	import flash.html.script.Package;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.collections.ArrayCollection;
@@ -62,12 +60,13 @@ package collaboRhythm.core.model.healthRecord
 
 		public function HealthRecordServiceFacade(consumerKey:String, consumerSecret:String, baseURL:String,
 												  activeAccount:Account,
-												  debuggingToolsEnabled:Boolean)
+												  debuggingToolsEnabled:Boolean,
+												  recordSynchronizer:IRecordSynchronizer)
 		{
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_saveChangesHealthRecordService = new SaveChangesHealthRecordService(consumerKey, consumerSecret, baseURL,
-					activeAccount, this);
+					activeAccount, this, recordSynchronizer);
 
 			_services = new Vector.<DocumentStorageServiceBase>();
 			addService(new MedicationAdministrationsHealthRecordService(consumerKey, consumerSecret, baseURL,

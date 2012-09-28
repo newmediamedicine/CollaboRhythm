@@ -57,5 +57,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 					insulinTitrationFAQController);
 			_viewNavigator.pushView(InsulinTitrationFAQView, insulinTitrationFAQModelAndController);
 		}
+
+		public function destroy():void
+		{
+			if (_synchronizationService)
+			{
+				_synchronizationService.removeEventListener(this);
+			}
+		}
 	}
 }

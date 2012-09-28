@@ -101,5 +101,10 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		 * @return the collection of data items to use for the main series or null if the default should be used instead
 		 */
 		function getSeriesDataCollection():ArrayCollection;
+
+		/**
+		 * Clean up any data or event listeners that should go away when the record is closed.
+		 */
+		function destroy():void;
 	}
 }

@@ -53,6 +53,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _seriesDataCollection:ArrayCollection;
 		private var confirmChangePopUp:ConfirmChangePopUp = new ConfirmChangePopUp();
 		private var _changeConfirmed:Boolean = false;
+		private var _panelController:InsulinTitrationDecisionPanelController;
 
 		public function InsulinTitrationSupportChartModifier(chartDescriptor:IChartDescriptor,
 															 chartModelDetails:IChartModelDetails,
@@ -60,6 +61,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			super(chartDescriptor, chartModelDetails, currentChartModifier);
 			initializeInsulinTitrationDecisionPanelModel();
+			_panelController = new InsulinTitrationDecisionPanelController(chartModelDetails.collaborationLobbyNetConnectionServiceProxy,
+					_insulinTitrationDecisionPanelModel, chartModelDetails.viewNavigator);
 		}
 
 		public function modifyCartesianChart(chart:ScrubChart,
@@ -169,19 +172,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			for each (var medicationCode:String in INSULIN_MEDICATION_CODES)
 			{
 				insulinDescriptorTemplate.medicationCode = medicationCode;
-				var matchingInsulinChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey) as
-						IChartDescriptor;
-				if (matchingInsulinChartDescriptor)
-					matchingInsulinChartDescriptors.push(matchingInsulinChartDescriptor);
+				if (chartDescriptors.getValueByKey(insulinDescriptorTemplate.descriptorKey) != null)
+				{
+					var matchingInsulinChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey) as
+							IChartDescriptor;
+					if (matchingInsulinChartDescriptor)
+						matchingInsulinChartDescriptors.push(matchingInsulinChartDescriptor);
+				}
 			}
-//			if (matchingInsulinChartDescriptor)
-//			{
-//				matchingInsulinChartDescriptor = chartDescriptors.removeByKey(insulinDescriptorTemplate.descriptorKey);
-//			}
 
 			var bloodGlucoseDescriptorTemplate:VitalSignChartDescriptor = new VitalSignChartDescriptor();
 			bloodGlucoseDescriptorTemplate.vitalSignCategory = VitalSignsModel.BLOOD_GLUCOSE_CATEGORY;
-			var matchingBloodGlucoseChartDescriptor:IChartDescriptor = chartDescriptors.removeByKey(bloodGlucoseDescriptorTemplate.descriptorKey) as IChartDescriptor;
+			var matchingBloodGlucoseChartDescriptor:IChartDescriptor;
+			if (chartDescriptors.getValueByKey(bloodGlucoseDescriptorTemplate.descriptorKey) != null)
+			{
+				matchingBloodGlucoseChartDescriptor = chartDescriptors.removeByKey(bloodGlucoseDescriptorTemplate.descriptorKey) as
+						IChartDescriptor;
+			}
 
 			var reorderedChartDescriptors:OrderedMap = new OrderedMap();
 			for each (var otherChartDescriptor:IChartDescriptor in chartDescriptors.values())
@@ -198,7 +205,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				}
 			}
 			if (matchingBloodGlucoseChartDescriptor)
-				reorderedChartDescriptors.addKeyValue(matchingBloodGlucoseChartDescriptor.descriptorKey, matchingBloodGlucoseChartDescriptor);
+				reorderedChartDescriptors.addKeyValue(matchingBloodGlucoseChartDescriptor.descriptorKey,
+						matchingBloodGlucoseChartDescriptor);
 
 			return reorderedChartDescriptors;
 		}
@@ -220,11 +228,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 					if (InsulinTitrationSupportChartModifierFactory.isBloodGlucoseChartDescriptor(chartDescriptor))
 					{
-						var panelController:InsulinTitrationDecisionPanelController = new InsulinTitrationDecisionPanelController(chartModelDetails.collaborationLobbyNetConnectionServiceProxy,
-								_insulinTitrationDecisionPanelModel, chartModelDetails.viewNavigator);
 						var panel:InsulinTitrationDecisionPanel = new InsulinTitrationDecisionPanel();
 						panel.model = _insulinTitrationDecisionPanelModel;
-						panel.controller = panelController;
+						panel.controller = _panelController;
 						panel.percentHeight = 100;
 						extraPanel = panel;
 
@@ -327,6 +333,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				_seriesDataCollection.removeAll();
 				var collection:ArrayCollection = createProxiesForDecision(_vitalSignsDataCollection);
 				_seriesDataCollection.addAll(collection);
+			}
+		}
+
+		override public function destroy():void
+		{
+			super.destroy();
+			if (_panelController)
+			{
+				_panelController.destroy();
 			}
 		}
 	}

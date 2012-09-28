@@ -22,6 +22,7 @@ package collaboRhythm.shared.model.healthRecord
 		/**
 		 * This property getter was added to allow documents to be viewed as a hierarchy in HealthRecordTree.
 		 */
+		[Transient]
 		public function get documents():ArrayCollection
 		{
 			if (relatesTo)
@@ -63,6 +64,7 @@ package collaboRhythm.shared.model.healthRecord
 		/**
 		 * The document that the relatesTo document is related from.
 		 */
+		[Transient]
 		public function get relatesFrom():IDocument
 		{
 			return _relatesFrom;
@@ -86,6 +88,7 @@ package collaboRhythm.shared.model.healthRecord
 		/**
 		 * The other document that the relatesFrom document is related to.
 		 */
+		[Transient]
 		public function get relatesTo():IDocument
 		{
 			return _relatesTo;

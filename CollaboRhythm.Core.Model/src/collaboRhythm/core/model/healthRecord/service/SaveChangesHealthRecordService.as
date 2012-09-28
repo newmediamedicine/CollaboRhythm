@@ -1,8 +1,9 @@
 package collaboRhythm.core.model.healthRecord.service
 {
-
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.supportClasses.ChangeSet;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.ExpectedOperations;
+	import collaboRhythm.core.model.healthRecord.service.supportClasses.IRecordSynchronizer;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -32,13 +33,16 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _unexpectedErrorsChangeSet:ChangeSet = new ChangeSet();
 		private var _connectionErrorsChangeSet:ChangeSet = new ChangeSet();
 		private const REMOVE_RELATES_TO_RELATIONSHIPS_FROM_UPDATED_DOCUMENTS:Boolean = false;
+		private var recordSynchronizer:IRecordSynchronizer;
 
 		public function SaveChangesHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
 													   account:Account,
-													   healthRecordServiceFacade:HealthRecordServiceFacade)
+													   healthRecordServiceFacade:HealthRecordServiceFacade,
+													   recordSynchronizer:IRecordSynchronizer)
 		{
 			super(consumerKey, consumerSecret, baseURL, account);
 			_healthRecordServiceFacade = healthRecordServiceFacade;
+			this.recordSynchronizer = recordSynchronizer;
 		}
 
 		/**
@@ -125,6 +129,9 @@ package collaboRhythm.core.model.healthRecord.service
 		 */
 		public function saveChanges(record:Record, documents:ArrayCollection, relationships:ArrayCollection = null):void
 		{
+			var expectedUpdateDocumentsCount:int = 0;
+			var expectedUpdateRelationshipsCount:int = 0;
+
 			for each (var document:IDocument in documents)
 			{
 				if (document == null)
@@ -134,7 +141,10 @@ package collaboRhythm.core.model.healthRecord.service
 				else if (document.pendingAction == DocumentBase.ACTION_CREATE)
 				{
 					if (addPendingOperation(pendingCreateDocuments, document))
+					{
 						createDocument(record, document, getDocumentXml(document));
+						expectedUpdateDocumentsCount++;
+					}
 				}
 				else if (document.pendingAction == DocumentBase.ACTION_VOID)
 				{
@@ -149,7 +159,10 @@ package collaboRhythm.core.model.healthRecord.service
 				else if (document.pendingAction == DocumentBase.ACTION_UPDATE)
 				{
 					if (addPendingOperation(pendingUpdateDocuments, document))
+					{
 						updateDocument(record, document, getDocumentXml(document));
+						expectedUpdateDocumentsCount++;
+					}
 				}
 				// TODO: handle other actions
 			}
@@ -162,13 +175,21 @@ package collaboRhythm.core.model.healthRecord.service
 					if (!relationshipsRequiringDocuments.contains(relationship))
 					{
 						relationshipsRequiringDocuments.addItem(relationship);
+						expectedUpdateRelationshipsCount++;
 					}
 				}
 				checkRelationshipsRequiringDocuments(record);
 			}
 
 			if (numPendingOperations > 0)
+			{
 				_logger.info("Save changes initiated. " + pendingOperationsSummary);
+			}
+
+			if (expectedUpdateDocumentsCount > 0 || expectedUpdateRelationshipsCount > 0)
+			{
+				recordSynchronizer.startSynchronizing(new ExpectedOperations(expectedUpdateDocumentsCount, expectedUpdateRelationshipsCount));
+			}
 
 			updateIsSaving();
 		}
@@ -351,13 +372,14 @@ package collaboRhythm.core.model.healthRecord.service
 			if (record == null)
 				throw new Error("Record not specified on the HealthRecordServiceRequestDetails. Unable to finish create operation.");
 
+			// We now have the "real" id of the document, but the OLD id of the document was used as the key in various collections.
+			// Using the OLD id of the created document, remove the document from the appropriate collections
+			var oldId:String = document.meta.id;
+
 			var documentCollection:DocumentCollectionBase = record.documentCollections.getItem(document.meta.type);
 			if (!documentCollection)
 				throw new Error("Failed to get document collection for document type " + document.meta.type);
 
-			// We now have the "real" id of the document, but the OLD id of the document was used as the key in various collections.
-			// Using the OLD id of the created document, remove the document from the appropriate collections
-			var oldId:String = document.meta.id;
 			if (!isUpdate)
 				record.originalDocumentsById.remove(oldId);
 			record.completeDocumentsById.remove(oldId);
@@ -412,6 +434,9 @@ package collaboRhythm.core.model.healthRecord.service
 			document.isBeingSaved = false;
 
 			updateIsSaving();
+
+			if (recordSynchronizer)
+				recordSynchronizer.synchronizeDocument(record, document, oldId, isUpdate, _healthRecordServiceFacade.isSaving);
 
 			return true;
 		}
@@ -486,6 +511,9 @@ package collaboRhythm.core.model.healthRecord.service
 
 			updateIsSaving();
 
+			if (recordSynchronizer)
+				recordSynchronizer.synchronizeRelationship(record, relationship, _healthRecordServiceFacade.isSaving);
+
 			super.relateDocumentsCompleteHandler(event, responseXml, healthRecordServiceRequestDetails);
 		}
 
@@ -512,6 +540,16 @@ package collaboRhythm.core.model.healthRecord.service
 				_healthRecordServiceFacade.isSaving = isSaving;
 				_logger.info("Saving " + (isSaving ? "in progress. " + pendingOperationsSummary + ". " : "complete. ") +
 						errorsSavingSummary);
+			}
+
+			if (recordSynchronizer && !isSaving)
+			{
+				recordSynchronizer.stopSynchronizing(new ExpectedOperations(connectionErrorsChangeSet.createDocuments.size() +
+						connectionErrorsChangeSet.updateDocuments.size() +
+						unexpectedErrorsChangeSet.createDocuments.size() +
+						unexpectedErrorsChangeSet.updateDocuments.size(),
+						connectionErrorsChangeSet.createRelationships.length +
+								unexpectedErrorsChangeSet.createRelationships.length));
 			}
 		}
 

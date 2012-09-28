@@ -235,7 +235,7 @@ package collaboRhythm.shared.model.healthRecord.document
 						// does not correspond correlate with the most recently created Document.
 						if (matchingAdherenceItems.length > 1)
 						{
-							_logger.info("Multiple matchingAdherenceItems found for " + scheduleItemOccurrence.scheduleItem.name.text + ". recurrenceIndex: " + recurrenceIndex + ";  date: " + occurrenceDateStart);
+							_logger.info("Multiple matchingAdherenceItems (" + matchingAdherenceItems.length + ") found for " + scheduleItemOccurrence.scheduleItem.name.text + ". recurrenceIndex: " + recurrenceIndex + ";  date: " + occurrenceDateStart);
 							matchingAdherenceItems.sort(compareDocumentsByCreatedAtValue);
 						}
 						scheduleItemOccurrence.adherenceItem = matchingAdherenceItems[0];

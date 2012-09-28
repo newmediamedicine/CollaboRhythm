@@ -646,6 +646,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					"isInitialized");
 			BindingUtils.bindSetter(adherenceItemsModel_isInitialized_setterHandler, record.adherenceItemsModel,
 					"isInitialized");
+			BindingUtils.bindSetter(record_isLoading_setterHandler, record, "isLoading");
 		}
 
 		private function vitalSignsModel_isInitialized_setterHandler(isInitialized:Boolean):void
@@ -660,6 +661,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				}
 			}
 			this.isInitialized = determineIsInitialized();
+		}
+
+		private function record_isLoading_setterHandler(isLoading:Boolean):void
+		{
+			if (!isLoading && record && !record.isLoading)
+			{
+				evaluateForInitialize();
+			}
 		}
 
 		private function adherenceItemsModel_isInitialized_setterHandler(isInitialized:Boolean):void

@@ -26,11 +26,13 @@ package collaboRhythm.shared.model.healthRecord
 		 * This property getter was added to allow documents to be viewed as a hierarchy in HealthRecordTree.
 		 * If this causes a collision with any field names on future Indivo data types, this field can be removed.
 		 */
+		[Transient]
 		public function get documents():ArrayCollection
 		{
 			return relatesTo;
 		}
 
+		[Transient]
 		public function get relatesTo():ArrayCollection
 		{
 			return _relatesTo;
@@ -41,6 +43,7 @@ package collaboRhythm.shared.model.healthRecord
 			_relatesTo = value;
 		}
 
+		[Transient]
 		public function get isRelatedFrom():ArrayCollection
 		{
 			return _isRelatedFrom;
