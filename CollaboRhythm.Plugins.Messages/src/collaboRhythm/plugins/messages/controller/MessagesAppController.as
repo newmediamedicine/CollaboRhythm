@@ -13,6 +13,7 @@ package collaboRhythm.plugins.messages.controller
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
+	import collaboRhythm.shared.model.healthRecord.document.Message;
 	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 
 	import mx.core.UIComponent;
@@ -27,6 +28,7 @@ package collaboRhythm.plugins.messages.controller
 		private var _individualMessagesHealthRecordService:IndividualMessageHealthRecordService;
 		private var _collaborationLobbyNetConnectionServiceProxyLocal:CollaborationLobbyNetConnectionServiceProxy;
 		private var _synchronizationService:SynchronizationService;
+		private var _messagesViewed:Vector.<Message> = new Vector.<Message>();
 
 		public function MessagesAppController(constructorParams:AppControllerConstructorParams)
 		{
@@ -121,21 +123,23 @@ package collaboRhythm.plugins.messages.controller
 				return;
 			}
 
-			individualMessagesHealthRecordService.getAllMessages();
-
 			var messagesModelAndController:MessagesModelAndController = new MessagesModelAndController(_activeRecordAccount.messagesModel,
 					this, _collaborationLobbyNetConnectionServiceProxy);
 			_viewNavigator.pushView(MessagesView, messagesModelAndController);
 		}
 
+		public function getMessage(message:Message):void
+		{
+			if (_messagesViewed.indexOf(message) == -1)
+			{
+				_messagesViewed.push(message);
+				individualMessagesHealthRecordService.getMessage(message);
+			}
+		}
+
 		public function createAndSendMessage(text:String):void
 		{
 			individualMessagesHealthRecordService.createAndSendMessage(text);
-		}
-
-		public function getAllMessages():void
-		{
-			individualMessagesHealthRecordService.getAllMessages();
 		}
 
 		public function recordVideoMessage():void

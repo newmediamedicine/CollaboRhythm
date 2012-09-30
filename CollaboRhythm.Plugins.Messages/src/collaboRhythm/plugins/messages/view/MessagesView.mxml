@@ -21,7 +21,6 @@
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   xmlns:view="collaboRhythm.plugins.messages.view.*"
 					   creationComplete="creationCompleteHandler(event)"
-					   remove="removeHandler(event)"
 					   title="Messages View">
 	<fx:Style>
 		#messageTextInput {
@@ -33,6 +32,7 @@
 		import collaboRhythm.plugins.messages.model.MessagesModelAndController;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
+		import collaboRhythm.shared.model.healthRecord.document.Message;
 		import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 
 		import mx.events.CollectionEvent;
@@ -63,6 +63,13 @@
 
 			_messagesModel.messages.addEventListener(CollectionEvent.COLLECTION_CHANGE,
 					messagesCollection_changeHandler);
+
+			addEventListener(MessageItemRendererEvent.MESSAGE_ITEM_RENDERER_VIEWED, messageItemRendererViewedEvent);
+		}
+
+		private function messageItemRendererViewedEvent(event:MessageItemRendererEvent):void
+		{
+			_messagesAppController.getMessage(event.message);
 		}
 
 		private function playVideoHandler(event:VideoActionEvent):void
@@ -95,11 +102,6 @@
 			messagesList.dataGroup.verticalScrollPosition = messagesList.dataGroup.contentHeight - messagesList.height;
 		}
 
-		private function removeHandler(event:FlexEvent):void
-		{
-			_messagesAppController.getAllMessages();
-		}
-
 		private function sendButton_clickHandler():void
 		{
 			_messagesAppController.createAndSendMessage(messageTextInput.text);
@@ -114,8 +116,12 @@
 		// Prevent entering newline characters in messages. Instead, hitting return closes the soft keyboard.
 		// Unfortunately, setting the label for the return key doesn't work on all android devices and listening
 		// for the return key does not work either.
+		//
+		// Also prevent sending messages with no text by disabling the sendButton.
 		private function messageTextInput_changeHandler(event:TextOperationEvent):void
 		{
+			sendButtonGroup.enabled = (messageTextInput.text.length != 0);
+
 			if (messageTextInput.text.charAt(messageTextInput.text.length - 1) == "\n")
 			{
 				messageTextInput.text = messageTextInput.text.slice(0, messageTextInput.text.length - 1);
@@ -136,7 +142,7 @@
 				<s:TextArea id="messageTextInput" height="100%" width="100%"
 							skinClass="spark.skins.mobile.StageTextAreaSkin"
 							autoCapitalize="{AutoCapitalize.SENTENCE}" autoCorrect="true" change="messageTextInput_changeHandler(event)"/>
-				<s:Group height="100%" width="80">
+				<s:Group id="sendButtonGroup" height="100%" width="80" enabled="false">
 					<s:Button id="sendButton" height="100%" width="100%"
 							  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
 							  click="sendButton_clickHandler()"/>
