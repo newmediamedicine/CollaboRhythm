@@ -47,6 +47,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		 * From an Equipment to an HealthActionSchedule or from a MedicationOrder to a MedicationScheduleItem.
 		 */
 		public static const RELATION_TYPE_SCHEDULE_ITEM:String = "http://indivo.org/vocab/documentrels#scheduleItem";
+		public static const RELATION_TYPE_HEALTH_ACTION_SCHEDULE:String = "http://indivo.org/vocab/documentrels#healthActionSchedule";
 
 
 		public static const DAILY:String = "DAILY";

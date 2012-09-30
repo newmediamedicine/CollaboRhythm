@@ -3,6 +3,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
@@ -1914,17 +1915,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private function getInitialRightRangeTime(today:Date):Number
 		{
 //			return today.date.valueOf();
-			return roundTimeToNextDay(today).valueOf();
-		}
-
-		public static function roundTimeToNextDay(date:Date):Date
-		{
-			var interval:int = 60 * 24;
-			var timezoneOffsetMilliseconds:Number = date.getTimezoneOffset() * 60 * 1000;
-			var time:Number = date.getTime() - timezoneOffsetMilliseconds;
-			var roundNumerator:Number = 60000 * interval; //there are 60000 milliseconds in a minute
-			var newTime:Number = (Math.ceil(time / roundNumerator) * roundNumerator);
-			return new Date(newTime + timezoneOffsetMilliseconds);
+			return DateUtil.roundTimeToNextDay(today).valueOf();
 		}
 
 		protected function updateSeries():void
