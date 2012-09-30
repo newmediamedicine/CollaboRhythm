@@ -98,6 +98,9 @@ package collaboRhythm.core.controller
 	import mx.logging.targets.TraceTarget;
 	import mx.managers.PopUpManager;
 
+	import spark.collections.Sort;
+	import spark.collections.SortField;
+
 	import spark.components.Application;
 	import spark.components.ViewNavigator;
 
@@ -587,7 +590,8 @@ package collaboRhythm.core.controller
 			var imageCacheService:DefaultImageCacheService = new DefaultImageCacheService();
 			_kernel.registerComponentInstance("ImageCacheService", IImageCacheService, imageCacheService);
 
-			_kernel.registerComponentInstance("BackgroundProcessCollectionModel", BackgroundProcessCollectionModel, backgroundProcessModel);
+			_kernel.registerComponentInstance("BackgroundProcessCollectionModel", BackgroundProcessCollectionModel,
+					backgroundProcessModel);
 
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader(_settings);
@@ -765,6 +769,11 @@ package collaboRhythm.core.controller
 			}
 			else if (_settings.isClinicianMode)
 			{
+				var sort:Sort = new Sort();
+				sort.fields = [new SortField("accountId")];
+				_activeAccount.sharedRecordAccountsCollection.sort = sort;
+				_activeAccount.sharedRecordAccountsCollection.refresh();
+
 				showSelectRecordView();
 
 				// enter the collaboration lobby, since all of the necessary accountIds are known, a clinician does not have any shares
