@@ -147,12 +147,18 @@
 
 		private function handleMetaData(metaData:Object):void
 		{
+			_netStream.pause();
 			if (!_isMetaDataLoaded)
 			{
 				_netStreamDuration = metaData.duration;
 				_isMetaDataLoaded = true;
+				if (_netStreamDuration == 0)
+				{
+					currentState = "failedToPlay";
+					return;
+				}
 			}
-			_netStream.pause();
+			dispatchEvent(new VideoActionEvent(VideoActionEvent.VIDEO_PLAYABLE, _netStreamLocation));
 			updatePlayhead(0);
 			currentState = "pausedOnFirstFrame";
 		}

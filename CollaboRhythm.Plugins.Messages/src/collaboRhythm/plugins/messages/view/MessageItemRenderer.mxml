@@ -115,7 +115,7 @@
 
 		private function playVideoButton_clickHandler(event:MouseEvent):void
 		{
-			dispatchEvent(new VideoAvailableEvent(VideoAvailableEvent.VIDEO_AVAILABLE, _netStreamLocation));
+			dispatchEvent(new VideoActionEvent(VideoActionEvent.PLAY_VIDEO, _netStreamLocation));
 		}
 
 		private function formatTimeStampLabel(id:String, received_at:Date):String

@@ -106,7 +106,6 @@
 		private function attachCamera():void
 		{
 			videoDisplay.attachCamera(_camera);
-			_netStream = new NetStream(_netConnection);
 			currentState = "readyToRecord";
 		}
 
@@ -126,7 +125,7 @@
 				_netStream.close();
 				_recordingTimer.stop();
 				currentState = "recordingComplete";
-				dispatchEvent(new VideoAvailableEvent(VideoAvailableEvent.VIDEO_AVAILABLE, _netStreamLocation));
+				dispatchEvent(new VideoActionEvent(VideoActionEvent.VIDEO_RECORDED, _netStreamLocation));
 			}
 		}
 
@@ -152,23 +151,22 @@
 
 		private function recordVideo():void
 		{
-			if (_netStream)
-			{
-				if (_camera)
-					_netStream.attachCamera(_camera);
-				if (_microphone)
-					_netStream.attachAudio(_microphone);
+			_netStream = new NetStream(_netConnection);
 
-				var fileId:String = UIDUtil.createUID();
-				_netStreamLocation = _activeRecordAccountId + "/" + fileId;
-				_netStream.publish(_netStreamLocation, "record");
+			if (_camera)
+				_netStream.attachCamera(_camera);
+			if (_microphone)
+				_netStream.attachAudio(_microphone);
 
-				_recordingTimerCount = 0;
-				_recordingTimer = new Timer(1000);
-				_recordingTimer.addEventListener(TimerEvent.TIMER, recordingTimer_updateHandler);
-				_recordingTimer.start();
-				currentState = "recording";
-			}
+			var fileId:String = UIDUtil.createUID();
+			_netStreamLocation = _activeRecordAccountId + "/" + fileId;
+			_netStream.publish(_netStreamLocation, "record");
+
+			_recordingTimerCount = 0;
+			_recordingTimer = new Timer(1000);
+			_recordingTimer.addEventListener(TimerEvent.TIMER, recordingTimer_updateHandler);
+			_recordingTimer.start();
+			currentState = "recording";
 		}
 
 		private function recordingTimer_updateHandler(event:TimerEvent):void
@@ -253,7 +251,8 @@
 					  includeIn="readyToRecord, countdownInProgress, recording"
 					  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"/>
 			<view:RecordIcon left="10" top="10" includeIn="readyToRecord" mouseEnabled="false" mouseChildren="false"/>
-			<view:StopRecordingIcon left="10" top="10" includeIn="countdownInProgress, recording" mouseEnabled="false" mouseChildren="false"/>
+			<view:StopRecordingIcon left="10" top="10" includeIn="countdownInProgress, recording" mouseEnabled="false"
+									mouseChildren="false"/>
 		</s:Group>
 	</s:Group>
 </s:Group>

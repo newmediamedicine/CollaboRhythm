@@ -65,7 +65,7 @@
 					messagesCollection_changeHandler);
 		}
 
-		private function playVideoHandler(event:VideoAvailableEvent):void
+		private function playVideoHandler(event:VideoActionEvent):void
 		{
 			_messagesAppController.playVideoMessage(event.netStreamLocation);
 		}
@@ -80,7 +80,7 @@
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
-			messagesList.addEventListener(VideoAvailableEvent.VIDEO_AVAILABLE, playVideoHandler);
+			messagesList.addEventListener(VideoActionEvent.PLAY_VIDEO, playVideoHandler);
 
 			var sort:Sort = new Sort();
 			sort.fields = [new SortField("received_at")];

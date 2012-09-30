@@ -52,16 +52,21 @@
 		{
 			videoRecorder.init(_collaborationLobbyNetConnectionServiceProxy.netConnection,
 					_activeRecordAccount.accountId);
-			videoRecorder.addEventListener(VideoAvailableEvent.VIDEO_AVAILABLE, videoAvailableHandler);
+			videoRecorder.addEventListener(VideoActionEvent.VIDEO_RECORDED, videoRecordedHandler);
+			videoPlayer.addEventListener(VideoActionEvent.VIDEO_PLAYABLE, videoPlayableHandler);
 		}
 
-		private function videoAvailableHandler(event:VideoAvailableEvent):void
+		private function videoRecordedHandler(event:VideoActionEvent):void
 		{
 			_netStreamLocation = event.netStreamLocation;
 			videoPlayer.init(_collaborationLobbyNetConnectionServiceProxy.netConnection, _netStreamLocation);
 			videoRecorder.visible = false;
 			videoPlayer.visible = true;
 			trashButtonGroup.visible = true;
+		}
+
+		private function videoPlayableHandler(event:VideoActionEvent):void
+		{
 			sendButtonGroup.visible = true;
 		}
 
