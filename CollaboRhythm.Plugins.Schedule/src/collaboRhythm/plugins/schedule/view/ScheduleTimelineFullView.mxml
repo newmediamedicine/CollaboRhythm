@@ -46,6 +46,8 @@
 		import mx.events.ResizeEvent;
 
 		import spark.components.Button;
+		import spark.components.View;
+		import spark.skins.mobile.TransparentActionButtonSkin;
 
 		public static const TIMELINE_VIEW_HEIGHT:Number = 50;
 		public static const ADHERENCE_WINDOW_INITIAL_HEIGHT:Number = 50;
@@ -96,13 +98,23 @@
 					scheduleItemOccurrenceTimelineViewMouseDownHandler, false, 0, true);
 
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_EDIT,
-								scheduleItemOccurrenceTimelineViewEditHandler, false, 0, true);
+					scheduleItemOccurrenceTimelineViewEditHandler, false, 0, true);
 			this.addEventListener(ScheduleTimelineViewEvent.SCHEDULE_ITEM_TIMELINE_VIEW_UNSCHEDULE,
 					scheduleItemOccurrenceTimelineViewUnscheduleHandler, false, 0, true);
 
 			_initializedChangeWatcher = BindingUtils.bindSetter(initializedChangeHandler,
 					_scheduleModel,
 					"isInitialized", false, true);
+		}
+
+		protected function get sparkView():View
+		{
+			return owner as View;
+		}
+
+		private function saveButton_clickHandler(event:MouseEvent):void
+		{
+			_scheduleTimelineController.save();
 		}
 
 		override protected function createChildren():void
@@ -121,6 +133,15 @@
 
 		private function creationCompleteHandler():void
 		{
+			if (sparkView)
+			{
+				var saveButton:Button = new Button();
+				saveButton.label = "Save";
+				saveButton.addEventListener(MouseEvent.CLICK, saveButton_clickHandler, false, 0, true);
+				saveButton.setStyle("skinClass", TransparentActionButtonSkin);
+				sparkView.actionContent.unshift(saveButton);
+			}
+
 			if (_scheduleModel.isInitialized)
 			{
 				removeSorts();

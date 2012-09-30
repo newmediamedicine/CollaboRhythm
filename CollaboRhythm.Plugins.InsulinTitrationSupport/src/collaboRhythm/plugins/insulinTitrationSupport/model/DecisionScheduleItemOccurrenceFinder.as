@@ -1,10 +1,10 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import mx.collections.ArrayCollection;
 
@@ -22,7 +22,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var decisionScheduleItemOccurrence:ScheduleItemOccurrence;
 			var scheduleItemCollection:ArrayCollection = _healthActionModelDetailsProvider.record.healthActionSchedulesModel.healthActionScheduleCollection;
 			var now:Date = _healthActionModelDetailsProvider.currentDateSource.now();
-			var endOfToday:Number = SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf();
+			var endOfToday:Number = DateUtil.roundTimeToNextDay(now).valueOf();
 			for each (var scheduleItem:ScheduleItemBase in scheduleItemCollection)
 			{
 				if (scheduleItemMatches(scheduleItem, TitratingInsulinHealthActionListViewAdapter.INSULIN_TITRATION_DECISION_HEALTH_ACTION_SCHEDULE_NAME))

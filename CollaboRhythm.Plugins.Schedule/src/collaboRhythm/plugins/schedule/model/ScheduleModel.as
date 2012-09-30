@@ -18,10 +18,12 @@ package collaboRhythm.plugins.schedule.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.services.IComponentContainer;
@@ -166,7 +168,7 @@ package collaboRhythm.plugins.schedule.model
 
 		private function documentCollection_changeHandler(event:CollectionEvent):void
 		{
-			if (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE)
+			if (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE || event.kind == CollectionEventKind.RESET)
 			{
 				if (_record.isLoading)
 				{
@@ -174,9 +176,76 @@ package collaboRhythm.plugins.schedule.model
 				}
 				else
 				{
+					// TODO: support incremental changes so that a view (such as the timeline view) can be updated just for the change without being recreated/reset
+/*
+					if (event.items[0] is ScheduleItemBase)
+					{
+						if (event.kind == CollectionEventKind.REMOVE)
+						{
+							removeScheduleItems(event.items);
+							return;
+						}
+						else if (event.kind == CollectionEventKind.ADD)
+						{
+							addScheduleItems(event.items);
+							return;
+						}
+					}
+*/
 					updateScheduleModelForToday();
 				}
 			}
+		}
+
+		private function addScheduleItems(items:Array):void
+		{
+			var now:Date = currentDateSource.now();
+			var dateEnd:Date = DateUtil.roundTimeToNextDay(now);
+			var dateStart:Date = new Date(dateEnd.valueOf() - DateUtil.MILLISECONDS_IN_DAY);
+			for each (var item:ScheduleItemBase in items)
+			{
+				var newScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = item.getScheduleItemOccurrences(dateStart, dateEnd);
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in newScheduleItemOccurrences)
+				{
+					_scheduleItemOccurrencesHashMap.put(scheduleItemOccurrence.id, scheduleItemOccurrence);
+					addToScheduleGroup(scheduleItemOccurrence);
+				}
+			}
+		}
+
+		private function removeScheduleItems(items:Array):void
+		{
+			for each (var item:ScheduleItemBase in items)
+			{
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in
+						_scheduleItemOccurrencesHashMap.values())
+				{
+					if (scheduleItemOccurrence.scheduleItem == item)
+					{
+						_scheduleItemOccurrencesHashMap.remove(scheduleItemOccurrence.id);
+					}
+				}
+				for each (var group:ScheduleGroup in _scheduleGroupsHashMap.values())
+				{
+					var index:int = group.scheduleItemsOccurrencesCollection.getItemIndex(item);
+					if (index != -1)
+					{
+						group.scheduleItemsOccurrencesCollection.removeItemAt(index);
+						if (group.scheduleItemsOccurrencesCollection.length == 0)
+						{
+							_scheduleGroupsHashMap.remove(group.id);
+							var groupIndex:int = _scheduleGroupsCollection.getItemIndex(group);
+							if (groupIndex != -1)
+							{
+								_scheduleGroupsCollection.removeItemAt(groupIndex);
+							}
+						}
+					}
+				}
+			}
+			// we can't easily remove individual items from the existing vector, so recreate it
+			//						_scheduleItemOccurrencesVector = getScheduleItemOccurrencesForToday();
+			_scheduleItemOccurrencesVector = new Vector.<ScheduleItemOccurrence>(_scheduleItemOccurrencesHashMap.values().toArray());
 		}
 
 		private function updateScheduleModelForToday():void
@@ -347,9 +416,39 @@ package collaboRhythm.plugins.schedule.model
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in
 					scheduleGroup.scheduleItemsOccurrencesCollection)
 			{
-				var scheduleItem:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
-				scheduleItem.rescheduleItem(_currentDateSource.now(), scheduleGroup.dateStart, scheduleGroup.dateEnd);
-//				scheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
+				var scheduleItemInGroup:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
+				if (scheduleItemInGroup.dateStart.valueOf() != scheduleGroup.dateStart.valueOf() || scheduleItemInGroup.dateEnd.valueOf() != scheduleGroup.dateEnd.valueOf())
+				{
+					var scheduleDetails:ScheduleDetails = ScheduleDetailsResolver.getCurrentScheduleDetails(new <String>[scheduleItemInGroup.name.value],
+							false, getScheduleItemCollection(scheduleItemInGroup), currentDateSource.now());
+					if (scheduleDetails && scheduleDetails.currentSchedule)
+					{
+						var scheduleChanger:ScheduleChanger = new ScheduleChanger(record, accountId, currentDateSource);
+						// the next scheduleable occurrence may be from tomorrow, in which case we need to add 24 hours offset to the dateStart/dateEnd
+						var offset:Number = DateUtil.roundTimeToNextDay(scheduleDetails.occurrence.dateStart).valueOf() -
+								DateUtil.roundTimeToNextDay(scheduleGroup.dateStart).valueOf();
+						scheduleChanger.updateScheduleItem(scheduleDetails.currentSchedule, scheduleDetails.occurrence,
+								function (scheduleItem:ScheduleItemBase):void
+								{
+									var dateStart:Date = new Date(scheduleGroup.dateStart.valueOf() + offset);
+									var dateEnd:Date = new Date(scheduleGroup.dateEnd.valueOf() + offset);
+									scheduleItem.dateStart = dateStart;
+									scheduleItem.dateEnd = dateEnd;
+								}, true);
+					}
+				}
+			}
+		}
+
+		private function getScheduleItemCollection(scheduleItem:ScheduleItemBase):ArrayCollection
+		{
+			if (scheduleItem is MedicationScheduleItem)
+			{
+				return record.medicationScheduleItemsModel.medicationScheduleItemCollection;
+			}
+			else
+			{
+				return record.healthActionSchedulesModel.healthActionScheduleCollection;
 			}
 		}
 

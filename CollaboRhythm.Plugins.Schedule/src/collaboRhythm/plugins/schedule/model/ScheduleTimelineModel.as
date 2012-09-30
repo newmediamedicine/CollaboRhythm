@@ -86,7 +86,7 @@ package collaboRhythm.plugins.schedule.model
 		public function dropScheduleGroup(moveData:MoveData):void
 		{
 			var scheduleGroup:ScheduleGroup = _scheduleModel.scheduleGroupsHashMap[moveData.id];
-			_scheduleModel.updateScheduleItems(scheduleGroup);
+//			_scheduleModel.updateScheduleItems(scheduleGroup);
 			if (scheduleGroup.scheduleItemsOccurrencesCollection.length == 1)
 			{
 				scheduleGroup.scheduleItemsOccurrencesCollection[0].moving = false;
@@ -127,7 +127,7 @@ package collaboRhythm.plugins.schedule.model
 		public function dropScheduleGroupSpotlight(moveData:MoveData):void
 		{
 			var scheduleGroup:ScheduleGroup = _scheduleModel.scheduleGroupsHashMap[moveData.id];
-			_scheduleModel.updateScheduleItems(scheduleGroup);
+//			_scheduleModel.updateScheduleItems(scheduleGroup);
 		}
 
 		public function grabScheduleItemOccurrence(moveData:MoveData):void
@@ -281,18 +281,23 @@ package collaboRhythm.plugins.schedule.model
 			stackingUpdated = false;
 
 			var scheduleItemOccurrence:ScheduleItemOccurrence = _scheduleModel.scheduleItemOccurrencesHashMap[moveData.id];
-			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
+			if (scheduleItemOccurrence)
 			{
-				var scheduleItemOccurrenceIndex:int = scheduleGroup.scheduleItemsOccurrencesCollection.getItemIndex(scheduleItemOccurrence);
-				if (scheduleItemOccurrenceIndex != -1)
+				for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
 				{
-					_scheduleModel.removeScheduleItemOccurrenceFromGroup(scheduleGroup, scheduleItemOccurrenceIndex);
+					var scheduleItemOccurrenceIndex:int = scheduleGroup.scheduleItemsOccurrencesCollection.getItemIndex(scheduleItemOccurrence);
+					if (scheduleItemOccurrenceIndex != -1)
+					{
+						_scheduleModel.removeScheduleItemOccurrenceFromGroup(scheduleGroup,
+								scheduleItemOccurrenceIndex);
+					}
 				}
-			}
 
-			//TODO: Persist unscheduling a scheduleItem. If there is no data for the scheduleItem, it can be voided. Otherwise, the
-			//recurrenceRule of the scheduleItem should be changed as appropriate
-			_scheduleModel.record.removeDocument(scheduleItemOccurrence.scheduleItem, true, DocumentBase.ACTION_VOID);
+				//TODO: Persist unscheduling a scheduleItem. If there is no data for the scheduleItem, it can be voided. Otherwise, the
+				//recurrenceRule of the scheduleItem should be changed as appropriate
+				_scheduleModel.record.removeDocument(scheduleItemOccurrence.scheduleItem, true,
+						DocumentBase.ACTION_VOID);
+			}
 
 			stackingUpdated = true;
 		}
@@ -325,6 +330,15 @@ package collaboRhythm.plugins.schedule.model
 		public function set containerHeight(value:Number):void
 		{
 			_containerHeight = value;
+		}
+
+		public function save():void
+		{
+			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
+			{
+				_scheduleModel.updateScheduleItems(scheduleGroup);
+			}
+			_scheduleModel.saveChangesToRecord();
 		}
 	}
 }

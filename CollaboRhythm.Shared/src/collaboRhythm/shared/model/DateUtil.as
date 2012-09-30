@@ -24,6 +24,8 @@ package collaboRhythm.shared.model
 	 */
 	public class DateUtil
 	{
+		public static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
+
 		/**
 		* Parses dates that conform to the W3C Date-time Format into Date objects.
 		*
@@ -59,6 +61,16 @@ package collaboRhythm.shared.model
 				return null;
 			else
 				return com.adobe.utils.DateUtil.parseW3CDTF(dateString + "T00:00:00Z");
+		}
+
+		public static function roundTimeToNextDay(date:Date):Date
+		{
+			var interval:int = 60 * 24;
+			var timezoneOffsetMilliseconds:Number = date.getTimezoneOffset() * 60 * 1000;
+			var time:Number = date.getTime() - timezoneOffsetMilliseconds;
+			var roundNumerator:Number = 60000 * interval; //there are 60000 milliseconds in a minute
+			var newTime:Number = (Math.ceil(time / roundNumerator) * roundNumerator);
+			return new Date(newTime + timezoneOffsetMilliseconds);
 		}
 	}
 }

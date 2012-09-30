@@ -1,12 +1,13 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
 	import collaboRhythm.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleChanger;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportState;
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
@@ -27,7 +28,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.StopCondition;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
-	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import com.dougmccune.controls.LimitedLinearAxis;
 
@@ -53,7 +53,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private static const REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE:int = 4;
 		private static const NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE:int = 4;
 
-		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
 
 		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET:String = "There <b>are</b> at least three acceptable blood glucose measurements for the protocol that conform the following rules: ";
 		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET:String = "There are <b>not</b> at least three acceptable blood glucose measurements for the protocol that conform the following rules: ";
@@ -106,12 +105,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		 * {0} titration decision phrase
 		 */
 		private static const TITRATION_DECISION_MESSAGE_MISSING_PREREQUISITES:String = "{0} (note: prerequisites of the 303 Protocol not met)";
-
-		/**
-		 * Potentially useful during testing/debugging as a way to terminate the schedule for a medication, such as
-		 * when you want to switch from one kind of insulin to another.
-		 */
-		private static const DISABLE_CREATION_OF_NEW_SCHEDULE:Boolean = false;
 
 		private static const TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME:String = "Titration Decision";
 		public static const PATIENT_DECISION_ACTION_STEP_RESULT_NAME:String = "Patient Decision";
@@ -254,7 +247,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var bloodGlucoseArrayCollection:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
 			var previousBloodGlucose:VitalSign;
 			var now:Date = currentDateSource.now();
-			var timeConstraintValue:Number = SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() - MILLISECONDS_IN_DAY * NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE;
+			var timeConstraintValue:Number = DateUtil.roundTimeToNextDay(now).valueOf() - DateUtil.MILLISECONDS_IN_DAY * NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE;
 			var firstAdministrationDateOfPreviousSchedule:Number = getFirstAdministrationDateOfPreviousSchedule().valueOf();
 			var eligibleWindowCutoff:Date = new Date(Math.max(timeConstraintValue, firstAdministrationDateOfPreviousSchedule));
 			if (bloodGlucoseArrayCollection && bloodGlucoseArrayCollection.length > 0)
@@ -525,8 +518,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function isLastBloodGlucoseMeasurementFromToday():Boolean
 		{
 			var now:Date = currentDateSource.now();
-			var startOfToday:Date = new Date(SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() -
-					MILLISECONDS_IN_DAY);
+			var startOfToday:Date = new Date(DateUtil.roundTimeToNextDay(now).valueOf() -
+					DateUtil.MILLISECONDS_IN_DAY);
 
 			if (_eligibleBloodGlucoseMeasurements && _eligibleBloodGlucoseMeasurements.length > 0)
 			{
@@ -765,7 +758,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function updateLatestDecisionDoses():void
 		{
-			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult(_scheduleDetails.currentSchedule);
+			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult(_scheduleDetails.currentSchedule as MedicationScheduleItem);
 			if (parentForTitrationDecisionResult)
 			{
 				getLatestDecisionResults(parentForTitrationDecisionResult);
@@ -903,7 +896,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				}
 				else
 				{
-					var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.currentSchedule;
+					var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.currentSchedule as MedicationScheduleItem;
 					if (isPatient)
 						saveSucceeded = saveForPatient(currentMedicationScheduleItem, plan, saveSucceeded);
 					else
@@ -948,7 +941,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function getParentForTitrationDecisionResult(currentMedicationScheduleItem:MedicationScheduleItem):DocumentBase
 		{
-			var administeredOccurrenceCount:int = _scheduleDetails.occurrence.recurrenceIndex;
+			var administeredOccurrenceCount:int = (_scheduleDetails && _scheduleDetails.occurrence) ? _scheduleDetails.occurrence.recurrenceIndex : 0;
 			if (administeredOccurrenceCount > 0)
 			{
 				return currentMedicationScheduleItem;
@@ -957,12 +950,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				return _scheduleDetails.previousSchedule;
 			}
-			else
+			else if (_scheduleDetails.currentSchedule is MedicationScheduleItem)
 			{
 				// When we are changing the dose of the first scheduled occurrence of the medication, there is no
 				// previous schedule to record titration decision results against, so use the MedicationOrder instead.
-				return _scheduleDetails.currentSchedule.scheduledMedicationOrder;
+				return (_scheduleDetails.currentSchedule as MedicationScheduleItem).scheduledMedicationOrder;
 			}
+			return null;
 		}
 
 		private function saveForClinician(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
@@ -1100,41 +1094,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 							true);
 				}
 			}
-
-			var administeredOccurrenceCount:int = _scheduleDetails.occurrence.recurrenceIndex;
-			if (administeredOccurrenceCount > 0)
-			{
-				if (currentMedicationScheduleItem.recurrenceRule)
-				{
-					var remainingOccurrenceCount:int = currentMedicationScheduleItem.recurrenceRule.count -
-							administeredOccurrenceCount;
-					if (remainingOccurrenceCount > 0)
+			var scheduleChanger:ScheduleChanger = new ScheduleChanger(record, accountId, currentDateSource);
+			saveSucceeded = scheduleChanger.updateScheduleItem(currentMedicationScheduleItem,
+					_scheduleDetails.occurrence, function (scheduleItem:ScheduleItemBase):void
 					{
-						currentMedicationScheduleItem.recurrenceRule.count = administeredOccurrenceCount;
-						currentMedicationScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
-
-						if (!DISABLE_CREATION_OF_NEW_SCHEDULE)
-						{
-							createNewMedicationScheduleItem(currentMedicationScheduleItem, remainingOccurrenceCount);
-						}
-					}
-					else
-					{
-						// schedule has ended; no future occurrences to reschedule or change the dose for
-						// TODO: warn the user why the dose cannot be changed; possibly provide a means to extend the schedule beyond the original recurrence range
-						_logger.warn("User is attempting to change the dose for " +
-								currentMedicationScheduleItem.name.text + " with dateStart of " +
-								currentMedicationScheduleItem.dateStart.toLocaleString() +
-								" but the schedule has ended; no future occurrences to reschedule or change the dose for.");
-						saveSucceeded = false;
-					}
-				}
-			}
-			else
-			{
-				currentMedicationScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
-				currentMedicationScheduleItem.dose.value = _newDose.toString();
-			}
+						(scheduleItem as MedicationScheduleItem).dose.value = _newDose.toString();
+					}, saveSucceeded);
 			return saveSucceeded;
 		}
 
@@ -1151,40 +1116,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return null;
 		}
 
-		private function createNewMedicationScheduleItem(currentMedicationScheduleItem:MedicationScheduleItem,
-														 remainingOccurrenceCount:int):void
-		{
-			// create new MedicationScheduleItem with new dose starting at cut off day
-			var newMedicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
-			newMedicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
-			newMedicationScheduleItem.dose = new ValueAndUnit(_newDose.toString(), createUnitsCodedValue());
-			newMedicationScheduleItem.name = currentMedicationScheduleItem.name.clone();
-			newMedicationScheduleItem.scheduledBy = accountId;
-			newMedicationScheduleItem.dateScheduled = currentDateSource.now();
-			newMedicationScheduleItem.dateStart = _scheduleDetails.occurrence.dateStart;
-			newMedicationScheduleItem.dateEnd = _scheduleDetails.occurrence.dateEnd;
-			newMedicationScheduleItem.recurrenceRule = new RecurrenceRule();
-			if (currentMedicationScheduleItem.recurrenceRule.frequency)
-				newMedicationScheduleItem.recurrenceRule.frequency = currentMedicationScheduleItem.recurrenceRule.frequency.clone();
-			if (currentMedicationScheduleItem.recurrenceRule.interval)
-				newMedicationScheduleItem.recurrenceRule.interval = currentMedicationScheduleItem.recurrenceRule.interval.clone();
-			newMedicationScheduleItem.recurrenceRule.count = remainingOccurrenceCount;
-			newMedicationScheduleItem.instructions = currentMedicationScheduleItem.instructions;
-
-			record.addDocument(newMedicationScheduleItem);
-
-			if (currentMedicationScheduleItem.scheduledMedicationOrder)
-			{
-				var relationship:Relationship = record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
-						currentMedicationScheduleItem.scheduledMedicationOrder, newMedicationScheduleItem,
-						true);
-				newMedicationScheduleItem.scheduledMedicationOrder = currentMedicationScheduleItem.scheduledMedicationOrder;
-
-				// TODO: Use the correct id for the newMedicationScheduleItem; we are currently using the temporary id that we assigned ourselves; the actual id of the document will not bet known until we get a response from the server after creation
-				currentMedicationScheduleItem.scheduledMedicationOrder.scheduleItems.put(newMedicationScheduleItem.meta.id,
-						newMedicationScheduleItem);
-			}
-		}
 
 		private static function createUnitsCodedValue():CodedValue
 		{
@@ -1235,7 +1166,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					record.medicationScheduleItemsModel.medicationScheduleItemCollection)
 			{
 				var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(
-						new Date(SynchronizedHealthCharts.roundTimeToNextDay(now).valueOf() -
+						new Date(DateUtil.roundTimeToNextDay(now).valueOf() -
 								REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE * ScheduleItemBase.MILLISECONDS_IN_DAY),
 						now);
 				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)

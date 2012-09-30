@@ -111,5 +111,13 @@ package collaboRhythm.plugins.schedule.controller
 		{
 
 		}
+
+		public function save():void
+		{
+//			if (_scheduleTimelineFullView && _viewNavigator && _viewNavigator.activeView == _scheduleTimelineFullView.owner)
+			_viewNavigator.popView();
+
+			_scheduleTimelineModel.save();
+		}
 	}
 }
