@@ -80,6 +80,7 @@ package collaboRhythm.shared.collaboration.model
 		private var _retryConnectionTimer:Timer;
 		private var _netStreamOut:NetStream;
 		private var _netStreamIn:NetStream;
+		private var _isNetStreamInPlaying:Boolean = false;
 
 
 		public function CollaborationLobbyNetConnectionService(activeAccount:Account, rtmpBaseURI:String,
@@ -285,7 +286,20 @@ package collaboRhythm.shared.collaboration.model
 			netStreamIn = new NetStream(_netConnection, peerId);
 			netStreamIn.addEventListener(NetStatusEvent.NET_STATUS, netStreamIn_netStatusHandler);
 			netStreamIn.bufferTime = 0;
-			netStreamIn.play(peerAccountId);
+			_isNetStreamInPlaying = false;
+		}
+
+		//TODO: Due to a bug in the Adobe AIR runtime, it is necessary to begin playing the netStreamIn after attaching
+		//the camera to the videoDisplay. This is potentially linked to the error that is intermittently thrown
+		//Error #1069: Property startTransmit not found on flash.net.NetStream and there is no default value.
+		//See https://bugbase.adobe.com/index.cfm?event=bug&id=3327661
+		public function playNetStreamIn():void
+		{
+			if (!_isNetStreamInPlaying)
+			{
+				netStreamIn.play(collaborationModel.peerAccount.accountId);
+				_isNetStreamInPlaying = true;
+			}
 		}
 
 		public function closeNetStreamConnections():void
