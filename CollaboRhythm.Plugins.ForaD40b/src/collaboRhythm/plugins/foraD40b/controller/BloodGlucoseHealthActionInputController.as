@@ -54,6 +54,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			_dataInputModel.handleUrlVariables(urlVariables);
 		}
 
