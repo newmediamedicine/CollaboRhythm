@@ -29,6 +29,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import flashx.textLayout.events.FlowElementMouseEvent;
 
 	import mx.binding.utils.BindingUtils;
+	import mx.binding.utils.ChangeWatcher;
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	import mx.core.ClassFactory;
@@ -161,6 +162,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 			_instructionsGroup = new VGroup();
 			_instructionsScroller.viewport = _instructionsGroup;
+			BindingUtils.bindSetter(instructionsScroller_viewport_verticalScrollPositionSetterHandler, _instructionsScroller.viewport, "verticalScrollPosition");
+			BindingUtils.bindSetter(model_instructionsScrollPositionSetterHandler, model, "instructionsScrollPosition");
 			updateInstructionsText();
 
 			_step1Badge = new Step1Badge();
@@ -286,6 +289,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_sendButton.setStyle("skinClass", ButtonSkin);
 			_sendButton.addEventListener(MouseEvent.CLICK, sendButton_clickHandler);
 			addElement(_sendButton);
+		}
+
+		private function model_instructionsScrollPositionSetterHandler(value:Number):void
+		{
+			if (!isNaN(value) && _instructionsScroller && _instructionsScroller.viewport)
+			{
+				_instructionsScroller.viewport.verticalScrollPosition = value;
+			}
+		}
+
+		private function instructionsScroller_viewport_verticalScrollPositionSetterHandler(value:Number):void
+		{
+			_controller.setInstructionsScrollPosition(value);
 		}
 
 		private function createInstructionsRichText(source:String, parentGroup:Group):RichEditableText

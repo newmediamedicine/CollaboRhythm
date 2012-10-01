@@ -10,6 +10,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	public class InsulinTitrationDecisionPanelModel extends InsulinTitrationDecisionModelBase
 	{
 		private var _chartModelDetails:IChartModelDetails;
+		private var _instructionsScrollPosition:Number;
 
 		public function InsulinTitrationDecisionPanelModel(chartModelDetails:IChartModelDetails)
 		{
@@ -51,6 +52,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		override protected function get currentDateSource():ICurrentDateSource
 		{
 			return chartModelDetails ? chartModelDetails.currentDateSource : null;
+		}
+
+		public function get instructionsScrollPosition():Number
+		{
+			return _instructionsScrollPosition;
+		}
+
+		public function set instructionsScrollPosition(value:Number):void
+		{
+			_instructionsScrollPosition = value;
 		}
 	}
 }

@@ -58,6 +58,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			_viewNavigator.pushView(InsulinTitrationFAQView, insulinTitrationFAQModelAndController);
 		}
 
+		public function setInstructionsScrollPosition(instructionsScrollPosition:Number):void
+		{
+			if (_synchronizationService.synchronize("setInstructionsScrollPosition",
+					instructionsScrollPosition, false))
+			{
+				return;
+			}
+
+			_model.instructionsScrollPosition = instructionsScrollPosition;
+		}
+
 		public function destroy():void
 		{
 			if (_synchronizationService)
