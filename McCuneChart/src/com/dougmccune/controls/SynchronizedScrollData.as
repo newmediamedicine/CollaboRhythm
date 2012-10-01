@@ -10,8 +10,6 @@ package com.dougmccune.controls
 		private var _rightRangeTime:Number;
 		private var _contentPositionX:Number;
 		private var _traceEventsPrefix:String;
-		private var _leftRangeTime:Number;
-		private var _rightRangeTime:Number;
 
 		public function SynchronizedScrollData()
 		{
