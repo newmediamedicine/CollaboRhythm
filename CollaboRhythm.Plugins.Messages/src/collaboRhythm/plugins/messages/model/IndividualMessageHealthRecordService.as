@@ -46,21 +46,15 @@ package collaboRhythm.plugins.messages.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		public function getAllMessages():void
+		public function getMessage(message:Message):void
 		{
-			for each (var message:Message in _messagesModel.messages)
+			if (message.type == Message.INBOX)
 			{
-				if (message.read_at == null || message.body == null)
-				{
-					if (message.type == Message.INBOX)
-					{
-						getInboxMessage(activeAccount.accountId, message);
-					}
-					else if (message.type == Message.SENT)
-					{
-						getSentMessage(activeAccount.accountId, message);
-					}
-				}
+				getInboxMessage(activeAccount.accountId, message);
+			}
+			else if (message.type == Message.SENT)
+			{
+				getSentMessage(activeAccount.accountId, message);
 			}
 		}
 

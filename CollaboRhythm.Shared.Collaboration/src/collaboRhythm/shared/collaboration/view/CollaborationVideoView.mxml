@@ -52,6 +52,7 @@
 			{
 				_collaborationLobbyNetConnectionService.netStreamOut.attachCamera(camera);
 			}
+			_collaborationLobbyNetConnectionService.playNetStreamIn();
 		}
 
 		override protected function removedFromStageHandler():void

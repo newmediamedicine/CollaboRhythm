@@ -134,6 +134,7 @@ package collaboRhythm.tablet.controller
 				if (collaborationState == CollaborationModel.COLLABORATION_ACTIVE)
 				{
 					navigator.popToFirstView();
+					navigator.pushView(CollaborationVideoView);
 				}
 
 				if (collaborationState == CollaborationModel.COLLABORATION_INACTIVE &&

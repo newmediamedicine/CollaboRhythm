@@ -92,6 +92,12 @@
 					}
 				}
 
+				if (_message.read_at == null || _message.body == null)
+				{
+					dispatchEvent(new MessageItemRendererEvent(MessageItemRendererEvent.MESSAGE_ITEM_RENDERER_VIEWED,
+							_message));
+				}
+
 				if (_netStreamLocation)
 				{
 					currentState = stateString + "Video";
@@ -115,7 +121,7 @@
 
 		private function playVideoButton_clickHandler(event:MouseEvent):void
 		{
-			dispatchEvent(new VideoAvailableEvent(VideoAvailableEvent.VIDEO_AVAILABLE, _netStreamLocation));
+			dispatchEvent(new VideoActionEvent(VideoActionEvent.PLAY_VIDEO, _netStreamLocation));
 		}
 
 		private function formatTimeStampLabel(id:String, received_at:Date):String
@@ -150,7 +156,8 @@
 		</s:Group>
 		<s:Label id="bodyLabel" text="{_message.body}" width="{this.width - 140}" maxDisplayedLines="3" includeIn="text"
 				 textAlign.sent="right" textAlign.inbox="left"/>
-		<s:Label id="timeStampLabel" text="{formatTimeStampLabel(_message.id, _message.received_at)}" textAlign.sent="right"
+		<s:Label id="timeStampLabel" text="{formatTimeStampLabel(_message.id, _message.received_at)}"
+				 textAlign.sent="right"
 				 textAlign.inbox="left"/>
 	</s:VGroup>
 	<s:Line width="100%" bottom="0">

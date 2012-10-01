@@ -20,7 +20,8 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:view="collaboRhythm.plugins.messages.view.*"
 		 creationComplete="creationCompleteHandler()"
-		 resize="setVideoDisplaySize()">
+		 resize="setVideoDisplaySize()"
+		removedFromStage="removedFromStageHandler()">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -94,10 +95,14 @@
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
-		public function reset(resetMetaData:Boolean):void
+		public function reset(stopVideo:Boolean):void
 		{
-			if (resetMetaData)
+			if (stopVideo)
 			{
+				if (_netStream)
+				{
+					_netStream.pause();
+				}
 				resetMetaDataFields();
 			}
 			updatePlayhead(0);
@@ -142,12 +147,18 @@
 
 		private function handleMetaData(metaData:Object):void
 		{
+			_netStream.pause();
 			if (!_isMetaDataLoaded)
 			{
 				_netStreamDuration = metaData.duration;
 				_isMetaDataLoaded = true;
+				if (_netStreamDuration == 0)
+				{
+					currentState = "failedToPlay";
+					return;
+				}
 			}
-			_netStream.pause();
+			dispatchEvent(new VideoActionEvent(VideoActionEvent.VIDEO_PLAYABLE, _netStreamLocation));
 			updatePlayhead(0);
 			currentState = "pausedOnFirstFrame";
 		}
@@ -265,6 +276,11 @@
 				videoDisplayGroup.width = this.width;
 				videoDisplayGroup.height = this.width * (3 / 4);
 			}
+		}
+
+		private function removedFromStageHandler():void
+		{
+			reset(true);
 		}
 		]]></fx:Script>
 

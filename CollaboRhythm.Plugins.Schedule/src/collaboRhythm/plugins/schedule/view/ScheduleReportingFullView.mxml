@@ -128,6 +128,13 @@
 			}
 		}
 
+		override protected function removedFromStageHandler():void
+		{
+			super.removedFromStageHandler();
+
+			_scheduleReportingController.save();
+		}
+
 		override protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
 			if (event.keyCode == Keyboard.BACK)
