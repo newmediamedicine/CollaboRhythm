@@ -18,8 +18,8 @@
   -->
 <update xmlns="http://ns.riaspace.com/air/framework/update/description/1.1">
 	<android>
-		<version>0.4.16</version>
-		<url>http://www.mit.edu/~sgilroy/CollaboRhythmUpdates/CollaboRhythm.Tablet.0.4.16.apk</url>
+		<version>0.5.0</version>
+		<url>http://www.mit.edu/~sgilroy/CollaboRhythmUpdates/CollaboRhythm.Tablet.0.5.0.apk</url>
 	    <description>
     	    <![CDATA[
         	* Added integrated update capability
