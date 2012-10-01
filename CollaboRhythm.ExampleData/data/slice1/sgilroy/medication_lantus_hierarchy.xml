@@ -19,9 +19,7 @@
 	<LoadableIndivoDocument>
 		<document>
 			<MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
-				<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML
-					Prefilled Syringe [Lantus]
-				</name>
+				<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML Prefilled Syringe [Lantus]</name>
 				<orderType>prescribed</orderType>
 				<orderedBy>jking@records.media.mit.edu</orderedBy>
 				<dateOrdered>2012-07-27T09:00:00-04:00</dateOrdered>
@@ -42,9 +40,7 @@
 				<LoadableIndivoDocument>
 					<document>
 						<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100
-								UNT/ML Prefilled Syringe [Lantus]
-							</name>
+							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100 UNT/ML Prefilled Syringe [Lantus]</name>
 							<filledBy>ljohnson@records.media.mit.edu</filledBy>
 							<dateFilled>2012-07-27T19:13:11Z</dateFilled>
 							<amountFilled>
@@ -63,9 +59,7 @@
 				<LoadableIndivoDocument>
 					<document>
 						<MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100
-								UNT/ML Prefilled Syringe [Lantus]
-							</name>
+							<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847232">3 ML Insulin Glargine 100UNT/ML Prefilled Syringe [Lantus]</name>
 							<scheduledBy>jking@records.media.mit.edu</scheduledBy>
 							<dateScheduled>2012-07-27T19:13:11Z</dateScheduled>
 							<dateStart>2012-07-28T18:00:00-04:00</dateStart>
@@ -76,7 +70,7 @@
 							</recurrenceRule>
 							<dose>
 								<value>12</value>
-								<unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</unit>
+								<unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</unit>
 							</dose>
 							<instructions>rotate injection sites</instructions>
 						</MedicationScheduleItem>
@@ -101,7 +95,7 @@
 															<name>New</name>
 															<value>
 																<indivo:value>15</indivo:value>
-																<indivo:unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</indivo:unit>
+																<indivo:unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</indivo:unit>
 															</value>
 														</stopCondition>
 													</occurrence>
@@ -129,7 +123,7 @@
 															<name>Agree</name>
 															<value>
 																<indivo:value>15</indivo:value>
-																<indivo:unit type="http://indivo.org/codes/units#" value="Units" abbrev="U">Units</indivo:unit>
+																<indivo:unit type="http://indivo.org/codes/units#" value="Unit" abbrev="U">Unit</indivo:unit>
 															</value>
 														</stopCondition>
 													</occurrence>
