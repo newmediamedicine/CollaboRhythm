@@ -25,6 +25,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.ui.healthCharts.model.AdherenceStripItemProxy;
 	import collaboRhythm.shared.ui.healthCharts.model.ChartModelDetails;
+	import collaboRhythm.shared.ui.healthCharts.model.HealthChartsScrollEvent;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.HorizontalAxisChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
@@ -40,6 +41,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.dougmccune.controls.SynchronizedAxisCache;
+	import com.dougmccune.controls.SynchronizedScrollData;
 	import com.dougmccune.controls.TouchScrollingScrubChart;
 	import com.dougmccune.events.FocusTimeEvent;
 	import com.theory9.data.types.OrderedMap;
@@ -109,6 +111,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import spark.skins.mobile.TransparentActionButtonSkin;
 	import spark.skins.spark.BorderContainerSkin;
 
+	[Event(name="scrollCharts", type="collaboRhythm.shared.ui.healthCharts.model.HealthChartsScrollEvent")]
 	public class SynchronizedHealthCharts extends Group implements IFocusManagerComponent
 	{
 		public static const ADHERENCE_STRIP_CHART_HEIGHT:int = 40;
@@ -358,6 +361,21 @@ package collaboRhythm.shared.ui.healthCharts.view
 			if ((event.property == "showAdherence" || (event.property == "isInitialized" && event.newValue as Boolean)) && _createChildrenComplete)
 			{
 				respondToModelUpdate();
+			}
+			else if (event.property == "synchronizedScrollData")
+			{
+				if (model.synchronizedScrollData != _synchronizedScrollData)
+				{
+					_synchronizedScrollData = model.synchronizedScrollData;
+					if (_synchronizedScrollData)
+					{
+						updateScrollPositions(_synchronizedScrollData, _visibleCharts);
+						if (_synchronizedScrollData.stop)
+						{
+							updateChartsAfterScrollStop();
+						}
+					}
+				}
 			}
 		}
 
@@ -2329,29 +2347,46 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return visibleNonTargetCharts;
 		}
 
+		private var _synchronizedScrollData:SynchronizedScrollData;
+
 		protected function chart_scrollHandler(event:ScrollEvent):void
 		{
 			var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
 
+			_synchronizedScrollData = SynchronizedScrollData.create(targetChart);
 			if (!_singleChartMode)
 			{
-				synchronizeScrollPositions(targetChart, _nonTargetCharts);
+				updateScrollPositions(_synchronizedScrollData, _nonTargetCharts);
 			}
 
 			if (_isSimulationSupported)
 				queueUpdateSimulation(targetChart);
+
+			dispatchEvent(new HealthChartsScrollEvent(HealthChartsScrollEvent.SCROLL_CHARTS, _synchronizedScrollData));
 		}
 
 		protected function synchronizeScrollPositions(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>, visibleOnly:Boolean = true):void
+		{
+			var synchronizedScrollData:SynchronizedScrollData = SynchronizedScrollData.create(targetChart);
+			updateScrollPositions(synchronizedScrollData, otherCharts, visibleOnly);
+		}
+
+		private function updateScrollPositions(synchronizedScrollData:SynchronizedScrollData,
+											   otherCharts:Vector.<TouchScrollingScrubChart>, visibleOnly:Boolean = true):void
 		{
 			for each (var otherChart:TouchScrollingScrubChart in otherCharts)
 			{
 				if (otherChart.visible || !visibleOnly)
 				{
-					otherChart.synchronizeScrollPosition(targetChart);
+					otherChart.synchronizeScrollPosition(synchronizedScrollData);
 				}
 			}
 			queueMoveTodayHighlight();
+		}
+
+		public function updateVisibleChartsScrollPositions(synchronizedScrollData:SynchronizedScrollData):void
+		{
+			updateScrollPositions(synchronizedScrollData, _visibleCharts);
 		}
 
 		protected function synchronizeFocusTimes(targetChart:TouchScrollingScrubChart, otherCharts:Vector.<TouchScrollingScrubChart>):void
@@ -2380,6 +2415,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			if (_traceEventHandlers)
 				logDebugEvent("chart_scrollStopHandler", chartToTraceString(targetChart));
+
+			_synchronizedScrollData = SynchronizedScrollData.create(targetChart, true);
+			dispatchEvent(new HealthChartsScrollEvent(HealthChartsScrollEvent.SCROLL_CHARTS, _synchronizedScrollData));
 
 			updateChartsAfterScrollStop();
 		}

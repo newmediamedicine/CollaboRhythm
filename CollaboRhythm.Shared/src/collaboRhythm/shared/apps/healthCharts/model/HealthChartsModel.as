@@ -24,6 +24,8 @@ package collaboRhythm.shared.apps.healthCharts.model
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import com.dougmccune.controls.SynchronizedScrollData;
+
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 
@@ -62,6 +64,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		private var _decisionPending:Boolean = false;
 		private var _decisionTitle:String;
 		private var _decisionData:Object;
+		private var _synchronizedScrollData:SynchronizedScrollData;
 
 		/**
 		 * The simulation state corresponding to the time currently being focused on (the time specified by the focus
@@ -428,6 +431,16 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public function getMedicationConcentrationCurveByCode(medicationCode:String):ArrayCollection
 		{
 			return record.medicationAdministrationsModel.getMedicationConcentrationCurveByCode(medicationCode);
+		}
+
+		public function set synchronizedScrollData(synchronizedScrollData:SynchronizedScrollData):void
+		{
+			_synchronizedScrollData = synchronizedScrollData;
+		}
+
+		public function get synchronizedScrollData():SynchronizedScrollData
+		{
+			return _synchronizedScrollData;
 		}
 	}
 }

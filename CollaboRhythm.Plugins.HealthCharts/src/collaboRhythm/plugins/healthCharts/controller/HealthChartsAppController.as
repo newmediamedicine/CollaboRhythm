@@ -11,7 +11,10 @@ package collaboRhythm.plugins.healthCharts.controller
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.ui.healthCharts.model.HealthChartsScrollEvent;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
+
+	import com.dougmccune.controls.SynchronizedScrollData;
 
 	import flash.events.Event;
 
@@ -111,6 +114,12 @@ package collaboRhythm.plugins.healthCharts.controller
 			{
 				_widgetView.init(this, healthChartsModel);
 			}
+		}
+
+		override protected function prepareFullView():void
+		{
+			super.prepareFullView();
+			_fullView.addEventListener(HealthChartsScrollEvent.SCROLL_CHARTS, fullView_scrollChartsHandler);
 		}
 
 		override protected function updateFullViewModel():void
@@ -313,6 +322,22 @@ package collaboRhythm.plugins.healthCharts.controller
 		public function get backgroundProcessModel():BackgroundProcessCollectionModel
 		{
 			return _backgroundProcessModel;
+		}
+
+		public function updateVisibleChartsScrollPositions(synchronizedScrollData:SynchronizedScrollData):void
+		{
+			if (_synchronizationService.synchronize("updateVisibleChartsScrollPositions", synchronizedScrollData, false))
+			{
+				return;
+			}
+
+			_healthChartsModel.synchronizedScrollData = synchronizedScrollData;
+		}
+
+		private function fullView_scrollChartsHandler(event:HealthChartsScrollEvent):void
+		{
+			event.synchronizedScrollData.sourceId = "collaboration-" + event.synchronizedScrollData.sourceId;
+			updateVisibleChartsScrollPositions(event.synchronizedScrollData);
 		}
 	}
 }

@@ -393,12 +393,12 @@ package com.dougmccune.controls
 		/**
 		 * The ratio between the width of the main chart container (visible portion of the main chart) and the duration of it's dataset
  		 */
-		protected var mainDataRatio:Number;
+		private var _mainDataRatio:Number;
 		/**
 		 * Width of the mainChart divided by the width of the mainChartContainer (the portion that is visible).
 		 * Generally, the mainChart will be 3 times as wide as the portion visible, mainChartToContainerRatio = 3.
 		 */
-		protected var mainChartToContainerRatio:Number;
+		private var _mainChartToContainerRatio:Number;
 
 		[Bindable]
 		public var seriesName:String = "close";
@@ -1021,7 +1021,7 @@ package com.dougmccune.controls
 			initializeFocusTime();
 
 			if (_traceEvents)
-				logDebugEvent("initializeRangeTimes", "leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime), "mainDataRatio", mainDataRatio, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio, "initialRightRangeTime", traceDate(initialRightRangeTime), "initialDurationTime", initialDurationTime);
+				logDebugEvent("initializeRangeTimes", "leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime), "_mainDataRatio", _mainDataRatio, "mainChartArea.width", mainChartArea.width, "_mainChartToContainerRatio", _mainChartToContainerRatio, "initialRightRangeTime", traceDate(initialRightRangeTime), "initialDurationTime", initialDurationTime);
 		}
 
 		private function initializeFocusTime():void
@@ -1160,7 +1160,7 @@ package com.dougmccune.controls
 			mainChartDurationTime = maximum - minimum;
 			var daysApart:Number = (maximum - minimum) / DAYS_TO_MILLISECONDS;
 			updateMainDataRatio();
-			var mainChartExtraDurationTime:Number = mainChartDurationTime * (mainChartToContainerRatio - 1);
+			var mainChartExtraDurationTime:Number = mainChartDurationTime * (_mainChartToContainerRatio - 1);
 
 //			trace("updateMainDataSource", "leftIndicator.x", leftIndicator.x.toFixed(2), "rightIndicator.x", rightIndicator.x.toFixed(2), "i0", i0, "i1", i1, "minimum", minimum.toFixed(0), "maximum", maximum.toFixed(0), "daysApart", daysApart.toFixed(2));
 //						if (traceRangeTimes)
@@ -1178,15 +1178,15 @@ package com.dougmccune.controls
 				_performanceCounter["updateMainDataSource"] += 1;
 
 			if (_traceEvents)
-				logDebugEvent("updateMainDataSource leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime), "mainDataRatio", mainDataRatio, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
+				logDebugEvent("updateMainDataSource leftRangeTime", traceDate(leftRangeTime), "rightRangeTime", traceDate(rightRangeTime), "minimumTime", traceDate(minimumTime), "maximumTime", traceDate(maximumTime), "_mainDataRatio", _mainDataRatio, "mainChartArea.width", mainChartArea.width, "_mainChartToContainerRatio", _mainChartToContainerRatio);
 		}
 
 		private function updateMainDataRatio():void
 		{
-			var oldMainDataRatio:Number = mainDataRatio;
-			mainDataRatio = (mainChart.width / mainChartToContainerRatio) / mainChartDurationTime;
+			var oldMainDataRatio:Number = _mainDataRatio;
+			_mainDataRatio = (mainChart.width / _mainChartToContainerRatio) / mainChartDurationTime;
 			if (_traceEvents)
-				logDebugEvent("updateMainDataRatio", "mainDataRatio", mainDataRatio, "changedBy", mainDataRatio - oldMainDataRatio, "mainChart.width", mainChart.width, "mainChartArea.width", mainChartArea.width, "mainChartToContainerRatio", mainChartToContainerRatio);
+				logDebugEvent("updateMainDataRatio", "_mainDataRatio", _mainDataRatio, "changedBy", _mainDataRatio - oldMainDataRatio, "mainChart.width", mainChart.width, "mainChartArea.width", mainChartArea.width, "_mainChartToContainerRatio", _mainChartToContainerRatio);
 		}
 		
 		protected function setAxisMinimum(axis:IAxis, minimum:Date):void
@@ -1330,7 +1330,7 @@ package com.dougmccune.controls
 
 		private function mainChartPosToSliderValue(value:Number):Number
 		{
-			return (value / mainDataRatio) + leftRangeTime;
+			return (value / _mainDataRatio) + leftRangeTime;
 		}
 
 		/**
@@ -1346,8 +1346,8 @@ package com.dougmccune.controls
 
 		private function mainChartUpdate(value:Number):void
 		{
-			leftRangeTime += value / mainDataRatio;
-			rightRangeTime += value / mainDataRatio;
+			leftRangeTime += value / _mainDataRatio;
+			rightRangeTime += value / _mainDataRatio;
 			if (slider)
 				slider.dispatchEvent(new SliderEvent('change'));
 			this.updateForScroll();
@@ -1599,7 +1599,7 @@ package com.dougmccune.controls
 
 			if (mainDrag)
 			{
-				var mainChartPixelsToTime:Number = mainChartDurationTime / (mainChart.width / mainChartToContainerRatio);
+				var mainChartPixelsToTime:Number = mainChartDurationTime / (mainChart.width / _mainChartToContainerRatio);
 				targetLeftRangeTime = staticLeftBoundary + (mouseXRef - this.mouseX) * mainChartPixelsToTime;
 		//					targetRightRangeTime = staticRightBoundary + (mouseXRef - this.mouseX) * mainChartPixelsToTime;
 			}
@@ -2099,7 +2099,7 @@ package com.dougmccune.controls
 		//					}
 				showAnnotations = false;
 		//					moveSlider(leftIndicator, targetIndex, true, hightlightAnnotation, targetUID, targetDate);
-				animateRangeTimes(dateParse(targetDate).time - GROW_DURATION_PADDING / mainDataRatio);
+				animateRangeTimes(dateParse(targetDate).time - GROW_DURATION_PADDING / _mainDataRatio);
 				// TODO: highlight the annotation after animating
 //						   hightlightAnnotation, targetUID, targetDate);
 			}
@@ -2116,7 +2116,7 @@ package com.dougmccune.controls
 		//					}
 				showAnnotations = false;
 		//					moveSlider(rightIndicator, targetIndex, true, hightlightAnnotation, targetUID, targetDate);
-				animateRangeTimes(NaN, dateParse(targetDate).time + GROW_DURATION_PADDING / mainDataRatio);
+				animateRangeTimes(NaN, dateParse(targetDate).time + GROW_DURATION_PADDING / _mainDataRatio);
 				// TODO: highlight the annotation after animating
 //						   hightlightAnnotation, targetUID, targetDate);
 			}
@@ -2441,7 +2441,7 @@ package com.dougmccune.controls
 		{
 			if (mainChart && mainChart.width > 0 && mainChartContainer && mainChartContainer.width > 0)
 			{
-				mainChartToContainerRatio = mainChart.width / mainChartContainer.width;
+				_mainChartToContainerRatio = mainChart.width / mainChartContainer.width;
 				updateMainChartX();
 			}
 		}
@@ -2453,7 +2453,7 @@ package com.dougmccune.controls
 		}
 		private function updateMainChartX():void
 		{
-			quickScrollOffset = -mainChart.width * ((mainChartToContainerRatio - 1) / 2) / mainChartToContainerRatio;
+			quickScrollOffset = -mainChart.width * ((_mainChartToContainerRatio - 1) / 2) / _mainChartToContainerRatio;
 			mainChart.x = quickScrollOffset;
 		}
 
@@ -3018,6 +3018,16 @@ package com.dougmccune.controls
 		public function set initialRightRangeTime(value:Number):void
 		{
 			_initialRightRangeTime = value;
+		}
+
+		public function get mainChartToContainerRatio():Number
+		{
+			return _mainChartToContainerRatio;
+		}
+
+		public function get mainDataRatio():Number
+		{
+			return _mainDataRatio;
 		}
 	}
 }

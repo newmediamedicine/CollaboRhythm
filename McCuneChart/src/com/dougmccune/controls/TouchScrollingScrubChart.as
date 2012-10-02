@@ -219,37 +219,37 @@ package com.dougmccune.controls
 			}
 		}
 
-		public function synchronizeScrollPosition(targetChart:TouchScrollingScrubChart):void
+		public function synchronizeScrollPosition(synchronizedScrollData:SynchronizedScrollData):void
 		{
-			if (this != targetChart)
+			if (this.id != synchronizedScrollData.sourceId)
 			{
 				stopInertiaScrolling();
 
 				// We can only use the optimized synchronization method of setting the contentPositionX if the charts match up as expected
-				if (minimumTime == targetChart.minimumTime && maximumTime == targetChart.maximumTime &&
-						mainChartToContainerRatio == targetChart.mainChartToContainerRatio &&
-						mainDataRatio == targetChart.mainDataRatio)
+				if (minimumTime == synchronizedScrollData.minimumTime && maximumTime == synchronizedScrollData.maximumTime &&
+						mainChartToContainerRatio == synchronizedScrollData.mainChartToContainerRatio &&
+						mainDataRatio == synchronizedScrollData.mainDataRatio)
 				{
-					updateContentPositionX(targetChart.contentPositionX);
+					updateContentPositionX(synchronizedScrollData.contentPositionX);
 				}
 				else
 				{
 					var mismatches:Array = new Array();
-					checkMismatchProperty(targetChart, mismatches, "minimumTime", true);
-					checkMismatchProperty(targetChart, mismatches, "maximumTime", true);
-					checkMismatchProperty(targetChart, mismatches, "mainChartToContainerRatio");
-					checkMismatchProperty(targetChart, mismatches, "mainDataRatio");
+					checkMismatchProperty(synchronizedScrollData, mismatches, "minimumTime", true);
+					checkMismatchProperty(synchronizedScrollData, mismatches, "maximumTime", true);
+					checkMismatchProperty(synchronizedScrollData, mismatches, "mainChartToContainerRatio");
+					checkMismatchProperty(synchronizedScrollData, mismatches, "mainDataRatio");
 					if (_traceEvents)
 						_logger.debug("Optimization in synchronizeScrollPosition failed because of mismatch between this chart " +
-								traceEventsPrefix + " and target " + targetChart.traceEventsPrefix + " Mismatches: " + mismatches.join(", ")); // + "minimumTime " + targetChart.minimumTime)
-					leftRangeTime = targetChart.leftRangeTime;
-					rightRangeTime = targetChart.rightRangeTime;
+								traceEventsPrefix + " and target " + synchronizedScrollData.sourceId + " Mismatches: " + mismatches.join(", ")); // + "minimumTime " + synchronizedScrollData.minimumTime)
+					leftRangeTime = synchronizedScrollData.leftRangeTime;
+					rightRangeTime = synchronizedScrollData.rightRangeTime;
 					updateForScroll();
 				}
 			}
 		}
 
-		private function checkMismatchProperty(targetChart:TouchScrollingScrubChart, mismatches:Array,
+		private function checkMismatchProperty(targetChart:SynchronizedScrollData, mismatches:Array,
 											   propertyName:String, isDate:Boolean = false):void
 		{
 			if (this[propertyName] != targetChart[propertyName])

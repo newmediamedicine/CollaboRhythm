@@ -23,6 +23,9 @@
             <entry module-name="indivo_client_flash" build-configuration-name="indivo_client_flash">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="McCuneChart" build-configuration-name="McCuneChart">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -79,6 +82,7 @@
       </library>
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="module" module-name="McCuneChart" />
   </component>
 </module>
 
