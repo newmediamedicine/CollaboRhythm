@@ -1,5 +1,6 @@
 package collaboRhythm.shared.ui.healthCharts.view
 {
+	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsEvent;
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
@@ -36,6 +37,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
 	import collaboRhythm.view.scroll.TouchScrollerEvent;
 
+	import com.dougmccune.controls.ChartDataTipsLocation;
+
 	import com.dougmccune.controls.ChartFooter;
 	import com.dougmccune.controls.ChildIndependentLayout;
 	import com.dougmccune.controls.ScrubChart;
@@ -59,8 +62,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import mx.charts.HitData;
 	import mx.charts.LinearAxis;
 	import mx.charts.chartClasses.CartesianChart;
+	import mx.charts.chartClasses.ChartBase;
 	import mx.charts.chartClasses.IAxisRenderer;
 	import mx.charts.chartClasses.Series;
+	import mx.charts.events.ChartEvent;
+	import mx.charts.events.ChartItemEvent;
 	import mx.charts.series.PlotSeries;
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
@@ -199,6 +205,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private const _isSimulationSupported:Boolean = false;
 		private var _collectionEventListeners:Dictionary = new Dictionary();
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
+		private var _synchronizedScrollData:SynchronizedScrollData;
+		private var _chartDataTipsLocation:ChartDataTipsLocation;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -375,6 +383,62 @@ package collaboRhythm.shared.ui.healthCharts.view
 							updateChartsAfterScrollStop();
 						}
 					}
+				}
+			}
+			else if (event.property == "chartDataTipsLocation")
+			{
+				if (model.chartDataTipsLocation != _chartDataTipsLocation)
+				{
+					_chartDataTipsLocation = model.chartDataTipsLocation;
+					if (_chartDataTipsLocation)
+					{
+						updateChartDataTips();
+					}
+				}
+			}
+		}
+
+		private function updateChartDataTips():void
+		{
+			var scrubChart:ScrubChart;
+			for each (var chart:ScrubChart in _charts)
+			{
+				if (chart.id == _chartDataTipsLocation.scrubChartId)
+				{
+					scrubChart = chart;
+					break;
+				}
+			}
+
+			if (scrubChart)
+			{
+				var innerChart:ChartBase;
+				if (_chartDataTipsLocation.innerChartId == "mainChart")
+				{
+					innerChart = scrubChart.mainChart;
+				}
+				else if (_chartDataTipsLocation.innerChartId == "rangeChart")
+				{
+					innerChart = scrubChart.rangeChart;
+				}
+
+				if (innerChart)
+				{
+                    // look for data points in all series at the specified localX, localY
+                    for each (var series:Series in innerChart.series)
+					{
+						series.dataTipItems = new Array();
+
+						var dataPoints:Array = series.findDataPoints(_chartDataTipsLocation.localX, _chartDataTipsLocation.localY, _chartDataTipsLocation.sensitivity);
+						for each (var hitData:HitData in dataPoints)
+						{
+							// push the ChartItem to the series dataTipItems (array of non-interactive chart items).
+							series.dataTipItems.push(hitData.chartItem);
+						}
+					}
+
+                    // show them.
+                    innerChart.showAllDataTips = true;
 				}
 			}
 		}
@@ -885,6 +949,9 @@ package collaboRhythm.shared.ui.healthCharts.view
 			chart.addEventListener(TouchScrollerEvent.SCROLL_STOP, chart_scrollStopHandler, false, 0, true);
 			chart.addEventListener(FocusTimeEvent.FOCUS_TIME_CHANGE, chart_focusTimeChangeHandler, false, 0,
 					true);
+			chart.addEventListener(ChartItemEvent.ITEM_ROLL_OVER, chart_itemRollOverHandler);
+			chart.addEventListener(ChartItemEvent.ITEM_ROLL_OUT, chart_itemRollOutHandler);
+			chart.addEventListener(MouseEvent.ROLL_OUT, chart_rollOutHandler);
 
 			if (expectCreationComplete)
 				_chartsWithPendingMainChartAdded.addItem(chart);
@@ -893,6 +960,38 @@ package collaboRhythm.shared.ui.healthCharts.view
 			addChart(chart);
 
 			return chart;
+		}
+
+		private function chart_rollOutHandler(event:MouseEvent):void
+		{
+			_chartDataTipsLocation = new ChartDataTipsLocation(_chartDataTipsLocation.scrubChartId, _chartDataTipsLocation.innerChartId, event.localX,
+									event.localY, 0);
+			model.chartDataTipsLocation = _chartDataTipsLocation;
+			dispatchEvent(new HealthChartsEvent(HealthChartsEvent.CHART_DATA_TIPS_UPDATE));
+		}
+
+		private function chart_itemRollOverHandler(event:ChartItemEvent):void
+		{
+			dispatchChartDataTipsUpdateEvent(event);
+		}
+
+		private function dispatchChartDataTipsUpdateEvent(event:ChartItemEvent):void
+		{
+			var innerChart:ChartBase = event.target as ChartBase;
+			var scrubChart:ScrubChart = event.currentTarget as ScrubChart;
+			if (scrubChart && innerChart)
+			{
+				_chartDataTipsLocation = new ChartDataTipsLocation(scrubChart.id, innerChart.id, event.localX,
+										event.localY, innerChart.mouseSensitivity);
+				model.chartDataTipsLocation = _chartDataTipsLocation;
+
+				dispatchEvent(new HealthChartsEvent(HealthChartsEvent.CHART_DATA_TIPS_UPDATE));
+			}
+		}
+
+		private function chart_itemRollOutHandler(event:ChartItemEvent):void
+		{
+			dispatchChartDataTipsUpdateEvent(event);
 		}
 
 		private function setMedicationChartStyles(medicationCode:String, medicationFill:MedicationFill, chart:TouchScrollingScrubChart):void
@@ -2347,8 +2446,6 @@ package collaboRhythm.shared.ui.healthCharts.view
 			return visibleNonTargetCharts;
 		}
 
-		private var _synchronizedScrollData:SynchronizedScrollData;
-
 		protected function chart_scrollHandler(event:ScrollEvent):void
 		{
 			var targetChart:TouchScrollingScrubChart = TouchScrollingScrubChart(event.currentTarget);
@@ -3077,6 +3174,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				chartModifier.destroy();
 			}
+		}
+
+		public function get chartDataTipsLocation():ChartDataTipsLocation
+		{
+			return _chartDataTipsLocation;
 		}
 	}
 }

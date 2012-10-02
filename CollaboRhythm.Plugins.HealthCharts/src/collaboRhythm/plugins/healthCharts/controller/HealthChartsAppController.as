@@ -14,6 +14,8 @@ package collaboRhythm.plugins.healthCharts.controller
 	import collaboRhythm.shared.ui.healthCharts.model.HealthChartsScrollEvent;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
+	import com.dougmccune.controls.ChartDataTipsLocation;
+
 	import com.dougmccune.controls.SynchronizedScrollData;
 
 	import flash.events.Event;
@@ -120,6 +122,7 @@ package collaboRhythm.plugins.healthCharts.controller
 		{
 			super.prepareFullView();
 			_fullView.addEventListener(HealthChartsScrollEvent.SCROLL_CHARTS, fullView_scrollChartsHandler);
+			_fullView.addEventListener(HealthChartsEvent.CHART_DATA_TIPS_UPDATE, fullView_chartDataTipsUpdateHandler);
 		}
 
 		override protected function updateFullViewModel():void
@@ -291,8 +294,11 @@ package collaboRhythm.plugins.healthCharts.controller
 				return;
 			}
 
-			healthChartsModel.finishedDecision();
-			dispatchShowFullView(viaMechanism);
+			if (_healthChartsModel)
+			{
+				healthChartsModel.finishedDecision();
+				dispatchShowFullView(viaMechanism);
+			}
 		}
 
 		private function fullView_addedToStageHandler(event:Event):void
@@ -331,13 +337,34 @@ package collaboRhythm.plugins.healthCharts.controller
 				return;
 			}
 
-			_healthChartsModel.synchronizedScrollData = synchronizedScrollData;
+			if (_healthChartsModel)
+			{
+				_healthChartsModel.synchronizedScrollData = synchronizedScrollData;
+			}
 		}
 
 		private function fullView_scrollChartsHandler(event:HealthChartsScrollEvent):void
 		{
 			event.synchronizedScrollData.sourceId = "collaboration-" + event.synchronizedScrollData.sourceId;
 			updateVisibleChartsScrollPositions(event.synchronizedScrollData);
+		}
+
+		public function updateChartDataTips(chartDataTipsLocation:ChartDataTipsLocation):void
+		{
+			if (_synchronizationService.synchronize("updateChartDataTips", chartDataTipsLocation, false))
+			{
+				return;
+			}
+
+			if (_healthChartsModel)
+			{
+				_healthChartsModel.chartDataTipsLocation = chartDataTipsLocation;
+			}
+		}
+
+		private function fullView_chartDataTipsUpdateHandler(event:HealthChartsEvent):void
+		{
+			updateChartDataTips(_fullView.chartDataTipsLocation);
 		}
 	}
 }

@@ -24,6 +24,8 @@ package collaboRhythm.shared.apps.healthCharts.model
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import com.dougmccune.controls.ChartDataTipsLocation;
+
 	import com.dougmccune.controls.SynchronizedScrollData;
 
 	import flash.events.Event;
@@ -65,6 +67,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		private var _decisionTitle:String;
 		private var _decisionData:Object;
 		private var _synchronizedScrollData:SynchronizedScrollData;
+		private var _chartDataTipsLocation:ChartDataTipsLocation;
 
 		/**
 		 * The simulation state corresponding to the time currently being focused on (the time specified by the focus
@@ -441,6 +444,16 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public function get synchronizedScrollData():SynchronizedScrollData
 		{
 			return _synchronizedScrollData;
+		}
+
+		public function get chartDataTipsLocation():ChartDataTipsLocation
+		{
+			return _chartDataTipsLocation;
+		}
+
+		public function set chartDataTipsLocation(value:ChartDataTipsLocation):void
+		{
+			_chartDataTipsLocation = value;
 		}
 	}
 }
