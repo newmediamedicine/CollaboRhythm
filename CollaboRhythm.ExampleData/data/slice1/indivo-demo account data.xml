@@ -341,6 +341,7 @@
     <demographicsId>c8abaf43-222b-42f6-a9d5-2625b5eb37e6</demographicsId>
     <notes>Demo for fitness-tracking group</notes>
     <recordSeed/>
+    <shareAccountId/>
   </AccountSource>
   <AccountSource>
     <accountId>agreen@records.media.mit.edu</accountId>
@@ -818,12 +819,14 @@
     <religion>Protestant</religion>
     <highestEducation>High School</highestEducation>
     <organDonar>true</organDonar>
-    <recordId/>
-    <accessKey/>
-    <accessSecret/>
-    <status/>
-    <demographicsId>b0476e25-777b-4aa2-bb62-32175347068a</demographicsId>
-    <recordSeed/>
+    <recordId>f6c6566c-2a82-4289-ab96-47946e34ace5</recordId>
+    <accessKey>9riwCuvHNEUGf66qOlAI</accessKey>
+    <accessSecret>Y2YB7BW6mgP53epUVQoJ</accessSecret>
+    <status>Record shared.</status>
+    <demographicsId>ae1e273d-4b73-41b8-bfbe-facacc9607c3</demographicsId>
+    <recordSeed>1</recordSeed>
+    <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId>
+    <shareRole>Coach</shareRole>
   </AccountSource>
   <AccountSource>
     <accountId>csantos@records.media.mit.edu</accountId>
@@ -1171,6 +1174,6 @@
     <shareAccountId>mhindman@records.media.mit.edu</shareAccountId>
     <shareRole>Coach</shareRole>
   </AccountSource>
-  <saveDate>Thu Sep 20 13:50:47 GMT-0400 2012</saveDate>
+  <saveDate>Wed Oct 3 17:09:36 GMT-0400 2012</saveDate>
   <indivoServerBaseURL>https://indivo-demo.media.mit.edu:8000</indivoServerBaseURL>
 </dataroot>
