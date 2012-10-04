@@ -964,10 +964,14 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function chart_rollOutHandler(event:MouseEvent):void
 		{
-			_chartDataTipsLocation = new ChartDataTipsLocation(_chartDataTipsLocation.scrubChartId, _chartDataTipsLocation.innerChartId, event.localX,
-									event.localY, 0);
-			model.chartDataTipsLocation = _chartDataTipsLocation;
-			dispatchEvent(new HealthChartsEvent(HealthChartsEvent.CHART_DATA_TIPS_UPDATE));
+			if (_chartDataTipsLocation)
+			{
+				_chartDataTipsLocation = new ChartDataTipsLocation(_chartDataTipsLocation.scrubChartId,
+						_chartDataTipsLocation.innerChartId, event.localX,
+						event.localY, 0);
+				model.chartDataTipsLocation = _chartDataTipsLocation;
+				dispatchEvent(new HealthChartsEvent(HealthChartsEvent.CHART_DATA_TIPS_UPDATE));
+			}
 		}
 
 		private function chart_itemRollOverHandler(event:ChartItemEvent):void

@@ -426,5 +426,9 @@ public class Admin extends EventDispatcher implements WikiTestable
             + "; " + phaAdminUtils.defaultConsumerSecret + "; " + this.adminBase;
     }
 
+	public function clone():Admin
+	{
+		return new Admin(consumerKey, consumerSecret, adminBase);
+	}
 }
 }
