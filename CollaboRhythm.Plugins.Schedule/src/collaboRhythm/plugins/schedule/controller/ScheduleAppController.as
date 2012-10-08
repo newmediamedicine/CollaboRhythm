@@ -29,6 +29,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.view.ScheduleClockWidgetView;
 	import collaboRhythm.plugins.schedule.view.ScheduleReportingFullView;
 	import collaboRhythm.plugins.schedule.view.ScheduleTimelineFullView;
+	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
@@ -55,10 +56,13 @@ package collaboRhythm.plugins.schedule.controller
 		private var _isInvokeEventListenerAdded:Boolean;
 		//TODO: Determine if the handled invoke events still need to be tracked
 		private var _handledInvokeEvents:Vector.<String> = new Vector.<String>();
+		private var _synchronizationService:SynchronizationService;
 
 		public function ScheduleAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
+
+			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
 		}
 
 		override public function initialize():void
@@ -159,28 +163,38 @@ package collaboRhythm.plugins.schedule.controller
 
 				if (urlVariables.success == "true")
 				{
-					var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
-							scheduleModel, scheduleModel, _viewNavigator);
-
-					if (_viewNavigator.activeView as IHealthActionInputView)
-					{
-						var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
-								IHealthActionInputView;
-						if (ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
-								ReflectionUtils.getClass(healthActionInputController))
-						{
-							healthActionInputView.healthActionInputController.handleUrlVariables(urlVariables);
-						}
-						else
-						{
-							healthActionInputController.handleUrlVariables(urlVariables)
-						}
-					}
-					else
-					{
-						healthActionInputController.handleUrlVariables(urlVariables);
-					}
+					handleUrlVariables(urlVariables);
 				}
+			}
+		}
+
+		public function handleUrlVariables(urlVariables:URLVariables):void
+		{
+			if (_synchronizationService.synchronize("handleUrlVariables", urlVariables))
+			{
+				return;
+			}
+
+			var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
+					scheduleModel, scheduleModel, _viewNavigator);
+
+			if (_viewNavigator.activeView as IHealthActionInputView)
+			{
+				var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
+						IHealthActionInputView;
+				if (ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
+						ReflectionUtils.getClass(healthActionInputController))
+				{
+					healthActionInputView.healthActionInputController.handleUrlVariables(urlVariables);
+				}
+				else
+				{
+					healthActionInputController.handleUrlVariables(urlVariables)
+				}
+			}
+			else
+			{
+				healthActionInputController.handleUrlVariables(urlVariables);
 			}
 		}
 

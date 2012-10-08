@@ -107,16 +107,6 @@ package collaboRhythm.plugins.foraD40b.controller
 			}
 		}
 
-		private function popRemoteView():void
-		{
-			if (_synchronizationService.synchronize("popRemoteView", null, false))
-			{
-				return;
-			}
-
-			_viewNavigator.popView();
-		}
-
 		private function pushView(currentView:Class):void
 		{
 			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
