@@ -127,6 +127,6 @@
 		}
 		]]></fx:Script>
 	<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>
-	<s:Button id="saveButton" label="Save" width="160" height="50" bottom="90" horizontalCenter="0"
+	<s:Button id="saveButton" label="Save" width="200" height="100" bottom="90" horizontalCenter="0"
 			  enabled="false" click="saveButton_clickHandler()"/>
 </tablet:TabletViewBase>
