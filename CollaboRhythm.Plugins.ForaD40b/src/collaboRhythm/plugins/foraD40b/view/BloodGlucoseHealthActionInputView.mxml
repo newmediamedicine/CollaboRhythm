@@ -23,14 +23,14 @@
 					   creationComplete="creationCompleteHandler(event)"
 					   title="Report Blood Glucose">
 	<fx:Declarations>
-		<s:Button id="saveActionButton" label="Save" enabled="false" click="saveActionButton_clickHandler()"/>
+		<s:Button id="saveActionButton" label="Save" enabled="false" click="saveButton_clickHandler()"/>
 	</fx:Declarations>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
-		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -53,9 +53,6 @@
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-
-			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
-			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
 		}
 
 		override protected function createChildren():void
@@ -67,6 +64,12 @@
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			reportBloodGlucoseView.init(_dataInputModel, _dataInputController);
+
+			saveActionButton.enabled = false;
+			saveButton.enabled = false;
+
+			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
+			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
 		}
 
 		private function setManualBloodGlucose(manualBloodGlucose:String):void
@@ -74,12 +77,14 @@
 			if (manualBloodGlucose == "")
 			{
 				saveActionButton.enabled = false;
+				saveButton.enabled = false;
 			}
 			else if (manualBloodGlucose != "" &&
 					_dataInputModel.healthActionModelDetailsProvider.accountId ==
 							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
 			{
 				saveActionButton.enabled = true;
+				saveButton.enabled = true;
 			}
 		}
 
@@ -90,6 +95,7 @@
 							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
 			{
 				saveActionButton.enabled = true;
+				saveButton.enabled = true;
 			}
 		}
 
@@ -98,9 +104,9 @@
 			return _dataInputController;
 		}
 
-		private function saveActionButton_clickHandler():void
+		private function saveButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose([reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
+			_dataInputController.createAndSubmitBloodGlucoseVitalSign();
 		}
 
 		override public function homeButton_clickHandler():void
@@ -121,4 +127,6 @@
 		}
 		]]></fx:Script>
 	<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>
+	<s:Button id="saveButton" label="Save" width="160" height="50" bottom="90" horizontalCenter="0"
+			  enabled="false" click="saveButton_clickHandler()"/>
 </tablet:TabletViewBase>

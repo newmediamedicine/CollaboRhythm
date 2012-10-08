@@ -1,5 +1,7 @@
 package collaboRhythm.plugins.foraD40b.model
 {
+	import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
+	import collaboRhythm.plugins.foraD40b.controller.ForaD40bAppController;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
 	import collaboRhythm.plugins.foraD40b.view.StartHypoglycemiaActionPlanView;
@@ -42,6 +44,9 @@ package collaboRhythm.plugins.foraD40b.model
 		public static const HYPOGLYCEMIA:String = "Hypoglycemia";
 		public static const NORMOGLYCEMIA:String = "Normoglycemia";
 		public static const HYPERGLYCEMIA:String = "Hyperglycemia";
+
+		public static const FROM_DEVICE:String = "from device: ";
+		public static const SELF_REPORT:String = "self report";
 
 		private var _hypoglycemiaActionPlanIterationCount:int = 0;
 		private var _hypoglycemiaActionPlanInitialBloodGlucose:VitalSign;
@@ -88,6 +93,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
+			manualBloodGlucose = "";
 			deviceBloodGlucose = urlVariables.bloodGlucose;
 
 			if (hypoglycemiaActionPlanIterationCount == 0)
@@ -106,11 +112,6 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 
 			_urlVariables = urlVariables;
-		}
-
-		public function updateManualBloodGlucose(text:String):void
-		{
-			manualBloodGlucose = text;
 		}
 
 		public function nextStep(initiatedLocally:Boolean):void
@@ -139,16 +140,27 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 		}
 
-
-		public function submitBloodGlucose(bloodGlucoseAndDateArray:Array, initiatedLocally:Boolean):void
+		public function createBloodGlucoseVitalSign():VitalSign
 		{
-			bloodGlucose = bloodGlucoseAndDateArray[0];
-			var date:Date = bloodGlucoseAndDateArray[1];
-
 			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
+			var bloodGlucoseVitalSign:VitalSign;
 
-			var bloodGlucoseVitalSign:VitalSign = vitalSignFactory.createBloodGlucose(date,
-					bloodGlucose);
+			if (deviceBloodGlucose != "")
+			{
+				bloodGlucoseVitalSign = vitalSignFactory.createBloodGlucose(_currentDateSource.now(), deviceBloodGlucose, null, null, null, null, null, FROM_DEVICE + ForaD40bAppController.DEFAULT_NAME);
+			}
+			else if (manualBloodGlucose != "")
+			{
+				bloodGlucoseVitalSign = vitalSignFactory.createBloodGlucose(_currentDateSource.now(), manualBloodGlucose, null, null, null, null, null, SELF_REPORT);
+			}
+
+			return bloodGlucoseVitalSign;
+		}
+
+		public function submitBloodGlucose(bloodGlucoseVitalSign:VitalSign,
+										   initiatedLocally:Boolean):void
+		{
+			bloodGlucose = bloodGlucoseVitalSign.result.value;
 
 			manualBloodGlucose = "";
 			deviceBloodGlucose = "";

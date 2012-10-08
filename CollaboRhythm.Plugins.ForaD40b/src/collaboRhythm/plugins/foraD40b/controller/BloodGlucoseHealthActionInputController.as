@@ -9,6 +9,7 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	import flash.net.URLVariables;
 
@@ -68,14 +69,20 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModel.nextStep(_synchronizationService.initiatedLocally);
 		}
 
-		public function submitBloodGlucose(bloodGlucoseAndDateArray:Array):void
+		public function createAndSubmitBloodGlucoseVitalSign():void
 		{
-			if (_synchronizationService.synchronize("submitBloodGlucose", bloodGlucoseAndDateArray))
+			var bloodGlucoseVitalSign:VitalSign = _dataInputModel.createBloodGlucoseVitalSign();
+			submitBloodGlucose(bloodGlucoseVitalSign);
+		}
+
+		public function submitBloodGlucose(bloodGlucoseVitalSign:VitalSign):void
+		{
+			if (_synchronizationService.synchronize("submitBloodGlucose", bloodGlucoseVitalSign))
 			{
 				return;
 			}
 
-			_dataInputModel.submitBloodGlucose(bloodGlucoseAndDateArray, _synchronizationService.initiatedLocally);
+			_dataInputModel.submitBloodGlucose(bloodGlucoseVitalSign, _synchronizationService.initiatedLocally);
 		}
 
 		private function currentView_changeHandler(currentView:Class):void
@@ -139,7 +146,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.updateManualBloodGlucose(text);
+			_dataInputModel.manualBloodGlucose = text;
 		}
 
 		public function quitHypoglycemiaActionPlan():void

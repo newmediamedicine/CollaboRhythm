@@ -35,6 +35,7 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 		override public function set data(value:Object):void
@@ -51,11 +52,13 @@
 				timeMeasuredStartLabel.text = timeFormatter.format(bloodGlucoseVitalSign.dateMeasuredStart);
 
 				warningIcon.visible = bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0;
+				wirelessIcon.visible = (bloodGlucoseVitalSign.comments != BloodGlucoseHealthActionInputModel.SELF_REPORT);
 			}
 		}
 		]]></fx:Script>
 	<s:Group left="10" right="10" top="10" bottom="10">
 		<s:HGroup verticalCenter="0">
+			<view:WirelessIcon id="wirelessIcon" width="21" height="35" visible="false"/>
 			<s:Label id="bloodGlucoseLabel" left="0"/>
 			<view:WarningIcon id="warningIcon" width="40" height="35" visible="false"/>
 		</s:HGroup>

@@ -22,7 +22,6 @@
 									 creationComplete="creationCompleteHandler(event)"
 									 title="Hypoglycemia Action Plan - Step 3: Recheck Blood Glucose">
 	<fx:Script><![CDATA[
-		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -74,7 +73,7 @@
 
 		override protected function nextStepButton_clickHandler():void
 		{
-			_dataInputController.submitBloodGlucose([reportBloodGlucoseView.bloodGlucoseTextInput.text, _currentDateSource.now()]);
+			_dataInputController.createAndSubmitBloodGlucoseVitalSign();
 		}
 		]]></fx:Script>
 	<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaWarningView"/>

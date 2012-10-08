@@ -17,8 +17,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.events.TextEvent;
-	import flash.geom.Point;
 	import flash.ui.Keyboard;
 
 	import flashx.textLayout.conversion.TextConverter;
@@ -29,9 +27,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import flashx.textLayout.events.FlowElementMouseEvent;
 
 	import mx.binding.utils.BindingUtils;
-	import mx.binding.utils.ChangeWatcher;
 	import mx.collections.ArrayCollection;
-	import mx.controls.Alert;
 	import mx.core.ClassFactory;
 	import mx.core.IVisualElement;
 	import mx.core.InteractionMode;
@@ -161,6 +157,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			addElement(_instructionsScroller);
 
 			_instructionsGroup = new VGroup();
+			_instructionsGroup.setStyle("fontSize", 18);
 			_instructionsScroller.viewport = _instructionsGroup;
 			BindingUtils.bindSetter(instructionsScroller_viewport_verticalScrollPositionSetterHandler, _instructionsScroller.viewport, "verticalScrollPosition");
 			BindingUtils.bindSetter(model_instructionsScrollPositionSetterHandler, model, "instructionsScrollPosition");
@@ -304,14 +301,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			_controller.setInstructionsScrollPosition(value);
 		}
 
-		private function createInstructionsRichText(source:String, parentGroup:Group):RichEditableText
+		private function createInstructionsRichText(source:String, parentGroup:Group,
+													addPaddingTop:Boolean = true):RichEditableText
 		{
 			var richText:RichEditableText = new RichEditableText();
 			richText.editable = false;
 			richText.selectable = false;
 			richText.setStyle("interactionMode", InteractionMode.TOUCH);
-			richText.setStyle("paddingTop", 7);
-			richText.setStyle("paddingBottom", 8);
+			if (addPaddingTop)
+				richText.setStyle("paddingTop", 5);
+			richText.setStyle("paddingBottom", 5);
 			richText.setStyle("paddingLeft", 5);
 
 			richText.textFlow = TextConverter.importToFlow(source, TextConverter.TEXT_FIELD_HTML_FORMAT);
@@ -350,7 +349,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			_instructionsGroup.removeAllElements();
 			createInstructionsRichText("<p align='center'><Font size='30'>303 Protocol for Insulin Titration</Font></p>",
-					_instructionsGroup);
+					_instructionsGroup, false);
 
 			var steps:ArrayCollection = model.instructionsSteps;
 			var stepIcons:Vector.<SpriteVisualElement> = new Vector.<SpriteVisualElement>();

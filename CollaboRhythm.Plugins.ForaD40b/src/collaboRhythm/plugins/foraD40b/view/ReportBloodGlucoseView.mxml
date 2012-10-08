@@ -34,7 +34,6 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
-		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -115,11 +114,6 @@
 			{
 				_dataInputController.updateManualBloodGlucose(bloodGlucoseTextInput.text);
 			}
-		}
-
-		private function saveButton_clickHandler():void
-		{
-			_dataInputController.submitBloodGlucose([bloodGlucoseTextInput.text, _currentDateSource.now()]);
 		}
 		]]></fx:Script>
 	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle" horizontalCenter="0" top="200">

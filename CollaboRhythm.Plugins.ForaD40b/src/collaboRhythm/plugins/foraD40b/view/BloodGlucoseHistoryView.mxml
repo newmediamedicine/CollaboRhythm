@@ -19,7 +19,8 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   resize="resizeHandler()"
-					   creationComplete="creationCompleteHandler()">
+					   creationComplete="creationCompleteHandler()"
+					   title="Fora D40b Blood Glucose Meter History">
 	<fx:Style>
 		#foraLabel {
 			fontSize: 30;
