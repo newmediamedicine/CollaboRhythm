@@ -3178,6 +3178,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			{
 				chartModifier.destroy();
 			}
+			_chartModifiers = null;
 		}
 
 		public function get chartDataTipsLocation():ChartDataTipsLocation

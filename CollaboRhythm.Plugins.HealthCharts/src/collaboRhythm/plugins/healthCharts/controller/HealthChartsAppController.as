@@ -104,7 +104,7 @@ package collaboRhythm.plugins.healthCharts.controller
 		override public function reloadUserData():void
 		{
 			removeUserData();
-
+			doPrecreationForFullView();
 			super.reloadUserData();
 		}
 
@@ -197,6 +197,7 @@ package collaboRhythm.plugins.healthCharts.controller
 			if (_fullView)
 			{
 				_fullView.destroy();
+				_fullView = null;
 			}
 			_healthChartsModel = null;
 		}

@@ -1158,10 +1158,18 @@ package collaboRhythm.shared.controller.apps
 
 		protected function listenForFullViewUpdateComplete():void
 		{
-			fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+			if (!checkDoneUpdating())
+			{
+				fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+			}
 		}
 
 		private function fullView_updateCompleteHandler(event:FlexEvent):void
+		{
+			checkDoneUpdating();
+		}
+
+		private function checkDoneUpdating():Boolean
 		{
 			if (doneUpdating(fullView))
 			{
@@ -1169,7 +1177,9 @@ package collaboRhythm.shared.controller.apps
 				removeFromParent(fullView);
 				fullView.visible = false;
 				fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
+				return true;
 			}
+			return false;
 		}
 
 		private function doneUpdating(fullView:UIComponent):Boolean
