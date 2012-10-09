@@ -520,7 +520,7 @@ package collaboRhythm.plugins.schedule.model
 			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesHashMap)
 			{
-				if (scheduleItemOccurrence.scheduleItem.name.text == name)
+				if (scheduleItemOccurrence.scheduleItem.name.text == name && scheduleItemOccurrence.adherenceItem == null)
 				{
 					if (_currentDateSource.now() > scheduleItemOccurrence.dateStart &&
 							_currentDateSource.now() < scheduleItemOccurrence.dateEnd)
