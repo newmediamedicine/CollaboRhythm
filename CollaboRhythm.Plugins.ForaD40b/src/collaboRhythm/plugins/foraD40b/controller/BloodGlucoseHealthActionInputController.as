@@ -233,7 +233,10 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function addCollaborationViewSynchronizationEventListener():void
 		{
-			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
+			if (!_synchronizationService)
+			{
+				_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
+			}
 		}
 
 		public function removeCollaborationViewSynchronizationEventListener():void
