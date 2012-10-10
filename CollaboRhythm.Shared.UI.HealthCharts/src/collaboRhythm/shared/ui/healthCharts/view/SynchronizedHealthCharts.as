@@ -207,6 +207,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 		private var _synchronizedScrollData:SynchronizedScrollData;
 		private var _chartDataTipsLocation:ChartDataTipsLocation;
+		private var _updateCompleteSinceChartsUpdated:Boolean = false;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -222,6 +223,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			showFocusTimeMarker = !skipUpdateSimulation;
 
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler, false, 0, true);
+			this.addEventListener(FlexEvent.UPDATE_COMPLETE, updateCompleteHandler, false, 0, true);
 			this.addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler, false, 0, true);
 		}
 		
@@ -445,6 +447,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function createAdherenceCharts():void
 		{
+			_updateCompleteSinceChartsUpdated = false;
+
 			if (!_adherenceChartsCreated)
 			{
 				_adherenceChartsCreated = true;
@@ -466,6 +470,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 				updateAdherenceStripChartDataCollections();
 				updateAdherenceCharts();
 			}
+			invalidateDisplayList();
 		}
 
 		private function updateAdherenceStripChartDataCollections():void
@@ -2571,8 +2576,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
+		/**
+		 * This method may appear to be unused but it is called via reflection by AppControllerBase.doneUpdating
+		 */
 		public function get doneUpdating():Boolean
 		{
+//			return !_pendingSynchronizeDateLimits && !_pendingUpdateSimulation && _adherenceChartsCreated && _updateCompleteSinceChartsUpdated;
 			return !_pendingSynchronizeDateLimits && !_pendingUpdateSimulation;
 		}
 
@@ -3184,6 +3193,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function get chartDataTipsLocation():ChartDataTipsLocation
 		{
 			return _chartDataTipsLocation;
+		}
+
+		private function updateCompleteHandler(event:FlexEvent):void
+		{
+			_updateCompleteSinceChartsUpdated = true;
 		}
 	}
 }

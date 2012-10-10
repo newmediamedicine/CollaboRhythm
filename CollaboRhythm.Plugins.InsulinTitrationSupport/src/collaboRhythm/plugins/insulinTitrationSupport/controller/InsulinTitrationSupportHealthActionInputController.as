@@ -44,13 +44,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		public function handleHealthActionSelected():void
 		{
-			prepareChartsForDecision();
-			showCharts();
+			if (prepareChartsForDecision())
+				showCharts();
 		}
 
-		public function prepareChartsForDecision():void
+		public function prepareChartsForDecision():Boolean
 		{
-			_dataInputModel.prepareChartsForDecision();
+			return _dataInputModel.prepareChartsForDecision();
 		}
 
 		public function showCharts():void
