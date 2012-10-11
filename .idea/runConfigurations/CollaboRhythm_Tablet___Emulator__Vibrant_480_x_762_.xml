@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CollaboRhythm.Tablet - Emulator (Vibrant 480 x 762)" type="FlashRunConfigurationType" factoryName="Flash App">
-    <option name="BCName" value="CollaboRhythm.Tablet" />
+    <option name="BCName" value="CollaboRhythm.Tablet Emulator" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
