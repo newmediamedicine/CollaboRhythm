@@ -37,22 +37,25 @@ package collaboRhythm.shared.collaboration.model
 		public static const COLLABORATION_INVITATION_RECEIVED:String = "CollaborationInvitationReceived";
 		public static const COLLABORATION_INVITATION_REJECTED:String = "CollaborationInvitationRejected";
 
+		private var _settings:Settings;
+
 		private var _collaborationState:String;
 
 		private var _activeAccount:Account;
 		private var _activeRecordAccount:Account;
 
 		private var _audioVideoOutput:AudioVideoOutput;
+
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
-
 		private var _subjectAccount:Account;
-		private var _peerAccount:Account;
 
+		private var _peerAccount:Account;
 		private var _passWord:String;
 		private var _recordVideo:Boolean = false;
 
 		public function CollaborationModel(settings:Settings, activeAccount:Account)
 		{
+			_settings = settings;
 			_activeAccount = activeAccount;
 
 			_audioVideoOutput = new AudioVideoOutput();
@@ -188,9 +191,17 @@ package collaboRhythm.shared.collaboration.model
 		{
 			if (collaborationState == COLLABORATION_INACTIVE || collaborationState == COLLABORATION_OUT_OF_SYNC)
 			{
-				for each (var recordShareAccount:Account in _activeAccount.recordShareAccounts)
+				if (_settings.mode == Settings.MODE_PATIENT)
 				{
-					peerAccount = recordShareAccount;
+					for each (var recordShareAccount:Account in _activeAccount.recordShareAccounts)
+					{
+						peerAccount = recordShareAccount;
+						collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.OUT_OF_SYNC);
+					}
+				}
+				else if (_settings.mode == Settings.MODE_CLINICIAN)
+				{
+					peerAccount = _activeRecordAccount;
 					collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.OUT_OF_SYNC);
 				}
 			}
@@ -199,9 +210,16 @@ package collaboRhythm.shared.collaboration.model
 		private function receiveCollaborationOutOfSync(subjectAccountId:String, sourceAccountId:String,
 													   sourcePeerId:String, passWord:String):void
 		{
-			if (activeRecordAccount && sourceAccountId == activeRecordAccount.accountId)
+			if (_settings.mode == Settings.MODE_PATIENT)
 			{
 				collaborationState = COLLABORATION_OUT_OF_SYNC;
+			}
+			else if (_settings.mode = Settings.MODE_CLINICIAN)
+			{
+				if (activeRecordAccount && sourceAccountId == activeRecordAccount.accountId)
+				{
+					collaborationState = COLLABORATION_OUT_OF_SYNC;
+				}
 			}
 		}
 
