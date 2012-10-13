@@ -111,6 +111,7 @@ package collaboRhythm.core.controller
 		private static const DEBUG_LOG_FONTS:Boolean = false;
 
 		protected var _application:Application;
+		private var _applicationInfo:AboutApplicationModel;
 		protected var _applicationControllerModel:ApplicationControllerModel;
 		protected var _kernel:IKernel;
 		protected var _settingsFileStore:SettingsFileStore;
@@ -147,7 +148,6 @@ package collaboRhythm.core.controller
 		protected var _navigationProxy:IApplicationNavigationProxy;
 		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 		private var _recordSynchronizer:RecordSynchronizer;
-
 
 		public function ApplicationControllerBase(application:Application)
 		{
@@ -213,18 +213,19 @@ package collaboRhythm.core.controller
 			// TODO: provide feedback if there is not an active NetworkInterface
 			checkNetworkStatus();
 
+			_applicationInfo = new AboutApplicationModel();
+			_applicationInfo.initialize();
+
 			initLogging();
 
-			var applicationInfo:AboutApplicationModel = new AboutApplicationModel();
-			applicationInfo.initialize();
-			_logger.info("Application: " + applicationInfo.appName);
-			_logger.info("  " + applicationInfo.appCopyright);
-			_logger.info("  Version " + applicationInfo.appVersion);
-			if (applicationInfo.appModificationDateString)
+			_logger.info("Application: " + _applicationInfo.appName);
+			_logger.info("  " + _applicationInfo.appCopyright);
+			_logger.info("  Version " + _applicationInfo.appVersion);
+			if (_applicationInfo.appModificationDateString)
 			{
-				_logger.info("  Updated " + applicationInfo.appModificationDateString);
+				_logger.info("  Updated " + _applicationInfo.appModificationDateString);
 			}
-			_logger.info("  " + applicationInfo.deviceDetails);
+			_logger.info("  " + _applicationInfo.deviceDetails);
 
 			if (DEBUG_LOG_FONTS)
 				debugLogFonts();
@@ -505,6 +506,8 @@ package collaboRhythm.core.controller
 			if (_settings.useGoogleAnalytics)
 			{
 				_analyticsTracker = new GATracker(_application, _settings.googleAnalyticsTrackingId, "AS3");
+				_analyticsTracker.setVar("mode='" + _settings.mode + "'&accountId='" + _settings.username + "'");
+				_analyticsTracker.trackEvent("version", "initLogging", _applicationInfo.appVersion);
 			}
 
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
