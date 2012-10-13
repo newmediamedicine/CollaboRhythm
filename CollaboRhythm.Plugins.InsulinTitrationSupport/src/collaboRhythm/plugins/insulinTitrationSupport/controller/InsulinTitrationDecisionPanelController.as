@@ -74,6 +74,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			if (_synchronizationService)
 			{
 				_synchronizationService.removeEventListener(this);
+				_synchronizationService = null;
 			}
 		}
 	}

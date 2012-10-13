@@ -38,8 +38,9 @@ package collaboRhythm.tablet.controller
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
+	import flash.globalization.DateTimeFormatter;
+	import flash.globalization.DateTimeStyle;
 	import flash.utils.Timer;
-	import flash.utils.getTimer;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.core.IVisualElementContainer;
@@ -51,7 +52,7 @@ package collaboRhythm.tablet.controller
 
 	public class TabletApplicationController extends ApplicationControllerBase
 	{
-		private static const SESSION_IDLE_TIMEOUT:int = 60;
+		private static const SESSION_IDLE_TIMEOUT:int = 60 * 5;
 		private static const ACCOUNT_ID_SUFFIX:String = "@records.media.mit.edu";
 
 		private var _tabletApplication:CollaboRhythmTabletApplication;
@@ -66,7 +67,9 @@ package collaboRhythm.tablet.controller
 		private var _synchronizationService:SynchronizationService;
 
 		private var _sessionIdleTimer:Timer;
-		private var _userDefinedValue:String;
+
+		private var _dateFormatter:DateTimeFormatter = new DateTimeFormatter(flash.globalization.LocaleID.DEFAULT, DateTimeStyle.SHORT, DateTimeStyle.SHORT);
+
 
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
 		{
@@ -104,7 +107,6 @@ package collaboRhythm.tablet.controller
 
 			createSession();
 
-			setGoogleAnalyticsUserDefinedValue();
 			createGoogleAnalyticsSessionIdleTimer();
 		}
 
@@ -220,17 +222,6 @@ package collaboRhythm.tablet.controller
 			view.tabletApplicationController = this;
 		}
 
-		private function setGoogleAnalyticsUserDefinedValue():void
-		{
-			if (settings.useGoogleAnalytics)
-			{
-				var mode:String = settings.mode;
-				var accountId:String = settings.username;
-
-				_analyticsTracker.setVar("mode='" + mode + "'&accountId='" + accountId + "'");
-			}
-		}
-
 		private function createGoogleAnalyticsSessionIdleTimer():void
 		{
 			if (settings.useGoogleAnalytics)
@@ -270,7 +261,13 @@ package collaboRhythm.tablet.controller
 				if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.collaborationState ==
 						CollaborationModel.COLLABORATION_ACTIVE)
 				{
-					_analyticsTracker.trackEvent("activity", "mouseDown", _userDefinedValue);
+					var mouseDownLabel:String = "username=" + settings.username;
+					if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
+					{
+						mouseDownLabel = mouseDownLabel + "&peerId=" +
+								collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
+					}
+					_analyticsTracker.trackEvent("collaborationActivity", _dateFormatter.format(_currentDateSource.now()), mouseDownLabel);
 				}
 			}
 		}
@@ -340,7 +337,8 @@ package collaboRhythm.tablet.controller
 					applicationState = "activated";
 				}
 
-				var completePageName:String = "/applicationState=" + applicationState + "/recordAccountId=" + recordAccountId + "/collaborationState=" + collaborationState;
+				var completePageName:String = "/applicationState=" + applicationState + "/recordAccountId=" +
+						recordAccountId + "/collaborationState=" + collaborationState;
 				if (peerId)
 				{
 					completePageName = completePageName + "/peerId=" + peerId;

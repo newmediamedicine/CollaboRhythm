@@ -15,10 +15,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_decisionScheduleItemOccurrence = decisionScheduleItemOccurrence;
 		}
 
-		public function prepareChartsForDecision():void
+		public function prepareChartsForDecision():Boolean
 		{
 			//TODO: I have not been able to reproduce it, but the record was null once
-			healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration", decisionScheduleItemOccurrence);
+			if (healthActionModelDetailsProvider.record && healthActionModelDetailsProvider.record.healthChartsModel)
+			{
+				healthActionModelDetailsProvider.record.healthChartsModel.prepareForDecision("Health Charts - Insulin Titration",
+						decisionScheduleItemOccurrence);
+				return true;
+			}
+			_logger.warn("Failed to prepare charts for decision. healthActionModelDetailsProvider.record = " + healthActionModelDetailsProvider.record);
+			return false;
 		}
 
 		public function showCharts():void

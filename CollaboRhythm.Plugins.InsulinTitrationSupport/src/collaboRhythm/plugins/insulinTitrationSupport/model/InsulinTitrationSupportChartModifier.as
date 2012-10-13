@@ -342,6 +342,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (_panelController)
 			{
 				_panelController.destroy();
+				_panelController = null;
 			}
 		}
 	}

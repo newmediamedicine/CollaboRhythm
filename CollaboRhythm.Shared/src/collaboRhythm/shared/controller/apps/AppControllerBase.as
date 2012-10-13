@@ -317,7 +317,10 @@ package collaboRhythm.shared.controller.apps
 				_secondaryShowFullViewParallelEffect.stop();
 				fullView.visible = false;
 				if (fullView.parent == null && _fullContainer)
+				{
 					_fullContainer.addElement(fullView);
+					_logger.info("Added fullView to fullContainer during prepareFullView. _fullContainer.addElement(fullView)");
+				}
 				_isFullViewPrepared = true;
 			}
 		}
@@ -744,8 +747,10 @@ package collaboRhythm.shared.controller.apps
 						{
 							prepareFullViewContainer(fullContainer as View);
 							_viewNavigator.addEventListener("viewChangeComplete", viewNavigator_viewChangeCompleteHandler, false, 0, true);
+							_logger.debug("showFullView waiting for viewNavigator_viewChangeCompleteHandler for fullView = " + fullView.className + " with _viewNavigator.activeView.title = " + _viewNavigator.activeView.title);
 						}
 						fullContainer.addElement(centerSpaceTransitionComponent);
+						_logger.debug("showFullView fullContainer.addElement(centerSpaceTransitionComponent)");
 					}
 					else
 					{
@@ -777,6 +782,7 @@ package collaboRhythm.shared.controller.apps
 			fullView.includeInLayout = true;
 			centerSpaceTransitionComponent = null;
 			_viewNavigator.removeEventListener("viewChangeComplete", viewNavigator_viewChangeCompleteHandler);
+			_logger.debug("viewNavigator_viewChangeCompleteHandler " + fullView.className);
 		}
 
 		protected function prepareFullViewContainer(view:View):void
@@ -1158,18 +1164,30 @@ package collaboRhythm.shared.controller.apps
 
 		protected function listenForFullViewUpdateComplete():void
 		{
-			fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+			if (!checkDoneUpdating())
+			{
+				fullView.addEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler, false, 0, true);
+			}
 		}
 
 		private function fullView_updateCompleteHandler(event:FlexEvent):void
 		{
+			checkDoneUpdating();
+		}
+
+		private function checkDoneUpdating():Boolean
+		{
+			_logger.debug("checkDoneUpdating " + fullView.className + " doneUpdating(fullView) = " + doneUpdating(fullView));
+
 			if (doneUpdating(fullView))
 			{
 				takeFullViewSnapshot();
 				removeFromParent(fullView);
 				fullView.visible = false;
 				fullView.removeEventListener(FlexEvent.UPDATE_COMPLETE, fullView_updateCompleteHandler);
+				return true;
 			}
+			return false;
 		}
 
 		private function doneUpdating(fullView:UIComponent):Boolean
@@ -1206,6 +1224,7 @@ package collaboRhythm.shared.controller.apps
 					if (_viewNavigator)
 					{
 						_viewNavigator.activeView.addElement(fullView);
+						_logger.info("Initial pre-creation step complete. _viewNavigator.activeView.addElement(fullView)");
 					}
 				}
 			}

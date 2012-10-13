@@ -160,5 +160,16 @@ package collaboRhythm.plugins.messages.controller
 					this, _collaborationLobbyNetConnectionServiceProxy, netStreamLocation);
 			_viewNavigator.pushView(PlayVideoMessageView, messagesModelAndController);
 		}
+
+		override public function close():void
+		{
+			if (_synchronizationService)
+			{
+				_synchronizationService.removeEventListener(this);
+				_synchronizationService = null;
+			}
+
+			super.close();
+		}
 	}
 }
