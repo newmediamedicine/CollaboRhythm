@@ -17,6 +17,8 @@
 package collaboRhythm.shared.collaboration.model
 {
 	import collaboRhythm.shared.model.*;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	/**
@@ -53,6 +55,9 @@ package collaboRhythm.shared.collaboration.model
 		private var _passWord:String;
 		private var _recordVideo:Boolean = false;
 
+		private var _currentDateSource:ICurrentDateSource;
+		private var _collaborationStart:Date;
+
 		public function CollaborationModel(settings:Settings, activeAccount:Account)
 		{
 			_settings = settings;
@@ -61,6 +66,8 @@ package collaboRhythm.shared.collaboration.model
 			_audioVideoOutput = new AudioVideoOutput();
 			_collaborationLobbyNetConnectionService = new CollaborationLobbyNetConnectionService(_activeAccount,
 					settings.rtmpBaseURI, this);
+
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 			collaborationState = COLLABORATION_INACTIVE;
 		}
@@ -132,6 +139,7 @@ package collaboRhythm.shared.collaboration.model
 
 		public function acceptCollaborationInvitation():void
 		{
+			_collaborationStart = _currentDateSource.now();
 			collaborationLobbyNetConnectionService.createNetStreamConnections(peerAccount.peerId,
 					peerAccount.accountId);
 			collaborationState = CollaborationModel.COLLABORATION_ACTIVE;
@@ -142,6 +150,7 @@ package collaboRhythm.shared.collaboration.model
 		private function receiveCollaborationInvitationAccepted(subjectAccountId:String, sourceAccountId:String,
 																sourcePeerId:String, passWord:String):void
 		{
+			_collaborationStart = _currentDateSource.now();
 			peerAccount.peerId = sourcePeerId;
 			collaborationLobbyNetConnectionService.createNetStreamConnections(peerAccount.peerId,
 					peerAccount.accountId);
@@ -332,6 +341,11 @@ package collaboRhythm.shared.collaboration.model
 		public function set recordVideo(value:Boolean):void
 		{
 			_recordVideo = value;
+		}
+
+		public function get collaborationStart():Date
+		{
+			return _collaborationStart;
 		}
 	}
 }
