@@ -101,7 +101,7 @@
 			{
 				if (_netStream)
 				{
-					_netStream.pause();
+					_netStream.close();
 				}
 				resetMetaDataFields();
 			}

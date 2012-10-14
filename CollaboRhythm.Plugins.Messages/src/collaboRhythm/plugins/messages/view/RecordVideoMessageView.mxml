@@ -67,7 +67,10 @@
 
 		private function videoPlayableHandler(event:VideoActionEvent):void
 		{
-			sendButtonGroup.visible = true;
+			if (videoPlayer.visible == true)
+			{
+				sendButtonGroup.visible = true;
+			}
 		}
 
 		private function sendButton_clickHandler():void
