@@ -74,7 +74,7 @@ package collaboRhythm.plugins.equipment.pillBox.model
 					break;
 			}
 
-			return scheduleCollectionsProvider.findClosestScheduleItemOccurrence(name);
+			return scheduleCollectionsProvider.findClosestScheduleItemOccurrence(name, urlVariables.dateMeasuredStart);
 
 		}
 	}

@@ -43,7 +43,8 @@ package collaboRhythm.plugins.equipment.insulinPen.model
 					urlVariables.healthActionName == HEALTH_ACTION_NAME &&
 					urlVariables.equipmentName == EQUIPMENT_NAME)
 			{
-				var scheduleItemOccurrence:ScheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME);
+				var scheduleItemOccurrence:ScheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
+						urlVariables.dateMeasuredStart);
 				return new InsulinPenHealthActionInputController(scheduleItemOccurrence,
 						healthActionModelDetailsProvider, viewNavigator);
 			}

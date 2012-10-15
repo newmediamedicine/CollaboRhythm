@@ -11,6 +11,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.foraD40b.view.Step4HypoglycemiaActionPlanView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -73,6 +74,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _complexCarbs15gItemListSelectedIndex:int = -1;
 		private var _complexCarbs30gItemListSelectedIndex:int = -1;
 		private var _actionsListScrollerPosition:Number;
+		private var _deviceDateMeasuredStart:Date;
 
 
 		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
@@ -95,6 +97,7 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			manualBloodGlucose = "";
 			deviceBloodGlucose = urlVariables.bloodGlucose;
+			_deviceDateMeasuredStart = DateUtil.parseW3CDTF(urlVariables.dateMeasuredStart);
 
 			if (hypoglycemiaActionPlanIterationCount == 0)
 			{
@@ -147,7 +150,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 			if (deviceBloodGlucose != "")
 			{
-				bloodGlucoseVitalSign = vitalSignFactory.createBloodGlucose(_currentDateSource.now(), deviceBloodGlucose, null, null, null, null, null, FROM_DEVICE + ForaD40bAppController.DEFAULT_NAME);
+				bloodGlucoseVitalSign = vitalSignFactory.createBloodGlucose(_deviceDateMeasuredStart, deviceBloodGlucose, null, null, null, null, null, FROM_DEVICE + ForaD40bAppController.DEFAULT_NAME);
 			}
 			else if (manualBloodGlucose != "")
 			{

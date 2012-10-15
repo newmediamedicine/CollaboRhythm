@@ -37,6 +37,6 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * @param name The name of the schedule item occurrence, which is the name of the device for an equipmentScheduleItem
 		 * @return The schedule item occurrence that meets the criteria for being the closest
 		 */
-		function findClosestScheduleItemOccurrence(name:String):ScheduleItemOccurrence;
+		function findClosestScheduleItemOccurrence(name:String, dateStartString:String):ScheduleItemOccurrence;
 	}
 }
