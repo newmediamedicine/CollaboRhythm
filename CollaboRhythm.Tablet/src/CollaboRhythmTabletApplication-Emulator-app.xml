@@ -61,7 +61,7 @@
 	<!-- Settings for the application's initial window. Required. -->
 	<initialWindow>
 		<!-- The main SWF or HTML file of the application. Required. -->
-		<content>CollaboRhythmTabletApplication.swf</content>
+		<content>CollaboRhythm_Tablet_Emulator.swf</content>
 		
 		<!-- The title of the main window. Optional. -->
 		<title>CollaboRhythm</title>
