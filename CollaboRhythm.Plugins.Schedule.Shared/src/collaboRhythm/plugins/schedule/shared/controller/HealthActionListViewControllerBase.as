@@ -40,7 +40,7 @@ package collaboRhythm.plugins.schedule.shared.controller
 			{
 				if (_healthActionListViewModel.healthActionInputController && !_healthActionListViewModel.healthActionInputController.useDefaultHandleHealthActionResult())
 				{
-					_healthActionListViewModel.healthActionInputController.handleHealthActionResult();
+					_healthActionListViewModel.healthActionInputController.handleHealthActionResult(_synchronizationService.initiatedLocally);
 				}
 				else
 				{

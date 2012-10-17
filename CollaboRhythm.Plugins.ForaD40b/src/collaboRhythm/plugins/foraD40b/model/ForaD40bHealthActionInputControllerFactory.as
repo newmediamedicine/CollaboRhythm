@@ -62,7 +62,7 @@ package collaboRhythm.plugins.foraD40b.model
 					urlVariables.equipmentName == EQUIPMENT_NAME)
 			{
 				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
-						urlVariables.dateMeasuredStart);
+						urlVariables.correctedMeasuredDate);
 				return new BloodPressureHealthActionInputController(scheduleItemOccurrence,
 						healthActionModelDetailsProvider, viewNavigator);
 			}
@@ -71,7 +71,7 @@ package collaboRhythm.plugins.foraD40b.model
 					urlVariables.equipmentName == EQUIPMENT_NAME)
 			{
 				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
-						urlVariables.dateMeasuredStart);
+						urlVariables.correctedMeasuredDate);
 				return new BloodGlucoseHealthActionInputController(scheduleItemOccurrence,
 						healthActionModelDetailsProvider, viewNavigator);
 			}

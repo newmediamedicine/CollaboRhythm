@@ -22,6 +22,8 @@ package collaboRhythm.plugins.foraD40b.model
 
 	public class ForaD40bHealthActionListViewAdapterBase implements IHealthActionListViewAdapter
 	{
+		private static const EQUIPMENT_NAME:String = "FORA D40b";
+
 		protected var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _healthActionSchedule:HealthActionSchedule;
 		private var _equipment:Equipment;
@@ -35,14 +37,16 @@ package collaboRhythm.plugins.foraD40b.model
 		public function ForaD40bHealthActionListViewAdapterBase(scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
-			_scheduleItemOccurrence = scheduleItemOccurrence;
-			_healthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
-			_equipment = _healthActionSchedule.scheduledEquipment;
+			if (scheduleItemOccurrence)
+			{
+				_scheduleItemOccurrence = scheduleItemOccurrence;
+				_healthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
+				_equipment = _healthActionSchedule.scheduledEquipment;
 
-			_equipmentHealthAction = new EquipmentHealthAction(_healthActionSchedule.instructions, _equipment.name);
+				_equipmentHealthAction = new EquipmentHealthAction(_healthActionSchedule.instructions, _equipment.name);
 
-			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
-
+				_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			}
 
 			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
 		}
@@ -56,14 +60,14 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			var equipmentImage:Image = new Image();
 			equipmentImage.setStyle("skinClass", ImageSkin);
-			equipmentImage.source = _imageCacheService.getImage(equipmentImage, encodeURI(EquipmentModel.EQUIPMENT_API_URL_BASE + _equipment.name + ".png"));
+			equipmentImage.source = _imageCacheService.getImage(equipmentImage, encodeURI(EquipmentModel.EQUIPMENT_API_URL_BASE + EQUIPMENT_NAME + ".png"));
 
 			return equipmentImage;
 		}
 
 		public function get name():String
 		{
-			return _equipment.name;
+			return EQUIPMENT_NAME;
 		}
 
 		public function get description():String

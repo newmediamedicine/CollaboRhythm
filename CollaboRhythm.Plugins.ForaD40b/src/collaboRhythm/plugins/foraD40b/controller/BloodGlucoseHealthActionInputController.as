@@ -2,6 +2,7 @@ package collaboRhythm.plugins.foraD40b.controller
 {
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
+	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
 	import collaboRhythm.plugins.foraD40b.view.HypoglycemiaActionPlanSummaryView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
@@ -10,6 +11,8 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+
+	import com.adobe.nativeExtensions.Vibration;
 
 	import flash.net.URLVariables;
 
@@ -41,7 +44,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModel, "currentView");
 		}
 
-		public function handleHealthActionResult():void
+		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
 			addCollaborationViewSynchronizationEventListener();
 			_dataInputModel.handleHealthActionResult();
@@ -71,8 +74,8 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function createAndSubmitBloodGlucoseVitalSign():void
 		{
-			var bloodGlucoseVitalSign:VitalSign = _dataInputModel.createBloodGlucoseVitalSign();
-			submitBloodGlucose(bloodGlucoseVitalSign);
+			_dataInputModel.createBloodGlucoseVitalSign();
+			submitBloodGlucose(_dataInputModel.bloodGlucoseVitalSign);
 		}
 
 		public function submitBloodGlucose(bloodGlucoseVitalSign:VitalSign):void
@@ -89,7 +92,8 @@ package collaboRhythm.plugins.foraD40b.controller
 		{
 			if (currentView == null)
 			{
-				if (_synchronizationService && _synchronizationService.initiatedLocally && _dataInputModel.pushedViewCount != 0)
+				if (_synchronizationService && _synchronizationService.initiatedLocally &&
+						_dataInputModel.pushedViewCount != 0)
 				{
 					for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModel.pushedViewCount;
 						 pushedViewIndex++)
@@ -137,6 +141,16 @@ package collaboRhythm.plugins.foraD40b.controller
 			}
 
 			_dataInputModel.manualBloodGlucose = text;
+		}
+
+		public function updateDateMeasuredStart(selectedDate:Date):void
+		{
+			if (_synchronizationService.synchronize("updateDateMeasuredStart", selectedDate))
+			{
+				return;
+			}
+
+			_dataInputModel.dateMeasuredStart = selectedDate;
 		}
 
 		public function quitHypoglycemiaActionPlan():void
@@ -235,7 +249,8 @@ package collaboRhythm.plugins.foraD40b.controller
 		{
 			if (!_synchronizationService)
 			{
-				_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
+				_synchronizationService = new SynchronizationService(this,
+						_collaborationLobbyNetConnectionServiceProxy);
 			}
 		}
 
@@ -255,6 +270,23 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function useDefaultHandleHealthActionResult():Boolean
 		{
 			return false;
+		}
+
+		public function showBloodGlucoseHistoryView():void
+		{
+			if (_synchronizationService.synchronize("showBloodGlucoseHistoryView"))
+			{
+				return;
+			}
+
+			pushView(BloodGlucoseHistoryView);
+		}
+
+		public function playVideo(instructionalVideoPath:String):void
+		{
+			// TODO: Currently using the vibration native extension with modifications to play a video
+			var vibration:Vibration = new (Vibration);
+			vibration.vibrate(instructionalVideoPath, "video/*");
 		}
 	}
 }

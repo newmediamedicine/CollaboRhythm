@@ -177,7 +177,7 @@ public class DeviceGatewayService extends Service {
 	}
 
 	private void startCollaboRhythm(Bundle data) {
-		String intentString = "healthActionType=Equipment&healthActionName=" + data.getString("healthActionName") + "&equipmentName=" + data.getString("equipmentName") + "&success=true&" + data.getString("result") + "&date=" + new Date().toGMTString();
+		String intentString = "healthActionType=Equipment&healthActionName=" + data.getString("healthActionName") + "&equipmentName=" + data.getString("equipmentName") + "&success=true&" + data.getString("result") + "&correctedMeasuredDate=" + data.getString("correctedMeasuredDate") + "&deviceMeasuredDate=" + data.getString("deviceMeasuredDate") + "&localTransmittedDate=" + data.getString("localTransmittedDate") + "&deviceTransmittedDate=" + data.getString("deviceTransmittedDate");
 
 		Intent startCollaboRhythmIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("collaborhythm://" + intentString));
 		startCollaboRhythmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -27,7 +27,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			_viewNavigator = viewNavigator;
 		}
 
-		public function handleHealthActionResult():void
+		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
 			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
@@ -42,7 +42,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
-			_dataInputModel.urlVariables = urlVariables;
+//			_dataInputModel.urlVariables = urlVariables;
 		}
 
 		public function submitBloodPressure(position:String, site:String):void
@@ -59,6 +59,10 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function useDefaultHandleHealthActionResult():Boolean
 		{
 			return false;
+		}
+
+		public function updateDateMeasuredStart(date:Date):void
+		{
 		}
 	}
 }

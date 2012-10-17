@@ -8,5 +8,9 @@ package collaboRhythm.plugins.schedule.shared.model
 	{
 		function get scheduleItemOccurrence():ScheduleItemOccurrence;
 		function set urlVariables(value:URLVariables):void;
+
+		function get adherenceResultDate():Date;
+
+		function get dateMeasuredStart():Date;
 	}
 }

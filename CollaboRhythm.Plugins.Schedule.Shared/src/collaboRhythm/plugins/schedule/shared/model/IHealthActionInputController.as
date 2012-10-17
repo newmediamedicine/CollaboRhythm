@@ -9,7 +9,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * spark.components.View onto the ViewNavigator and thus allow the user to enter/view data for the
 		 * corresponding health action.
 		 */
-		function handleHealthActionResult():void;
+		function handleHealthActionResult(initiatedLocally:Boolean):void;
 
 		/**
 		 * Shows the appropriate view when a health action is selected from the list of scheduled health actions. The
@@ -30,5 +30,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get healthActionInputViewClass():Class;
 
 		function useDefaultHandleHealthActionResult():Boolean;
+
+		function updateDateMeasuredStart(date:Date):void;
 	}
 }

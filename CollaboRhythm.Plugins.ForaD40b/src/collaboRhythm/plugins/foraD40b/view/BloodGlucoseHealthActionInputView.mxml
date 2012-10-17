@@ -20,8 +20,7 @@
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
-					   creationComplete="creationCompleteHandler(event)"
-					   title="Report Blood Glucose">
+					   creationComplete="creationCompleteHandler(event)">
 	<fx:Declarations>
 		<s:Button id="saveActionButton" label="Save" enabled="false" click="saveButton_clickHandler()"/>
 	</fx:Declarations>
@@ -58,12 +57,21 @@
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			actionContent.unshift(saveActionButton);
+			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
+			{
+				title = "Review Blood Glucose Measurement";
+				saveButton.visible = false;
+			}
+			else
+			{
+				title = "Report Blood Glucose Measurement";
+				actionContent.unshift(saveActionButton);
+			}
 		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
-			reportBloodGlucoseView.init(_dataInputModel, _dataInputController);
+			reportBloodGlucoseDetailedView.init(_dataInputModel, _dataInputController);
 
 			saveActionButton.enabled = false;
 			saveButton.enabled = false;
@@ -126,7 +134,7 @@
 			super.stage_keyUpHandler(event);
 		}
 		]]></fx:Script>
-	<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>
+	<view:ReportBloodGlucoseDetailedView id="reportBloodGlucoseDetailedView"/>
 	<s:Button id="saveButton" label="Save" width="200" height="100" bottom="90" horizontalCenter="0"
 			  enabled="false" fontSize="40" click="saveButton_clickHandler()"/>
 </tablet:TabletViewBase>

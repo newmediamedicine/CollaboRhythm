@@ -36,7 +36,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
 		}
 
-		public function handleHealthActionResult():void
+		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
 			prepareChartsForDecision();
 			showCharts();
@@ -70,6 +70,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		public function useDefaultHandleHealthActionResult():Boolean
 		{
 			return false;
+		}
+
+		public function updateDateMeasuredStart(date:Date):void
+		{
 		}
 	}
 }

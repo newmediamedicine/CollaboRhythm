@@ -1,6 +1,8 @@
 package collaboRhythm.plugins.foraD40b.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationModel;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -10,7 +12,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import flash.net.URLVariables;
 
 	[Bindable]
-	public class BloodPressureHealthActionInputModel extends HealthActionInputModelBase
+	public class BloodPressureHealthActionInputModel extends HealthActionInputModelBase implements IHealthActionInputModel
 	{
 		private var _position:String;
 		private var _site:String;
@@ -118,6 +120,16 @@ package collaboRhythm.plugins.foraD40b.model
 		public function set site(value:String):void
 		{
 			_site = value;
+		}
+
+		public function get adherenceResultDate():Date
+		{
+			return null;
+		}
+
+		public function get dateMeasuredStart():Date
+		{
+			return null;
 		}
 	}
 }
