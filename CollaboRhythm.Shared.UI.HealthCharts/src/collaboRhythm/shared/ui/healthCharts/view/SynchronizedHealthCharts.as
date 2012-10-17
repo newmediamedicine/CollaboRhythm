@@ -1438,10 +1438,13 @@ package collaboRhythm.shared.ui.healthCharts.view
 				chart.data = seriesDataCollection;
 				chart.clearDataSets();
 				chart.addDataSet(seriesDataCollection, dateField);
-				var series:Series = chart.mainChart.series[0];
-				if (series)
+				if (chart.mainChart && chart.mainChart.series && chart.mainChart.series.length > 0)
 				{
-					series.dataProvider = seriesDataCollection;
+					var series:Series = chart.mainChart.series[0];
+					if (series)
+					{
+						series.dataProvider = seriesDataCollection;
+					}
 				}
 			}
 		}
