@@ -151,5 +151,10 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			_isBeingProcessed = value;
 		}
+
+		public function toString():String
+		{
+			return "DocumentBase{_meta=" + String(_meta) + "}";
+		}
 	}
 }

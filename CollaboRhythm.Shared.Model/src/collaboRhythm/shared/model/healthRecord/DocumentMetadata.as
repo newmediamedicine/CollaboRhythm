@@ -186,5 +186,10 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			_originalId = value;
 		}
+
+		public function toString():String
+		{
+			return "DocumentMetadata{_id=" + String(_id) + ",_type=" + String(_type) + "}";
+		}
 	}
 }

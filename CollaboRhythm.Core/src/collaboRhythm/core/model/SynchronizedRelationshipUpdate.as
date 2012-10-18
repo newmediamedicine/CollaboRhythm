@@ -46,5 +46,11 @@ package collaboRhythm.core.model
 		{
 			_isSynchronizing = value;
 		}
+
+		public function toString():String
+		{
+			return "SynchronizedRelationshipUpdate{_relationship=" + String(_relationship) + ",_isSynchronizing=" +
+					String(_isSynchronizing) + "}";
+		}
 	}
 }

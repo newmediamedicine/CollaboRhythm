@@ -176,6 +176,7 @@ package collaboRhythm.core.model.healthRecord.service
 					{
 						relationshipsRequiringDocuments.addItem(relationship);
 						expectedUpdateRelationshipsCount++;
+						_logger.debug("Added expected update relationship for synchronizing ExpectedOperations. " + relationship.toString());
 					}
 				}
 				checkRelationshipsRequiringDocuments(record);

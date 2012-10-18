@@ -10,18 +10,24 @@ package collaboRhythm.shared.collaboration.model
 	import flash.utils.ByteArray;
 	import flash.utils.getQualifiedClassName;
 
+	import mx.logging.ILogger;
+	import mx.logging.Log;
+
 	public class CollaborationLobbyNetConnectionServiceProxy extends EventDispatcher implements ICollaborationLobbyNetConnectionServiceProxy
 	{
+		protected var _logger:ILogger;
 		private var _collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService;
 		private var _applicationDomain:ApplicationDomain;
 
 		private var _collaborationModel:CollaborationModel;
 		private var _netConnection:NetConnection;
 		private var _registeredAliases:Vector.<String>;
+		private var _logSynchronizationMethods:Boolean = false;
 
 		public function CollaborationLobbyNetConnectionServiceProxy(collaborationLobbyNetConnectionService:CollaborationLobbyNetConnectionService,
 																	applicationDomain:ApplicationDomain)
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_collaborationLobbyNetConnectionService = collaborationLobbyNetConnectionService;
 			_applicationDomain = applicationDomain;
 			_collaborationModel = _collaborationLobbyNetConnectionService.collaborationModel;
@@ -67,6 +73,11 @@ package collaboRhythm.shared.collaboration.model
 					synchronizeDataByteArray.writeObject(synchronizeData);
 					synchronizeDataByteArray.position = 0;
 				}
+				if (_logSynchronizationMethods)
+				{
+					_logger.debug("sendCollaborationViewSynchronization " + synchronizeClassName + "." +
+							synchronizeFunction);
+				}
 				_netConnection.call("sendCollaborationViewSynchronization", null, synchronizeClassName,
 						synchronizeFunction,
 						synchronizeDataName,
@@ -91,6 +102,11 @@ package collaboRhythm.shared.collaboration.model
 																passWord:String):void
 		{
 			var initiatedLocally:Boolean = (sourcePeerId == _collaborationModel.activeAccount.peerId);
+			if (_logSynchronizationMethods)
+			{
+				_logger.debug("receiveCollaborationViewSynchronization " + (initiatedLocally ? "local" : "non-local") +
+						" " + synchronizeClassName + "." + synchronizeFunction);
+			}
 
 			if (!initiatedLocally)
 			{
@@ -124,7 +140,8 @@ package collaboRhythm.shared.collaboration.model
 
 		private function receiveCollaborationViewSynchronizationFailed():void
 		{
-			trace("failed");
+			// TODO: function should get the same parameters as receiveCollaborationViewSynchronization; play a sound so the user knows that the action they just attempted failed
+			_logger.warn("receiveCollaborationViewSynchronizationFailed attempted action FAILED and will not be performed locally or remotely");
 		}
 
 		private function registerClassAliasForSynchronizeData(synchronizeDataName:String):void

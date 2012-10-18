@@ -113,5 +113,12 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			_relatesToId = value;
 		}
+
+		public function toString():String
+		{
+			return "Relationship{_type=" + String(_type) + ",_relatesFrom=" + String(_relatesFrom) +
+					",_relatesFromId=" + String(_relatesFromId) + ",_relatesTo=" + String(_relatesTo) +
+					",_relatesToId=" + String(_relatesToId) + "}";
+		}
 	}
 }

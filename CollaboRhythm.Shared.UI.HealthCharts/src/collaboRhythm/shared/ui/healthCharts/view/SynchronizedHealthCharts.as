@@ -2595,31 +2595,34 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			super.commitProperties();
 
-			if (_chartDescriptorsUpdateQueue.length > 0)
+			if (areChartsCompleteAndUpdated())
 			{
-				updateQueuedCharts();
-			}
-			if (_pendingSynchronizeDateLimits)
-			{
-				synchronizeDateLimits();
-				_pendingSynchronizeDateLimits = false;
-			}
-			if (_pendingUpdateSimulation)
-			{
-				updateSimulation(_pendingUpdateSimulation);
-				_pendingUpdateSimulation = null;
-			}
+				if (_chartDescriptorsUpdateQueue.length > 0)
+				{
+					updateQueuedCharts();
+				}
+				if (_pendingSynchronizeDateLimits)
+				{
+					synchronizeDateLimits();
+					_pendingSynchronizeDateLimits = false;
+				}
+				if (_pendingUpdateSimulation)
+				{
+					updateSimulation(_pendingUpdateSimulation);
+					_pendingUpdateSimulation = null;
+				}
 
-			if (_pendingUpdateBackgroundElements)
-			{
-				drawBackgroundElementsForAdherenceCharts();
-				_pendingUpdateBackgroundElements = false;
-			}
+				if (_pendingUpdateBackgroundElements)
+				{
+					drawBackgroundElementsForAdherenceCharts();
+					_pendingUpdateBackgroundElements = false;
+				}
 
-			if (_pendingMoveTodayHighlight)
-			{
-				moveTodayHighlight();
-				_pendingMoveTodayHighlight = false;
+				if (_pendingMoveTodayHighlight)
+				{
+					moveTodayHighlight();
+					_pendingMoveTodayHighlight = false;
+				}
 			}
 		}
 
@@ -2887,7 +2890,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 			if (_traceEventHandlers)
 				logDebugEvent("checkReadyToSynchronizeDateLimits", "_seriesWithPendingUpdateComplete.length =", _seriesWithPendingUpdateComplete.length, "_chartsWithPendingMainChartAdded.length =", _chartsWithPendingMainChartAdded.length);
 
-			if (_seriesWithPendingUpdateComplete.length == 0 && _chartsWithPendingMainChartAdded.length == 0)
+			if (areChartsCompleteAndUpdated())
 			{
 				for each (var chart:TouchScrollingScrubChart in getAllCharts())
 				{
@@ -2896,6 +2899,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 				queueSynchronizeDateLimits();
 				queueUpdateBackgroundElements();
 			}
+		}
+
+		private function areChartsCompleteAndUpdated():Boolean
+		{
+			return _seriesWithPendingUpdateComplete.length == 0 && _chartsWithPendingMainChartAdded.length == 0;
 		}
 
 		public function get useSliceMainData():Boolean

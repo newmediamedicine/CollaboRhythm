@@ -147,6 +147,9 @@ package collaboRhythm.core.model
 
 		public function updateDocument(value:SynchronizedDocumentUpdate):void
 		{
+			var synchronizationDetails:String = getSynchronizationDetailsPrefix() + " value=" + value.toString();
+			_logger.info("updateDocument " + synchronizationDetails);
+
 			if (_synchronizationService.synchronize("updateDocument", value, false))
 			{
 				return;
@@ -221,6 +224,9 @@ package collaboRhythm.core.model
 
 		public function updateRelationship(value:SynchronizedRelationshipUpdate):void
 		{
+			var synchronizationDetails:String = getSynchronizationDetailsPrefix() + " value=" + value.toString();
+			_logger.info("updateRelationship " + synchronizationDetails);
+
 			if (_synchronizationService.synchronize("updateRelationship", value, false))
 			{
 				return;
@@ -234,6 +240,13 @@ package collaboRhythm.core.model
 
 			addPendingSynchronizedUpdateRelationship(value);
 			processPendingUpdates();
+		}
+
+		private function getSynchronizationDetailsPrefix():String
+		{
+			return (_synchronizationService.primaryCall ? "primary" : "non-primary") + " " + (_synchronizationService.initiatedLocally ? "local" : "remote") + " _isSynchronizationStarted=" +
+					_isSynchronizationStarted + " _expectedDocumentsCount=" + _expectedDocumentsCount +
+					" _expectedRelationshipsCount=" + _expectedRelationshipsCount;
 		}
 
 		private function processPendingUpdates():void
@@ -293,6 +306,11 @@ package collaboRhythm.core.model
 
 		public function startSynchronizing(expectedOperations:ExpectedOperations):void
 		{
+			var synchronizationDetails:String = getSynchronizationDetailsPrefix() +
+					" expectedOperations.updateDocumentsCount=" + expectedOperations.updateDocumentsCount +
+					" expectedOperations.updateRelationshipsCount=" + expectedOperations.updateRelationshipsCount;
+			_logger.info("startSynchronizing " + synchronizationDetails);
+
 			if (_synchronizationService.synchronize("startSynchronizing", expectedOperations, false))
 			{
 				return;
@@ -300,10 +318,9 @@ package collaboRhythm.core.model
 
 			if (_isSynchronizationStarted || _expectedDocumentsCount > 0 || _expectedRelationshipsCount > 0)
 			{
-				_logger.warn("Attempted to synchronize when previous synchronization was not complete. _isSynchronizationStarted=" +
-						_isSynchronizationStarted + " _expectedDocumentsCount=" + _expectedDocumentsCount +
-						" _expectedRelationshipsCount=" + _expectedRelationshipsCount);
+				_logger.warn("Attempted to synchronize when previous synchronization was not complete. " + synchronizationDetails);
 			}
+
 
 			_isSynchronizationStarted = true;
 			_expectedDocumentsCount += expectedOperations.updateDocumentsCount;
@@ -316,6 +333,11 @@ package collaboRhythm.core.model
 
 		public function stopSynchronizing(failedOperations:ExpectedOperations):void
 		{
+			var synchronizationDetails:String = getSynchronizationDetailsPrefix() +
+					" failedOperations.updateDocumentsCount=" + failedOperations.updateDocumentsCount +
+					" failedOperations.updateRelationshipsCount=" + failedOperations.updateRelationshipsCount;
+			_logger.info("stopSynchronizing " + synchronizationDetails);
+
 			if (_synchronizationService.synchronize("stopSynchronizing", failedOperations, false))
 			{
 				return;
