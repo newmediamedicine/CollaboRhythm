@@ -10,6 +10,8 @@ package collaboRhythm.plugins.medications.controller
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+	import com.adobe.nativeExtensions.Vibration;
+
 	import flash.net.URLVariables;
 
 	import spark.components.ViewNavigator;
@@ -112,5 +114,12 @@ package collaboRhythm.plugins.medications.controller
 
 			_dataInputModel.dateMeasuredStart = date;
 		}
+
+		public function playVideo(instructionalVideoPath:String):void
+				{
+					// TODO: Currently using the vibration native extension with modifications to play a video
+					var vibration:Vibration = new (Vibration);
+					vibration.vibrate(instructionalVideoPath, "video/*");
+				}
 	}
 }

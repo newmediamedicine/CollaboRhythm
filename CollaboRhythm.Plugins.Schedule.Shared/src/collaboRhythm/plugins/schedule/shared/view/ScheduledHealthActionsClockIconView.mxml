@@ -33,23 +33,13 @@
 				var startAngle:Number = calculateAngleFromDate(scheduleGroup.dateStart);
 				var endAngle:Number = calculateAngleFromDate(scheduleGroup.dateEnd);
 
-				var color:uint;
+				var selected:Boolean = (dateStart.time == scheduleGroup.dateStart.time && dateEnd.time == scheduleGroup.dateEnd.time);
 
-				if (dateStart.time == scheduleGroup.dateStart.time &&
-						dateEnd.time == scheduleGroup.dateEnd.time)
-				{
-					color = 0x2EB5E4;
-				}
-				else
-				{
-					color = 0xFFFFFF;
-				}
-
-				drawScheduleGroup(startAngle, endAngle, color);
+				drawScheduleGroup(startAngle, endAngle, selected);
 			}
 		}
 
-		private function drawScheduleGroup(startAngle:Number, endAngle:Number, color:uint):void
+		private function drawScheduleGroup(startAngle:Number, endAngle:Number, selected:Boolean):void
 		{
 			var arc:Number = endAngle - startAngle;
 
@@ -57,7 +47,14 @@
 			scheduleGroupWedge.width = scheduleGroups.width;
 			scheduleGroupWedge.height = scheduleGroups.height;
 			scheduleGroupWedge.graphics.clear();
-			scheduleGroupWedge.graphics.beginFill(color, 0.8);
+			if (selected)
+			{
+				scheduleGroupWedge.graphics.beginFill(0x2EB5E4, 0.8);
+			}
+			else
+			{
+				scheduleGroupWedge.graphics.beginFill(0xFFFFFF, 0.5);
+			}
 			Wedge.draw(scheduleGroupWedge, scheduleGroups.width / 2, scheduleGroups.width / 2,
 					scheduleGroups.width / 2 - 1, arc, startAngle - 90);
 			scheduleGroupWedge.graphics.endFill();
