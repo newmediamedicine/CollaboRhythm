@@ -10,6 +10,7 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+	[Bindable]
 	public class MedicationHealthActionInputModel extends HealthActionInputModelBase implements IHealthActionInputModel
 	{
 		private var _medicationScheduleItem:MedicationScheduleItem;
