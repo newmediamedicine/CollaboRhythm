@@ -1,9 +1,7 @@
 package collaboRhythm.plugins.foraD40b.model
 {
-	import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 	import collaboRhythm.plugins.foraD40b.controller.ForaD40bAppController;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
-	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
 	import collaboRhythm.plugins.foraD40b.view.StartHypoglycemiaActionPlanView;
 	import collaboRhythm.plugins.foraD40b.view.Step1HypoglycemiaActionPlanView;
 	import collaboRhythm.plugins.foraD40b.view.Step2HypoglycemiaActionPlanView;
@@ -12,6 +10,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
@@ -78,9 +77,10 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _dateMeasuredStart:Date;
 
 		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
+														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null,
+														   scheduleCollectionsProvider:IScheduleCollectionsProvider = null)
 		{
-			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			super(scheduleItemOccurrence, healthActionModelDetailsProvider, scheduleCollectionsProvider);
 
 			dateMeasuredStart = _currentDateSource.now();
 		}
@@ -99,7 +99,7 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			manualBloodGlucose = "";
 			deviceBloodGlucose = urlVariables.bloodGlucose;
-			dateMeasuredStart = DateUtil.parseTest(urlVariables.correctedMeasuredDate);
+			dateMeasuredStart = DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate);
 
 			if (hypoglycemiaActionPlanIterationCount == 0)
 			{

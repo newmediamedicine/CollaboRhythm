@@ -7,6 +7,7 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -32,10 +33,11 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function BloodGlucoseHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+																scheduleCollectionsProvider:IScheduleCollectionsProvider,
 																viewNavigator:ViewNavigator)
 		{
 			_dataInputModel = new BloodGlucoseHealthActionInputModel(scheduleItemOccurrence,
-					healthActionModelDetailsProvider);
+					healthActionModelDetailsProvider, scheduleCollectionsProvider);
 			_viewNavigator = viewNavigator;
 
 			_collaborationLobbyNetConnectionServiceProxy = healthActionModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy as

@@ -1,9 +1,9 @@
 package collaboRhythm.plugins.medications.model
 {
-	import collaboRhythm.plugins.medications.view.MedicationHealthActionInputView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
@@ -14,17 +14,21 @@ package collaboRhythm.plugins.medications.model
 	{
 		private var _medicationScheduleItem:MedicationScheduleItem;
 		private var _medicationOrder:MedicationOrder;
+		private var _dateMeasuredStart:Date;
 
 		public function MedicationHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence,
-														 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
+														 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														 scheduleCollectionsProvider:IScheduleCollectionsProvider)
 		{
-			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			super(scheduleItemOccurrence, healthActionModelDetailsProvider, scheduleCollectionsProvider);
 
 			if (scheduleItemOccurrence)
 			{
 				_medicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 				_medicationOrder = _medicationScheduleItem.scheduledMedicationOrder;
 			}
+
+			dateMeasuredStart = _currentDateSource.now();
 		}
 
 		public function handleHealthActionResult(initiatedLocally:Boolean):void
@@ -32,19 +36,14 @@ package collaboRhythm.plugins.medications.model
 			createMedicationAdministration(initiatedLocally);
 		}
 
-		public function createMedicationAdministration(initiatedLocally:Boolean, selectedDate:Date = null):void
+		public function createMedicationAdministration(initiatedLocally:Boolean):void
 		{
 			if (_medicationScheduleItem)
 			{
-				if (selectedDate == null)
-				{
-					selectedDate = _currentDateSource.now();
-				}
-
 				var medicationAdministration:MedicationAdministration = new MedicationAdministration();
 				medicationAdministration.init(_medicationOrder ? _medicationOrder.name : _medicationScheduleItem.name,
 						healthActionModelDetailsProvider.accountId,
-						selectedDate, selectedDate, _medicationScheduleItem.dose);
+						dateMeasuredStart, dateMeasuredStart, _medicationScheduleItem.dose);
 
 				var adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 				adherenceResults.push(medicationAdministration);
@@ -61,12 +60,28 @@ package collaboRhythm.plugins.medications.model
 
 		public function get adherenceResultDate():Date
 		{
-			return null;
+			var adherenceResultDate:Date;
+
+			if (scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem &&
+					scheduleItemOccurrence.adherenceItem.adherenceResults &&
+					scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
+			{
+				var medicationAdministration:MedicationAdministration = scheduleItemOccurrence.adherenceItem.adherenceResults[0] as
+						MedicationAdministration;
+				adherenceResultDate = medicationAdministration.dateAdministered;
+			}
+
+			return adherenceResultDate;
 		}
 
 		public function get dateMeasuredStart():Date
 		{
-			return null;
+			return _dateMeasuredStart;
+		}
+
+		public function set dateMeasuredStart(value:Date):void
+		{
+			_dateMeasuredStart = value;
 		}
 	}
 }

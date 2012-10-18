@@ -26,6 +26,7 @@ package collaboRhythm.plugins.equipment.pillBox.model
 		public function createHealthActionInputController(healthAction:HealthActionBase,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
 														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														  scheduleCollectionsProvider:IScheduleCollectionsProvider,
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:IHealthActionInputController,
 														  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):IHealthActionInputController

@@ -33,6 +33,7 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 		public function createHealthActionInputController(healthAction:HealthActionBase,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
 														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														  scheduleCollectionsProvider:IScheduleCollectionsProvider,
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:IHealthActionInputController,
 														  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):IHealthActionInputController

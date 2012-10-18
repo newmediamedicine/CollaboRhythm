@@ -1,7 +1,6 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.plugins.medications.controller.MedicationHealthActionInputController;
-	import collaboRhythm.plugins.schedule.shared.model.EquipmentHealthAction;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
@@ -25,13 +24,15 @@ package collaboRhythm.plugins.medications.model
 		public function createHealthActionInputController(healthAction:HealthActionBase,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
 														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														  scheduleCollectionsProvider:IScheduleCollectionsProvider,
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:IHealthActionInputController,
 														  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):IHealthActionInputController
 		{
 			if (healthAction.type == MedicationHealthAction.TYPE)
 			{
-				return new MedicationHealthActionInputController(scheduleItemOccurrence, healthActionModelDetailsProvider, viewNavigator);
+				return new MedicationHealthActionInputController(scheduleItemOccurrence,
+						healthActionModelDetailsProvider, scheduleCollectionsProvider, viewNavigator);
 			}
 			return currentHealthActionInputController;
 		}

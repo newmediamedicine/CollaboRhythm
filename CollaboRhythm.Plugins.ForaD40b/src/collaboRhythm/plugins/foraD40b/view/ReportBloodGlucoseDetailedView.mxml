@@ -41,6 +41,14 @@
 
 			reportBloodGlucoseView.init(dataInputModel, _dataInputController);
 			reportAdherenceTimeView.init(dataInputModel, _dataInputController);
+			if (dataInputModel.scheduleItemOccurrence)
+			{
+				scheduleHealthActionsClockIconView.init(dataInputModel.scheduleCollectionsProvider, dataInputModel.scheduleItemOccurrence);
+			}
+			else
+			{
+				scheduleHealthActionsClockIconView.visible = false;
+			}
 		}
 
 		private function playVideoEventHandler(event:ScheduledHealthActionDetailViewEvent):void
@@ -59,8 +67,10 @@
 				<s:SolidColor color="0xFFFFFF"/>
 			</s:fill>
 		</s:Rect>
-		<sharedView:ScheduledHealthActionDetailView id="scheduledHealthActionDetailView" width="50%" height="100%"
-													horizontalCenter="0"/>
+		<s:Group height="100%" horizontalCenter="0">
+			<sharedView:ScheduledHealthActionDetailView id="scheduledHealthActionDetailView" height="100%"/>
+			<sharedView:ScheduleHealthActionsClockIconView id="scheduleHealthActionsClockIconView" width="50" height="50" left="10" top="10"/>
+		</s:Group>
 		<s:Group width="25%" height="100%" right="0">
 			<s:Button label="Show History" verticalCenter="0" click="showHistoryButton_clickHandler()"/>
 		</s:Group>

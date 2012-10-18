@@ -5,6 +5,7 @@ package collaboRhythm.plugins.medications.controller
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -24,10 +25,11 @@ package collaboRhythm.plugins.medications.controller
 
 		public function MedicationHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+															  scheduleCollectionsProvider:IScheduleCollectionsProvider,
 															  viewNavigator:ViewNavigator)
 		{
 			_dataInputModel = new MedicationHealthActionInputModel(scheduleItemOccurrence,
-					healthActionModelDetailsProvider);
+					healthActionModelDetailsProvider, scheduleCollectionsProvider);
 			_viewNavigator = viewNavigator;
 
 			_collaborationLobbyNetConnectionServiceProxy = healthActionModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy;
@@ -84,14 +86,14 @@ package collaboRhythm.plugins.medications.controller
 			}
 		}
 
-		public function createAndSaveMedicationAdministration(selectedDate:Date):void
+		public function createAndSaveMedicationAdministration():void
 		{
-			if (_synchronizationService.synchronize("createAndSaveMedicationAdministration", selectedDate))
+			if (_synchronizationService.synchronize("createAndSaveMedicationAdministration"))
 			{
 				return;
 			}
 
-			_dataInputModel.createMedicationAdministration(_synchronizationService.initiatedLocally, selectedDate);
+			_dataInputModel.createMedicationAdministration(_synchronizationService.initiatedLocally);
 
 			if (_synchronizationService.initiatedLocally)
 			{
@@ -103,6 +105,12 @@ package collaboRhythm.plugins.medications.controller
 
 		public function updateDateMeasuredStart(date:Date):void
 		{
+			if (_synchronizationService.synchronize("updateDateMeasuredStart", date))
+			{
+				return;
+			}
+
+			_dataInputModel.dateMeasuredStart = date;
 		}
 	}
 }

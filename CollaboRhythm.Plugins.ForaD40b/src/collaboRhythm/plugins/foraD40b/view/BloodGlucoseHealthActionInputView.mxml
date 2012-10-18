@@ -23,6 +23,7 @@
 					   creationComplete="creationCompleteHandler(event)">
 	<fx:Declarations>
 		<s:Button id="saveActionButton" label="Save" enabled="false" click="saveButton_clickHandler()"/>
+		<s:DateTimeFormatter id="timeFormatter" dateTimePattern="h a"/>
 	</fx:Declarations>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
@@ -59,12 +60,21 @@
 			super.createChildren();
 			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
 			{
-				title = "Review Blood Glucose Measurement";
+				title = "Review Blood Glucose Measurement - Scheduled (" +
+						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateStart) + " to " +
+						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateEnd) + ")";
 				saveButton.visible = false;
+			}
+			else if (_dataInputModel.scheduleItemOccurrence)
+			{
+				title = "Report Blood Glucose Measurement - Scheduled (" +
+						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateStart) + " to " +
+						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateEnd) + ")";
+				actionContent.unshift(saveActionButton);
 			}
 			else
 			{
-				title = "Report Blood Glucose Measurement";
+				title = "Report Blood Glucose Measurement - Unscheduled";
 				actionContent.unshift(saveActionButton);
 			}
 		}

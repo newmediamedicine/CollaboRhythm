@@ -57,17 +57,19 @@
 
 				var scheduleGroupReportingView:ScheduleGroupReportingView = owner as ScheduleGroupReportingView;
 				_scheduleModel = scheduleGroupReportingView.scheduleModel;
-				_scheduleItemOccurrenceReportingViewAdapter = _scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,	_scheduleModel);
+				_scheduleItemOccurrenceReportingViewAdapter = _scheduleModel.healthActionListViewAdapterFactory.createScheduledHealthActionViewAdapter(_scheduleItemOccurrence,
+						_scheduleModel);
 
 				if (_scheduleItemOccurrenceReportingViewAdapter)
 				{
 					scheduledHealthActionDetailView.init(_scheduleItemOccurrenceReportingViewAdapter);
-					scheduledHealthActionDetailView.addEventListener(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO, playVideoEventHandler);
+					scheduledHealthActionDetailView.addEventListener(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO,
+							playVideoEventHandler);
 
 					var scheduleItemOccurrenceReportingModel:IHealthActionListViewModel = _scheduleItemOccurrenceReportingViewAdapter.model;
 					_scheduleItemOccurrenceReportingController = _scheduleItemOccurrenceReportingViewAdapter.controller;
 					scheduleItemOccurrenceReportingModel.healthActionInputController = _scheduleModel.healthActionInputControllerFactory.createHealthActionInputController(_scheduleItemOccurrenceReportingViewAdapter.healthAction,
-							_scheduleItemOccurrence, _scheduleModel,
+							_scheduleItemOccurrence, _scheduleModel, _scheduleModel,
 							scheduleGroupReportingView.scheduleReportingController.viewNavigator,
 							scheduleGroupReportingView.scheduleReportingController.collaborationLobbyNetConnectionServiceProxy);
 
