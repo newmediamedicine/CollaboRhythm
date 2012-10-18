@@ -85,5 +85,11 @@ package collaboRhythm.core.model
 		{
 			_isSynchronizing = value;
 		}
+
+		public function toString():String
+		{
+			return "SynchronizedDocumentUpdate{_oldId=" + String(_oldId) +
+					",_newId=" + String(_newId) + ",_isUpdate=" + String(_isUpdate) + ",_isSynchronizing=" + String(_isSynchronizing) + "}";
+		}
 	}
 }

@@ -66,13 +66,13 @@ package collaboRhythm.plugins.schedule.controller
 
 		public function save():void
 		{
-			if (_synchronizationService.synchronize("save"))
-			{
-				return;
-			}
-
 			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
 			{
+				if (_synchronizationService.synchronize("save"))
+				{
+					return;
+				}
+
 				_scheduleModel.saveChangesToRecord();
 			}
 		}

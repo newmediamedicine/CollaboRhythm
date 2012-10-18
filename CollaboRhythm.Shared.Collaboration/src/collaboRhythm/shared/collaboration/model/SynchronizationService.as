@@ -78,5 +78,10 @@ package collaboRhythm.shared.collaboration.model
 		{
 			return _initiatedLocally;
 		}
+
+		public function get primaryCall():Boolean
+		{
+			return _primaryCall;
+		}
 	}
 }
