@@ -212,6 +212,13 @@ package collaboRhythm.shared.collaboration.model
 				{
 					peerAccount = _activeRecordAccount;
 					collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.OUT_OF_SYNC);
+
+					for each (var clinicianTeamMember:String in _settings.clinicianTeamMembers)
+					{
+						peerAccount = new Account();
+						peerAccount.accountId = clinicianTeamMember;
+						collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.OUT_OF_SYNC);
+					}
 				}
 			}
 		}
@@ -225,7 +232,7 @@ package collaboRhythm.shared.collaboration.model
 			}
 			else if (_settings.mode = Settings.MODE_CLINICIAN)
 			{
-				if (activeRecordAccount && sourceAccountId == activeRecordAccount.accountId)
+				if (activeRecordAccount && subjectAccountId == activeRecordAccount.accountId)
 				{
 					collaborationState = COLLABORATION_OUT_OF_SYNC;
 				}
