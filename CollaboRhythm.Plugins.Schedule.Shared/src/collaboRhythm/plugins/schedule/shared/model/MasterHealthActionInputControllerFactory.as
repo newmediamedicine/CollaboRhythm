@@ -20,6 +20,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function createHealthActionInputController(healthAction:HealthActionBase,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
 														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														  scheduleCollectionsProvider:IScheduleCollectionsProvider,
 														  viewNavigator:ViewNavigator,
 														  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):IHealthActionInputController
 		{
@@ -27,8 +28,8 @@ package collaboRhythm.plugins.schedule.shared.model
 			for each (var healthActionInputControllerFactory:IHealthActionInputControllerFactory in _factoryArray)
 			{
 				var healthActionInputController:IHealthActionInputController = healthActionInputControllerFactory.createHealthActionInputController(healthAction,
-						scheduleItemOccurrence, healthActionModelDetailsProvider, viewNavigator,
-						currentHealthActionInputController, collaborationLobbyNetConnectionServiceProxy);
+						scheduleItemOccurrence, healthActionModelDetailsProvider, scheduleCollectionsProvider,
+						viewNavigator, currentHealthActionInputController, collaborationLobbyNetConnectionServiceProxy);
 				if (healthActionInputController)
 					currentHealthActionInputController = healthActionInputController;
 			}

@@ -26,7 +26,7 @@ package collaboRhythm.plugins.painReport.controller
 			_viewNavigator = viewNavigator;
 		}
 
-		public function handleHealthActionResult():void
+		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
 			var dataInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
 					this);
@@ -52,6 +52,10 @@ package collaboRhythm.plugins.painReport.controller
 		public function useDefaultHandleHealthActionResult():Boolean
 		{
 			return false;
+		}
+
+		public function updateDateMeasuredStart(date:Date):void
+		{
 		}
 	}
 }

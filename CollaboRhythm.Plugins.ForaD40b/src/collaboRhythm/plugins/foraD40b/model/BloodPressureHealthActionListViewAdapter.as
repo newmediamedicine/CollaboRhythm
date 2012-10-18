@@ -38,7 +38,7 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			var additionalAdherenceInformation:String = "...";
 
-			if (_scheduleItemOccurrence.adherenceItem)
+			if (_scheduleItemOccurrence && _scheduleItemOccurrence.adherenceItem)
 			{
 				var adherenceResults:Vector.<DocumentBase> = _scheduleItemOccurrence.adherenceItem.adherenceResults;
 				if (adherenceResults.length != 0)

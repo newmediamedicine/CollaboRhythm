@@ -54,6 +54,7 @@ package collaboRhythm.tablet.controller
 	{
 		private static const SESSION_IDLE_TIMEOUT:int = 60 * 5;
 		private static const ACCOUNT_ID_SUFFIX:String = "@records.media.mit.edu";
+		private static const MILLISECONDS_PER_MINUTE:int = 1000 * 60;
 
 		private var _tabletApplication:CollaboRhythmTabletApplication;
 		private var _tabletAppControllersMediator:TabletAppControllersMediator;
@@ -68,7 +69,8 @@ package collaboRhythm.tablet.controller
 
 		private var _sessionIdleTimer:Timer;
 
-		private var _dateFormatter:DateTimeFormatter = new DateTimeFormatter(flash.globalization.LocaleID.DEFAULT, DateTimeStyle.SHORT, DateTimeStyle.SHORT);
+		private var _dateFormatter:DateTimeFormatter = new DateTimeFormatter(flash.globalization.LocaleID.DEFAULT,
+				DateTimeStyle.SHORT, DateTimeStyle.SHORT);
 
 
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
@@ -261,15 +263,27 @@ package collaboRhythm.tablet.controller
 				if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.collaborationState ==
 						CollaborationModel.COLLABORATION_ACTIVE)
 				{
-					var mouseDownLabel:String = "username=" + settings.username;
-					if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
-					{
-						mouseDownLabel = mouseDownLabel + "&peerId=" +
-								collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
-					}
-					_analyticsTracker.trackEvent("collaborationActivity", _dateFormatter.format(_currentDateSource.now()), mouseDownLabel);
+					_analyticsTracker.trackEvent("collaborationActivity", "click",
+							getCollaborationActivityEventLabel());
 				}
 			}
+		}
+
+		private function getCollaborationActivityEventLabel():String
+		{
+			var collaborationActivityEventLabel:String = "username=" + settings.username;
+			if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
+			{
+				collaborationActivityEventLabel = collaborationActivityEventLabel + "&peerId=" +
+						collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
+			}
+			if (_collaborationController.collaborationModel.collaborationStart)
+			{
+				collaborationActivityEventLabel = collaborationActivityEventLabel + "&startDate=" +
+						_dateFormatter.format(_collaborationController.collaborationModel.collaborationStart);
+			}
+
+			return collaborationActivityEventLabel;
 		}
 
 		override protected function activateTracking():void
@@ -522,6 +536,14 @@ package collaboRhythm.tablet.controller
 
 		public function endCollaboration():void
 		{
+			if (settings.mode == Settings.MODE_CLINICIAN && settings.useGoogleAnalytics)
+			{
+				var collaborationDuration:Number = (_currentDateSource.now().time -
+						_collaborationController.collaborationModel.collaborationStart.time) /
+						MILLISECONDS_PER_MINUTE;
+				_analyticsTracker.trackEvent("collaborationActivity", "sessionDuration",
+						getCollaborationActivityEventLabel(), collaborationDuration);
+			}
 			_collaborationController.endCollaboration();
 		}
 

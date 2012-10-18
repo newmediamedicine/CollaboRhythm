@@ -30,6 +30,7 @@ package collaboRhythm.plugins.foraD40b.model
 		public function createHealthActionInputController(healthAction:HealthActionBase,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
 														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														  scheduleCollectionsProvider:IScheduleCollectionsProvider,
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:IHealthActionInputController,
 														  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):IHealthActionInputController
@@ -44,7 +45,7 @@ package collaboRhythm.plugins.foraD40b.model
 				else if (equipmentHealthAction.name == BLOOD_GLUCOSE_INSTRUCTIONS &&
 						equipmentHealthAction.equipmentName == EQUIPMENT_NAME)
 					return new BloodGlucoseHealthActionInputController(scheduleItemOccurrence,
-							healthActionModelDetailsProvider, viewNavigator);
+							healthActionModelDetailsProvider, scheduleCollectionsProvider, viewNavigator);
 			}
 			return currentHealthActionInputController;
 		}
@@ -61,7 +62,8 @@ package collaboRhythm.plugins.foraD40b.model
 					urlVariables.healthActionName == HEALTH_ACTION_NAME_BLOOD_PRESSURE &&
 					urlVariables.equipmentName == EQUIPMENT_NAME)
 			{
-				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME);
+				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
+						urlVariables.correctedMeasuredDate);
 				return new BloodPressureHealthActionInputController(scheduleItemOccurrence,
 						healthActionModelDetailsProvider, viewNavigator);
 			}
@@ -69,9 +71,10 @@ package collaboRhythm.plugins.foraD40b.model
 					urlVariables.healthActionName == HEALTH_ACTION_NAME_BLOOD_GLUCOSE &&
 					urlVariables.equipmentName == EQUIPMENT_NAME)
 			{
-				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME);
+				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
+						urlVariables.correctedMeasuredDate);
 				return new BloodGlucoseHealthActionInputController(scheduleItemOccurrence,
-						healthActionModelDetailsProvider, viewNavigator);
+						healthActionModelDetailsProvider, scheduleCollectionsProvider, viewNavigator);
 			}
 			else
 			{

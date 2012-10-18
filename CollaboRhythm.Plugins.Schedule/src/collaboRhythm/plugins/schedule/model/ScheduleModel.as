@@ -515,15 +515,16 @@ package collaboRhythm.plugins.schedule.model
 			return _healthActionInputControllerFactory;
 		}
 
-		public function findClosestScheduleItemOccurrence(name:String):ScheduleItemOccurrence
+		public function findClosestScheduleItemOccurrence(name:String, dateStartString:String):ScheduleItemOccurrence
 		{
+			var dateStart:Date = DateUtil.parseW3CDTF(dateStartString);
 			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
 			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesHashMap)
 			{
 				if (scheduleItemOccurrence.scheduleItem.name.text == name && scheduleItemOccurrence.adherenceItem == null)
 				{
-					if (_currentDateSource.now() > scheduleItemOccurrence.dateStart &&
-							_currentDateSource.now() < scheduleItemOccurrence.dateEnd)
+					if (dateStart > scheduleItemOccurrence.dateStart &&
+							dateStart < scheduleItemOccurrence.dateEnd)
 					{
 						closestScheduleItemOccurrence = scheduleItemOccurrence;
 						break;
@@ -532,12 +533,12 @@ package collaboRhythm.plugins.schedule.model
 					{
 						if (closestScheduleItemOccurrence)
 						{
-							if ((_currentDateSource.now().time - scheduleItemOccurrence.dateEnd.time <
-									_currentDateSource.now().time - closestScheduleItemOccurrence.dateEnd.time)
+							if ((dateStart.time - scheduleItemOccurrence.dateEnd.time <
+									dateStart.time - closestScheduleItemOccurrence.dateEnd.time)
 									||
-									(scheduleItemOccurrence.dateStart.time - _currentDateSource.now().time <
+									(scheduleItemOccurrence.dateStart.time - dateStart.time <
 											closestScheduleItemOccurrence.dateStart.time -
-													_currentDateSource.now().time))
+													dateStart.time))
 							{
 								closestScheduleItemOccurrence = scheduleItemOccurrence;
 							}

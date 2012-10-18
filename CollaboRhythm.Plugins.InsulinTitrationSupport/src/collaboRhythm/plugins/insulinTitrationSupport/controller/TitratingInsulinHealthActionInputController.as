@@ -51,7 +51,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			return true;
 		}
 
-		public function handleHealthActionResult():void
+		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
 			// TODO: allow the default to happen (report medication taken)
 		}
@@ -80,6 +80,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		public function get healthActionInputViewClass():Class
 		{
 			return null;
+		}
+
+		public function updateDateMeasuredStart(date:Date):void
+		{
 		}
 	}
 }

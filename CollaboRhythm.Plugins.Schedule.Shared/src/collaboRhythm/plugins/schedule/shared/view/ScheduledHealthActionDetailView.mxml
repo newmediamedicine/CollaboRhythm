@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Style>
+		#nameLabel {
+			font-size: 30;
+			font-weight: bold;
+		}
+
+		#descriptionLabel {
+			font-size: 20;
+		}
+
+		#indicationLabel {
+			fontSize: 20;
+			fontStyle: italic;
+		}
+
+		#primaryInstructionsLabel {
+			fontSize: 22;
+			font-weight: bold;
+		}
+
+		#secondaryInstructionsLabel {
+			fontSize: 22;
+			font-weight: bold;
+		}
+
+		.secondaryInstructionsLabelLink {
+			color: #2CB5E6;
+			textDecoration: underline;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
+
+		import mx.core.IVisualElement;
+
+		import spark.components.Image;
+
+		private var _instructionalVideoPath:String;
+
+		public function init(scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter):void
+		{
+			if (scheduleItemOccurrenceReportingViewAdapter)
+			{
+				nameLabel.text = scheduleItemOccurrenceReportingViewAdapter.name;
+				descriptionLabel.text = scheduleItemOccurrenceReportingViewAdapter.description;
+				primaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.primaryInstructions;
+				secondaryInstructionsLabel.text = scheduleItemOccurrenceReportingViewAdapter.secondaryInstructions;
+
+				if (scheduleItemOccurrenceReportingViewAdapter.instructionalVideoPath != "")
+				{
+					secondaryInstructionsLabel.text = "Click to watch an instructional video";
+					secondaryInstructionsLabel.addEventListener(MouseEvent.CLICK,
+							secondaryInstructionsLabel_clickHandler);
+					secondaryInstructionsLabel.styleName = "secondaryInstructionsLabelLink";
+					_instructionalVideoPath = scheduleItemOccurrenceReportingViewAdapter.instructionalVideoPath;
+				}
+
+				var customView:IVisualElement = scheduleItemOccurrenceReportingViewAdapter.createCustomView();
+				if (customView)
+				{
+					imageGroup.addElement(customView);
+				}
+				else
+				{
+					var image:Image = scheduleItemOccurrenceReportingViewAdapter.createImage();
+					image.percentWidth = 100;
+					image.percentHeight = 100;
+					image.smooth = true;
+					imageGroup.addElement(image);
+				}
+				imageGroup.left = 10;
+				imageGroup.right = 10;
+				imageGroup.top = 10;
+				imageGroup.bottom = 10;
+			}
+		}
+
+		private function secondaryInstructionsLabel_clickHandler(event:MouseEvent):void
+		{
+			dispatchEvent(new ScheduledHealthActionDetailViewEvent(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO, _instructionalVideoPath));
+		}
+		]]></fx:Script>
+
+	<s:HGroup id="mainGroup" width="100%" height="100%">
+		<s:Group id="imageContainerGroup" width="{this.height}" height="{this.height}">
+			<s:Group id="imageGroup"/>
+		</s:Group>
+		<s:Group id="descriptionGroup" height="100%" width="100%">
+			<s:VGroup left="10" right="10" top="10" bottom="10" gap="1">
+				<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
+				<s:Label id="descriptionLabel" paddingTop="2" maxDisplayedLines="1" width="100%"/>
+				<s:Label id="primaryInstructionsLabel" paddingTop="24" maxDisplayedLines="1" width="100%"/>
+				<s:Label id="secondaryInstructionsLabel" maxDisplayedLines="1" width="100%"/>
+			</s:VGroup>
+		</s:Group>
+	</s:HGroup>
+</s:Group>

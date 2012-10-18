@@ -19,11 +19,13 @@ package collaboRhythm.plugins.medications.controller
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.medications.model.MedicationHealthActionCreationControllerFactory;
+	import collaboRhythm.plugins.medications.model.MedicationHealthActionInputControllerFactory;
 
 	import collaboRhythm.plugins.medications.model.MedicationHealthActionListViewAdapterFactory;
 
     import collaboRhythm.plugins.schedule.shared.controller.ScheduleAppControllerInfo;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationControllerFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
     import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
@@ -48,6 +50,7 @@ package collaboRhythm.plugins.medications.controller
 			appControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER, "collaboRhythm.plugins.cataractMap.controller::CataractMapAppController"));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, appControllerInfo);
 
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(MedicationHealthActionInputControllerFactory).name, IHealthActionInputControllerFactory, new MedicationHealthActionInputControllerFactory());
             componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(MedicationHealthActionListViewAdapterFactory).name, IHealthActionListViewAdapterFactory, new MedicationHealthActionListViewAdapterFactory());
 			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(MedicationHealthActionCreationControllerFactory).name, IHealthActionCreationControllerFactory, new MedicationHealthActionCreationControllerFactory());
 		}

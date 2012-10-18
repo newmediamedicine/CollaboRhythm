@@ -37,13 +37,13 @@ package collaboRhythm.shared.model.healthRecord.document
 			meta.type = DOCUMENT_TYPE;
         }
 
-        public function init(name:CodedValue, reportedBy:String, dateReported:Date, dateAdministered:Date = null, amountAministered:ValueAndUnit = null, amountRemaining:ValueAndUnit = null):void
+        public function init(name:CodedValue, reportedBy:String, dateReported:Date, dateAdministered:Date = null, amountAdministered:ValueAndUnit = null, amountRemaining:ValueAndUnit = null):void
 		{
 			_name = name;
             _reportedBy = reportedBy;
             _dateReported = dateReported;
             _dateAdministered = dateAdministered;
-            _amountAdministered = amountAministered;
+            _amountAdministered = amountAdministered;
             _amountRemaining = amountRemaining;
 		}
 

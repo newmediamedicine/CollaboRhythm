@@ -20,7 +20,8 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:view="collaboRhythm.plugins.messages.view.*"
 		 removedFromStage="removedFromStageHandler()"
-		 resize="setVideoDisplaySize()">
+		 resize="setVideoDisplaySize()"
+		 creationComplete="creationCompleteHandler()">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -51,6 +52,12 @@
 			font-size: 20;
 			font-weight: bold;
 		}
+
+		.uploadingLabel {
+			font-size: 30;
+			font-weight: bold;
+			color: #FFFFFF;
+		}
 	</fx:Style>
 	<s:states>
 		<s:State name="attachingCamera"/>
@@ -58,12 +65,23 @@
 		<s:State name="readyToRecord"/>
 		<s:State name="countdownInProgress"/>
 		<s:State name="recording"/>
+		<s:State name="uploadingVideo"/>
 		<s:State name="recordingComplete"/>
 	</s:states>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.collaboration.model.AudioVideoOutput;
 
+		import mx.logging.ILogger;
+
+		import mx.logging.Log;
+
 		import mx.utils.UIDUtil;
+
+		private const NETSTREAM_RECORD_ALREADY_EXISTS:String = "NetStream.Record.AlreadyExists";
+		private const NETSTREAM_RECORD_FAILED:String = "NetStream.Record.Failed";
+		private const NETSTREAM_RECORD_NO_ACCESS:String = "NetStream.Record.NoAccess";
+		private const NETSTREAM_RECORD_START:String = "NetStream.Record.Start";
+		private const NETSTREAM_RECORD_STOP:String = "NetStream.Record.Stop";
 
 		private var _netConnection:NetConnection;
 		private var _activeRecordAccountId:String;
@@ -85,6 +103,8 @@
 
 		private var _netStreamLocation:String;
 
+		private var _logger:ILogger;
+
 		public function init(netConnection:NetConnection, activeRecordAccountId:String):void
 		{
 			_netConnection = netConnection;
@@ -101,6 +121,11 @@
 			{
 				currentState = "cameraNotAvailable";
 			}
+		}
+
+		private function creationCompleteHandler():void
+		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
 		private function attachCamera():void
@@ -124,8 +149,7 @@
 			{
 				_netStream.close();
 				_recordingTimer.stop();
-				currentState = "recordingComplete";
-				dispatchEvent(new VideoActionEvent(VideoActionEvent.VIDEO_RECORDED, _netStreamLocation));
+				currentState = "uploadingVideo";
 			}
 		}
 
@@ -160,6 +184,8 @@
 
 			var fileId:String = UIDUtil.createUID();
 			_netStreamLocation = _activeRecordAccountId + "/" + fileId;
+			_netStream.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+			_netStream.addEventListener(ErrorEvent.ERROR, netStatusErrorHandler);
 			_netStream.publish(_netStreamLocation, "record");
 
 			_recordingTimerCount = 0;
@@ -167,6 +193,22 @@
 			_recordingTimer.addEventListener(TimerEvent.TIMER, recordingTimer_updateHandler);
 			_recordingTimer.start();
 			currentState = "recording";
+		}
+
+		private function netStatusHandler(event:NetStatusEvent):void
+		{
+			switch (event.info.code)
+			{
+				case NETSTREAM_RECORD_STOP:
+					currentState = "recordingComplete";
+					dispatchEvent(new VideoActionEvent(VideoActionEvent.VIDEO_RECORDED, _netStreamLocation));
+					break;
+			}
+		}
+
+		private function netStatusErrorHandler(event:ErrorEvent):void
+		{
+			_logger.warn("VideoRecorder status ERROR " + _netStreamLocation);
 		}
 
 		private function recordingTimer_updateHandler(event:TimerEvent):void
@@ -205,7 +247,7 @@
 			currentState = "readyToRecord";
 		}
 		]]></fx:Script>
-	<s:Group id="videoDisplayGroup" horizontalCenter="0" verticalCenter="0">
+	<s:Group id="videoDisplayGroup" horizontalCenter="0" verticalCenter="0" visible="{currentState != 'uploadingVideo' &amp;&amp; currentState != 'recordingComplete'}">
 		<!-- The component that displays video from the camera or video being played back from the netstream -->
 		<mx:VideoDisplay id="videoDisplay" width="100%" height="100%"/>
 		<!-- Label to show if a webcam is not available -->
@@ -244,6 +286,9 @@
 			</s:stroke>
 		</s:Rect>
 	</s:Group>
+	<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center" includeIn="uploadingVideo">
+		<s:Label styleName="uploadingLabel" text="uploading video"/>
+	</s:VGroup>
 	<s:Group width="100" height="100%" right="0">
 		<s:Group width="80" height="80" horizontalCenter="0" verticalCenter="0">
 			<s:Button width="100%" height="100%"

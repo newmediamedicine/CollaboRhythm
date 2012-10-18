@@ -29,6 +29,9 @@
             <entry library-id="8378e103-9fd8-44d9-ae40-14f03bd0ec59">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -87,6 +90,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
   </component>
 </module>
 

@@ -145,16 +145,6 @@
 
 			super.homeButton_clickHandler();
 		}
-
-		override protected function stage_keyUpHandler(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK)
-			{
-				_dataInputController.removeCollaborationViewSynchronizationEventListener();
-			}
-
-			super.stage_keyUpHandler(event);
-		}
 		]]></fx:Script>
 	<s:VGroup id="hypoGlycemiaActionPlanSummaryGroup" height="100%" horizontalCenter="0" gap="10">
 		<s:Group width="100%">

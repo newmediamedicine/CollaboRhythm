@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
+		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+		import com.leebrimelow.drawing.Wedge;
+
+		import spark.primitives.Graphic;
+
+		public function init(scheduleGroupsCollectionsProvider:IScheduleCollectionsProvider,
+							 scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			for each (var scheduleGroup:ScheduleGroup in scheduleGroupsCollectionsProvider.scheduleGroupsCollection)
+			{
+				var startAngle:Number = calculateAngleFromDate(scheduleGroup.dateStart);
+				var endAngle:Number = calculateAngleFromDate(scheduleGroup.dateEnd);
+
+				var color:uint;
+
+				if (scheduleItemOccurrence.dateStart.time == scheduleGroup.dateStart.time &&
+						scheduleItemOccurrence.dateEnd.time == scheduleGroup.dateEnd.time)
+				{
+					color = 0x2EB5E4;
+				}
+				else
+				{
+					color = 0xFFFFFF;
+				}
+
+				drawScheduleGroup(startAngle, endAngle, color);
+			}
+		}
+
+		private function drawScheduleGroup(startAngle:Number, endAngle:Number, color:uint):void
+		{
+			var arc:Number = endAngle - startAngle;
+
+			var scheduleGroupWedge:Graphic = new Graphic();
+			scheduleGroupWedge.width = scheduleGroups.width;
+			scheduleGroupWedge.height = scheduleGroups.height;
+			scheduleGroupWedge.graphics.clear();
+			scheduleGroupWedge.graphics.beginFill(color, 0.8);
+			Wedge.draw(scheduleGroupWedge, scheduleGroups.width / 2, scheduleGroups.width / 2,
+					scheduleGroups.width / 2 - 1, arc, startAngle - 90);
+			scheduleGroupWedge.graphics.endFill();
+
+			scheduleGroups.addElement(scheduleGroupWedge);
+		}
+
+		private function calculateAngleFromDate(date:Date):Number
+		{
+			return 15 * date.hours + 0.25 * date.minutes;
+		}
+		]]></fx:Script>
+	<s:Ellipse width="98%" height="98%">
+		<s:fill>
+			<s:SolidColor color="0xC0BEBE"/>
+		</s:fill>
+	</s:Ellipse>
+	<s:Group id="scheduleGroups" width="100%" height="100%"/>
+	<s:Ellipse width="100%" height="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="0x6D6E71"/>
+		</s:stroke>
+	</s:Ellipse>
+</s:Group>

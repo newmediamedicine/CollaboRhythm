@@ -48,11 +48,12 @@
 			{
 				bloodGlucoseLabel.text = bloodGlucoseVitalSign.result.value + " " +
 						bloodGlucoseVitalSign.result.unit.abbrev;
-				dateMeasuredStartLabel.text = dateFormatter.format(bloodGlucoseVitalSign.dateMeasuredStart);
-				timeMeasuredStartLabel.text = timeFormatter.format(bloodGlucoseVitalSign.dateMeasuredStart);
+				dateMeasuredStartHistoryLabel.text = dateFormatter.format(bloodGlucoseVitalSign.dateMeasuredStart);
+				timeMeasuredStartHistoryLabel.text = timeFormatter.format(bloodGlucoseVitalSign.dateMeasuredStart);
 
 				warningIcon.visible = bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0;
-				wirelessIcon.visible = (bloodGlucoseVitalSign.comments != BloodGlucoseHealthActionInputModel.SELF_REPORT);
+				wirelessIcon.visible = (bloodGlucoseVitalSign.comments !=
+						BloodGlucoseHealthActionInputModel.SELF_REPORT);
 			}
 		}
 		]]></fx:Script>
@@ -63,8 +64,8 @@
 			<view:WarningIcon id="warningIcon" width="40" height="35" visible="false"/>
 		</s:HGroup>
 		<s:VGroup id="dateMeasuredStartGroup" right="0" horizontalAlign="right">
-			<s:Label id="dateMeasuredStartLabel"/>
-			<s:Label id="timeMeasuredStartLabel"/>
+			<s:Label id="dateMeasuredStartHistoryLabel"/>
+			<s:Label id="timeMeasuredStartHistoryLabel"/>
 		</s:VGroup>
 	</s:Group>
 	<s:Line width="100%" bottom="0">

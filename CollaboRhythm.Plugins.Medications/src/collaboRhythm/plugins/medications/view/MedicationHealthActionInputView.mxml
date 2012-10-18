@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
+					   creationComplete="creationCompleteHandler()">
+	<fx:Declarations>
+		<s:Button id="saveActionButton" label="Save" enabled="false" click="saveButton_clickHandler()"/>
+		<s:DateTimeFormatter id="timeFormatter" dateTimePattern="h a"/>
+	</fx:Declarations>
+	<fx:Style>
+		#medicationLabel {
+			fontSize: 40;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.medications.controller.MedicationHealthActionInputController;
+		import collaboRhythm.plugins.medications.model.MedicationHealthActionCreationModel;
+		import collaboRhythm.plugins.medications.model.MedicationHealthActionInputModel;
+		import collaboRhythm.plugins.medications.model.MedicationHealthActionListViewAdapter;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduledHealthActionDetailViewEvent;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+
+		import mx.binding.utils.BindingUtils;
+
+		[Bindable]
+		protected var _dataInputModel:MedicationHealthActionInputModel;
+		protected var _dataInputController:MedicationHealthActionInputController;
+		private var _currentDateSource:ICurrentDateSource;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var dataInputModelAndController:HealthActionInputModelAndController = value as
+					HealthActionInputModelAndController;
+
+			_dataInputModel = MedicationHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = MedicationHealthActionInputController(dataInputModelAndController.healthActionInputController);
+
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
+			{
+				title = "Review Medication Administration - Scheduled (" +
+						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateStart) + " to " +
+						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateEnd) + ")";
+				saveButton.visible = false;
+			}
+			else if (_dataInputModel.scheduleItemOccurrence)
+			{
+				title = "Report Medication Administration - Scheduled (" +
+						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateStart) + " to " +
+						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateEnd) + ")";
+				actionContent.unshift(saveActionButton);
+			}
+			else
+			{
+				title = "Report Medication Administration - Unscheduled";
+				actionContent.unshift(saveActionButton);
+			}
+		}
+
+		private function creationCompleteHandler():void
+		{
+			var medicationHealthActionListViewAdapter:MedicationHealthActionListViewAdapter = new MedicationHealthActionListViewAdapter(_dataInputModel.scheduleItemOccurrence,
+					_dataInputModel.healthActionModelDetailsProvider);
+
+			medicationLabel.text = medicationHealthActionListViewAdapter.primaryInstructions;
+
+			scheduledHealthActionDetailView.init(medicationHealthActionListViewAdapter);
+			scheduledHealthActionDetailView.addEventListener(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO,
+					playVideoEventHandler);
+
+			reportAdherenceTimeView.init(_dataInputModel, _dataInputController);
+			if (_dataInputModel.scheduleItemOccurrence)
+			{
+				scheduleHealthActionsClockIconView.init(_dataInputModel.scheduleCollectionsProvider,
+						_dataInputModel.scheduleItemOccurrence);
+			}
+			else
+			{
+				scheduleHealthActionsClockIconView.visible = false;
+			}
+		}
+
+		private function playVideoEventHandler(event:ScheduledHealthActionDetailViewEvent):void
+		{
+
+		}
+
+
+		private function showHistoryButton_clickHandler():void
+		{
+
+		}
+
+		private function saveButton_clickHandler():void
+		{
+			_dataInputController.createAndSaveMedicationAdministration();
+		}
+		]]></fx:Script>
+
+	<s:Group width="100%" height="140">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:Group height="100%" horizontalCenter="0">
+			<sharedView:ScheduledHealthActionDetailView id="scheduledHealthActionDetailView" height="100%"/>
+			<sharedView:ScheduleHealthActionsClockIconView id="scheduleHealthActionsClockIconView" width="50"
+														   height="50" left="10" top="10"/>
+		</s:Group>
+		<s:Group width="25%" height="100%" right="0">
+			<s:Button label="Show History" verticalCenter="0" click="showHistoryButton_clickHandler()"/>
+		</s:Group>
+		<s:Line width="100%" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+	<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView" verticalCenter="0" right="140"/>
+	<s:Label id="medicationLabel" verticalCenter="0" left="140"/>
+	<s:Button id="saveButton" label="Save" width="200" height="100" bottom="90" horizontalCenter="0"
+			  fontSize="40" click="saveButton_clickHandler()"/>
+</tablet:TabletViewBase>

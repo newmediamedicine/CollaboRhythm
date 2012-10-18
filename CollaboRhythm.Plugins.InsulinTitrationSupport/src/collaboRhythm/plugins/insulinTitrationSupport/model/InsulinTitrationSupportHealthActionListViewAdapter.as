@@ -196,7 +196,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			var additionalAdherenceInformation:String = "...";
 
-			if (_model.scheduleItemOccurrence.adherenceItem)
+			if (_model.scheduleItemOccurrence && _model.scheduleItemOccurrence.adherenceItem)
 			{
 				var adherenceResults:Vector.<DocumentBase> = _model.scheduleItemOccurrence.adherenceItem.adherenceResults;
 				if (adherenceResults.length != 0)

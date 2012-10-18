@@ -33,6 +33,7 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 		public function createHealthActionInputController(healthAction:HealthActionBase,
 														  scheduleItemOccurrence:ScheduleItemOccurrence,
 														  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														  scheduleCollectionsProvider:IScheduleCollectionsProvider,
 														  viewNavigator:ViewNavigator,
 														  currentHealthActionInputController:IHealthActionInputController,
 														  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy):IHealthActionInputController
@@ -60,7 +61,8 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 					urlVariables.healthActionName == HEALTH_ACTION_NAME_SPIROMETER_MEASUREMENT &&
 					urlVariables.equipmentName == EQUIPMENT_NAME)
 			{
-				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME);
+				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
+						urlVariables.dateMeasuredStart);
 				return new SpirometerHealthActionInputController(scheduleItemOccurrence,
 						healthActionModelDetailsProvider, viewNavigator);
 			}
@@ -68,7 +70,8 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 					urlVariables.healthActionName == HEALTH_ACTION_NAME_STEROID_INHALER &&
 					urlVariables.equipmentName == EQUIPMENT_NAME)
 			{
-				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(STEROID_INHALER_NAME);
+				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(STEROID_INHALER_NAME,
+						urlVariables.dateMeasuredStart);
 				return new SteroidInhalerHealthActionInputController(scheduleItemOccurrence,
 						healthActionModelDetailsProvider, viewNavigator);
 			}
@@ -76,7 +79,8 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.model
 					urlVariables.healthActionName == HEALTH_ACTION_NAME_RESCUE_INHALER &&
 					urlVariables.equipmentName == EQUIPMENT_NAME)
 			{
-				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(RESCUE_INHALER_NAME);
+				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(RESCUE_INHALER_NAME,
+						urlVariables.dateMeasuredStart);
 				return new RescueInhalerHealthActionInputController(scheduleItemOccurrence,
 						healthActionModelDetailsProvider, viewNavigator);
 			}

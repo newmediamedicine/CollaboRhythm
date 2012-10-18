@@ -10,23 +10,26 @@ package collaboRhythm.plugins.schedule.shared.model
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
-	public class HealthActionInputModelBase implements IHealthActionInputModel
+	public class HealthActionInputModelBase
 	{
-        private var _scheduleItemOccurrence:ScheduleItemOccurrence;
-        protected var _urlVariables:URLVariables;
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		protected var _urlVariables:URLVariables;
 		protected var _currentDateSource:ICurrentDateSource;
 		private var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
 		protected var _logger:ILogger;
+		private var _scheduleCollectionsProvider:IScheduleCollectionsProvider;
 
-        public function HealthActionInputModelBase(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-												   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
-        {
+		public function HealthActionInputModelBase(scheduleItemOccurrence:ScheduleItemOccurrence = null,
+												   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null,
+												   scheduleCollectionsProvider:IScheduleCollectionsProvider = null)
+		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-            _scheduleItemOccurrence = scheduleItemOccurrence;
+			_scheduleItemOccurrence = scheduleItemOccurrence;
 			_healthActionModelDetailsProvider = healthActionModelDetailsProvider;
+			_scheduleCollectionsProvider = scheduleCollectionsProvider;
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-        }
+		}
 
 		public function get scheduleItemOccurrence():ScheduleItemOccurrence
 		{
@@ -48,6 +51,11 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function get healthActionModelDetailsProvider():IHealthActionModelDetailsProvider
 		{
 			return _healthActionModelDetailsProvider;
+		}
+
+		public function get scheduleCollectionsProvider():IScheduleCollectionsProvider
+		{
+			return _scheduleCollectionsProvider;
 		}
 	}
 }

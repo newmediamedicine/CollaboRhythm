@@ -159,7 +159,7 @@ package collaboRhythm.plugins.medications.model
 
 		public function get additionalAdherenceInformation():String
 		{
-			return "...";
+			return "";
 		}
 
 		public function get model():IHealthActionListViewModel

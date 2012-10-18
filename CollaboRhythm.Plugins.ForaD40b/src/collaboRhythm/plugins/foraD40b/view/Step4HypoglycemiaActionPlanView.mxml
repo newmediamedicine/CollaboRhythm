@@ -55,8 +55,11 @@
 
 			nextStepActionButton.label = "Finish";
 
-			interpretationLabel.text = "Your blood glucose (" + _dataInputModel.bloodGlucose +
-					" mg/dL) is back to normal."
+			if (_dataInputModel.bloodGlucoseVitalSign)
+			{
+				interpretationLabel.text = "Your blood glucose (" + _dataInputModel.bloodGlucoseVitalSign.result.value +
+						" mg/dL) is back to normal."
+			}
 
 			var complexCarbs15gItem:ComplexCarbsItem = new ComplexCarbsItem(saltinesImageClass,
 					EAT_15G_OF_COMPLEX_CARBS_NOW, "6 saltines crackers for example");

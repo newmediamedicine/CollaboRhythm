@@ -18,8 +18,11 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
-		 creationComplete="creationCompleteHandler()"
-		 width="100%" height="100%">
+		 creationComplete="creationCompleteHandler()">
+	<s:states>
+		<s:State name="report"/>
+		<s:State name="review"/>
+	</s:states>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 
@@ -30,10 +33,15 @@
 		.textInputText {
 			fontSize: 110;
 		}
+
+		#reportedBloodGlucoseLabel {
+			fontSize: 110;
+		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -52,19 +60,49 @@
 			_dataInputModel = dataInputModel;
 			_dataInputController = dataInputController;
 
-			setDeviceBloodGlucose(_dataInputModel.deviceBloodGlucose);
-
-			if (_dataInputModel.healthActionModelDetailsProvider.accountId !=
-					_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+			if (_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
 			{
-				bloodGlucoseTextInput.enabled = false;
+				glucometerImage.visible = false;
+				glucometerImage.includeInLayout = false;
 			}
 
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem &&
+					_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
+			{
+				currentState = "review";
 
-			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
-			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
-			BindingUtils.bindSetter(handleInvalidBloodGlucose, _dataInputModel, "invalidBloodGlucose");
+				if (_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults &&
+						_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
+				{
+					var bloodGlucoseVitalSign:VitalSign = _dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults[0] as
+							VitalSign;
+					if (bloodGlucoseVitalSign)
+					{
+						reportedBloodGlucoseLabel.text = bloodGlucoseVitalSign.result.value;
+					}
+
+					if (bloodGlucoseVitalSign.comments != BloodGlucoseHealthActionInputModel.SELF_REPORT)
+					{
+						wirelessIcon.visible = true;
+					}
+				}
+			}
+			else
+			{
+				currentState = "report";
+
+				setDeviceBloodGlucose(_dataInputModel.deviceBloodGlucose);
+
+				if (_dataInputModel.healthActionModelDetailsProvider.accountId !=
+						_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+				{
+					bloodGlucoseTextInput.enabled = false;
+				}
+
+				BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
+				BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
+				BindingUtils.bindSetter(handleInvalidBloodGlucose, _dataInputModel, "invalidBloodGlucose");
+			}
 		}
 
 		private function creationCompleteHandler():void
@@ -116,15 +154,17 @@
 			}
 		}
 		]]></fx:Script>
-	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle" horizontalCenter="0" top="200">
-		<s:Image source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
+	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle">
+		<s:Image id="glucometerImage" source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
 				 smooth="true"/>
 		<view:WirelessIcon id="wirelessIcon" visible="false"/>
 		<s:Group width="240" height="130">
 			<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
 						 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
 						 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
-						 change="bloodGlucoseTextInput_changeHandler()" needsSoftKeyboard="true"/>
+						 change="bloodGlucoseTextInput_changeHandler()" needsSoftKeyboard="true"
+					includeIn="report"/>
+			<s:Label id="reportedBloodGlucoseLabel" styleName="textInputText" includeIn="review" verticalCenter="2" right="5"/>
 		</s:Group>
 		<s:Label text="mg/dL" verticalCenter="0" styleName="unitsText"/>
 	</s:HGroup>

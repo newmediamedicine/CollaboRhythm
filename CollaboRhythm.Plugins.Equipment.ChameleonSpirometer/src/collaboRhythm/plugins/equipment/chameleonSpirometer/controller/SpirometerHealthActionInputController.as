@@ -24,7 +24,7 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 					healthActionModelDetailsProvider);
 		}
 
-		public function handleHealthActionResult():void
+		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
 
 		}
@@ -46,6 +46,10 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 		public function useDefaultHandleHealthActionResult():Boolean
 		{
 			return false;
+		}
+
+		public function updateDateMeasuredStart(date:Date):void
+		{
 		}
 	}
 }

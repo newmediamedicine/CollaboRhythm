@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 currentState="dateLabel">
+	<s:states>
+		<s:State name="dateLabel"/>
+		<s:State name="dateSpinner"/>
+	</s:states>
+	<fx:Declarations>
+		<s:DateTimeFormatter id="timeFormatter" dateTimePattern="h : mm  a "/>
+	</fx:Declarations>
+	<fx:Style>
+		#dateMeasuredStartLabel {
+			fontSize: 40;
+		}
+
+		#dateMeasuredStartSpinner {
+			fontSize: 40;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+
+		import mx.binding.utils.BindingUtils;
+
+		[Bindable]
+		private var _dataInputModel:IHealthActionInputModel;
+		private var _dataInputController:IHealthActionInputController;
+		private var _currentDateSource:ICurrentDateSource;
+
+		public function init(dataInputModel:IHealthActionInputModel,
+					  dataInputController:IHealthActionInputController):void
+		{
+			_dataInputModel = dataInputModel;
+			_dataInputController = dataInputController;
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+
+			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
+			{
+				dateMeasuredStartLabel.text = timeFormatter.format(_dataInputModel.adherenceResultDate);
+				changeTimeButton.visible = false;
+			}
+			else
+			{
+				dateMeasuredStartLabel.text = timeFormatter.format(_dataInputModel.dateMeasuredStart);
+				BindingUtils.bindSetter(setDateMeasuredStart, _dataInputModel, "dateMeasuredStart");
+			}
+		}
+
+		private function setDateMeasuredStart(dateMeasuredStart:Date):void
+		{
+			if (currentState == "dateSpinner")
+			{
+				dateMeasuredStartSpinner.selectedDate = dateMeasuredStart;
+			}
+			else if (currentState == "dateLabel")
+			{
+				dateMeasuredStartLabel.text = timeFormatter.format(dateMeasuredStart);
+			}
+		}
+
+		private function changeTimeButton_clickHandler():void
+		{
+			if (currentState == "dateLabel")
+			{
+				currentState = "dateSpinner";
+				dateMeasuredStartSpinner.selectedDate = _dataInputModel.dateMeasuredStart;
+			}
+			else if (currentState == "dateSpinner")
+			{
+				currentState = "dateLabel";
+				_dataInputController.updateDateMeasuredStart(_currentDateSource.now());
+			}
+		}
+
+		private function dateMeasuredStartSpinner_changeHandler():void
+		{
+			_dataInputController.updateDateMeasuredStart(dateMeasuredStartSpinner.selectedDate);
+		}
+		]]></fx:Script>
+	<s:HGroup gap="15" verticalAlign="middle">
+		<s:Label id="dateMeasuredStartLabel" includeIn="dateLabel" paddingRight="10" paddingTop="6"/>
+		<s:DateSpinner id="dateMeasuredStartSpinner" displayMode="time"
+					   change="dateMeasuredStartSpinner_changeHandler()" includeIn="dateSpinner"/>
+		<s:Button id="changeTimeButton" label.dateLabel="Change Time" label.dateSpinner="Default Time"
+				  click="changeTimeButton_clickHandler()"/>
+	</s:HGroup>
+</s:Group>

@@ -60,7 +60,10 @@
 		{
 			_dataInputModel = dataInputModel;
 
-			bloodGlucoseLabel.text = _dataInputModel.bloodGlucose + " mg/dL";
+			if (_dataInputModel.bloodGlucoseVitalSign)
+			{
+				bloodGlucoseLabel.text = _dataInputModel.bloodGlucoseVitalSign.result.value + " mg/dL";
+			}
 
 			if (_dataInputModel.currentView == StartHypoglycemiaActionPlanView)
 			{

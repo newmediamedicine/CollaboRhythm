@@ -23,6 +23,7 @@
 							resize="resizeHandler()">
 	<fx:Declarations>
 		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler()"/>
+		<s:DateTimeFormatter id="timeFormatter" dateTimePattern="h a"/>
 	</fx:Declarations>
 	<fx:Style>
 		.adherenceInstructionsLabel {
@@ -66,29 +67,7 @@
 			_scheduleModel = scheduleViewInitializationParameters.scheduleModel;
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
 
-			title = "Scheduled Health Actions (" +
-					hourToString(_scheduleReportingModel.currentScheduleGroup.dateStart.hours) + " to " +
-					hourToString(_scheduleReportingModel.currentScheduleGroup.dateEnd.hours) + ")";
-		}
-
-		private function hourToString(hour:int):String
-		{
-			if (hour == 0)
-			{
-				return "12am";
-			}
-			else if (hour < 12)
-			{
-				return hour.toString() + "am";
-			}
-			else if (hour == 12)
-			{
-				return "12pm"
-			}
-			else
-			{
-				return (hour - 12).toString() + "pm";
-			}
+			title = "Scheduled Health Actions (" + timeFormatter.format(_scheduleReportingModel.currentScheduleGroup.dateStart) + " to " + timeFormatter.format(_scheduleReportingModel.currentScheduleGroup.dateEnd) + ")";
 		}
 
 		override protected function createChildren():void
