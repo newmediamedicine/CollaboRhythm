@@ -97,8 +97,8 @@
 			reportAdherenceTimeView.init(_dataInputModel, _dataInputController);
 			if (_dataInputModel.scheduleItemOccurrence)
 			{
-				scheduleHealthActionsClockIconView.init(_dataInputModel.scheduleCollectionsProvider,
-						_dataInputModel.scheduleItemOccurrence);
+				scheduleHealthActionsClockIconView.init(_dataInputModel.scheduleCollectionsProvider, _dataInputModel.scheduleItemOccurrence.dateStart,
+						_dataInputModel.scheduleItemOccurrence.dateEnd);
 			}
 			else
 			{
@@ -131,7 +131,7 @@
 		</s:Rect>
 		<s:Group height="100%" horizontalCenter="0">
 			<sharedView:ScheduledHealthActionDetailView id="scheduledHealthActionDetailView" height="100%"/>
-			<sharedView:ScheduleHealthActionsClockIconView id="scheduleHealthActionsClockIconView" width="50"
+			<sharedView:ScheduledHealthActionsClockIconView id="scheduleHealthActionsClockIconView" width="50"
 														   height="50" left="10" top="10"/>
 		</s:Group>
 		<s:Group width="25%" height="100%" right="0">

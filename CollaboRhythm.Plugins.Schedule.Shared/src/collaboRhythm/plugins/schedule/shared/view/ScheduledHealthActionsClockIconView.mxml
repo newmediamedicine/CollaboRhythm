@@ -20,14 +20,13 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import com.leebrimelow.drawing.Wedge;
 
 		import spark.primitives.Graphic;
 
-		public function init(scheduleGroupsCollectionsProvider:IScheduleCollectionsProvider,
-							 scheduleItemOccurrence:ScheduleItemOccurrence):void
+		public function init(scheduleGroupsCollectionsProvider:IScheduleCollectionsProvider, dateStart:Date,
+							 dateEnd:Date):void
 		{
 			for each (var scheduleGroup:ScheduleGroup in scheduleGroupsCollectionsProvider.scheduleGroupsCollection)
 			{
@@ -36,8 +35,8 @@
 
 				var color:uint;
 
-				if (scheduleItemOccurrence.dateStart.time == scheduleGroup.dateStart.time &&
-						scheduleItemOccurrence.dateEnd.time == scheduleGroup.dateEnd.time)
+				if (dateStart.time == scheduleGroup.dateStart.time &&
+						dateEnd.time == scheduleGroup.dateEnd.time)
 				{
 					color = 0x2EB5E4;
 				}
