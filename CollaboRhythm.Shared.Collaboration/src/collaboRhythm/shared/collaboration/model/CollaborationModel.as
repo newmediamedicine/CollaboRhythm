@@ -21,6 +21,8 @@ package collaboRhythm.shared.collaboration.model
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 
+	import flash.events.Event;
+
 	/**
 	 *
 	 * @author jom
@@ -185,6 +187,7 @@ package collaboRhythm.shared.collaboration.model
 
 		private function endActiveCollaboration():void
 		{
+			dispatchEvent(new CollaborationLobbyNetConnectionEvent(CollaborationLobbyNetConnectionEvent.END_COLLABORATION));
 			collaborationLobbyNetConnectionService.sendCollaborationMessage(CollaborationLobbyNetConnectionService.END);
 
 			resetCollaborationModel();
@@ -193,6 +196,7 @@ package collaboRhythm.shared.collaboration.model
 		private function receiveCollaborationEnded(subjectAccountId:String, sourceAccountId:String, sourcePeerId:String,
 												   passWord:String):void
 		{
+			dispatchEvent(new CollaborationLobbyNetConnectionEvent(CollaborationLobbyNetConnectionEvent.END_COLLABORATION));
 			resetCollaborationModel();
 		}
 

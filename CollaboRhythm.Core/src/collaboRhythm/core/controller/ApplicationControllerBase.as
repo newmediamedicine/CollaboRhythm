@@ -47,6 +47,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportState;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
+	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
@@ -81,6 +82,8 @@ package collaboRhythm.core.controller
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.filesystem.File;
+	import flash.globalization.DateTimeFormatter;
+	import flash.globalization.DateTimeStyle;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
 	import flash.text.Font;
@@ -92,6 +95,7 @@ package collaboRhythm.core.controller
 	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElementContainer;
 	import mx.events.PropertyChangeEvent;
+	import mx.formatters.DateFormatter;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
@@ -100,13 +104,13 @@ package collaboRhythm.core.controller
 
 	import spark.collections.Sort;
 	import spark.collections.SortField;
-
 	import spark.components.Application;
 	import spark.components.ViewNavigator;
 
 	[Bindable]
 	public class ApplicationControllerBase implements IApplicationControllerBase, IErrorDetailsProvider
 	{
+		protected static const MILLISECONDS_PER_MINUTE:int = 1000 * 60;
 		private static const ONE_MINUTE:int = 1000 * 60;
 		private static const DEBUG_LOG_FONTS:Boolean = false;
 
@@ -149,6 +153,10 @@ package collaboRhythm.core.controller
 		protected var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 		private var _recordSynchronizer:RecordSynchronizer;
 
+		protected var _dateFormatter:DateTimeFormatter = new DateTimeFormatter(flash.globalization.LocaleID.DEFAULT,
+				DateTimeStyle.SHORT, DateTimeStyle.SHORT);
+		private var _timeFormatter:DateTimeFormatter = new DateTimeFormatter(flash.globalization.LocaleID.DEFAULT);
+
 		public function ApplicationControllerBase(application:Application)
 		{
 			_application = application;
@@ -156,6 +164,7 @@ package collaboRhythm.core.controller
 			_autoSyncTimer = new Timer(0);
 			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
 			initializeBackgroundProcessModel();
+			_timeFormatter.setDateTimePattern("H:mm:ss");
 		}
 
 		private function updateAutoSyncTime():void
@@ -637,6 +646,8 @@ package collaboRhythm.core.controller
 			_collaborationLobbyNetConnectionServiceProxy = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService.createProxy(_pluginLoader.pluginsApplicationDomain);
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
 					synchronizeDataHandler);
+			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.END_COLLABORATION,
+					collaborationController_endCollaborationHandler);
 			BindingUtils.bindSetter(collaborationLobbyIsConnecting_changeHandler,
 					_collaborationLobbyNetConnectionService, "isConnecting");
 			BindingUtils.bindSetter(collaborationLobbyHasConnectionFailed_changeHandler,
@@ -1574,6 +1585,60 @@ package collaboRhythm.core.controller
 		public function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
 		{
 			return _collaborationLobbyNetConnectionServiceProxy;
+		}
+
+		protected function getCollaborationActivityEventLabel():String
+		{
+			var collaborationActivityEventLabel:String = "username=" + settings.username;
+			if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
+			{
+				collaborationActivityEventLabel = collaborationActivityEventLabel + "&peerId=" +
+						collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
+			}
+			if (_collaborationController.collaborationModel.collaborationStart)
+			{
+				collaborationActivityEventLabel = collaborationActivityEventLabel + "&startDate=" +
+						_dateFormatter.format(_collaborationController.collaborationModel.collaborationStart);
+			}
+
+			return collaborationActivityEventLabel;
+		}
+
+		public function endCollaboration():void
+		{
+			_collaborationController.endCollaboration();
+		}
+
+		protected function sendMessage(message:String):void
+		{
+			var servicesArray:Array = componentContainer.resolveAll(IIndividualMessageHealthRecordService);
+			if (servicesArray && servicesArray.length > 0)
+			{
+				var messageService:IIndividualMessageHealthRecordService = servicesArray[0];
+				messageService.createAndSendMessage(message);
+			}
+		}
+
+		private function collaborationController_endCollaborationHandler(event:CollaborationLobbyNetConnectionEvent):void
+		{
+			var collaborationDuration:Number = (_currentDateSource.now().time -
+					_collaborationController.collaborationModel.collaborationStart.time);
+			var collaborationDurationMinutes:Number = collaborationDuration / MILLISECONDS_PER_MINUTE;
+
+			if (settings.mode == Settings.MODE_CLINICIAN)
+			{
+				if (settings.useGoogleAnalytics)
+				{
+					_analyticsTracker.trackEvent("collaborationActivity", "sessionDuration",
+							getCollaborationActivityEventLabel(), collaborationDurationMinutes);
+				}
+
+				var collaborationDurationMinutesString:String = collaborationDurationMinutes.toFixed(2);
+				var collaborationDurationTimeString:String = _timeFormatter.formatUTC(new Date(collaborationDuration));
+				sendMessage("[Automated Message] Collaboration session between " + activeAccount.accountId + " and " +
+						_collaborationController.collaborationModel.peerAccount.accountId + " lasted " + collaborationDurationTimeString +
+						" (" + collaborationDurationMinutesString + " minute" + (collaborationDurationMinutesString == (1).toFixed(2) ? "" : "s") + ")." );
+			}
 		}
 	}
 }

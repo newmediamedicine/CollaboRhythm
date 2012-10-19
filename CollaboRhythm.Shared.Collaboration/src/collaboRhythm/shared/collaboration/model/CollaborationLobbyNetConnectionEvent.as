@@ -23,6 +23,7 @@ package collaboRhythm.shared.collaboration.model
 	{
 		public static const ERROR:String = "Error";
 		public static const SYNCHRONIZE:String = "Synchronize";
+		public static const END_COLLABORATION:String = "endCollaboration";
 
 		private var _accountId:String;
 

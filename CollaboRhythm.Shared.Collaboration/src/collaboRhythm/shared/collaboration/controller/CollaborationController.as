@@ -27,6 +27,8 @@ package collaboRhythm.shared.collaboration.controller
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 
+	import flash.events.Event;
+
 	import flash.events.EventDispatcher;
 	import flash.utils.getQualifiedClassName;
 
@@ -61,6 +63,7 @@ package collaboRhythm.shared.collaboration.controller
 			_activeAccount = activeAccount;
 			_settings = settings;
 			_collaborationModel = new CollaborationModel(settings, _activeAccount);
+			_collaborationModel.addEventListener(CollaborationLobbyNetConnectionEvent.END_COLLABORATION, collaborationModel_endCollaborationHandler);
 			_collaborationView = collaborationView;
 
 			_collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationMessageEvent.MESSAGE_RECEIVED, collaborationMessageReceived_eventHandler);
@@ -166,6 +169,11 @@ package collaboRhythm.shared.collaboration.controller
 		public function set viewNavigator(value:ViewNavigator):void
 		{
 			_viewNavigator = value;
+		}
+
+		private function collaborationModel_endCollaborationHandler(event:CollaborationLobbyNetConnectionEvent):void
+		{
+			dispatchEvent(new CollaborationLobbyNetConnectionEvent(CollaborationLobbyNetConnectionEvent.END_COLLABORATION));
 		}
 	}
 }

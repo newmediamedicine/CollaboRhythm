@@ -38,8 +38,6 @@ package collaboRhythm.tablet.controller
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
-	import flash.globalization.DateTimeFormatter;
-	import flash.globalization.DateTimeStyle;
 	import flash.utils.Timer;
 
 	import mx.binding.utils.BindingUtils;
@@ -54,7 +52,6 @@ package collaboRhythm.tablet.controller
 	{
 		private static const SESSION_IDLE_TIMEOUT:int = 60 * 5;
 		private static const ACCOUNT_ID_SUFFIX:String = "@records.media.mit.edu";
-		private static const MILLISECONDS_PER_MINUTE:int = 1000 * 60;
 
 		private var _tabletApplication:CollaboRhythmTabletApplication;
 		private var _tabletAppControllersMediator:TabletAppControllersMediator;
@@ -68,10 +65,6 @@ package collaboRhythm.tablet.controller
 		private var _synchronizationService:SynchronizationService;
 
 		private var _sessionIdleTimer:Timer;
-
-		private var _dateFormatter:DateTimeFormatter = new DateTimeFormatter(flash.globalization.LocaleID.DEFAULT,
-				DateTimeStyle.SHORT, DateTimeStyle.SHORT);
-
 
 		public function TabletApplicationController(collaboRhythmTabletApplication:CollaboRhythmTabletApplication)
 		{
@@ -269,23 +262,6 @@ package collaboRhythm.tablet.controller
 			}
 		}
 
-		private function getCollaborationActivityEventLabel():String
-		{
-			var collaborationActivityEventLabel:String = "username=" + settings.username;
-			if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
-			{
-				collaborationActivityEventLabel = collaborationActivityEventLabel + "&peerId=" +
-						collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount.accountId;
-			}
-			if (_collaborationController.collaborationModel.collaborationStart)
-			{
-				collaborationActivityEventLabel = collaborationActivityEventLabel + "&startDate=" +
-						_dateFormatter.format(_collaborationController.collaborationModel.collaborationStart);
-			}
-
-			return collaborationActivityEventLabel;
-		}
-
 		override protected function activateTracking():void
 		{
 			if (settings.useGoogleAnalytics)
@@ -372,8 +348,9 @@ package collaboRhythm.tablet.controller
 		{
 			if (activeRecordAccount)
 			{
-				closeRecordAccount(activeRecordAccount);
+				// End the collaboration before closing the record so that the automated message regarding the session can be sent
 				_collaborationController.endCollaboration();
+				closeRecordAccount(activeRecordAccount);
 			}
 			super.openRecordAccount(recordAccount);
 			if (tabletHomeView)
@@ -532,19 +509,6 @@ package collaboRhythm.tablet.controller
 			}
 
 			navigator.pushView(CollaborationVideoView);
-		}
-
-		public function endCollaboration():void
-		{
-			if (settings.mode == Settings.MODE_CLINICIAN && settings.useGoogleAnalytics)
-			{
-				var collaborationDuration:Number = (_currentDateSource.now().time -
-						_collaborationController.collaborationModel.collaborationStart.time) /
-						MILLISECONDS_PER_MINUTE;
-				_analyticsTracker.trackEvent("collaborationActivity", "sessionDuration",
-						getCollaborationActivityEventLabel(), collaborationDuration);
-			}
-			_collaborationController.endCollaboration();
 		}
 
 		override protected function prepareToExit():void
