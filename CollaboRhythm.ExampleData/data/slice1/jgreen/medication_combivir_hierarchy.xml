@@ -1,0 +1,1786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IndivoDocuments xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:fn="http://www.w3.org/2005/xpath-functions"
+                 xmlns:d="http://indivo.org/vocab/xml/documents#">
+   <LoadableIndivoDocument>
+      <document>
+         <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="213088">Lamivudine 150 MG / Zidovudine 300 MG Oral Tablet [Combivir]</name>
+            <orderType>prescribed</orderType>
+            <orderedBy>jking@records.media.mit.edu</orderedBy>
+            <dateOrdered>2011-07-14T19:13:11Z</dateOrdered>
+            <dateExpires>2012-07-14T09:00:00-04:00</dateExpires>
+            <indication>diabetes</indication>
+            <amountOrdered>
+               <value>90</value>
+               <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+            </amountOrdered>
+            <substitutionPermitted>true</substitutionPermitted>
+            <instructions>take with water</instructions>
+         </MedicationOrder>
+      </document>
+      <relatesTo>
+         <relation type="medicationFill">
+            <LoadableIndivoDocument>
+               <document>
+                  <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="213088">Lamivudine 150 MG / Zidovudine 300 MG Oral Tablet [Combivir]</name>
+                     <filledBy>ljohnson@records.media.mit.edu</filledBy>
+                     <dateFilled>2011-07-14T19:13:11Z</dateFilled>
+                     <amountFilled>
+                        <value>90</value>
+                        <unit>tab</unit>
+                     </amountFilled>
+                     <ndc>001730595</ndc>
+                     <instructions>do not expose to direct sunlight</instructions>
+                  </MedicationFill>
+               </document>
+            </LoadableIndivoDocument>
+         </relation>
+         <relation type="scheduleItem">
+            <LoadableIndivoDocument>
+               <document>
+                  <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="213088">Lamivudine 150 MG / Zidovudine 300 MG Oral Tablet [Combivir]</name>
+                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+                     <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-15T13:00:00Z</dateStart>
+                     <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+                     <recurrenceRule>
+                        <frequency>DAILY</frequency>
+                        <count>90</count>
+                     </recurrenceRule>
+                     <dose>
+                        <value>1</value>
+                        <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+                     </dose>
+                     <instructions>take with water</instructions>
+                  </MedicationScheduleItem>
+               </document>
+               <relatesTo>
+                  <relation type="adherenceItem">
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-15T14:57:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-15T14:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-15T14:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>89</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T13:07:00Z</dateReported>
+                              <recurrenceIndex>1</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-16T13:07:00Z</dateReported>
+                                       <dateAdministered>2011-07-16T13:07:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>87</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T13:54:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-17T13:54:00Z</dateReported>
+                                       <dateAdministered>2011-07-17T13:54:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>85</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T13:52:00Z</dateReported>
+                              <recurrenceIndex>3</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T13:48:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-19T13:48:00Z</dateReported>
+                                       <dateAdministered>2011-07-19T13:48:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>82</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T14:27:00Z</dateReported>
+                              <recurrenceIndex>5</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T14:24:00Z</dateReported>
+                              <recurrenceIndex>6</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-21T14:24:00Z</dateReported>
+                                       <dateAdministered>2011-07-21T14:24:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>81</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T14:14:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T14:14:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T14:14:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>79</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T14:15:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T14:15:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T14:15:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>77</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T14:59:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T14:59:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T14:59:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>75</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T13:12:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T13:12:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T13:12:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>73</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T15:26:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T15:26:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T15:26:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>71</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T13:47:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T13:47:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T13:47:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>69</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T14:12:00Z</dateReported>
+                              <recurrenceIndex>13</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-28T14:12:00Z</dateReported>
+                                       <dateAdministered>2011-07-28T14:12:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>67</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-29T14:44:00Z</dateReported>
+                              <recurrenceIndex>14</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-29T14:44:00Z</dateReported>
+                                       <dateAdministered>2011-07-29T14:44:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>65</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-30T14:02:00Z</dateReported>
+                              <recurrenceIndex>15</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-30T14:02:00Z</dateReported>
+                                       <dateAdministered>2011-07-30T14:02:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>63</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-31T13:24:00Z</dateReported>
+                              <recurrenceIndex>16</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-31T13:24:00Z</dateReported>
+                                       <dateAdministered>2011-07-31T13:24:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>61</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-01T15:22:00Z</dateReported>
+                              <recurrenceIndex>17</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-01T15:22:00Z</dateReported>
+                                       <dateAdministered>2011-08-01T15:22:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>59</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-02T15:00:00Z</dateReported>
+                              <recurrenceIndex>18</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-02T15:00:00Z</dateReported>
+                                       <dateAdministered>2011-08-02T15:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>57</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-03T13:53:00Z</dateReported>
+                              <recurrenceIndex>19</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-03T13:53:00Z</dateReported>
+                                       <dateAdministered>2011-08-03T13:53:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>55</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-04T14:00:00Z</dateReported>
+                              <recurrenceIndex>20</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-04T14:00:00Z</dateReported>
+                                       <dateAdministered>2011-08-04T14:00:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>53</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-05T13:54:00Z</dateReported>
+                              <recurrenceIndex>21</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-05T13:54:00Z</dateReported>
+                                       <dateAdministered>2011-08-05T13:54:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>51</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-06T13:14:00Z</dateReported>
+                              <recurrenceIndex>22</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-06T13:14:00Z</dateReported>
+                                       <dateAdministered>2011-08-06T13:14:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>49</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-07T13:00:00Z</dateReported>
+                              <recurrenceIndex>23</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-08T13:10:00Z</dateReported>
+                              <recurrenceIndex>24</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-09T13:18:00Z</dateReported>
+                              <recurrenceIndex>25</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-10T13:29:00Z</dateReported>
+                              <recurrenceIndex>26</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-10T13:29:00Z</dateReported>
+                                       <dateAdministered>2011-08-10T13:29:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>47</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-11T13:40:00Z</dateReported>
+                              <recurrenceIndex>27</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-11T13:40:00Z</dateReported>
+                                       <dateAdministered>2011-08-11T13:40:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>45</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-12T13:51:00Z</dateReported>
+                              <recurrenceIndex>28</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-12T13:51:00Z</dateReported>
+                                       <dateAdministered>2011-08-12T13:51:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>43</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                  </relation>
+               </relatesTo>
+            </LoadableIndivoDocument>
+            <LoadableIndivoDocument>
+               <document>
+                  <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                     <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+                     <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
+                     <dateStart>2011-07-15T22:00:00Z</dateStart>
+                     <dateEnd>2011-07-16T02:00:00Z</dateEnd>
+                     <recurrenceRule>
+                        <frequency>DAILY</frequency>
+                        <count>45</count>
+                     </recurrenceRule>
+                     <dose>
+                        <value>1</value>
+                        <unit type="http://indivo.org/codes/units#" value="tab" abbrev="tab">tablet</unit>
+                     </dose>
+                     <instructions>take with water</instructions>
+                  </MedicationScheduleItem>
+               </document>
+               <relatesTo>
+                  <relation type="adherenceItem">
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-16T00:57:00Z</dateReported>
+                              <recurrenceIndex>0</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-16T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-16T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>88</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-17T00:57:00Z</dateReported>
+                              <recurrenceIndex>1</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-17T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-17T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>86</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-18T00:57:00Z</dateReported>
+                              <recurrenceIndex>2</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-18T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-18T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>84</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-19T00:57:00Z</dateReported>
+                              <recurrenceIndex>3</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-19T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-19T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>83</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-20T00:57:00Z</dateReported>
+                              <recurrenceIndex>4</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-21T00:57:00Z</dateReported>
+                              <recurrenceIndex>5</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-22T00:57:00Z</dateReported>
+                              <recurrenceIndex>6</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-22T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-22T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>80</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-23T00:57:00Z</dateReported>
+                              <recurrenceIndex>7</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-23T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-23T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>78</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-24T00:57:00Z</dateReported>
+                              <recurrenceIndex>8</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-24T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-24T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>76</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-25T00:57:00Z</dateReported>
+                              <recurrenceIndex>9</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-25T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-25T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>74</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-26T00:57:00Z</dateReported>
+                              <recurrenceIndex>10</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-26T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-26T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>72</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-27T00:57:00Z</dateReported>
+                              <recurrenceIndex>11</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-27T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-27T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>70</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-28T00:57:00Z</dateReported>
+                              <recurrenceIndex>12</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-28T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-28T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>68</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-29T00:57:00Z</dateReported>
+                              <recurrenceIndex>13</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-29T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-29T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>66</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-30T00:57:00Z</dateReported>
+                              <recurrenceIndex>14</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-30T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-30T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>64</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-07-31T00:57:00Z</dateReported>
+                              <recurrenceIndex>15</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-07-31T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-07-31T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>62</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-01T00:57:00Z</dateReported>
+                              <recurrenceIndex>16</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-01T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-01T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>60</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-02T00:57:00Z</dateReported>
+                              <recurrenceIndex>17</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-02T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-02T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>58</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-03T00:57:00Z</dateReported>
+                              <recurrenceIndex>18</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-03T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-03T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>56</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-04T00:57:00Z</dateReported>
+                              <recurrenceIndex>19</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-04T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-04T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>54</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-05T00:57:00Z</dateReported>
+                              <recurrenceIndex>20</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-05T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-05T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>52</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-06T00:57:00Z</dateReported>
+                              <recurrenceIndex>21</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-06T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-06T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>50</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-07T00:57:00Z</dateReported>
+                              <recurrenceIndex>22</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-07T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-07T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>48</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-08T00:57:00Z</dateReported>
+                              <recurrenceIndex>23</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-09T00:57:00Z</dateReported>
+                              <recurrenceIndex>24</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-10T00:57:00Z</dateReported>
+                              <recurrenceIndex>25</recurrenceIndex>
+                              <adherence>false</adherence>
+                           </AdherenceItem>
+                        </document>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-11T00:57:00Z</dateReported>
+                              <recurrenceIndex>26</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-11T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-11T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>46</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-12T00:57:00Z</dateReported>
+                              <recurrenceIndex>27</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-12T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-12T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>44</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                     <LoadableIndivoDocument>
+                        <document>
+                           <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                              <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                              <dateReported>2011-08-13T00:57:00Z</dateReported>
+                              <recurrenceIndex>28</recurrenceIndex>
+                              <adherence>true</adherence>
+                           </AdherenceItem>
+                        </document>
+                        <relatesTo>
+                           <relation type="adherenceResult">
+                              <LoadableIndivoDocument>
+                                 <document>
+                                    <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="866924">Metoprolol Tartrate 25 MG Oral Tablet</name>
+                                       <reportedBy>jgreen@records.media.mit.edu</reportedBy>
+                                       <dateReported>2011-08-13T00:57:00Z</dateReported>
+                                       <dateAdministered>2011-08-13T00:57:00Z</dateAdministered>
+                                       <amountAdministered>
+                                          <value>1</value>
+                                          <unit>tablet</unit>
+                                       </amountAdministered>
+                                       <amountRemaining>
+                                          <value>42</value>
+                                          <unit>tablet</unit>
+                                       </amountRemaining>
+                                    </MedicationAdministration>
+                                 </document>
+                              </LoadableIndivoDocument>
+                           </relation>
+                        </relatesTo>
+                     </LoadableIndivoDocument>
+                  </relation>
+               </relatesTo>
+            </LoadableIndivoDocument>
+         </relation>
+      </relatesTo>
+   </LoadableIndivoDocument>
+</IndivoDocuments>

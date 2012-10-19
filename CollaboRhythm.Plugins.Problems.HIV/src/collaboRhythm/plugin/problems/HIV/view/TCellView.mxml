@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		width="28" height="28">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugin.problems.HIV.model.HIVSimulationModel;
+
+		private var openvirusPos:Array = [
+			[-24, 0],
+			[24, 0],
+			[-10, 24],
+			[10, 24],
+			[-10, -24],
+			[10, -24]
+		];
+		private var usedvirusPos:Array = [];
+		private var attachedViruses:Array = [];
+		private var attachedVirusesCopy:Array = [];
+
+		private var positions:Array = [
+			[6, 0],
+			[6, 1],
+			[5, 2],
+			[4, 3],
+			[3, 4],
+			[2, 5],
+			[1, 5],
+			[0, 5],
+			[-1, 6],
+			[-2, 6],
+			[-3, 5],
+			[-4, 5],
+			[-5, 4],
+			[-5, 3],
+			[-5, 2],
+			[-6, 1],
+			[-6, 0],
+			[-5, -1],
+			[-4, -2],
+			[-4, -3],
+			[-5, -4],
+			[-5, -5],
+			[-4, -6],
+			[-3, -6],
+			[-2, -6],
+			[-1, -6],
+			[0, -5],
+			[1, -5],
+			[2, -5],
+			[3, -4],
+			[4, -3],
+			[5, -2],
+			[5, -1]
+		];
+		private var currentposition:Number = Math.floor(Math.random() * positions.length);
+
+		private var alive:Boolean = true;
+
+		private var _animationTimer:Timer;
+
+		public function init(hivSimulationModel:HIVSimulationModel):void
+		{
+			_animationTimer = new Timer(100);
+//			_animationTimer.addEventListener(TimerEvent.TIMER, animationTimerEventHandler);
+			_animationTimer.start();
+		}
+
+//		private function animationTimerEventHandler(event:TimerEvent):void
+//		{
+//			if (alive)
+//			{
+//				this.tcell_mc._x = positions[currentposition][0];
+//				this.tcell_mc._y = positions[currentposition][1];
+//				currentposition = currentposition + 1;
+//				if (currentposition == positions.length)
+//				{
+//					currentposition = 0;
+//				}
+//			} else
+//			{
+//				this.tcell_mc._x = 0;
+//				this.tcell_mc._y = 0;
+//				currentposition = Math.floor(Math.random() * positions.length);
+//			}
+//		}
+
+		public function addVirus(virusNumber, tcellNumber)
+		{
+//			var placenum:Number = Math.floor(Math.random() * openvirusPos.length);
+//			var virusPos:Array = openvirusPos[placenum];
+//			openvirusPos.splice(placenum, 1);
+//			usedvirusPos.push(virusPos);
+//			var mcname:String = "virus" + virusNumber.toString() + "_mc";
+//			var virus:MovieClip = this.attachMovie("hiv", mcname, this.getNextHighestDepth());
+//			attachedViruses.push(virus);
+//			attachedVirusesCopy.push(virus);
+//			virus._x = virusPos[0];
+//			virus._y = virusPos[1];
+//			this.alive = false;
+//			this.tcell_mc.tcellcell_mc._alpha = 40;
+//			if (openvirusPos.length == 0)
+//			{
+//				this._parent.freeTcells.splice(tcellNumber, 1);
+//			}
+//			return virus;
+		}
+
+		function XandYfromAngle(angle:Number, radius:Number)
+		{
+			var radians:Number = angle * (Math.PI / 180);
+			var xpos:Number = radius * Math.sin(radians);
+			var ypos:Number = -radius * Math.cos(radians);
+
+			return [xpos, ypos];
+		}
+
+
+		function removeVirusatPosition(virusPos:Array)
+		{
+//			for (var virusnum = 0; virusnum < attachedViruses.length; virusnum++)
+//			{
+//				if (usedvirusPos[virusnum][0] == virusPos[0] and
+//				usedvirusPos[virusnum][1] == virusPos[1]
+//			)
+//				{
+//					attachedVirus = attachedViruses[virusnum];
+//					attachedViruses.splice(virusnum, 1);
+//					usedvirusPos.splice(virusnum, 1);
+//					attachedVirus.removeMovieClip();
+//					this._parent.AddLooseVirus();
+//				}
+//			}
+		}
+
+		function drawMedication(medication:MovieClip, startAngle:Number, endAngle:Number, medColor, medAlpha:Number)
+		{
+
+			if (medAlpha == 50)
+			{
+				var increment:Number = 2;
+			} else if (medAlpha == 100)
+			{
+				var increment:Number = 0.5;
+			}
+
+			for (var radius = 20; radius < 25; radius = radius + increment)
+			{
+
+				var startPos:Array = XandYfromAngle(startAngle, radius);
+				medication.moveTo(startPos[0], startPos[1]);
+				medication.lineStyle(1, medColor, 100);
+
+				var chunks:Number = Math.ceil((endAngle - startAngle) / 15);
+				var currentAngle:Number = startAngle;
+
+				for (var chunk = 0; chunk < chunks; chunk++)
+				{
+
+					var controlAngle:Number = currentAngle + 7.5;
+					var ControlXandY:Array = XandYfromAngle(controlAngle, radius + 1);
+
+					var endAngle:Number = currentAngle + 15;
+					var EndXandY:Array = XandYfromAngle(endAngle, radius);
+
+					medication.curveTo(ControlXandY[0], ControlXandY[1], EndXandY[0], EndXandY[1]);
+					currentAngle = endAngle;
+
+				}
+			}
+		}
+
+		function AddMedication(medicationNumber, totalMedications, medColor, medAlpha)
+		{
+//			var medName:String = "med" + medicationNumber.toString() + "_mc";
+//			var medication:MovieClip = this.tcell_mc.createEmptyMovieClip(medName, this.tcell_mc.getNextHighestDepth());
+//
+//			if (totalMedications == 1)
+//			{
+//				var angles:Array = [0, 360];
+//
+//				drawMedication(medication, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+//				if (medicationNumber == 0)
+//				{
+//					removeVirusatPosition([-24, 0]);
+//					removeVirusatPosition([-10, -24]);
+//					removeVirusatPosition([10, -24]);
+//					removeVirusatPosition([24, 0]);
+//					removeVirusatPosition([-10, 24]);
+//					removeVirusatPosition([10, 24]);
+//				}
+//			} else if (totalMedications == 2)
+//			{
+//				var angles:Array = [180, 360, 540];
+//
+//				drawMedication(medication, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+//				if (medicationNumber == 0)
+//				{
+//					removeVirusatPosition([-24, 0]);
+//					removeVirusatPosition([-10, -24]);
+//					removeVirusatPosition([-10, 24]);
+//				} else if (medicationNumber == 1)
+//				{
+//					removeVirusatPosition([10, -24]);
+//					removeVirusatPosition([24, 0]);
+//					removeVirusatPosition([10, 24]);
+//				}
+//			} else if (totalMedications == 3)
+//			{
+//				var angles:Array = [240, 360, 480, 600];
+//
+//				drawMedication(medication, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+//				if (medicationNumber == 0)
+//				{
+//					removeVirusatPosition([-24, 0]);
+//					removeVirusatPosition([-10, -24]);
+//				} else if (medicationNumber == 1)
+//				{
+//					removeVirusatPosition([10, -24]);
+//					removeVirusatPosition([24, 0]);
+//				} else if (medicationNumber == 2)
+//				{
+//					removeVirusatPosition([-10, 24]);
+//					removeVirusatPosition([10, 24]);
+//				}
+//			} else if (totalMedications == 4)
+//			{
+//				var angles:Array = [225, 315, 405, 495, 585];
+//
+//				drawMedication(medication, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+//				if (medicationNumber == 0)
+//				{
+//					removeVirusatPosition([-24, 0]);
+//				} else if (medicationNumber == 1)
+//				{
+//					removeVirusatPosition([-10, -24]);
+//					removeVirusatPosition([10, -24]);
+//				} else if (medicationNumber == 2)
+//				{
+//					removeVirusatPosition([24, 0]);
+//				} else if (medicationNumber == 3)
+//				{
+//					removeVirusatPosition([-10, 24]);
+//					removeVirusatPosition([10, 24]);
+//				}
+//			} else if (totalMedications == 5)
+//			{
+//				var angles:Array = [216, 288, 360, 432, 504, 576];
+//
+//				drawMedication(medication, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+//				if (medicationNumber == 0)
+//				{
+//					removeVirusatPosition([-24, 0]);
+//				} else if (medicationNumber == 1)
+//				{
+//					removeVirusatPosition([-10, -24]);
+//				} else if (medicationNumber == 2)
+//				{
+//					removeVirusatPosition([10, -24]);
+//				} else if (medicationNumber == 3)
+//				{
+//					removeVirusatPosition([24, 0]);
+//				} else if (medicationNumber == 4)
+//				{
+//					removeVirusatPosition([-10, 24]);
+//					removeVirusatPosition([10, 24]);
+//				}
+//			}
+//
+//			if (attachedViruses.length == 0)
+//			{
+//				this.alive = true;
+//				this.tcell_mc.tcellcell_mc._alpha = 100;
+//			}
+		}
+		]]></fx:Script>
+</s:Group>
