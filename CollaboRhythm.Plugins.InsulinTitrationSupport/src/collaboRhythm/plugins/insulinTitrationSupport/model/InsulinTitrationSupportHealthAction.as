@@ -4,7 +4,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 	public class InsulinTitrationSupportHealthAction extends HealthActionBase
 	{
-		public static const HEALTH_ACTION_TYPE:String = "Titrate Insulin";
+		public static const HEALTH_ACTION_TYPE:String = "Insulin Titration";
 
 		public function InsulinTitrationSupportHealthAction()
 		{

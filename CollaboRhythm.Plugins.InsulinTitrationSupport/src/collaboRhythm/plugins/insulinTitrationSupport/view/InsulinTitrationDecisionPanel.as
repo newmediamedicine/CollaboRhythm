@@ -348,7 +348,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		private function updateInstructionsText():void
 		{
 			_instructionsGroup.removeAllElements();
-			createInstructionsRichText("<p align='center'><Font size='30'>303 Protocol for Insulin Titration</Font></p>",
+			createInstructionsRichText("<p align='center'><Font size='30'>Insulin Titration (guided by 303 Protocol)</Font></p>",
 					_instructionsGroup, false);
 
 			var steps:ArrayCollection = model.instructionsSteps;
