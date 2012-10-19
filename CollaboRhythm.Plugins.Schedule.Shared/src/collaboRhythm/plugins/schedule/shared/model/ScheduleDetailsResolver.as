@@ -80,11 +80,11 @@ package collaboRhythm.plugins.schedule.shared.model
 				{
 					if (scheduleItem.name.value == scheduleDetails.currentSchedule.name.value)
 					{
-						// TODO: find a more robust way of determining the previousSchedule; currently we look for the first occurrence in the 24 hours prior to the current occurrence
+						// TODO: find a more robust way of determining the previousSchedule; currently we look for any occurrence after midnight the day prior to the current occurrence
 						// For dateEnd, subtract 1 millisecond because dateEnd is inclusive, and we want to exclude occurrences that start at occurrence.dateStart
 						scheduleItemOccurrences = scheduleItem.getScheduleItemOccurrences(
-								new Date(scheduleDetails.occurrence.dateStart.valueOf() -
-										ScheduleItemBase.MILLISECONDS_IN_DAY),
+								new Date(DateUtil.roundTimeToNextDay(scheduleDetails.occurrence.dateStart).valueOf() -
+										ScheduleItemBase.MILLISECONDS_IN_DAY * 2),
 								new Date(scheduleDetails.occurrence.dateStart.valueOf() - 1));
 						if (scheduleItemOccurrences.length > 0)
 						{

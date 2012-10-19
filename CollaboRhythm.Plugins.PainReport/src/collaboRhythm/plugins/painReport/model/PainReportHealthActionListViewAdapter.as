@@ -8,6 +8,8 @@ package collaboRhythm.plugins.painReport.model
 
 	import mx.core.IVisualElement;
 
+	import spark.components.Button;
+
 	import spark.components.Image;
 
 	public class PainReportHealthActionListViewAdapter implements IHealthActionListViewAdapter
@@ -92,6 +94,11 @@ package collaboRhythm.plugins.painReport.model
 		}
 
 		public function createCustomView():IVisualElement
+		{
+			return null;
+		}
+
+		public function createCommandButtons():Vector.<Button>
 		{
 			return null;
 		}

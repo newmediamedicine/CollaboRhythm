@@ -6,6 +6,7 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+	import flash.events.MouseEvent;
 	import flash.net.URLVariables;
 
 	import spark.components.ViewNavigator;
@@ -49,6 +50,10 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 		}
 
 		public function updateDateMeasuredStart(date:Date):void
+		{
+		}
+
+		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
 		{
 		}
 	}

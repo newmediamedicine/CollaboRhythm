@@ -9,7 +9,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package collaboRhythm.plugins.insulinTitrationSupport.view.skins
+package collaboRhythm.shared.ui.buttons.view.skins
 {
 	import mx.core.mx_internal;
 

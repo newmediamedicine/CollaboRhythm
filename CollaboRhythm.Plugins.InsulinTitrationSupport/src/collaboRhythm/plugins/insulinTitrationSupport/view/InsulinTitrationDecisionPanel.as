@@ -9,9 +9,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step3Icon;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step4Icon;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.WarningIcon;
-	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.SolidFillButtonSkin;
-	import collaboRhythm.plugins.insulinTitrationSupport.view.skins.TransparentButtonSkin;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
+	import collaboRhythm.shared.ui.buttons.view.skins.SolidFillButtonSkin;
+	import collaboRhythm.shared.ui.buttons.view.skins.TransparentButtonSkin;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
 
 	import flash.events.Event;

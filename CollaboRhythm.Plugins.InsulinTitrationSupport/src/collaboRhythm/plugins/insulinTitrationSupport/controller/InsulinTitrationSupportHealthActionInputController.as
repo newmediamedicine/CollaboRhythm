@@ -9,6 +9,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+	import flash.events.MouseEvent;
+
 	import flash.net.URLVariables;
 
 	import spark.components.ViewNavigator;
@@ -73,6 +75,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		}
 
 		public function updateDateMeasuredStart(date:Date):void
+		{
+		}
+
+		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
 		{
 		}
 	}

@@ -20,6 +20,8 @@ package collaboRhythm.plugins.medications.insulin.model
 	import mx.core.IVisualElement;
 	import mx.events.ResizeEvent;
 
+	import spark.components.Button;
+
 	import spark.components.Group;
 	import spark.components.Image;
 	import spark.components.Label;
@@ -165,6 +167,7 @@ package collaboRhythm.plugins.medications.insulin.model
 				label.setStyle("color", 0xFFFFFF);
 			}
 			label.setStyle("fontStyle", "italic");
+			label.setStyle("fontWeight", "normal");
 			updateDoseLabel(label, group);
 			group.addElement(label);
 
@@ -187,6 +190,11 @@ package collaboRhythm.plugins.medications.insulin.model
 			label.top = 11 / 75 * group.height;
 			label.right = _unscaledDoseLabelRight / 75 * group.width;
 			label.setStyle("fontSize", 26.0 / 75 * group.width);
+		}
+
+		public function createCommandButtons():Vector.<Button>
+		{
+			return null;
 		}
 	}
 }

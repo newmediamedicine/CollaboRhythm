@@ -15,6 +15,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 	import com.adobe.nativeExtensions.Vibration;
 
+	import flash.events.MouseEvent;
 	import flash.net.URLVariables;
 
 	import mx.binding.utils.BindingUtils;
@@ -289,6 +290,10 @@ package collaboRhythm.plugins.foraD40b.controller
 			// TODO: Currently using the vibration native extension with modifications to play a video
 			var vibration:Vibration = new (Vibration);
 			vibration.vibrate(instructionalVideoPath, "video/*");
+		}
+
+		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
+		{
 		}
 	}
 }

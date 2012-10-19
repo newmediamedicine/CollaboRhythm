@@ -40,7 +40,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				if (medicationHealthAction && InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES.indexOf(medicationHealthAction.medicationCode) != -1)
 				{
 					return new TitratingInsulinHealthActionInputController(scheduleItemOccurrence,
-							healthActionModelDetailsProvider, viewNavigator, collaborationLobbyNetConnectionServiceProxy);
+							healthActionModelDetailsProvider, viewNavigator, collaborationLobbyNetConnectionServiceProxy, currentHealthActionInputController);
 				}
 			}
 			return currentHealthActionInputController;

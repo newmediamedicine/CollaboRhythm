@@ -2,6 +2,7 @@ package collaboRhythm.plugins.schedule.shared.model
 {
 	import mx.core.IVisualElement;
 
+	import spark.components.Button;
 	import spark.components.Image;
 
 	/**
@@ -40,5 +41,12 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get model():IHealthActionListViewModel;
 
 		function get controller():IHealthActionListViewController;
+
+		/**
+		 * Create command buttons to be added to the callout button. Commands can be additional actions that are
+		 * appropriate for this health action.
+		 * @return vector of buttons
+		 */
+		function createCommandButtons():Vector.<Button>;
 	}
 }

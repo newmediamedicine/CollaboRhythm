@@ -9,9 +9,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package collaboRhythm.plugins.insulinTitrationSupport.view.skins
+package collaboRhythm.shared.ui.buttons.view.skins
 {
-	import collaboRhythm.plugins.insulinTitrationSupport.view.skins320.TransparentButton_up;
+	import collaboRhythm.shared.ui.buttons.view.skins320.TransparentButton_up;
 
 	import mx.core.DPIClassification;
 	import mx.core.mx_internal;
@@ -93,14 +93,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.view.skins
 			{
 				case DPIClassification.DPI_320:
 				{
-					upBorderSkin = collaboRhythm.plugins.insulinTitrationSupport.view.skins320.TransparentButton_up;
-					downBorderSkin = collaboRhythm.plugins.insulinTitrationSupport.view.skins320.TransparentButton_down;
+					upBorderSkin = collaboRhythm.shared.ui.buttons.view.skins320.TransparentButton_up;
+					downBorderSkin = collaboRhythm.shared.ui.buttons.view.skins320.TransparentButton_down;
 
 					break;
 				}
 				default:
 				{
-					upBorderSkin = collaboRhythm.plugins.insulinTitrationSupport.view.skins.TransparentButton_up;
+					upBorderSkin = collaboRhythm.shared.ui.buttons.view.skins.TransparentButton_up;
 					downBorderSkin = TransparentButton_down;
 
 					break;
