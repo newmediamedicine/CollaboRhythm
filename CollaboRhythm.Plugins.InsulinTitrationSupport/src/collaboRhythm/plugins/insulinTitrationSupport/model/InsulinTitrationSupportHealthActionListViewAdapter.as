@@ -166,7 +166,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get description():String
 		{
-			return "Decision Making Health Action";
+			return "Dose Change Decision";
 		}
 
 		public function get indication():String
@@ -176,12 +176,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get primaryInstructions():String
 		{
-			return "";
+			return "View this daily to learn about titration";
 		}
 
 		public function get secondaryInstructions():String
 		{
-			return "";
+			return "Only make a change when appropriate";
 		}
 
 		public function get instructionalVideoPath():String

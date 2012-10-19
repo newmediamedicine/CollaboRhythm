@@ -10,7 +10,7 @@
     <option name="myModule" />
     <option name="myJdk" value="1.6" />
     <XsltFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/xslt/medication_pill_adherence_flat_to_hierarchy.xsl" />
-    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/jgreen/staging/medication_tylenol_adherence.xml" />
+    <XmlFile url="file://$PROJECT_DIR$/CollaboRhythm.ExampleData/data/slice1/rpoole/staging/medication_tylenol_adherence.xml" />
     <parameters />
     <OutputType value="CONSOLE" save-to-file="true" />
     <FileType name="XML" />
