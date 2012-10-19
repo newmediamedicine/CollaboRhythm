@@ -65,6 +65,11 @@
 				dateMeasuredStartLabel.text = timeFormatter.format(_dataInputModel.dateMeasuredStart);
 				BindingUtils.bindSetter(setDateMeasuredStart, _dataInputModel, "dateMeasuredStart");
 			}
+
+			if (_dataInputModel.healthActionModelDetailsProvider.accountId == _dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+			{
+				changeTimeButton.enabled = true;
+			}
 		}
 
 		private function setDateMeasuredStart(dateMeasuredStart:Date):void
@@ -103,6 +108,6 @@
 		<s:DateSpinner id="dateMeasuredStartSpinner" displayMode="time"
 					   change="dateMeasuredStartSpinner_changeHandler()" includeIn="dateSpinner"/>
 		<s:Button id="changeTimeButton" label.dateLabel="Change Time" label.dateSpinner="Default Time"
-				  click="changeTimeButton_clickHandler()"/>
+				  click="changeTimeButton_clickHandler()" enabled="false"/>
 	</s:HGroup>
 </s:Group>

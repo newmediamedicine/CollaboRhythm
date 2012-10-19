@@ -12,5 +12,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get adherenceResultDate():Date;
 
 		function get dateMeasuredStart():Date;
+
+		function get healthActionModelDetailsProvider():IHealthActionModelDetailsProvider;
 	}
 }

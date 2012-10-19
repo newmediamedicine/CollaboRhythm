@@ -15,10 +15,11 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<sharedViews:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+<tabletViews:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 							xmlns:s="library://ns.adobe.com/flex/spark"
-							xmlns:sharedViews="collaboRhythm.shared.view.tablet.*"
+							xmlns:tabletViews="collaboRhythm.shared.view.tablet.*"
 							xmlns:scheduleViews="collaboRhythm.plugins.schedule.view.*"
+							xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
 							creationComplete="creationCompleteHandler()"
 							resize="resizeHandler()">
 	<fx:Declarations>
@@ -83,6 +84,10 @@
 		{
 			scheduleGroupReportingView.init(_scheduleModel, _scheduleAppController.activeAccount.accountId,
 					_scheduleReportingController);
+			if (_scheduleReportingModel.currentScheduleGroup)
+			{
+				scheduledHealthActionsClockIconView.init(_scheduleModel, _scheduleReportingModel.currentScheduleGroup.dateStart, _scheduleReportingModel.currentScheduleGroup.dateEnd);
+			}
 
 			_scheduleReportingModel.sortScheduleItemOccurrences();
 
@@ -173,22 +178,23 @@
 			_touchInteraction = false;
 		}
 		]]></fx:Script>
-	<s:Group width="100%" height="100%">
-		<s:VGroup id="ownRecordInstructionsVGroup" verticalCenter="0" right="60" gap="60" visible="false">
-			<s:Label text="Report adherence to a scheduled health action by touching the corresponding check box."
+	<s:Group width="50%" height="100%">
+		<sharedView:ScheduledHealthActionsClockIconView id="scheduledHealthActionsClockIconView" width="120" height="120" horizontalCenter="0" top="40"/>
+		<s:VGroup id="ownRecordInstructionsVGroup" verticalCenter="0" left="60" gap="60" visible="false" horizontalAlign="center">
+			<s:Label text="Touch the check box to quickly report adherence to a scheduled health action."
 					 styleName="adherenceInstructionsLabel" width="500"/>
-			<s:Label text="The '...' symbol means that you will need to enter additional information in another view."
+			<s:Label text="Touch the item to report more detail about a schedule health action, such as the time of adherence."
 					 styleName="adherenceInstructionsLabel" width="500"/>
 			<s:Label
-					text="Once you save adherence to a scheduled health action, you cannot uncheck it, but you can view previous results by touching the item."
+					text="Once you save adherence to a scheduled health action, you cannot uncheck it, but you can review the result by touching the item."
 					styleName="adherenceInstructionsLabel" width="500"/>
 		</s:VGroup>
-		<s:VGroup id="sharedRecordInstructionsVGroup" verticalCenter="0" right="60" gap="60" visible="false">
+		<s:VGroup id="sharedRecordInstructionsVGroup" verticalCenter="0" left="60" gap="60" visible="false">
 			<s:Label text="You cannot report adherence because this is not your record. It has only been shared with you."
 					 styleName="adherenceInstructionsLabel" width="500"/>
 		</s:VGroup>
 	</s:Group>
-	<s:Group id="reportingGroup" height="100%">
+	<s:Group id="reportingGroup" height="100%" right="0">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0xFFFFFF"/>
@@ -198,10 +204,10 @@
 												  touchInteractionStart="scheduleGroupReportingView_touchInteractionStartHandler()"
 												  touchInteractionEnd="scheduleGroupReportingView_touchInteractionEndHandler()"
 												  creationComplete="scheduleGroupReportingView_creationComplete()"/>
-		<s:Line right="0" height="100%">
+		<s:Line left="0" height="100%">
 			<s:stroke>
 				<s:SolidColorStroke color="0x000000"/>
 			</s:stroke>
 		</s:Line>
 	</s:Group>
-</sharedViews:TabletViewBase>
+</tabletViews:TabletViewBase>

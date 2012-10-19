@@ -43,7 +43,7 @@
 			reportAdherenceTimeView.init(dataInputModel, _dataInputController);
 			if (dataInputModel.scheduleItemOccurrence)
 			{
-				scheduleHealthActionsClockIconView.init(dataInputModel.scheduleCollectionsProvider, dataInputModel.scheduleItemOccurrence);
+				scheduleHealthActionsClockIconView.init(dataInputModel.scheduleCollectionsProvider, dataInputModel.scheduleItemOccurrence.dateStart, dataInputModel.scheduleItemOccurrence.dateEnd);
 			}
 			else
 			{
@@ -69,7 +69,7 @@
 		</s:Rect>
 		<s:Group height="100%" horizontalCenter="0">
 			<sharedView:ScheduledHealthActionDetailView id="scheduledHealthActionDetailView" height="100%"/>
-			<sharedView:ScheduleHealthActionsClockIconView id="scheduleHealthActionsClockIconView" width="50" height="50" left="10" top="10"/>
+			<sharedView:ScheduledHealthActionsClockIconView id="scheduleHealthActionsClockIconView" width="50" height="50" left="10" top="10"/>
 		</s:Group>
 		<s:Group width="25%" height="100%" right="0">
 			<s:Button label="Show History" verticalCenter="0" click="showHistoryButton_clickHandler()"/>
@@ -80,6 +80,10 @@
 			</s:stroke>
 		</s:Line>
 	</s:Group>
-	<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView" verticalCenter="0" right="140"/>
-	<view:ReportBloodGlucoseView id="reportBloodGlucoseView" verticalCenter="0" left="140"/>
+	<s:Group width="50%" height="100%" left="0">
+		<view:ReportBloodGlucoseView id="reportBloodGlucoseView" verticalCenter="0" right="50"/>
+	</s:Group>
+	<s:Group width="50%" height="100%" right="0">
+		<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView" verticalCenter="0" left="50"/>
+	</s:Group>
 </s:Group>

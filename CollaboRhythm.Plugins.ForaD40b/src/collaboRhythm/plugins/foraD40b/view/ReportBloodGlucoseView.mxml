@@ -155,17 +155,17 @@
 		}
 		]]></fx:Script>
 	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle">
-		<s:Image id="glucometerImage" source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140" height="140"
+		<s:Image id="glucometerImage" source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140"
+				 height="140"
 				 smooth="true"/>
 		<view:WirelessIcon id="wirelessIcon" visible="false"/>
-		<s:Group width="240" height="130">
-			<s:TextInput id="bloodGlucoseTextInput" width="100%" height="100%"
-						 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
-						 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
-						 change="bloodGlucoseTextInput_changeHandler()" needsSoftKeyboard="true"
-					includeIn="report"/>
-			<s:Label id="reportedBloodGlucoseLabel" styleName="textInputText" includeIn="review" verticalCenter="2" right="5"/>
-		</s:Group>
+		<s:TextInput id="bloodGlucoseTextInput" width="240" height="130"
+					 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+					 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
+					 change="bloodGlucoseTextInput_changeHandler()" needsSoftKeyboard="true"
+					 includeIn="report"/>
+		<s:Label id="reportedBloodGlucoseLabel" styleName="textInputText" includeIn="review" verticalCenter="2"
+				 right="5"/>
 		<s:Label text="mg/dL" verticalCenter="0" styleName="unitsText"/>
 	</s:HGroup>
 </s:Group>

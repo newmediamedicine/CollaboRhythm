@@ -89,10 +89,8 @@ package collaboRhythm.plugins.schedule.model
 		private var _componentContainer:IComponentContainer;
 		private var _inputDocumentsChanged:Boolean;
 
-		public function ScheduleModel(componentContainer:IComponentContainer,
-									  activeAccount:Account,
-									  activeRecordAccount:Account,
-									  navigationProxy:IApplicationNavigationProxy,
+		public function ScheduleModel(componentContainer:IComponentContainer, activeAccount:Account,
+									  activeRecordAccount:Account, navigationProxy:IApplicationNavigationProxy,
 									  settings:Settings,
 									  collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy,
 									  viewNavigator:ViewNavigator)
@@ -168,7 +166,8 @@ package collaboRhythm.plugins.schedule.model
 
 		private function documentCollection_changeHandler(event:CollectionEvent):void
 		{
-			if (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE || event.kind == CollectionEventKind.RESET)
+			if (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE ||
+					event.kind == CollectionEventKind.RESET)
 			{
 				if (_record.isLoading)
 				{
@@ -177,21 +176,21 @@ package collaboRhythm.plugins.schedule.model
 				else
 				{
 					// TODO: support incremental changes so that a view (such as the timeline view) can be updated just for the change without being recreated/reset
-/*
-					if (event.items[0] is ScheduleItemBase)
-					{
-						if (event.kind == CollectionEventKind.REMOVE)
-						{
-							removeScheduleItems(event.items);
-							return;
-						}
-						else if (event.kind == CollectionEventKind.ADD)
-						{
-							addScheduleItems(event.items);
-							return;
-						}
-					}
-*/
+					/*
+					 if (event.items[0] is ScheduleItemBase)
+					 {
+					 if (event.kind == CollectionEventKind.REMOVE)
+					 {
+					 removeScheduleItems(event.items);
+					 return;
+					 }
+					 else if (event.kind == CollectionEventKind.ADD)
+					 {
+					 addScheduleItems(event.items);
+					 return;
+					 }
+					 }
+					 */
 					updateScheduleModelForToday();
 				}
 			}
@@ -204,7 +203,8 @@ package collaboRhythm.plugins.schedule.model
 			var dateStart:Date = new Date(dateEnd.valueOf() - DateUtil.MILLISECONDS_IN_DAY);
 			for each (var item:ScheduleItemBase in items)
 			{
-				var newScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = item.getScheduleItemOccurrences(dateStart, dateEnd);
+				var newScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = item.getScheduleItemOccurrences(dateStart,
+						dateEnd);
 				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in newScheduleItemOccurrences)
 				{
 					_scheduleItemOccurrencesHashMap.put(scheduleItemOccurrence.id, scheduleItemOccurrence);
@@ -417,7 +417,8 @@ package collaboRhythm.plugins.schedule.model
 					scheduleGroup.scheduleItemsOccurrencesCollection)
 			{
 				var scheduleItemInGroup:ScheduleItemBase = scheduleItemOccurrence.scheduleItem;
-				if (scheduleItemInGroup.dateStart.valueOf() != scheduleGroup.dateStart.valueOf() || scheduleItemInGroup.dateEnd.valueOf() != scheduleGroup.dateEnd.valueOf())
+				if (scheduleItemInGroup.dateStart.valueOf() != scheduleGroup.dateStart.valueOf() ||
+						scheduleItemInGroup.dateEnd.valueOf() != scheduleGroup.dateEnd.valueOf())
 				{
 					var scheduleDetails:ScheduleDetails = ScheduleDetailsResolver.getCurrentScheduleDetails(new <String>[scheduleItemInGroup.name.value],
 							false, getScheduleItemCollection(scheduleItemInGroup), currentDateSource.now());
@@ -519,33 +520,38 @@ package collaboRhythm.plugins.schedule.model
 		{
 			var dateStart:Date = DateUtil.parseW3CDTF(dateStartString);
 			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
-			for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesHashMap)
+			var now:Date = _currentDateSource.now();
+			if (dateStart.date == now.date && dateStart.month == now.month && dateStart.fullYear == now.fullYear)
 			{
-				if (scheduleItemOccurrence.scheduleItem.name.text == name && scheduleItemOccurrence.adherenceItem == null)
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesHashMap)
 				{
-					if (dateStart > scheduleItemOccurrence.dateStart &&
-							dateStart < scheduleItemOccurrence.dateEnd)
+					if (scheduleItemOccurrence.scheduleItem.name.text == name &&
+							scheduleItemOccurrence.adherenceItem == null)
 					{
-						closestScheduleItemOccurrence = scheduleItemOccurrence;
-						break;
-					}
-					else
-					{
-						if (closestScheduleItemOccurrence)
+						if (dateStart > scheduleItemOccurrence.dateStart &&
+								dateStart < scheduleItemOccurrence.dateEnd)
 						{
-							if ((dateStart.time - scheduleItemOccurrence.dateEnd.time <
-									dateStart.time - closestScheduleItemOccurrence.dateEnd.time)
-									||
-									(scheduleItemOccurrence.dateStart.time - dateStart.time <
-											closestScheduleItemOccurrence.dateStart.time -
-													dateStart.time))
-							{
-								closestScheduleItemOccurrence = scheduleItemOccurrence;
-							}
+							closestScheduleItemOccurrence = scheduleItemOccurrence;
+							break;
 						}
 						else
 						{
-							closestScheduleItemOccurrence = scheduleItemOccurrence;
+							if (closestScheduleItemOccurrence)
+							{
+								if ((dateStart.time - scheduleItemOccurrence.dateEnd.time <
+										dateStart.time - closestScheduleItemOccurrence.dateEnd.time)
+										||
+										(scheduleItemOccurrence.dateStart.time - dateStart.time <
+												closestScheduleItemOccurrence.dateStart.time -
+														dateStart.time))
+								{
+									closestScheduleItemOccurrence = scheduleItemOccurrence;
+								}
+							}
+							else
+							{
+								closestScheduleItemOccurrence = scheduleItemOccurrence;
+							}
 						}
 					}
 				}

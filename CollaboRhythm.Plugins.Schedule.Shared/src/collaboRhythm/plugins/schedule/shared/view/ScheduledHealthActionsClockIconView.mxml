@@ -20,37 +20,26 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 		import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
-		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import com.leebrimelow.drawing.Wedge;
 
 		import spark.primitives.Graphic;
 
-		public function init(scheduleGroupsCollectionsProvider:IScheduleCollectionsProvider,
-							 scheduleItemOccurrence:ScheduleItemOccurrence):void
+		public function init(scheduleGroupsCollectionsProvider:IScheduleCollectionsProvider, dateStart:Date,
+							 dateEnd:Date):void
 		{
 			for each (var scheduleGroup:ScheduleGroup in scheduleGroupsCollectionsProvider.scheduleGroupsCollection)
 			{
 				var startAngle:Number = calculateAngleFromDate(scheduleGroup.dateStart);
 				var endAngle:Number = calculateAngleFromDate(scheduleGroup.dateEnd);
 
-				var color:uint;
+				var selected:Boolean = (dateStart.time == scheduleGroup.dateStart.time && dateEnd.time == scheduleGroup.dateEnd.time);
 
-				if (scheduleItemOccurrence.dateStart.time == scheduleGroup.dateStart.time &&
-						scheduleItemOccurrence.dateEnd.time == scheduleGroup.dateEnd.time)
-				{
-					color = 0x2EB5E4;
-				}
-				else
-				{
-					color = 0xFFFFFF;
-				}
-
-				drawScheduleGroup(startAngle, endAngle, color);
+				drawScheduleGroup(startAngle, endAngle, selected);
 			}
 		}
 
-		private function drawScheduleGroup(startAngle:Number, endAngle:Number, color:uint):void
+		private function drawScheduleGroup(startAngle:Number, endAngle:Number, selected:Boolean):void
 		{
 			var arc:Number = endAngle - startAngle;
 
@@ -58,7 +47,14 @@
 			scheduleGroupWedge.width = scheduleGroups.width;
 			scheduleGroupWedge.height = scheduleGroups.height;
 			scheduleGroupWedge.graphics.clear();
-			scheduleGroupWedge.graphics.beginFill(color, 0.8);
+			if (selected)
+			{
+				scheduleGroupWedge.graphics.beginFill(0x2EB5E4, 0.8);
+			}
+			else
+			{
+				scheduleGroupWedge.graphics.beginFill(0xFFFFFF, 0.5);
+			}
 			Wedge.draw(scheduleGroupWedge, scheduleGroups.width / 2, scheduleGroups.width / 2,
 					scheduleGroups.width / 2 - 1, arc, startAngle - 90);
 			scheduleGroupWedge.graphics.endFill();
