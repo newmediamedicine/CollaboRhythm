@@ -12,6 +12,8 @@ package collaboRhythm.plugins.medications.controller
 
 	import com.adobe.nativeExtensions.Vibration;
 
+	import flash.events.MouseEvent;
+
 	import flash.net.URLVariables;
 
 	import spark.components.ViewNavigator;
@@ -121,5 +123,9 @@ package collaboRhythm.plugins.medications.controller
 					var vibration:Vibration = new (Vibration);
 					vibration.vibrate(instructionalVideoPath, "video/*");
 				}
+
+		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
+		{
+		}
 	}
 }

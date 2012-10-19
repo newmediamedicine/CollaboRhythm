@@ -7,6 +7,10 @@ package collaboRhythm.plugins.schedule.shared.controller
 
 	import com.adobe.nativeExtensions.Vibration;
 
+	import flash.events.MouseEvent;
+
+	import spark.components.Button;
+
 	public class HealthActionListViewControllerBase implements IHealthActionListViewController
 	{
 		private var _healthActionListViewModel:IHealthActionListViewModel;
@@ -73,6 +77,14 @@ package collaboRhythm.plugins.schedule.shared.controller
 		public function removeEventListener():void
 		{
 			_synchronizationService.removeEventListener(this);
+		}
+
+		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
+		{
+			if (_healthActionListViewModel.healthActionInputController)
+			{
+				_healthActionListViewModel.healthActionInputController.handleHealthActionCommandButtonClick(event);
+			}
 		}
 	}
 }

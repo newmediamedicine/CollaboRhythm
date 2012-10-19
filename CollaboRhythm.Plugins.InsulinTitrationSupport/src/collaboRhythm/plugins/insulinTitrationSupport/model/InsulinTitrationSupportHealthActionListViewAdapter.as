@@ -18,6 +18,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import mx.core.IVisualElement;
 	import mx.events.PropertyChangeEvent;
 
+	import spark.components.Button;
+
 	import spark.components.Group;
 	import spark.components.Image;
 	import spark.core.SpriteVisualElement;
@@ -220,6 +222,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				_controller = new HealthActionListViewControllerBase(_model)
 			}
 			return _controller;
+		}
+
+		public function createCommandButtons():Vector.<Button>
+		{
+			return null;
 		}
 	}
 }

@@ -10,13 +10,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
+	import flash.events.MouseEvent;
+
 	import flash.net.URLVariables;
+
+	import spark.components.Button;
 
 	import spark.components.ViewNavigator;
 
 	public class TitratingInsulinHealthActionInputController implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = InsulinTitrationSupportHealthActionInputView;
+
+		public static const INSULIN_TITRATION_BUTTON_ID:String = "insulinTitrationButton";
 
 		private var _dataInputModel:InsulinTitrationSupportHealthActionInputModel;
 		private var _viewNavigator:ViewNavigator;
@@ -61,9 +67,18 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		public function handleHealthActionSelected():void
 		{
-			// TODO: only navigate to the charts if there is an annotation icon (there is an decision action from today)
-			prepareChartsForDecision();
-			showCharts();
+			_decoratedHealthActionInputController.handleHealthActionSelected();
+		}
+
+		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
+		{
+			var button:Button = event.target as Button;
+			if (button && button.id == INSULIN_TITRATION_BUTTON_ID)
+			{
+				// TODO: only navigate to the charts if there is an annotation icon (there is an decision action from today)
+				prepareChartsForDecision();
+				showCharts();
+			}
 		}
 
 		public function prepareChartsForDecision():void

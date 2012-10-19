@@ -15,6 +15,8 @@ package collaboRhythm.plugins.equipment.model
 
 	import mx.core.IVisualElement;
 
+	import spark.components.Button;
+
 	import spark.components.Image;
 	import spark.skins.spark.ImageSkin;
 
@@ -108,6 +110,11 @@ package collaboRhythm.plugins.equipment.model
 		}
 
 		public function createCustomView():IVisualElement
+		{
+			return null;
+		}
+
+		public function createCommandButtons():Vector.<Button>
 		{
 			return null;
 		}

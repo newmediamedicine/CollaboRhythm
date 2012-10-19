@@ -20,6 +20,8 @@ package collaboRhythm.plugins.medications.model
 
 	import mx.core.IVisualElement;
 
+	import spark.components.Button;
+
 	import spark.components.Image;
 
 	public class MedicationHealthActionListViewAdapter implements IHealthActionListViewAdapter
@@ -177,6 +179,11 @@ package collaboRhythm.plugins.medications.model
 		}
 
 		public function createCustomView():IVisualElement
+		{
+			return null;
+		}
+
+		public function createCommandButtons():Vector.<Button>
 		{
 			return null;
 		}

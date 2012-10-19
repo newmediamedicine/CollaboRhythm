@@ -180,9 +180,9 @@
 									selected="{_scheduleItemOccurrence.adherenceItem != null}"
 									click="adherenceCheckBoxClickHandler(event)"
 									enabled="{isAdherenceCheckBoxEnabled(_scheduleItemOccurrence.adherenceItem, _scheduleItemOccurrence.adherenceItem ? _scheduleItemOccurrence.adherenceItem.pendingAction : null, _scheduleModel ? _scheduleModel.settings.adherenceVoidingEnabled : null)}"/>
-			<s:RichText id="additionalInformationLabel" width="70"
+			<s:RichText id="additionalInformationLabel" width="80"
 						text="{updateAdditionalAdherenceInformation(_scheduleItemOccurrence.adherenceItem)}"
-						verticalCenter="44" horizontalCenter="-2" visible="false" mouseEnabled="false"/>
+						verticalCenter="48" horizontalCenter="0" visible="false" mouseEnabled="false"/>
 		</s:Group>
 	</s:HGroup>
 

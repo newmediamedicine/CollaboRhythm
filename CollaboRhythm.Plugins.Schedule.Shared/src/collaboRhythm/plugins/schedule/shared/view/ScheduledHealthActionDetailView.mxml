@@ -50,10 +50,16 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 
+		import mx.core.FlexGlobals;
+
 		import mx.core.IVisualElement;
 
-		import spark.components.Image;
+		import spark.components.Button;
 
+		import spark.components.Image;
+		import spark.skins.mobile.CalloutSkin;
+
+		private static const SPARK_COMPONENTS_CALLOUT_SELECTOR:String = "spark.components.Callout";
 		private var _instructionalVideoPath:String;
 
 		public function init(scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter):void
@@ -77,7 +83,7 @@
 				var customView:IVisualElement = scheduleItemOccurrenceReportingViewAdapter.createCustomView();
 				if (customView)
 				{
-					imageGroup.addElement(customView);
+					calloutButton.setStyle("icon", customView);
 				}
 				else
 				{
@@ -85,24 +91,65 @@
 					image.percentWidth = 100;
 					image.percentHeight = 100;
 					image.smooth = true;
-					imageGroup.addElement(image);
+					calloutButton.setStyle("icon", image);
 				}
-				imageGroup.left = 10;
-				imageGroup.right = 10;
-				imageGroup.top = 10;
-				imageGroup.bottom = 10;
+				calloutButton.left = 0;
+				calloutButton.right = 0;
+				calloutButton.top = 0;
+				calloutButton.bottom = 0;
+
+				var commandButtons:Vector.<Button> = scheduleItemOccurrenceReportingViewAdapter.createCommandButtons();
+				if (commandButtons)
+				{
+					for each (var commandButton:Button in commandButtons)
+					{
+						commandButton.percentWidth = 100;
+						commandButton.addEventListener(MouseEvent.CLICK,
+								function commandButton_clickHandler(event:MouseEvent):void
+								{
+									// TODO: eliminate this workaround for an unhandled exception in PopUpManagerImpl.addModalPopUpAccessibility
+									calloutButton.callout.accessibilityProperties = new AccessibilityProperties();
+
+									calloutButton.callout.close();
+									if (scheduleItemOccurrenceReportingViewAdapter.controller)
+									{
+										scheduleItemOccurrenceReportingViewAdapter.controller.handleHealthActionCommandButtonClick(event);
+									}
+								});
+						calloutButton.calloutContent.push(commandButton);
+					}
+				}
+
+				if (calloutButton.calloutContent.length == 0)
+				{
+					calloutButton.mouseEnabled = false;
+				}
 			}
 		}
 
 		private function secondaryInstructionsLabel_clickHandler(event:MouseEvent):void
 		{
-			dispatchEvent(new ScheduledHealthActionDetailViewEvent(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO, _instructionalVideoPath));
+			dispatchEvent(new ScheduledHealthActionDetailViewEvent(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO,
+					_instructionalVideoPath));
 		}
+
+		private function calloutButton_clickHandler(event:MouseEvent):void
+		{
+			event.stopImmediatePropagation();
+		}
+
 		]]></fx:Script>
 
 	<s:HGroup id="mainGroup" width="100%" height="100%">
 		<s:Group id="imageContainerGroup" width="{this.height}" height="{this.height}">
-			<s:Group id="imageGroup"/>
+			<s:CalloutButton id="calloutButton" skinClass="collaboRhythm.shared.ui.buttons.view.skins.TransparentButtonSkin" width="{this.height}" height="100%" click="calloutButton_clickHandler(event)" horizontalPosition="before">
+				<s:calloutContent>
+					<!--<s:Button id="showHistoryCommandButton" label="Show History"/>-->
+				</s:calloutContent>
+				<s:calloutLayout>
+					<s:VerticalLayout paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10" horizontalAlign="center"/>
+				</s:calloutLayout>
+			</s:CalloutButton>
 		</s:Group>
 		<s:Group id="descriptionGroup" height="100%" width="100%">
 			<s:VGroup left="10" right="10" top="10" bottom="10" gap="1">

@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
+	import flash.events.MouseEvent;
 	import flash.net.URLVariables;
 
 	public interface IHealthActionInputController
@@ -32,5 +33,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		function useDefaultHandleHealthActionResult():Boolean;
 
 		function updateDateMeasuredStart(date:Date):void;
+
+		function handleHealthActionCommandButtonClick(event:MouseEvent):void;
 	}
 }

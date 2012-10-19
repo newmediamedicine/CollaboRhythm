@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.controller.TitratingInsulinHealthActionInputController;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.DecisionClinicianAgree;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.DecisionClinicianNew;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.DecisionPatientAgree;
@@ -9,23 +10,17 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
-	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
 	import collaboRhythm.shared.model.services.IImageCacheService;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
-
-	import flash.events.Event;
-
-	import mx.collections.ArrayCollection;
 
 	import mx.core.IVisualElement;
 
+	import spark.components.Button;
 	import spark.components.Group;
 	import spark.components.Image;
 	import spark.core.SpriteVisualElement;
@@ -200,6 +195,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get controller():IHealthActionListViewController
 		{
 			return _currentHealthActionListViewAdapter.controller;
+		}
+
+		public function createCommandButtons():Vector.<Button>
+		{
+			var insulinTitrationButton:Button = new Button();
+			insulinTitrationButton.id = TitratingInsulinHealthActionInputController.INSULIN_TITRATION_BUTTON_ID;
+			insulinTitrationButton.label = "Insulin Titration";
+			return new <Button>[insulinTitrationButton];
 		}
 	}
 }

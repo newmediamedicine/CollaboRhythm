@@ -94,7 +94,7 @@
 				var customView:IVisualElement = healthActionListViewAdapter.createCustomView();
 				if (customView)
 				{
-					imageRegion.addElement(customView);
+					calloutButton.setStyle("icon", customView);
 				}
 				else
 				{
@@ -106,7 +106,7 @@
 						image.top = 5;
 						image.bottom = 5;
 						image.smooth = true;
-						imageRegion.addElement(image);
+						calloutButton.setStyle("icon", image);
 					}
 				}
 
@@ -118,14 +118,17 @@
 		{
 			_scheduleItemOccurrenceReportingController.handleHealthActionResult();
 		}
+
+		private function calloutButton_clickHandler(event:MouseEvent):void
+		{
+			event.stopImmediatePropagation();
+		}
 		]]>
 	    </fx:Script>
 
-	<s:Group id="imageRegion" width="{this.height}" height="100%">
+	<s:CalloutButton id="calloutButton" skinClass="collaboRhythm.shared.ui.buttons.view.skins.TransparentButtonSkin" width="{this.height}" height="100%" click="calloutButton_clickHandler(event)"/>
 
-	</s:Group>
-
-	<s:Group id="descriptionRegion" height="100%" left="{imageRegion.width}" right="0">
+	<s:Group id="descriptionRegion" height="100%" left="{calloutButton.width}" right="0">
 		<s:VGroup left="5" right="5" top="5" bottom="5" gap="1">
 			<s:Label id="nameLabel" maxDisplayedLines="1" width="100%"/>
 			<s:Label id="descriptionLabel" maxDisplayedLines="1" width="100%"/>
