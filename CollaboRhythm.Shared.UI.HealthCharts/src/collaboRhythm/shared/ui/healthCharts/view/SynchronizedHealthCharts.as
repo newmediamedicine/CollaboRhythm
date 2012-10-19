@@ -1,5 +1,13 @@
 package collaboRhythm.shared.ui.healthCharts.view
 {
+	import collaboRhythm.plugins.schedule.shared.model.EquipmentHealthAction;
+	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.MasterHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.schedule.shared.model.MedicationHealthAction;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsEvent;
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
@@ -10,6 +18,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+	import collaboRhythm.shared.model.healthRecord.document.Equipment;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
@@ -26,6 +35,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.ui.healthCharts.model.AdherenceStripItemProxy;
 	import collaboRhythm.shared.ui.healthCharts.model.ChartModelDetails;
+	import collaboRhythm.shared.ui.healthCharts.model.HealthChartsScheduleItemEvent;
 	import collaboRhythm.shared.ui.healthCharts.model.HealthChartsScrollEvent;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.HorizontalAxisChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
@@ -57,6 +67,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
+
+	import mx.binding.utils.BindingUtils;
 
 	import mx.charts.ChartItem;
 	import mx.charts.HitData;
@@ -208,6 +220,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private var _synchronizedScrollData:SynchronizedScrollData;
 		private var _chartDataTipsLocation:ChartDataTipsLocation;
 		private var _updateCompleteSinceChartsUpdated:Boolean = false;
+		private var _healthActionInputControllerFactory:MasterHealthActionInputControllerFactory;
 
 		public function SynchronizedHealthCharts():void
 		{
@@ -225,6 +238,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			this.addEventListener(FlexEvent.CREATION_COMPLETE, creationCompleteHandler, false, 0, true);
 			this.addEventListener(FlexEvent.UPDATE_COMPLETE, updateCompleteHandler, false, 0, true);
 			this.addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler, false, 0, true);
+			this.addEventListener(HealthChartsScheduleItemEvent.TOGGLE_ADHERENCE,
+					scheduleItemOccurrenceToggleAdherenceHandler);
 		}
 		
 		public function createActionButtons(view:View):void
@@ -3009,6 +3024,11 @@ package collaboRhythm.shared.ui.healthCharts.view
 		public function set componentContainer(value:IComponentContainer):void
 		{
 			_componentContainer = value;
+
+			if (componentContainer)
+			{
+				_healthActionInputControllerFactory = new MasterHealthActionInputControllerFactory(componentContainer);
+			}
 		}
 
 		public function get activeAccountId():String
@@ -3209,6 +3229,104 @@ package collaboRhythm.shared.ui.healthCharts.view
 		private function updateCompleteHandler(event:FlexEvent):void
 		{
 			_updateCompleteSinceChartsUpdated = true;
+		}
+
+		private function scheduleItemOccurrenceToggleAdherenceHandler(event:HealthChartsScheduleItemEvent):void
+		{
+			var healthActionsModel:IHealthActionModelDetailsProvider = model.record.getAppData(ScheduleModelKey.SCHEDULE_MODEL_KEY,
+					IHealthActionModelDetailsProvider) as IHealthActionModelDetailsProvider;
+			var scheduleCollectionsProvider:IScheduleCollectionsProvider = model.record.getAppData(ScheduleModelKey.SCHEDULE_MODEL_KEY,
+					IScheduleCollectionsProvider) as IScheduleCollectionsProvider;
+
+			var scheduleItemOccurrence:ScheduleItemOccurrence = event.scheduleItemOccurrence;
+			if (scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem)
+			{
+				scheduleItemOccurrence.voidAdherenceItem(model.record, true);
+			}
+			else
+			{
+				var healthAction:HealthActionBase;
+
+				var medicationScheduleItem:MedicationScheduleItem = scheduleItemOccurrence.scheduleItem as
+						MedicationScheduleItem;
+				if (medicationScheduleItem)
+				{
+					var medicationName:MedicationName = MedicationNameUtil.parseName(medicationScheduleItem.name.text);
+					healthAction = new MedicationHealthAction(medicationName.rawName,
+							medicationScheduleItem.name.value);
+
+				}
+				else
+				{
+					var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
+					if (healthActionSchedule)
+					{
+						var equipment:Equipment = healthActionSchedule.scheduledEquipment;
+
+						healthAction = new EquipmentHealthAction(healthActionSchedule.instructions, equipment.name);
+					}
+				}
+
+				if (healthAction)
+				{
+					var healthActionInputController:IHealthActionInputController = _healthActionInputControllerFactory.createHealthActionInputController(healthAction,
+							scheduleItemOccurrence, healthActionsModel, scheduleCollectionsProvider, _viewNavigator,
+							_collaborationLobbyNetConnectionServiceProxy);
+					if (healthActionInputController)
+					{
+						scheduleItemOccurrence.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+								scheduleItemOccurrence_propertyChangeHandler, false, 0, true);
+						healthActionInputController.handleHealthActionResult(true);
+						/*
+						 if (healthActionInputController && !healthActionInputController.useDefaultHandleHealthActionResult())
+						 {
+						 healthActionInputController.handleHealthActionResult(true);
+						 }
+						 else
+						 {
+						 _healthActionListViewModel.createHealthActionResult(_synchronizationService.initiatedLocally);
+						 }
+						 */
+					}
+				}
+			}
+		}
+
+		private function scheduleItemOccurrence_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			var scheduleItemOccurrence:ScheduleItemOccurrence = event.target as ScheduleItemOccurrence;
+
+			if (event.property == "adherenceItem")
+			{
+				scheduleItemOccurrence.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE, scheduleItemOccurrence_propertyChangeHandler);
+				if (scheduleItemOccurrence.adherenceItem)
+				{
+					var occurrenceDate:Date = new Date(scheduleItemOccurrence.dateStart.valueOf() +
+							(scheduleItemOccurrence.dateEnd.valueOf() -
+									scheduleItemOccurrence.dateStart.valueOf()) /
+									2);
+					scheduleItemOccurrence.adherenceItem.dateReported = occurrenceDate;
+
+					if (scheduleItemOccurrence.scheduleItem is MedicationScheduleItem)
+					{
+						for each (var medicationAdministration:MedicationAdministration in scheduleItemOccurrence.adherenceItem.adherenceResults)
+						{
+							medicationAdministration.dateAdministered = occurrenceDate;
+						}
+					}
+					else if (scheduleItemOccurrence.scheduleItem is HealthActionSchedule)
+					{
+						for each (var document:IDocument in scheduleItemOccurrence.adherenceItem.adherenceResults)
+						{
+							var vitalSign:VitalSign = document as VitalSign;
+							if (vitalSign)
+							{
+								vitalSign.dateMeasuredStart = occurrenceDate;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

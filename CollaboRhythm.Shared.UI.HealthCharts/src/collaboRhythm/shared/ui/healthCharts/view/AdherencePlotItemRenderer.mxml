@@ -21,6 +21,7 @@
 				xmlns:images="assets.images.*" xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
 				autoDrawBackground="false"
 				creationComplete="creationCompleteHandler(event)"
+				click="clickHandler(event)"
 		>
 	<s:layout>
 		<controls:ChildIndependentLayout/>
@@ -28,6 +29,8 @@
 	<fx:Script>
 		<![CDATA[
 		import castle.flexbridge.reflection.ReflectionUtils;
+
+		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsEvent;
 
 		import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
 
@@ -37,6 +40,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.ui.healthCharts.model.AdherenceStripItemProxy;
+		import collaboRhythm.shared.ui.healthCharts.model.HealthChartsScheduleItemEvent;
 
 		import mx.charts.series.items.PlotSeriesItem;
 		import mx.collections.ArrayCollection;
@@ -45,6 +49,8 @@
 		import mx.events.FlexEvent;
 
 		import assets.images.check;
+
+		import mx.events.PropertyChangeEvent;
 
 		override public function set data(value:Object):void
 		{
@@ -137,6 +143,39 @@
 				ancestorStack.unshift(component);
 				component = component.parent as UIComponent;
 				depth++;
+			}
+		}
+
+		private function clickHandler(event:MouseEvent):void
+		{
+			if (event.ctrlKey)
+			{
+				var adherenceStripItemProxy:AdherenceStripItemProxy = (data as PlotSeriesItem).item as
+						AdherenceStripItemProxy;
+				if (adherenceStripItemProxy == null)
+					throw new Error("data.item of renderer is a " +
+							ReflectionUtils.getClassInfo(ReflectionUtils.getClass(data)).name +
+							"; expected AdherenceStripItemProxy");
+
+				dispatchEvent(new HealthChartsScheduleItemEvent(HealthChartsScheduleItemEvent.TOGGLE_ADHERENCE,
+						adherenceStripItemProxy.scheduleItemOccurrence));
+
+				adherenceStripItemProxy.scheduleItemOccurrence.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+						scheduleItemOccurrence_propertyChangeHandler, false, 0, true);
+			}
+		}
+
+		private function scheduleItemOccurrence_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			var scheduleItemOccurrence:ScheduleItemOccurrence = event.target as ScheduleItemOccurrence;
+
+			if (event.property == "adherenceItem")
+			{
+				scheduleItemOccurrence.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE, scheduleItemOccurrence_propertyChangeHandler);
+				var adherenceStripItemProxy:AdherenceStripItemProxy = (data as PlotSeriesItem).item as
+						AdherenceStripItemProxy;
+				adherenceStripItemProxy.update();
+				updateImageVisible();
 			}
 		}
 		]]>

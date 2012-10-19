@@ -130,5 +130,11 @@ package collaboRhythm.shared.ui.healthCharts.model
 		{
 			_color = value;
 		}
+
+		public function update():void
+		{
+			_adherenceItem = scheduleItemOccurrence.adherenceItem;
+			_date = calculateDate();
+		}
 	}
 }

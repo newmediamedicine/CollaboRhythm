@@ -23,13 +23,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 		private var _synchronizationService:SynchronizationService;
 		private var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
+		private var _decoratedHealthActionInputController:IHealthActionInputController;
 
 		public function TitratingInsulinHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
-																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
-																		   viewNavigator:ViewNavigator,
-																		   collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy)
+																	healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+																	viewNavigator:ViewNavigator,
+																	collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy,
+																	decoratedHealthActionInputController:IHealthActionInputController)
 		{
 			_healthActionModelDetailsProvider = healthActionModelDetailsProvider;
+			_decoratedHealthActionInputController = decoratedHealthActionInputController;
 			var decisionScheduleItemOccurrence:ScheduleItemOccurrence = getDecisionScheduleItemOccurrence();
 			_dataInputModel = new InsulinTitrationSupportHealthActionInputModel(scheduleItemOccurrence, decisionScheduleItemOccurrence,
 					healthActionModelDetailsProvider);
@@ -48,12 +51,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		public function useDefaultHandleHealthActionResult():Boolean
 		{
-			return true;
+			return false;
 		}
 
 		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
-			// TODO: allow the default to happen (report medication taken)
+			_decoratedHealthActionInputController.handleHealthActionResult(initiatedLocally);
 		}
 
 		public function handleHealthActionSelected():void
