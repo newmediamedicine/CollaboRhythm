@@ -181,7 +181,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get secondaryInstructions():String
 		{
-			return "Remember: 303 Protocol is only a guide";
+			return "Only make a change when appropriate";
 		}
 
 		public function get instructionalVideoPath():String
