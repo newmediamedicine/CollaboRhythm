@@ -37,8 +37,6 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _recurrenceIndex:int;
 		private var _adherence:Boolean;
 		private var _nonadherenceReason:String;
-		private var _adherenceResultIds:Vector.<String> = new Vector.<String>();
-		private var _adherenceResults:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 
 		public function AdherenceItem()
 		{
@@ -46,8 +44,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		}
 
 		public function init(name:CodedValue, reportedBy:String,
-							 dateReported:Date, recurrenceIndex:int,
-							 adherenceResults:Vector.<DocumentBase> = null):void
+							 dateReported:Date, recurrenceIndex:int):void
 		{
 			_name = name;
 			_reportedBy = reportedBy;
@@ -58,10 +55,6 @@ package collaboRhythm.shared.model.healthRecord.document
 			//Instead, it will be possible to create notes that are documents related to scheduleItems or scheduleItemOccurrences
 			_adherence = true;
 			_nonadherenceReason = null;
-			if (adherenceResults)
-			{
-            	_adherenceResults = adherenceResults;
-			}
 		}
 		
         public function get name():CodedValue
@@ -140,24 +133,19 @@ package collaboRhythm.shared.model.healthRecord.document
 			return 0;
 		}
 
-		public function get adherenceResultIds():Vector.<String>
-		{
-			return _adherenceResultIds;
-		}
-
-		public function set adherenceResultIds(value:Vector.<String>):void
-		{
-			_adherenceResultIds = value;
-		}
-
 		public function get adherenceResults():Vector.<DocumentBase>
 		{
-			return _adherenceResults;
-		}
+			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
+			for each (var relationship:Relationship in relatesTo)
+			{
+				// relatesTo may be null if the related document is replaced or voided or fails to be loaded for some other reason
+				if (relationship.type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT && relationship.relatesTo != null)
+				{
+					results.push(relationship.relatesTo);
+				}
+			}
 
-		public function set adherenceResults(value:Vector.<DocumentBase>):void
-		{
-			_adherenceResults = value;
+			return results;
 		}
 
 		public function get scheduleItem():IDocument

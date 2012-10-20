@@ -49,19 +49,18 @@ package collaboRhythm.shared.model.healthRecord.document
 											persist:Boolean = false):void
 		{
 			var newAdherenceItem:AdherenceItem = new AdherenceItem();
-			newAdherenceItem.init(scheduleItem.name, reportedBy, _currentDateSource.now(), _recurrenceIndex,
-					adherenceResults);
+			newAdherenceItem.init(scheduleItem.name, reportedBy, _currentDateSource.now(), _recurrenceIndex);
 
 			// Add the relationship first so that the relationships will already be updated by the time anyone
 			// listening for collection change events on the document collection(s) responds.
 			record.addRelationship(ScheduleItemBase.RELATION_TYPE_ADHERENCE_ITEM, scheduleItem, newAdherenceItem, persist);
-			record.addDocument(newAdherenceItem, persist);
-			for each (var adherenceResult:DocumentBase in newAdherenceItem.adherenceResults)
+			for each (var adherenceResult:DocumentBase in adherenceResults)
 			{
 				record.addRelationship(AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT, newAdherenceItem, adherenceResult,
 						persist);
 				record.addDocument(adherenceResult, persist);
 			}
+			record.addDocument(newAdherenceItem, persist);
 
 			adherenceItem = newAdherenceItem;
 		}

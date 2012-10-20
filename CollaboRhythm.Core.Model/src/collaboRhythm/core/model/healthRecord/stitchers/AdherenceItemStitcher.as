@@ -35,18 +35,5 @@ package collaboRhythm.core.model.healthRecord.stitchers
 			addRequiredDocumentType(VitalSign.DOCUMENT_TYPE);
 			addRequiredDocumentType(HealthActionResult.DOCUMENT_TYPE);
 		}
-
-		override protected function stitchSpecialReferencesOnDocument(document:IDocument):void
-		{
-			var adherenceItem:AdherenceItem = document as AdherenceItem;
-			for each (var relationship:Relationship in document.relatesTo)
-			{
-				// relatesTo may be null if the related document is replaced or voided or fails to be loaded for some other reason
-				if (relationship.type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT && relationship.relatesTo != null)
-				{
-					adherenceItem.adherenceResults.push(relationship.relatesTo);
-				}
-			}
-		}
     }
 }
