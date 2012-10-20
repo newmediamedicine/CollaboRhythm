@@ -762,10 +762,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			if (parentForTitrationDecisionResult)
 			{
 				getLatestDecisionResults(parentForTitrationDecisionResult);
-				_latestDecisionDose = getDecisionDoseFromResult(_latestDecisionResult);
-				_patientLatestDecisionDose = getDecisionDoseFromResult(_patientLatestDecisionResult);
-				_clinicianLatestDecisionDose = getDecisionDoseFromResult(_clinicianLatestDecisionResult);
-				_otherPartyLatestDecisionDose = getDecisionDoseFromResult(_otherPartyLatestDecisionResult);
+				latestDecisionDose = getDecisionDoseFromResult(_latestDecisionResult);
+				patientLatestDecisionDose = getDecisionDoseFromResult(_patientLatestDecisionResult);
+				clinicianLatestDecisionDose = getDecisionDoseFromResult(_clinicianLatestDecisionResult);
+				otherPartyLatestDecisionDose = getDecisionDoseFromResult(_otherPartyLatestDecisionResult);
 			}
 		}
 
@@ -826,9 +826,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private function getLatestDecisionResults(parentForTitrationDecisionResult:DocumentBase):void
 		{
-			_latestDecisionResult = null;
-			_patientLatestDecisionResult = null;
-			_clinicianLatestDecisionResult = null;
+			latestDecisionResult = null;
+			patientLatestDecisionResult = null;
+			clinicianLatestDecisionResult = null;
 
 			// Loop through all relationships on the parent to find the potential latest titration result from the other party
 			for each (var relationship:Relationship in parentForTitrationDecisionResult.relatesTo)
@@ -841,20 +841,20 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 							titrationResult.actions && titrationResult.actions.length > 0)
 					{
 						var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
-						_latestDecisionResult = getLatestMatchingResult(actionStepResult,
+						latestDecisionResult = getLatestMatchingResult(actionStepResult,
 								_latestDecisionResult, titrationResult,
 								function(a:ActionStepResult):Boolean { return true;});
-						_patientLatestDecisionResult = getLatestMatchingResult(actionStepResult,
+						patientLatestDecisionResult = getLatestMatchingResult(actionStepResult,
 								_patientLatestDecisionResult, titrationResult,
 								function(a:ActionStepResult):Boolean { return a && a.name && a.name.text == PATIENT_DECISION_ACTION_STEP_RESULT_NAME;});
-						_clinicianLatestDecisionResult = getLatestMatchingResult(actionStepResult,
+						clinicianLatestDecisionResult = getLatestMatchingResult(actionStepResult,
 								_clinicianLatestDecisionResult, titrationResult,
 								function(a:ActionStepResult):Boolean { return a && a.name && a.name.text == CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME;});
 					}
 				}
 			}
 
-			_otherPartyLatestDecisionResult = isPatient ? _clinicianLatestDecisionResult : _patientLatestDecisionResult;
+			otherPartyLatestDecisionResult = isPatient ? _clinicianLatestDecisionResult : _patientLatestDecisionResult;
 		}
 
 		private function getLatestMatchingResult(actionStepResult:ActionStepResult,
@@ -1438,6 +1438,46 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get latestDecisionResult():HealthActionResult
 		{
 			return _latestDecisionResult;
+		}
+
+		public function set latestDecisionResult(value:HealthActionResult):void
+		{
+			_latestDecisionResult = value;
+		}
+
+		public function set patientLatestDecisionResult(value:HealthActionResult):void
+		{
+			_patientLatestDecisionResult = value;
+		}
+
+		public function set clinicianLatestDecisionResult(value:HealthActionResult):void
+		{
+			_clinicianLatestDecisionResult = value;
+		}
+
+		public function set otherPartyLatestDecisionResult(value:HealthActionResult):void
+		{
+			_otherPartyLatestDecisionResult = value;
+		}
+
+		public function set latestDecisionDose(value:Number):void
+		{
+			_latestDecisionDose = value;
+		}
+
+		public function set patientLatestDecisionDose(value:Number):void
+		{
+			_patientLatestDecisionDose = value;
+		}
+
+		public function set clinicianLatestDecisionDose(value:Number):void
+		{
+			_clinicianLatestDecisionDose = value;
+		}
+
+		public function set otherPartyLatestDecisionDose(value:Number):void
+		{
+			_otherPartyLatestDecisionDose = value;
 		}
 
 		public function get evaluateTodayOnly():Boolean
