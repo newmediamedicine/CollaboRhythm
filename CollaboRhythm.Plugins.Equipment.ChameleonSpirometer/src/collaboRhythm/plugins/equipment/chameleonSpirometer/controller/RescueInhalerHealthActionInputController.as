@@ -56,5 +56,9 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
 		{
 		}
+
+		public function removeEventListener():void
+		{
+		}
 	}
 }

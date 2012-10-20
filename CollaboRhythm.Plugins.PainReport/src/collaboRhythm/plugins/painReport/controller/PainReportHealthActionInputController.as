@@ -62,5 +62,9 @@ package collaboRhythm.plugins.painReport.controller
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
 		{
 		}
+
+		public function removeEventListener():void
+		{
+		}
 	}
 }

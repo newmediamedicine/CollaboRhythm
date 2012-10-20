@@ -136,6 +136,7 @@
 		private function removedHandler(event:Event):void
 		{
 			_scheduleItemOccurrenceReportingController.removeEventListener();
+			_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController.removeEventListener();
 		}
 
 		private function mouseDownHandler(event:MouseEvent):void

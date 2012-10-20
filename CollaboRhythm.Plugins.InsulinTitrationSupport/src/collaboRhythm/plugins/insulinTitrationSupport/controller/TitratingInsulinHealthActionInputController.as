@@ -45,8 +45,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			_viewNavigator = viewNavigator;
 			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
-
-			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy);
+			_synchronizationService = new SynchronizationService(this, _collaborationLobbyNetConnectionServiceProxy,
+					_dataInputModel.scheduleItemOccurrence.scheduleItem.meta.id);
 		}
 
 		private function getDecisionScheduleItemOccurrence():ScheduleItemOccurrence
@@ -76,9 +76,19 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			if (button && button.id == INSULIN_TITRATION_BUTTON_ID)
 			{
 				// TODO: only navigate to the charts if there is an annotation icon (there is an decision action from today)
-				prepareChartsForDecision();
-				showCharts();
+				handleInsulinTitration();
 			}
+		}
+
+		public function handleInsulinTitration():void
+		{
+			if (_synchronizationService.synchronize("handleInsulinTitration"))
+			{
+				return;
+			}
+
+			prepareChartsForDecision();
+			showCharts();
 		}
 
 		public function prepareChartsForDecision():void
@@ -102,6 +112,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		public function updateDateMeasuredStart(date:Date):void
 		{
+		}
+
+		public function removeEventListener():void
+		{
+			_synchronizationService.removeEventListener(this);
 		}
 	}
 }

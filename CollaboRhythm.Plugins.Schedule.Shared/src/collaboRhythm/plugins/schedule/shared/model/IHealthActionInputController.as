@@ -35,5 +35,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		function updateDateMeasuredStart(date:Date):void;
 
 		function handleHealthActionCommandButtonClick(event:MouseEvent):void;
+
+		function removeEventListener():void;
 	}
 }

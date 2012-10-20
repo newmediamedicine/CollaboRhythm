@@ -295,5 +295,9 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
 		{
 		}
+
+		public function removeEventListener():void
+		{
+		}
 	}
 }
