@@ -747,7 +747,7 @@
     
     <organDonar>true</organDonar>
     
-    <recordId>e0dbd829-aafa-494a-8f8a-0831a8013121</recordId>
+    <recordId/>
     
     <accessKey>fLrvClg9vGLYkSMDyA0m</accessKey>
     
@@ -755,15 +755,16 @@
     
     <demographicsId>94f7fcbb-35bc-4f77-a627-cb40ddb805e5</demographicsId>
     
-    <status>Created 13/13 documents, 7/8 relationships</status>
+    <status>Record deleted.</status>
     
     <notes/>
     
-    <recordSeed/>
+    <recordSeed>2</recordSeed>
     
     <shareAccountId>jking@records.media.mit.edu</shareAccountId>
     
     <shareRole>Coach</shareRole>
+    
   </AccountSource>
   
   <AccountSource>
@@ -826,18 +827,20 @@
     
     <organDonar>true</organDonar>
     
-    <recordId/>
+    <recordId>059c64a5-276d-4af0-a6dd-5a65eb2b9d11</recordId>
     
-    <accessKey/>
+    <accessKey>pMvHfreZZg7XTdjcYRoG</accessKey>
     
-    <accessSecret/>
+    <accessSecret>zo4uIvHtz6LL86tTpw9g</accessSecret>
     
-    <status/>
+    <status>Created 220/220 documents, 216/217 relationships</status>
     
-    <demographicsId>af41168b-7faa-4f1c-80d1-46b1d1050906</demographicsId>
+    <demographicsId>909d2e5a-ea32-460a-a890-0d530c86075f</demographicsId>
     
     <recordSeed/>
     
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    <shareRole>Coach</shareRole>
   </AccountSource>
   
   <AccountSource>
@@ -1429,7 +1432,9 @@
     <notes>Demo for diabetes</notes>
     
     <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    
     <shareRole>Coach</shareRole>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1735,7 +1740,9 @@
     <notes>Primary demo account with diabetes data</notes>
     
     <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    
     <shareRole>Coach</shareRole>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2354,7 +2361,7 @@
     
   </AccountSource>
   
-  <saveDate>Sat Oct 20 00:40:22 GMT-0400 2012</saveDate>
+  <saveDate>Sun Oct 21 13:54:10 GMT-0400 2012</saveDate>
   
   <indivoServerBaseURL>https://indivo-demo.media.mit.edu:8000</indivoServerBaseURL>
   
