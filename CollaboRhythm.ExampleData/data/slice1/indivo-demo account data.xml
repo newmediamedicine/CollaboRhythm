@@ -915,7 +915,7 @@
     
     <recordSeed/>
     
-  </AccountSource>
+  <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId><shareRole>Coach</shareRole></AccountSource>
   
   <AccountSource>
     
@@ -989,7 +989,7 @@
     
     <recordSeed/>
     
-  </AccountSource>
+  <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId><shareRole>Coach</shareRole></AccountSource>
   
   <AccountSource>
     
@@ -1129,17 +1129,17 @@
     
     <recordId/>
     
-    <accessKey/>
+    <accessKey>HQiPnUhQb8qibLMYxONn</accessKey>
     
-    <accessSecret/>
+    <accessSecret>s6L8sIA1i1YmbmQGMsni</accessSecret>
     
-    <status/>
+    <status>Record deleted.</status>
     
-    <demographicsId>6b0eebd9-6968-4532-87aa-6fa17073bdc3</demographicsId>
+    <demographicsId>860e12f2-3342-4040-a2d6-34fcf6dea96e</demographicsId>
     
-    <recordSeed/>
+    <recordSeed>1</recordSeed>
     
-  </AccountSource>
+  <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId><shareRole>Coach</shareRole></AccountSource>
   
   <AccountSource>
     
@@ -2361,7 +2361,7 @@
     
   </AccountSource>
   
-  <saveDate>Sun Oct 21 13:54:10 GMT-0400 2012</saveDate>
+  <saveDate>Sun Oct 21 14:30:49 GMT-0400 2012</saveDate>
   
   <indivoServerBaseURL>https://indivo-demo.media.mit.edu:8000</indivoServerBaseURL>
   
