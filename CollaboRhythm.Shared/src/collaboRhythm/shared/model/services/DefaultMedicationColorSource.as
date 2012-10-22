@@ -63,7 +63,11 @@ package collaboRhythm.shared.model.services
 			{key: "000060112", value: 0xc1ad94}, // sitagliptin
 			{key: "000060221", value: 0xeca770}, // sitagliptin
 			{key: "647640301", value: 0xd9d5d2}, // pioglitazone
-			{key: "504190863", value: 0xb4b9b3} // acarabose
+			{key: "504190863", value: 0xb4b9b3}, // acarabose
+			{key: "001730595", value: 0x217ab4},
+			{key: "001730721", value: 0xd79b9b},
+			{key: "005970046", value: 0x888d95}
+
 		];
 
 		private var _medicationColorsDictionary:Dictionary = new Dictionary();

@@ -188,7 +188,7 @@
 		}
 		]]></fx:Script>
 	<s:HGroup width="100%" height="100%">
-		<s:VGroup id="medicationsGroup" width="100%" height="100%" gap="50" paddingTop="10" paddingLeft="10"/>
+		<s:VGroup id="medicationsGroup" width="100%" height="100%" gap="130" paddingTop="100" paddingLeft="80"/>
 		<s:Group id="simulationGroup" width="960" height="100%"/>
 	</s:HGroup>
 </tablet:TabletViewBase>

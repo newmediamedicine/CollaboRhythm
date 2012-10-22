@@ -18,6 +18,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:sharedView="collaboRhythm.shared.view.*"
+		 xmlns:view="collaboRhythm.plugins.problems.HIV.view.*\"
+		 visible="false"
 		 width="80" height="80">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -27,6 +29,9 @@
 		import collaboRhythm.plugins.problems.HIV.controller.HIVAppController;
 		import collaboRhythm.plugins.problems.HIV.model.HIVSimulationModel;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+
+		import mx.binding.utils.BindingUtils;
 
 		import spark.primitives.Graphic;
 
@@ -46,17 +51,37 @@
 			_hivAppController = hivAppController;
 			_hivSimulationModel = hivSimulationModel;
 
+			BindingUtils.bindSetter(medicationFillsModel_isInitializedHandler,
+					_hivAppController.activeRecordAccount.primaryRecord.medicationFillsModel, "isInitialized");
+
 			var medicationGraphic1:Graphic = new Graphic();
 			medicationGraphic1.x = 30;
 			medicationGraphic1.y = 45;
 			tCellGroup.addElement(medicationGraphic1);
-			drawMedication(medicationGraphic1, 240, 360, 0x000000, 100);
+			drawMedication(medicationGraphic1, 240, 360, 0x217ab4, 100);
 
 			var medicationGraphic2:Graphic = new Graphic();
 			medicationGraphic2.x = 30;
 			medicationGraphic2.y = 45;
 			tCellGroup.addElement(medicationGraphic2);
-			drawMedication(medicationGraphic2, 360, 480, 0x333333, 100);
+			drawMedication(medicationGraphic2, 360, 480, 0xd79b9b, 100);
+		}
+
+		private function medicationFillsModel_isInitializedHandler(isInitialized:Boolean):void
+		{
+			if (isInitialized)
+			{
+				for each (var medicationFill:MedicationFill in
+						_hivSimulationModel.activeRecord.medicationFillsModel.medicationFillsCollection)
+				{
+					if (medicationFill.ndc.text == "001730721")
+					{
+						visible = true;
+						tCellGroup.visible = true;
+						widgetButton.visible = true;
+					}
+				}
+			}
 		}
 
 		function drawMedication(medicationGraphic:Graphic, startAngle:Number, endAngle:Number, medColor,
@@ -112,15 +137,15 @@
 			_hivAppController.showHIVSimulationView();
 		}
 		]]></fx:Script>
-	<sharedView:WidgetButton width="100%" height="100%"
+	<sharedView:WidgetButton id="widgetButton" width="100%" height="100%"
 							 skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
-							 click="widgetButton_clickHandler()"/>
-	<s:Group id="tCellGroup" left="10" right="10" top="10" bottom="10" mouseEnabled="false" mouseChildren="false">
+							 click="widgetButton_clickHandler()" visible="false"/>
+	<s:Group id="tCellGroup" visible="false" left="10" right="10" top="10" bottom="10" mouseEnabled="false" mouseChildren="false">
 		<s:Image source="{tCellImageClass}" smooth="true" width="36" height="36" horizontalCenter="0" verticalCenter="0"
 				 alpha="0.6"/>
-		<s:Image source="{virusImageClass}" smooth="true" width="24" height="24" horizontalCenter="-12"
+		<s:Image id="virusImage1" source="{virusImageClass}" smooth="true" width="24" height="24" horizontalCenter="-12"
 				 verticalCenter="32"/>
-		<s:Image source="{virusImageClass}" smooth="true" width="24" height="24" horizontalCenter="12"
+		<s:Image id="virusImage2" source="{virusImageClass}" smooth="true" width="24" height="24" horizontalCenter="12"
 				 verticalCenter="32"/>
 	</s:Group>
 </s:Group>

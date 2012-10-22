@@ -22,7 +22,7 @@ package collaboRhythm.plugins.problems.HIV.model
 		private var _numViruses:Number;
 		private var _medConcentrations:Array = [1.5, 1.5, 0.75];
 		private var _medGoalConcentrations:Array = [1, 1, 1];
-		private var _medColors:Array = [0x000000, 0x333333, 0x666666];
+		private var _medColors:Array = [0x217ab4, 0xd79b9b, 0x888d95];
 
 		private var _openLooseVirusPos:Array = [];
 
