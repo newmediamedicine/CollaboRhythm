@@ -1,4 +1,4 @@
-package collaboRhythm.plugin.problems.HIV.controller
+package collaboRhythm.plugins.problems.HIV.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 

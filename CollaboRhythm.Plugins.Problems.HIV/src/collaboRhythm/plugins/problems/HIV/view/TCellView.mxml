@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		width="204" height="204">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.problems.HIV.model.HIVSimulationModel;
+
+		import spark.primitives.Graphic;
+
+		private var openvirusPos:Array = [
+			[-24, 0],
+			[24, 0],
+			[-10, 24],
+			[10, 24],
+			[-10, -24],
+			[10, -24]
+		];
+		private var usedvirusPos:Array = [];
+		private var attachedViruses:Array = [];
+		private var attachedVirusesCopy:Array = [];
+
+		private var positions:Array = [
+			[6, 0],
+			[6, 1],
+			[5, 2],
+			[4, 3],
+			[3, 4],
+			[2, 5],
+			[1, 5],
+			[0, 5],
+			[-1, 6],
+			[-2, 6],
+			[-3, 5],
+			[-4, 5],
+			[-5, 4],
+			[-5, 3],
+			[-5, 2],
+			[-6, 1],
+			[-6, 0],
+			[-5, -1],
+			[-4, -2],
+			[-4, -3],
+			[-5, -4],
+			[-5, -5],
+			[-4, -6],
+			[-3, -6],
+			[-2, -6],
+			[-1, -6],
+			[0, -5],
+			[1, -5],
+			[2, -5],
+			[3, -4],
+			[4, -3],
+			[5, -2],
+			[5, -1]
+		];
+		private var currentposition:Number = Math.floor(Math.random() * positions.length);
+
+		private var alive:Boolean = true;
+
+		private var _animationTimer:Timer;
+
+		[Embed(source="/assets/images/tcell.png")]
+		public var tCellImageClass:Class;
+		private var _hivSumulationView:HIVSimulationView;
+
+		public function init(hivSimulationModel:HIVSimulationModel, hivSimulationView:HIVSimulationView):void
+		{
+			_hivSumulationView = hivSimulationView;
+
+			_animationTimer = new Timer(100);
+			_animationTimer.addEventListener(TimerEvent.TIMER, animationTimerEventHandler);
+			_animationTimer.start();
+		}
+
+		private function animationTimerEventHandler(event:TimerEvent):void
+		{
+			if (alive)
+			{
+				tCellGroup.x = positions[currentposition][0] * 3;
+				tCellGroup.y = positions[currentposition][1] * 3;
+				currentposition = currentposition + 1;
+				if (currentposition == positions.length)
+				{
+					currentposition = 0;
+				}
+			} else
+			{
+				tCellGroup.x = 0;
+				tCellGroup.y = 0;
+				currentposition = Math.floor(Math.random() * positions.length);
+			}
+		}
+
+		public function addVirus(virusNumber, tcellNumber):VirusView
+		{
+			var placenum:Number = Math.floor(Math.random() * openvirusPos.length);
+			var virusPos:Array = openvirusPos[placenum];
+			openvirusPos.splice(placenum, 1);
+			usedvirusPos.push(virusPos);
+			var virusView:VirusView = new VirusView();
+			virusView.init(true);
+			addElement(virusView);
+			attachedViruses.push(virusView);
+			attachedVirusesCopy.push(virusView);
+			virusView.x = virusPos[0] * 3;
+			virusView.y = virusPos[1] * 3;
+			this.alive = false;
+			tCellImage.alpha = 0.4;
+			if (openvirusPos.length == 0)
+			{
+				_hivSumulationView.freeTcells.splice(tcellNumber, 1);
+			}
+			return virusView;
+		}
+
+		function XandYfromAngle(angle:Number, radius:Number)
+		{
+			var radians:Number = angle * (Math.PI / 180);
+			var xpos:Number = radius * Math.sin(radians);
+			var ypos:Number = -radius * Math.cos(radians);
+
+			return [xpos, ypos];
+		}
+
+
+		function removeVirusatPosition(virusPos:Array)
+		{
+			for (var virusnum = 0; virusnum < attachedViruses.length; virusnum++)
+			{
+				if (usedvirusPos[virusnum][0] == virusPos[0] &&	usedvirusPos[virusnum][1] == virusPos[1]			)
+				{
+					var attachedVirus:VirusView = attachedViruses[virusnum];
+					attachedViruses.splice(virusnum, 1);
+					usedvirusPos.splice(virusnum, 1);
+					removeElement(attachedVirus);
+					_hivSumulationView.addLooseVirus();
+				}
+			}
+		}
+
+		function drawMedication(medicationGraphic:Graphic, startAngle:Number, endAngle:Number, medColor, medAlpha:Number)
+		{
+
+			if (medAlpha == 50)
+			{
+				var increment:Number = 6;
+			} else if (medAlpha == 100)
+			{
+				var increment:Number = 1.5;
+			}
+
+			for (var radius = 60; radius < 75; radius = radius + increment)
+			{
+
+				var startPos:Array = XandYfromAngle(startAngle, radius);
+
+				medicationGraphic.graphics.moveTo(startPos[0], startPos[1]);
+				medicationGraphic.graphics.lineStyle(3, medColor, 100);
+
+				var chunks:Number = Math.ceil((endAngle - startAngle) / 15);
+				var currentAngle:Number = startAngle;
+
+				for (var chunk = 0; chunk < chunks; chunk++)
+				{
+
+					var controlAngle:Number = currentAngle + 7.5;
+					var ControlXandY:Array = XandYfromAngle(controlAngle, radius + 1);
+
+					var endAngle:Number = currentAngle + 15;
+					var EndXandY:Array = XandYfromAngle(endAngle, radius);
+
+					medicationGraphic.graphics.curveTo(ControlXandY[0], ControlXandY[1], EndXandY[0], EndXandY[1]);
+					currentAngle = endAngle;
+
+				}
+			}
+		}
+
+		function addMedication(medicationNumber, totalMedications, medColor, medAlpha)
+		{
+			var medicationGraphic:Graphic = new Graphic();
+			tCellGroup.addElement(medicationGraphic);
+
+
+//			var medName:String = "med" + medicationNumber.toString() + "_mc";
+//			var medication:MovieClip = this.tcell_mc.createEmptyMovieClip(medName, this.tcell_mc.getNextHighestDepth());
+//
+			if (totalMedications == 1)
+			{
+				var angles:Array = [0, 360];
+
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				if (medicationNumber == 0)
+				{
+					removeVirusatPosition([-24, 0]);
+					removeVirusatPosition([-10, -24]);
+					removeVirusatPosition([10, -24]);
+					removeVirusatPosition([24, 0]);
+					removeVirusatPosition([-10, 24]);
+					removeVirusatPosition([10, 24]);
+				}
+			} else if (totalMedications == 2)
+			{
+				var angles:Array = [180, 360, 540];
+
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				if (medicationNumber == 0)
+				{
+					removeVirusatPosition([-24, 0]);
+					removeVirusatPosition([-10, -24]);
+					removeVirusatPosition([-10, 24]);
+				} else if (medicationNumber == 1)
+				{
+					removeVirusatPosition([10, -24]);
+					removeVirusatPosition([24, 0]);
+					removeVirusatPosition([10, 24]);
+				}
+			} else if (totalMedications == 3)
+			{
+				var angles:Array = [240, 360, 480, 600];
+
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				if (medicationNumber == 0)
+				{
+					removeVirusatPosition([-24, 0]);
+					removeVirusatPosition([-10, -24]);
+				} else if (medicationNumber == 1)
+				{
+					removeVirusatPosition([10, -24]);
+					removeVirusatPosition([24, 0]);
+				} else if (medicationNumber == 2)
+				{
+					removeVirusatPosition([-10, 24]);
+					removeVirusatPosition([10, 24]);
+				}
+			} else if (totalMedications == 4)
+			{
+				var angles:Array = [225, 315, 405, 495, 585];
+
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				if (medicationNumber == 0)
+				{
+					removeVirusatPosition([-24, 0]);
+				} else if (medicationNumber == 1)
+				{
+					removeVirusatPosition([-10, -24]);
+					removeVirusatPosition([10, -24]);
+				} else if (medicationNumber == 2)
+				{
+					removeVirusatPosition([24, 0]);
+				} else if (medicationNumber == 3)
+				{
+					removeVirusatPosition([-10, 24]);
+					removeVirusatPosition([10, 24]);
+				}
+			} else if (totalMedications == 5)
+			{
+				var angles:Array = [216, 288, 360, 432, 504, 576];
+
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				if (medicationNumber == 0)
+				{
+					removeVirusatPosition([-24, 0]);
+				} else if (medicationNumber == 1)
+				{
+					removeVirusatPosition([-10, -24]);
+				} else if (medicationNumber == 2)
+				{
+					removeVirusatPosition([10, -24]);
+				} else if (medicationNumber == 3)
+				{
+					removeVirusatPosition([24, 0]);
+				} else if (medicationNumber == 4)
+				{
+					removeVirusatPosition([-10, 24]);
+					removeVirusatPosition([10, 24]);
+				}
+			}
+
+			if (attachedViruses.length == 0)
+			{
+				this.alive = true;
+				tCellImage.alpha = 1;
+			}
+		}
+		]]></fx:Script>
+<s:Group id="tCellGroup">
+		<s:Image id="tCellImage" source="{tCellImageClass}" smooth="true" width="84" height="84" x="-42" y="-42"/>
+</s:Group>
+</s:Group>

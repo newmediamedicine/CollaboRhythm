@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:sharedView="collaboRhythm.shared.view.*"
+		 width="80" height="80">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.problems.HIV.controller.HIVAppController;
+		import collaboRhythm.plugins.problems.HIV.model.HIVSimulationModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+
+		import spark.primitives.Graphic;
+
+		[Embed(source="/assets/images/tcell.png")]
+		public var tCellImageClass:Class;
+
+		[Embed(source="/assets/images/hiv.png")]
+		public var virusImageClass:Class;
+
+		private var _hivAppController:HIVAppController;
+		[Bindable]
+		private var _hivSimulationModel:HIVSimulationModel;
+		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+
+		public function init(hivAppController:HIVAppController, hivSimulationModel:HIVSimulationModel):void
+		{
+			_hivAppController = hivAppController;
+			_hivSimulationModel = hivSimulationModel;
+
+			var medicationGraphic1:Graphic = new Graphic();
+			medicationGraphic1.x = 30;
+			medicationGraphic1.y = 45;
+			tCellGroup.addElement(medicationGraphic1);
+			drawMedication(medicationGraphic1, 240, 360, 0x000000, 100);
+
+			var medicationGraphic2:Graphic = new Graphic();
+			medicationGraphic2.x = 30;
+			medicationGraphic2.y = 45;
+			tCellGroup.addElement(medicationGraphic2);
+			drawMedication(medicationGraphic2, 360, 480, 0x333333, 100);
+		}
+
+		function drawMedication(medicationGraphic:Graphic, startAngle:Number, endAngle:Number, medColor,
+								medAlpha:Number)
+		{
+
+			if (medAlpha == 50)
+			{
+				var increment:Number = 6;
+			} else if (medAlpha == 100)
+			{
+				var increment:Number = 1.5;
+			}
+
+			for (var radius:int = 30; radius < 35; radius = radius + increment)
+			{
+
+				var startPos:Array = XandYfromAngle(startAngle, radius);
+
+				medicationGraphic.graphics.moveTo(startPos[0], startPos[1]);
+				medicationGraphic.graphics.lineStyle(3, medColor, 100);
+
+				var chunks:Number = Math.ceil((endAngle - startAngle) / 15);
+				var currentAngle:Number = startAngle;
+
+				for (var chunk:int = 0; chunk < chunks; chunk++)
+				{
+
+					var controlAngle:Number = currentAngle + 7.5;
+					var ControlXandY:Array = XandYfromAngle(controlAngle, radius + 1);
+
+					var endAngle:Number = currentAngle + 15;
+					var EndXandY:Array = XandYfromAngle(endAngle, radius);
+
+					medicationGraphic.graphics.curveTo(ControlXandY[0], ControlXandY[1], EndXandY[0], EndXandY[1]);
+					currentAngle = endAngle;
+
+				}
+			}
+		}
+
+		function XandYfromAngle(angle:Number, radius:Number)
+		{
+			var radians:Number = angle * (Math.PI / 180);
+			var xpos:Number = radius * Math.sin(radians);
+			var ypos:Number = -radius * Math.cos(radians);
+
+			return [xpos, ypos];
+		}
+
+		private function widgetButton_clickHandler():void
+		{
+			_hivAppController.showHIVSimulationView();
+		}
+		]]></fx:Script>
+	<sharedView:WidgetButton width="100%" height="100%"
+							 skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"
+							 click="widgetButton_clickHandler()"/>
+	<s:Group id="tCellGroup" left="10" right="10" top="10" bottom="10" mouseEnabled="false" mouseChildren="false">
+		<s:Image source="{tCellImageClass}" smooth="true" width="36" height="36" horizontalCenter="0" verticalCenter="0"
+				 alpha="0.6"/>
+		<s:Image source="{virusImageClass}" smooth="true" width="24" height="24" horizontalCenter="-12"
+				 verticalCenter="32"/>
+		<s:Image source="{virusImageClass}" smooth="true" width="24" height="24" horizontalCenter="12"
+				 verticalCenter="32"/>
+	</s:Group>
+</s:Group>

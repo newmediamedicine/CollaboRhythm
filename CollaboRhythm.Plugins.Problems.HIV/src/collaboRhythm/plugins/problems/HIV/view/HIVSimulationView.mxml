@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.problems.HIV.controller.HIVAppController;
+		import collaboRhythm.plugins.problems.HIV.model.HIVSimulationModel;
+		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+
+		private var _hivAppController:HIVAppController;
+		[Bindable]
+		private var _hivSimulationModel:HIVSimulationModel;
+		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
+
+		private var tcells:Array = [];
+		private var _freeTcells:Array = [];
+
+		private var viruses:Array = [];
+		private var attachedViruses:Array = [];
+		private var looseViruses:Array = [];
+
+		override public function set data(value:Object):void
+		{
+			_hivSimulationModel = value as HIVSimulationModel;
+
+			_hivSimulationModel.updateSimulationData();
+
+
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+
+			placeTCells();
+			placeViruses();
+			placeMeds();
+		}
+
+		private function placeTCells():void
+		{
+			for (var tcellnum:int = 1; tcellnum <= _hivSimulationModel.numTCells; tcellnum++)
+			{
+				var tCellView:TCellView = new TCellView();
+				tCellView.x = _hivSimulationModel.usedtcellPos[tcellnum - 1][0] * 3;
+				tCellView.y = _hivSimulationModel.usedtcellPos[tcellnum - 1][1] * 3;
+				simulationGroup.addElement(tCellView);
+				tCellView.init(_hivSimulationModel, this);
+
+				tcells.push(tCellView);
+				freeTcells.push(tCellView);
+			}
+		}
+
+		private function placeViruses():void
+		{
+			for (var virusnum:int = 1; virusnum <= _hivSimulationModel.numViruses; virusnum++)
+			{
+				if (freeTcells.length != 0)
+				{
+					var tcellNumber:Number = Math.floor(Math.random() * freeTcells.length);
+					var tcellView:TCellView = freeTcells[tcellNumber];
+					var virusView:VirusView = tcellView.addVirus(virusnum, tcellNumber);
+					viruses.push(virusView);
+					attachedViruses.push(virusView);
+				}
+				else if (_hivSimulationModel.openLooseVirusPos.length != 0)
+				{
+					addLooseVirus();
+				}
+			}
+		}
+
+		public function addLooseVirus()
+		{
+			var looseVirusesLength:Number = looseViruses.length;
+			var virusView:VirusView = new VirusView();
+			virusView.init(false);
+			simulationGroup.addElement(virusView);
+			virusView.alpha = 0.6;
+			var virusPosNumber:Number = Math.floor(Math.random() * _hivSimulationModel.openLooseVirusPos.length);
+			var virusPos:Array = _hivSimulationModel.openLooseVirusPos[virusPosNumber];
+			var xwiggle:Number = Math.floor(Math.random() * 5) - 2;
+			var ywiggle:Number = Math.floor(Math.random() * 5) - 2;
+			virusView.x = (virusPos[0] + xwiggle) * 3;
+			virusView.y = (virusPos[1] + ywiggle) * 3;
+			_hivSimulationModel.openLooseVirusPos.splice(virusPosNumber, 1);
+			viruses.push(virusView);
+			looseViruses.push(virusView);
+		}
+
+		private function placeMeds():void
+		{
+			var med:int = 0;
+			for each (var medicationFill:MedicationFill in _hivSimulationModel.activeRecord.medicationFillsModel.medicationFillsCollection)
+			{
+
+				var medConcentration:Number = _hivSimulationModel.medConcentrations[med];
+				var medGoalConcentration:Number = 1; //medGoalConcentrations[med];
+				var percentGoal:Number = (medConcentration / medGoalConcentration) * 100;
+
+				var medicationView:MedicationView = new MedicationView();
+				medicationView.init(medicationFill, percentGoal);
+				medicationsGroup.addElement(medicationView);
+
+				var addMedication:String = "";
+				var fillAlpha:Number;
+				if (percentGoal < 50)
+				{
+					fillAlpha = 0;
+					addMedication = "No";
+				} else if (percentGoal < 100)
+				{
+					fillAlpha = 50;
+					addMedication = "Random";
+				} else
+				{
+					fillAlpha = 100;
+					addMedication = "Yes";
+				}
+
+//				medBar.moveTo((med) * lineLength + 1, 0);
+				if (fillAlpha == 100)
+				{
+//					medBar.beginFill(medColors[med], 100);
+				} else
+				{
+//					medBar.beginFill(medColors[med], 0);
+				}
+//				medBar.lineStyle(2, medColors[med], 100);
+//				medBar.lineTo((med + 1) * lineLength - 1, 0);
+//				medBar.lineTo((med + 1) * lineLength - 1, 17);
+//				medBar.lineTo((med) * lineLength + 1, 17);
+//				medBar.lineTo((med) * lineLength + 1, 0);
+//				medBar.endFill();
+
+				if (fillAlpha == 50)
+				{
+//					medBar.lineStyle(1, medColors[med], 50);
+//					for (line = 1; line < 8; line++)
+//					{
+//						medBar.moveTo((med) * lineLength + 1, line * 2)
+//						medBar.lineTo((med + 1) * lineLength - 1, line * 2);
+//					}
+				}
+
+				for (var tcellnum = 0; tcellnum < tcells.length; tcellnum++)
+				{
+					var tCellView:TCellView = tcells[tcellnum];
+					if (addMedication == "Random")
+					{
+						var randomlyadd:int = Math.floor(Math.random() * 2);
+						if (randomlyadd == 1)
+						{
+							tCellView.addMedication(med, _hivSimulationModel.medConcentrations.length,
+									_hivSimulationModel.medColors[med], fillAlpha);
+						}
+					} else if (addMedication == "Yes")
+					{
+						tCellView.addMedication(med, _hivSimulationModel.medConcentrations.length,
+								_hivSimulationModel.medColors[med], fillAlpha);
+					}
+				}
+				med++;
+			}
+		}
+
+		public function get freeTcells():Array
+		{
+			return _freeTcells;
+		}
+		]]></fx:Script>
+	<s:HGroup width="100%" height="100%">
+		<s:VGroup id="medicationsGroup" width="100%" height="100%" gap="50" paddingTop="10" paddingLeft="10"/>
+		<s:Group id="simulationGroup" width="960" height="100%"/>
+	</s:HGroup>
+</tablet:TabletViewBase>
+

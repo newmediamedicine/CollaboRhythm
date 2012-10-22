@@ -1,49 +1,66 @@
-package collaboRhythm.plugin.problems.HIV.model
+package collaboRhythm.plugins.problems.HIV.model
 {
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	import flash.display.MovieClip;
 
 	public class HIVSimulationModel
 	{
-		private var tcells:Array = [];
-		private var freeTcells:Array = [];
-		private var viruses:Array = [];
-		private var attachedViruses:Array = [];
-		private var looseViruses:Array = [];
+		private var tcells:Array;
+		private var freeTcells:Array;
+		private var viruses:Array;
+		private var attachedViruses:Array;
+		private var looseViruses:Array;
+
+		private var _cd4Count:Number = 438;
+		private var _viralLoad:Number = 6400;
 
 		private var _numTCells:Number;
 		private var _numViruses:Number;
+		private var _medConcentrations:Array = [1.5, 1.5, 0.75];
+		private var _medGoalConcentrations:Array = [1, 1, 1];
+		private var _medColors:Array = [0x000000, 0x333333, 0x666666];
 
 		private var _openLooseVirusPos:Array = [];
 
-		private var opentcellPos:Array = [
-			[54, 74],
-			[125, 34],
-			[195, 100],
-			[266, 54],
-			[54, 146],
-			[125, 187],
-			[195, 184],
-			[266, 174]
-		];
-		private var _usedtcellPos:Array = [];
+		private var opentcellPos:Array;
+		private var _usedtcellPos:Array;
+		private var _activeRecord:Record;
 
 		public function HIVSimulationModel(activeRecordAccount:Account)
 		{
-			var activeRecord:Record = activeRecordAccount.primaryRecord
-
-			var healthChartsModel:HealthChartsModel = activeRecord.healthChartsModel;
+			_activeRecord = activeRecordAccount.primaryRecord;
 		}
 
-		public function updateSimulationData(cd4Count:Number, viralLoad:Number):void
+		public function updateSimulationData():void
 		{
-			_numTCells = Math.ceil(cd4Count / 100);
-			_numViruses = Math.ceil(viralLoad / 100);
+			tcells = [];
+			freeTcells = [];
+			viruses = [];
+			attachedViruses = [];
+			looseViruses = [];
+			_openLooseVirusPos = [];
+			opentcellPos = [
+				[54, 74],
+				[125, 34],
+				[195, 100],
+				[266, 54],
+				[54, 146],
+				[125, 187],
+				[195, 184],
+				[266, 174]
+			];
+			_usedtcellPos = [];
 
-			for (var looseposition = 0; looseposition < 176; looseposition++)
+
+
+			_numTCells = Math.ceil(_cd4Count / 100);
+			_numViruses = Math.ceil(_viralLoad / 100);
+
+			for (var looseposition:int = 0; looseposition < 176; looseposition++)
 			{
 				_openLooseVirusPos[looseposition] = [(looseposition % 16) * 20 + 10, (Math.floor(looseposition / 16)) *
 						20 + 10];
@@ -110,8 +127,6 @@ package collaboRhythm.plugin.problems.HIV.model
 					_openLooseVirusPos.splice(looseposition, 1)
 				}
 			}
-
-
 		}
 
 		private function removeLooseVirusPositions(removepositions:Array)
@@ -122,21 +137,6 @@ package collaboRhythm.plugin.problems.HIV.model
 			}
 		}
 
-//		private function AddLooseVirus() {
-//			var looseVirusesLength:Number = looseViruses.length
-//			var virusname:String = "loosevirus" + looseVirusesLength.toString() + "_mc";
-//			var virus:MovieClip = this.attachMovie("hivstill", virusname, this.getNextHighestDepth());
-//			virus._alpha = 60;
-//			var virusPosNumber:Number = Math.floor(Math.random() * _openLooseVirusPos.length);
-//			var virusPos:Array = _openLooseVirusPos[virusPosNumber];
-//			var xwiggle:Number = Math.floor(Math.random() * 5) - 2;
-//			var ywiggle:Number = Math.floor(Math.random() * 5) - 2;
-//			virus._x = virusPos[0] + xwiggle;
-//			virus._y = virusPos[1] + ywiggle;
-//			_openLooseVirusPos.splice(virusPosNumber, 1);
-//			viruses.push(virus);
-//			looseViruses.push(virus);
-//		}
 		public function get numTCells():Number
 		{
 			return _numTCells;
@@ -155,6 +155,26 @@ package collaboRhythm.plugin.problems.HIV.model
 		public function get openLooseVirusPos():Array
 		{
 			return _openLooseVirusPos;
+		}
+
+		public function get medConcentrations():Array
+		{
+			return _medConcentrations;
+		}
+
+		public function get medColors():Array
+		{
+			return _medColors;
+		}
+
+		public function get medGoalConcentrations():Array
+		{
+			return _medGoalConcentrations;
+		}
+
+		public function get activeRecord():Record
+		{
+			return _activeRecord;
 		}
 	}
 }

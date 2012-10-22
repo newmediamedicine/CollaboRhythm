@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Plugins.Problems.HIV">
     <configurations>
-      <configuration name="CollaboRhythm.Plugins.Problems.HIV" target-platform="Desktop" output-type="RuntimeLoadedModule" main-class="collaboRhythm.plugin.problems.HIV.controller.HIVPluginModule" output-file="HIVPluginModule.swf" output-folder="$MODULE_DIR$/bin-debug">
+      <configuration name="CollaboRhythm.Plugins.Problems.HIV" target-platform="Desktop" output-type="RuntimeLoadedModule" main-class="collaboRhythm.plugins.problems.HIV.controller.HIVPluginModule" output-file="HIVPluginModule.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies target-player="11.1">
           <entries>
             <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
@@ -21,6 +21,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-id="732b812b-5b14-497e-929b-8a3ffa5c8676">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model" build-configuration-name="CollaboRhythm.Shared.Model">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -75,6 +78,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
   </component>
 </module>
 

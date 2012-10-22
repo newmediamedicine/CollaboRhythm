@@ -1,4 +1,4 @@
-package collaboRhythm.plugin.problems.HIV.model
+package collaboRhythm.plugins.problems.HIV.model
 {
 	public class TCell
 	{

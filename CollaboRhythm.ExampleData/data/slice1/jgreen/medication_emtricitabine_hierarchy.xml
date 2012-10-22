@@ -5,7 +5,7 @@
    <LoadableIndivoDocument>
       <document>
          <MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
-            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+            <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
             <orderType>prescribed</orderType>
             <orderedBy>jking@records.media.mit.edu</orderedBy>
             <dateOrdered>2011-07-14T19:13:11Z</dateOrdered>
@@ -24,14 +24,14 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                      <filledBy>ljohnson@records.media.mit.edu</filledBy>
                      <dateFilled>2011-07-14T19:13:11Z</dateFilled>
                      <amountFilled>
                         <value>90</value>
                         <unit>tab</unit>
                      </amountFilled>
-                     <ndc>001730721</ndc>
+                     <ndc>001730595</ndc>
                      <instructions>do not expose to direct sunlight</instructions>
                   </MedicationFill>
                </document>
@@ -41,7 +41,7 @@
             <LoadableIndivoDocument>
                <document>
                   <MedicationScheduleItem xmlns="http://indivo.org/vocab/xml/documents#">
-                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                     <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                      <scheduledBy>jking@records.media.mit.edu</scheduledBy>
                      <dateScheduled>2011-07-14T19:13:11Z</dateScheduled>
                      <dateStart>2011-07-15T13:00:00Z</dateStart>
@@ -62,7 +62,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-15T14:57:00Z</dateReported>
                               <recurrenceIndex>0</recurrenceIndex>
@@ -74,7 +74,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-15T14:57:00Z</dateReported>
                                        <dateAdministered>2011-07-15T14:57:00Z</dateAdministered>
@@ -95,7 +95,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-16T13:07:00Z</dateReported>
                               <recurrenceIndex>1</recurrenceIndex>
@@ -107,7 +107,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-16T13:07:00Z</dateReported>
                                        <dateAdministered>2011-07-16T13:07:00Z</dateAdministered>
@@ -128,7 +128,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-17T13:54:00Z</dateReported>
                               <recurrenceIndex>2</recurrenceIndex>
@@ -140,7 +140,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-17T13:54:00Z</dateReported>
                                        <dateAdministered>2011-07-17T13:54:00Z</dateAdministered>
@@ -161,7 +161,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-18T13:52:00Z</dateReported>
                               <recurrenceIndex>3</recurrenceIndex>
@@ -173,7 +173,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-18T13:52:00Z</dateReported>
                                        <dateAdministered>2011-07-18T13:52:00Z</dateAdministered>
@@ -194,7 +194,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-19T13:48:00Z</dateReported>
                               <recurrenceIndex>4</recurrenceIndex>
@@ -206,7 +206,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-19T13:48:00Z</dateReported>
                                        <dateAdministered>2011-07-19T13:48:00Z</dateAdministered>
@@ -227,7 +227,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-20T14:27:00Z</dateReported>
                               <recurrenceIndex>5</recurrenceIndex>
@@ -239,7 +239,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-20T14:27:00Z</dateReported>
                                        <dateAdministered>2011-07-20T14:27:00Z</dateAdministered>
@@ -260,7 +260,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-21T14:24:00Z</dateReported>
                               <recurrenceIndex>6</recurrenceIndex>
@@ -272,7 +272,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-21T14:24:00Z</dateReported>
                                        <dateAdministered>2011-07-21T14:24:00Z</dateAdministered>
@@ -293,7 +293,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-22T14:14:00Z</dateReported>
                               <recurrenceIndex>7</recurrenceIndex>
@@ -305,7 +305,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-22T14:14:00Z</dateReported>
                                        <dateAdministered>2011-07-22T14:14:00Z</dateAdministered>
@@ -326,7 +326,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-23T14:15:00Z</dateReported>
                               <recurrenceIndex>8</recurrenceIndex>
@@ -338,7 +338,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-23T14:15:00Z</dateReported>
                                        <dateAdministered>2011-07-23T14:15:00Z</dateAdministered>
@@ -359,7 +359,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-24T14:59:00Z</dateReported>
                               <recurrenceIndex>9</recurrenceIndex>
@@ -370,7 +370,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-25T13:12:00Z</dateReported>
                               <recurrenceIndex>10</recurrenceIndex>
@@ -381,7 +381,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-26T15:26:00Z</dateReported>
                               <recurrenceIndex>11</recurrenceIndex>
@@ -392,7 +392,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-27T13:47:00Z</dateReported>
                               <recurrenceIndex>12</recurrenceIndex>
@@ -404,7 +404,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-27T13:47:00Z</dateReported>
                                        <dateAdministered>2011-07-27T13:47:00Z</dateAdministered>
@@ -425,7 +425,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-28T14:12:00Z</dateReported>
                               <recurrenceIndex>13</recurrenceIndex>
@@ -437,7 +437,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-28T14:12:00Z</dateReported>
                                        <dateAdministered>2011-07-28T14:12:00Z</dateAdministered>
@@ -458,7 +458,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-29T14:44:00Z</dateReported>
                               <recurrenceIndex>14</recurrenceIndex>
@@ -470,7 +470,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-29T14:44:00Z</dateReported>
                                        <dateAdministered>2011-07-29T14:44:00Z</dateAdministered>
@@ -491,7 +491,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-30T14:02:00Z</dateReported>
                               <recurrenceIndex>15</recurrenceIndex>
@@ -503,7 +503,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-30T14:02:00Z</dateReported>
                                        <dateAdministered>2011-07-30T14:02:00Z</dateAdministered>
@@ -524,7 +524,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-07-31T13:24:00Z</dateReported>
                               <recurrenceIndex>16</recurrenceIndex>
@@ -536,7 +536,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-07-31T13:24:00Z</dateReported>
                                        <dateAdministered>2011-07-31T13:24:00Z</dateAdministered>
@@ -557,7 +557,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-01T15:22:00Z</dateReported>
                               <recurrenceIndex>17</recurrenceIndex>
@@ -569,7 +569,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-01T15:22:00Z</dateReported>
                                        <dateAdministered>2011-08-01T15:22:00Z</dateAdministered>
@@ -590,7 +590,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-02T15:00:00Z</dateReported>
                               <recurrenceIndex>18</recurrenceIndex>
@@ -602,7 +602,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-02T15:00:00Z</dateReported>
                                        <dateAdministered>2011-08-02T15:00:00Z</dateAdministered>
@@ -623,7 +623,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-03T13:53:00Z</dateReported>
                               <recurrenceIndex>19</recurrenceIndex>
@@ -635,7 +635,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-03T13:53:00Z</dateReported>
                                        <dateAdministered>2011-08-03T13:53:00Z</dateAdministered>
@@ -656,7 +656,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-04T14:00:00Z</dateReported>
                               <recurrenceIndex>20</recurrenceIndex>
@@ -668,7 +668,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-04T14:00:00Z</dateReported>
                                        <dateAdministered>2011-08-04T14:00:00Z</dateAdministered>
@@ -689,7 +689,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-05T13:54:00Z</dateReported>
                               <recurrenceIndex>21</recurrenceIndex>
@@ -701,7 +701,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-05T13:54:00Z</dateReported>
                                        <dateAdministered>2011-08-05T13:54:00Z</dateAdministered>
@@ -722,7 +722,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-06T13:14:00Z</dateReported>
                               <recurrenceIndex>22</recurrenceIndex>
@@ -734,7 +734,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-06T13:14:00Z</dateReported>
                                        <dateAdministered>2011-08-06T13:14:00Z</dateAdministered>
@@ -755,7 +755,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-07T13:00:00Z</dateReported>
                               <recurrenceIndex>23</recurrenceIndex>
@@ -766,7 +766,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-08T13:10:00Z</dateReported>
                               <recurrenceIndex>24</recurrenceIndex>
@@ -777,7 +777,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-09T13:18:00Z</dateReported>
                               <recurrenceIndex>25</recurrenceIndex>
@@ -788,7 +788,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-10T13:29:00Z</dateReported>
                               <recurrenceIndex>26</recurrenceIndex>
@@ -800,7 +800,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-10T13:29:00Z</dateReported>
                                        <dateAdministered>2011-08-10T13:29:00Z</dateAdministered>
@@ -821,7 +821,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-11T13:40:00Z</dateReported>
                               <recurrenceIndex>27</recurrenceIndex>
@@ -833,7 +833,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-11T13:40:00Z</dateReported>
                                        <dateAdministered>2011-08-11T13:40:00Z</dateAdministered>
@@ -854,7 +854,7 @@
                      <LoadableIndivoDocument>
                         <document>
                            <AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">
-                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                              <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                               <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                               <dateReported>2011-08-12T13:51:00Z</dateReported>
                               <recurrenceIndex>28</recurrenceIndex>
@@ -866,7 +866,7 @@
                               <LoadableIndivoDocument>
                                  <document>
                                     <MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
-                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="402110">fosamprenavir 700 MG Oral Tablet [Lexiva]</name>
+                                       <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="404587">emtricitabine 200 MG Oral Capsule [Emtriva]</name>
                                        <reportedBy>jgreen@records.media.mit.edu</reportedBy>
                                        <dateReported>2011-08-12T13:51:00Z</dateReported>
                                        <dateAdministered>2011-08-12T13:51:00Z</dateAdministered>

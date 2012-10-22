@@ -17,5 +17,19 @@
   -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
+		import collaboRhythm.shared.model.services.IImageCacheService;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
 
+		private var _imageCacheService:IImageCacheService;
+
+		public function init(medicationFill:MedicationFill, percentGoalConcentration:Number):void
+		{
+			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
+			medicationImage.source = _imageCacheService.getImage(medicationImage, MedicationFillsModel.MEDICATION_API_URL_BASE + medicationFill.ndc.text + "-front.png");
+		}
+		]]></fx:Script>
+	<s:Image id="medicationImage" width="100" height="100"/>
 </s:Group>

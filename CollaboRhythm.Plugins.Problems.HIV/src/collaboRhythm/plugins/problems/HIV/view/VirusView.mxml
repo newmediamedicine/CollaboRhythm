@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script><![CDATA[
+		[Embed(source="/assets/images/hiv.png")]
+		public var virusImageClass:Class;
+
+		private var _alive:Boolean;
+		private var _xmove:int;
+		private var _ymove:int;
+		private var _addposition:Boolean;
+		private var _animationTimer:Timer;
+
+		public function init(alive:Boolean):void
+		{
+			_alive = alive;
+
+			if (alive)
+			{
+				_xmove = Math.floor(Math.random() * 3) - 1;
+				_ymove = Math.floor(Math.random() * 3) - 1;
+				if (_xmove == 0 && _ymove == 0)
+				{
+					_xmove = 1;
+				}
+				_addposition = true;
+				_animationTimer = new Timer(100);
+				_animationTimer.addEventListener(TimerEvent.TIMER, animationTimerEventHandler);
+				_animationTimer.start();
+			}
+			else
+			{
+				virusImage.width = 46;
+				virusImage.height = 46;
+				virusImage.x = -23;
+				virusImage.y = -23;
+			}
+		}
+
+		private function animationTimerEventHandler(event:TimerEvent):void
+		{
+			if (_addposition == true)
+			{
+				virusImage.x = virusImage.x + (_xmove * 2);
+				virusImage.y = virusImage.y + (_ymove * 2);
+				_addposition = false;
+			}
+			else
+			{
+				virusImage.x = virusImage.x - (_xmove * 2);
+				virusImage.y = virusImage.y - (_ymove * 2);
+				_addposition = true;
+			}
+		}
+		]]></fx:Script>
+	<s:Image id="virusImage" source="{virusImageClass}" smooth="true" width="54" height="54" x="-27" y="-27"/>
+</s:Group>

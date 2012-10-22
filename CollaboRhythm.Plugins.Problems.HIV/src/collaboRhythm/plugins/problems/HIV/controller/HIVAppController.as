@@ -1,8 +1,8 @@
-package collaboRhythm.plugin.problems.HIV.controller
+package collaboRhythm.plugins.problems.HIV.controller
 {
-	import collaboRhythm.plugin.problems.HIV.model.HIVSimulationModel;
-	import collaboRhythm.plugin.problems.HIV.view.HIVSimulationButtonWidgetView;
-	import collaboRhythm.plugin.problems.HIV.view.HIVSimulationView;
+	import collaboRhythm.plugins.problems.HIV.model.HIVSimulationModel;
+	import collaboRhythm.plugins.problems.HIV.view.HIVSimulationButtonWidgetView;
+	import collaboRhythm.plugins.problems.HIV.view.HIVSimulationView;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 
