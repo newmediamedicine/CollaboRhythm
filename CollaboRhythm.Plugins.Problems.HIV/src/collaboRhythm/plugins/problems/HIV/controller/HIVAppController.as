@@ -6,6 +6,9 @@ package collaboRhythm.plugins.problems.HIV.controller
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 
+	import mx.binding.utils.BindingUtils;
+	import mx.binding.utils.ChangeWatcher;
+
 	import mx.core.UIComponent;
 
 	public class HIVAppController extends AppControllerBase
@@ -15,9 +18,30 @@ package collaboRhythm.plugins.problems.HIV.controller
 		private var _widgetView:HIVSimulationButtonWidgetView;
 		private var _hivSimulationModel:HIVSimulationModel;
 
+		private var _recordIsLoadingChangeWatcher:ChangeWatcher;
+
 		public function HIVAppController(constructorParams:AppControllerConstructorParams)
 		{
 			super(constructorParams);
+
+			if (activeRecordAccount && activeRecordAccount.primaryRecord)
+				_recordIsLoadingChangeWatcher = BindingUtils.bindSetter(record_isLoadingHandler,
+						activeRecordAccount.primaryRecord, "isLoading");
+		}
+
+		private function record_isLoadingHandler(isLoading:Boolean):void
+		{
+			if (!isLoading)
+			{
+				if (_recordIsLoadingChangeWatcher)
+				{
+					_recordIsLoadingChangeWatcher.unwatch();
+					_recordIsLoadingChangeWatcher = null;
+				}
+
+				createAndPrepareWidgetView();
+				showWidget();
+			}
 		}
 
 		override public function initialize():void
@@ -30,7 +54,10 @@ package collaboRhythm.plugins.problems.HIV.controller
 
 		private function initializeHIVSimulationModel():void
 		{
-			_hivSimulationModel = new HIVSimulationModel(_activeRecordAccount);
+			if (_hivSimulationModel == null)
+			{
+				_hivSimulationModel = new HIVSimulationModel(_activeRecordAccount);
+			}
 		}
 
 		public override function get defaultName():String
@@ -40,7 +67,14 @@ package collaboRhythm.plugins.problems.HIV.controller
 
 		override protected function createWidgetView():UIComponent
 		{
-			_widgetView = new HIVSimulationButtonWidgetView();
+			initializeHIVSimulationModel();
+
+			// Only make the widget view if it is appropriate for this record
+			if (_hivSimulationModel && _hivSimulationModel.recordContainsHivMedication)
+				_widgetView = new HIVSimulationButtonWidgetView();
+			else
+				_widgetView = null;
+
 			return _widgetView
 		}
 

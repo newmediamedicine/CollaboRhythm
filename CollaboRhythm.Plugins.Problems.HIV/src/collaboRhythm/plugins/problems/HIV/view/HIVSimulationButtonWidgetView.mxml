@@ -71,15 +71,11 @@
 		{
 			if (isInitialized)
 			{
-				for each (var medicationFill:MedicationFill in
-						_hivSimulationModel.activeRecord.medicationFillsModel.medicationFillsCollection)
+				if (_hivSimulationModel.recordContainsHivMedication)
 				{
-					if (medicationFill.ndc.text == "001730721")
-					{
-						visible = true;
-						tCellGroup.visible = true;
-						widgetButton.visible = true;
-					}
+					visible = true;
+					tCellGroup.visible = true;
+					widgetButton.visible = true;
 				}
 			}
 		}

@@ -3,12 +3,19 @@ package collaboRhythm.plugins.problems.HIV.model
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
 	import flash.display.MovieClip;
 
 	public class HIVSimulationModel
 	{
+		public static const HIV_LEXIVA_CODE:String = "001730721";
+		public static const HIV_EMTRIVA_CODE:String = "001730595";
+		public static const HIV_VIRAMUNE_CODE:String = "005970046";
+		public static const HIV_MEDICATION_CODES:Vector.<String> = new <String>[HIV_LEXIVA_CODE, HIV_EMTRIVA_CODE, HIV_VIRAMUNE_CODE];
+
+
 		private var tcells:Array;
 		private var freeTcells:Array;
 		private var viruses:Array;
@@ -175,6 +182,19 @@ package collaboRhythm.plugins.problems.HIV.model
 		public function get activeRecord():Record
 		{
 			return _activeRecord;
+		}
+
+		public function get recordContainsHivMedication():Boolean
+		{
+			for each (var medicationFill:MedicationFill in activeRecord.medicationFillsModel.medicationFillsCollection)
+			{
+				if (HIV_MEDICATION_CODES.indexOf(medicationFill.ndc.text) != -1)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
