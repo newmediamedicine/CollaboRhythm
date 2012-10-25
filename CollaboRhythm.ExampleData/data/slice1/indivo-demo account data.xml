@@ -2369,8 +2369,236 @@
     
   </AccountSource>
   
-  <saveDate>Mon Oct 22 01:49:04 GMT-0400 2012</saveDate>
+  <saveDate>Thu Oct 25 09:41:07 GMT-0400 2012</saveDate>
   
   <indivoServerBaseURL>https://indivo-demo.media.mit.edu:8000</indivoServerBaseURL>
   
-</dataroot>
+<AccountSource>
+    
+    <accountId>endometrioisis-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>endometrioisis-jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>125ad614-c252-4b93-b20a-260453d78bda</recordId>
+    
+    <status>Demographics document created. Id: f9a7c4df-eb7a-44c8-980d-ec72984cb3fa</status>
+    
+    <accessKey>4tyu1WAjiCXMFliz5Myi</accessKey>
+    
+    <accessSecret>JdO3BBqabDQlf2v574I7</accessSecret>
+    
+    <demographicsId>f9a7c4df-eb7a-44c8-980d-ec72984cb3fa</demographicsId>
+    
+    <notes>Endometrioisis demo physician</notes>
+    
+    <recordSeed/>
+    
+  <documentsDirectory>jking</documentsDirectory></AccountSource><AccountSource>
+    
+    <accountId>endometrioisis-jgreen@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James Green</fullName>
+    
+    <username>endometrioisis-jgreen</username>
+    
+    <password>jgreen-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>Green</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jgreen@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jgreen@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1961-08-05T00:00:00Z</dateOfBirth>
+    
+    <age>48</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>1c02d4a1-209d-4a50-8503-4c0bfd22e4a3</recordId>
+    
+    <accessKey>08xxeA8OtELHaa58JR0B</accessKey>
+    
+    <accessSecret>0Ife33xFKqcBPt7GGZMC</accessSecret>
+    
+    <status>Created 165/165 documents, 161/162 relationships</status>
+    
+    <demographicsId>7113f3b2-b814-428f-946c-6f7a7aedb45a</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>endometrioisis-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <documentsDirectory>jgreen</documentsDirectory><notes>Endometrioisis HIV demo patient</notes></AccountSource><AccountSource>
+    
+    <accountId>endometrioisis-csantos@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>endometrioisis-csantos</username>
+    
+    <password>csantos-dope75</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>a1c7af78-9a2c-47f1-ac12-f3b6c530cf83</recordId>
+    
+    <accessKey>ok5uMHnES0OpAtHP2Ktc</accessKey>
+    
+    <accessSecret>X8VZChfeHLAj4wj5w4PF</accessSecret>
+    
+    <status>Created 334/334 documents, 329/330 relationships</status>
+    
+    <demographicsId>c0647be5-2dea-4394-8c14-ccda869337f9</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Endometrioisis demo account with diabetes data</notes>
+    
+    <shareAccountId>endometrioisis-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <documentsDirectory>csantos</documentsDirectory></AccountSource></dataroot>
