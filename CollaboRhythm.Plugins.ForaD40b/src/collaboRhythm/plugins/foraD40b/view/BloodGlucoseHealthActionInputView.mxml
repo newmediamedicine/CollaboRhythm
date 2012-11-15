@@ -28,8 +28,11 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
+		import collaboRhythm.plugins.foraD40b.model.ReportBloodGlucoseItemData;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.shared.model.DateUtil;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
@@ -37,8 +40,10 @@
 		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
 
+		import spark.components.ViewMenuItem;
+
 		[Bindable]
-		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		protected var _dataInputModel:BloodGlucoseHealthActionInputModelCollection;
 		protected var _dataInputController:BloodGlucoseHealthActionInputController;
 		private var _currentDateSource:ICurrentDateSource;
 
@@ -49,8 +54,10 @@
 			var dataInputModelAndController:HealthActionInputModelAndController = value as
 					HealthActionInputModelAndController;
 
-			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
+			_dataInputModel = dataInputModelAndController.healthActionInputModel as
+					BloodGlucoseHealthActionInputModelCollection;
+			_dataInputController = dataInputModelAndController.healthActionInputController as
+					BloodGlucoseHealthActionInputController;
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
@@ -77,6 +84,8 @@
 				title = "Report Blood Glucose Measurement - Unscheduled";
 				actionContent.unshift(saveActionButton);
 			}
+			addMenuItem("Simulate Device", simulateDeviceMenuItem_clickHandler);
+			addMenuItem("Simulate Device 2", simulateDevice2MenuItem_clickHandler);
 		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
@@ -143,8 +152,82 @@
 
 			super.stage_keyUpHandler(event);
 		}
+
+		private function simulateDeviceMenuItem_clickHandler(event:MouseEvent):void
+		{
+			var index:Number;
+			if ((_dataInputModel.reportBloodGlucoseItemDataCollection[0] as
+					ReportBloodGlucoseItemData).dataInputModel.isFromDevice)
+			{
+				index = _dataInputModel.reportBloodGlucoseItemDataCollection.length;
+			}
+			else
+			{
+				index = 0;
+			}
+			var numToSimulate:Number = 3;
+
+			for (var i:int = 0; i < numToSimulate; i++)
+			{
+				simulateDeviceOffsetFromNow(index / numToSimulate + i * (1.0 / numToSimulate), 1.0 / numToSimulate);
+			}
+		}
+
+		private function simulateDevice2MenuItem_clickHandler(event:MouseEvent):void
+		{
+			var dateValue:Number;
+			if (_dataInputModel && _dataInputModel.scheduleItemOccurrence)
+			{
+				dateValue = _dataInputModel.scheduleItemOccurrence.dateEnd.valueOf();
+			}
+
+			if (_dataInputModel && _dataInputModel.lastInputModel && _dataInputModel.lastInputModel.dateMeasuredStart.valueOf() < dateValue)
+			{
+				dateValue = _dataInputModel.lastInputModel.dateMeasuredStart.valueOf();
+			}
+
+			if (!isNaN(dateValue))
+			{
+				simulateDevice(150, new Date(dateValue - 1000 * 60 * 5));
+			}
+		}
+
+		public function simulateDeviceOffsetFromNow(daysBeforeNow:Number, maximumRandomDaysFraction:Number):void
+		{
+			var correctedMeasuredDate:Date = new Date(_currentDateSource.now().valueOf() -
+					DateUtil.MILLISECONDS_IN_DAY * daysBeforeNow -
+					(DateUtil.MILLISECONDS_IN_DAY * maximumRandomDaysFraction * Math.random()));
+			var bloodGlucose:int = Math.round(70 + Math.random() * 200);
+			simulateDevice(bloodGlucose, correctedMeasuredDate);
+		}
+
+		private function addMenuItem(label:String, listener:Function):void
+		{
+			var menuItem:ViewMenuItem = new ViewMenuItem();
+			menuItem.label = label;
+			menuItem.addEventListener(MouseEvent.CLICK, listener);
+			viewMenuItems.push(menuItem)
+		}
+
+		private function simulateDevice(bloodGlucose:int, correctedMeasuredDate:Date):void
+		{
+			var uriString:String = "collaborhythm://healthActionType=Equipment&healthActionName=Blood Glucose&equipmentName=FORA D40b&success=true&bloodGlucose=" +
+					bloodGlucose + "&correctedMeasuredDate=" + DateUtil.format(correctedMeasuredDate, false) +
+					"&deviceMeasuredDate=2012-10-19T23:15:00-04:00&localTransmittedDate=2012-11-07T14:48:00-05:00&deviceTransmittedDate=2012-11-07T15:47:00-05:00";
+			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
+					[uriString]))
+		}
 		]]></fx:Script>
-	<view:ReportBloodGlucoseDetailedView id="reportBloodGlucoseDetailedView"/>
-	<s:Button id="saveButton" label="Save" width="200" height="100" bottom="90" horizontalCenter="0"
-			  enabled="false" fontSize="40" click="saveButton_clickHandler()"/>
+	<view:ReportBloodGlucoseDetailedView id="reportBloodGlucoseDetailedView" height="{footerGroup.y - reportBloodGlucoseDetailedView.y}"/>
+	<s:Group id="footerGroup" width="100%" bottom="0">
+		<s:Rect width="100%" height="100%" visible="{_dataInputModel.reportBloodGlucoseItemDataCollection.length > 1}">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup paddingTop="10" paddingBottom="{_dataInputModel.reportBloodGlucoseItemDataCollection.length > 1 ? 10 : 90}" width="100%" horizontalAlign="center">
+			<s:Button id="saveButton" label="Save"
+					  enabled="false" fontSize="40" click="saveButton_clickHandler()"/>
+		</s:VGroup>
+	</s:Group>
 </tablet:TabletViewBase>

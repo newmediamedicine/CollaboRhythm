@@ -23,7 +23,7 @@
 				height="100">
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateTimeFormatter"
-							 dateTimePattern="M-dd-yy h:mm a"/>
+							 dateTimePattern="M-dd-yyyy h:mm a"/>
 	</fx:Declarations>
 	<s:states>
 		<s:State name="unknown"/>

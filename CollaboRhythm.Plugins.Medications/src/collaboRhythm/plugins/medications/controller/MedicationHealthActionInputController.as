@@ -2,6 +2,7 @@ package collaboRhythm.plugins.medications.controller
 {
 	import collaboRhythm.plugins.medications.model.MedicationHealthActionInputModel;
 	import collaboRhythm.plugins.medications.view.MedicationHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -18,7 +19,7 @@ package collaboRhythm.plugins.medications.controller
 
 	import spark.components.ViewNavigator;
 
-	public class MedicationHealthActionInputController implements IHealthActionInputController
+	public class MedicationHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = MedicationHealthActionInputView;
 

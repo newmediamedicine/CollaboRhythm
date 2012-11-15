@@ -1,68 +1,130 @@
 package collaboRhythm.plugins.foraD40b.controller
 {
+	import collaboRhythm.ane.applicationMessaging.actionScript.ApplicationMessaging;
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
+	import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.foraD40b.model.ReportBloodGlucoseItemData;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
 	import collaboRhythm.plugins.foraD40b.view.HypoglycemiaActionPlanSummaryView;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
+	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	import com.adobe.nativeExtensions.Vibration;
 
+	import flash.desktop.NativeApplication;
+
 	import flash.events.MouseEvent;
+	import flash.media.scanHardware;
 	import flash.net.URLVariables;
+	import flash.system.Capabilities;
+	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	import spark.components.ViewNavigator;
 	import spark.transitions.SlideViewTransition;
 
-	public class BloodGlucoseHealthActionInputController implements IHealthActionInputController
+	public class BloodGlucoseHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = BloodGlucoseHealthActionInputView;
 
-		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		private var _dataInputModelCollection:BloodGlucoseHealthActionInputModelCollection;
 		private var _viewNavigator:ViewNavigator;
 		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 		private var _synchronizationService:SynchronizationService;
+		private var _healthActionsCount:int = 0;
+		protected var _logger:ILogger;
 
 		public function BloodGlucoseHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 																scheduleCollectionsProvider:IScheduleCollectionsProvider,
 																viewNavigator:ViewNavigator)
 		{
-			_dataInputModel = new BloodGlucoseHealthActionInputModel(scheduleItemOccurrence,
-					healthActionModelDetailsProvider, scheduleCollectionsProvider);
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_dataInputModelCollection = new BloodGlucoseHealthActionInputModelCollection(scheduleItemOccurrence,
+					healthActionModelDetailsProvider, scheduleCollectionsProvider, this);
 			_viewNavigator = viewNavigator;
 
 			_collaborationLobbyNetConnectionServiceProxy = healthActionModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
 
-			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModel, "currentView");
+			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModelCollection, "currentView");
 		}
 
 		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
 			addCollaborationViewSynchronizationEventListener();
-			_dataInputModel.handleHealthActionResult();
+			_dataInputModelCollection.handleHealthActionResult();
 		}
 
 		public function handleHealthActionSelected():void
 		{
 			addCollaborationViewSynchronizationEventListener();
-			_dataInputModel.handleHealthActionSelected();
+			_dataInputModelCollection.handleHealthActionSelected();
 		}
 
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 			addCollaborationViewSynchronizationEventListener();
-			_dataInputModel.handleUrlVariables(urlVariables);
+
+			var itemData:ReportBloodGlucoseItemData = _dataInputModelCollection.reportBloodGlucoseItemDataCollection.length > 0 ? _dataInputModelCollection.reportBloodGlucoseItemDataCollection[0] as ReportBloodGlucoseItemData : null;
+			if (_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length > 1 || _dataInputModelCollection.reportBloodGlucoseItemDataCollection.length == 1 && (itemData).dataInputModel.isFromDevice)
+			{
+				// only handel additional measurements if they are before the currently queued measurement(s)
+				var previousDataInputModel:BloodGlucoseHealthActionInputModel = (_dataInputModelCollection.reportBloodGlucoseItemDataCollection[_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length - 1] as ReportBloodGlucoseItemData).dataInputModel;
+				if (DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate).valueOf() >= previousDataInputModel.dateMeasuredStart.valueOf())
+				{
+					_logger.warn("handleUrlVariables ignored because incoming correctedMeasuredDate " + urlVariables.correctedMeasuredDate + " was not before currently queued measurement " + DateUtil.format(previousDataInputModel.dateMeasuredStart) + ". urlVariables: " + urlVariables.toString());
+					return;
+				}
+
+				itemData = new ReportBloodGlucoseItemData(new BloodGlucoseHealthActionInputModel(null,
+						_dataInputModelCollection.healthActionModelDetailsProvider, _dataInputModelCollection.scheduleCollectionsProvider,
+						_dataInputModelCollection), this);
+				_dataInputModelCollection.reportBloodGlucoseItemDataCollection.addItem(itemData);
+			}
+			itemData.dataInputModel.handleUrlVariables(urlVariables);
+
+			var guessedScheduleItemOccurrence:ScheduleItemOccurrence = itemData.dataInputModel.guessScheduleItemOccurrence();
+			if (guessedScheduleItemOccurrence)
+			{
+				handleAdherenceChange(itemData.dataInputModel, guessedScheduleItemOccurrence, true);
+			}
+
+			var isDebugger:Boolean = Capabilities.isDebugger;
+			var playerType:String = Capabilities.playerType;
+
+			if (playerType == "Desktop" && isDebugger)
+			{
+			}
+			else
+			{
+				detectDuplicates();
+			}
+		}
+
+		private function detectDuplicates():void
+		{
+			_healthActionsCount++;
+			if (_healthActionsCount >= 20)
+			{
+				var extension:ApplicationMessaging = new ApplicationMessaging();
+				extension.sendBroadcast("CollaboRhythm-health-action-received-v1", "duplicate",
+						"healthActionStringTest1");
+			}
 		}
 
 		public function nextStep():void
@@ -72,13 +134,13 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.nextStep(_synchronizationService.initiatedLocally);
+			_dataInputModelCollection.nextStep(_synchronizationService.initiatedLocally);
 		}
 
 		public function createAndSubmitBloodGlucoseVitalSign():void
 		{
-			_dataInputModel.createBloodGlucoseVitalSign();
-			submitBloodGlucose(_dataInputModel.bloodGlucoseVitalSign);
+			_dataInputModelCollection.createBloodGlucoseVitalSign();
+			submitBloodGlucose(_dataInputModelCollection.bloodGlucoseVitalSign);
 		}
 
 		public function submitBloodGlucose(bloodGlucoseVitalSign:VitalSign):void
@@ -88,7 +150,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.submitBloodGlucose(bloodGlucoseVitalSign, _synchronizationService.initiatedLocally);
+			_dataInputModelCollection.submitBloodGlucose(bloodGlucoseVitalSign, _synchronizationService.initiatedLocally);
 		}
 
 		private function currentView_changeHandler(currentView:Class):void
@@ -96,14 +158,14 @@ package collaboRhythm.plugins.foraD40b.controller
 			if (currentView == null)
 			{
 				if (_synchronizationService && _synchronizationService.initiatedLocally &&
-						_dataInputModel.pushedViewCount != 0)
+						_dataInputModelCollection.pushedViewCount != 0)
 				{
-					for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModel.pushedViewCount;
+					for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModelCollection.pushedViewCount;
 						 pushedViewIndex++)
 					{
 						_viewNavigator.popView();
 					}
-					_dataInputModel.pushedViewCount = 0;
+					_dataInputModelCollection.pushedViewCount = 0;
 				}
 
 				removeCollaborationViewSynchronizationEventListener();
@@ -116,7 +178,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private function pushView(currentView:Class):void
 		{
-			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModel,
+			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModelCollection,
 					this);
 			_viewNavigator.pushView(currentView, healthActionInputModelAndController, null, new SlideViewTransition());
 		}
@@ -133,7 +195,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.startWaitTimer();
+			_dataInputModelCollection.startWaitTimer();
 		}
 
 		public function updateManualBloodGlucose(text:String = ""):void
@@ -143,7 +205,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.manualBloodGlucose = text;
+			_dataInputModelCollection.manualBloodGlucose = text;
 		}
 
 		public function updateDateMeasuredStart(selectedDate:Date):void
@@ -153,7 +215,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.dateMeasuredStart = selectedDate;
+			_dataInputModelCollection.dateMeasuredStart = selectedDate;
 		}
 
 		public function quitHypoglycemiaActionPlan():void
@@ -163,7 +225,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.quitHypoglycemiaActionPlan(_synchronizationService.initiatedLocally);
+			_dataInputModelCollection.quitHypoglycemiaActionPlan(_synchronizationService.initiatedLocally);
 		}
 
 		public function addEatCarbsHealthAction(description:String):void
@@ -173,7 +235,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.addEatCarbsHealthAction(description);
+			_dataInputModelCollection.addEatCarbsHealthAction(description);
 		}
 
 		public function showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSignDate:Date):void
@@ -184,7 +246,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			}
 
 			_viewNavigator.pushView(HypoglycemiaActionPlanSummaryView,
-					[bloodGlucoseVitalSignDate, this, _dataInputModel]);
+					[bloodGlucoseVitalSignDate, this, _dataInputModelCollection]);
 		}
 
 		public function addWaitHealthAction(seconds:int):void
@@ -194,7 +256,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.addWaitHealthAction(seconds);
+			_dataInputModelCollection.addWaitHealthAction(seconds);
 		}
 
 		public function setBloodGlucoseHistoryListScrollPosition(scrollPosition:Number = 0):void
@@ -204,7 +266,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.setBloodGlucoseHistoryListScrollerPosition(scrollPosition);
+			_dataInputModelCollection.setBloodGlucoseHistoryListScrollerPosition(scrollPosition);
 		}
 
 		public function simpleCarbsItemList_changeHandler(selectedIndex:int):void
@@ -214,7 +276,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.simpleCarbsItemList_changeHandler(selectedIndex);
+			_dataInputModelCollection.simpleCarbsItemList_changeHandler(selectedIndex);
 		}
 
 		public function complexCarbs15gItemList_changeHandler(selectedIndex:int):void
@@ -224,7 +286,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.complexCarbs15gItemList_changeHandler(selectedIndex);
+			_dataInputModelCollection.complexCarbs15gItemList_changeHandler(selectedIndex);
 		}
 
 		public function complexCarbs30gItemList_changeHandler(selectedIndex:int):void
@@ -234,7 +296,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.complexCarbs30gItemList_changeHandler(selectedIndex);
+			_dataInputModelCollection.complexCarbs30gItemList_changeHandler(selectedIndex);
 		}
 
 		public function synchronizeActionsListScrollPosition(verticalScrollPosition:Number = 0):void
@@ -245,7 +307,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				return;
 			}
 
-			_dataInputModel.synchronizeActionsListScrollerPosition(verticalScrollPosition);
+			_dataInputModelCollection.synchronizeActionsListScrollerPosition(verticalScrollPosition);
 		}
 
 		public function addCollaborationViewSynchronizationEventListener():void
@@ -298,6 +360,32 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function removeEventListener():void
 		{
+		}
+
+		override public function handleAdherenceChange(dataInputModel:IHealthActionInputModel,
+													   scheduleItemOccurrence:ScheduleItemOccurrence,
+													   selected:Boolean):void
+		{
+			super.handleAdherenceChange(dataInputModel, scheduleItemOccurrence, selected);
+
+			if (selected)
+				dataInputModel.scheduleItemOccurrence = scheduleItemOccurrence;
+			else
+				dataInputModel.scheduleItemOccurrence = null;
+
+			if (selected && scheduleItemOccurrence != null)
+			{
+				for each (var itemData:ReportBloodGlucoseItemData in
+						_dataInputModelCollection.reportBloodGlucoseItemDataCollection)
+				{
+					var model:BloodGlucoseHealthActionInputModel = itemData.dataInputModel;
+					if (model != dataInputModel && scheduleItemOccurrence.equals(model.scheduleItemOccurrence))
+					{
+						// Each scheduleItemOccurrence can only be associated with one measurement
+						model.scheduleItemOccurrence = null;
+					}
+				}
+			}
 		}
 	}
 }

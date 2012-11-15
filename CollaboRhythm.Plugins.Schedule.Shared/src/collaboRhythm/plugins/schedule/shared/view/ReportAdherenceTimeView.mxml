@@ -15,18 +15,20 @@
  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  - <http://www.gnu.org/licenses/>.
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 currentState="dateLabel">
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark" xmlns:view="collaboRhythm.plugins.schedule.shared.view.*"
+		  currentState="dateLabel"
+		  gap="15" verticalAlign="baseline" baselinePositionElement="{timeValueGroup}">
 	<s:states>
 		<s:State name="dateLabel"/>
 		<s:State name="dateSpinner"/>
 	</s:states>
 	<fx:Declarations>
-		<s:DateTimeFormatter id="timeFormatter" dateTimePattern="h : mm  a "/>
+		<s:DateTimeFormatter id="dateFormatter" dateTimePattern="M-dd-yyyy"/>
+		<s:DateTimeFormatter id="timeFormatter" dateTimePattern="h : mm  a"/>
 	</fx:Declarations>
 	<fx:Style>
-		#dateMeasuredStartLabel {
+		#timeMeasuredStartLabel {
 			fontSize: 40;
 		}
 
@@ -35,40 +37,51 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
+		import collaboRhythm.shared.model.DateUtil;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import mx.binding.utils.BindingUtils;
 
+		import spark.components.SpinnerListContainer;
+
 		[Bindable]
 		private var _dataInputModel:IHealthActionInputModel;
 		private var _dataInputController:IHealthActionInputController;
 		private var _currentDateSource:ICurrentDateSource;
+		private var _propertiesChanged:Boolean;
 
 		public function init(dataInputModel:IHealthActionInputModel,
-					  dataInputController:IHealthActionInputController):void
+							 dataInputController:IHealthActionInputController):void
 		{
 			_dataInputModel = dataInputModel;
 			_dataInputController = dataInputController;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			currentState = "dateLabel";
+			propertiesChanged = true;
+		}
 
-			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
-			{
-				dateMeasuredStartLabel.text = timeFormatter.format(_dataInputModel.adherenceResultDate);
-				changeTimeButton.visible = false;
-			}
-			else
-			{
-				dateMeasuredStartLabel.text = timeFormatter.format(_dataInputModel.dateMeasuredStart);
-				BindingUtils.bindSetter(setDateMeasuredStart, _dataInputModel, "dateMeasuredStart");
-			}
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			propertiesChanged = true;
+		}
 
-			if (_dataInputModel.healthActionModelDetailsProvider.accountId == _dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+		override protected function stateChanged(oldState:String, newState:String, recursive:Boolean):void
+		{
+			super.stateChanged(oldState, newState, recursive);
+			propertiesChanged = true;
+		}
+
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			if (propertiesChanged)
 			{
-				changeTimeButton.enabled = true;
+				updateChildren();
+				propertiesChanged = false;
 			}
 		}
 
@@ -80,7 +93,7 @@
 			}
 			else if (currentState == "dateLabel")
 			{
-				dateMeasuredStartLabel.text = timeFormatter.format(dateMeasuredStart);
+				updateDateTimeLabels(dateMeasuredStart);
 			}
 		}
 
@@ -102,12 +115,93 @@
 		{
 			_dataInputController.updateDateMeasuredStart(dateMeasuredStartSpinner.selectedDate);
 		}
+
+		private function updateDateTimeLabels(dateMeasuredStart:Date):void
+		{
+			if (DateUtil.isDateToday(dateMeasuredStart, _currentDateSource.now()))
+			{
+				dateMeasuredStartLabel.text = "Today";
+			}
+			else if (DateUtil.isDateYesterday(dateMeasuredStart, _currentDateSource.now()))
+			{
+				dateMeasuredStartLabel.text = "Yesterday";
+			}
+			else
+			{
+				dateMeasuredStartLabel.text = dateFormatter.format(dateMeasuredStart);
+			}
+			timeMeasuredStartLabel.text = timeFormatter.format(dateMeasuredStart);
+		}
+
+		private function updateChildren():void
+		{
+			if (_dataInputModel)
+			{
+				var includeChangeTimeButton:Boolean = true;
+
+				if (dateMeasuredStartLabel && timeMeasuredStartLabel)
+				{
+					if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
+					{
+						updateDateTimeLabels(_dataInputModel.adherenceResultDate);
+						includeChangeTimeButton = false;
+					}
+					else
+					{
+						updateDateTimeLabels(_dataInputModel.dateMeasuredStart);
+						BindingUtils.bindSetter(setDateMeasuredStart, _dataInputModel, "dateMeasuredStart");
+					}
+				}
+
+				if (!_dataInputModel.isChangeTimeAllowed)
+				{
+					includeChangeTimeButton = false;
+				}
+
+				if (changeTimeGroup)
+				{
+					changeTimeGroup.visible = changeTimeGroup.includeInLayout = includeChangeTimeButton;
+				}
+
+				if (changeTimeButton)
+				{
+					if (_dataInputModel.healthActionModelDetailsProvider.accountId ==
+							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
+					{
+						changeTimeButton.enabled = true;
+					}
+				}
+			}
+		}
+
+		public function get propertiesChanged():Boolean
+		{
+			return _propertiesChanged;
+		}
+
+		public function set propertiesChanged(value:Boolean):void
+		{
+			_propertiesChanged = value;
+			if (propertiesChanged)
+			{
+				invalidateProperties();
+			}
+		}
 		]]></fx:Script>
-	<s:HGroup gap="15" verticalAlign="middle">
-		<s:Label id="dateMeasuredStartLabel" includeIn="dateLabel" paddingRight="10" paddingTop="6"/>
-		<s:DateSpinner id="dateMeasuredStartSpinner" displayMode="time"
-					   change="dateMeasuredStartSpinner_changeHandler()" includeIn="dateSpinner"/>
+	<s:Group id="timeValueGroup" width="240" baselinePositionElement.dateLabel="{timeMeasuredStartLabel}" baselinePositionElement.dateSpinner="{dateMeasuredStartSpinner}">
+		<s:layout>
+			<s:VerticalLayout paddingRight="10" paddingTop="6" horizontalAlign="right"/>
+		</s:layout>
+		<s:Label id="dateMeasuredStartLabel" includeIn="dateLabel"/>
+		<s:Label id="timeMeasuredStartLabel" includeIn="dateLabel"/>
+		<s:Label id="spacerLabel" includeIn="dateLabel"/>
+		<view:DateSpinnerEx id="dateMeasuredStartSpinner" displayMode="time"
+				   change="dateMeasuredStartSpinner_changeHandler()" includeIn="dateSpinner"/>
+	</s:Group>
+	<s:Group id="changeTimeGroup" baselinePositionElement="{changeTimeButton}">
 		<s:Button id="changeTimeButton" label.dateLabel="Change Time" label.dateSpinner="Default Time"
-				  click="changeTimeButton_clickHandler()" enabled="false"/>
-	</s:HGroup>
-</s:Group>
+			  click="changeTimeButton_clickHandler()" enabled="false"/>
+		<!--Include an invisible button with a fixed label that is slightly longer so that the size of this view is static-->
+		<s:Button id="invisibleSpacerButton" label="Default Time+" visible="false"/>
+	</s:Group>
+</s:HGroup>

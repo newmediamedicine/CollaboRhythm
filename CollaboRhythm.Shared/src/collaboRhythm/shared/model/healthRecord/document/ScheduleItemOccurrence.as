@@ -178,5 +178,15 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			return dateEnd && dateEnd.valueOf() < _currentDateSource.now().valueOf();
 		}
+
+		public static function areEqual(object1:ScheduleItemOccurrence, object2:ScheduleItemOccurrence):Boolean
+		{
+			return (object1 == object2) || (object1 && object2 && object1.id == object2.id);
+		}
+
+		public function equals(value:ScheduleItemOccurrence):Boolean
+		{
+			return areEqual(this, value);
+		}
 	}
 }

@@ -227,6 +227,7 @@
 
 	<extensions>
 		<extensionID>com.adobe.Vibration</extensionID>
+		<extensionID>CollaboRhythm.ANE.ApplicationMessaging</extensionID>
 	</extensions>
 
 	<android>

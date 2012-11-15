@@ -15,12 +15,16 @@
  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  - <http://www.gnu.org/licenses/>.
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
-		 creationComplete="creationCompleteHandler()">
+		 gap="15" verticalAlign="middle"
+		 creationComplete="creationCompleteHandler()"
+		 baselinePositionElement="{bloodGlucoseGroup}"
+		>
 	<s:states>
-		<s:State name="report"/>
+		<s:State name="reportDevice"/>
+		<s:State name="reportManual"/>
 		<s:State name="review"/>
 	</s:states>
 	<fx:Style>
@@ -34,9 +38,6 @@
 			fontSize: 110;
 		}
 
-		#reportedBloodGlucoseLabel {
-			fontSize: 110;
-		}
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
@@ -46,69 +47,78 @@
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import mx.binding.utils.BindingUtils;
+		import mx.core.IVisualElement;
 
 		import spark.skins.mobile.TextInputSkin;
+
+		private static const SINGLE_VALUE_FONT_SIZE:Number = 110;
+		private static const MULTIPLE_VALUES_FONT_SIZE:Number = 60;
+		private static const BLOOD_GLUCOSE_VALUE_WIDTH:Number = 190;
+		private static const BLOOD_GLUCOSE_VALUE_HEIGHT:Number = 130;
 
 		[Bindable]
 		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
 		protected var _dataInputController:BloodGlucoseHealthActionInputController;
 		private var _currentDateSource:ICurrentDateSource;
 
+		[Bindable]
+		private var _valueSizeScale:Number = 1;
+		private var _propertiesChanged:Boolean;
+
 		public function init(dataInputModel:BloodGlucoseHealthActionInputModel,
-							 dataInputController:BloodGlucoseHealthActionInputController)
+							 dataInputController:BloodGlucoseHealthActionInputController):void
 		{
 			_dataInputModel = dataInputModel;
 			_dataInputController = dataInputController;
 
-			if (_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
+			BindingUtils.bindSetter(reportBloodGlucoseItemDataCollection_length_setterHandler,
+					_dataInputModel.bloodGlucoseHealthActionInputModelCollection.reportBloodGlucoseItemDataCollection,
+					"length", false, true);
+			BindingUtils.bindSetter(dataInputModel_deviceBloodGlucose_setterHandler,
+					_dataInputModel,
+					"deviceBloodGlucose", false, true);
+			propertiesChanged = true;
+		}
+
+		private function reportBloodGlucoseItemDataCollection_length_setterHandler(length:Number):void
+		{
+			var valueFontSize:Number = length > 1 ? MULTIPLE_VALUES_FONT_SIZE : SINGLE_VALUE_FONT_SIZE;
+			var style:CSSStyleDeclaration = this.styleManager.getStyleDeclaration(".textInputText");
+			if (style.getStyle("fontSize") != valueFontSize)
 			{
-				glucometerImage.visible = false;
-				glucometerImage.includeInLayout = false;
+				style.setStyle("fontSize", valueFontSize);
+				this.styleManager.setStyleDeclaration(".textInputText", style, true);
 			}
 
-			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem &&
-					_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
-			{
-				currentState = "review";
+			_valueSizeScale = valueFontSize / SINGLE_VALUE_FONT_SIZE;
+		}
 
-				if (_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults &&
-						_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
-				{
-					var bloodGlucoseVitalSign:VitalSign = _dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults[0] as
-							VitalSign;
-					if (bloodGlucoseVitalSign)
-					{
-						reportedBloodGlucoseLabel.text = bloodGlucoseVitalSign.result.value;
-					}
+		private function dataInputModel_deviceBloodGlucose_setterHandler(value:String):void
+		{
+			propertiesChanged = true;
+		}
 
-					if (bloodGlucoseVitalSign.comments != BloodGlucoseHealthActionInputModel.SELF_REPORT)
-					{
-						wirelessIcon.visible = true;
-					}
-				}
-			}
-			else
-			{
-				currentState = "report";
-
-				setDeviceBloodGlucose(_dataInputModel.deviceBloodGlucose);
-
-				if (_dataInputModel.healthActionModelDetailsProvider.accountId !=
-						_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
-				{
-					bloodGlucoseTextInput.enabled = false;
-				}
-
-				BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
-				BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
-				BindingUtils.bindSetter(handleInvalidBloodGlucose, _dataInputModel, "invalidBloodGlucose");
-			}
+		override protected function stateChanged(oldState:String, newState:String, recursive:Boolean):void
+		{
+			super.stateChanged(oldState, newState, recursive);
+			propertiesChanged = true;
+			trace(this.className, _dataInputModel ? _dataInputModel.dateMeasuredStart.toString() : "", "oldState",
+					oldState, "newState", newState);
 		}
 
 		private function creationCompleteHandler():void
 		{
-			bloodGlucoseTextInput.addEventListener(SoftKeyboardEvent.SOFT_KEYBOARD_DEACTIVATE,
-					softKeyboardDeactivateHandler);
+			propertiesChanged = true;
+		}
+
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			if (propertiesChanged)
+			{
+				updateChildren();
+				propertiesChanged = false;
+			}
 		}
 
 		private function softKeyboardDeactivateHandler(event:SoftKeyboardEvent):void
@@ -119,12 +129,15 @@
 
 		private function setManualBloodGlucose(manualBloodGlucose:String):void
 		{
-			bloodGlucoseTextInput.text = manualBloodGlucose;
+			if (bloodGlucoseTextInput)
+			{
+				bloodGlucoseTextInput.text = manualBloodGlucose;
+			}
 		}
 
 		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
 		{
-			if (deviceBloodGlucose != "")
+			if (_dataInputModel.isFromDevice)
 			{
 				showDeviceBloodGlucose();
 			}
@@ -140,10 +153,10 @@
 
 		private function showDeviceBloodGlucose():void
 		{
-			wirelessIcon.visible = true;
-			bloodGlucoseTextInput.setStyle("skinClass", TextInputSkin);
-			bloodGlucoseTextInput.enabled = false;
-			bloodGlucoseTextInput.text = _dataInputModel.deviceBloodGlucose;
+			if (reportedBloodGlucoseLabel)
+			{
+				reportedBloodGlucoseLabel.text = _dataInputModel.deviceBloodGlucose;
+			}
 		}
 
 		private function bloodGlucoseTextInput_changeHandler():void
@@ -153,19 +166,114 @@
 				_dataInputController.updateManualBloodGlucose(bloodGlucoseTextInput.text);
 			}
 		}
+
+		private function updateState():void
+		{
+			if (_dataInputModel)
+			{
+				if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem &&
+						_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
+				{
+					currentState = "review";
+				}
+				else
+				{
+					if (_dataInputModel.isFromDevice)
+						currentState = "reportDevice";
+					else
+						currentState = "reportManual";
+				}
+			}
+		}
+
+		private function updateChildren():void
+		{
+			if (_dataInputModel)
+			{
+				if (_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
+				{
+					glucometerImage.visible = false;
+					glucometerImage.includeInLayout = false;
+				}
+
+				if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem &&
+						_dataInputModel.currentView == BloodGlucoseHealthActionInputView)
+				{
+					if (_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults &&
+							_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
+					{
+						var bloodGlucoseVitalSign:VitalSign = _dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults[0] as
+								VitalSign;
+						if (bloodGlucoseVitalSign && reportedBloodGlucoseLabel)
+						{
+							reportedBloodGlucoseLabel.text = bloodGlucoseVitalSign.result.value;
+						}
+
+						if (bloodGlucoseVitalSign.comments != BloodGlucoseHealthActionInputModel.SELF_REPORT &&
+								wirelessIcon)
+						{
+							wirelessIcon.visible = true;
+						}
+					}
+				}
+				else
+				{
+					setDeviceBloodGlucose(_dataInputModel.deviceBloodGlucose);
+
+					if (_dataInputModel.healthActionModelDetailsProvider.accountId !=
+							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId &&
+							bloodGlucoseTextInput)
+					{
+						bloodGlucoseTextInput.enabled = false;
+					}
+
+					BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
+					BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
+					BindingUtils.bindSetter(handleInvalidBloodGlucose, _dataInputModel, "invalidBloodGlucose");
+				}
+
+				if (bloodGlucoseTextInput)
+				{
+					bloodGlucoseTextInput.addEventListener(SoftKeyboardEvent.SOFT_KEYBOARD_DEACTIVATE,
+							softKeyboardDeactivateHandler);
+				}
+			}
+		}
+
+		public function get propertiesChanged():Boolean
+		{
+			return _propertiesChanged;
+		}
+
+		public function set propertiesChanged(value:Boolean):void
+		{
+			_propertiesChanged = value;
+			if (propertiesChanged)
+			{
+				updateState();
+				invalidateProperties();
+			}
+		}
 		]]></fx:Script>
-	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign="middle">
-		<s:Image id="glucometerImage" source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png" width="140"
-				 height="140"
-				 smooth="true"/>
-		<view:WirelessIcon id="wirelessIcon" visible="false"/>
-		<s:TextInput id="bloodGlucoseTextInput" width="240" height="130"
-					 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
-					 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
+	<s:Image id="glucometerImage" source="http://www.mit.edu/~jom/temp/equipment/FORA D40b.png"
+			 width="140" height="140"
+			 smooth="true"/>
+	<view:WirelessIcon id="wirelessIcon" visible="{_dataInputModel.isFromDevice}" scaleX="{_valueSizeScale}" scaleY="{_valueSizeScale}"/>
+	<s:HGroup id="bloodGlucoseGroup" gap="15" verticalAlign.reportManual="middle" verticalAlign="baseline" baselinePositionElement="{unitsLabel}">
+		<s:TextInput id="bloodGlucoseTextInput"
+					 width="{BLOOD_GLUCOSE_VALUE_WIDTH * _valueSizeScale}" height="{BLOOD_GLUCOSE_VALUE_HEIGHT * _valueSizeScale}"
+					 skinClass="spark.skins.mobile.StageTextInputSkin"
+					 styleName="textInputText"
+					 contentBackgroundAlpha="1"
+					 textAlign="right"
+					 restrict="0-9" maxChars="3" softKeyboardType="number"
 					 change="bloodGlucoseTextInput_changeHandler()" needsSoftKeyboard="true"
-					 includeIn="report"/>
-		<s:Label id="reportedBloodGlucoseLabel" styleName="textInputText" includeIn="review" verticalCenter="2"
-				 right="5"/>
-		<s:Label text="mg/dL" verticalCenter="0" styleName="unitsText"/>
+					 includeIn="reportManual"/>
+		<s:Label id="reportedBloodGlucoseLabel"
+				 width="{BLOOD_GLUCOSE_VALUE_WIDTH * _valueSizeScale}"
+				 styleName="textInputText"
+				 textAlign="right"
+				 includeIn="review,reportDevice"/>
+		<s:Label id="unitsLabel" text="mg/dL" verticalCenter="2" styleName="unitsText"/>
 	</s:HGroup>
-</s:Group>
+</s:HGroup>

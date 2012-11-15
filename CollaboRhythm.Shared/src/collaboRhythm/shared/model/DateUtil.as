@@ -222,5 +222,17 @@ package collaboRhythm.shared.model
 			}
 			return value;
 		}
+
+		public static function isDateToday(date:Date, now:Date):Boolean
+		{
+			return roundTimeToNextDay(date).valueOf() ==
+					roundTimeToNextDay(now).valueOf();
+		}
+
+		public static function isDateYesterday(date:Date, now:Date):Boolean
+		{
+			return roundTimeToNextDay(date).valueOf() ==
+					(roundTimeToNextDay(now).valueOf() - MILLISECONDS_IN_DAY);
+		}
 	}
 }

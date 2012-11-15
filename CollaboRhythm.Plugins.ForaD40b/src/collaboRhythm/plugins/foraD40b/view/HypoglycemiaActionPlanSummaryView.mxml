@@ -23,7 +23,7 @@
 					   creationComplete="creationCompleteHandler()">
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateFormatter"
-							 dateTimePattern="M-dd-yy"/>
+							 dateTimePattern="M-dd-yyyy"/>
 	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";

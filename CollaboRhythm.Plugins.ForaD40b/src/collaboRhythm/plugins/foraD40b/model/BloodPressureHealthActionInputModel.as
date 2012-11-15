@@ -131,5 +131,10 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			return null;
 		}
+
+		public function get isChangeTimeAllowed():Boolean
+		{
+			return true;
+		}
 	}
 }

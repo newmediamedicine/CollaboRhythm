@@ -3,6 +3,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import collaboRhythm.plugins.insulinTitrationSupport.model.DecisionScheduleItemOccurrenceFinder;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportHealthActionInputModel;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationSupportHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
@@ -18,7 +19,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 	import spark.components.ViewNavigator;
 
-	public class TitratingInsulinHealthActionInputController implements IHealthActionInputController
+	public class TitratingInsulinHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = InsulinTitrationSupportHealthActionInputView;
 

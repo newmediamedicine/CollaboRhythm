@@ -20,12 +20,17 @@ import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.code.microlog4android.Logger;
@@ -80,7 +85,25 @@ public class DeviceGatewayService extends Service {
 		} else {
 			mBluetoothSupported = true;
 		}
+
+		// Register to receive messages.
+		// We are registering an observer (mMessageReceiver) to receive Intents
+		// with actions named "custom-event-name".
+		this.getApplicationContext().registerReceiver(mMessageReceiver,
+				new IntentFilter("CollaboRhythm-health-action-received-v1"));
 	}
+
+	// Our handler for received Intents. This will be called whenever an Intent
+	// with an action named "custom-event-name" is broadcasted.
+	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Get extra data included in the Intent
+			String message = intent.getStringExtra("message");
+			String healthActionString = intent.getStringExtra("customData");
+			Log.d("receiver", "Got message: " + message + " " + healthActionString);
+		}
+	};
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -89,7 +112,7 @@ public class DeviceGatewayService extends Service {
 		setForeground(true);
 
 		if (mBluetoothSupported) {
-			Bundle extras = intent.getExtras();
+			Bundle extras = intent != null ? intent.getExtras() : null;
 			if (extras != null && extras.getBoolean("bluetoothDeviceDisconnected")) {
 				mBluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				startBluetoothDeviceConnectThread();
@@ -111,6 +134,10 @@ public class DeviceGatewayService extends Service {
 	@Override
 	public void onDestroy() {
 		log.debug(CLASS + ": onDestroy");
+
+		// Unregister since the activity is about to be closed.
+		this.getApplicationContext().unregisterReceiver(mMessageReceiver);
+		super.onDestroy();
 	}
 
 	private void startBluetoothServerSocketThread() {
@@ -142,7 +169,7 @@ public class DeviceGatewayService extends Service {
 					if (bluetoothDevice.getName().equals(bluetoothDeviceName)) {
 						Class bluetoothSocketThreadClass = Class.forName(bluetoothSocketThreadName);
 						IBluetoothSocketThread bluetoothSocketThread = (IBluetoothSocketThread) bluetoothSocketThreadClass.newInstance();
-						bluetoothSocketThread.init(bluetoothSocket, mServiceMessageHandler);
+						bluetoothSocketThread.init(bluetoothSocket, mServiceMessageHandler, this.getApplicationContext());
 						if (bluetoothSocketThread.isThreadReady()) {
 							bluetoothSocketThread.start();
 						} else {

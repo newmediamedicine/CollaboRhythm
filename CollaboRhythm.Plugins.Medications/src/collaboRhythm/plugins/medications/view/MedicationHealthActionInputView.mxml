@@ -154,6 +154,6 @@
 	<s:Group width="50%" height="100%" right="0">
 		<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView" verticalCenter="0" left="50"/>
 	</s:Group>
-	<s:Button id="saveButton" label="Save" width="200" height="100" bottom="90" horizontalCenter="0"
+	<s:Button id="saveButton" label="Save" bottom="90" horizontalCenter="0"
 			  enabled="false" fontSize="40" click="saveButton_clickHandler()"/>
 </tablet:TabletViewBase>

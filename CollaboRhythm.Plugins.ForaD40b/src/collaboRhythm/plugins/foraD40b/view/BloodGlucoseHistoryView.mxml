@@ -39,6 +39,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
@@ -51,7 +52,7 @@
 		import spark.collections.Sort;
 		import spark.collections.SortField;
 
-		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		private var _dataInputModel:BloodGlucoseHealthActionInputModelCollection;
 		private var _dataInputController:BloodGlucoseHealthActionInputController;
 		[Bindable]
 		private var _bloodGlucoseArrayCollection:ArrayCollection;
@@ -64,7 +65,7 @@
 			var dataInputModelAndController:HealthActionInputModelAndController = value as
 					HealthActionInputModelAndController;
 
-			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputModel = BloodGlucoseHealthActionInputModelCollection(dataInputModelAndController.healthActionInputModel);
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
 
 			_bloodGlucoseArrayCollection = new ArrayCollection();

@@ -20,7 +20,7 @@
 				xmlns:view="collaboRhythm.plugins.foraD40b.view.*">
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateFormatter"
-							 dateTimePattern="M-dd-yy"/>
+							 dateTimePattern="M-dd-yyyy"/>
 		<s:DateTimeFormatter id="timeFormatter"
 							 dateTimePattern=" h:mm a"/>
 	</fx:Declarations>

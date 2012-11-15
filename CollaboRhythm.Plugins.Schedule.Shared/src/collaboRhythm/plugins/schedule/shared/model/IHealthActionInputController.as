@@ -1,5 +1,7 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
 	import flash.events.MouseEvent;
 	import flash.net.URLVariables;
 
@@ -37,5 +39,8 @@ package collaboRhythm.plugins.schedule.shared.model
 		function handleHealthActionCommandButtonClick(event:MouseEvent):void;
 
 		function removeEventListener():void;
+
+		function handleAdherenceChange(dataInputModel:IHealthActionInputModel,
+									   scheduleItemOccurrence:ScheduleItemOccurrence, selected:Boolean):void;
 	}
 }

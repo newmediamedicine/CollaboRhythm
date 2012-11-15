@@ -30,7 +30,7 @@
 		/**
 		 * @copy spark.skins.spark.ApplicationSkin#hostComponent
 		 */
-		[HostComponent("collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBox")]
+		[HostComponent("spark.components.CheckBox")]
 		]]>
     </fx:Metadata>
 
@@ -45,35 +45,41 @@
 		<s:State name="disabledAndSelected" stateGroups="disabledStates, selectedStates"/>
 	</s:states>
 
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="0xFFFFFF" alpha="0"/>
-		</s:fill>
-	</s:Rect>
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle" paddingBottom="0" paddingTop="0" paddingLeft="0" paddingRight="0"/>
+	</s:layout>
+	<s:Group id="boxGroup" width="56" height="56">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" alpha="0"/>
+			</s:fill>
+		</s:Rect>
 
-	<s:Group width="50" height="50" horizontalCenter="0" verticalCenter="0">
-		<s:Rect width="100%" height="100%">
-			<s:fill>
-				<s:SolidColor color="0xD1D3D4"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect width="100%" height="100%" includeIn="overStates">
-			<s:fill>
-				<s:SolidColor color="0x6dcaec"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect width="100%" height="100%" includeIn="downStates">
-			<s:fill>
-				<s:SolidColor color="0x6dcaec"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect width="100%" height="100%">
-			<s:stroke>
-				<s:SolidColorStroke color="0x414042"/>
-			</s:stroke>
-		</s:Rect>
+		<s:Group width="50" height="50" horizontalCenter="0" verticalCenter="0">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0xD1D3D4"/>
+				</s:fill>
+			</s:Rect>
+			<s:Rect width="100%" height="100%" includeIn="overStates">
+				<s:fill>
+					<s:SolidColor color="0x6dcaec"/>
+				</s:fill>
+			</s:Rect>
+			<s:Rect width="100%" height="100%" includeIn="downStates">
+				<s:fill>
+					<s:SolidColor color="0x6dcaec"/>
+				</s:fill>
+			</s:Rect>
+			<s:Rect width="100%" height="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x414042"/>
+				</s:stroke>
+			</s:Rect>
+		</s:Group>
+
+		<sharedView:AdherenceCheck width="56" height="56" horizontalCenter="6" verticalCenter="-6"
+								   includeIn="selectedStates"/>
 	</s:Group>
-
-	<sharedView:AdherenceCheck width="56" height="56" horizontalCenter="6" verticalCenter="-6" includeIn="selectedStates"/>
-
+	<s:Label id="labelDisplay" includeInLayout="{hostComponent.label.length > 0}"/>
 </s:SparkSkin>

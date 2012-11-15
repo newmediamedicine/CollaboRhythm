@@ -177,17 +177,18 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		/**
 		 * Returns all of the occurrences of the ScheduleItem for which the dateStart of the occurrence
-		 * falls in the interval between the dateStart and dateEnd parameters. This is achieved by iterating through all
+		 * falls in the interval between the searchStart and searchEnd parameters. This is achieved by iterating through all
 		 * of the occurrences represented by the ScheduleItem and checking to see if they fall in the range. This function
 		 * also ensures that a reference to the AdherenceItem with the matching recurrenceIndex is added to each of the
 		 * occurrences. If more than one AdherenceItem matches, then that information is logged and a reference is only
 		 * added for the most recent AdherenceItem.
 		 *
-		 * @param dateStart Date specifying the start of the desired interval
-		 * @param dateEnd Date specifying the end of the desired interval
-		 * @return Vector of ScheduleItemOccurrence instances for which dateStart falls withing the desired interval
+		 * @param searchStart Date specifying the start of the desired interval
+		 * @param searchEnd Date specifying the end of the desired interval
+		 * @param intersect if true, search is expanded to include occurrences with any overlap with searchStart to searchEnd
+		 * @return Vector of ScheduleItemOccurrence instances for which searchStart falls withing the desired interval
 		 */
-		public function getScheduleItemOccurrences(dateStart:Date = null, dateEnd:Date = null):Vector.<ScheduleItemOccurrence>
+		public function getScheduleItemOccurrences(searchStart:Date = null, searchEnd:Date = null, intersect:Boolean = false):Vector.<ScheduleItemOccurrence>
 		{
 			//TODO: Implement for the case that the recurrence rule uses until instead of count
 			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
@@ -198,6 +199,15 @@ package collaboRhythm.shared.model.healthRecord.document
 			else
 				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
 			var excludeOccurrencesBecauseReplaced:int = -1;
+
+			if (intersect)
+			{
+				if (searchStart)
+				{
+					searchStart = new Date(searchStart.valueOf() - (_dateEnd.valueOf() - _dateStart.valueOf()));
+				}
+			}
+
 			for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
 			{
 				var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
@@ -212,7 +222,7 @@ package collaboRhythm.shared.model.healthRecord.document
 					}
 				}
 
-				if ((dateStart == null || occurrenceDateStart.time >= dateStart.time) && (dateEnd == null || occurrenceDateStart.time <= dateEnd.time))
+				if ((searchStart == null || occurrenceDateStart.time >= searchStart.time) && (searchEnd == null || occurrenceDateStart.time <= searchEnd.time))
 				{
 					var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
 					var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(this,
@@ -250,8 +260,8 @@ package collaboRhythm.shared.model.healthRecord.document
 				_logger.debug("getScheduleItemOccurrences got " + scheduleItemOccurrencesVector.length +
 						" occurrences for " + this.name.text + " " + this.dateStart.toLocaleString() + " to " +
 						new Date(_dateStart.time + frequencyMilliseconds * _recurrenceRule.count).toLocaleString() +
-						((dateStart != null && dateEnd != null) ? (" in range " + dateStart.toLocaleString() + " to " +
-								dateEnd.toLocaleString()) : "")
+						((searchStart != null && searchEnd != null) ? (" in range " + searchStart.toLocaleString() + " to " +
+								searchEnd.toLocaleString()) : "")
 						+ ". Recurrence count " + _recurrenceRule.count + " excludeOccurrencesBecauseReplaced " +
 						excludeOccurrencesBecauseReplaced + " replacedById " + meta.replacedById +
 						(this as MedicationScheduleItem ? " order " +
