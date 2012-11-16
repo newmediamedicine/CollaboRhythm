@@ -3,7 +3,6 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.ane.applicationMessaging.actionScript.ApplicationMessaging;
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
-	import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.foraD40b.model.ReportBloodGlucoseItemData;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
@@ -19,18 +18,17 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 
 	import com.adobe.nativeExtensions.Vibration;
 
-	import flash.desktop.NativeApplication;
-
 	import flash.events.MouseEvent;
-	import flash.media.scanHardware;
 	import flash.net.URLVariables;
 	import flash.system.Capabilities;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
+	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
@@ -39,13 +37,14 @@ package collaboRhythm.plugins.foraD40b.controller
 
 	public class BloodGlucoseHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
-		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = BloodGlucoseHealthActionInputView;
+		private static const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = BloodGlucoseHealthActionInputView;
+		public static const BATCH_TRANSFER_URL_VARIABLE:String = "batchTransfer";
 
 		private var _dataInputModelCollection:BloodGlucoseHealthActionInputModelCollection;
 		private var _viewNavigator:ViewNavigator;
 		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
 		private var _synchronizationService:SynchronizationService;
-		private var _healthActionsCount:int = 0;
+		private var _duplicateDetected:Boolean = false;
 		protected var _logger:ILogger;
 
 		public function BloodGlucoseHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
@@ -80,51 +79,134 @@ package collaboRhythm.plugins.foraD40b.controller
 		{
 			addCollaborationViewSynchronizationEventListener();
 
-			var itemData:ReportBloodGlucoseItemData = _dataInputModelCollection.reportBloodGlucoseItemDataCollection.length > 0 ? _dataInputModelCollection.reportBloodGlucoseItemDataCollection[0] as ReportBloodGlucoseItemData : null;
-			if (_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length > 1 || _dataInputModelCollection.reportBloodGlucoseItemDataCollection.length == 1 && (itemData).dataInputModel.isFromDevice)
+			var batchTransferAction:String = urlVariables[BATCH_TRANSFER_URL_VARIABLE];
+			if (batchTransferAction == "begin")
 			{
-				// only handel additional measurements if they are before the currently queued measurement(s)
-				var previousDataInputModel:BloodGlucoseHealthActionInputModel = (_dataInputModelCollection.reportBloodGlucoseItemDataCollection[_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length - 1] as ReportBloodGlucoseItemData).dataInputModel;
-				if (DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate).valueOf() >= previousDataInputModel.dateMeasuredStart.valueOf())
-				{
-					_logger.warn("handleUrlVariables ignored because incoming correctedMeasuredDate " + urlVariables.correctedMeasuredDate + " was not before currently queued measurement " + DateUtil.format(previousDataInputModel.dateMeasuredStart) + ". urlVariables: " + urlVariables.toString());
-					return;
-				}
-
-				itemData = new ReportBloodGlucoseItemData(new BloodGlucoseHealthActionInputModel(null,
-						_dataInputModelCollection.healthActionModelDetailsProvider, _dataInputModelCollection.scheduleCollectionsProvider,
-						_dataInputModelCollection), this);
-				_dataInputModelCollection.reportBloodGlucoseItemDataCollection.addItem(itemData);
+				_duplicateDetected = false;
 			}
-			itemData.dataInputModel.handleUrlVariables(urlVariables);
-
-			var guessedScheduleItemOccurrence:ScheduleItemOccurrence = itemData.dataInputModel.guessScheduleItemOccurrence();
-			if (guessedScheduleItemOccurrence)
-			{
-				handleAdherenceChange(itemData.dataInputModel, guessedScheduleItemOccurrence, true);
-			}
-
-			var isDebugger:Boolean = Capabilities.isDebugger;
-			var playerType:String = Capabilities.playerType;
-
-			if (playerType == "Desktop" && isDebugger)
+			else if (batchTransferAction == "end")
 			{
 			}
 			else
 			{
-				detectDuplicates();
+				handleUrlVariablesNewMeasurement(urlVariables);
 			}
 		}
 
-		private function detectDuplicates():void
+		private function handleUrlVariablesNewMeasurement(urlVariables:URLVariables):void
 		{
-			_healthActionsCount++;
-			if (_healthActionsCount >= 20)
+			// previously detected duplicate
+			if (_duplicateDetected)
+				return;
+
+			_duplicateDetected = detectDuplicates(urlVariables);
+
+			if (!_duplicateDetected)
 			{
-				var extension:ApplicationMessaging = new ApplicationMessaging();
-				extension.sendBroadcast("CollaboRhythm-health-action-received-v1", "duplicate",
-						"healthActionStringTest1");
+				var itemData:ReportBloodGlucoseItemData = _dataInputModelCollection.reportBloodGlucoseItemDataCollection.length >
+						0 ? _dataInputModelCollection.reportBloodGlucoseItemDataCollection[0] as
+						ReportBloodGlucoseItemData : null;
+				if (_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length > 1 ||
+						_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length == 1 &&
+								(itemData).dataInputModel.isFromDevice)
+				{
+					// only handle additional measurements if they are before the currently queued measurement(s)
+					var previousDataInputModel:BloodGlucoseHealthActionInputModel = (_dataInputModelCollection.reportBloodGlucoseItemDataCollection[_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length -
+							1] as ReportBloodGlucoseItemData).dataInputModel;
+					if (DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate).valueOf() >=
+							previousDataInputModel.dateMeasuredStart.valueOf())
+					{
+						_logger.warn("handleUrlVariables ignored because incoming correctedMeasuredDate " +
+								urlVariables.correctedMeasuredDate + " was not before currently queued measurement " +
+								DateUtil.format(previousDataInputModel.dateMeasuredStart) + ". urlVariables: " +
+								urlVariables.toString());
+						return;
+					}
+
+					itemData = new ReportBloodGlucoseItemData(new BloodGlucoseHealthActionInputModel(null,
+							_dataInputModelCollection.healthActionModelDetailsProvider,
+							_dataInputModelCollection.scheduleCollectionsProvider,
+							_dataInputModelCollection), this);
+					_dataInputModelCollection.reportBloodGlucoseItemDataCollection.addItem(itemData);
+				}
+				itemData.dataInputModel.handleUrlVariables(urlVariables);
+
+				var guessedScheduleItemOccurrence:ScheduleItemOccurrence = itemData.dataInputModel.guessScheduleItemOccurrence();
+				if (guessedScheduleItemOccurrence)
+				{
+					handleAdherenceChange(itemData.dataInputModel, guessedScheduleItemOccurrence, true);
+				}
 			}
+		}
+
+		private function detectDuplicates(urlVariables:URLVariables):Boolean
+		{
+			var isDebugger:Boolean = Capabilities.isDebugger;
+			var playerType:String = Capabilities.playerType;
+
+			// check all existing blood glucose measurements
+			for each (var bloodGlucoseVitalSign:VitalSign in _dataInputModelCollection.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY))
+			{
+				if (isDuplicate(urlVariables, bloodGlucoseVitalSign))
+				{
+					if (playerType == "Desktop" && isDebugger)
+					{
+					}
+					else
+					{
+						sendBroadcastDuplicateDetected();
+					}
+
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private function sendBroadcastDuplicateDetected():void
+		{
+			var extension:ApplicationMessaging = new ApplicationMessaging();
+			extension.sendBroadcast("CollaboRhythm-health-action-received-v1", "duplicate",
+					"healthActionStringTest1");
+		}
+
+		private static function isDuplicate(urlVariables:URLVariables, bloodGlucoseVitalSign:VitalSign):Boolean
+		{
+			if (bloodGlucoseVitalSign.result && bloodGlucoseVitalSign.result.value == urlVariables.bloodGlucose)
+			{
+				var deviceMeasuredDateKey:String = "deviceMeasuredDate";
+				var existingDeviceMeasuredDateString:String = parseVitalSignComment(bloodGlucoseVitalSign.comments, deviceMeasuredDateKey);
+				if (existingDeviceMeasuredDateString)
+				{
+					return existingDeviceMeasuredDateString == urlVariables[deviceMeasuredDateKey];
+				}
+				else
+				{
+					// if the comments can't be parsed or do not include the deviceMeasuredDate, assume that it is a duplicate
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private static function parseVitalSignComment(comments:String, key:String):String
+		{
+			if (comments == null)
+			{
+				return null;
+			}
+
+			var parts:Array = comments.split(" ");
+			var urlVariablesString:String = parts[parts.length - 1];
+			var urlVariables:URLVariables;
+			try
+			{
+				urlVariables = new URLVariables(urlVariablesString);
+			} catch (e:Error)
+			{
+			}
+
+			return urlVariables ? urlVariables[key] : null;
 		}
 
 		public function nextStep():void
@@ -139,18 +221,26 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function createAndSubmitBloodGlucoseVitalSign():void
 		{
-			_dataInputModelCollection.createBloodGlucoseVitalSign();
-			submitBloodGlucose(_dataInputModelCollection.bloodGlucoseVitalSign);
-		}
-
-		public function submitBloodGlucose(bloodGlucoseVitalSign:VitalSign):void
-		{
-			if (_synchronizationService.synchronize("submitBloodGlucose", bloodGlucoseVitalSign))
+			if (_synchronizationService.synchronize("createAndSubmitBloodGlucoseVitalSign"))
 			{
 				return;
 			}
 
-			_dataInputModelCollection.submitBloodGlucose(bloodGlucoseVitalSign, _synchronizationService.initiatedLocally);
+			// add the items in reverse order, oldest to newest
+			var reversedCollection:ArrayCollection = new ArrayCollection();
+			reversedCollection.addAll(_dataInputModelCollection.reportBloodGlucoseItemDataCollection);
+			reversedCollection.source.reverse();
+
+			for each (var itemData:ReportBloodGlucoseItemData in reversedCollection)
+			{
+				var model:BloodGlucoseHealthActionInputModel = itemData.dataInputModel;
+				model.createBloodGlucoseVitalSign();
+
+				if (itemData.dataInputModel == _dataInputModelCollection.firstInputModel)
+					model.submitBloodGlucose(model.bloodGlucoseVitalSign, _synchronizationService.initiatedLocally);
+				else
+					model.saveBloodGlucose(model.bloodGlucoseVitalSign, _synchronizationService.initiatedLocally, false);
+			}
 		}
 
 		private function currentView_changeHandler(currentView:Class):void

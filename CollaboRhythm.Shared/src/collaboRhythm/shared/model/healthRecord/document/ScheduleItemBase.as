@@ -192,12 +192,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			//TODO: Implement for the case that the recurrence rule uses until instead of count
 			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
-			var interval:CodedValue = _recurrenceRule.interval;
-			var frequencyMilliseconds:int;
-			if (interval)
-				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text) * int(_recurrenceRule.interval.text);
-			else
-				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
+			var frequencyMilliseconds:int = getEffectiveFrequencyMilliseconds();
 			var excludeOccurrencesBecauseReplaced:int = -1;
 
 			if (intersect)
@@ -226,32 +221,10 @@ package collaboRhythm.shared.model.healthRecord.document
 				{
 					var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
 					var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(this,
-																								   occurrenceDateStart,
-																								   occurrenceDateEnd,
-																								   recurrenceIndex);
-					var matchingAdherenceItems:Vector.<AdherenceItem> = new Vector.<AdherenceItem>();
-					for each (var adherenceItem:AdherenceItem in adherenceItems)
-					{
-						if (adherenceItem && adherenceItem.recurrenceIndex == recurrenceIndex)
-						{
-							matchingAdherenceItems.push(adherenceItem);
-						}
-					}
-					if (matchingAdherenceItems.length > 0)
-					{
-						// Normally, outside of testing scenarios, there should only be one AdherenceItem corresponding
-						// to each ScheduleItemOccurrence recurrenceIndex. If there is more than one matching AdherenceItem
-						// log this and the sort the matching AdherenceItem documents by createdAt date in the metaData
-						// rather than by dateReported because, in testing scenarios, it is possible that the dateReported
-						// does not correspond correlate with the most recently created Document.
-						if (matchingAdherenceItems.length > 1)
-						{
-							_logger.info("Multiple matchingAdherenceItems (" + matchingAdherenceItems.length + ") found for " + scheduleItemOccurrence.scheduleItem.name.text + ". recurrenceIndex: " + recurrenceIndex + ";  date: " + occurrenceDateStart);
-							matchingAdherenceItems.sort(compareDocumentsByCreatedAtValue);
-						}
-						scheduleItemOccurrence.adherenceItem = matchingAdherenceItems[0];
-					}
-
+							occurrenceDateStart,
+							occurrenceDateEnd,
+							recurrenceIndex);
+					updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence, occurrenceDateStart);
 					scheduleItemOccurrencesVector.push(scheduleItemOccurrence);
 				}
 			}
@@ -268,6 +241,61 @@ package collaboRhythm.shared.model.healthRecord.document
 								(this as MedicationScheduleItem).scheduledMedicationOrder : ""));
 			}
 			return scheduleItemOccurrencesVector;
+		}
+
+		public function updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex:int,
+																  scheduleItemOccurrence:ScheduleItemOccurrence,
+																  occurrenceDateStart:Date):void
+		{
+			var matchingAdherenceItems:Vector.<AdherenceItem> = new Vector.<AdherenceItem>();
+			for each (var adherenceItem:AdherenceItem in adherenceItems)
+			{
+				if (adherenceItem && adherenceItem.recurrenceIndex == recurrenceIndex)
+				{
+					matchingAdherenceItems.push(adherenceItem);
+				}
+			}
+			if (matchingAdherenceItems.length > 0)
+			{
+				// Normally, outside of testing scenarios, there should only be one AdherenceItem corresponding
+				// to each ScheduleItemOccurrence recurrenceIndex. If there is more than one matching AdherenceItem
+				// log this and the sort the matching AdherenceItem documents by createdAt date in the metaData
+				// rather than by dateReported because, in testing scenarios, it is possible that the dateReported
+				// does not correspond correlate with the most recently created Document.
+				if (matchingAdherenceItems.length > 1)
+				{
+					_logger.info("Multiple matchingAdherenceItems (" + matchingAdherenceItems.length + ") found for " +
+							scheduleItemOccurrence.scheduleItem.name.text + ". recurrenceIndex: " + recurrenceIndex +
+							";  date: " + occurrenceDateStart);
+					matchingAdherenceItems.sort(compareDocumentsByCreatedAtValue);
+				}
+				scheduleItemOccurrence.adherenceItem = matchingAdherenceItems[0];
+			}
+		}
+
+		public function createScheduleItemOccurrence(recurrenceIndex:int):ScheduleItemOccurrence
+		{
+			var frequencyMilliseconds:int = getEffectiveFrequencyMilliseconds();
+			var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
+			var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
+			var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(this,
+																						   occurrenceDateStart,
+																						   occurrenceDateEnd,
+																						   recurrenceIndex);
+			updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence, occurrenceDateStart);
+			return scheduleItemOccurrence;
+		}
+
+		public function getEffectiveFrequencyMilliseconds():int
+		{
+			var interval:CodedValue = _recurrenceRule.interval;
+			var frequencyMilliseconds:int;
+			if (interval)
+				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text) *
+						int(_recurrenceRule.interval.text);
+			else
+				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
+			return frequencyMilliseconds;
 		}
 
 		public function get scheduleItemXml():XML

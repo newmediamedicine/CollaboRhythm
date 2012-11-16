@@ -47,7 +47,7 @@
 
 		private function dataInputModel_deviceBloodGlucose_setterHandler(value:Number):void
 		{
-			if (_reportBloodGlucoseItemData.dataInputModel)
+			if (_reportBloodGlucoseItemData && _reportBloodGlucoseItemData.dataInputModel)
 			{
 				reportAdherenceTimeView.init(_reportBloodGlucoseItemData.dataInputModel,
 										_reportBloodGlucoseItemData.dataInputController);

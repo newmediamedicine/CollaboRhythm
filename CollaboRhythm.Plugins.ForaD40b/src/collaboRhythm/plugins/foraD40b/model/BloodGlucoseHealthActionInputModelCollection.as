@@ -16,6 +16,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _reportBloodGlucoseItemDataCollection:ArrayCollection;
 		private var _currentView:Class;
 		private var _pushedViewCount:int = 0;
+		private var _actionsListScrollerPosition:Number;
 
 		public function BloodGlucoseHealthActionInputModelCollection(scheduleItemOccurrence:ScheduleItemOccurrence,
 																	 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -107,21 +108,6 @@ package collaboRhythm.plugins.foraD40b.model
 			firstInputModel.nextStep(initiatedLocally);
 		}
 
-		public function createBloodGlucoseVitalSign():void
-		{
-			firstInputModel.createBloodGlucoseVitalSign();
-		}
-
-		public function get bloodGlucoseVitalSign():VitalSign
-		{
-			return firstInputModel.bloodGlucoseVitalSign;
-		}
-
-		public function submitBloodGlucose(bloodGlucoseVitalSign:VitalSign, initiatedLocally:Boolean):void
-		{
-			firstInputModel.submitBloodGlucose(bloodGlucoseVitalSign, initiatedLocally);
-		}
-
 		public function startWaitTimer():void
 		{
 			firstInputModel.startWaitTimer();
@@ -192,14 +178,25 @@ package collaboRhythm.plugins.foraD40b.model
 			firstInputModel.complexCarbs30gItemList_changeHandler(selectedIndex);
 		}
 
-		public function synchronizeActionsListScrollerPosition(verticalScrollPosition:Number):void
-		{
-			firstInputModel.synchronizeActionsListScrollerPosition(verticalScrollPosition);
-		}
-
 		public function get isChangeTimeAllowed():Boolean
 		{
 			return false;
 		}
+
+		public function synchronizeActionsListScrollerPosition(verticalScrollPosition:Number):void
+		{
+			actionsListScrollerPosition = verticalScrollPosition;
+		}
+
+		public function get actionsListScrollerPosition():Number
+		{
+			return _actionsListScrollerPosition;
+		}
+
+		public function set actionsListScrollerPosition(value:Number):void
+		{
+			_actionsListScrollerPosition = value;
+		}
+
 	}
 }

@@ -40,6 +40,7 @@
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHistoryItemData;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
@@ -69,7 +70,11 @@
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
 
 			_bloodGlucoseArrayCollection = new ArrayCollection();
-			_bloodGlucoseArrayCollection.addAll(_dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY));
+			for each (var bloodGlucoseVitalSign:VitalSign in _dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY))
+			{
+				var historyItemData:BloodGlucoseHistoryItemData = new BloodGlucoseHistoryItemData(bloodGlucoseVitalSign, _dataInputModel, _dataInputController);
+				_bloodGlucoseArrayCollection.addItem(historyItemData);
+			}
 
 			BindingUtils.bindSetter(bloodGlucoseHistoryListScrollerPosition_changeHandler, _dataInputModel,
 					"bloodGlucoseHistoryListScrollerPosition");
@@ -85,7 +90,8 @@
 
 		private function bloodGlucoseHistoryList_changeHandler():void
 		{
-			var bloodGlucoseVitalSign:VitalSign = bloodGlucoseHistoryList.selectedItem;
+			var bloodGlucoseHistoryItemData:BloodGlucoseHistoryItemData = bloodGlucoseHistoryList.selectedItem as BloodGlucoseHistoryItemData;
+			var bloodGlucoseVitalSign:VitalSign = bloodGlucoseHistoryItemData.bloodGlucoseVitalSign;
 			if (bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0)
 			{
 				_dataInputController.showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSign.dateMeasuredStart);

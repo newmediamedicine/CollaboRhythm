@@ -44,6 +44,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
@@ -59,7 +60,7 @@
 		private var _bloodGlucoseVitalSign:VitalSign;
 		private var _touchInteraction:Boolean = false;
 		private var _dataInputController:BloodGlucoseHealthActionInputController;
-		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		private var _dataInputModel:BloodGlucoseHealthActionInputModelCollection;
 		private var _bloodGlucoseVitalSignDate:Date;
 
 		override public function set data(value:Object):void
@@ -69,7 +70,7 @@
 			_bloodGlucoseVitalSignDate = value[0] as Date;
 
 			_dataInputController = value[1] as BloodGlucoseHealthActionInputController;
-			_dataInputModel = value[2] as BloodGlucoseHealthActionInputModel;
+			_dataInputModel = value[2] as BloodGlucoseHealthActionInputModelCollection;
 
 			for each (var vitalSign:VitalSign in
 					_dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY))
