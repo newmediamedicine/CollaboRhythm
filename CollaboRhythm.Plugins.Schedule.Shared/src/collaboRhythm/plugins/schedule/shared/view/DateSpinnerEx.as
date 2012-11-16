@@ -10,7 +10,7 @@ package collaboRhythm.plugins.schedule.shared.view
 
 		override public function get baselinePosition():Number
 		{
-			return (super.baselinePosition + height) / 2;
+			return Math.round((super.baselinePosition + height) / 2) - 2;
 		}
 	}
 }

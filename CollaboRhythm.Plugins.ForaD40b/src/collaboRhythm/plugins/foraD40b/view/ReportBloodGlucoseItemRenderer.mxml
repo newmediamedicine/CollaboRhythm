@@ -49,7 +49,8 @@
 		{
 			if (_reportBloodGlucoseItemData.dataInputModel)
 			{
-				reportAdherenceTimeView.setCurrentState("dateLabel");
+				reportAdherenceTimeView.init(_reportBloodGlucoseItemData.dataInputModel,
+										_reportBloodGlucoseItemData.dataInputController);
 			}
 		}
 
@@ -63,36 +64,17 @@
 			initChildren();
 		}
 
-		/*
-		 private function reportAdherenceTimeGroup_resizeHandler(event:ResizeEvent):void
-		 {
-		 traceResize(event, "reportAdherenceTimeGroup_resizeHandler", reportAdherenceTimeGroup);
-		 }
-
-		 private function reportBloodGlucoseGroup_resizeHandler(event:ResizeEvent):void
-		 {
-		 traceResize(event, "reportBloodGlucoseGroup_resizeHandler", reportBloodGlucoseGroup);
-		 }
-		 */
-
-		private function traceResize(event:ResizeEvent, handler:String, target:Group):void
-		{
-			trace(handler + " event.oldHeight, oldWidth " + event.oldHeight + ", " +
-					event.oldWidth + " height, width " + target.height + ", " +
-					target.width);
-		}
-
 		private function initChildren():void
 		{
 			if (_reportBloodGlucoseItemData && reportScheduleAdherenceView &&
 					reportBloodGlucoseView &&
 					reportAdherenceTimeView)
 			{
-				reportScheduleAdherenceView.init(_reportBloodGlucoseItemData.dataInputModel,
-						_reportBloodGlucoseItemData.dataInputController);
 				reportBloodGlucoseView.init(_reportBloodGlucoseItemData.dataInputModel,
 						_reportBloodGlucoseItemData.dataInputController);
 				reportAdherenceTimeView.init(_reportBloodGlucoseItemData.dataInputModel,
+						_reportBloodGlucoseItemData.dataInputController);
+				reportScheduleAdherenceView.init(_reportBloodGlucoseItemData.dataInputModel,
 						_reportBloodGlucoseItemData.dataInputController);
 			}
 		}
