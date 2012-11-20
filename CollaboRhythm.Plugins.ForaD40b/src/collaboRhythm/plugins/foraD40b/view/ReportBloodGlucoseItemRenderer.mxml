@@ -26,9 +26,6 @@
 
 		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
-		import mx.events.ResizeEvent;
-
-		import spark.components.Group;
 
 		private var _reportBloodGlucoseItemData:ReportBloodGlucoseItemData;
 
@@ -50,7 +47,7 @@
 			if (_reportBloodGlucoseItemData && _reportBloodGlucoseItemData.dataInputModel)
 			{
 				reportAdherenceTimeView.init(_reportBloodGlucoseItemData.dataInputModel,
-										_reportBloodGlucoseItemData.dataInputController);
+						_reportBloodGlucoseItemData.dataInputController);
 			}
 		}
 

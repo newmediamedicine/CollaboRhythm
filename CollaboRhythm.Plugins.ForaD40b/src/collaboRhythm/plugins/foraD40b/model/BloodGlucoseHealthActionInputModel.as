@@ -119,7 +119,7 @@ package collaboRhythm.plugins.foraD40b.model
 				}
 			}
 
-			_urlVariables = urlVariables;
+			this.urlVariables = urlVariables;
 		}
 
 		public function get currentView():Class

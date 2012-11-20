@@ -42,6 +42,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.shared.model.StringUtils;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
@@ -275,5 +276,6 @@
 				 textAlign="right"
 				 includeIn="review,reportDevice"/>
 		<s:Label id="unitsLabel" text="mg/dL" verticalCenter="2" styleName="unitsText"/>
+		<!--<s:Label id="debugLabel" text="{_dataInputModel.urlVariables.debug}" includeInLayout="{!StringUtils.isEmpty(_dataInputModel.urlVariables.debug)}" />-->
 	</s:HGroup>
 </s:HGroup>

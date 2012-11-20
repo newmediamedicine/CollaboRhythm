@@ -27,13 +27,11 @@
 	</fx:Declarations>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
-		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
 		import collaboRhythm.plugins.foraD40b.model.ReportBloodGlucoseItemData;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 		import collaboRhythm.shared.model.DateUtil;
-		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -84,8 +82,25 @@
 				title = "Report Blood Glucose Measurement - Unscheduled";
 				actionContent.unshift(saveActionButton);
 			}
-			addMenuItem("Simulate Device", simulateDeviceMenuItem_clickHandler);
-			addMenuItem("Simulate Device 2", simulateDevice2MenuItem_clickHandler);
+
+			// TODO: perhaps we should also include these menu items when debug tools is enabled or allow independent control via a new setting
+			var isDebugger:Boolean = Capabilities.isDebugger;
+			var playerType:String = Capabilities.playerType;
+
+			if (playerType == "Desktop" && isDebugger)
+			{
+				addMenuItem("Sim 3 Random Measurements", simulateDeviceMenuItem_clickHandler);
+				addMenuItem("Sim 1 Old format measurement", simulateDevice2MenuItem_clickHandler);
+				addMenuItem("Sim 1 New format measurement", simulateDevice3MenuItem_clickHandler);
+			}
+		}
+
+		private function simulateDevice3MenuItem_clickHandler(event:MouseEvent):void
+		{
+			simulateDeviceBatchTransferBegin();
+			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
+					["collaborhythm://collaborhythm?deviceMeasuredDate=2012-10-19T23%3A15%3A00-04%3A00&bloodGlucose=181&equipmentName=FORA%20D40b&correctedMeasuredDate=2012-10-19T22%3A16%3A40-04%3A00&healthActionName=Blood%20Glucose&localTransmittedDate=2012-11-19T18%3A12%3A40-05%3A00&deviceTransmittedDate=2012-11-19T19%3A11%3A00-05%3A00&debug=0%20of%20181&healthActionType=Equipment&success=true&batchTransfer=data"]));
+			simulateDeviceBatchTransferEnd();
 		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
@@ -155,6 +170,7 @@
 
 		private function simulateDeviceMenuItem_clickHandler(event:MouseEvent):void
 		{
+
 			var index:Number;
 			if ((_dataInputModel.reportBloodGlucoseItemDataCollection[0] as
 					ReportBloodGlucoseItemData).dataInputModel.isFromDevice)
@@ -218,25 +234,30 @@
 		{
 			var uriString:String = "collaborhythm://healthActionType=Equipment&healthActionName=Blood Glucose&equipmentName=FORA D40b&success=true&bloodGlucose=" +
 					bloodGlucose + "&correctedMeasuredDate=" + DateUtil.format(correctedMeasuredDate, false) +
-					"&deviceMeasuredDate=" + DateUtil.format(correctedMeasuredDate, false) + "&localTransmittedDate=2012-11-07T15:48:00-05:00&deviceTransmittedDate=2012-11-07T15:48:00-05:00";
+					"&deviceMeasuredDate=" + DateUtil.format(correctedMeasuredDate, false) +
+					"&localTransmittedDate=2012-11-07T15:48:00-05:00&deviceTransmittedDate=2012-11-07T15:48:00-05:00";
 			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
 					[uriString]))
 		}
 
 		private function simulateDeviceBatchTransferBegin():void
 		{
-			simulateDeviceBatchTransfer("begin");
+			simulateDeviceBatchTransfer("begin", "Blood Glucose");
+			simulateDeviceBatchTransfer("begin", "Blood Pressure");
 		}
 
 		private function simulateDeviceBatchTransferEnd():void
 		{
-			simulateDeviceBatchTransfer("end");
+			simulateDeviceBatchTransfer("end", "Blood Glucose");
+			simulateDeviceBatchTransfer("end", "Blood Pressure");
 		}
 
-		private function simulateDeviceBatchTransfer(batchTransfer:String):void
+		private function simulateDeviceBatchTransfer(batchTransfer:String, healthActionName:String):void
 		{
 			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
-					["collaborhythm://healthActionType=Equipment&healthActionName=Blood Glucose&equipmentName=FORA D40b&success=true&" + BloodGlucoseHealthActionInputController.BATCH_TRANSFER_URL_VARIABLE + "=" +
+					["collaborhythm://healthActionType=Equipment&healthActionName=" + healthActionName +
+							"&equipmentName=FORA D40b&success=true&" +
+							BloodGlucoseHealthActionInputController.BATCH_TRANSFER_URL_VARIABLE + "=" +
 							batchTransfer]));
 		}
 		]]></fx:Script>

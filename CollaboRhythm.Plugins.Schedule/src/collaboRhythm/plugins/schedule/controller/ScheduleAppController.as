@@ -34,12 +34,15 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.model.InteractionLogUtil;
+	import collaboRhythm.shared.model.StringUtils;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.InvokeEvent;
 	import flash.net.URLVariables;
 
 	import mx.core.UIComponent;
+
+	import org.osmf.utils.URL;
 
 	public class ScheduleAppController extends AppControllerBase
 	{
@@ -158,8 +161,18 @@ package collaboRhythm.plugins.schedule.controller
 			if (event.arguments.length != 0)
 			{
 				var urlString:String = event.arguments[0];
-				var urlVariablesString:String = urlString.split("//")[1];
-				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+				var url:URL = new URL(urlString);
+				var urlVariablesString:String;
+				if (StringUtils.isEmpty(url.query))
+				{
+					urlVariablesString = urlString.split("//")[1];
+				}
+				else
+				{
+					urlVariablesString = url.query;
+				}
+				var urlVariables:URLVariables;
+				urlVariables = new URLVariables(urlVariablesString);
 
 				if (urlVariables.success == "true")
 				{

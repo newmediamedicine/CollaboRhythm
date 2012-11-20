@@ -3,6 +3,7 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.ane.applicationMessaging.actionScript.ApplicationMessaging;
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
+	import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.foraD40b.model.ReportBloodGlucoseItemData;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
@@ -15,10 +16,13 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
+	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
 	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import com.adobe.nativeExtensions.Vibration;
 
@@ -46,6 +50,10 @@ package collaboRhythm.plugins.foraD40b.controller
 		private var _synchronizationService:SynchronizationService;
 		private var _duplicateDetected:Boolean = false;
 		protected var _logger:ILogger;
+		protected var _backgroundProcessModel:BackgroundProcessCollectionModel;
+
+		private var _stopIfOutOfOrder:Boolean = true;
+		private var _shouldDetectDuplicates:Boolean = true;
 
 		public function BloodGlucoseHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -60,7 +68,14 @@ package collaboRhythm.plugins.foraD40b.controller
 			_collaborationLobbyNetConnectionServiceProxy = healthActionModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
 
+			_backgroundProcessModel = BackgroundProcessCollectionModel(WorkstationKernel.instance.resolve(BackgroundProcessCollectionModel));
+
 			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModelCollection, "currentView");
+		}
+
+		public function get backgroundProcessModel():BackgroundProcessCollectionModel
+		{
+			return _backgroundProcessModel;
 		}
 
 		public function handleHealthActionResult(initiatedLocally:Boolean):void
@@ -75,6 +90,8 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModelCollection.handleHealthActionSelected();
 		}
 
+		public static const BATCH_TRANSFER_PROCESS_KEY:String = "BloodGlucoseHealthActionInputController_BeginBatchTransfer";
+
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 			addCollaborationViewSynchronizationEventListener();
@@ -83,9 +100,12 @@ package collaboRhythm.plugins.foraD40b.controller
 			if (batchTransferAction == "begin")
 			{
 				_duplicateDetected = false;
+				backgroundProcessModel.updateProcess(BATCH_TRANSFER_PROCESS_KEY, "Transferring data from " + ForaD40bHealthActionInputControllerFactory.EQUIPMENT_NAME + "...", true);
 			}
 			else if (batchTransferAction == "end")
 			{
+				_duplicateDetected = false;
+				backgroundProcessModel.updateProcess(BATCH_TRANSFER_PROCESS_KEY, null, false);
 			}
 			else
 			{
@@ -99,10 +119,16 @@ package collaboRhythm.plugins.foraD40b.controller
 			if (_duplicateDetected)
 				return;
 
-			_duplicateDetected = detectDuplicates(urlVariables);
+			_duplicateDetected = _shouldDetectDuplicates && detectDuplicates(urlVariables);
 
 			if (!_duplicateDetected)
 			{
+				if (!isValidMeasurement(urlVariables))
+				{
+					_logger.debug("handleUrlVariablesNewMeasurement invalid urlVariables " + urlVariables.toString());
+					return;
+				}
+
 				var itemData:ReportBloodGlucoseItemData = _dataInputModelCollection.reportBloodGlucoseItemDataCollection.length >
 						0 ? _dataInputModelCollection.reportBloodGlucoseItemDataCollection[0] as
 						ReportBloodGlucoseItemData : null;
@@ -113,7 +139,7 @@ package collaboRhythm.plugins.foraD40b.controller
 					// only handle additional measurements if they are before the currently queued measurement(s)
 					var previousDataInputModel:BloodGlucoseHealthActionInputModel = (_dataInputModelCollection.reportBloodGlucoseItemDataCollection[_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length -
 							1] as ReportBloodGlucoseItemData).dataInputModel;
-					if (DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate).valueOf() >=
+					if (_stopIfOutOfOrder && DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate).valueOf() >=
 							previousDataInputModel.dateMeasuredStart.valueOf())
 					{
 						_logger.warn("handleUrlVariables ignored because incoming correctedMeasuredDate " +
@@ -137,6 +163,11 @@ package collaboRhythm.plugins.foraD40b.controller
 					handleAdherenceChange(itemData.dataInputModel, guessedScheduleItemOccurrence, true);
 				}
 			}
+		}
+
+		private static function isValidMeasurement(urlVariables:URLVariables):Boolean
+		{
+			return StringUtils.isNumeric(urlVariables.bloodGlucose) && DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate) != null;
 		}
 
 		private function detectDuplicates(urlVariables:URLVariables):Boolean

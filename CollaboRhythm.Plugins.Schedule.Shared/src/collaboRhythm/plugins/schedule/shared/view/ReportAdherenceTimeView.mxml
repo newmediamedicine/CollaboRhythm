@@ -28,11 +28,11 @@
 		<s:DateTimeFormatter id="timeFormatter" dateTimePattern="h : mm  a"/>
 	</fx:Declarations>
 	<fx:Style>
-		#timeMeasuredStartLabel {
+		#reportTimeMeasuredStartLabel {
 			fontSize: 40;
 		}
 
-		#dateMeasuredStartSpinner {
+		#reportDateMeasuredStartSpinner {
 			fontSize: 40;
 		}
 	</fx:Style>
@@ -120,24 +120,24 @@
 		{
 			if (DateUtil.isDateToday(dateMeasuredStart, _currentDateSource.now()))
 			{
-				dateMeasuredStartLabel.text = "Today";
+				reportDateMeasuredStartLabel.text = "Today";
 			}
 			else if (DateUtil.isDateYesterday(dateMeasuredStart, _currentDateSource.now()))
 			{
-				dateMeasuredStartLabel.text = "Yesterday";
+				reportDateMeasuredStartLabel.text = "Yesterday";
 			}
 			else
 			{
-				dateMeasuredStartLabel.text = dateFormatter.format(dateMeasuredStart);
+				reportDateMeasuredStartLabel.text = dateFormatter.format(dateMeasuredStart);
 			}
-			timeMeasuredStartLabel.text = timeFormatter.format(dateMeasuredStart);
+			reportTimeMeasuredStartLabel.text = timeFormatter.format(dateMeasuredStart);
 		}
 
 		private function updateChildren():void
 		{
 			if (_dataInputModel)
 			{
-				if (dateMeasuredStartLabel && timeMeasuredStartLabel)
+				if (reportDateMeasuredStartLabel && reportTimeMeasuredStartLabel)
 				{
 					if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
 					{
@@ -160,7 +160,7 @@
 			{
 				var includeChangeTimeButton:Boolean = true;
 
-				if (dateMeasuredStartLabel && timeMeasuredStartLabel)
+				if (reportDateMeasuredStartLabel && reportTimeMeasuredStartLabel)
 				{
 					if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
 					{
@@ -225,12 +225,12 @@
 			}
 		}
 		]]></fx:Script>
-	<s:Group id="timeValueGroup" width="240" baselinePositionElement="{timeMeasuredStartLabel}" visible.dateSpinner="false">
+	<s:Group id="timeValueGroup" width="240" baselinePositionElement="{reportTimeMeasuredStartLabel}" visible.dateSpinner="false">
 		<s:layout>
 			<s:VerticalLayout paddingRight="10" paddingTop="6" horizontalAlign="right"/>
 		</s:layout>
-		<s:Label id="dateMeasuredStartLabel"/>
-		<s:Label id="timeMeasuredStartLabel"/>
+		<s:Label id="reportDateMeasuredStartLabel"/>
+		<s:Label id="reportTimeMeasuredStartLabel"/>
 		<s:Label id="spacerLabel"/>
 	</s:Group>
 	<view:DateSpinnerEx id="dateMeasuredStartSpinner" displayMode="time" x="{timeValueGroup.x + timeValueGroup.width - dateMeasuredStartSpinner.width}"

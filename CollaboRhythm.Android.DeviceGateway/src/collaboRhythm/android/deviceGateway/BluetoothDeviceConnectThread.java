@@ -33,9 +33,7 @@ public class BluetoothDeviceConnectThread extends Thread {
 	private static final String CLASS = "BluetoothDeviceConnectThread";
 	
 	private static final UUID SPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	public static final int BLUETOOTH_DEVICE_CONNECTED = 1;
-	public static final int BLUETOOTH_DEVICE_CONNECT_FAILED = 6;	
-	
+
 	private BluetoothAdapter mBluetoothAdapter;
     public final BluetoothSocket mmBluetoothSocket;
     
@@ -72,7 +70,7 @@ public class BluetoothDeviceConnectThread extends Thread {
     		// until it succeeds or throws an exception
     		mmBluetoothSocket.connect();
     		log.debug(CLASS + getId() + ": mmBluetoothRfcommSocket connecting to device - SUCCEEDED");
-    		sendBluetoothDeviceConnectionMessage(BLUETOOTH_DEVICE_CONNECTED);
+    		sendBluetoothDeviceConnectionMessage(DeviceGatewayService.ServiceMessage.BLUETOOTH_DEVICE_CONNECTED.ordinal());
     	} catch (IOException connectException) {
     		// Unable to connect; close the socket and get out
     		log.debug(CLASS + getId() + ": mmBluetoothRfcommSocket connecting to device - FAILED");

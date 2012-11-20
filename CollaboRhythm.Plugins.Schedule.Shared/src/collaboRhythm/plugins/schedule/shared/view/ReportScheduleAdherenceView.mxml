@@ -86,6 +86,8 @@
 
 			BindingUtils.bindSetter(dataInputModel_scheduleItemOccurrence_setterHandler, _dataInputModel,
 					"scheduleItemOccurrence");
+
+			addEventListener("calloutChanged", calloutChangedHandler);
 		}
 
 		private function formatTime(date:Date):String
@@ -163,6 +165,11 @@
 			}
 		}
 
+		public function formatDateTime(date:Date):String
+		{
+			return formatDate(date) + " " + formatTime(date);
+		}
+
 		public function getTimeDeltaDescription(timeDelta:Number, relativeToSchedule:String):String
 		{
 			var hours:Number = Math.round(timeDelta / (1000 * 60 * 60));
@@ -196,7 +203,7 @@
 							scheduleItemOccurrence.adherenceItem.pendingAction != DocumentBase.ACTION_CREATE)
 					{
 						checkBox.label += " (adherence already reported " +
-								scheduleItemOccurrence.adherenceItem.dateReported.toString() + ")";
+								formatDateTime(scheduleItemOccurrence.adherenceItem.dateReported) + ")";
 						checkBox.enabled = false;
 					}
 					else
@@ -284,6 +291,21 @@
 		private static function conditionalPlural(value:Number):String
 		{
 			return value == 1 ? "" : "s";
+		}
+
+		private function updateCallout():void
+		{
+			// TODO: remove this hack and use some simple CSS or the skin to set the contentBackgroundColor of the callout
+			if (callout)
+			{
+				callout.setStyle("contentBackgroundColor", 0xF0F0F0);
+//				callout.setStyle("skinClass", AdherenceCalloutSkin);
+			}
+		}
+
+		private function calloutChangedHandler(event:Event):void
+		{
+			updateCallout();
 		}
 		]]></fx:Script>
 </s:CalloutButton>

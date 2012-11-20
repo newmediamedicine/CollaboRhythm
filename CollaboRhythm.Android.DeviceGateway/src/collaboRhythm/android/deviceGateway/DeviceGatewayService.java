@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,17 +38,27 @@ import com.google.code.microlog4android.appender.FileAppender;
 import com.google.code.microlog4android.appender.LogCatAppender;
 import com.google.code.microlog4android.appender.SyslogAppender;
 
-import java.util.Date;
-
 public class DeviceGatewayService extends Service {
 
 	private static final String TAG = "CollaboRhythm.Android.DeviceGateway";
 	private static final String CLASS = "DeviceGatewayService";
+	private static final String BATCH_TRANSFER_URL_VARIABLE = "batchTransfer";
+
 
 	private final static Logger log = LoggerFactory.getLogger();
 
-	public static final int RETRIEVE_DATA_SUCCEEDED = 3;
-	public static final int RETRIEVE_DATA_FAILED = 4;
+	public enum ServiceMessage {
+		BLUETOOTH_DEVICE_CONNECTED,
+		BLUETOOTH_SERVER_SOCKET_EXCEPTION,
+		RETRIEVE_DATA_SUCCEEDED,
+		RETRIEVE_DATA_FAILED,
+		BLUETOOTH_DEVICE_CONNECT_FAILED,
+		RETRIEVE_DATA_BEGIN,
+		RETRIEVE_DATA_END,
+	}
+
+	private static ServiceMessage[] mServiceMessages = ServiceMessage.values();
+
 
 	private BluetoothAdapter mBluetoothAdapter;
 	private Boolean mBluetoothSupported;
@@ -198,38 +207,83 @@ public class DeviceGatewayService extends Service {
 	}
 
 	private void instructUserToRetry() {
-		Intent startCollaboRhythmIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("collaborhythm://retry=true"));
+		Uri.Builder builder = createBuilder(null);
+		builder.appendQueryParameter("retry", "true");
+//		String intentString = "retry=true";
+		startCollaboRhythmActivity(builder.build());
+	}
+
+	private void startCollaboRhythmActivity(Uri intentUri) {
+//		Uri intentUri = Uri.parse("collaborhythm://" + intentString);
+		Intent startCollaboRhythmIntent = new Intent(Intent.ACTION_VIEW, intentUri);
 		startCollaboRhythmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(startCollaboRhythmIntent);
 	}
 
-	private void startCollaboRhythm(Bundle data) {
-		String intentString = "healthActionType=Equipment&healthActionName=" + data.getString("healthActionName") + "&equipmentName=" + data.getString("equipmentName") + "&success=true&" + data.getString("result") + "&correctedMeasuredDate=" + data.getString("correctedMeasuredDate") + "&deviceMeasuredDate=" + data.getString("deviceMeasuredDate") + "&localTransmittedDate=" + data.getString("localTransmittedDate") + "&deviceTransmittedDate=" + data.getString("deviceTransmittedDate");
+	private void sendDataToCollaboRhythm(Bundle data) {
+		Uri.Builder builder = createBuilder(data);
+		builder.appendQueryParameter("success", "true");
+		builder.appendQueryParameter(BATCH_TRANSFER_URL_VARIABLE, "data");
+//		String intentString = "healthActionType=Equipment" + "&equipmentName=" + data.getString("equipmentName") + "&success=true&" + BATCH_TRANSFER_URL_VARIABLE + "=" + "data&" +
+//				"&healthActionName=" + data.getString("healthActionName") + data.getString("result") + "&correctedMeasuredDate=" + data.getString("correctedMeasuredDate") + "&deviceMeasuredDate=" + data.getString("deviceMeasuredDate") + "&localTransmittedDate=" + data.getString("localTransmittedDate") + "&deviceTransmittedDate=" + data.getString("deviceTransmittedDate");
+		startCollaboRhythmActivity(builder.build());
+	}
 
-		Intent startCollaboRhythmIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("collaborhythm://" + intentString));
-		startCollaboRhythmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	private Uri.Builder createBuilder(Bundle dataBundle) {
+		Uri.Builder builder = new Uri.Builder();
+		builder.scheme("collaborhythm");
+		builder.authority("collaborhythm");
 
-//		startCollaboRhythmIntent.setClassName("air.CollaboRhythm.Mobile.debug", "air.CollaboRhythm.Mobile.debug.AppEntry");
-		startActivity(startCollaboRhythmIntent);
+		if (dataBundle != null) {
+			for (String key : dataBundle.keySet())
+			{
+				builder.appendQueryParameter(key, dataBundle.getString(key));
+			}
+		}
+		builder.appendQueryParameter("healthActionType", "Equipment");
+		return builder;
+	}
+
+	private void sendBeginToCollaboRhythm(Bundle data) {
+		sendBatchTransferMessageToCollaboRhythm(data, "begin");
+	}
+
+	private void sendEndToCollaboRhythm(Bundle data) {
+		sendBatchTransferMessageToCollaboRhythm(data, "end");
+	}
+
+	private void sendBatchTransferMessageToCollaboRhythm(Bundle data, String batchTransfer) {
+		Uri.Builder builder = createBuilder(data);
+		builder.appendQueryParameter("success", "true");
+		builder.appendQueryParameter(BATCH_TRANSFER_URL_VARIABLE, batchTransfer);
+//		String healthActionNamePart = data.containsKey("healthActionName") ? ("&healthActionName=" + data.getString("healthActionName")) : "";
+//		String intentString = "healthActionType=Equipment" + healthActionNamePart + "&equipmentName=" + data.getString("equipmentName") + "&success=true&" + BATCH_TRANSFER_URL_VARIABLE + "=" + batchTransfer;
+		startCollaboRhythmActivity(builder.build());
 	}
 
 	public Handler mServiceMessageHandler = new Handler() {
 		//@Override
 		public void handleMessage(Message message) {
-			switch (message.what) {
-				case BluetoothServerSocketThread.BLUETOOTH_DEVICE_CONNECTED:
+			switch (mServiceMessages[message.what]) {
+				case BLUETOOTH_DEVICE_CONNECTED:
 					BluetoothSocket bluetoothSocket = (BluetoothSocket) message.obj;
 					mBluetoothDevice = bluetoothSocket.getRemoteDevice();
 					startBluetoothSocketThread(bluetoothSocket);
 					break;
-				case BluetoothServerSocketThread.BLUETOOTH_SERVER_SOCKET_EXCEPTION:
+				case BLUETOOTH_SERVER_SOCKET_EXCEPTION:
 					mBluetoothServerSocketRunning = false;
 					startBluetoothServerSocketThread();
 					break;
-				case BluetoothDeviceConnectThread.BLUETOOTH_DEVICE_CONNECT_FAILED:
+				case BLUETOOTH_DEVICE_CONNECT_FAILED:
 					instructUserToRetry();
+				case RETRIEVE_DATA_BEGIN:
+					sendBeginToCollaboRhythm(message.getData());
+					break;
 				case RETRIEVE_DATA_SUCCEEDED:
-					startCollaboRhythm(message.getData());
+					sendDataToCollaboRhythm(message.getData());
+					break;
+				case RETRIEVE_DATA_END:
+					sendEndToCollaboRhythm(message.getData());
 					break;
 				case RETRIEVE_DATA_FAILED:
 					if (BluetoothDeviceDisconnectedBroadcastReceiver.mBluetoothDeviceDisconnected && mBluetoothDevice != null) {

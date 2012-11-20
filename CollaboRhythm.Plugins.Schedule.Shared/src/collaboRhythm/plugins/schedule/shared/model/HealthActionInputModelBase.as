@@ -63,5 +63,10 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			return null;
 		}
+
+		public function get urlVariables():URLVariables
+		{
+			return _urlVariables;
+		}
 	}
 }
