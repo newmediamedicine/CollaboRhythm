@@ -52,8 +52,8 @@ package collaboRhythm.plugins.foraD40b.controller
 		protected var _logger:ILogger;
 		protected var _backgroundProcessModel:BackgroundProcessCollectionModel;
 
-		private var _stopIfOutOfOrder:Boolean = true;
-		private var _shouldDetectDuplicates:Boolean = true;
+		private var _stopIfOutOfOrder:Boolean = false;
+		private var _shouldDetectDuplicates:Boolean = false;
 
 		public function BloodGlucoseHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -158,10 +158,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				itemData.dataInputModel.handleUrlVariables(urlVariables);
 
 				var guessedScheduleItemOccurrence:ScheduleItemOccurrence = itemData.dataInputModel.guessScheduleItemOccurrence();
-				if (guessedScheduleItemOccurrence)
-				{
-					handleAdherenceChange(itemData.dataInputModel, guessedScheduleItemOccurrence, true);
-				}
+				handleAdherenceChange(itemData.dataInputModel, guessedScheduleItemOccurrence, true);
 			}
 		}
 

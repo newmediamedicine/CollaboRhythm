@@ -270,7 +270,7 @@
 		</s:Rect>
 		<s:VGroup paddingTop="10" paddingBottom="{_dataInputModel.reportBloodGlucoseItemDataCollection.length > 1 ? 10 : 90}" width="100%" horizontalAlign="center">
 			<s:Button id="saveButton" label="Save"
-					  enabled="false" fontSize="40" click="saveButton_clickHandler()"/>
+					  enabled="false" click="saveButton_clickHandler()"/>
 		</s:VGroup>
 	</s:Group>
 </tablet:TabletViewBase>
