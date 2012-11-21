@@ -232,7 +232,7 @@ public class DeviceGatewayService extends Service {
 	private Uri.Builder createBuilder(Bundle dataBundle) {
 		Uri.Builder builder = new Uri.Builder();
 		builder.scheme("collaborhythm");
-		builder.authority("collaborhythm");
+		builder.authority("loadData");
 
 		if (dataBundle != null) {
 			for (String key : dataBundle.keySet())
@@ -240,7 +240,6 @@ public class DeviceGatewayService extends Service {
 				builder.appendQueryParameter(key, dataBundle.getString(key));
 			}
 		}
-		builder.appendQueryParameter("healthActionType", "Equipment");
 		return builder;
 	}
 
