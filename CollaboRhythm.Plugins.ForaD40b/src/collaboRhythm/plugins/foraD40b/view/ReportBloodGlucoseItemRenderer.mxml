@@ -26,6 +26,7 @@
 
 		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
+		import mx.events.TouchInteractionEvent;
 
 		private var _reportBloodGlucoseItemData:ReportBloodGlucoseItemData;
 
@@ -51,10 +52,6 @@
 			}
 		}
 
-		private function creationCompleteHandler(event:FlexEvent):void
-		{
-		}
-
 		override protected function createChildren():void
 		{
 			super.createChildren();
@@ -75,11 +72,29 @@
 						_reportBloodGlucoseItemData.dataInputController);
 			}
 		}
+
+		private function reportScheduleAdherenceView_mouseDownHandler(event:MouseEvent):void
+		{
+			// prevent selection of the list item
+			event.preventDefault();
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			addEventListener(Event.SCROLL, scrollHandler, false, 0, true);
+			addEventListener(TouchInteractionEvent.TOUCH_INTERACTION_START, scrollHandler, false, 0, true);
+		}
+
+		private function scrollHandler(event:Event):void
+		{
+			reportScheduleAdherenceView.closeDropDown();
+		}
 		]]></fx:Script>
 	<s:HGroup horizontalAlign="center" gap="40" verticalAlign="baseline" horizontalCenter="0">
 		<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>
 		<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView"/>
 		<sharedView:ReportScheduleAdherenceView id="reportScheduleAdherenceView"
-												checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin"/>
+												checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin"
+												mouseDown="reportScheduleAdherenceView_mouseDownHandler(event)"/>
 	</s:HGroup>
 </s:ItemRenderer>

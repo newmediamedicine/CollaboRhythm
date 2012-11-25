@@ -32,7 +32,7 @@
 			fontSize: 40;
 		}
 
-		#reportDateMeasuredStartSpinner {
+		#dateMeasuredStartSpinner {
 			fontSize: 40;
 		}
 	</fx:Style>

@@ -18,7 +18,8 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
-				xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*">
+				xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
+		preinitialize="preinitializeHandler(event)">
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateFormatter"
 							 dateTimePattern="M-dd-yyyy"/>
@@ -40,10 +41,18 @@
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHistoryItemData;
 		import collaboRhythm.shared.model.healthRecord.Relationship;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
-		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+
+		import mx.events.FlexEvent;
+
+		import mx.events.SandboxMouseEvent;
+		import mx.events.TouchInteractionEvent;
+
+		import mx.managers.ISystemManager;
+
+		import spark.components.List;
 
 		override public function set data(value:Object):void
 		{
@@ -92,6 +101,24 @@
 
 			}
 		}
+
+		private function reportScheduleAdherenceView_mouseDownHandler(event:MouseEvent):void
+		{
+			// prevent selection of the list item
+			event.preventDefault();
+		}
+
+		private function preinitializeHandler(event:FlexEvent):void
+		{
+			addEventListener(Event.SCROLL, scrollHandler, false, 0, true);
+			addEventListener(TouchInteractionEvent.TOUCH_INTERACTION_START, scrollHandler, false, 0, true);
+		}
+
+		private function scrollHandler(event:Event):void
+		{
+			reportScheduleAdherenceView.closeDropDown();
+		}
+
 		]]></fx:Script>
 	<s:Group left="10" right="10" top="10" bottom="10">
 		<s:HGroup verticalCenter="0">
@@ -105,7 +132,9 @@
 				<s:Label id="timeMeasuredStartHistoryLabel"/>
 			</s:VGroup>
 			<sharedView:ReportScheduleAdherenceView id="reportScheduleAdherenceView"
-													checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin" click="event.stopImmediatePropagation()"/>
+													checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin"
+					mouseDown="reportScheduleAdherenceView_mouseDownHandler(event)"
+					/>
 		</s:HGroup>
 
 	</s:Group>
