@@ -132,7 +132,7 @@
 				<s:Label id="timeMeasuredStartHistoryLabel"/>
 			</s:VGroup>
 			<sharedView:ReportScheduleAdherenceView id="reportScheduleAdherenceView"
-													checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin"
+													checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin" editable="false"
 					mouseDown="reportScheduleAdherenceView_mouseDownHandler(event)"
 					/>
 		</s:HGroup>

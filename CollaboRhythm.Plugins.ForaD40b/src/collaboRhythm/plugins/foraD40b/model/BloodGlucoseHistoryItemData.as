@@ -47,5 +47,10 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			_dataInputController = value;
 		}
+
+		public function get dateMeasuredStart():Date
+		{
+			return _bloodGlucoseVitalSign ? _bloodGlucoseVitalSign.dateMeasuredStart : null;
+		}
 	}
 }

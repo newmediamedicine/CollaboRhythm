@@ -72,6 +72,8 @@
 		private var _dataInputController:IHealthActionInputController;
 		private var _currentDateSource:ICurrentDateSource;
 		private var _propertiesChanged:Boolean;
+		private var _editable:Boolean = true;
+
 		private static const USE_NONE_CHECK_BOX:Boolean = false;
 		private static const USE_SUMMARY_LABEL:Boolean = false;
 
@@ -234,6 +236,7 @@
 									checkBox.selected);
 							closeDropDown();
 						});
+						checkBox.enabled = editable;
 					}
 
 					newCalloutContent.unshift(checkBox);
@@ -306,6 +309,16 @@
 		private function calloutChangedHandler(event:Event):void
 		{
 			updateCallout();
+		}
+
+		public function get editable():Boolean
+		{
+			return _editable;
+		}
+
+		public function set editable(value:Boolean):void
+		{
+			_editable = value;
 		}
 		]]></fx:Script>
 </s:CalloutButton>

@@ -19,7 +19,6 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   resize="resizeHandler()"
-					   creationComplete="creationCompleteHandler()"
 					   title="Fora D40b Blood Glucose Meter History">
 	<fx:Style>
 		#foraLabel {
@@ -76,6 +75,13 @@
 				_bloodGlucoseArrayCollection.addItem(historyItemData);
 			}
 
+			var sort:Sort = new Sort();
+			sort.fields = [new SortField("dateMeasuredStart")];
+			sort.reverse();
+			_bloodGlucoseArrayCollection.sort = sort;
+			_bloodGlucoseArrayCollection.refresh();
+
+
 			BindingUtils.bindSetter(bloodGlucoseHistoryListScrollerPosition_changeHandler, _dataInputModel,
 					"bloodGlucoseHistoryListScrollerPosition");
 		}
@@ -107,18 +113,6 @@
 			else
 			{
 				hypoGlycemiaActionPlanSummaryGroup.width = width;
-			}
-		}
-
-		private function creationCompleteHandler():void
-		{
-			if (_bloodGlucoseArrayCollection)
-			{
-				var sort:Sort = new Sort();
-				sort.fields = [new SortField("dateMeasuredStart")];
-				sort.reverse();
-				_bloodGlucoseArrayCollection.sort = sort;
-				_bloodGlucoseArrayCollection.refresh();
 			}
 		}
 
