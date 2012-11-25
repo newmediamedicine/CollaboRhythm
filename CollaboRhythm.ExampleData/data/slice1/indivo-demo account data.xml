@@ -918,7 +918,9 @@
     <recordSeed/>
     
     <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId>
+    
     <shareRole>Coach</shareRole>
+    
   </AccountSource>
   
   <AccountSource>
@@ -994,7 +996,9 @@
     <recordSeed/>
     
     <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId>
+    
     <shareRole>Coach</shareRole>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1146,7 +1150,9 @@
     <recordSeed>1</recordSeed>
     
     <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId>
+    
     <shareRole>Coach</shareRole>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2373,7 +2379,7 @@
   
   <indivoServerBaseURL>https://indivo-demo.media.mit.edu:8000</indivoServerBaseURL>
   
-<AccountSource>
+  <AccountSource>
     
     <accountId>endometrioisis-jking@records.media.mit.edu</accountId>
     
@@ -2447,7 +2453,9 @@
     
     <recordSeed/>
     
-  <documentsDirectory>jking</documentsDirectory></AccountSource><AccountSource>
+    <documentsDirectory>jking</documentsDirectory>
+  </AccountSource>
+  <AccountSource>
     
     <accountId>endometrioisis-jgreen@records.media.mit.edu</accountId>
     
@@ -2523,7 +2531,10 @@
     
     <shareRole>Coach</shareRole>
     
-  <documentsDirectory>jgreen</documentsDirectory><notes>Endometrioisis HIV demo patient</notes></AccountSource><AccountSource>
+    <documentsDirectory>jgreen</documentsDirectory>
+    <notes>Endometrioisis HIV demo patient</notes>
+  </AccountSource>
+  <AccountSource>
     
     <accountId>endometrioisis-csantos@records.media.mit.edu</accountId>
     
@@ -2601,4 +2612,161 @@
     
     <shareRole>Coach</shareRole>
     
-  <documentsDirectory>csantos</documentsDirectory></AccountSource></dataroot>
+    <documentsDirectory>csantos</documentsDirectory>
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>gsk-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>gsk-jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>ac19163d-6ceb-453c-ba25-cf47e6d06094</recordId>
+    
+    <status>Demographics document created. Id: acdc72fe-2fa9-44b1-9a18-1aa26cd9362c</status>
+    
+    <accessKey>rDIMWgznIdj7dvTuluVC</accessKey>
+    
+    <accessSecret>zwmGvZTaCCTmWfTepKEb</accessSecret>
+    
+    <demographicsId>acdc72fe-2fa9-44b1-9a18-1aa26cd9362c</demographicsId>
+    
+    <notes>GSK demo physician</notes>
+    
+    <recordSeed/>
+    
+    <documentsDirectory>jking</documentsDirectory>
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>gsk-jgreen@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James Green</fullName>
+    
+    <username>gsk-jgreen</username>
+    
+    <password>jgreen-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>Green</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jgreen@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jgreen@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1961-08-05T00:00:00Z</dateOfBirth>
+    
+    <age>48</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>854b3c64-0514-4c2e-b9ff-86730889072f</recordId>
+    
+    <accessKey>NY9uMQqfsLUPPxiQBgNM</accessKey>
+    
+    <accessSecret>LPhZEqiD7gJ8jAeZNE27</accessSecret>
+    
+    <status>Created 165/165 documents, 161/162 relationships</status>
+    
+    <demographicsId>9ab7a5bc-7f2a-4445-a407-19c680ee7272</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>gsk-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>jgreen</documentsDirectory>
+    <notes>GSK HIV demo patient</notes>
+  </AccountSource>
+</dataroot>
