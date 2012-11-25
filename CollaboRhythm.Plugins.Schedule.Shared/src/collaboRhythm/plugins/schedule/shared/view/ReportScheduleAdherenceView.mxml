@@ -229,13 +229,7 @@
 							timeDeltaDescription = "within the adherence window";
 						}
 						checkBox.label += " (measured " + timeDeltaDescription + ")";
-
-						checkBox.addEventListener(Event.CHANGE, function (event:Event):void
-						{
-							_dataInputController.handleAdherenceChange(_dataInputModel, scheduleItemOccurrence,
-									checkBox.selected);
-							closeDropDown();
-						});
+						addCheckBoxChangeListener(checkBox, scheduleItemOccurrence);
 						checkBox.enabled = editable;
 					}
 
@@ -288,6 +282,7 @@
 			var checkBox:CheckBox = new CheckBox();
 			var checkBoxSkinClass:Class = getStyle("checkBoxSkin");
 			checkBox.setStyle("skinClass", checkBoxSkinClass ? checkBoxSkinClass : AdherenceCheckBoxSkin);
+			checkBox.percentWidth = 100;
 			return checkBox;
 		}
 
@@ -319,6 +314,17 @@
 		public function set editable(value:Boolean):void
 		{
 			_editable = value;
+		}
+
+		private function addCheckBoxChangeListener(checkBox:CheckBox,
+												   scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			checkBox.addEventListener(Event.CHANGE, function (event:Event):void
+			{
+				_dataInputController.handleAdherenceChange(_dataInputModel, scheduleItemOccurrence,
+						checkBox.selected);
+				closeDropDown();
+			});
 		}
 		]]></fx:Script>
 </s:CalloutButton>

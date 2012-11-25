@@ -619,14 +619,25 @@ package collaboRhythm.plugins.foraD40b.model
 		override public function getPossibleScheduleItemOccurrences():Vector.<ScheduleItemOccurrence>
 		{
 			return getMatchingScheduleItemOccurrencesInWindow(DateUtil.MILLISECONDS_IN_DAY / 2,
-					DateUtil.MILLISECONDS_IN_DAY / 2, false);
+					DateUtil.MILLISECONDS_IN_DAY / 2, false, true);
 		}
 
 		private function getMatchingScheduleItemOccurrencesInWindow(windowStartOffset:Number, windowEndOffset:Number,
-																	intersect:Boolean):Vector.<ScheduleItemOccurrence>
+																	intersect:Boolean, includeToday:Boolean = false):Vector.<ScheduleItemOccurrence>
 		{
-			var windowStart:Date = new Date(dateMeasuredStart.valueOf() - windowStartOffset);
-			var windowEnd:Date = new Date(dateMeasuredStart.valueOf() + windowEndOffset);
+			var measuredDayEnd:Number = DateUtil.roundTimeToNextDay(dateMeasuredStart).valueOf();
+			var windowStart:Date;
+			var windowEnd:Date;
+			if (includeToday)
+			{
+				windowStart = new Date(Math.min(dateMeasuredStart.valueOf() - windowStartOffset, measuredDayEnd - DateUtil.MILLISECONDS_IN_DAY));
+				windowEnd = new Date(Math.max(dateMeasuredStart.valueOf() + windowEndOffset, measuredDayEnd));
+			}
+			else
+			{
+				windowStart = new Date(dateMeasuredStart.valueOf() - windowStartOffset);
+				windowEnd = new Date(dateMeasuredStart.valueOf() + windowEndOffset);
+			}
 
 			var occurrences:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
 			for each (var schedule:HealthActionSchedule in

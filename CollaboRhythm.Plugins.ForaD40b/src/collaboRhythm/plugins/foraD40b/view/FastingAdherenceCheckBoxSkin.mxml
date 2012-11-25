@@ -29,8 +29,8 @@
 	        <s:SolidColor alpha="0" />
 	    </s:fill>
 	</s:Rect>
-	<s:HGroup verticalAlign="middle" paddingBottom="0" paddingTop="0" paddingLeft="0" paddingRight="0">
-		<s:VGroup id="labelGroup" includeInLayout="{hostComponent.label.length > 0}" visible="{hostComponent.label.length > 0}">
+	<s:HGroup verticalAlign="middle" paddingBottom="0" paddingTop="0" paddingLeft="0" paddingRight="0" width="100%">
+		<s:VGroup id="labelGroup" includeInLayout="{hostComponent.label.length > 0}" visible="{hostComponent.label.length > 0}" width="100%">
 			<s:HGroup verticalAlign="baseline">
 				<s:Label id="fastingLabel" text="Fasting Blood Glucose" fontSize="18" fontWeight="bold"/>
 				<!--<s:Label id="fastingLabel2" text="(first measurement of the day before eating)"/>-->
