@@ -43,7 +43,8 @@ public class DeviceGatewayService extends Service {
 	private static final String TAG = "CollaboRhythm.Android.DeviceGateway";
 	private static final String CLASS = "DeviceGatewayService";
 	private static final String BATCH_TRANSFER_URL_VARIABLE = "batchTransfer";
-
+	public static final String BATCH_TRANSFER_ACTION_BEGIN = "begin";
+	public static final String BATCH_TRANSFER_ACTION_END = "end";
 
 	private final static Logger log = LoggerFactory.getLogger();
 
@@ -244,11 +245,11 @@ public class DeviceGatewayService extends Service {
 	}
 
 	private void sendBeginToCollaboRhythm(Bundle data) {
-		sendBatchTransferMessageToCollaboRhythm(data, "begin");
+		sendBatchTransferMessageToCollaboRhythm(data, BATCH_TRANSFER_ACTION_BEGIN);
 	}
 
 	private void sendEndToCollaboRhythm(Bundle data) {
-		sendBatchTransferMessageToCollaboRhythm(data, "end");
+		sendBatchTransferMessageToCollaboRhythm(data, BATCH_TRANSFER_ACTION_END);
 	}
 
 	private void sendBatchTransferMessageToCollaboRhythm(Bundle data, String batchTransfer) {

@@ -9,6 +9,8 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
 	import collaboRhythm.plugins.foraD40b.view.HypoglycemiaActionPlanSummaryView;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
@@ -42,7 +44,7 @@ package collaboRhythm.plugins.foraD40b.controller
 	public class BloodGlucoseHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private static const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = BloodGlucoseHealthActionInputView;
-		public static const BATCH_TRANSFER_URL_VARIABLE:String = "batchTransfer";
+		public static const BATCH_TRANSFER_PROCESS_KEY:String = "BloodGlucoseHealthActionInputController_BeginBatchTransfer";
 
 		private var _dataInputModelCollection:BloodGlucoseHealthActionInputModelCollection;
 		private var _viewNavigator:ViewNavigator;
@@ -90,19 +92,17 @@ package collaboRhythm.plugins.foraD40b.controller
 			_dataInputModelCollection.handleHealthActionSelected();
 		}
 
-		public static const BATCH_TRANSFER_PROCESS_KEY:String = "BloodGlucoseHealthActionInputController_BeginBatchTransfer";
-
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 			addCollaborationViewSynchronizationEventListener();
 
 			var batchTransferAction:String = urlVariables[BATCH_TRANSFER_URL_VARIABLE];
-			if (batchTransferAction == "begin")
+			if (batchTransferAction == HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN)
 			{
 				_duplicateDetected = false;
 				backgroundProcessModel.updateProcess(BATCH_TRANSFER_PROCESS_KEY, "Transferring data from " + ForaD40bHealthActionInputControllerFactory.EQUIPMENT_NAME + "...", true);
 			}
-			else if (batchTransferAction == "end")
+			else if (batchTransferAction == HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END)
 			{
 				_duplicateDetected = false;
 				backgroundProcessModel.updateProcess(BATCH_TRANSFER_PROCESS_KEY, null, false);

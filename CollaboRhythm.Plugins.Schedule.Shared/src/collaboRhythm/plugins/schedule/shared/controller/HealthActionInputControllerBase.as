@@ -5,6 +5,10 @@ package collaboRhythm.plugins.schedule.shared.controller
 
 	public class HealthActionInputControllerBase
 	{
+		public static const BATCH_TRANSFER_URL_VARIABLE:String = "batchTransfer";
+		public static const BATCH_TRANSFER_ACTION_END:String = "end";
+		public static const BATCH_TRANSFER_ACTION_BEGIN:String = "begin";
+
 		public function HealthActionInputControllerBase()
 		{
 		}

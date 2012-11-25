@@ -29,6 +29,7 @@
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
 		import collaboRhythm.plugins.foraD40b.model.ReportBloodGlucoseItemData;
+		import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 		import collaboRhythm.shared.model.DateUtil;
@@ -242,14 +243,14 @@
 
 		private function simulateDeviceBatchTransferBegin():void
 		{
-			simulateDeviceBatchTransfer("begin", "Blood Glucose");
-			simulateDeviceBatchTransfer("begin", "Blood Pressure");
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN, "Blood Glucose");
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN, "Blood Pressure");
 		}
 
 		private function simulateDeviceBatchTransferEnd():void
 		{
-			simulateDeviceBatchTransfer("end", "Blood Glucose");
-			simulateDeviceBatchTransfer("end", "Blood Pressure");
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END, "Blood Glucose");
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END, "Blood Pressure");
 		}
 
 		private function simulateDeviceBatchTransfer(batchTransfer:String, healthActionName:String):void
@@ -257,7 +258,8 @@
 			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
 					["collaborhythm://healthActionType=Equipment&healthActionName=" + healthActionName +
 							"&equipmentName=FORA D40b&success=true&" +
-							BloodGlucoseHealthActionInputController.BATCH_TRANSFER_URL_VARIABLE + "=" +
+							HealthActionInputControllerBase.BATCH_TRANSFER_URL_VARIABLE +
+							"=" +
 							batchTransfer]));
 		}
 		]]></fx:Script>
