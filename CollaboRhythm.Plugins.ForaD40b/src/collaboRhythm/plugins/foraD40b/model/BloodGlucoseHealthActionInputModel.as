@@ -58,6 +58,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _deviceBloodGlucose:String = "";
 		private var _bloodGlucoseVitalSign:VitalSign;
 
+		private var _actionsListScrollerPosition:Number;
 		private var _invalidBloodGlucose:Boolean = false;
 		private var _glycemicState:String;
 
@@ -438,6 +439,20 @@ package collaboRhythm.plugins.foraD40b.model
 			_deviceBloodGlucose = value;
 		}
 
+		public function synchronizeActionsListScrollerPosition(verticalScrollPosition:Number):void
+		{
+			actionsListScrollerPosition = verticalScrollPosition;
+		}
+
+		public function get actionsListScrollerPosition():Number
+		{
+			return _actionsListScrollerPosition;
+		}
+
+		public function set actionsListScrollerPosition(value:Number):void
+		{
+			_actionsListScrollerPosition = value;
+		}
 		public function get glycemicState():String
 		{
 			return _glycemicState;

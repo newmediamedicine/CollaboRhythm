@@ -296,7 +296,8 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private function pushView(currentView:Class):void
 		{
-			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(_dataInputModelCollection,
+			var healthActionInputModelAndController:HealthActionInputModelAndController = new HealthActionInputModelAndController(currentView ==
+					BloodGlucoseHealthActionInputView ? _dataInputModelCollection : _dataInputModelCollection.firstInputModel,
 					this);
 			_viewNavigator.pushView(currentView, healthActionInputModelAndController, null, new SlideViewTransition());
 		}
@@ -364,7 +365,7 @@ package collaboRhythm.plugins.foraD40b.controller
 			}
 
 			_viewNavigator.pushView(HypoglycemiaActionPlanSummaryView,
-					[bloodGlucoseVitalSignDate, this, _dataInputModelCollection]);
+					[bloodGlucoseVitalSignDate, this, _dataInputModelCollection.firstInputModel]);
 		}
 
 		public function addWaitHealthAction(seconds:int):void

@@ -94,7 +94,7 @@
 				var bloodGlucoseHealthActionInputModel:BloodGlucoseHealthActionInputModel = new BloodGlucoseHealthActionInputModel(scheduleItemOccurrence,
 						bloodGlucoseHistoryItemData.dataInputModel.healthActionModelDetailsProvider,
 						bloodGlucoseHistoryItemData.dataInputModel.scheduleCollectionsProvider,
-						bloodGlucoseHistoryItemData.dataInputModel);
+						bloodGlucoseHistoryItemData.dataInputModel.bloodGlucoseHealthActionInputModelCollection);
 				bloodGlucoseHealthActionInputModel.dateMeasuredStart = bloodGlucoseVitalSign.dateMeasuredStart;
 				reportScheduleAdherenceView.init(bloodGlucoseHealthActionInputModel,
 						bloodGlucoseHistoryItemData.dataInputController);

@@ -16,7 +16,6 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _reportBloodGlucoseItemDataCollection:ArrayCollection;
 		private var _currentView:Class;
 		private var _pushedViewCount:int = 0;
-		private var _actionsListScrollerPosition:Number;
 
 		public function BloodGlucoseHealthActionInputModelCollection(scheduleItemOccurrence:ScheduleItemOccurrence,
 																	 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -148,21 +147,6 @@ package collaboRhythm.plugins.foraD40b.model
 			firstInputModel.addWaitHealthAction(seconds);
 		}
 
-		public function setBloodGlucoseHistoryListScrollerPosition(scrollPosition:Number):void
-		{
-			firstInputModel.setBloodGlucoseHistoryListScrollerPosition(scrollPosition);
-		}
-
-		public function get bloodGlucoseHistoryListScrollerPosition():Number
-		{
-			return firstInputModel.bloodGlucoseHistoryListScrollerPosition;
-		}
-
-		public function set bloodGlucoseHistoryListScrollerPosition(value:Number):void
-		{
-			firstInputModel.bloodGlucoseHistoryListScrollerPosition = value;
-		}
-
 		public function simpleCarbsItemList_changeHandler(selectedIndex:int):void
 		{
 			firstInputModel.simpleCarbsItemList_changeHandler(selectedIndex);
@@ -185,18 +169,12 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function synchronizeActionsListScrollerPosition(verticalScrollPosition:Number):void
 		{
-			actionsListScrollerPosition = verticalScrollPosition;
+			firstInputModel.actionsListScrollerPosition = verticalScrollPosition;
 		}
 
-		public function get actionsListScrollerPosition():Number
+		public function setBloodGlucoseHistoryListScrollerPosition(scrollPosition:Number):void
 		{
-			return _actionsListScrollerPosition;
+			firstInputModel.setBloodGlucoseHistoryListScrollerPosition(scrollPosition);
 		}
-
-		public function set actionsListScrollerPosition(value:Number):void
-		{
-			_actionsListScrollerPosition = value;
-		}
-
 	}
 }

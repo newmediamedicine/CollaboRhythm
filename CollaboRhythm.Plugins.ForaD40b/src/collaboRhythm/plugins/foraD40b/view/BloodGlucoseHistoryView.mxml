@@ -52,7 +52,7 @@
 		import spark.collections.Sort;
 		import spark.collections.SortField;
 
-		private var _dataInputModel:BloodGlucoseHealthActionInputModelCollection;
+		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
 		private var _dataInputController:BloodGlucoseHealthActionInputController;
 		[Bindable]
 		private var _bloodGlucoseArrayCollection:ArrayCollection;
@@ -65,7 +65,7 @@
 			var dataInputModelAndController:HealthActionInputModelAndController = value as
 					HealthActionInputModelAndController;
 
-			_dataInputModel = BloodGlucoseHealthActionInputModelCollection(dataInputModelAndController.healthActionInputModel);
+			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
 			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
 
 			_bloodGlucoseArrayCollection = new ArrayCollection();
