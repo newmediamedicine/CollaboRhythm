@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationModel;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleCreator;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CodedValueFactory;
 	import collaboRhythm.shared.model.RecurrenceRule;
@@ -29,8 +30,6 @@ package collaboRhythm.plugins.medications.model
 		private static const RXCUI_CODED_VALUE_TYPE:String = "http://rxnav.nlm.nih.gov/REST/rxcui/";
 		private static const PRESCRIBED_ORDER_TYPE:String = "prescribed";
 		private static const DEFAULT_RECURRENCE_COUNT:int = 120;
-		private static const DEFAULT_START_TIME:int = 8;
-		private static const DEFAULT_ADHERENCE_WINDOW:int = 4;
 		private static const DEFAULT_DOSE:String = "1";
 
 		private var _activeAccount:Account;
@@ -160,23 +159,15 @@ package collaboRhythm.plugins.medications.model
 
 		private function createMedicationScheduleItems(medicationOrder:MedicationOrder):void
 		{
+			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord, _activeAccount.accountId, _currentDateSource);
+
 			for (var administrationPerDay:int = 0; administrationPerDay <= frequency; administrationPerDay++)
 			{
 				var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
 				medicationScheduleItem.meta.id = UIDUtil.createUID();
 				medicationScheduleItem.name = medicationOrder.name;
-				medicationScheduleItem.scheduledBy = _activeAccount.accountId;
-				medicationScheduleItem.dateScheduled = _currentDateSource.now();
-				medicationScheduleItem.dateStart = new Date(_currentDateSource.now().fullYear,
-						_currentDateSource.now().month, _currentDateSource.now().date, DEFAULT_START_TIME, 0, 0);
-				medicationScheduleItem.dateEnd = new Date(_currentDateSource.now().fullYear,
-						_currentDateSource.now().month,
-						_currentDateSource.now().date, DEFAULT_START_TIME + DEFAULT_ADHERENCE_WINDOW, 0, 0);
-				var recurrenceRule:RecurrenceRule = new RecurrenceRule();
-				recurrenceRule.frequency = new CodedValue(null, null, null, ScheduleItemBase.DAILY);
-				//TODO:
-				recurrenceRule.count = DEFAULT_RECURRENCE_COUNT;
-				medicationScheduleItem.recurrenceRule = recurrenceRule;
+				scheduleCreator.initializeDefaultSchedule(medicationScheduleItem);
+
 				if (!dose)
 				{
 					dose = DEFAULT_DOSE;

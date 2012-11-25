@@ -19,9 +19,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import castle.flexbridge.reflection.ReflectionUtils;
 
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportChartModifierFactory;
+	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportHealthActionCreationControllerFactory;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportHealthActionListViewAdapterFactory;
 	import collaboRhythm.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
@@ -58,6 +60,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IInsulinTitrationDecisionSupportStatesFileStore).name,
 					IInsulinTitrationDecisionSupportStatesFileStore,
 					new InsulinTitrationDecisionSupportStatesFileStore());
+
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportHealthActionCreationControllerFactory).name,
+					IHealthActionCreationControllerFactory,
+					new InsulinTitrationSupportHealthActionCreationControllerFactory());
 		}
 	}
 }
