@@ -276,6 +276,8 @@
 				 textAlign="right"
 				 includeIn="review,reportDevice"/>
 		<s:Label id="unitsLabel" text="mg/dL" verticalCenter="2" styleName="unitsText"/>
-		<s:Label id="debugLabel" text="{_dataInputModel.urlVariables.debug}" includeInLayout="{!StringUtils.isEmpty(_dataInputModel.urlVariables.debug)}" />
+<!--
+		<s:Label id="dataSourceInfoLabel" text="{_dataInputModel.urlVariables.dataSourceInfo}" includeInLayout="{!StringUtils.isEmpty(_dataInputModel.urlVariables.dataSourceInfo)}" />
+-->
 	</s:HGroup>
 </s:HGroup>
