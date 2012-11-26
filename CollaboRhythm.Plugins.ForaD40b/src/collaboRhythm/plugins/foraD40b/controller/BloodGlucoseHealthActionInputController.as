@@ -506,5 +506,21 @@ package collaboRhythm.plugins.foraD40b.controller
 				}
 			}
 		}
+
+		public function setReportBloodGlucoseListScrollPosition(value:Number):void
+		{
+			if (_synchronizationService.synchronize("setReportBloodGlucoseListScrollPosition",
+					value, false))
+			{
+				return;
+			}
+
+			_dataInputModelCollection.reportBloodGlucoseListScrollPosition = value;
+		}
+
+		override public function get isReview():Boolean
+		{
+			return _dataInputModelCollection && _dataInputModelCollection.isReview;
+		}
 	}
 }

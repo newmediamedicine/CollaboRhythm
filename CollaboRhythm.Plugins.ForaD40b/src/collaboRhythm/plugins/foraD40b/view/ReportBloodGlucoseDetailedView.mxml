@@ -29,6 +29,8 @@
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduledHealthActionDetailViewEvent;
 
+		import mx.binding.utils.BindingUtils;
+
 		import mx.events.ResizeEvent;
 
 		[Bindable]
@@ -47,6 +49,24 @@
 					dataInputModel.healthActionModelDetailsProvider));
 			scheduledHealthActionDetailView.addEventListener(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO,
 					playVideoEventHandler);
+
+			BindingUtils.bindSetter(reportBloodGlucoseList_viewport_verticalScrollPositionSetterHandler,
+					reportBloodGlucoseList.scroller.viewport, "verticalScrollPosition");
+			BindingUtils.bindSetter(dataInputModel_reportBloodGlucoseListScrollPositionSetterHandler, _dataInputModel,
+					"reportBloodGlucoseListScrollPosition");
+		}
+
+		private function dataInputModel_reportBloodGlucoseListScrollPositionSetterHandler(value:Number):void
+		{
+			if (!isNaN(value) && reportBloodGlucoseList && reportBloodGlucoseList.scroller && reportBloodGlucoseList.scroller.viewport)
+			{
+				reportBloodGlucoseList.scroller.viewport.verticalScrollPosition = value;
+			}
+		}
+
+		private function reportBloodGlucoseList_viewport_verticalScrollPositionSetterHandler(value:Number):void
+		{
+			_dataInputController.setReportBloodGlucoseListScrollPosition(value);
 		}
 
 		private function playVideoEventHandler(event:ScheduledHealthActionDetailViewEvent):void
@@ -57,11 +77,6 @@
 		private function showHistoryButton_clickHandler():void
 		{
 			_dataInputController.showBloodGlucoseHistoryView();
-		}
-
-		private function reportBloodGlucoseDataGroup_resizeHandler(event:ResizeEvent):void
-		{
-//			trace("reportBloodGlucoseDataGroup_resizeHandler event.oldHeight, oldWidth " + event.oldHeight + ", " + event.oldWidth + " height, width " + reportBloodGlucoseDataGroup.height + ", " + reportBloodGlucoseDataGroup.width);
 		}
 		]]></fx:Script>
 	<s:Group width="100%" height="140">
@@ -94,7 +109,7 @@
 			 includeInLayout="{_dataInputModel.reportBloodGlucoseItemDataCollection.length == 1}"
 			 visible="{_dataInputModel.reportBloodGlucoseItemDataCollection.length == 1}"
 			>
-		<s:DataGroup id="reportBloodGlucoseDataGroup" width="100%" verticalCenter="0" resize="reportBloodGlucoseDataGroup_resizeHandler(event)"
+		<s:DataGroup id="reportBloodGlucoseDataGroup" width="100%" verticalCenter="0"
 					 dataProvider="{_dataInputModel.reportBloodGlucoseItemDataCollection.length == 1 ? _dataInputModel.reportBloodGlucoseItemDataCollection : null}"
 					 itemRenderer="collaboRhythm.plugins.foraD40b.view.ReportBloodGlucoseItemRenderer"
 					 contentBackgroundAlpha="0"

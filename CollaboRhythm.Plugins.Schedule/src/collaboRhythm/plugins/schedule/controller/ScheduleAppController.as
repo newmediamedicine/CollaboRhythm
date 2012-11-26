@@ -197,26 +197,18 @@ package collaboRhythm.plugins.schedule.controller
 			var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
 					scheduleModel, scheduleModel, _viewNavigator);
 
-			if (_viewNavigator.activeView as IHealthActionInputView)
+			var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
+					IHealthActionInputView;
+			if (healthActionInputView && ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
+					ReflectionUtils.getClass(healthActionInputController) && !healthActionInputView.healthActionInputController.isReview)
 			{
-				var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
-						IHealthActionInputView;
-				if (ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
-						ReflectionUtils.getClass(healthActionInputController))
-				{
-					healthActionInputView.healthActionInputController.handleUrlVariables(urlVariables);
-					_activeHealthActionInputController = healthActionInputView.healthActionInputController;
-				}
-				else if (_activeHealthActionInputController && ReflectionUtils.getClass(_activeHealthActionInputController) ==
-										ReflectionUtils.getClass(healthActionInputController))
-				{
-					_activeHealthActionInputController.handleUrlVariables(urlVariables);
-				}
-				else
-				{
-					healthActionInputController.handleUrlVariables(urlVariables);
-					_activeHealthActionInputController = healthActionInputController;
-				}
+				healthActionInputView.healthActionInputController.handleUrlVariables(urlVariables);
+				_activeHealthActionInputController = healthActionInputView.healthActionInputController;
+			}
+			else if (_activeHealthActionInputController && ReflectionUtils.getClass(_activeHealthActionInputController) ==
+									ReflectionUtils.getClass(healthActionInputController) && !_activeHealthActionInputController.isReview)
+			{
+				_activeHealthActionInputController.handleUrlVariables(urlVariables);
 			}
 			else
 			{

@@ -17,5 +17,10 @@ package collaboRhythm.plugins.schedule.shared.controller
 									   scheduleItemOccurrence:ScheduleItemOccurrence, selected:Boolean):void
 		{
 		}
+
+		public function get isReview():Boolean
+		{
+			return false;
+		}
 	}
 }

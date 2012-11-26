@@ -16,6 +16,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _reportBloodGlucoseItemDataCollection:ArrayCollection;
 		private var _currentView:Class;
 		private var _pushedViewCount:int = 0;
+		private var _reportBloodGlucoseListScrollPosition:Number;
 
 		public function BloodGlucoseHealthActionInputModelCollection(scheduleItemOccurrence:ScheduleItemOccurrence,
 																	 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -167,6 +168,11 @@ package collaboRhythm.plugins.foraD40b.model
 			return false;
 		}
 
+		public function get isReview():Boolean
+		{
+			return scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem;
+		}
+
 		public function synchronizeActionsListScrollerPosition(verticalScrollPosition:Number):void
 		{
 			firstInputModel.actionsListScrollerPosition = verticalScrollPosition;
@@ -175,6 +181,16 @@ package collaboRhythm.plugins.foraD40b.model
 		public function setBloodGlucoseHistoryListScrollerPosition(scrollPosition:Number):void
 		{
 			firstInputModel.setBloodGlucoseHistoryListScrollerPosition(scrollPosition);
+		}
+
+		public function get reportBloodGlucoseListScrollPosition():Number
+		{
+			return _reportBloodGlucoseListScrollPosition;
+		}
+
+		public function set reportBloodGlucoseListScrollPosition(value:Number):void
+		{
+			_reportBloodGlucoseListScrollPosition = value;
 		}
 	}
 }

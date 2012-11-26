@@ -64,7 +64,7 @@
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
+			if (_dataInputModel.isReview)
 			{
 				title = "Review Blood Glucose Measurement - Scheduled (" +
 						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateStart) + " to " +

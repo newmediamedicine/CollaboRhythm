@@ -42,5 +42,10 @@ package collaboRhythm.plugins.schedule.shared.model
 
 		function handleAdherenceChange(dataInputModel:IHealthActionInputModel,
 									   scheduleItemOccurrence:ScheduleItemOccurrence, selected:Boolean):void;
+
+		/**
+		 * Returns true if an existing health action is being reviewed (in read-only mode).
+		 */
+		function get isReview():Boolean;
 	}
 }
