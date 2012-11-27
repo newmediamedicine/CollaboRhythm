@@ -829,17 +829,17 @@
     
     <recordId>fbb7a4f9-910e-4a91-be48-75dd3746431b</recordId>
     
-    <accessKey>b5BizjaV4iZFLdL2eSao</accessKey>
+    <accessKey>VDq0l0kETv0BJYZm5gvz</accessKey>
     
-    <accessSecret>PW2WmuwSoRbME0Dmpr0d</accessSecret>
+    <accessSecret>SORavezutDPxHxLFMVXh</accessSecret>
     
-    <status>Created 165/165 documents, 161/162 relationships</status>
+    <status>Record shared.</status>
     
     <demographicsId>19be9de3-5ae1-42b3-8e15-46db2f96c0d8</demographicsId>
     
     <recordSeed>1</recordSeed>
     
-    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    <shareAccountId>jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
     
     <shareRole>Coach</shareRole>
     
@@ -1433,11 +1433,11 @@
     
     <recordId>e68fc95f-6b22-4e58-b6bf-5254749ad714</recordId>
     
-    <accessKey>QcLYVRf9nbqOpLFzV8v1</accessKey>
+    <accessKey>jAksrBRuc67iScVG0eDM</accessKey>
     
-    <accessSecret>JUfp5ljmI30NkWPGHb57</accessSecret>
+    <accessSecret>vYOJcnijjIk63vZ99K8F</accessSecret>
     
-    <status>Created 225/225 documents, 219/220 relationships</status>
+    <status>Record shared.</status>
     
     <demographicsId>35f7ae1d-39eb-44c2-a060-8f9389ca0b24</demographicsId>
     
@@ -1445,7 +1445,7 @@
     
     <notes>Demo for diabetes</notes>
     
-    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    <shareAccountId>jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
     
     <shareRole>Coach</shareRole>
     
@@ -1741,9 +1741,9 @@
     
     <recordId>8dfaf480-af83-4182-acb4-fca795957e1c</recordId>
     
-    <accessKey>mC1bEdTS3Ti945clTR0u</accessKey>
+    <accessKey>P942J8UtlI7Cu5lJcHro</accessKey>
     
-    <accessSecret>IRuF0j3VytnrERdcO0ty</accessSecret>
+    <accessSecret>TIBCT3gU7nqsAwRjUUuZ</accessSecret>
     
     <status>Created 334/334 documents, 329/330 relationships</status>
     
@@ -1753,7 +1753,7 @@
     
     <notes>Primary demo account with diabetes data</notes>
     
-    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    <shareAccountId>jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
     
     <shareRole>Coach</shareRole>
     
@@ -2769,4 +2769,154 @@
     <documentsDirectory>jgreen</documentsDirectory>
     <notes>GSK HIV demo patient</notes>
   </AccountSource>
-</dataroot>
+<AccountSource>
+    
+    <accountId>sgilroy-simple@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Scott Gilroy</fullName>
+    
+    <username>sgilroy-simple</username>
+    
+    <password>sgilroy-dope75</password>
+    
+    <givenName>Scott</givenName>
+    
+    <familyName>Gilroy</familyName>
+    
+    <streetAddress>1811 Amherst St</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>sgilroy@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>sgilroy@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1978-04-28T00:00:00Z</dateOfBirth>
+    
+    <age>34</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Tourism</employmentIndustry>
+    
+    <occupation>Circus Instructor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>4384af9b-46be-48d3-a2c6-1265a1055a1f</recordId>
+    
+    <accessKey>Nfenhy5GC1f6DZDSrtdA</accessKey>
+    
+    <accessSecret>fVIusYMYRQjTdoqonyHx</accessSecret>
+    
+    <status>Record shared.</status>
+    
+    <demographicsId>3a4dfee4-39df-4d8c-a9bb-f480aed97d2d</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>akiel@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <documentsDirectory>mbrooks</documentsDirectory><notes>Demo patient for CollaboRhythm video Nov 2012</notes></AccountSource><AccountSource>
+    
+    <accountId>akiel@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Sue Ghiloni</fullName>
+    
+    <username>akiel</username>
+    
+    <password>akiel-dope75</password>
+    
+    <givenName>Amanda</givenName>
+    
+    <familyName>Kiel</familyName>
+    
+    <streetAddress>366 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>sghiloni@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>sghiloni@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-05-27T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Certified Diabetes Educator</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>5734d145-c2f7-47b6-a43e-188254d18c42</recordId>
+    
+    <status>Demographics document created. Id: 87905d66-ebbe-459c-ae12-28030d8bead6</status>
+    
+    <accessKey>Pltty0QZ3B7uQf0kUBER</accessKey>
+    
+    <accessSecret>IWz9e28TC4Wws76J1yvg</accessSecret>
+    
+    <demographicsId>87905d66-ebbe-459c-ae12-28030d8bead6</demographicsId>
+    
+    <notes>Demo health coach for CollaboRhythm video Nov 2012</notes>
+    
+    <recordSeed/>
+    
+  </AccountSource></dataroot>
