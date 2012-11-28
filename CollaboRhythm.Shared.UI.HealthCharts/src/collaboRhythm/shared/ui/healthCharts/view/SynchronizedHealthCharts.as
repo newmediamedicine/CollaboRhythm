@@ -15,6 +15,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.StringUtils;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
@@ -1310,8 +1311,31 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
 					true);
+			chart.addEventListener(ChartItemEvent.ITEM_CLICK, vitalSignChart_itemClickHandler, false, 0, true);
 
 			return chart;
+		}
+
+		private function vitalSignChart_itemClickHandler(event:ChartItemEvent):void
+		{
+			if (event.ctrlKey)
+			{
+				var vitalSign:VitalSign = event.hitData.item as VitalSign;
+
+				if (vitalSign == null)
+				{
+					if (event.hitData.item && event.hitData.item.hasOwnProperty("vitalSign"))
+					{
+						vitalSign = event.hitData.item["vitalSign"] as VitalSign;
+					}
+				}
+
+				if (vitalSign)
+				{
+					_model.record.removeDocument(vitalSign, true, false, DocumentBase.ACTION_VOID, "debugging");
+					_model.record.saveChanges(new ArrayCollection([vitalSign]));
+				}
+			}
 		}
 
 		private function setVitalSignChartStyles(chart:TouchScrollingScrubChart, vitalSignKey:String):void
