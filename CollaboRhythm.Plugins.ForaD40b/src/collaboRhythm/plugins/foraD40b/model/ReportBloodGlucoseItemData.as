@@ -2,6 +2,7 @@ package collaboRhythm.plugins.foraD40b.model
 {
 	import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 
+	[Bindable]
 	public class ReportBloodGlucoseItemData
 	{
 		private var _dataInputModel:BloodGlucoseHealthActionInputModel;

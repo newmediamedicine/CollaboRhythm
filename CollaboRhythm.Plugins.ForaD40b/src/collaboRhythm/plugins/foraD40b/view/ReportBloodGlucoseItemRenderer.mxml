@@ -28,6 +28,7 @@
 		import mx.events.FlexEvent;
 		import mx.events.TouchInteractionEvent;
 
+		[Bindable]
 		private var _reportBloodGlucoseItemData:ReportBloodGlucoseItemData;
 
 		override public function set data(value:Object):void
@@ -90,11 +91,25 @@
 			reportScheduleAdherenceView.closeDropDown();
 		}
 		]]></fx:Script>
-	<s:HGroup horizontalAlign="center" gap="40" verticalAlign="baseline" horizontalCenter="0">
-		<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>
-		<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView"/>
-		<sharedView:ReportScheduleAdherenceView id="reportScheduleAdherenceView"
-												checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin"
-												mouseDown="reportScheduleAdherenceView_mouseDownHandler(event)"/>
-	</s:HGroup>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.reportMeasurementDuplicateWarning {
+			fontSize: 40;
+		}
+
+	</fx:Style>
+	<s:VGroup horizontalAlign="center" horizontalCenter="0">
+		<s:HGroup horizontalAlign="center" gap="40" verticalAlign="baseline" horizontalCenter="0">
+			<view:ReportBloodGlucoseView id="reportBloodGlucoseView"/>
+			<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView"/>
+			<sharedView:ReportScheduleAdherenceView id="reportScheduleAdherenceView"
+													checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin"
+													mouseDown="reportScheduleAdherenceView_mouseDownHandler(event)"
+													editable="{!_reportBloodGlucoseItemData.dataInputModel.isDuplicate}"
+					/>
+		</s:HGroup>
+		<s:Label id="duplicateWarningLabel" styleName="reportMeasurementDuplicateWarning" text="Measurement has already been saved (duplicate)." visible="{_reportBloodGlucoseItemData.dataInputModel.isDuplicate}" includeInLayout="{_reportBloodGlucoseItemData.dataInputModel.isDuplicate}"/>
+	</s:VGroup>
+
 </s:ItemRenderer>

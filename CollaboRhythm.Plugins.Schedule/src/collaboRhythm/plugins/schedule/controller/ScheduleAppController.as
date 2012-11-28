@@ -200,13 +200,13 @@ package collaboRhythm.plugins.schedule.controller
 			var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
 					IHealthActionInputView;
 			if (healthActionInputView && ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
-					ReflectionUtils.getClass(healthActionInputController) && !healthActionInputView.healthActionInputController.isReview)
+					ReflectionUtils.getClass(healthActionInputController))
 			{
 				healthActionInputView.healthActionInputController.handleUrlVariables(urlVariables);
 				_activeHealthActionInputController = healthActionInputView.healthActionInputController;
 			}
 			else if (_activeHealthActionInputController && ReflectionUtils.getClass(_activeHealthActionInputController) ==
-									ReflectionUtils.getClass(healthActionInputController) && !_activeHealthActionInputController.isReview)
+									ReflectionUtils.getClass(healthActionInputController))
 			{
 				_activeHealthActionInputController.handleUrlVariables(urlVariables);
 			}

@@ -75,6 +75,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _complexCarbs30gItemListSelectedIndex:int = -1;
 		private var _dateMeasuredStart:Date;
 		private var _bloodGlucoseHealthActionInputModelCollection:BloodGlucoseHealthActionInputModelCollection;
+		private var _isDuplicate:Boolean;
 
 		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence,
 														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -101,6 +102,13 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			_logger.debug("handleUrlVariables " + urlVariables.toString());
 
+			if (_bloodGlucoseHealthActionInputModelCollection.isReview)
+			{
+				scheduleItemOccurrence = null;
+				_bloodGlucoseHealthActionInputModelCollection.scheduleItemOccurrence = null;
+				setCurrentView(null);
+			}
+
 			manualBloodGlucose = "";
 			deviceBloodGlucose = urlVariables.bloodGlucose;
 			dateMeasuredStart = DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate);
@@ -114,13 +122,23 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 			else
 			{
-				if (currentView != Step3HypoglycemiaActionPlanView)
-				{
-					setCurrentView(Step3HypoglycemiaActionPlanView);
-				}
+				showStep3();
 			}
 
 			this.urlVariables = urlVariables;
+		}
+
+		private function showStep3():void
+		{
+			// We must clear these fields because this model class might get reused during the hypoglycemia action plan
+			// TODO: only clear these fields when needed or use a new instance of the BloodGlucoseHealthActionModel so that the view doesn't update during a transition away after save
+			_bloodGlucoseHealthActionInputModelCollection.clearMeasurements();
+
+			currentStep = 3;
+			if (currentView != Step3HypoglycemiaActionPlanView)
+			{
+				setCurrentView(Step3HypoglycemiaActionPlanView);
+			}
 		}
 
 		public function get currentView():Class
@@ -159,7 +177,7 @@ package collaboRhythm.plugins.foraD40b.model
 			{
 				currentStep = 3;
 				timer.stop();
-				setCurrentView(Step3HypoglycemiaActionPlanView);
+				showStep3();
 			}
 			else if (currentView == Step4HypoglycemiaActionPlanView)
 			{
@@ -243,10 +261,6 @@ package collaboRhythm.plugins.foraD40b.model
 					setCurrentView(null);
 				}
 			}
-
-			manualBloodGlucose = "";
-			deviceBloodGlucose = "";
-			dateMeasuredStart = _currentDateSource.now();
 		}
 
 		private function evaluateGlycemicState(bloodGlucoseVitalSign:VitalSign):void
@@ -682,6 +696,16 @@ package collaboRhythm.plugins.foraD40b.model
 				}
 			}
 			return null;
+		}
+
+		public function set isDuplicate(isDuplicate:Boolean):void
+		{
+			_isDuplicate = isDuplicate;
+		}
+
+		public function get isDuplicate():Boolean
+		{
+			return _isDuplicate;
 		}
 	}
 }

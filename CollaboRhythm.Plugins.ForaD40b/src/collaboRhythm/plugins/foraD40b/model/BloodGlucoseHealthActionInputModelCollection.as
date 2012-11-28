@@ -192,5 +192,17 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			_reportBloodGlucoseListScrollPosition = value;
 		}
+
+		public function clearMeasurements():void
+		{
+			manualBloodGlucose = "";
+			deviceBloodGlucose = "";
+			dateMeasuredStart = _currentDateSource.now();
+
+			while (reportBloodGlucoseItemDataCollection.length > 1)
+			{
+				reportBloodGlucoseItemDataCollection.removeItemAt(1);
+			}
+		}
 	}
 }

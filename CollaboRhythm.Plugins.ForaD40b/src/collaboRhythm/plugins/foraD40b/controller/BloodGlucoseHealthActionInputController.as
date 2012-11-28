@@ -54,8 +54,8 @@ package collaboRhythm.plugins.foraD40b.controller
 		protected var _logger:ILogger;
 		protected var _backgroundProcessModel:BackgroundProcessCollectionModel;
 
-		private var _stopIfOutOfOrder:Boolean = false;
-		private var _shouldDetectDuplicates:Boolean = false;
+		private var _stopIfOutOfOrder:Boolean = true;
+		private var _shouldDetectDuplicates:Boolean = true;
 
 		public function BloodGlucoseHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -73,6 +73,25 @@ package collaboRhythm.plugins.foraD40b.controller
 			_backgroundProcessModel = BackgroundProcessCollectionModel(WorkstationKernel.instance.resolve(BackgroundProcessCollectionModel));
 
 			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModelCollection, "currentView");
+			BindingUtils.bindSetter(scheduleItemOccurrence_changeHandler, _dataInputModelCollection, "scheduleItemOccurrence");
+		}
+
+		private function scheduleItemOccurrence_changeHandler(value:ScheduleItemOccurrence):void
+		{
+			if (value == null && _synchronizationService)
+			{
+				clearReviewMode();
+			}
+		}
+
+		public function clearReviewMode():void
+		{
+			if (_synchronizationService.synchronize("clearReviewMode"))
+			{
+				return;
+			}
+
+			popPushedViews();
 		}
 
 		public function get backgroundProcessModel():BackgroundProcessCollectionModel
@@ -121,7 +140,18 @@ package collaboRhythm.plugins.foraD40b.controller
 
 			_duplicateDetected = _shouldDetectDuplicates && detectDuplicates(urlVariables);
 
-			if (!_duplicateDetected)
+			var itemData:ReportBloodGlucoseItemData = _dataInputModelCollection.reportBloodGlucoseItemDataCollection.length >
+					0 ? _dataInputModelCollection.reportBloodGlucoseItemDataCollection[0] as
+					ReportBloodGlucoseItemData : null;
+			/**
+			 * True if this is the first measurement in this batch from the device
+			 */
+			var isFirstFromDevice:Boolean =
+					!(_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length > 1 ||
+					_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length == 1 &&
+							(itemData).dataInputModel.isFromDevice);
+
+			if (isFirstFromDevice || !_duplicateDetected)
 			{
 				if (!isValidMeasurement(urlVariables))
 				{
@@ -129,12 +159,7 @@ package collaboRhythm.plugins.foraD40b.controller
 					return;
 				}
 
-				var itemData:ReportBloodGlucoseItemData = _dataInputModelCollection.reportBloodGlucoseItemDataCollection.length >
-						0 ? _dataInputModelCollection.reportBloodGlucoseItemDataCollection[0] as
-						ReportBloodGlucoseItemData : null;
-				if (_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length > 1 ||
-						_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length == 1 &&
-								(itemData).dataInputModel.isFromDevice)
+				if (!isFirstFromDevice)
 				{
 					// only handle additional measurements if they are before the currently queued measurement(s)
 					var previousDataInputModel:BloodGlucoseHealthActionInputModel = (_dataInputModelCollection.reportBloodGlucoseItemDataCollection[_dataInputModelCollection.reportBloodGlucoseItemDataCollection.length -
@@ -155,6 +180,7 @@ package collaboRhythm.plugins.foraD40b.controller
 							_dataInputModelCollection), this);
 					_dataInputModelCollection.reportBloodGlucoseItemDataCollection.addItem(itemData);
 				}
+				itemData.dataInputModel.isDuplicate = _duplicateDetected;
 				itemData.dataInputModel.handleUrlVariables(urlVariables);
 
 				var guessedScheduleItemOccurrence:ScheduleItemOccurrence = itemData.dataInputModel.guessScheduleItemOccurrence();
@@ -210,8 +236,10 @@ package collaboRhythm.plugins.foraD40b.controller
 				}
 				else
 				{
-					// if the comments can't be parsed or do not include the deviceMeasuredDate, assume that it is a duplicate
-					return true;
+					// if the comments can't be parsed or do not include the deviceMeasuredDate, check to see if the dateMeasured is close to the correctedMeasuredDate
+					var correctedMeasuredDate:Date = DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate);
+					return correctedMeasuredDate == null || bloodGlucoseVitalSign.dateMeasuredStart == null ||
+							Math.abs(bloodGlucoseVitalSign.dateMeasuredStart.valueOf() - correctedMeasuredDate.valueOf()) < 1000 * 60 * 60;
 				}
 			}
 			return false;
@@ -262,12 +290,21 @@ package collaboRhythm.plugins.foraD40b.controller
 			for each (var itemData:ReportBloodGlucoseItemData in reversedCollection)
 			{
 				var model:BloodGlucoseHealthActionInputModel = itemData.dataInputModel;
-				model.createBloodGlucoseVitalSign();
+				if (!model.isDuplicate)
+				{
+					model.createBloodGlucoseVitalSign();
 
-				if (itemData.dataInputModel == _dataInputModelCollection.firstInputModel)
-					model.submitBloodGlucose(model.bloodGlucoseVitalSign, _synchronizationService.initiatedLocally);
-				else
-					model.saveBloodGlucose(model.bloodGlucoseVitalSign, _synchronizationService.initiatedLocally, false);
+					if (model.bloodGlucoseVitalSign)
+					{
+						if (itemData.dataInputModel == _dataInputModelCollection.firstInputModel)
+							model.submitBloodGlucose(model.bloodGlucoseVitalSign,
+									_synchronizationService.initiatedLocally);
+						else
+							model.saveBloodGlucose(model.bloodGlucoseVitalSign,
+									_synchronizationService.initiatedLocally,
+									false);
+					}
+				}
 			}
 		}
 
@@ -278,12 +315,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				if (_synchronizationService && _synchronizationService.initiatedLocally &&
 						_dataInputModelCollection.pushedViewCount != 0)
 				{
-					for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModelCollection.pushedViewCount;
-						 pushedViewIndex++)
-					{
-						_viewNavigator.popView();
-					}
-					_dataInputModelCollection.pushedViewCount = 0;
+					popPushedViews();
 				}
 
 				removeCollaborationViewSynchronizationEventListener();
@@ -292,6 +324,16 @@ package collaboRhythm.plugins.foraD40b.controller
 			{
 				pushView(currentView);
 			}
+		}
+
+		private function popPushedViews():void
+		{
+			for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModelCollection.pushedViewCount;
+				 pushedViewIndex++)
+			{
+				_viewNavigator.popView();
+			}
+			_dataInputModelCollection.pushedViewCount = 0;
 		}
 
 		private function pushView(currentView:Class):void
