@@ -1,5 +1,7 @@
 package collaboRhythm.plugins.foraD40b.controller
 {
+	import castle.flexbridge.reflection.ReflectionUtils;
+
 	import collaboRhythm.ane.applicationMessaging.actionScript.ApplicationMessaging;
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
@@ -8,8 +10,6 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHealthActionInputView;
 	import collaboRhythm.plugins.foraD40b.view.BloodGlucoseHistoryView;
 	import collaboRhythm.plugins.foraD40b.view.HypoglycemiaActionPlanSummaryView;
-	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
-	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
@@ -34,6 +34,7 @@ package collaboRhythm.plugins.foraD40b.controller
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
+	import mx.binding.utils.ChangeWatcher;
 	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
@@ -56,6 +57,11 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private var _stopIfOutOfOrder:Boolean = true;
 		private var _shouldDetectDuplicates:Boolean = true;
+		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
+		private var _scheduleCollectionsProvider:IScheduleCollectionsProvider;
+
+		private var _currentViewChangeWatcher:ChangeWatcher;
 
 		public function BloodGlucoseHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -63,35 +69,51 @@ package collaboRhythm.plugins.foraD40b.controller
 																viewNavigator:ViewNavigator)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
-			_dataInputModelCollection = new BloodGlucoseHealthActionInputModelCollection(scheduleItemOccurrence,
-					healthActionModelDetailsProvider, scheduleCollectionsProvider, this);
+			_scheduleItemOccurrence = scheduleItemOccurrence;
+			_healthActionModelDetailsProvider = healthActionModelDetailsProvider;
+			_scheduleCollectionsProvider = scheduleCollectionsProvider;
 			_viewNavigator = viewNavigator;
+			createModel(scheduleItemOccurrence, healthActionModelDetailsProvider, scheduleCollectionsProvider);
 
 			_collaborationLobbyNetConnectionServiceProxy = healthActionModelDetailsProvider.collaborationLobbyNetConnectionServiceProxy as
 					CollaborationLobbyNetConnectionServiceProxy;
 
 			_backgroundProcessModel = BackgroundProcessCollectionModel(WorkstationKernel.instance.resolve(BackgroundProcessCollectionModel));
 
-			BindingUtils.bindSetter(currentView_changeHandler, _dataInputModelCollection, "currentView");
-			BindingUtils.bindSetter(scheduleItemOccurrence_changeHandler, _dataInputModelCollection, "scheduleItemOccurrence");
+//			BindingUtils.bindSetter(scheduleItemOccurrence_changeHandler, _dataInputModelCollection, "scheduleItemOccurrence");
 		}
 
-		private function scheduleItemOccurrence_changeHandler(value:ScheduleItemOccurrence):void
+		private function createModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+									 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+									 scheduleCollectionsProvider:IScheduleCollectionsProvider):void
 		{
-			if (value == null && _synchronizationService)
+			if (_currentViewChangeWatcher)
 			{
-				clearReviewMode();
+				_currentViewChangeWatcher.unwatch();
+				_currentViewChangeWatcher = null;
 			}
+
+			_dataInputModelCollection = new BloodGlucoseHealthActionInputModelCollection(scheduleItemOccurrence,
+					healthActionModelDetailsProvider, scheduleCollectionsProvider, this);
+
+//			_dataInputModelCollection.currentView = ReflectionUtils.getClass(_viewNavigator.activeView);
+
+			_currentViewChangeWatcher = BindingUtils.bindSetter(currentView_changeHandler, _dataInputModelCollection,
+					"currentView", true);
 		}
 
 		public function clearReviewMode():void
 		{
+/*
 			if (_synchronizationService.synchronize("clearReviewMode"))
 			{
 				return;
 			}
+*/
 
 			popPushedViews();
+			createModel(null, _healthActionModelDetailsProvider, _scheduleCollectionsProvider);
+			addCollaborationViewSynchronizationEventListener();
 		}
 
 		public function get backgroundProcessModel():BackgroundProcessCollectionModel
@@ -114,6 +136,11 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
 			addCollaborationViewSynchronizationEventListener();
+
+			if (isReview)
+			{
+				clearReviewMode();
+			}
 
 			var batchTransferAction:String = urlVariables[BATCH_TRANSFER_URL_VARIABLE];
 			if (batchTransferAction == HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN)
@@ -310,19 +337,23 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private function currentView_changeHandler(currentView:Class):void
 		{
-			if (currentView == null)
+			// avoid responding to the change when first creating the change watcher
+			if (_currentViewChangeWatcher)
 			{
-				if (_synchronizationService && _synchronizationService.initiatedLocally &&
-						_dataInputModelCollection.pushedViewCount != 0)
+				if (currentView == null)
 				{
-					popPushedViews();
-				}
+					if (_synchronizationService && _synchronizationService.initiatedLocally &&
+							_dataInputModelCollection.pushedViewCount != 0)
+					{
+						popPushedViews();
+					}
 
-				removeCollaborationViewSynchronizationEventListener();
-			}
-			else
-			{
-				pushView(currentView);
+					removeCollaborationViewSynchronizationEventListener();
+				}
+				else
+				{
+					pushView(currentView);
+				}
 			}
 		}
 
@@ -490,6 +521,7 @@ package collaboRhythm.plugins.foraD40b.controller
 				}
 
 				_synchronizationService.removeEventListener(this);
+				_synchronizationService = null;
 			}
 		}
 

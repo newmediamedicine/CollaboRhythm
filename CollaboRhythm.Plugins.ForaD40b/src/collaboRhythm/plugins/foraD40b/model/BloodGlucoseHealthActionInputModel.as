@@ -102,13 +102,6 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			_logger.debug("handleUrlVariables " + urlVariables.toString());
 
-			if (_bloodGlucoseHealthActionInputModelCollection.isReview)
-			{
-				scheduleItemOccurrence = null;
-				_bloodGlucoseHealthActionInputModelCollection.scheduleItemOccurrence = null;
-				setCurrentView(null);
-			}
-
 			manualBloodGlucose = "";
 			deviceBloodGlucose = urlVariables.bloodGlucose;
 			dateMeasuredStart = DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate);

@@ -202,18 +202,16 @@ package collaboRhythm.plugins.schedule.controller
 			if (healthActionInputView && ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
 					ReflectionUtils.getClass(healthActionInputController))
 			{
-				healthActionInputView.healthActionInputController.handleUrlVariables(urlVariables);
-				_activeHealthActionInputController = healthActionInputView.healthActionInputController;
+				handleUrlVariablesForController(healthActionInputView.healthActionInputController, urlVariables);
 			}
 			else if (_activeHealthActionInputController && ReflectionUtils.getClass(_activeHealthActionInputController) ==
 									ReflectionUtils.getClass(healthActionInputController))
 			{
-				_activeHealthActionInputController.handleUrlVariables(urlVariables);
+				handleUrlVariablesForController(_activeHealthActionInputController, urlVariables);
 			}
 			else
 			{
-				healthActionInputController.handleUrlVariables(urlVariables);
-				_activeHealthActionInputController = healthActionInputController;
+				handleUrlVariablesForController(healthActionInputController, urlVariables);
 			}
 
 			// Note that we are currently using the "end" as a rough way to detect when we can clear the _activeHealthActionInputController. It may not be 100% robust but it works for all cases tested.
@@ -222,6 +220,13 @@ package collaboRhythm.plugins.schedule.controller
 			{
 				_activeHealthActionInputController = null;
 			}
+		}
+
+		private function handleUrlVariablesForController(healthActionInputController:IHealthActionInputController,
+														 urlVariables:URLVariables):void
+		{
+			healthActionInputController.handleUrlVariables(urlVariables);
+			_activeHealthActionInputController = healthActionInputController;
 		}
 
 		public override function get defaultName():String
