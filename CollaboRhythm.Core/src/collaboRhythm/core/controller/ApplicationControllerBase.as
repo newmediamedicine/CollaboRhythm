@@ -24,6 +24,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.model.AboutApplicationModel;
 	import collaboRhythm.core.model.ApplicationControllerModel;
 	import collaboRhythm.core.model.ApplicationNavigationProxy;
+	import collaboRhythm.core.model.AutomaticTimer;
 	import collaboRhythm.core.model.RecordSynchronizer;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.MessagesHealthRecordService;
@@ -80,6 +81,7 @@ package collaboRhythm.core.controller
 
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
+	import flash.events.NetStatusEvent;
 	import flash.events.TimerEvent;
 	import flash.filesystem.File;
 	import flash.globalization.DateTimeFormatter;
@@ -101,6 +103,8 @@ package collaboRhythm.core.controller
 	import mx.logging.LogEventLevel;
 	import mx.logging.targets.TraceTarget;
 	import mx.managers.PopUpManager;
+
+	import org.osmf.net.NetConnectionCodes;
 
 	import spark.collections.Sort;
 	import spark.collections.SortField;
@@ -146,7 +150,8 @@ package collaboRhythm.core.controller
 		private var failedRequestEvent:HealthRecordServiceEvent;
 		private var _nextAutoSyncTime:Date;
 
-		private var _autoSyncTimer:Timer;
+		private var _autoSyncTimer:AutomaticTimer;
+		private var _messagesTimer:AutomaticTimer;
 		protected var _currentDateSource:ICurrentDateSource;
 		private var _backgroundProcessModel:BackgroundProcessCollectionModel = new BackgroundProcessCollectionModel();
 		protected var _navigationProxy:IApplicationNavigationProxy;
@@ -160,44 +165,23 @@ package collaboRhythm.core.controller
 		public function ApplicationControllerBase(application:Application)
 		{
 			_application = application;
-			// TODO: add event listener to handle the fast forward mode of the date source
-			_autoSyncTimer = new Timer(0);
-			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
 			initializeBackgroundProcessModel();
 			_timeFormatter.setDateTimePattern("H:mm:ss");
 		}
 
-		private function updateAutoSyncTime():void
+		private function initializeTimers():void
 		{
-			_autoSyncTimer.stop();
-
-			_nextAutoSyncTime = _currentDateSource.now();
-			// move the time ahead to midnight tonight
-			_nextAutoSyncTime.setHours(24, 0, 0, 0);
-			var now:Date = _currentDateSource.now();
-			// one minute cushion to ensure that the timer does not go off before midnight; slightly after is better than before
-			var cushionDelay:Number = ONE_MINUTE;
-			var delay:Number = _nextAutoSyncTime.getTime() - now.getTime() + cushionDelay;
-
-			_logger.info("Automatic synchronization timer set to go off at or after " + _nextAutoSyncTime +
-					" in " + delay / ONE_MINUTE + " minutes");
-			_autoSyncTimer.delay = delay;
-			_autoSyncTimer.start();
+			// TODO: add event listener to handle the fast forward mode of the date source
+			_autoSyncTimer = new AutomaticTimer("automatic synchronization", 24, NaN);
+			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
+			_messagesTimer = new AutomaticTimer("messages update", NaN, 15 * ONE_MINUTE);
+			_messagesTimer.addEventListener(TimerEvent.TIMER, messagesTimer_timerHandler);
+			_messagesTimer.start();
 		}
 
 		private function autoSyncTimer_timerHandler(event:TimerEvent):void
 		{
-			var now:Date = _currentDateSource.now();
-			if (now.getTime() < _nextAutoSyncTime.getTime())
-			{
-				_logger.warn("Automatic synchronization timer went off before the expected time.");
-			}
-
-			_logger.info("Performing automatic synchronization from timer event. Local time: " + now.toString() +
-					". Expected auto sync time: " + _nextAutoSyncTime.toString() +
-					". Previous timer delay (minutes): " + _autoSyncTimer.delay / ONE_MINUTE);
 			synchronize();
-			updateAutoSyncTime();
 		}
 
 		/**
@@ -263,6 +247,7 @@ package collaboRhythm.core.controller
 			_activeAccount = new Account();
 
 			_navigationProxy = new ApplicationNavigationProxy(this);
+			initializeTimers();
 		}
 
 		private function debugLogFonts():void
@@ -343,26 +328,13 @@ package collaboRhythm.core.controller
 		{
 			activateTracking();
 			InteractionLogUtil.log(_logger, "Application activate");
-			checkAutoSyncTimer();
+			_autoSyncTimer.checkAutoSyncTimer();
 		}
 
 		// virtual method to be overridden by subclasses
 		protected function activateTracking():void
 		{
 
-		}
-
-		private function checkAutoSyncTimer():void
-		{
-			var now:Date = _currentDateSource.now();
-			if (_nextAutoSyncTime && now.getTime() > _nextAutoSyncTime.getTime())
-			{
-				_logger.info("Performing automatic synchronization from activate event. Local time: " + now.toString() +
-						". Expected auto sync time: " + _nextAutoSyncTime.toString() +
-						". Previous timer delay (minutes): " + _autoSyncTimer.delay / ONE_MINUTE);
-				synchronize();
-				updateAutoSyncTime();
-			}
 		}
 
 		private function nativeApplication_deactivateHandler(event:Event):void
@@ -643,6 +615,8 @@ package collaboRhythm.core.controller
 			_collaborationController = new CollaborationController(_activeAccount, collaborationView, _settings);
 			_collaborationLobbyNetConnectionService = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService as
 					CollaborationLobbyNetConnectionService;
+			_collaborationLobbyNetConnectionService.addEventListener(NetStatusEvent.NET_STATUS,
+					collaborationLobbyNetConnectionService_netStatusHandler);
 			_collaborationLobbyNetConnectionServiceProxy = _collaborationController.collaborationModel.collaborationLobbyNetConnectionService.createProxy(_pluginLoader.pluginsApplicationDomain);
 			_collaborationController.addEventListener(CollaborationLobbyNetConnectionEvent.SYNCHRONIZE,
 					synchronizeDataHandler);
@@ -995,7 +969,6 @@ package collaboRhythm.core.controller
 		private function collaborationMessage_eventHandler(event:MessageEvent):void
 		{
 			var message:Message = event.messageData as Message;
-			message.received_at = new Date();
 			message.type = Message.INBOX;
 
 			_activeAccount.messagesModel.addInboxMessage(message);
@@ -1021,7 +994,7 @@ package collaboRhythm.core.controller
 			// TODO: Rework document retrieval
 			loadDocuments(recordAccount);
 
-			updateAutoSyncTime();
+			_autoSyncTimer.start();
 		}
 
 		public function tryCloseRecordAccount(recordAccount:Account):void
@@ -1052,6 +1025,7 @@ package collaboRhythm.core.controller
 		public function closeRecordAccount(recordAccount:Account):void
 		{
 			_autoSyncTimer.stop();
+			_autoSyncTimer = null;
 			if (_healthRecordServiceFacade)
 				_healthRecordServiceFacade.closeRecord();
 
@@ -1638,6 +1612,19 @@ package collaboRhythm.core.controller
 				sendMessage("[Automated Message] Collaboration session between " + activeAccount.accountId + " and " +
 						_collaborationController.collaborationModel.peerAccount.accountId + " lasted " + collaborationDurationTimeString +
 						" (" + collaborationDurationMinutesString + " minute" + (collaborationDurationMinutesString == (1).toFixed(2) ? "" : "s") + ")." );
+			}
+		}
+
+		private function messagesTimer_timerHandler(event:TimerEvent):void
+		{
+			getMessages();
+		}
+
+		private function collaborationLobbyNetConnectionService_netStatusHandler(event:NetStatusEvent):void
+		{
+			if (event.info.code == NetConnectionCodes.CONNECT_SUCCESS)
+			{
+				getMessages();
 			}
 		}
 	}

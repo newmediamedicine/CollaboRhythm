@@ -6,6 +6,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.document.Message;
+	import collaboRhythm.shared.model.healthRecord.document.MessageStatusCodes;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import org.indivo.client.IndivoClientEvent;
@@ -69,6 +70,12 @@ package collaboRhythm.core.model.healthRecord.service
 			{
 				var message:Message = createNewMessage(messageXml, Message.INBOX);
 				_activeAccount.messagesModel.addInboxMessage(message);
+
+				// We want to have a separate model of the messages regarding particular patient (one model for each patient's record).
+				// For now we are achieving this by using the messagesModel property of the Account for each Account
+				// in _activeAccount.allSharingAccounts. So the inbox on
+				// allSharingAccounts["patient1@test"].messagesModel is not the inbox of patient1, but rather the subset
+				// of messages from the inbox of the active account which are regarding patient1.
 
 				// TODO: It appears that it is currently not possible to archive sent messages
 				// There are some ill-formed messages (wrong subject) currently that need to be ignored
@@ -140,6 +147,7 @@ package collaboRhythm.core.model.healthRecord.service
 			message.read_at = DateUtil.parseW3CDTF(messageXml.read_at, true);
 			message.received_at = DateUtil.parseW3CDTF(messageXml.received_at, true);
 			message.type = type;
+			message.localStatus = MessageStatusCodes.COMPLETE;
 
 			return message;
 		}

@@ -678,7 +678,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function createChartDescriptors():void
 		{
-			_chartDescriptors = new OrderedMap();
+			_chartDescriptors = new OrderedMap(null, "descriptorKey");
 
 			// TODO: make the list of chart descriptors plugable so that new charts can be added (other than the default list of medications and vitals)
 			var medicationScheduleItemCollection:ArrayCollection = new ArrayCollection();

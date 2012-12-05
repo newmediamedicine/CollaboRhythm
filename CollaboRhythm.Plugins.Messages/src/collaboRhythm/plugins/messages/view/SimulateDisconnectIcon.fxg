@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="26" viewWidth="26" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="26" d:pageWidth="26" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="28d55580" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path x="0.749762" y="5.9998" winding="nonZero" ai:objID="28dc8300" ai:seqID="3" data="M23.8391 3.01191C25.2053 4.37568 24.5774 9.02461 23.8625 9.54805 23.4436 9.85176 17.4739 8.83613 17.2317 8.48262 17.094 8.27949 17.6877 5.50508 18.345 4.15986 15.1897 2.2917 7.62231 2.9377 6.40405 4.10469 6.84203 5.31172 7.75463 7.57441 7.63403
+ 8.2873 7.5725 8.66816 0.933832 9.80879 0.624749 9.49726 0.183832 9.05488 -0.644293 4.3625 0.876214 2.84199 4.62475 -0.906543 19.7737 -1.04473 23.8391 3.01191Z">
+        <fill>
+          <SolidColor color="#F3F3F3"/>
+        </fill>
+      </Path>
+      <Group x="10.521" y="14" ai:objID="2900c380" ai:seqID="4" flm:knockout="false">
+        <Line xFrom="2.479" xTo="2.479" yTo="4.41211" ai:objID="291a7f00" ai:seqID="5">
+          <stroke>
+            <SolidColorStroke weight="2" caps="none" joints="miter" miterLimit="10" color="#F3F3F3"/>
+          </stroke>
+        </Line>
+        <Path y="3.68262" winding="nonZero" ai:objID="291acd00" ai:seqID="6" data="M0 0 2.49268 4.31738 4.98584 0 0 0Z">
+          <fill>
+            <SolidColor color="#F3F3F3"/>
+          </fill>
+        </Path>
+      </Group>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="I rasterizeResolution 72 I preserveGradientPolicy 4 I preserveFilterPolicy 3 I expandBlendsOption 5 B downsampleLinkedImages 0 I preserveTextPolicy 4 B includeObjectOutsideArtboard 0 I versionKey 2 B writeImages 1 B includeXMP 0 B includeSymbol 0 B aiEditCap 1 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="EndCallIcon.assets/images" rulerCanvasDiffH="13.5" rulerCanvasDiffV="13.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="EB3905656E11F140E1F13A03611EE493" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

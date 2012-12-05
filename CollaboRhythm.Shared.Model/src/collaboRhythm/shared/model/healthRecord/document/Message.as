@@ -22,6 +22,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _record_id:String;
 		private var _attachment:Attachment;
 		private var _type:String;
+		private var _localStatus:String;
 
 		public function Message()
 		{
@@ -136,6 +137,16 @@ package collaboRhythm.shared.model.healthRecord.document
 		public function set recipient(value:String):void
 		{
 			_recipient = value;
+		}
+
+		public function get localStatus():String
+		{
+			return _localStatus;
+		}
+
+		public function set localStatus(value:String):void
+		{
+			_localStatus = value;
 		}
 	}
 }
