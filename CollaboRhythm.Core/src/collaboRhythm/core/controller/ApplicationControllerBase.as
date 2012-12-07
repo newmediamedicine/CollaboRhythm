@@ -1025,7 +1025,6 @@ package collaboRhythm.core.controller
 		public function closeRecordAccount(recordAccount:Account):void
 		{
 			_autoSyncTimer.stop();
-			_autoSyncTimer = null;
 			if (_healthRecordServiceFacade)
 				_healthRecordServiceFacade.closeRecord();
 

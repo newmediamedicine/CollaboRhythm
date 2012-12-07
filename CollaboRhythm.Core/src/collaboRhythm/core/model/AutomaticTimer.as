@@ -35,10 +35,10 @@ package collaboRhythm.core.model
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 			_autoSyncTimer = new Timer(0);
-			_autoSyncTimer.addEventListener(TimerEvent.TIMER, autoSyncTimer_timerHandler);
+			_autoSyncTimer.addEventListener(TimerEvent.TIMER, timerHandler);
 		}
 
-		private function autoSyncTimer_timerHandler(event:TimerEvent):void
+		private function timerHandler(event:TimerEvent):void
 		{
 			var now:Date = _currentDateSource.now();
 			if (now.getTime() < _nextAutoSyncTime.getTime())
