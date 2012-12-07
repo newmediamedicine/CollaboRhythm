@@ -1366,6 +1366,7 @@ package collaboRhythm.core.controller
 			var settingsSourceClause:String = settingsFileStore.isUserSettingsLoaded ? (" (based on a combination of the default settings and user settings from " +
 					settingsFileStore.userSettingsFile.nativePath +
 					"):") : " (based on the default settings; user settings not loaded):";
+			parts.push("\nLocal Time: " + new Date().toString());
 			parts.push("\nSettings" + settingsSourceClause);
 			parts.push(settingsFileStore.encodeToXML());
 			var logFile:File = LogFileReader.getLogFile();
