@@ -16,6 +16,10 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <project name="Deploy user settings.xml to device for CollaboRhythm.Tablet" default="deploy_user_settings">
+	<property file="${basedir}/local.properties" description="Optional user-specific properties. This file should not be version controlled."/>
+	<property file="${basedir}/build.properties" description="Properties specific to this project for builds." />
+	<property file="${basedir}/base.properties" description="Base properties for builds" />
+
 	<target name="deploy_user_settings" description="Deploys the plugin modules.">
 		<ant antfile="../CollaboRhythm.Mobile/build.xml" dir="./" target="deploy_user_settings" />
 	</target>
@@ -27,5 +31,19 @@
 	</target>
 	<target name="uninstall_app_on_device">
 		<ant antfile="../CollaboRhythm.Mobile/build.xml" dir="./" target="uninstall_app_on_device" />
+	</target>
+
+	<!-- The "Add Advanced Telemetry" task will execute the add-opt-in.py thon script on  your SWF and add the  EnableTelemetry tag to for use with Adobe Scout (You can also run this task if you've already compiled the SWF).
+	When adding [password] just after the ${swf_name}.swf advanced telemetry will only be visible
+	if a matching password is entered in Adobe Scout. -->
+	<target name="Add Advanced Telemetry" >
+		<!-- Your Project's script folder (where your Python Script is). -->
+		<property name="SCRIPTS_DIR" value="${basedir}/scripts"/>
+		<!-- The name of your swf file.-->
+		<property name="SWF_FILE" value="${DEBUG_DIR}/CollaboRhythm_Tablet_Emulator.swf"/>
+
+		<exec dir="${SCRIPTS_DIR}" executable="${PYTHON_HOME}/python" failonerror="true">
+			<arg line="add-opt-in.py '${SWF_FILE}'" />
+		</exec>
 	</target>
 </project>
