@@ -5,7 +5,7 @@
       <root url="jar://C:/Program Files (x86)/FlexUnit/turnkey/libs/hamcrest-as3-flex-1.1.3.swc!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="file://C:/Program Files (x86)/flexunit/docs/flexunit" />
+      <root url="file://C:/Program Files (x86)/FlexUnit/docs/flexunit" />
     </JAVADOC>
     <SOURCES />
   </library>
