@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Plugins.Schedule.Shared">
     <configurations>
-      <configuration name="CollaboRhythm.Plugins.Schedule.Shared" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm.Plugins.Schedule.Shared.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="CollaboRhythm.Plugins.Schedule.Shared" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Plugins_Schedule_Shared.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Plugins.Schedule.Shared">
         <dependencies>
           <entries>
             <entry library-id="9a2294ba-9fee-47a8-8731-54fe16d21b9e">
@@ -50,8 +50,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: libs" type="flex">
         <properties id="9a2294ba-9fee-47a8-8731-54fe16d21b9e" />
         <CLASSES>
@@ -62,9 +62,9 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="9d5a6e54-5c0c-41bc-a503-638ed58a0231" />
         <CLASSES>
@@ -74,7 +74,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="7bf34392-52d1-4647-96da-c1217bca7163" />
         <CLASSES>
@@ -85,8 +85,8 @@
       </library>
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
   </component>
 </module>
 

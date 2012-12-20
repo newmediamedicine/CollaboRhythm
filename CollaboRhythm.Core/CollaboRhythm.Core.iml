@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Core">
     <configurations>
-      <configuration name="CollaboRhythm.Core" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm.Core.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="CollaboRhythm.Core" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Core.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Core">
         <dependencies>
           <entries>
             <entry library-id="34b2c934-4784-46fe-a2b3-4840a13530e3">
@@ -77,14 +77,14 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module" module-name="indivo_client_flash" />
-    <orderEntry type="module" module-name="ChartBackgroundsLib" />
-    <orderEntry type="module" module-name="Box2DFlashAS3" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
-    <orderEntry type="module" module-name="McCuneChart" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module" module-name="indivo_client_flash" exported="" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
+    <orderEntry type="module" module-name="Box2DFlashAS3" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" exported="" />
+    <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: libs" type="flex">
         <properties id="34b2c934-4784-46fe-a2b3-4840a13530e3" />
         <CLASSES>
@@ -99,10 +99,10 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Core.Model" />
-    <orderEntry type="module" module-name="TCPSyslogTarget" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Core.Model" exported="" />
+    <orderEntry type="module" module-name="TCPSyslogTarget" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="54b44051-5ccd-436c-85b0-df6a0e905c0b" />
         <CLASSES>
@@ -112,7 +112,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="3b60e66a-7f7d-47ab-8365-d8d4c6faf41a" />
         <CLASSES>
@@ -122,10 +122,10 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Problems" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Problems" exported="" />
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="36069884-1ff8-4d83-aa86-64cd52dc5be2" />
         <CLASSES>
@@ -135,7 +135,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Messages" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Messages" exported="" />
   </component>
 </module>
 

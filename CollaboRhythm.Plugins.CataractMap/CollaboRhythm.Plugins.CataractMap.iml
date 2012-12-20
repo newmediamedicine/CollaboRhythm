@@ -50,13 +50,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="indivo_client_flash" />
-    <orderEntry type="module" module-name="McCuneChart" />
-    <orderEntry type="module" module-name="Box2DFlashAS3" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module" module-name="ChartBackgroundsLib" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="indivo_client_flash" exported="" />
+    <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="module" module-name="Box2DFlashAS3" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: libs" type="flex">
         <properties id="bddf3cec-76f8-4549-8c7c-3c0f88df040d" />
         <CLASSES>
@@ -67,7 +67,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
   </component>
 </module>

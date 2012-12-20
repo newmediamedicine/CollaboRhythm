@@ -33,9 +33,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module-library" exported="">
       <library name="libs" type="flex">
         <properties id="4e1ae6ef-59b7-47fb-9e4f-272e2634f0a9" />
         <CLASSES>

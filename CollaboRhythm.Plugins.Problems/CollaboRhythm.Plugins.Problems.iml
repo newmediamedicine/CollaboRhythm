@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Plugins.Problems">
     <configurations>
-      <configuration name="CollaboRhythm.Plugins.Problems" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm.Plugins.Problems.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="CollaboRhythm.Plugins.Problems" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Plugins_Problems.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Plugins.Problems">
         <dependencies>
           <entries>
             <entry library-id="e943c967-917e-4be8-af96-64a4022c4b77">
@@ -38,7 +38,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: libs" type="flex">
         <properties id="e943c967-917e-4be8-af96-64a4022c4b77" />
         <CLASSES>
@@ -49,9 +49,9 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="indivo_client_flash" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
+    <orderEntry type="module" module-name="indivo_client_flash" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
   </component>
 </module>

@@ -52,13 +52,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module" module-name="McCuneChart" />
-    <orderEntry type="module" module-name="ChartBackgroundsLib" />
-    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" exported="" />
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="3c41bb30-bf44-4a19-b27d-2cd4e6952c6f" />
         <CLASSES>
@@ -68,7 +68,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="8bd2fc0d-de85-45d1-8c31-34649ff4cde1" />
         <CLASSES>
@@ -78,7 +78,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="libs" type="flex">
         <properties id="70800341-f3cf-4f53-80ff-408bfee75114" />
         <CLASSES>
@@ -90,7 +90,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
   </component>
 </module>

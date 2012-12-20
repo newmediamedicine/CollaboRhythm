@@ -26,7 +26,7 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="libs" type="flex">
         <properties id="d4e9fa08-d5f8-427a-8742-2c9cad93b95d" />
         <CLASSES>

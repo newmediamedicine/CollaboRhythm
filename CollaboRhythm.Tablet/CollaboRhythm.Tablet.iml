@@ -162,14 +162,14 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Core" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module" module-name="CollaboRhythm.Core.Model" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
+    <orderEntry type="module" module-name="CollaboRhythm.Core" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Core.Model" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="library" name="Desktop libraries for mobile applications" level="project" />
-    <orderEntry type="module-library">
+    <orderEntry type="library" exported="" name="Desktop libraries for mobile applications" level="project" />
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="73cf38ed-5aae-4e11-bfce-467f52c03bdc" />
         <CLASSES>
@@ -180,7 +180,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="350588ab-5c30-411a-8619-f60cf60d99f0" />
         <CLASSES>
@@ -191,7 +191,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="092dc380-9bdb-417d-9fd6-2c5466a86dfb" />
         <CLASSES>
@@ -201,7 +201,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="167a450b-eb6f-4e63-bba3-2d58755ec563" />
         <CLASSES>
@@ -211,7 +211,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="24dcc077-6012-4bbb-8151-0999e65c7580" />
         <CLASSES>
@@ -222,7 +222,7 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="ae0ec781-f049-4ead-be1a-6a472f070eac" />
         <CLASSES>
