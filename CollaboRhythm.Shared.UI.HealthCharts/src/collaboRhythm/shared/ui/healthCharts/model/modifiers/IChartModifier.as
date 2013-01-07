@@ -23,6 +23,7 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	 * Chart modifiers are created and combined via one or more IChartModifierFactory instances (Decorator design
 	 * pattern). A chart modifier is responsible for providing or modifying the data for the charts in the adherence
 	 * group it is associated with, as well as modifying the appearance and behavior of the charts and the group itself.
+	 * @see IChartModifierFactory
 	 */
 	public interface IChartModifier
 	{
@@ -35,9 +36,10 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		 * A modifier can change such things as the vertical axis limits (chart.mainChart.verticalAxis) and the
 		 * tooltip (chart.mainChart.dataTipFunction).
 		 * @param chart
+		 * @param isMainChart
+		 * @param cartesianChart
 		 */
-		function modifyCartesianChart(chart:ScrubChart,
-									  cartesianChart:CartesianChart, isMainChart:Boolean):void;
+		function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart, isMainChart:Boolean):void;
 
 		/**
 		 * Creates or modifies the set of series (and associated data collection and data field for that each series)

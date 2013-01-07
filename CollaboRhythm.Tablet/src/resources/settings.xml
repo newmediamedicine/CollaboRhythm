@@ -59,7 +59,7 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/EquipmentPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/InsulinPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/InsulinTitrationSupportPluginModule.swf</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/HIVPluginModeul.swf</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/HIVPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
 	<demoModeEnabled>true</demoModeEnabled>

@@ -7,3 +7,4 @@ out/*
 */bin-debug/*
 .idea/workspace.xml
 Ignored/**/*
+Ignored/*

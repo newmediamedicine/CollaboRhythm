@@ -9,7 +9,8 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	/**
 	 * Factory for creating input controllers. Each factory can support one or more type of health actions. All
-	 * registered factories will be given a chance to create or modify the input controller for each health action.
+	 * registered factories will be given a chance to create or modify the input controller for a given health action.
+	 * @see IHealthActionInputController
 	 */
 	public interface IHealthActionInputControllerFactory
 	{
@@ -19,8 +20,10 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * @param healthAction
 		 * @param scheduleItemOccurrence
 		 * @param healthActionModelDetailsProvider
+		 * @param scheduleCollectionsProvider
 		 * @param viewNavigator
 		 * @param currentHealthActionInputController
+		 * @param collaborationLobbyNetConnectionServiceProxy
 		 * @return
 		 */
 		function createHealthActionInputController(healthAction:HealthActionBase,
