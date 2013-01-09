@@ -4,6 +4,11 @@
     <configurations>
       <configuration name="CollaboRhythm.Shared.PluginsDeployment" target-platform="Desktop" pure-as="true" output-type="Library" output-file="CollaboRhythm_Shared_PluginsDeployment.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Shared.PluginsDeployment">
         <dependencies target-player="11.5">
+          <entries>
+            <entry library-id="737a3b33-f982-47e7-9e93-d6b22d4a7def">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
           <sdk name="4.6.0" />
         </dependencies>
         <compiler-options />
@@ -21,6 +26,16 @@
     </content>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="737a3b33-f982-47e7-9e93-d6b22d4a7def" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../ExternalLibraries/CollaboRhythm.ANE.ApplicationMessaging.ane!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

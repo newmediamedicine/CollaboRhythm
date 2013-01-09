@@ -2454,7 +2454,9 @@
     <recordSeed/>
     
     <documentsDirectory>jking</documentsDirectory>
+    
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>endometrioisis-jgreen@records.media.mit.edu</accountId>
@@ -2532,8 +2534,11 @@
     <shareRole>Coach</shareRole>
     
     <documentsDirectory>jgreen</documentsDirectory>
+    
     <notes>Endometrioisis HIV demo patient</notes>
+    
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>endometrioisis-csantos@records.media.mit.edu</accountId>
@@ -2613,7 +2618,9 @@
     <shareRole>Coach</shareRole>
     
     <documentsDirectory>csantos</documentsDirectory>
+    
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>gsk-jking@records.media.mit.edu</accountId>
@@ -2689,7 +2696,9 @@
     <recordSeed/>
     
     <documentsDirectory>jking</documentsDirectory>
+    
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>gsk-jgreen@records.media.mit.edu</accountId>
@@ -2767,9 +2776,12 @@
     <shareRole>Coach</shareRole>
     
     <documentsDirectory>jgreen</documentsDirectory>
+    
     <notes>GSK HIV demo patient</notes>
+    
   </AccountSource>
-<AccountSource>
+  
+  <AccountSource>
     
     <accountId>sgilroy-simple@records.media.mit.edu</accountId>
     
@@ -2845,7 +2857,10 @@
     
     <shareRole>Coach</shareRole>
     
-  <documentsDirectory>mbrooks</documentsDirectory><notes>Demo patient for CollaboRhythm video Nov 2012</notes></AccountSource><AccountSource>
+    <documentsDirectory>mbrooks</documentsDirectory>
+    <notes>Demo patient for CollaboRhythm video Nov 2012</notes>
+  </AccountSource>
+  <AccountSource>
     
     <accountId>akiel@records.media.mit.edu</accountId>
     
@@ -2919,4 +2934,324 @@
     
     <recordSeed/>
     
-  </AccountSource></dataroot>
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>test1-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>test1-jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>2774c562-0ae4-43c1-855f-189d8280816b</recordId>
+    
+    <status>Demographics document created. Id: ab790d10-7393-465e-bb5c-366ef9d12749</status>
+    
+    <accessKey>5gYlA88bSQqYHfZUw3c4</accessKey>
+    
+    <accessSecret>VlrTSkPkv5VSF2il2KYc</accessSecret>
+    
+    <demographicsId>ab790d10-7393-465e-bb5c-366ef9d12749</demographicsId>
+    
+    <notes>Test1 physician</notes>
+    
+    <recordSeed/>
+    
+    <documentsDirectory>jking</documentsDirectory>
+    
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>test1-jgreen@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James Green</fullName>
+    
+    <username>test1-jgreen</username>
+    
+    <password>jgreen-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>Green</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jgreen@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jgreen@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1961-08-05T00:00:00Z</dateOfBirth>
+    
+    <age>48</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>b8289451-d25a-49e9-a4e0-c39a7755e99a</recordId>
+    
+    <accessKey>q3btSLSvkUSiEVCHx88j</accessKey>
+    
+    <accessSecret>Ow0T1bmbVWjHz2S8oiDW</accessSecret>
+    
+    <status>Created 165/165 documents, 161/162 relationships</status>
+    
+    <demographicsId>1176f45c-2d8f-4caa-b617-58e8975c1277</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>test1-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>jgreen</documentsDirectory>
+    
+    <notes>Test1 HIV demo patient</notes>
+    
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>test1-csantos@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>test1-csantos</username>
+    
+    <password>csantos-dope75</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>4beaa9e9-9dfe-4630-b265-7d26b90796e9</recordId>
+    
+    <accessKey>oDLYihh8XIdZERYQAUwe</accessKey>
+    
+    <accessSecret>IY6BExpjvXkq4r8w1fQQ</accessSecret>
+    
+    <status>Created 334/334 documents, 329/330 relationships</status>
+    
+    <demographicsId>4e804235-6dc4-4790-bfb2-f51248ba0545</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Test1 hypertension</notes>
+    
+    <shareAccountId>test1-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>csantos</documentsDirectory>
+    
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>test1-mbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks</fullName>
+    
+    <username>test1-mbrooks</username>
+    
+    <password>mbrooks-dope75</password>
+    
+    <givenName>Michael</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>bb3c21f1-e3e4-4755-93b6-e1967110def2</recordId>
+    
+    <accessKey>ZgHzHQwNEGYmKB1cMiZj</accessKey>
+    
+    <accessSecret>hABsFHJNrJ9o6O7FvYBQ</accessSecret>
+    
+    <status>Created 13/13 documents, 7/8 relationships</status>
+    
+    <demographicsId>079f9067-680e-47cb-8717-e41e14a98289</demographicsId>
+    
+    <recordSeed>1</recordSeed>
+    
+    <notes>Test1 diabetes</notes>
+    
+    <shareAccountId>test1-jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory/>
+  </AccountSource>
+</dataroot>
