@@ -1,0 +1,33 @@
+<component name="libraryTable">
+  <library name="CollaboRhythm Plugin Libraries" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../out/production/CollaboRhythm.Shared.UI.HealthCharts/CollaboRhythm_Shared_UI_HealthCharts.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/CollaboRhythm.Shared.Collaboration/CollaboRhythm_Shared_Collaboration.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/CollaboRhythm.Shared.Messages/CollaboRhythm_Shared_Messages.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/CollaboRhythm.Shared.Model/CollaboRhythm_Shared_Model.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/CollaboRhythm.Shared.UI.Buttons/CollaboRhythm_Shared_UI_Buttons.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/CollaboRhythm.Plugins.Schedule.Shared/CollaboRhythm_Plugins_Schedule_Shared.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/CollaboRhythm.Shared/CollaboRhythm_Shared.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/indivo_client_flash/indivo_client_flash.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm_Shared_PluginsSupport.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/GAForFlash/GAForFlash.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/ChartBackgroundsLib/ChartBackgroundsLib.swc!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/production/McCuneChart/McCuneChart.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../CollaboRhythm.Plugins.Schedule.Shared/src" />
+      <root url="file://$PROJECT_DIR$/../../CollaboRhythm.Shared/src" />
+      <root url="file://$PROJECT_DIR$/../../CollaboRhythm.Shared.UI.HealthCharts/src" />
+      <root url="file://$PROJECT_DIR$/../../CollaboRhythm.Shared.Model/src" />
+      <root url="file://$PROJECT_DIR$/../../ChartBackgroundsLib/src" />
+      <root url="file://$PROJECT_DIR$/../../CollaboRhythm.Shared.Collaboration/src" />
+      <root url="file://$PROJECT_DIR$/../../CollaboRhythm.Shared.Messages/src" />
+      <root url="file://$PROJECT_DIR$/../../CollaboRhythm.Shared.PluginsSupport/src" />
+      <root url="file://$PROJECT_DIR$/../../CollaboRhythm.Shared.UI.Buttons/src" />
+      <root url="file://$PROJECT_DIR$/../../GAForFlash/src" />
+      <root url="file://$PROJECT_DIR$/../../McCuneChart/src" />
+      <root url="file://$PROJECT_DIR$/../../indivo_client_flash/src" />
+    </SOURCES>
+  </library>
+</component>
