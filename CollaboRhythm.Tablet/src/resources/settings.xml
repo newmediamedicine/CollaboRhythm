@@ -17,20 +17,19 @@
   -->
 <settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>patient</mode>
-	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
-	<username>mbrooks</username>
-	<password>mbrooks-dope75</password>
+	<indivoServerBaseURL>https://indivo-demo.media.mit.edu:8000</indivoServerBaseURL>
+	<username>shared-csantos</username>
+	<password>shared-csantos</password>
 	<clinicianTeamMembers>
-		<clinicianTeamMember>jking@records.media.mit.edu</clinicianTeamMember>
+		<clinicianTeamMember>shared-jking@records.media.mit.edu</clinicianTeamMember>
 	</clinicianTeamMembers>
-	<primaryClinicianTeamMember>jking@records.media.mit.edu</primaryClinicianTeamMember>
+	<primaryClinicianTeamMember>shared-jking@records.media.mit.edu</primaryClinicianTeamMember>
 	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>true</useTraceTarget>
 	<useSyslogTarget>false</useSyslogTarget>
 	<useGoogleAnalytics>false</useGoogleAnalytics>
 	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
-	<syslogServerIpAddress>collaborhythm.media.mit.edu</syslogServerIpAddress>
-	<rtmpBaseURI>rtmfp://collaborhythm.media.mit.edu</rtmpBaseURI>
+	<rtmpBaseURI>rtmfp://adrenaline.media.mit.edu</rtmpBaseURI>
 	<debuggingToolsEnabled>true</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
@@ -52,6 +51,7 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Messages/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Problems.HIV/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
 		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/SchedulePluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/HealthChartsPluginModule.swf</pluginSearchPath>
@@ -63,9 +63,9 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
 	<demoModeEnabled>true</demoModeEnabled>
-	<adherenceVoidingEnabled>false</adherenceVoidingEnabled>
+	<adherenceVoidingEnabled>true</adherenceVoidingEnabled>
 	<includeAdherenceVoidingMenuItem>true</includeAdherenceVoidingMenuItem>
-	<targetDate>2011-08-13T10:40:00-5:00</targetDate>
+	<targetDate>2011-08-14T10:40:00-5:00</targetDate>
 	<demoDatePresets>
 		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>
 		<demoDatePreset>2011-07-17T00:20:00Z</demoDatePreset>
