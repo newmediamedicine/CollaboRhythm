@@ -1751,7 +1751,7 @@
     
     <recordSeed/>
     
-    <notes>Primary demo account with diabetes data</notes>
+    <notes>Primary demo account with hypertension data</notes>
     
     <shareAccountId>jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
     
@@ -2858,8 +2858,11 @@
     <shareRole>Coach</shareRole>
     
     <documentsDirectory>mbrooks</documentsDirectory>
+    
     <notes>Demo patient for CollaboRhythm video Nov 2012</notes>
+    
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>akiel@records.media.mit.edu</accountId>
@@ -2935,6 +2938,7 @@
     <recordSeed/>
     
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>test1-jking@records.media.mit.edu</accountId>
@@ -3012,6 +3016,7 @@
     <documentsDirectory>jking</documentsDirectory>
     
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>test1-jgreen@records.media.mit.edu</accountId>
@@ -3093,6 +3098,7 @@
     <notes>Test1 HIV demo patient</notes>
     
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>test1-csantos@records.media.mit.edu</accountId>
@@ -3174,6 +3180,7 @@
     <documentsDirectory>csantos</documentsDirectory>
     
   </AccountSource>
+  
   <AccountSource>
     
     <accountId>test1-mbrooks@records.media.mit.edu</accountId>
@@ -3253,5 +3260,243 @@
     <shareRole>Coach</shareRole>
     
     <documentsDirectory/>
+    
+  </AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>test1-dbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>David Brooks</fullName>
+    
+    <username>test1-dbrooks</username>
+    
+    <password>dbrooks-dope75</password>
+    
+    <givenName>David</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1965-07-08T00:00:00Z</dateOfBirth>
+    
+    <age>44</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>3e1aa2c9-3420-4ce1-943f-cbb04be39a32</recordId>
+    
+    <accessKey>hnHcAwgJm0uwehoGkIgu</accessKey>
+    
+    <accessSecret>VvUW0dXObEb5Nrreu2gm</accessSecret>
+    
+    <status>Created 13/13 documents, 7/8 relationships</status>
+    
+    <demographicsId>e33c0fc7-49a1-4d59-8058-1f51d1ae3982</demographicsId>
+    
+    <recordSeed>1</recordSeed>
+    
+    <notes>Test1 diabetes for David</notes>
+    
+    <shareAccountId>test1-jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>test1-mbrooks</documentsDirectory>
+    
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>shared-csantos@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>shared-csantos</username>
+    
+    <password>shared-csantos</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>7ea05e82-dd7b-4631-84ff-0642f92c97f5</recordId>
+    
+    <accessKey>oyOHml6lXgZmdXRrCwKi</accessKey>
+    
+    <accessSecret>G3c0pDSNkq6Tm1607uWq</accessSecret>
+    
+    <status>Record shared.</status>
+    
+    <demographicsId>24cc3415-30dc-4e9a-b123-ad93b18c6369</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Shared hypertension account</notes>
+    
+    <shareAccountId>shared-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>csantos</documentsDirectory>
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>shared-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>shared-jking</username>
+    
+    <password>shared-jking</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status>Password set.</status>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>b99e548b-f066-4114-9d9b-7b4dbb0d43da</demographicsId>
+    
+    <notes>Shared physician</notes>
+    
+    <recordSeed/>
+    
   </AccountSource>
 </dataroot>
