@@ -3499,4 +3499,160 @@
     <recordSeed/>
     
   </AccountSource>
-</dataroot>
+<AccountSource>
+    
+    <accountId>apf-mbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks</fullName>
+    
+    <username>apf-mbrooks</username>
+    
+    <password>mbrooks-dope75</password>
+    
+    <givenName>Michael</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>4d6876f6-e346-4f13-aad2-7031794c2dbe</recordId>
+    
+    <accessKey>y4gPjxpTHxnjruzM5BCw</accessKey>
+    
+    <accessSecret>ZRwBUYqTdM5oZn0459rr</accessSecret>
+    
+    <status>Created 13/13 documents, 7/8 relationships</status>
+    
+    <demographicsId>14e549da-8bf6-479b-b277-cd6f9184b7da</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>APF diabetes</notes>
+    
+    <shareAccountId>apf-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>test1-mbrooks</documentsDirectory>
+    
+  <mode>patient</mode></AccountSource><AccountSource>
+    
+    <accountId>apf-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>apf-jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>f08daeb9-92bd-4565-acba-06cfd3e574e2</recordId>
+    
+    <status>Demographics document created. Id: 4a89ef9e-a7e5-4913-ba3d-bc70dfc08fb4</status>
+    
+    <accessKey>ZeavR3PoNTqmNIvoGlO7</accessKey>
+    
+    <accessSecret>p6MQAr1zPm8LQmg0orWN</accessSecret>
+    
+    <demographicsId>4a89ef9e-a7e5-4913-ba3d-bc70dfc08fb4</demographicsId>
+    
+    <notes>APF physician</notes>
+    
+    <recordSeed/>
+    
+    <documentsDirectory>jking</documentsDirectory>
+    
+  <mode>clinician</mode></AccountSource></dataroot>

@@ -60,10 +60,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" exported="" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
     <orderEntry type="module-library" exported="">
       <library name="libs" type="flex">
         <properties id="132b44f5-3217-4155-b47f-bbd275687d86" />
@@ -76,10 +72,14 @@
       </library>
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="library" exported="" name="mobile" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" exported="" />
     <orderEntry type="module" module-name="McCuneChart" exported="" />
     <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
-    <orderEntry type="library" exported="" name="mobile" level="project" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Messages" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
