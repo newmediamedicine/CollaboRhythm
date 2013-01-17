@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CollaboRhythm.Tablet - Device (Release)" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="CollaboRhythm.Tablet - Device (Release)" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
     <option name="BCName" value="CollaboRhythm.Tablet Release" />
     <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />

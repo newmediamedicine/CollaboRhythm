@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CollaboRhythm.Tablet - Emulator (Nexus 720 x 1134)" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="CollaboRhythm.Tablet - Emulator (Nexus 720 x 1134)" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
     <option name="BCName" value="CollaboRhythm.Tablet Emulator" />
     <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />
