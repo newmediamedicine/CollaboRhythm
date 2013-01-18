@@ -375,9 +375,9 @@
 							 source="{_applicationController.activeRecordAccount.imageURI}" smooth="true"/>
 					<s:VGroup gap="1" paddingTop="3" paddingLeft="5" paddingRight="10">
 						<s:Label id="activeRecordGivenName"
-								 text="{_applicationController.activeRecordAccount.primaryRecord.contact.givenName}"/>
+								 text="{_applicationController.activeRecordAccount.primaryRecord.demographics.name.givenName}"/>
 						<s:Label id="activeRecordFamilyName"
-								 text="{_applicationController.activeRecordAccount.primaryRecord.contact.familyName}"/>
+								 text="{_applicationController.activeRecordAccount.primaryRecord.demographics.name.familyName}"/>
 					</s:VGroup>
 				</s:HGroup>
 			</s:Group>

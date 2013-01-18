@@ -389,9 +389,12 @@ package org.indivo.client
 												userData:Object = null):void
 		{
 			var requestUrl:String = "records/" + recordId + "/demographics";
+			var params:URLVariables = new URLVariables();
+			params["response_format"] = "application/xml";
+
 			phaRequest(
 					consumerKey, consumerSecret, installationURL,
-					"GET", requestUrl, accessToken, accessTokenSecret, null, null, userData);
+					"GET", requestUrl, accessToken, accessTokenSecret, null, params, userData);
 		}
 
 		/**
