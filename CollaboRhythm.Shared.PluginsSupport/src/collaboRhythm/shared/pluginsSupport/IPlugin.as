@@ -22,7 +22,9 @@ package collaboRhythm.shared.pluginsSupport
     import mx.modules.IModule;
 
 	/**
-	 * A CollaboRhythm plugin. Plugins must implement this interface as well as IModule.
+	 * A CollaboRhythm plugin. Plugins must implement this interface as well as IModule. See AppControllerInfo and
+	 * the various CollaboRhythm I*Factory interfaces for possible components to register.
+	 * @see AppControllerInfo
 	 */
 	public interface IPlugin extends IModule
 	{

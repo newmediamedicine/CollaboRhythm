@@ -16,6 +16,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
@@ -57,12 +58,11 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _deviceBloodGlucose:String = "";
 		private var _bloodGlucoseVitalSign:VitalSign;
 
+		private var _actionsListScrollerPosition:Number;
 		private var _invalidBloodGlucose:Boolean = false;
 		private var _glycemicState:String;
 
 		private var _currentStep:int = 0;
-		private var _currentView:Class;
-		private var _pushedViewCount:int = 0;
 
 		public static const TIMER_COUNT:int = 15 * 60; // fifteen minutes
 		public static const TIMER_STEP:int = 1000; // one second
@@ -73,30 +73,35 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _simpleCarbsItemListSelectedIndex:int = -1;
 		private var _complexCarbs15gItemListSelectedIndex:int = -1;
 		private var _complexCarbs30gItemListSelectedIndex:int = -1;
-		private var _actionsListScrollerPosition:Number;
 		private var _dateMeasuredStart:Date;
+		private var _bloodGlucoseHealthActionInputModelCollection:BloodGlucoseHealthActionInputModelCollection;
+		private var _isDuplicate:Boolean;
 
-		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null,
-														   scheduleCollectionsProvider:IScheduleCollectionsProvider = null)
+		public function BloodGlucoseHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+														   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+														   scheduleCollectionsProvider:IScheduleCollectionsProvider,
+														   bloodGlucoseHealthActionInputModelCollection:BloodGlucoseHealthActionInputModelCollection)
 		{
 			super(scheduleItemOccurrence, healthActionModelDetailsProvider, scheduleCollectionsProvider);
+			_bloodGlucoseHealthActionInputModelCollection = bloodGlucoseHealthActionInputModelCollection;
 
 			dateMeasuredStart = _currentDateSource.now();
 		}
 
 		public function handleHealthActionResult():void
 		{
-			pushView(BloodGlucoseHealthActionInputView);
+			setCurrentView(BloodGlucoseHealthActionInputView);
 		}
 
 		public function handleHealthActionSelected():void
 		{
-			pushView(BloodGlucoseHealthActionInputView);
+			setCurrentView(BloodGlucoseHealthActionInputView);
 		}
 
 		public function handleUrlVariables(urlVariables:URLVariables):void
 		{
+			_logger.debug("handleUrlVariables " + urlVariables.toString());
+
 			manualBloodGlucose = "";
 			deviceBloodGlucose = urlVariables.bloodGlucose;
 			dateMeasuredStart = DateUtil.parseW3CDTF(urlVariables.correctedMeasuredDate);
@@ -105,18 +110,48 @@ package collaboRhythm.plugins.foraD40b.model
 			{
 				if (currentView != BloodGlucoseHealthActionInputView)
 				{
-					pushView(BloodGlucoseHealthActionInputView);
+					setCurrentView(BloodGlucoseHealthActionInputView);
 				}
 			}
 			else
 			{
-				if (currentView != Step3HypoglycemiaActionPlanView)
-				{
-					pushView(Step3HypoglycemiaActionPlanView);
-				}
+				showStep3();
 			}
 
-			_urlVariables = urlVariables;
+			this.urlVariables = urlVariables;
+		}
+
+		private function showStep3():void
+		{
+			// We must clear these fields because this model class might get reused during the hypoglycemia action plan
+			// TODO: only clear these fields when needed or use a new instance of the BloodGlucoseHealthActionModel so that the view doesn't update during a transition away after save
+			_bloodGlucoseHealthActionInputModelCollection.clearMeasurements();
+
+			currentStep = 3;
+			if (currentView != Step3HypoglycemiaActionPlanView)
+			{
+				setCurrentView(Step3HypoglycemiaActionPlanView);
+			}
+		}
+
+		public function get currentView():Class
+		{
+			return _bloodGlucoseHealthActionInputModelCollection.currentView;
+		}
+
+		public function set currentView(currentView:Class):void
+		{
+			_bloodGlucoseHealthActionInputModelCollection.currentView = currentView;
+		}
+
+		public function get pushedViewCount():int
+		{
+			return _bloodGlucoseHealthActionInputModelCollection.pushedViewCount;
+		}
+
+		public function set pushedViewCount(pushedViewCount:int):void
+		{
+			_bloodGlucoseHealthActionInputModelCollection.pushedViewCount = pushedViewCount;
 		}
 
 		public function nextStep(initiatedLocally:Boolean):void
@@ -124,24 +159,24 @@ package collaboRhythm.plugins.foraD40b.model
 			if (currentView == StartHypoglycemiaActionPlanView)
 			{
 				currentStep = 1;
-				pushView(Step1HypoglycemiaActionPlanView);
+				setCurrentView(Step1HypoglycemiaActionPlanView);
 			}
 			else if (currentView == Step1HypoglycemiaActionPlanView)
 			{
 				currentStep = 2;
-				pushView(Step2HypoglycemiaActionPlanView);
+				setCurrentView(Step2HypoglycemiaActionPlanView);
 			}
 			else if (currentView == Step2HypoglycemiaActionPlanView)
 			{
 				currentStep = 3;
 				timer.stop();
-				pushView(Step3HypoglycemiaActionPlanView);
+				showStep3();
 			}
 			else if (currentView == Step4HypoglycemiaActionPlanView)
 			{
 				saveHypoglycemiaHealthActionResult(initiatedLocally);
 				currentStep = 0;
-				pushView(null);
+				setCurrentView(null);
 			}
 		}
 
@@ -152,7 +187,7 @@ package collaboRhythm.plugins.foraD40b.model
 			if (deviceBloodGlucose != "")
 			{
 				bloodGlucoseVitalSign = vitalSignFactory.createBloodGlucose(dateMeasuredStart, deviceBloodGlucose, null,
-						null, null, null, null, FROM_DEVICE + ForaD40bAppController.DEFAULT_NAME);
+						null, null, null, null, FROM_DEVICE + ForaD40bAppController.DEFAULT_NAME + " " + _urlVariables.toString());
 			}
 			else if (manualBloodGlucose != "")
 			{
@@ -161,7 +196,8 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 		}
 
-		public function submitBloodGlucose(bloodGlucoseVitalSign:VitalSign, initiatedLocally:Boolean):void
+		public function submitBloodGlucose(bloodGlucoseVitalSign:VitalSign,
+										   initiatedLocally:Boolean):void
 		{
 			evaluateGlycemicState(bloodGlucoseVitalSign);
 
@@ -177,7 +213,7 @@ package collaboRhythm.plugins.foraD40b.model
 					_hypoglycemiaHealthActionResult.actions = new ArrayCollection();
 					_hypoglycemiaActionPlanInitialBloodGlucose = bloodGlucoseVitalSign;
 					_hypoglycemiaActionPlanInitialBloodGlucose.triggeredHealthActionResults.push(_hypoglycemiaHealthActionResult);
-					saveBloodGlucose(initiatedLocally, _hypoglycemiaActionPlanInitialBloodGlucose);
+					saveBloodGlucose(_hypoglycemiaActionPlanInitialBloodGlucose, initiatedLocally, true);
 					startHypoglycemiaActionPlan();
 				}
 				else
@@ -185,11 +221,11 @@ package collaboRhythm.plugins.foraD40b.model
 					addBloodGlucoseHealthAction(bloodGlucoseVitalSign);
 					if (currentStep == 1)
 					{
-						pushView(Step1HypoglycemiaActionPlanView);
+						setCurrentView(Step1HypoglycemiaActionPlanView);
 					}
 					else if (currentStep == 2)
 					{
-						pushView(Step2HypoglycemiaActionPlanView);
+						setCurrentView(Step2HypoglycemiaActionPlanView);
 					}
 					else if (currentStep == 3)
 					{
@@ -199,7 +235,7 @@ package collaboRhythm.plugins.foraD40b.model
 					else if (currentStep == 4)
 					{
 						currentStep = 0;
-						pushView(StartHypoglycemiaActionPlanView);
+						setCurrentView(StartHypoglycemiaActionPlanView);
 					}
 				}
 			}
@@ -209,19 +245,15 @@ package collaboRhythm.plugins.foraD40b.model
 				{
 					addBloodGlucoseHealthAction(bloodGlucoseVitalSign);
 					currentStep = 4;
-					pushView(Step4HypoglycemiaActionPlanView);
+					setCurrentView(Step4HypoglycemiaActionPlanView);
 				}
 				else if (currentView == BloodGlucoseHealthActionInputView)
 				{
-					saveBloodGlucose(initiatedLocally, bloodGlucoseVitalSign);
+					saveBloodGlucose(bloodGlucoseVitalSign, initiatedLocally, true);
 					currentStep = 0;
-					pushView(null);
+					setCurrentView(null);
 				}
 			}
-
-			manualBloodGlucose = "";
-			deviceBloodGlucose = "";
-			dateMeasuredStart = _currentDateSource.now();
 		}
 
 		private function evaluateGlycemicState(bloodGlucoseVitalSign:VitalSign):void
@@ -246,7 +278,8 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 		}
 
-		private function saveBloodGlucose(initiatedLocally:Boolean, bloodGlucoseVitalSign:VitalSign):void
+		public function saveBloodGlucose(bloodGlucoseVitalSign:VitalSign,
+										 initiatedLocally:Boolean, persist:Boolean):void
 		{
 			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 			results.push(bloodGlucoseVitalSign);
@@ -264,7 +297,7 @@ package collaboRhythm.plugins.foraD40b.model
 				}
 			}
 
-			if (initiatedLocally)
+			if (initiatedLocally && persist)
 			{
 				healthActionModelDetailsProvider.record.saveAllChanges();
 			}
@@ -358,10 +391,10 @@ package collaboRhythm.plugins.foraD40b.model
 		private function startHypoglycemiaActionPlan():void
 		{
 			hypoglycemiaActionPlanIterationCount++;
-			pushView(StartHypoglycemiaActionPlanView);
+			setCurrentView(StartHypoglycemiaActionPlanView);
 		}
 
-		private function pushView(view:Class):void
+		private function setCurrentView(view:Class):void
 		{
 			currentView = view;
 			if (view != null)
@@ -390,7 +423,7 @@ package collaboRhythm.plugins.foraD40b.model
 		public function quitHypoglycemiaActionPlan(initiatedLocally:Boolean):void
 		{
 			saveHypoglycemiaHealthActionResult(initiatedLocally);
-			pushView(null);
+			setCurrentView(null);
 		}
 
 		public function get manualBloodGlucose():String
@@ -413,6 +446,20 @@ package collaboRhythm.plugins.foraD40b.model
 			_deviceBloodGlucose = value;
 		}
 
+		public function synchronizeActionsListScrollerPosition(verticalScrollPosition:Number):void
+		{
+			actionsListScrollerPosition = verticalScrollPosition;
+		}
+
+		public function get actionsListScrollerPosition():Number
+		{
+			return _actionsListScrollerPosition;
+		}
+
+		public function set actionsListScrollerPosition(value:Number):void
+		{
+			_actionsListScrollerPosition = value;
+		}
 		public function get glycemicState():String
 		{
 			return _glycemicState;
@@ -441,26 +488,6 @@ package collaboRhythm.plugins.foraD40b.model
 		public function set currentStep(value:int):void
 		{
 			_currentStep = value;
-		}
-
-		public function get currentView():Class
-		{
-			return _currentView;
-		}
-
-		public function set currentView(value:Class):void
-		{
-			_currentView = value;
-		}
-
-		public function get pushedViewCount():int
-		{
-			return _pushedViewCount;
-		}
-
-		public function set pushedViewCount(value:int):void
-		{
-			_pushedViewCount = value;
 		}
 
 		public function get timer():Timer
@@ -563,21 +590,6 @@ package collaboRhythm.plugins.foraD40b.model
 			_complexCarbs30gItemListSelectedIndex = value;
 		}
 
-		public function synchronizeActionsListScrollerPosition(verticalScrollPosition:Number):void
-		{
-			actionsListScrollerPosition = verticalScrollPosition;
-		}
-
-		public function get actionsListScrollerPosition():Number
-		{
-			return _actionsListScrollerPosition;
-		}
-
-		public function set actionsListScrollerPosition(value:Number):void
-		{
-			_actionsListScrollerPosition = value;
-		}
-
 		public function get dateMeasuredStart():Date
 		{
 			return _dateMeasuredStart;
@@ -609,6 +621,84 @@ package collaboRhythm.plugins.foraD40b.model
 			}
 
 			return adherenceResultDate;
+		}
+
+		public function get isFromDevice():Boolean
+		{
+			return deviceBloodGlucose != null && deviceBloodGlucose != "";
+		}
+
+		public function get isChangeTimeAllowed():Boolean
+		{
+			return !isFromDevice;
+		}
+
+		public function get bloodGlucoseHealthActionInputModelCollection():BloodGlucoseHealthActionInputModelCollection
+		{
+			return _bloodGlucoseHealthActionInputModelCollection;
+		}
+
+		override public function getPossibleScheduleItemOccurrences():Vector.<ScheduleItemOccurrence>
+		{
+			return getMatchingScheduleItemOccurrencesInWindow(DateUtil.MILLISECONDS_IN_DAY / 2,
+					DateUtil.MILLISECONDS_IN_DAY / 2, false, true);
+		}
+
+		private function getMatchingScheduleItemOccurrencesInWindow(windowStartOffset:Number, windowEndOffset:Number,
+																	intersect:Boolean, includeToday:Boolean = false):Vector.<ScheduleItemOccurrence>
+		{
+			var measuredDayEnd:Number = DateUtil.roundTimeToNextDay(dateMeasuredStart).valueOf();
+			var windowStart:Date;
+			var windowEnd:Date;
+			if (includeToday)
+			{
+				windowStart = new Date(Math.min(dateMeasuredStart.valueOf() - windowStartOffset, measuredDayEnd - DateUtil.MILLISECONDS_IN_DAY));
+				windowEnd = new Date(Math.max(dateMeasuredStart.valueOf() + windowEndOffset, measuredDayEnd));
+			}
+			else
+			{
+				windowStart = new Date(dateMeasuredStart.valueOf() - windowStartOffset);
+				windowEnd = new Date(dateMeasuredStart.valueOf() + windowEndOffset);
+			}
+
+			var occurrences:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+			for each (var schedule:HealthActionSchedule in
+					_healthActionModelDetailsProvider.record.healthActionSchedulesModel.healthActionScheduleCollection)
+			{
+				if (ForaD40bHealthActionListViewAdapterFactory.isForBloodGlucose(schedule))
+				{
+					for each (var occurrence:ScheduleItemOccurrence in
+							schedule.getScheduleItemOccurrences(windowStart, windowEnd, intersect))
+					{
+						occurrences.push(occurrence);
+					}
+				}
+			}
+			return occurrences;
+		}
+
+		public function guessScheduleItemOccurrence():ScheduleItemOccurrence
+		{
+			var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = getMatchingScheduleItemOccurrencesInWindow(0,
+					0, true);
+			for each (var matchingOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+			{
+				if (matchingOccurrence.adherenceItem == null || matchingOccurrence.adherenceItem.pendingAction == DocumentBase.ACTION_CREATE)
+				{
+					return matchingOccurrence;
+				}
+			}
+			return null;
+		}
+
+		public function set isDuplicate(isDuplicate:Boolean):void
+		{
+			_isDuplicate = isDuplicate;
+		}
+
+		public function get isDuplicate():Boolean
+		{
+			return _isDuplicate;
 		}
 	}
 }

@@ -167,5 +167,10 @@ package collaboRhythm.shared.collaboration.model
 		{
 			return _collaborationModel;
 		}
+
+		public function simulateDisconnect():void
+		{
+			_collaborationLobbyNetConnectionService.simulateDisconnect();
+		}
 	}
 }

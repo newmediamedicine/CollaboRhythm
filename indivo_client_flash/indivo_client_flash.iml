@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="indivo_client_flash">
     <configurations>
-      <configuration name="indivo_client_flash" target-platform="Desktop" output-type="Library" output-file="indivo_client_flash.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="indivo_client_flash" target-platform="Desktop" output-type="Library" output-file="indivo_client_flash.swc" output-folder="$MODULE_DIR$/../out/production/indivo_client_flash">
         <dependencies>
           <entries>
             <entry library-id="76a7564d-9e8d-4509-b2e9-e69c70608cf2">
@@ -35,7 +35,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: Crypto" type="flex">
         <properties id="76a7564d-9e8d-4509-b2e9-e69c70608cf2" />
         <CLASSES>
@@ -45,7 +45,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: oauth-as3" type="flex">
         <properties id="825fc6c6-a57a-4bcc-8fb4-0789edf10544" />
         <CLASSES>
@@ -57,7 +57,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: J2AS3Collections" type="flex">
         <properties id="bfb01a4e-2ab1-4619-80b3-4219e59407c1" />
         <CLASSES>

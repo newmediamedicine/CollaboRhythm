@@ -43,6 +43,7 @@
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.Collaboration/CollaboRhythm.Shared.Collaboration.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.Collaboration/CollaboRhythm.Shared.Collaboration.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.Messages/CollaboRhythm.Shared.Messages.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.Messages/CollaboRhythm.Shared.Messages.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.Model/CollaboRhythm.Shared.Model.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.Model/CollaboRhythm.Shared.Model.iml" group="CollaboRhythm/Libraries" />
+      <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.PluginsDeployment/CollaboRhythm.Shared.PluginsDeployment.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.PluginsDeployment/CollaboRhythm.Shared.PluginsDeployment.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm.Shared.PluginsSupport.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.UI.Buttons/CollaboRhythm.Shared.UI.Buttons.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.UI.Buttons/CollaboRhythm.Shared.UI.Buttons.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Shared.UI.HealthCharts/CollaboRhythm.Shared.UI.HealthCharts.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Shared.UI.HealthCharts/CollaboRhythm.Shared.UI.HealthCharts.iml" group="CollaboRhythm/Libraries" />
@@ -50,7 +51,10 @@
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Tablet/CollaboRhythm.Tablet.iml" group="CollaboRhythm/Modalities" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" filepath="$PROJECT_DIR$/CollaboRhythm.View.Scroll/CollaboRhythm.View.Scroll.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/CollaboRhythm.Workstation/CollaboRhythm.Workstation.iml" filepath="$PROJECT_DIR$/CollaboRhythm.Workstation/CollaboRhythm.Workstation.iml" group="CollaboRhythm/Modalities" />
-      <module fileurl="file://$PROJECT_DIR$/GAForFlash/GAForFlash.iml" filepath="$PROJECT_DIR$/GAForFlash/GAForFlash.iml" group="CollaboRhythm/Libraries" />
+      <module fileurl="file://$PROJECT_DIR$/Design/Design.iml" filepath="$PROJECT_DIR$/Design/Design.iml" group="CollaboRhythm" />
+      <module fileurl="file://$PROJECT_DIR$/ExternalLibraries/ExternalLibraries.iml" filepath="$PROJECT_DIR$/ExternalLibraries/ExternalLibraries.iml" group="CollaboRhythm/3rd Party Libraries" />
+      <module fileurl="file://$PROJECT_DIR$/GAForFlash/GAForFlash.iml" filepath="$PROJECT_DIR$/GAForFlash/GAForFlash.iml" group="CollaboRhythm/3rd Party Libraries" />
+      <module fileurl="file://$PROJECT_DIR$/IntelliJ.IDEA.Settings/IntelliJ.IDEA.Settings.iml" filepath="$PROJECT_DIR$/IntelliJ.IDEA.Settings/IntelliJ.IDEA.Settings.iml" group="CollaboRhythm/Other" />
       <module fileurl="file://$PROJECT_DIR$/McCuneChart/McCuneChart.iml" filepath="$PROJECT_DIR$/McCuneChart/McCuneChart.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/McCuneChart.demos/McCuneChart.demos.iml" filepath="$PROJECT_DIR$/McCuneChart.demos/McCuneChart.demos.iml" group="CollaboRhythm/Libraries" />
       <module fileurl="file://$PROJECT_DIR$/PianoChord/PianoChord.iml" filepath="$PROJECT_DIR$/PianoChord/PianoChord.iml" group="CollaboRhythm/Tools" />

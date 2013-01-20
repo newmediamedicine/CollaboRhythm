@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="Box2DFlashAS3">
     <configurations>
-      <configuration name="Box2DFlashAS3" target-platform="Desktop" output-type="Library" output-file="Box2DFlashAS3.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="Box2DFlashAS3" target-platform="Desktop" output-type="Library" output-file="Box2DFlashAS3.swc" output-folder="$MODULE_DIR$/../out/production/Box2DFlashAS3">
         <dependencies>
           <sdk name="4.6.0" />
         </dependencies>

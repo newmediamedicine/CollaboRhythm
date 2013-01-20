@@ -1,0 +1,1 @@
+Separate plugin and library files with CollaboRhythm dependencies can be located in this folder so that they can reference CollaboRhythm libraries and sources without being part of the CollaboRhythm repository.

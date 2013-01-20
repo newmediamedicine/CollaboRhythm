@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<!---
+		Displays schedule information for a health action result (such as a measurement) to indicate whether the action
+		was scheduled and which schedule item occurrence the action is an adherence item for.
+-->
+<s:CalloutButton xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+				 xmlns:mx="library://ns.adobe.com/flex/mx"
+				 xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
+				 skinClass="collaboRhythm.shared.ui.buttons.view.skins.TransparentButtonSkin"
+				 icon="{iconGroup}"
+				 verticalPosition="after"
+				 width="70"
+				 height="70"
+		>
+	<fx:Metadata>
+		[Style(name="checkBoxSkin", type="Class", inherit="no")]
+	</fx:Metadata>
+	<fx:Declarations>
+		<s:DateTimeFormatter id="dateFormatter" dateTimePattern="M-dd-yyyy"/>
+		<s:DateTimeFormatter id="timeMinutesFormatter" dateTimePattern="h:mm a"/>
+		<s:DateTimeFormatter id="timeHoursFormatter" dateTimePattern="h a"/>
+		<s:ColorMatrixFilter id="greyScaleFilter"
+							 matrix="0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0,	0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0"/>
+		<s:Group id="iconGroup">
+			<sharedView:ScheduledHealthActionsClockIconView id="scheduleHealthActionsClockIconView" width="50"
+															height="50"/>
+			<sharedView:AdherenceCheck id="adherenceCheck" width="50" height="50"
+									   visible="false"
+									   filters="{[new GlowFilter(0xFFFFFF, 0.7, this.width / 8, this.width / 8, this.width / 8)]}"
+			/>
+		</s:Group>
+	</fx:Declarations>
+	<s:calloutContent>
+		<!--<s:Label>Schedule item: {_dataInputModel.scheduleItemOccurrence.scheduleItem.name.text}</s:Label>-->
+	</s:calloutContent>
+	<s:calloutLayout>
+		<s:VerticalLayout paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10"/>
+	</s:calloutLayout>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
+		import collaboRhythm.shared.model.DateUtil;
+		import collaboRhythm.shared.model.healthRecord.DocumentBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+		import collaboRhythm.shared.model.services.ICurrentDateSource;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+
+		import mx.binding.utils.BindingUtils;
+
+		import spark.components.CheckBox;
+		import spark.components.Label;
+		import spark.filters.GlowFilter;
+
+		[Bindable]
+		private var _dataInputModel:IHealthActionInputModel;
+		private var _dataInputController:IHealthActionInputController;
+		private var _currentDateSource:ICurrentDateSource;
+		private var _propertiesChanged:Boolean;
+		private var _editable:Boolean = true;
+
+		private static const USE_NONE_CHECK_BOX:Boolean = false;
+		private static const USE_SUMMARY_LABEL:Boolean = false;
+
+		public function init(dataInputModel:IHealthActionInputModel,
+							 dataInputController:IHealthActionInputController):void
+		{
+			_dataInputModel = dataInputModel;
+			_dataInputController = dataInputController;
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+
+			propertiesChanged = true;
+
+			BindingUtils.bindSetter(dataInputModel_scheduleItemOccurrence_setterHandler, _dataInputModel,
+					"scheduleItemOccurrence");
+
+			addEventListener("calloutChanged", calloutChangedHandler);
+		}
+
+		private function formatTime(date:Date):String
+		{
+			if (date.minutes == 0)
+			{
+				return timeHoursFormatter.format(date);
+			}
+
+			return timeMinutesFormatter.format(date);
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			propertiesChanged = true;
+		}
+
+		private function dataInputModel_scheduleItemOccurrence_setterHandler(value:ScheduleItemOccurrence):void
+		{
+			propertiesChanged = true;
+		}
+
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			if (propertiesChanged)
+			{
+				updateChildren();
+				propertiesChanged = false;
+			}
+		}
+
+		private function updateChildren():void
+		{
+			if (scheduleHealthActionsClockIconView && adherenceCheck)
+			{
+				if (_dataInputModel)
+				{
+					scheduleHealthActionsClockIconView.init(_dataInputModel.scheduleCollectionsProvider,
+							_dataInputModel.scheduleItemOccurrence ? _dataInputModel.scheduleItemOccurrence.dateStart : null,
+							_dataInputModel.scheduleItemOccurrence ? _dataInputModel.scheduleItemOccurrence.dateEnd : null);
+				}
+
+				if (_dataInputModel && _dataInputModel.scheduleItemOccurrence)
+				{
+					scheduleHealthActionsClockIconView.filters = [];
+					scheduleHealthActionsClockIconView.alpha = 1;
+					adherenceCheck.visible = true;
+				}
+				else
+				{
+					scheduleHealthActionsClockIconView.filters = [greyScaleFilter];
+					scheduleHealthActionsClockIconView.alpha = 0.3;
+					adherenceCheck.visible = false;
+				}
+
+				updateCalloutContent();
+			}
+		}
+
+		public function formatDate(date:Date):String
+		{
+			if (DateUtil.isDateToday(date, _currentDateSource.now()))
+			{
+				return "Today";
+			}
+			else if (DateUtil.isDateYesterday(date, _currentDateSource.now()))
+			{
+				return "Yesterday";
+			}
+			else
+			{
+				return date.toDateString();
+			}
+		}
+
+		public function formatDateTime(date:Date):String
+		{
+			return formatDate(date) + " " + formatTime(date);
+		}
+
+		public function getTimeDeltaDescription(timeDelta:Number, relativeToSchedule:String):String
+		{
+			var hours:Number = Math.round(timeDelta / (1000 * 60 * 60));
+			var minutes:Number = Math.ceil(timeDelta / (1000 * 60));
+			if (hours > 0)
+				return hours + " hour" + conditionalPlural(hours) + " " + relativeToSchedule;
+
+			return minutes + " minute" + conditionalPlural(minutes) + " " + relativeToSchedule;
+		}
+
+		public function updateCalloutContent():void
+		{
+			var newCalloutContent:Array = new Array();
+
+			if (_dataInputModel)
+			{
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in
+						_dataInputModel.getPossibleScheduleItemOccurrences())
+				{
+					var checkBox:CheckBox = createPossibleScheduleItemOccurrenceCheckBox();
+					if (scheduleItemOccurrence.equals(_dataInputModel.scheduleItemOccurrence))
+					{
+						checkBox.selected = true;
+					}
+
+					checkBox.label = formatDate(scheduleItemOccurrence.dateStart) + " " +
+							formatTime(scheduleItemOccurrence.dateStart) +
+							" to " +
+							formatTime(scheduleItemOccurrence.dateEnd);
+					if (scheduleItemOccurrence.adherenceItem &&
+							scheduleItemOccurrence.adherenceItem.pendingAction != DocumentBase.ACTION_CREATE)
+					{
+						checkBox.label += " (adherence already reported " +
+								formatDateTime(scheduleItemOccurrence.adherenceItem.dateReported) + ")";
+						checkBox.enabled = false;
+					}
+					else
+					{
+						var timeDeltaDescription:String;
+						var timeDelta:Number;
+						if (_dataInputModel.dateMeasuredStart.valueOf() < scheduleItemOccurrence.dateStart.valueOf())
+						{
+							timeDelta = scheduleItemOccurrence.dateStart.valueOf() -
+									_dataInputModel.dateMeasuredStart.valueOf();
+							timeDeltaDescription = getTimeDeltaDescription(timeDelta, "early");
+						}
+						else if (_dataInputModel.dateMeasuredStart.valueOf() > scheduleItemOccurrence.dateEnd.valueOf())
+						{
+							timeDelta = _dataInputModel.dateMeasuredStart.valueOf() -
+									scheduleItemOccurrence.dateEnd.valueOf();
+							timeDeltaDescription = getTimeDeltaDescription(timeDelta, "late");
+						}
+						else
+						{
+							timeDeltaDescription = "within the adherence window";
+						}
+						checkBox.label += " (measured " + timeDeltaDescription + ")";
+						addCheckBoxChangeListener(checkBox, scheduleItemOccurrence);
+						checkBox.enabled = editable;
+					}
+
+					newCalloutContent.unshift(checkBox);
+				}
+			}
+
+			if (USE_NONE_CHECK_BOX)
+			{
+				var noneCheckBox:CheckBox = createPossibleScheduleItemOccurrenceCheckBox();
+				noneCheckBox.label = "None (not scheduled)";
+				if (_dataInputModel.scheduleItemOccurrence == null)
+				{
+					noneCheckBox.selected = true;
+				}
+				noneCheckBox.addEventListener(Event.CHANGE, function (event:Event):void
+				{
+					_dataInputController.handleAdherenceChange(_dataInputModel, null, false);
+				}, false, 0, true);
+
+				newCalloutContent.unshift(noneCheckBox);
+			}
+
+			if (USE_SUMMARY_LABEL)
+			{
+				var summaryLabel:Label = new Label();
+				summaryLabel.text = "Report as adherence for:";
+				newCalloutContent.unshift(summaryLabel);
+			}
+
+			calloutContent = newCalloutContent;
+		}
+
+		public function get propertiesChanged():Boolean
+		{
+			return _propertiesChanged;
+		}
+
+		public function set propertiesChanged(value:Boolean):void
+		{
+			_propertiesChanged = value;
+			if (propertiesChanged)
+			{
+				invalidateProperties();
+			}
+		}
+
+		private function createPossibleScheduleItemOccurrenceCheckBox():CheckBox
+		{
+			var checkBox:CheckBox = new CheckBox();
+			var checkBoxSkinClass:Class = getStyle("checkBoxSkin");
+			checkBox.setStyle("skinClass", checkBoxSkinClass ? checkBoxSkinClass : AdherenceCheckBoxSkin);
+			checkBox.percentWidth = 100;
+			return checkBox;
+		}
+
+		private static function conditionalPlural(value:Number):String
+		{
+			return value == 1 ? "" : "s";
+		}
+
+		private function updateCallout():void
+		{
+			// TODO: remove this hack and use some simple CSS or the skin to set the contentBackgroundColor of the callout
+			if (callout)
+			{
+				callout.setStyle("contentBackgroundColor", 0xF0F0F0);
+//				callout.setStyle("skinClass", AdherenceCalloutSkin);
+			}
+		}
+
+		private function calloutChangedHandler(event:Event):void
+		{
+			updateCallout();
+		}
+
+		public function get editable():Boolean
+		{
+			return _editable;
+		}
+
+		public function set editable(value:Boolean):void
+		{
+			_editable = value;
+		}
+
+		private function addCheckBoxChangeListener(checkBox:CheckBox,
+												   scheduleItemOccurrence:ScheduleItemOccurrence):void
+		{
+			checkBox.addEventListener(Event.CHANGE, function (event:Event):void
+			{
+				_dataInputController.handleAdherenceChange(_dataInputModel, scheduleItemOccurrence,
+						checkBox.selected);
+				closeDropDown();
+			});
+		}
+		]]></fx:Script>
+</s:CalloutButton>

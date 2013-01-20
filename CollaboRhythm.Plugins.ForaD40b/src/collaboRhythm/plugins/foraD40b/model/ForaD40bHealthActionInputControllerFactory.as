@@ -19,7 +19,7 @@ package collaboRhythm.plugins.foraD40b.model
 	{
 		private static const HEALTH_ACTION_NAME_BLOOD_PRESSURE:String = "Blood Pressure";
 		private static const HEALTH_ACTION_NAME_BLOOD_GLUCOSE:String = "Blood Glucose";
-		private static const EQUIPMENT_NAME:String = "FORA D40b";
+		public static const EQUIPMENT_NAME:String = "FORA D40b";
 		private static const BLOOD_PRESSURE_INSTRUCTIONS:String = "Use device to record blood pressure systolic and blood pressure diastolic readings. Heart rate will also be recorded. Press the power button and wait several seconds to take reading.";
 		private static const BLOOD_GLUCOSE_INSTRUCTIONS:String = "Use device to record blood glucose. Insert test strip into device and apply a drop of blood.";
 

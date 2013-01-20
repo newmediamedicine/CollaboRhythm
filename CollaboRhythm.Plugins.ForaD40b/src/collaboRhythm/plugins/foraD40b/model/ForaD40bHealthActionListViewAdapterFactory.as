@@ -15,7 +15,9 @@ package collaboRhythm.plugins.foraD40b.model
 		private static const HEALTH_ACTION_NAME_BLOOD_GLUCOSE:String = "Blood Glucose";
 		private static const EQUIPMENT_NAME:String = "FORA D40b";
 		private static const BLOOD_PRESSURE_INSTRUCTIONS:String = "Use device to record blood pressure systolic and blood pressure diastolic readings. Heart rate will also be recorded. Press the power button and wait several seconds to take reading.";
+		private static const BLOOD_PRESSURE_PARTIAL_INSTRUCTIONS:String = "blood pressure";
 		private static const BLOOD_GLUCOSE_INSTRUCTIONS:String = "Use device to record blood glucose. Insert test strip into device and apply a drop of blood.";
+		private static const BLOOD_GLUCOSE_PARTIAL_INSTRUCTIONS:String = "blood glucose";
 
 		public function ForaD40bHealthActionListViewAdapterFactory()
 		{
@@ -34,20 +36,35 @@ package collaboRhythm.plugins.foraD40b.model
 			var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
 			if (healthActionSchedule)
 			{
-				var equipment:Equipment = healthActionSchedule.scheduledEquipment;
-				if (equipment)
+				if (healthActionSchedule.scheduledEquipment)
 				{
-					if (healthActionSchedule.instructions == BLOOD_PRESSURE_INSTRUCTIONS &&
-							equipment.name == EQUIPMENT_NAME)
+					if (isForBloodPressure(healthActionSchedule))
 						return new BloodPressureHealthActionListViewAdapter(scheduleItemOccurrence,
 								healthActionModelDetailsProvider);
-					else if (healthActionSchedule.instructions == BLOOD_GLUCOSE_INSTRUCTIONS &&
-							equipment.name == EQUIPMENT_NAME)
+					else if (isForBloodGlucose(healthActionSchedule))
 						return new BloodGlucoseHealthActionListViewAdapter(scheduleItemOccurrence,
 								healthActionModelDetailsProvider);
 				}
 			}
 			return currentHealthActionListViewAdapter;
+		}
+
+		public static function isForBloodPressure(healthActionSchedule:HealthActionSchedule):Boolean
+		{
+			// TODO: implement a more robust check for blood pressure schedule items
+			return healthActionSchedule.scheduledEquipment &&
+					healthActionSchedule.scheduledEquipment.name == EQUIPMENT_NAME &&
+					healthActionSchedule.instructions &&
+					healthActionSchedule.instructions.toLowerCase().indexOf(BLOOD_PRESSURE_PARTIAL_INSTRUCTIONS) != -1;
+		}
+
+		public static function isForBloodGlucose(healthActionSchedule:HealthActionSchedule):Boolean
+		{
+			// TODO: implement a more robust check for blood glucose schedule items
+			return healthActionSchedule.scheduledEquipment &&
+					healthActionSchedule.scheduledEquipment.name == EQUIPMENT_NAME &&
+					healthActionSchedule.instructions &&
+					healthActionSchedule.instructions.toLowerCase().indexOf(BLOOD_GLUCOSE_PARTIAL_INSTRUCTIONS) != -1;
 		}
 	}
 }

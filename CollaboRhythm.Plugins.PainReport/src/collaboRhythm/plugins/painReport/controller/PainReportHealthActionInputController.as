@@ -2,6 +2,7 @@ package collaboRhythm.plugins.painReport.controller
 {
 	import collaboRhythm.plugins.painReport.model.PainReportHealthActionInputModel;
 	import collaboRhythm.plugins.painReport.view.PainReportHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -13,7 +14,7 @@ package collaboRhythm.plugins.painReport.controller
 	import spark.components.ViewNavigator;
 	import spark.transitions.SlideViewTransition;
 
-	public class PainReportHealthActionInputController implements IHealthActionInputController
+	public class PainReportHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = PainReportHealthActionInputView;
 

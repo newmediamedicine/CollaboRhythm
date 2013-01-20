@@ -1,36 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-
-    ADOBE SYSTEMS INCORPORATED
-    Copyright 2008 Adobe Systems Incorporated
-    All Rights Reserved.
-
-    NOTICE: Adobe permits you to use, modify, and distribute this file
-    in accordance with the terms of the license agreement accompanying it.
-
--->
-
-<!--- The default skin class for the Spark CheckBox component.
-
- @see spark.components.CheckBox
-
- @langversion 3.0
- @playerversion Flash 10
- @playerversion AIR 1.5
- @productversion Flex 4
--->
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
 			 xmlns:s="library://ns.adobe.com/flex/spark"
 			 xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
 			 alpha.disabledStates="0.5">
-
 	<fx:Metadata>
     <![CDATA[
 		/**
 		 * @copy spark.skins.spark.ApplicationSkin#hostComponent
 		 */
-		[HostComponent("collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBox")]
+		[HostComponent("spark.components.CheckBox")]
 		]]>
     </fx:Metadata>
 
@@ -45,35 +23,47 @@
 		<s:State name="disabledAndSelected" stateGroups="disabledStates, selectedStates"/>
 	</s:states>
 
-	<s:Rect width="100%" height="100%">
-		<s:fill>
-			<s:SolidColor color="0xFFFFFF" alpha="0"/>
-		</s:fill>
+	<!-- transparent rect for hit testing -->
+	<s:Rect left="0" right="0" top="0" bottom="0" >
+	    <s:fill>
+	        <s:SolidColor alpha="0" />
+	    </s:fill>
 	</s:Rect>
+	<s:HGroup verticalAlign="middle" paddingBottom="0" paddingTop="0" paddingLeft="0" paddingRight="0" width="100%">
+		<s:Label id="labelDisplay" includeInLayout="{hostComponent.label.length > 0}" width="100%"/>
+		<s:Group id="boxGroup" width="56" height="56">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0xFFFFFF" alpha="0"/>
+				</s:fill>
+			</s:Rect>
 
-	<s:Group width="50" height="50" horizontalCenter="0" verticalCenter="0">
-		<s:Rect width="100%" height="100%">
-			<s:fill>
-				<s:SolidColor color="0xD1D3D4"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect width="100%" height="100%" includeIn="overStates">
-			<s:fill>
-				<s:SolidColor color="0x6dcaec"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect width="100%" height="100%" includeIn="downStates">
-			<s:fill>
-				<s:SolidColor color="0x6dcaec"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect width="100%" height="100%">
-			<s:stroke>
-				<s:SolidColorStroke color="0x414042"/>
-			</s:stroke>
-		</s:Rect>
-	</s:Group>
+			<s:Group width="50" height="50" horizontalCenter="0" verticalCenter="0">
+				<s:Rect width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0xD1D3D4"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect width="100%" height="100%" includeIn="overStates">
+					<s:fill>
+						<s:SolidColor color="0x6dcaec"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect width="100%" height="100%" includeIn="downStates">
+					<s:fill>
+						<s:SolidColor color="0x6dcaec"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect width="100%" height="100%">
+					<s:stroke>
+						<s:SolidColorStroke color="0x414042"/>
+					</s:stroke>
+				</s:Rect>
+			</s:Group>
 
-	<sharedView:AdherenceCheck width="56" height="56" horizontalCenter="6" verticalCenter="-6" includeIn="selectedStates"/>
+			<sharedView:AdherenceCheck width="56" height="56" horizontalCenter="6" verticalCenter="-6"
+									   includeIn="selectedStates"/>
+		</s:Group>
+	</s:HGroup>
 
 </s:SparkSkin>

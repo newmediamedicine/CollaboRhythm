@@ -17,6 +17,7 @@
 package collaboRhythm.android.deviceGateway;
 
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.os.Handler;
 
 /**
@@ -27,7 +28,7 @@ import android.os.Handler;
  * To change this template use File | Settings | File Templates.
  */
 public interface IBluetoothSocketThread {
-	void init(BluetoothSocket bluetoothSocket, Handler serviceMessageHandler);
+	void init(BluetoothSocket bluetoothSocket, Handler serviceMessageHandler, Context applicationContext);
 	Boolean isThreadReady();
 	void start();
 }

@@ -14,6 +14,7 @@ package collaboRhythm.plugins.messages.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.document.Message;
+	import collaboRhythm.shared.model.healthRecord.document.MessageStatusCodes;
 	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 
 	import mx.core.UIComponent;
@@ -170,6 +171,19 @@ package collaboRhythm.plugins.messages.controller
 			}
 
 			super.close();
+		}
+
+		public function simulateDisconnect():void
+		{
+			_collaborationLobbyNetConnectionServiceProxyLocal.simulateDisconnect();
+		}
+
+		public function handleMessageViewed(message:Message):void
+		{
+			if (message.localStatus == MessageStatusCodes.COMPLETE && (message.read_at == null || message.body == null))
+			{
+				getMessage(message);
+			}
 		}
 	}
 }

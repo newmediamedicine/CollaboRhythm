@@ -34,8 +34,6 @@ public class BluetoothServerSocketThread extends Thread {
 	
 	private static final String NAME = "BloodPressureService";
 	private static final UUID SPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	public static final int BLUETOOTH_DEVICE_CONNECTED = 1;
-	public static final int BLUETOOTH_SERVER_SOCKET_EXCEPTION = 2;
 	public static final String OPERATION_CANCELED = "Operation Canceled";
     
     private Handler mServiceMessageHandler;
@@ -113,14 +111,14 @@ public class BluetoothServerSocketThread extends Thread {
     // Do work to manage the connection (in a separate thread)
     private void sendBluetoothDeviceConnnectedMessage(BluetoothSocket socket) {
     	Message message = Message.obtain();
-    	message.what = BLUETOOTH_DEVICE_CONNECTED;
+    	message.what = DeviceGatewayService.ServiceMessage.BLUETOOTH_DEVICE_CONNECTED.ordinal();
     	message.obj = socket;
     	mServiceMessageHandler.sendMessage(message);
     }
     
     private void sendBluetoothServerSocketExceptionMessage() {
     	Message message = Message.obtain();
-    	message.what = BLUETOOTH_SERVER_SOCKET_EXCEPTION;
+    	message.what = DeviceGatewayService.ServiceMessage.BLUETOOTH_SERVER_SOCKET_EXCEPTION.ordinal();
     	mServiceMessageHandler.sendMessage(message);
     }
     

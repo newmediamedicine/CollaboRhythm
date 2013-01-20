@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CollaboRhythm.Tablet - Emulator (Nexus 720 x 1134)" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="CollaboRhythm.Tablet - Emulator (Nexus 720 x 1134)" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
     <option name="BCName" value="CollaboRhythm.Tablet Emulator" />
+    <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
@@ -8,6 +9,7 @@
     <option name="debuggerSdkRaw" value="BC SDK" />
     <option name="emulator" value="Other" />
     <option name="emulatorAdlOptions" value="" />
+    <option name="fastPackaging" value="true" />
     <option name="fullScreenHeight" value="1280" />
     <option name="fullScreenWidth" value="720" />
     <option name="launchUrl" value="false" />
@@ -24,6 +26,7 @@
     <option name="overriddenOutputFileName" value="" />
     <option name="overrideMainClass" value="false" />
     <option name="runTrusted" value="true" />
+    <option name="screenDpi" value="0" />
     <option name="screenHeight" value="1134" />
     <option name="screenWidth" value="720" />
     <option name="url" value="http://" />

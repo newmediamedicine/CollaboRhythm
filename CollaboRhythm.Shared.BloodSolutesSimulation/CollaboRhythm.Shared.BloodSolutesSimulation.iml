@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Shared.BloodSolutesSimulation">
     <configurations>
-      <configuration name="CollaboRhythm.Shared.BloodSolutesSimulation" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm.Shared.BloodSolutesSimulation.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="CollaboRhythm.Shared.BloodSolutesSimulation" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Shared_BloodSolutesSimulation.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Shared.BloodSolutesSimulation">
         <dependencies>
           <entries>
             <entry module-name="Box2DFlashAS3" build-configuration-name="Box2DFlashAS3">
@@ -29,7 +29,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Box2DFlashAS3" />
+    <orderEntry type="module" module-name="Box2DFlashAS3" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
   </component>
 </module>

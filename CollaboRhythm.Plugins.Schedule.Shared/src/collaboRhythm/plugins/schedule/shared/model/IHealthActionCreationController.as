@@ -4,6 +4,10 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	import flash.events.MouseEvent;
 
+	/**
+	 * Health action creation controllers are used to create and edit health actions in the schedule time line view.
+	 * @see IHealthActionCreationControllerFactory
+	 */
 	public interface IHealthActionCreationController
 	{
 		function get buttonLabel():String;

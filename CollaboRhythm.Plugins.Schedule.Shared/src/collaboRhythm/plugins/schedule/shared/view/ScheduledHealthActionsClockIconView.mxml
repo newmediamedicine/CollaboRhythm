@@ -25,18 +25,50 @@
 
 		import spark.primitives.Graphic;
 
+		private var _scheduleGroupsCollectionsProvider:IScheduleCollectionsProvider;
+		private var _dateStart:Date;
+		private var _dateEnd:Date;
+
 		public function init(scheduleGroupsCollectionsProvider:IScheduleCollectionsProvider, dateStart:Date,
 							 dateEnd:Date):void
 		{
-			for each (var scheduleGroup:ScheduleGroup in scheduleGroupsCollectionsProvider.scheduleGroupsCollection)
+			_scheduleGroupsCollectionsProvider = scheduleGroupsCollectionsProvider;
+			_dateStart = dateStart;
+			_dateEnd = dateEnd;
+
+			if (initialized)
+				drawScheduleGroups();
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			drawScheduleGroups();
+		}
+
+		private function drawScheduleGroups():void
+		{
+			scheduleGroups.removeAllElements();
+			if (_scheduleGroupsCollectionsProvider)
 			{
-				var startAngle:Number = calculateAngleFromDate(scheduleGroup.dateStart);
-				var endAngle:Number = calculateAngleFromDate(scheduleGroup.dateEnd);
+				for each (var scheduleGroup:ScheduleGroup in
+						_scheduleGroupsCollectionsProvider.scheduleGroupsCollection)
+				{
+					var startAngle:Number = calculateAngleFromDate(scheduleGroup.dateStart);
+					var endAngle:Number = calculateAngleFromDate(scheduleGroup.dateEnd);
 
-				var selected:Boolean = (dateStart.time == scheduleGroup.dateStart.time && dateEnd.time == scheduleGroup.dateEnd.time);
+					// TODO: render and evaluate the schedule groups from the same date as the date (not just time) of the schedule item occurrence
+					var selected:Boolean = timesAreEqual(_dateStart, scheduleGroup.dateStart) && timesAreEqual(_dateEnd, scheduleGroup.dateEnd);
 
-				drawScheduleGroup(startAngle, endAngle, selected);
+					drawScheduleGroup(startAngle, endAngle, selected);
+				}
 			}
+		}
+
+		private static function timesAreEqual(date1:Date, date2:Date):Boolean
+		{
+			return (date1 != null && date2 != null && date1.hours == date2.hours && date1.minutes == date2.minutes &&
+					date1.seconds == date2.seconds && date1.milliseconds == date2.milliseconds);
 		}
 
 		private function drawScheduleGroup(startAngle:Number, endAngle:Number, selected:Boolean):void
@@ -44,8 +76,8 @@
 			var arc:Number = endAngle - startAngle;
 
 			var scheduleGroupWedge:Graphic = new Graphic();
-			scheduleGroupWedge.width = scheduleGroups.width;
-			scheduleGroupWedge.height = scheduleGroups.height;
+			scheduleGroupWedge.percentWidth = 100;
+			scheduleGroupWedge.percentHeight = 100;
 			scheduleGroupWedge.graphics.clear();
 			if (selected)
 			{
@@ -55,8 +87,7 @@
 			{
 				scheduleGroupWedge.graphics.beginFill(0xFFFFFF, 0.5);
 			}
-			Wedge.draw(scheduleGroupWedge, scheduleGroups.width / 2, scheduleGroups.width / 2,
-					scheduleGroups.width / 2 - 1, arc, startAngle - 90);
+			Wedge.draw(scheduleGroupWedge, width / 2, width / 2, width / 2 - 1, arc, startAngle - 90);
 			scheduleGroupWedge.graphics.endFill();
 
 			scheduleGroups.addElement(scheduleGroupWedge);

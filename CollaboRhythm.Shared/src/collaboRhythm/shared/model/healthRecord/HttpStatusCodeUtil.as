@@ -73,7 +73,7 @@ package collaboRhythm.shared.model.healthRecord
 
 		public function getShortDescription(code:int):String
 		{
-			if (shortDescriptions.arrayOfKeys.indexOf(code) != -1)
+			if (shortDescriptions.getIndexByKey(code) != -1)
 				return shortDescriptions.getValueByKey(code);
 			else
 				return null;

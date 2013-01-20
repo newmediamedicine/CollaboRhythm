@@ -18,6 +18,12 @@ package collaboRhythm.shared.controller.apps
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
+	/**
+	 * Provides metadata about a CollaboRhythm app controller (subclass of AppControllerBase). Plugins can implement
+	 * an app controller and register a corresponding AppControllerInfo instance in order to create a custom
+	 * CollaboRhythm "app", which can have a widget view on the home (clock) view.
+	 * @see AppControllerBase
+	 */
 	public class AppControllerInfo
 	{
 		private var _appControllerClass:Class;

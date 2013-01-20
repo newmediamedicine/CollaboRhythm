@@ -26,6 +26,18 @@
 			fontSize: 20;
 		}
 	</fx:Style>
+	<fx:Declarations>
+		<s:Button id="refreshMessagesButton" width="44" height="46" click="refreshMessagesButton_clickHandler(event)">
+			<s:icon>
+				<view:SynchronizeIcon id="synchronizeIcon" width="26" height="26"/>
+			</s:icon>
+		</s:Button>
+		<s:Button id="simulateDisconnectButton" width="44" height="46" click="simulateDisconnectButton_clickHandler(event)">
+			<s:icon>
+				<view:SimulateDisconnectIcon id="simulateDisconnectIcon" width="26" height="26"/>
+			</s:icon>
+		</s:Button>
+	</fx:Declarations>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.messages.controller.MessagesAppController;
 		import collaboRhythm.plugins.messages.model.MessagesModelAndController;
@@ -68,7 +80,7 @@
 
 		private function messageItemRendererViewedEvent(event:MessageItemRendererEvent):void
 		{
-			_messagesAppController.getMessage(event.message);
+			_messagesAppController.handleMessageViewed(event.message);
 		}
 
 		private function playVideoHandler(event:VideoActionEvent):void
@@ -81,6 +93,20 @@
 			if (event.kind == CollectionEventKind.ADD)
 			{
 				messagesList.dataGroup.verticalScrollPosition = messagesList.dataGroup.contentHeight;
+			}
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+
+			var isDebugger:Boolean = Capabilities.isDebugger;
+			var playerType:String = Capabilities.playerType;
+
+			if (playerType == "Desktop" && isDebugger)
+			{
+				actionContent.unshift(refreshMessagesButton);
+				actionContent.unshift(simulateDisconnectButton);
 			}
 		}
 
@@ -125,6 +151,16 @@
 			{
 				messageTextInput.text = messageTextInput.text.slice(0, messageTextInput.text.length - 1);
 			}
+		}
+
+		private function refreshMessagesButton_clickHandler(event:MouseEvent):void
+		{
+//			_messagesModel.
+		}
+
+		private function simulateDisconnectButton_clickHandler(event:MouseEvent):void
+		{
+			_messagesAppController.simulateDisconnect();
 		}
 		]]></fx:Script>
 	<s:VGroup width="100%" height="100%" gap="0">

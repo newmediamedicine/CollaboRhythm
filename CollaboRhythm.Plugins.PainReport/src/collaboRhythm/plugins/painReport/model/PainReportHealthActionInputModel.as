@@ -23,5 +23,10 @@ package collaboRhythm.plugins.painReport.model
 		{
 			return null;
 		}
+
+		public function get isChangeTimeAllowed():Boolean
+		{
+			return true;
+		}
 	}
 }

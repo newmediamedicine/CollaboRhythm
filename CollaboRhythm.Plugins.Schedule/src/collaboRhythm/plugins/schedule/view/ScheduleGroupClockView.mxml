@@ -188,7 +188,7 @@
 			scheduleGroupWedge.graphics.endFill();
 		}
 
-		private function calculateAngleFromDate(date:Date):Number
+		public static function calculateAngleFromDate(date:Date):Number
 		{
 			return 15 * date.hours + 0.25 * date.minutes;
 		}
