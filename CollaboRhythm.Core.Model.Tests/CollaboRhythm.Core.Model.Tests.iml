@@ -5,9 +5,6 @@
       <configuration name="CollaboRhythm.Core.Model.Tests" target-platform="Desktop" main-class="CollaboRhythm_Core_Model_Tests" output-file="CollaboRhythm_Core_Model_Tests.swf" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Core.Model.Tests">
         <dependencies>
           <entries>
-            <entry library-name="flexunit-4.1.0_RC2-4-flex_4.1.0.16076.swc" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry module-name="CollaboRhythm.Core.Model" build-configuration-name="CollaboRhythm.Core.Model">
               <dependency linkage="Merged" />
             </entry>
@@ -15,6 +12,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="FlexUnit" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -34,11 +34,11 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="flexunit-4.1.0_RC2-4-flex_4.1.0.16076.swc" level="project" />
     <orderEntry type="module" module-name="CollaboRhythm.Core.Model" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="library" exported="" name="FlexUnit" level="project" />
   </component>
 </module>
 

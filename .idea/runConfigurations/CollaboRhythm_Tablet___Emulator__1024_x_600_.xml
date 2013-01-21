@@ -1,17 +1,17 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CollaboRhythm.Tablet Emulator" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
-    <option name="BCName" value="CollaboRhythm.Tablet Minimal Modules - Emulator" />
+  <configuration default="false" name="CollaboRhythm.Tablet - Emulator (1024 x 600)" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
+    <option name="BCName" value="CollaboRhythm.Tablet Emulator" />
     <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
     <option name="debugTransport" value="USB" />
     <option name="debuggerSdkRaw" value="BC SDK" />
-    <option name="emulator" value="SamsungGalaxyTab" />
+    <option name="emulator" value="Other" />
     <option name="emulatorAdlOptions" value="" />
     <option name="fastPackaging" value="true" />
-    <option name="fullScreenHeight" value="0" />
-    <option name="fullScreenWidth" value="0" />
+    <option name="fullScreenHeight" value="600" />
+    <option name="fullScreenWidth" value="1024" />
     <option name="launchUrl" value="false" />
     <option name="launcherParameters">
       <LauncherParameters>
@@ -27,12 +27,10 @@
     <option name="overrideMainClass" value="false" />
     <option name="runTrusted" value="true" />
     <option name="screenDpi" value="0" />
-    <option name="screenHeight" value="0" />
-    <option name="screenWidth" value="0" />
+    <option name="screenHeight" value="600" />
+    <option name="screenWidth" value="1024" />
     <option name="url" value="http://" />
     <option name="usbDebugPort" value="7936" />
-    <RunnerSettings RunnerId="FlexDebugRunner" />
-    <ConfigurationWrapper RunnerId="FlexDebugRunner" />
     <method />
   </configuration>
 </component>
