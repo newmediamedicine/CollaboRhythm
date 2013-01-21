@@ -49,6 +49,7 @@
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.model.demographics.Name;
 
 		private var _collaborationController:CollaborationController;
 		private var _activeRecordAccount:Account;
@@ -93,9 +94,11 @@
 				currentState = currentStateString + "NoUnsavedChanges";
 			}
 
-			if (collaborationModel.peerAccount.primaryRecord && collaborationModel.peerAccount.primaryRecord.contact)
+			if (collaborationModel.peerAccount.primaryRecord &&
+					collaborationModel.peerAccount.primaryRecord.demographics)
 			{
-				collaborationLabelText += collaborationModel.peerAccount.primaryRecord.contact.fullName;
+				var name:Name = collaborationModel.peerAccount.primaryRecord.demographics.Name;
+				collaborationLabelText += name.givenName + " " + name.familyName;
 			}
 			else
 			{
@@ -108,7 +111,8 @@
 
 		private function addedToStageHandler():void
 		{
-			if (_collaborationController.collaborationModel.collaborationState == CollaborationModel.COLLABORATION_INVITATION_RECEIVED)
+			if (_collaborationController.collaborationModel.collaborationState ==
+					CollaborationModel.COLLABORATION_INVITATION_RECEIVED)
 			{
 				soundChannel = ringSound.play(0, int.MAX_VALUE);
 			}

@@ -20,7 +20,9 @@
 			_record = value;
 			if (record)
 			{
-				title = "CollaboRhythm.Workstation - " + record.contact.fullName + (record.dateLoaded ? (" - " + record.dateLoaded.toLocaleString()) : "");
+				title = "CollaboRhythm.Workstation - " + record.demographics.Name.givenName + " " +
+						record.demographics.Name.familyName +
+						(record.dateLoaded ? (" - " + record.dateLoaded.toLocaleString()) : "");
 			}
 		}
 		]]></fx:Script>

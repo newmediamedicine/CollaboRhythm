@@ -119,7 +119,7 @@
 
 	<s:Group id="descriptionGroup" height="100%" left="{imageGroup.width}" right="{statusGroup.width}">
 		<s:VGroup left="10" right="10" top="10" gap="1">
-			<s:Label id="fullNameLabel" text="{_recordAccount.primaryRecord.contact.fullName}" maxDisplayedLines="1"
+			<s:Label id="fullNameLabel" text="{_recordAccount.primaryRecord.demographics.Name.givenName} {_recordAccount.primaryRecord.demographics.Name.familyName}" maxDisplayedLines="1"
 					 width="100%" paddingLeft="1"/>
 			<s:RichText id="demographicsText" maxDisplayedLines="1" width="100%">
 				<s:textFlow>
