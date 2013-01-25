@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 	<dateMeasured>2009-10-01T09:00:00Z</dateMeasured>
 	<name>Cataract Map</name>
 	<value>16779015</value>
 	<unit>Location Map</unit>
 	<site>left eye</site>
 	<comments>2,4,2,0,0,0,0,0,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2</comments>
-</VitalSign>
+</CollaboRhythmVitalSign>

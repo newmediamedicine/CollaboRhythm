@@ -16,804 +16,804 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <IndivoDocuments>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2008-01-23T09:34:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>130</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2008-01-23T09:34:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>86</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2009-01-04T09:04:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>137</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2009-01-04T09:04:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>88</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-01T09:05:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>146</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-01T09:05:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>94</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-02T09:34:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>142</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-02T09:34:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>92</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-03T08:15:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>141</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-03T08:15:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>87</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-04T09:16:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>144</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-04T09:16:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>89</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-05T09:47:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>141</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-05T09:47:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>90</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-06T08:41:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>147</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-06T08:41:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>95</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-07T08:57:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>138</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-07T08:57:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>92</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-08T08:46:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>145</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-08T08:46:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>91</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-09T08:32:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>142</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-09T08:32:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>90</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-10T09:18:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>142</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-10T09:18:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>90</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-11T11:08:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>146</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-11T11:08:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>93</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-12T09:04:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>142</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-12T09:04:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>89</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-13T09:08:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>143</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-13T09:08:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>88</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-14T08:52:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>141</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-14T08:52:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>93</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-15T09:57:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>143</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-15T09:57:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>89</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-16T08:07:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>132</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-16T08:07:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>85</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-17T08:54:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>118</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-17T08:54:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>75</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-18T08:52:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>112</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-18T08:52:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>72</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-19T08:48:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>114</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-19T08:48:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>71</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-20T09:27:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>109</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-20T09:27:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>72</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-21T09:24:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>115</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-21T09:24:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>75</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-22T09:14:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>115</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-22T09:14:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>73</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-23T09:15:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>118</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-23T09:15:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>76</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-24T09:59:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>110</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-24T09:59:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>72</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-25T08:12:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>112</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-25T08:12:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>72</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-26T10:26:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>111</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-26T10:26:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>70</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-27T08:47:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>112</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-27T08:47:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>75</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-28T09:12:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>110</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-28T09:12:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>73</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-29T09:44:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>110</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-29T09:44:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>73</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-30T09:02:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>108</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-30T09:02:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>79</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-31T08:24:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>113</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-01-31T08:24:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>75</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-01T10:22:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>114</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-01T10:22:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>70</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-02T10:00:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>112</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-02T10:00:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>71</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-03T08:53:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>109</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-03T08:53:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>72</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-04T09:00:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>114</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-04T09:00:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>74</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-05T08:28:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>113</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-05T08:28:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>75</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-06T08:57:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>129</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-06T08:57:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>85</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-07T10:10:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>142</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-07T10:10:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>84</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-08T09:11:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>143</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-08T09:11:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>90</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-09T09:09:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>140</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-09T09:09:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>88</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-10T08:54:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>130</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-10T08:54:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>81</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-11T08:14:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>125</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-11T08:14:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>83</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-12T08:00:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>114</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-12T08:00:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>74</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-13T08:10:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>114</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-13T08:10:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>74</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-14T08:18:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>117</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-14T08:18:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>73</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-15T08:29:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>114</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-15T08:29:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>69</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-16T08:40:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>116</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-16T08:40:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>75</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-17T08:51:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<value>118</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<dateMeasured>2010-02-17T08:51:00Z</dateMeasured>
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<value>75</value>
 		<unit type="http://codes.indivo.org/units/" value="31" abbrev="mmHg">millimeters of mercury</unit>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
+	</CollaboRhythmVitalSign>
 </IndivoDocuments>

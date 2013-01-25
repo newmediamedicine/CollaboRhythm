@@ -16,7 +16,7 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <IndivoDocuments>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2008-01-23T09:34:00Z</dateMeasuredStart>
 		<result>
@@ -25,8 +25,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2008-01-23T09:34:00Z</dateMeasuredStart>
 		<result>
@@ -35,8 +35,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2009-01-04T09:04:00Z</dateMeasuredStart>
 		<result>
@@ -45,8 +45,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2009-01-04T09:04:00Z</dateMeasuredStart>
 		<result>
@@ -55,8 +55,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-01T09:05:00Z</dateMeasuredStart>
 		<result>
@@ -65,8 +65,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-01T09:05:00Z</dateMeasuredStart>
 		<result>
@@ -75,8 +75,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-02T09:34:00Z</dateMeasuredStart>
 		<result>
@@ -85,8 +85,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-02T09:34:00Z</dateMeasuredStart>
 		<result>
@@ -95,8 +95,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-03T08:15:00Z</dateMeasuredStart>
 		<result>
@@ -105,8 +105,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-03T08:15:00Z</dateMeasuredStart>
 		<result>
@@ -115,8 +115,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-04T09:16:00Z</dateMeasuredStart>
 		<result>
@@ -125,8 +125,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-04T09:16:00Z</dateMeasuredStart>
 		<result>
@@ -135,8 +135,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-05T09:47:00Z</dateMeasuredStart>
 		<result>
@@ -145,8 +145,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-05T09:47:00Z</dateMeasuredStart>
 		<result>
@@ -155,8 +155,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-06T08:41:00Z</dateMeasuredStart>
 		<result>
@@ -165,8 +165,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-06T08:41:00Z</dateMeasuredStart>
 		<result>
@@ -175,8 +175,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-07T08:57:00Z</dateMeasuredStart>
 		<result>
@@ -185,8 +185,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-07T08:57:00Z</dateMeasuredStart>
 		<result>
@@ -195,8 +195,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-08T08:46:00Z</dateMeasuredStart>
 		<result>
@@ -205,8 +205,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-08T08:46:00Z</dateMeasuredStart>
 		<result>
@@ -215,8 +215,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-09T08:32:00Z</dateMeasuredStart>
 		<result>
@@ -225,8 +225,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-09T08:32:00Z</dateMeasuredStart>
 		<result>
@@ -235,8 +235,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-10T09:18:00Z</dateMeasuredStart>
 		<result>
@@ -245,8 +245,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-10T09:18:00Z</dateMeasuredStart>
 		<result>
@@ -255,8 +255,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-11T11:08:00Z</dateMeasuredStart>
 		<result>
@@ -265,8 +265,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-11T11:08:00Z</dateMeasuredStart>
 		<result>
@@ -275,8 +275,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-12T09:04:00Z</dateMeasuredStart>
 		<result>
@@ -285,8 +285,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-12T09:04:00Z</dateMeasuredStart>
 		<result>
@@ -295,8 +295,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-13T09:08:00Z</dateMeasuredStart>
 		<result>
@@ -305,8 +305,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-13T09:08:00Z</dateMeasuredStart>
 		<result>
@@ -315,8 +315,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-14T08:52:00Z</dateMeasuredStart>
 		<result>
@@ -325,8 +325,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-14T08:52:00Z</dateMeasuredStart>
 		<result>
@@ -335,8 +335,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-15T09:57:00Z</dateMeasuredStart>
 		<result>
@@ -345,8 +345,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-15T09:57:00Z</dateMeasuredStart>
 		<result>
@@ -355,8 +355,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-16T08:07:00Z</dateMeasuredStart>
 		<result>
@@ -365,8 +365,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-16T08:07:00Z</dateMeasuredStart>
 		<result>
@@ -375,8 +375,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-17T08:54:00Z</dateMeasuredStart>
 		<result>
@@ -385,8 +385,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-17T08:54:00Z</dateMeasuredStart>
 		<result>
@@ -395,8 +395,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-18T08:52:00Z</dateMeasuredStart>
 		<result>
@@ -405,8 +405,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-18T08:52:00Z</dateMeasuredStart>
 		<result>
@@ -415,8 +415,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-19T08:48:00Z</dateMeasuredStart>
 		<result>
@@ -425,8 +425,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-19T08:48:00Z</dateMeasuredStart>
 		<result>
@@ -435,8 +435,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-20T09:27:00Z</dateMeasuredStart>
 		<result>
@@ -445,8 +445,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-20T09:27:00Z</dateMeasuredStart>
 		<result>
@@ -455,8 +455,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-21T09:24:00Z</dateMeasuredStart>
 		<result>
@@ -465,8 +465,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-21T09:24:00Z</dateMeasuredStart>
 		<result>
@@ -475,8 +475,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-22T09:14:00Z</dateMeasuredStart>
 		<result>
@@ -485,8 +485,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-22T09:14:00Z</dateMeasuredStart>
 		<result>
@@ -495,8 +495,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-23T09:15:00Z</dateMeasuredStart>
 		<result>
@@ -505,8 +505,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-23T09:15:00Z</dateMeasuredStart>
 		<result>
@@ -515,8 +515,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-24T09:59:00Z</dateMeasuredStart>
 		<result>
@@ -525,8 +525,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-24T09:59:00Z</dateMeasuredStart>
 		<result>
@@ -535,8 +535,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-25T08:12:00Z</dateMeasuredStart>
 		<result>
@@ -545,8 +545,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-25T08:12:00Z</dateMeasuredStart>
 		<result>
@@ -555,8 +555,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-26T10:26:00Z</dateMeasuredStart>
 		<result>
@@ -565,8 +565,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-26T10:26:00Z</dateMeasuredStart>
 		<result>
@@ -575,8 +575,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-27T08:47:00Z</dateMeasuredStart>
 		<result>
@@ -585,8 +585,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-27T08:47:00Z</dateMeasuredStart>
 		<result>
@@ -595,8 +595,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-28T09:12:00Z</dateMeasuredStart>
 		<result>
@@ -605,8 +605,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-28T09:12:00Z</dateMeasuredStart>
 		<result>
@@ -615,8 +615,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-29T09:44:00Z</dateMeasuredStart>
 		<result>
@@ -625,8 +625,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-29T09:44:00Z</dateMeasuredStart>
 		<result>
@@ -635,8 +635,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-30T09:02:00Z</dateMeasuredStart>
 		<result>
@@ -645,8 +645,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-30T09:02:00Z</dateMeasuredStart>
 		<result>
@@ -655,8 +655,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-01-31T08:24:00Z</dateMeasuredStart>
 		<result>
@@ -665,8 +665,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-01-31T08:24:00Z</dateMeasuredStart>
 		<result>
@@ -675,8 +675,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-01T10:22:00Z</dateMeasuredStart>
 		<result>
@@ -685,8 +685,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-01T10:22:00Z</dateMeasuredStart>
 		<result>
@@ -695,8 +695,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-02T10:00:00Z</dateMeasuredStart>
 		<result>
@@ -705,8 +705,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-02T10:00:00Z</dateMeasuredStart>
 		<result>
@@ -715,8 +715,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-03T08:53:00Z</dateMeasuredStart>
 		<result>
@@ -725,8 +725,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-03T08:53:00Z</dateMeasuredStart>
 		<result>
@@ -735,8 +735,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-04T09:00:00Z</dateMeasuredStart>
 		<result>
@@ -745,8 +745,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-04T09:00:00Z</dateMeasuredStart>
 		<result>
@@ -755,8 +755,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-05T08:28:00Z</dateMeasuredStart>
 		<result>
@@ -765,8 +765,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-05T08:28:00Z</dateMeasuredStart>
 		<result>
@@ -775,8 +775,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-06T08:57:00Z</dateMeasuredStart>
 		<result>
@@ -785,8 +785,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-06T08:57:00Z</dateMeasuredStart>
 		<result>
@@ -795,8 +795,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-07T10:10:00Z</dateMeasuredStart>
 		<result>
@@ -805,8 +805,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-07T10:10:00Z</dateMeasuredStart>
 		<result>
@@ -815,8 +815,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-08T09:11:00Z</dateMeasuredStart>
 		<result>
@@ -825,8 +825,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-08T09:11:00Z</dateMeasuredStart>
 		<result>
@@ -835,8 +835,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-09T09:09:00Z</dateMeasuredStart>
 		<result>
@@ -845,8 +845,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-09T09:09:00Z</dateMeasuredStart>
 		<result>
@@ -855,8 +855,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-10T08:54:00Z</dateMeasuredStart>
 		<result>
@@ -865,8 +865,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-10T08:54:00Z</dateMeasuredStart>
 		<result>
@@ -875,8 +875,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-11T08:14:00Z</dateMeasuredStart>
 		<result>
@@ -885,8 +885,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-11T08:14:00Z</dateMeasuredStart>
 		<result>
@@ -895,8 +895,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-12T08:00:00Z</dateMeasuredStart>
 		<result>
@@ -905,8 +905,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-12T08:00:00Z</dateMeasuredStart>
 		<result>
@@ -915,8 +915,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-13T08:10:00Z</dateMeasuredStart>
 		<result>
@@ -925,8 +925,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-13T08:10:00Z</dateMeasuredStart>
 		<result>
@@ -935,8 +935,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-14T08:18:00Z</dateMeasuredStart>
 		<result>
@@ -945,8 +945,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-14T08:18:00Z</dateMeasuredStart>
 		<result>
@@ -955,8 +955,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-15T08:29:00Z</dateMeasuredStart>
 		<result>
@@ -965,8 +965,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-15T08:29:00Z</dateMeasuredStart>
 		<result>
@@ -975,8 +975,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-16T08:40:00Z</dateMeasuredStart>
 		<result>
@@ -985,8 +985,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-16T08:40:00Z</dateMeasuredStart>
 		<result>
@@ -995,8 +995,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 		<dateMeasuredStart>2010-02-17T08:51:00Z</dateMeasuredStart>
 		<result>
@@ -1005,8 +1005,8 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
-	<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+	</CollaboRhythmVitalSign>
+	<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 		<dateMeasuredStart>2010-02-17T08:51:00Z</dateMeasuredStart>
 		<result>
@@ -1015,5 +1015,5 @@
 		</result>
 		<site>left arm</site>
 		<position>sitting down</position>
-	</VitalSign>
+	</CollaboRhythmVitalSign>
 </IndivoDocuments>
