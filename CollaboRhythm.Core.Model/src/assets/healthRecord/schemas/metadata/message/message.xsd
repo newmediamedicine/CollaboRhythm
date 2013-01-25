@@ -3,6 +3,7 @@
   <xs:complexType name="Message">
     <xs:sequence>
       <xs:element name="sender" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="recipient" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="received_at" type="xs:dateTime" minOccurs="1" maxOccurs="1" />
       <xs:element name="read_at" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
       <xs:element name="subject" type="xs:string" minOccurs="1" maxOccurs="1" />

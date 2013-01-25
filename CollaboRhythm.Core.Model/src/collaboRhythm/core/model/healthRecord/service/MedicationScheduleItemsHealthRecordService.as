@@ -31,7 +31,7 @@ package collaboRhythm.core.model.healthRecord.service
 			// TODO: fix server so that order_by date_start works as expected; currently results in error 400 Bad Request
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
 				  MedicationScheduleItem.DOCUMENT_TYPE, MedicationScheduleItem, Schemas.MedicationScheduleItemSchema,
-				  "medicationscheduleitems", null, 1000, "dateStart");
+				  "MedicationScheduleItem", null, 1000, "dateStart");
 		}
 
 		override public function unmarshallDocumentXml(documentXml:XML):IDocument

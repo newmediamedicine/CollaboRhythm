@@ -15,7 +15,7 @@ package collaboRhythm.core.model.healthRecord.service
 													 account:Account, debuggingToolsEnabled:Boolean)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, VitalSign.DOCUMENT_TYPE,
-					VitalSign, Schemas.VitalSignSchema, "vitals", "date_measured_start", 1000, "dateMeasuredStart");
+					VitalSign, Schemas.VitalSignSchema, "CollaboRhythmVitalSign", "date_measured_start", 1000, "dateMeasuredStart");
 		}
 
 		override public function unmarshallReportXml(reportXml:XML):IDocument

@@ -37,8 +37,9 @@ package org.indivo.client
 		private var _errorEvent:ErrorEvent;
 		private var _httpStatusEvent:HTTPStatusEvent;
 		public static const HTTP_STATUS_OK:int = 200;
+		private var _responseData:String;
 
-		public function IndivoClientEvent(type:String, response:XML, urlRequest:URLRequest, relativePath:String,
+		public function IndivoClientEvent(type:String, response:XML, responseData:String, urlRequest:URLRequest, relativePath:String,
 										  requestXml:String, params:Object, userData:Object,
 										  errorEvent:ErrorEvent = null, httpStatusEvent:HTTPStatusEvent = null,
 										  bubbles:Boolean = false, cancelable:Boolean = false)
@@ -48,6 +49,7 @@ package org.indivo.client
 			_urlRequest = urlRequest;
 			_relativePath = relativePath;
 			_requestXml = requestXml;
+			_responseData = responseData;
 			_params = params;
 			_userData = userData;
 			_errorEvent = errorEvent;
@@ -75,7 +77,7 @@ package org.indivo.client
 		 */
 		public override function clone():Event
 		{
-			return new IndivoClientEvent(type, response, urlRequest, relativePath, requestXml, params, userData,
+			return new IndivoClientEvent(type, response, responseData, urlRequest, relativePath, requestXml, params, userData,
 										 errorEvent, httpStatusEvent, bubbles, cancelable);
 		}
 		
@@ -142,6 +144,11 @@ package org.indivo.client
 		public function get isConnectionError():Boolean
 		{
 			return type == IndivoClientEvent.ERROR && errorEvent && errorEvent.errorID == STREAM_ERROR_ID;
+		}
+
+		public function get responseData():String
+		{
+			return _responseData;
 		}
 	}
 }

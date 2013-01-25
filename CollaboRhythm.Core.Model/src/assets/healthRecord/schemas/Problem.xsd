@@ -20,7 +20,7 @@
 		xmlns:indivo="http://indivo.org/vocab/xml/documents#"
 		elementFormDefault="qualified">
 
-	<include schemaLocation="codes.xsd"/>
+	<include schemaLocation="data/contrib/codes.xsd"/>
 
 	<element name="Problem" type="indivo:Problem"/>
 	<complexType name="Problem">

@@ -28,7 +28,7 @@ package collaboRhythm.core.model.healthRecord.service
 													account:Account, debuggingToolsEnabled:Boolean)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, Problem.DOCUMENT_TYPE, Problem,
-				  Schemas.ProblemSchema, "problems");
+				  Schemas.ProblemSchema, "minimal/problems");
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean

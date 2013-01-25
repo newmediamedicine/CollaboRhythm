@@ -50,8 +50,8 @@ package collaboRhythm.core.model.healthRecord.service
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "Name"), Name);
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "Telephone"), Telephone);
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "Address"), Address);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CodedValue"), CodedValue);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "ValueAndUnit"),
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmCodedValue"), CodedValue);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmValueAndUnit"),
 										 ValueAndUnit);
 		}
 

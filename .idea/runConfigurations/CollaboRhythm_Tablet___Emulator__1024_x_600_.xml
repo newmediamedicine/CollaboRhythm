@@ -31,6 +31,8 @@
     <option name="screenWidth" value="1024" />
     <option name="url" value="http://" />
     <option name="usbDebugPort" value="7936" />
+    <RunnerSettings RunnerId="FlexDebugRunner" />
+    <ConfigurationWrapper RunnerId="FlexDebugRunner" />
     <method />
   </configuration>
 </component>

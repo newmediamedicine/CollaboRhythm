@@ -18,27 +18,22 @@
 		   targetNamespace="http://indivo.org/vocab/xml/documents#"
 		   elementFormDefault="qualified">
 
-	<xs:include schemaLocation="codes.xsd"/>
-	<xs:include schemaLocation="provider.xsd"/>
-	<xs:include schemaLocation="values.xsd"/>
+	<xs:include schemaLocation="data/contrib/codes.xsd"/>
+	<xs:include schemaLocation="data/contrib/provider.xsd"/>
+	<xs:include schemaLocation="data/contrib/values.xsd"/>
 
-	<xs:include schemaLocation="AdherenceItem.xsd"/>
-	<xs:include schemaLocation="Allergy.xsd"/>
-	<xs:include schemaLocation="Equipment.xsd"/>
-	<xs:include schemaLocation="HealthActionSchedule.xsd"/>
-	<xs:include schemaLocation="Immunization.xsd"/>
-	<xs:include schemaLocation="Lab.xsd"/>
-	<xs:include schemaLocation="MedicationAdministration.xsd"/>
-	<xs:include schemaLocation="MedicationFill.xsd"/>
-	<xs:include schemaLocation="MedicationOrder.xsd"/>
-	<xs:include schemaLocation="MedicationScheduleItem.xsd"/>
+	<xs:include schemaLocation="data/contrib/AdherenceItem/schema.xsd"/>
+	<xs:include schemaLocation="data/core/equipment/schema.xsd"/>
+	<xs:include schemaLocation="data/contrib/HealthActionSchedule/schema.xsd"/>
+	<xs:include schemaLocation="data/contrib/MedicationAdministration/schema.xsd"/>
+	<xs:include schemaLocation="data/contrib/MedicationFill/schema.xsd"/>
+	<xs:include schemaLocation="data/contrib/MedicationOrder/schema.xsd"/>
+	<xs:include schemaLocation="data/contrib/MedicationScheduleItem/schema.xsd"/>
 	<xs:include schemaLocation="Problem.xsd"/>
-	<xs:include schemaLocation="Procedure.xsd"/>
-	<xs:include schemaLocation="SimpleClinicalNote.xsd"/>
-	<xs:include schemaLocation="VideoMessage.xsd"/>
-	<xs:include schemaLocation="VitalSign.xsd"/>
-	<xs:import schemaLocation="HealthActionPlan.xsd" namespace="http://indivo.org/vocab/xml/documents/healthActionResult#"/>
-	<xs:include schemaLocation="HealthActionResult.xsd"/>
-	<xs:include schemaLocation="HealthActionOccurrence.xsd"/>
+	<xs:include schemaLocation="data/contrib/CollaboRhythmVitalSign/schema.xsd"/>
+	<xs:import schemaLocation="data/contrib/HealthActionPlan/schema.xsd" namespace="http://indivo.org/vocab/xml/documents/healthActionResult#"/>
+	<xs:include schemaLocation="data/contrib/HealthActionResult/schema.xsd"/>
+	<xs:include schemaLocation="data/contrib/HealthActionOccurrence/schema.xsd"/>
 	<xs:include schemaLocation="Message.xsd"/>
+	<xs:include schemaLocation="data/contrib/ExampleModel/schema.xsd"/>
 </xs:schema>

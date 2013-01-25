@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--~
+  ~ Copyright 2013 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://indivo.org/vocab/xml/documents#"
-	xmlns:indivo="http://indivo.org/vocab/xml/documents#"
-	elementFormDefault="qualified">
+		targetNamespace="http://indivo.org/vocab/xml/documents#"
+		xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		elementFormDefault="qualified">
 
-  <element name="Equipment">
-    <complexType>
-      <sequence>
-	<element name="dateStarted" type="date" minOccurs="0" maxOccurs="1" />
-	<element name="dateStopped" type="date" minOccurs="0" maxOccurs="1" />
-	<element name="type" type="string" minOccurs="0" maxOccurs="1" />
-        <element name="name" type="string" minOccurs="1" maxOccurs="1" />
-	<element name="vendor" type="string" minOccurs="0" maxOccurs="1" />
-	<element name="id" type="string" minOccurs="0" maxOccurs="1" />
-        <element name="description" type="string" minOccurs="0" maxOccurs="1" />
-        <element name="specification" type="string" minOccurs="0" maxOccurs="1" />
-        <element name="certification" type="string" minOccurs="0" maxOccurs="1" />
-      </sequence>
-    </complexType>
-  </element>
+	<complexType name="Equipment">
+		<sequence>
+			<element name="dateStarted" type="date" minOccurs="0" maxOccurs="1"/>
+			<element name="dateStopped" type="date" minOccurs="0" maxOccurs="1"/>
+			<element name="type" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="name" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="vendor" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="id" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="description" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="specification" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="certification" type="string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+
+	<element name="Equipment" type="indivo:Equipment"/>
 </schema>

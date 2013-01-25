@@ -69,7 +69,7 @@ package collaboRhythm.core.model.healthRecord.stitchers
 			medicationFills.sort = sort;
 			medicationFills.refresh();
 
-			medicationOrder.medicationFill = medicationFills.getItemAt(0) as MedicationFill;
+			medicationOrder.medicationFill = medicationFills.length > 0 ? medicationFills.getItemAt(0) as MedicationFill : null;
 		}
 
 		private function relateMedicationScheduleItems(medicationOrder:MedicationOrder):void
