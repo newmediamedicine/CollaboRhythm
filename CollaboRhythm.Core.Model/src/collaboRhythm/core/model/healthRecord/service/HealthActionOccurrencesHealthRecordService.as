@@ -29,7 +29,7 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
 				  HealthActionOccurrence.DOCUMENT_TYPE, HealthActionOccurrence, Schemas.HealthActionOccurrenceSchema,
-				  "healthactionoccurrences");
+				  "HealthActionOccurrence");
 		}
 	}
 }

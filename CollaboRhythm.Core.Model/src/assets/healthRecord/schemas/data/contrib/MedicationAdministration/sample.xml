@@ -1,0 +1,14 @@
+<MedicationAdministration xmlns="http://indivo.org/vocab/xml/documents#">
+  <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="861007">Metformin hydrochloride 500 MG Oral Tablet</name>
+  <reportedBy>csantos@records.media.mit.edu</reportedBy>
+  <dateReported>2011-07-15T14:57:00Z</dateReported>
+  <dateAdministered>2011-07-15T14:57:00Z</dateAdministered>
+  <amountAdministered>
+    <value>1</value>
+    <unit>tablet</unit>
+  </amountAdministered>
+  <amountRemaining>
+    <value>89</value>
+    <unit>tablet</unit>
+  </amountRemaining>
+</MedicationAdministration>
