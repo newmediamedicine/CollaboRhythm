@@ -29,7 +29,7 @@
 	<xs:include schemaLocation="data/contrib/MedicationFill/schema.xsd"/>
 	<xs:include schemaLocation="data/contrib/MedicationOrder/schema.xsd"/>
 	<xs:include schemaLocation="data/contrib/MedicationScheduleItem/schema.xsd"/>
-	<xs:include schemaLocation="Problem.xsd"/>
+	<xs:include schemaLocation="data/core/problem/schema.xsd"/>
 	<xs:include schemaLocation="data/contrib/CollaboRhythmVitalSign/schema.xsd"/>
 	<xs:import schemaLocation="data/contrib/HealthActionPlan/schema.xsd" namespace="http://indivo.org/vocab/xml/documents/healthActionResult#"/>
 	<xs:include schemaLocation="data/contrib/HealthActionResult/schema.xsd"/>

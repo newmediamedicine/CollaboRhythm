@@ -24,7 +24,7 @@ package collaboRhythm.core.model.healthRecord
 		[Embed("/assets/healthRecord/schemas/data/contrib/MedicationScheduleItem/schema.xsd", mimeType="application/octet-stream")]
 		public static const MedicationScheduleItemSchema:Class;
 
-		[Embed("/assets/healthRecord/schemas/Problem.xsd", mimeType="application/octet-stream")]
+		[Embed("/assets/healthRecord/schemas/data/core/problem/schema.xsd", mimeType="application/octet-stream")]
 		public static const ProblemSchema:Class;
 
 		[Embed("/assets/healthRecord/schemas/data/contrib/MedicationFill/schema.xsd", mimeType="application/octet-stream")]
