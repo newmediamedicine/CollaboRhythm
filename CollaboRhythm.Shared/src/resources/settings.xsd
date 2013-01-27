@@ -73,6 +73,14 @@
 			<xs:element type="xs:boolean" name="useGoogleAnalytics" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="googleAnalyticsTrackingId" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="logSourceIdentifier" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="collaborationEnabled" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						If true, CollaboRhythm will attempt to connect to the collaboration server using the
+						rtmpBaseURI. Otherwise, a connection will not be attempted. Default value is true.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:string" name="rtmpBaseURI" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="indivoServerBaseURL" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="debuggingToolsEnabled" minOccurs="0" maxOccurs="1"/>

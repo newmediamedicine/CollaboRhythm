@@ -228,8 +228,8 @@ package collaboRhythm.core.model.healthRecord.service
 			{
 				_xmlMarshaller.registerClass(targetDocumentQName, targetClass);
 			}
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CodedValue"), CodedValue);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "ValueAndUnit"),
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmCodedValue"), CodedValue);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmValueAndUnit"),
 										 ValueAndUnit);
 		}
 

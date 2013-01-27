@@ -42,7 +42,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://C:/Program Files (x86)/Adobe/flex/sdks/4.6.0/lib/android/FlashRuntimeExtensions.jar!/" />
+          <root url="jar://$FLEX_SDK_HOME$/lib/android/FlashRuntimeExtensions.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

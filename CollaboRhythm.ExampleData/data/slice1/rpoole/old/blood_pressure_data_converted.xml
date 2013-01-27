@@ -43,7 +43,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-15T14:57:00Z</dateMeasuredStart>
@@ -53,12 +53,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-15T14:57:00Z</dateMeasuredStart>
@@ -68,12 +68,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-15T14:57:00Z</dateMeasuredStart>
@@ -83,7 +83,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -103,7 +103,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-16T13:07:00Z</dateMeasuredStart>
@@ -113,12 +113,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-16T13:07:00Z</dateMeasuredStart>
@@ -128,12 +128,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-16T13:07:00Z</dateMeasuredStart>
@@ -143,7 +143,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -163,7 +163,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-17T13:54:00Z</dateMeasuredStart>
@@ -173,12 +173,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-17T13:54:00Z</dateMeasuredStart>
@@ -188,12 +188,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-17T13:54:00Z</dateMeasuredStart>
@@ -203,7 +203,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -223,7 +223,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-18T13:52:00Z</dateMeasuredStart>
@@ -233,12 +233,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-18T13:52:00Z</dateMeasuredStart>
@@ -248,12 +248,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-18T13:52:00Z</dateMeasuredStart>
@@ -263,7 +263,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -283,7 +283,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-19T13:48:00Z</dateMeasuredStart>
@@ -293,12 +293,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-19T13:48:00Z</dateMeasuredStart>
@@ -308,12 +308,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-19T13:48:00Z</dateMeasuredStart>
@@ -323,7 +323,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -343,7 +343,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-20T14:27:00Z</dateMeasuredStart>
@@ -353,12 +353,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-20T14:27:00Z</dateMeasuredStart>
@@ -368,12 +368,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-20T14:27:00Z</dateMeasuredStart>
@@ -383,7 +383,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -403,7 +403,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-21T14:24:00Z</dateMeasuredStart>
@@ -413,12 +413,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-21T14:24:00Z</dateMeasuredStart>
@@ -428,12 +428,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-21T14:24:00Z</dateMeasuredStart>
@@ -443,7 +443,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -463,7 +463,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-22T14:14:00Z</dateMeasuredStart>
@@ -473,12 +473,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-22T14:14:00Z</dateMeasuredStart>
@@ -488,12 +488,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-22T14:14:00Z</dateMeasuredStart>
@@ -503,7 +503,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -523,7 +523,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-23T14:15:00Z</dateMeasuredStart>
@@ -533,12 +533,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-23T14:15:00Z</dateMeasuredStart>
@@ -548,12 +548,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-23T14:15:00Z</dateMeasuredStart>
@@ -563,7 +563,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -583,7 +583,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-24T14:59:00Z</dateMeasuredStart>
@@ -593,12 +593,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-24T14:59:00Z</dateMeasuredStart>
@@ -608,12 +608,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-24T14:59:00Z</dateMeasuredStart>
@@ -623,7 +623,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -643,7 +643,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-25T13:12:00Z</dateMeasuredStart>
@@ -653,12 +653,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-25T13:12:00Z</dateMeasuredStart>
@@ -668,12 +668,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-25T13:12:00Z</dateMeasuredStart>
@@ -683,7 +683,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -703,7 +703,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-26T15:26:00Z</dateMeasuredStart>
@@ -713,12 +713,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-26T15:26:00Z</dateMeasuredStart>
@@ -728,12 +728,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-26T15:26:00Z</dateMeasuredStart>
@@ -743,7 +743,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -763,7 +763,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-27T13:47:00Z</dateMeasuredStart>
@@ -773,12 +773,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-27T13:47:00Z</dateMeasuredStart>
@@ -788,12 +788,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-27T13:47:00Z</dateMeasuredStart>
@@ -803,7 +803,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -823,7 +823,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-28T14:12:00Z</dateMeasuredStart>
@@ -833,12 +833,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-28T14:12:00Z</dateMeasuredStart>
@@ -848,12 +848,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-28T14:12:00Z</dateMeasuredStart>
@@ -863,7 +863,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -883,7 +883,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-29T14:44:00Z</dateMeasuredStart>
@@ -893,12 +893,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-29T14:44:00Z</dateMeasuredStart>
@@ -908,12 +908,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-29T14:44:00Z</dateMeasuredStart>
@@ -923,7 +923,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -943,7 +943,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-30T14:02:00Z</dateMeasuredStart>
@@ -953,12 +953,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-30T14:02:00Z</dateMeasuredStart>
@@ -968,12 +968,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-30T14:02:00Z</dateMeasuredStart>
@@ -983,7 +983,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1003,7 +1003,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-31T13:24:00Z</dateMeasuredStart>
@@ -1013,12 +1013,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-31T13:24:00Z</dateMeasuredStart>
@@ -1028,12 +1028,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-01-31T13:24:00Z</dateMeasuredStart>
@@ -1043,7 +1043,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1063,7 +1063,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-01T15:22:00Z</dateMeasuredStart>
@@ -1073,12 +1073,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-01T15:22:00Z</dateMeasuredStart>
@@ -1088,12 +1088,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-01T15:22:00Z</dateMeasuredStart>
@@ -1103,7 +1103,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1123,7 +1123,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-02T15:00:00Z</dateMeasuredStart>
@@ -1133,12 +1133,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-02T15:00:00Z</dateMeasuredStart>
@@ -1148,12 +1148,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-02T15:00:00Z</dateMeasuredStart>
@@ -1163,7 +1163,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1183,7 +1183,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-03T13:53:00Z</dateMeasuredStart>
@@ -1193,12 +1193,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-03T13:53:00Z</dateMeasuredStart>
@@ -1208,12 +1208,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-03T13:53:00Z</dateMeasuredStart>
@@ -1223,7 +1223,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1243,7 +1243,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-04T14:00:00Z</dateMeasuredStart>
@@ -1253,12 +1253,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-04T14:00:00Z</dateMeasuredStart>
@@ -1268,12 +1268,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-04T14:00:00Z</dateMeasuredStart>
@@ -1283,7 +1283,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1303,7 +1303,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-05T13:54:00Z</dateMeasuredStart>
@@ -1313,12 +1313,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-05T13:54:00Z</dateMeasuredStart>
@@ -1328,12 +1328,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-05T13:54:00Z</dateMeasuredStart>
@@ -1343,7 +1343,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1363,7 +1363,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-06T13:14:00Z</dateMeasuredStart>
@@ -1373,12 +1373,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-06T13:14:00Z</dateMeasuredStart>
@@ -1388,12 +1388,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-06T13:14:00Z</dateMeasuredStart>
@@ -1403,7 +1403,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1423,7 +1423,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-07T13:00:00Z</dateMeasuredStart>
@@ -1433,12 +1433,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-07T13:00:00Z</dateMeasuredStart>
@@ -1448,12 +1448,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-07T13:00:00Z</dateMeasuredStart>
@@ -1463,7 +1463,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1483,7 +1483,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-08T13:10:00Z</dateMeasuredStart>
@@ -1493,12 +1493,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-08T13:10:00Z</dateMeasuredStart>
@@ -1508,12 +1508,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-08T13:10:00Z</dateMeasuredStart>
@@ -1523,7 +1523,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1543,7 +1543,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-09T13:18:00Z</dateMeasuredStart>
@@ -1553,12 +1553,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-09T13:18:00Z</dateMeasuredStart>
@@ -1568,12 +1568,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-09T13:18:00Z</dateMeasuredStart>
@@ -1583,7 +1583,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1603,7 +1603,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-10T13:29:00Z</dateMeasuredStart>
@@ -1613,12 +1613,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-10T13:29:00Z</dateMeasuredStart>
@@ -1628,12 +1628,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-10T13:29:00Z</dateMeasuredStart>
@@ -1643,7 +1643,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1663,7 +1663,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-11T13:40:00Z</dateMeasuredStart>
@@ -1673,12 +1673,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-11T13:40:00Z</dateMeasuredStart>
@@ -1688,12 +1688,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-11T13:40:00Z</dateMeasuredStart>
@@ -1703,7 +1703,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -1723,7 +1723,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-12T13:51:00Z</dateMeasuredStart>
@@ -1733,12 +1733,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-12T13:51:00Z</dateMeasuredStart>
@@ -1748,12 +1748,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>rpoole@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2010-02-12T13:51:00Z</dateMeasuredStart>
@@ -1763,7 +1763,7 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>

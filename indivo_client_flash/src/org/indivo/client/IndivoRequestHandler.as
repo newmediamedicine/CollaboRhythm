@@ -127,6 +127,7 @@ package org.indivo.client
 
 				eventDispatcher.dispatchEvent(new IndivoClientEvent(IndivoClientEvent.COMPLETE,
 																	phaAdminUtils.docFromResponse(urlLoader.data),
+																	urlLoader.data,
 																	urlRequest, relativePath, requestXml, params,
 																	_userData, null, _httpStatusEvent));
 			}
@@ -168,12 +169,14 @@ package org.indivo.client
 				response.appendChild(
 						<HTTPStatusEvent>
 							<status>{_httpStatusEvent.status}</status>
+							<data>{(_httpStatusEvent.currentTarget as URLLoader).data}</data>
 						</HTTPStatusEvent>
 				);
 			}
 
+			var urlLoader:URLLoader = event.currentTarget as URLLoader;
 			eventDispatcher.dispatchEvent(new IndivoClientEvent(IndivoClientEvent.ERROR,
-																response, urlRequest, relativePath, requestXml, params,
+					response, urlLoader.data, urlRequest, relativePath, requestXml, params,
 																_userData, event as ErrorEvent, _httpStatusEvent));
 		}
 

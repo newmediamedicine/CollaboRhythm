@@ -28,7 +28,7 @@ package collaboRhythm.core.model.healthRecord.service
 														   account:Account, debuggingToolsEnabled:Boolean)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, MedicationFill.DOCUMENT_TYPE,
-				  MedicationFill, Schemas.MedicationFillSchema, "medicationfills");
+				  MedicationFill, Schemas.MedicationFillSchema, "MedicationFill");
 		}
 
 		override protected function documentShouldBeIncluded(document:IDocument, nowTime:Number):Boolean

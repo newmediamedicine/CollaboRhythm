@@ -37,7 +37,7 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
 				  HealthActionPlan.DOCUMENT_TYPE, HealthActionPlan, Schemas.HealthActionPlanSchema,
-				  "healthactionplans");
+				  "HealthActionPlan");
 		}
 
 		override protected function initializeXmlMarshaller():void
