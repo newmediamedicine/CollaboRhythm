@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<MedicationOrder xmlns="http://indivo.org/vocab/xml/documents#">
+	<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+	<orderType>prescribed</orderType>
+	<orderedBy>jking@records.media.mit.edu </orderedBy>
+	<dateOrdered>2011-07-14T09:00:00-04:00</dateOrdered>
+	<dateExpires>2011-10-14T09:00:00-04:00</dateExpires>
+	<indication>diabetes</indication>
+	<amountOrdered>
+		<value>1</value>
+		<unit type="http://indivo.org/codes/units#" value="prefilled syringe" abbrev="prefilled syringe">prefilled syringe</unit>
+	</amountOrdered>
+	<substitutionPermitted>false</substitutionPermitted>
+	<instructions>take in the evening</instructions>
+</MedicationOrder>

@@ -43,7 +43,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
@@ -53,12 +53,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
@@ -66,12 +66,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
@@ -79,12 +79,12 @@
                                           <value>2.2</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
@@ -93,7 +93,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -113,7 +113,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T15:57:00Z</dateMeasuredStart>
@@ -123,12 +123,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T15:57:00Z</dateMeasuredStart>
@@ -136,12 +136,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T15:57:00Z</dateMeasuredStart>
@@ -149,12 +149,12 @@
                                           <value>2.3</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T15:57:00Z</dateMeasuredStart>
@@ -163,7 +163,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -183,7 +183,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:57:00Z</dateMeasuredStart>
@@ -193,12 +193,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:57:00Z</dateMeasuredStart>
@@ -206,12 +206,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:57:00Z</dateMeasuredStart>
@@ -219,12 +219,12 @@
                                           <value>2.4</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:57:00Z</dateMeasuredStart>
@@ -233,7 +233,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -253,7 +253,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T16:45:00Z</dateMeasuredStart>
@@ -263,12 +263,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T16:45:00Z</dateMeasuredStart>
@@ -276,12 +276,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T16:45:00Z</dateMeasuredStart>
@@ -289,12 +289,12 @@
                                           <value>2.4</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T16:45:00Z</dateMeasuredStart>
@@ -303,7 +303,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -323,7 +323,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T16:57:00Z</dateMeasuredStart>
@@ -333,12 +333,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T16:57:00Z</dateMeasuredStart>
@@ -346,12 +346,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T16:57:00Z</dateMeasuredStart>
@@ -359,12 +359,12 @@
                                           <value>2.5</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T16:57:00Z</dateMeasuredStart>
@@ -373,7 +373,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -415,7 +415,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:57:00Z</dateMeasuredStart>
@@ -425,12 +425,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:57:00Z</dateMeasuredStart>
@@ -438,12 +438,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:57:00Z</dateMeasuredStart>
@@ -451,12 +451,12 @@
                                           <value>2</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:57:00Z</dateMeasuredStart>
@@ -465,7 +465,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -485,7 +485,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-02T19:10:00Z</dateMeasuredStart>
@@ -495,12 +495,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-02T19:10:00Z</dateMeasuredStart>
@@ -508,12 +508,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-02T19:10:00Z</dateMeasuredStart>
@@ -521,12 +521,12 @@
                                           <value>2.2</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-02T19:10:00Z</dateMeasuredStart>
@@ -535,7 +535,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -555,7 +555,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-03T10:35:00Z</dateMeasuredStart>
@@ -565,12 +565,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-03T10:35:00Z</dateMeasuredStart>
@@ -578,12 +578,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-03T10:35:00Z</dateMeasuredStart>
@@ -591,12 +591,12 @@
                                           <value>2.3</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-03T10:35:00Z</dateMeasuredStart>
@@ -605,7 +605,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -625,7 +625,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-05T15:28:00Z</dateMeasuredStart>
@@ -635,12 +635,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-05T15:28:00Z</dateMeasuredStart>
@@ -648,12 +648,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-05T15:28:00Z</dateMeasuredStart>
@@ -661,12 +661,12 @@
                                           <value>2.4</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-05T15:28:00Z</dateMeasuredStart>
@@ -675,7 +675,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -695,7 +695,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-07T17:22:00Z</dateMeasuredStart>
@@ -705,12 +705,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-07T17:22:00Z</dateMeasuredStart>
@@ -718,12 +718,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-07T17:22:00Z</dateMeasuredStart>
@@ -731,12 +731,12 @@
                                           <value>2.4</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-07T17:22:00Z</dateMeasuredStart>
@@ -745,7 +745,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -765,7 +765,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-09T15:44:00Z</dateMeasuredStart>
@@ -775,12 +775,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-09T15:44:00Z</dateMeasuredStart>
@@ -788,12 +788,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-09T15:44:00Z</dateMeasuredStart>
@@ -801,12 +801,12 @@
                                           <value>2.5</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-09T15:44:00Z</dateMeasuredStart>
@@ -815,7 +815,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -835,7 +835,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-11T11:32:00Z</dateMeasuredStart>
@@ -845,12 +845,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-11T11:32:00Z</dateMeasuredStart>
@@ -858,12 +858,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-11T11:32:00Z</dateMeasuredStart>
@@ -871,12 +871,12 @@
                                           <value>2.6</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-11T11:32:00Z</dateMeasuredStart>
@@ -885,7 +885,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -905,7 +905,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-13T14:51:00Z</dateMeasuredStart>
@@ -915,12 +915,12 @@
                                        </result>
                                        <site>left arm</site>
                                        <position>sitting</position>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Duration of Exercise</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-13T14:51:00Z</dateMeasuredStart>
@@ -928,12 +928,12 @@
                                           <value>120</value>
                                           <unit abbrev="sec">seconds</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Metabolic Equivalent Task</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-13T14:51:00Z</dateMeasuredStart>
@@ -941,12 +941,12 @@
                                           <value>2.6</value>
                                           <unit abbrev="met">met</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Oxygen Saturation</name>
                                        <measuredBy>mfletcher@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-13T14:51:00Z</dateMeasuredStart>
@@ -955,7 +955,7 @@
                                           <unit abbrev="%">percent</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>

@@ -23,8 +23,8 @@ package collaboRhythm.shared.model
     [Bindable]
     public class RecurrenceRule
 	{
-		private var _frequency:CodedValue;
-        private var _interval:CodedValue;
+		private var _frequency:String;
+        private var _interval:int;
 		private var _dateUntil:Date;
 		private var _count:int;
 		
@@ -38,29 +38,29 @@ package collaboRhythm.shared.model
 		protected function initializeFromXml(recurrenceRuleXml:XML):void
 		{
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-			_frequency = HealthRecordHelperMethods.xmlToCodedValue(recurrenceRuleXml.frequency[0]);
-//            _interval = HealthRecordHelperMethods.xmlToCodedValue(recurrenceRuleXml.interval[0]);
+			_frequency = recurrenceRuleXml.frequency;
+            _interval = int(recurrenceRuleXml.interval);
 //            _dateUntil = DateUtil.parseW3CDTF(recurrenceRuleXml.dateUntil);
 			_count = int(recurrenceRuleXml.count);
 		}
 
 
-        public function get frequency():CodedValue
+        public function get frequency():String
         {
             return _frequency;
         }
 
-        public function set frequency(value:CodedValue):void
+        public function set frequency(value:String):void
         {
             _frequency = value;
         }
 
-        public function get interval():CodedValue
+        public function get interval():int
         {
             return _interval;
         }
 
-        public function set interval(value:CodedValue):void
+        public function set interval(value:int):void
         {
             _interval = value;
         }

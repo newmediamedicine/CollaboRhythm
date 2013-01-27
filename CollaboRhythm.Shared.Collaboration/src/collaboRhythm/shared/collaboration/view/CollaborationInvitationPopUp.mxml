@@ -97,7 +97,7 @@
 			if (collaborationModel.peerAccount.primaryRecord &&
 					collaborationModel.peerAccount.primaryRecord.demographics)
 			{
-				var name:Name = collaborationModel.peerAccount.primaryRecord.demographics.name;
+				var name:Name = collaborationModel.peerAccount.primaryRecord.demographics.Name;
 				collaborationLabelText += name.givenName + " " + name.familyName;
 			}
 			else

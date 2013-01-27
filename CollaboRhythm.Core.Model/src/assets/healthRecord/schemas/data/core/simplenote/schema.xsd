@@ -2,7 +2,7 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://indivo.org/vocab/xml/documents#" xmlns:indivo="http://indivo.org/vocab/xml/documents#"
 elementFormDefault="qualified">
 
-  <include schemaLocation="../../common/codes.xsd" />
+  <include schemaLocation="../../contrib/codes.xsd" />
   <include schemaLocation="../../common/provider.xsd" />
 
   <!-- this is mostly a chunk o' text. More normalized clinical notes will be in a diff schema -->
@@ -11,9 +11,9 @@ elementFormDefault="qualified">
       <sequence>
         <element name="dateOfVisit" type="dateTime" minOccurs="1" maxOccurs="1" />
         <element name="finalizedAt" type="dateTime" minOccurs="0" maxOccurs="1" />
-	<element name="visitType" type="indivo:CodedValue" minOccurs="0" maxOccurs="1" />
+	<element name="visitType" type="indivo:CollaboRhythmCodedValue" minOccurs="0" maxOccurs="1" />
 	<element name="visitLocation" type="string" minOccurs="0" maxOccurs="1" />
-	<element name="specialty" type="indivo:CodedValue" minOccurs="0" maxOccurs="1" />
+	<element name="specialty" type="indivo:CollaboRhythmCodedValue" minOccurs="0" maxOccurs="1" />
 	<element name="signature" type="indivo:Signature" minOccurs="1" maxOccurs="unbounded" />
 	<element name="chiefComplaint" type="string" minOccurs="0" maxOccurs="1" />
         <element name="content" minOccurs="0" maxOccurs="1" type="string" />

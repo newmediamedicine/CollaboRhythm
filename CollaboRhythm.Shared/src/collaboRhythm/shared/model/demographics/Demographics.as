@@ -5,7 +5,6 @@ package collaboRhythm.shared.model.demographics
 	import collaboRhythm.shared.model.*;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-	import collaboRhythm.shared.model.demographics.Name;
 
 	import mx.events.PropertyChangeEvent;
 
@@ -27,7 +26,7 @@ package collaboRhythm.shared.model.demographics
 		private var _organDonor:Boolean;
 		private var _email:String;
 		private var _race:String;
-		private var _name:Name;
+		private var _Name:collaboRhythm.shared.model.demographics.Name;
 		private var _telephone:Telephone;
 		private var _address:Address;
 
@@ -244,14 +243,14 @@ package collaboRhythm.shared.model.demographics
 			_race = value;
 		}
 
-		public function get name():Name
+		public function get Name():collaboRhythm.shared.model.demographics.Name
 		{
-			return _name;
+			return _Name;
 		}
 
-		public function set name(value:Name):void
+		public function set Name(value:collaboRhythm.shared.model.demographics.Name):void
 		{
-			_name = value;
+			_Name = value;
 		}
 
 		public function get telephone():Telephone

@@ -764,8 +764,11 @@ package collaboRhythm.core.controller
 
 				showSelectRecordView();
 
-				// enter the collaboration lobby, since all of the necessary accountIds are known, a clinician does not have any shares
-				enterCollaborationLobby();
+				if (_settings.collaborationEnabled)
+				{
+					// enter the collaboration lobby, since all of the necessary accountIds are known, a clinician does not have any shares
+					enterCollaborationLobby();
+				}
 
 				// get the demographics for the active account all of the shared records
 				getDemographics();
@@ -837,8 +840,11 @@ package collaboRhythm.core.controller
 		{
 			_logger.info("Getting shares from Indivo - SUCCEEDED");
 
-			// enter the collaboration lobby, since all of the necessary accountIds are known
-			enterCollaborationLobby();
+			if (_settings.collaborationEnabled)
+			{
+				// enter the collaboration lobby, since all of the necessary accountIds are known
+				enterCollaborationLobby();
+			}
 
 			// open the primary record of the active account, since the application is in patient mode
 			openRecordAccount(_activeAccount);
@@ -1270,7 +1276,7 @@ package collaboRhythm.core.controller
 				else
 					reloadData();
 			}
-			if (!_collaborationLobbyNetConnectionService.isConnected)
+			if (_settings.collaborationEnabled && !_collaborationLobbyNetConnectionService.isConnected)
 			{
 				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 			}
@@ -1395,7 +1401,7 @@ package collaboRhythm.core.controller
 				_healthRecordServiceFacade.resetConnectionErrorChangeSet();
 				_healthRecordServiceFacade.saveAllChanges(_healthRecordServiceFacade.currentRecord);
 			}
-			if (_collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
+			if (_settings.collaborationEnabled && _collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
 			{
 				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 			}

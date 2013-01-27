@@ -28,7 +28,7 @@ package collaboRhythm.core.model.healthRecord.service
 														  account:Account, debuggingToolsEnabled:Boolean)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, AdherenceItem.DOCUMENT_TYPE,
-				  AdherenceItem, Schemas.AdherenceItemSchema, "adherenceitems", null, 1000, "dateReportedValue");
+				  AdherenceItem, Schemas.AdherenceItemSchema, "AdherenceItem", null, 1000, "dateReportedValue");
 		}
 	}
 }

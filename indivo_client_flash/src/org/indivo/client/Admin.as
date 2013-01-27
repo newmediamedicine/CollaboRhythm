@@ -325,7 +325,7 @@ public class Admin extends EventDispatcher implements WikiTestable
                     "<rest>" + reqMeth + " /" + relativePath.replace("&","&amp;") + "</rest>";
 
 			this.dispatchEvent(new IndivoClientEvent(IndivoClientEvent.COMPLETE,
-													 new XML(inputString), null, relativePath, requestXmlOrParams, null,
+													 new XML(inputString), null, null, relativePath, requestXmlOrParams, null,
 													 userData));
 		}
 
