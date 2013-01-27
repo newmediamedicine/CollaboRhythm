@@ -376,7 +376,7 @@ package org.indivo.client
 		}
 
 		/**
-		 * GET /records/{record_id}/special/demographics
+		 * GET /records/{record_id}/demographics
 		 * @param consumerKey OAuth consumer key, assigned to your application by the Indivo service provider
 		 * @param consumerSecret OAuth consumer secret, assigned to your application by the Indivo service provider
 		 * @param installationURL base URL of the Indivo server
@@ -388,14 +388,17 @@ package org.indivo.client
 												recordId:String, accessToken:String, accessTokenSecret:String,
 												userData:Object = null):void
 		{
-			var requestUrl:String = "records/" + recordId + "/documents/special/demographics";
+			var requestUrl:String = "records/" + recordId + "/demographics";
+			var params:URLVariables = new URLVariables();
+			params["response_format"] = "application/xml";
+
 			phaRequest(
 					consumerKey, consumerSecret, installationURL,
-					"GET", requestUrl, accessToken, accessTokenSecret, null, null, userData);
+					"GET", requestUrl, accessToken, accessTokenSecret, null, params, userData);
 		}
 
 		/**
-		 * PUT /records/{record_id}/special/demographics
+		 * PUT /records/{record_id}/demographics
 		 * @param consumerKey OAuth consumer key, assigned to your application by the Indivo service provider
 		 * @param consumerSecret OAuth consumer secret, assigned to your application by the Indivo service provider
 		 * @param installationURL base URL of the Indivo server
@@ -408,7 +411,7 @@ package org.indivo.client
 												recordId:String, accessToken:String, accessTokenSecret:String,
 												document:String, userData:Object = null):void
 		{
-			var requestUrl:String = "records/" + recordId + "/documents/special/demographics";
+			var requestUrl:String = "records/" + recordId + "/demographics";
 			phaRequest(
 					consumerKey, consumerSecret, installationURL,
 					"PUT", requestUrl, accessToken, accessTokenSecret, document, null, userData);
@@ -417,7 +420,7 @@ package org.indivo.client
 //---------------------------
 
 		/**
-		 * GET /records/{record_id}/special/contact
+		 * GET /records/{record_id}/contact
 		 * @param consumerKey OAuth consumer key, assigned to your application by the Indivo service provider
 		 * @param consumerSecret OAuth consumer secret, assigned to your application by the Indivo service provider
 		 * @param installationURL base URL of the Indivo server
@@ -429,14 +432,14 @@ package org.indivo.client
 										   recordId:String, accessToken:String, accessTokenSecret:String,
 										   userData:Object = null):void
 		{
-			var requestUrl:String = "records/" + recordId + "/documents/special/contact";
+			var requestUrl:String = "records/" + recordId + "/contact";
 			phaRequest(
 					consumerKey, consumerSecret, installationURL,
 					"GET", requestUrl, accessToken, accessTokenSecret, null, null, userData);
 		}
 
 		/**
-		 * PUT /records/{record_id}/special/contact
+		 * PUT /records/{record_id}/contact
 		 * @param consumerKey OAuth consumer key, assigned to your application by the Indivo service provider
 		 * @param consumerSecret OAuth consumer secret, assigned to your application by the Indivo service provider
 		 * @param installationURL base URL of the Indivo server
@@ -449,7 +452,7 @@ package org.indivo.client
 										   recordId:String, accessToken:String, accessTokenSecret:String,
 										   document:String, userData:Object = null):void
 		{
-			var requestUrl:String = "records/" + recordId + "/documents/special/contact";
+			var requestUrl:String = "records/" + recordId + "/contact";
 			phaRequest(
 					consumerKey, consumerSecret, installationURL,
 					"PUT", requestUrl, accessToken, accessTokenSecret, document, null, userData);
