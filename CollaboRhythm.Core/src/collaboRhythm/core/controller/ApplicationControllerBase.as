@@ -56,7 +56,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
-	import collaboRhythm.shared.model.healthRecord.DemographicsHealthRecordService;
+	import collaboRhythm.core.model.healthRecord.service.DemographicsHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
