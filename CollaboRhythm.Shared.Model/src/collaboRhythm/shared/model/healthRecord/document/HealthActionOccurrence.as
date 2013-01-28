@@ -1,6 +1,6 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 
 	import mx.collections.ArrayCollection;
@@ -11,7 +11,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#HealthActionOccurrence";
 		public static const RELATION_TYPE_HEALTH_ACTION_RESULT:String = "http://indivo.org/vocab/documentrels#healthActionResult";
 
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _recurrenceIndex:Number;
 		private var _results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
 //		public var schedule:HealthActionSchedule;
@@ -21,12 +21,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			meta.type = DOCUMENT_TYPE;
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
@@ -51,7 +51,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			_results = value;
 		}
 
-		public function init(name:CodedValue, recurrenceIndex:int,
+		public function init(name:CollaboRhythmCodedValue, recurrenceIndex:int,
 							 healthActionResults:Vector.<DocumentBase> = null):void
 		{
 			_name = name;

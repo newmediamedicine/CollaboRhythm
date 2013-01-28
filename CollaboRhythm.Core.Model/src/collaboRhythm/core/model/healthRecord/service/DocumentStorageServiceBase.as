@@ -7,13 +7,14 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 
 	import flash.events.Event;
 
@@ -219,7 +220,8 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			_xmlMarshaller = new XmlMarshaller();
 			_xmlMarshaller.addSchema(Schemas.CodedValuesSchema);
-			_xmlMarshaller.addSchema(Schemas.ValuesSchema);
+			_xmlMarshaller.addSchema(Schemas.CollaboRhythmCodedValuesSchema);
+			_xmlMarshaller.addSchema(Schemas.CollaboRhythmValuesSchema);
 			if (targetDocumentSchema)
 			{
 				_xmlMarshaller.addSchema(targetDocumentSchema);
@@ -228,9 +230,10 @@ package collaboRhythm.core.model.healthRecord.service
 			{
 				_xmlMarshaller.registerClass(targetDocumentQName, targetClass);
 			}
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmCodedValue"), CodedValue);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CodedValue"), CodedValue);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmCodedValue"), CollaboRhythmCodedValue);
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmValueAndUnit"),
-										 ValueAndUnit);
+										 CollaboRhythmValueAndUnit);
 		}
 
 		/**

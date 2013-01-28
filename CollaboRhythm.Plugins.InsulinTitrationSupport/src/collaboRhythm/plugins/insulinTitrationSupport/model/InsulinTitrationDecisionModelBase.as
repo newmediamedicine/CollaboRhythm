@@ -8,10 +8,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
@@ -915,16 +915,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult(currentMedicationScheduleItem);
 
 			var titrationResult:HealthActionResult = new HealthActionResult();
-			titrationResult.name = new CodedValue(null, null, null, TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME);
+			titrationResult.name = new CollaboRhythmCodedValue(null, null, null, TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME);
 			titrationResult.reportedBy = accountId;
 			titrationResult.dateReported = currentDateSource.now();
 			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CodedValue(null, null, null, isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME);
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME);
 			actionStepResult.occurrences = new ArrayCollection();
 			var occurrence:Occurrence = new Occurrence();
 			occurrence.stopCondition = new StopCondition();
-			occurrence.stopCondition.name = new CodedValue(null, null, null, newDoseIsInAgreement() ? AGREE_STOP_CONDITION_NAME : NEW_STOP_CONDITION_NAME);
-			occurrence.stopCondition.value = new ValueAndUnit(_newDose.toString(), createUnitsCodedValue());
+			occurrence.stopCondition.name = new CollaboRhythmCodedValue(null, null, null, newDoseIsInAgreement() ? AGREE_STOP_CONDITION_NAME : NEW_STOP_CONDITION_NAME);
+			occurrence.stopCondition.value = new CollaboRhythmValueAndUnit(_newDose.toString(), createUnitsCodedValue());
 			actionStepResult.occurrences.addItem(occurrence);
 			titrationResult.actions = new ArrayCollection();
 			titrationResult.actions.addItem(actionStepResult);
@@ -1053,7 +1053,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			decisionHealthActionResult.dateReported = currentDateSource.now();
 			decisionHealthActionResult.reportedBy = accountId;
 			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CodedValue(null, null, null, CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT);
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT);
 			decisionHealthActionResult.actions = new ArrayCollection();
 			decisionHealthActionResult.actions.addItem(actionStepResult);
 			results.push(decisionHealthActionResult);
@@ -1117,9 +1117,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		}
 
 
-		private static function createUnitsCodedValue():CodedValue
+		private static function createUnitsCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue("http://indivo.org/codes/units#", "Units", "U", "Units");
+			return new CollaboRhythmCodedValue("http://indivo.org/codes/units#", "Units", "U", "Units");
 		}
 
 		public function isMeasurementEligible(vitalSign:VitalSign):Boolean

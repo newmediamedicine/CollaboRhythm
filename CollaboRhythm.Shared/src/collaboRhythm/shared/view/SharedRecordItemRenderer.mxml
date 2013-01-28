@@ -100,7 +100,7 @@
 					}
 
 					var span:SpanElement = new SpanElement();
-					span.text = problem.name.text;
+					span.text = problem.name.title;
 					problemsParagraph.addChild(span);
 				}
 			}

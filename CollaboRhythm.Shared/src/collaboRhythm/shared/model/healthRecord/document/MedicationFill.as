@@ -19,11 +19,11 @@ package collaboRhythm.shared.model.healthRecord.document
 
 	import collaboRhythm.shared.model.*;
 
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -31,11 +31,11 @@ package collaboRhythm.shared.model.healthRecord.document
     public class MedicationFill extends DocumentBase
     {
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationFill";
-        private var _name:CodedValue;
+        private var _name:CollaboRhythmCodedValue;
         private var _filledBy:String;
         private var _dateFilled:Date;
-        private var _amountFilled:ValueAndUnit;
-        private var _ndc:CodedValue;
+        private var _amountFilled:CollaboRhythmValueAndUnit;
+        private var _ndc:CollaboRhythmCodedValue;
         private var _fillSequenceNumber:int;
         private var _lotNumber:int;
         private var _refillsRemaining:int;
@@ -49,7 +49,7 @@ package collaboRhythm.shared.model.healthRecord.document
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
         }
 
-        public function init(name:CodedValue, filledBy:String, dateFilled:Date, amountFilled:ValueAndUnit = null, ndc:CodedValue = null, fillSequenceNumber:int = 0, lotNumber:int = 0, refillsRemaining:int = 0, instructions:String = null):void
+        public function init(name:CollaboRhythmCodedValue, filledBy:String, dateFilled:Date, amountFilled:CollaboRhythmValueAndUnit = null, ndc:CollaboRhythmCodedValue = null, fillSequenceNumber:int = 0, lotNumber:int = 0, refillsRemaining:int = 0, instructions:String = null):void
 		{
 			_name = name;
             _filledBy = filledBy;
@@ -70,7 +70,7 @@ package collaboRhythm.shared.model.healthRecord.document
             _name = HealthRecordHelperMethods.xmlToCodedValue(medicationFillXml.name[0]);
             _filledBy = medicationFillXml.filledBy;
             _dateFilled = DateUtil.parseW3CDTF(medicationFillXml.dateFilled.toString());
-            _amountFilled = new ValueAndUnit(medicationFillXml.amountFilled.value, HealthRecordHelperMethods.xmlToCodedValue(medicationFillXml.amountFilled.unit[0]));
+            _amountFilled = new CollaboRhythmValueAndUnit(medicationFillXml.amountFilled.value, HealthRecordHelperMethods.xmlToCodedValue(medicationFillXml.amountFilled.unit[0]));
             _ndc = HealthRecordHelperMethods.xmlToCodedValue(medicationFillXml.ndc[0]);
             _fillSequenceNumber = int(medicationFillXml.fillSequenceNumber);
             _lotNumber = int(medicationFillXml.lotNumber);
@@ -114,12 +114,12 @@ package collaboRhythm.shared.model.healthRecord.document
 //		}
 
 
-        public function get name():CodedValue
+        public function get name():CollaboRhythmCodedValue
         {
             return _name;
         }
 
-        public function set name(value:CodedValue):void
+        public function set name(value:CollaboRhythmCodedValue):void
         {
             _name = value;
         }
@@ -144,22 +144,22 @@ package collaboRhythm.shared.model.healthRecord.document
             _dateFilled = value;
         }
 
-        public function get amountFilled():ValueAndUnit
+        public function get amountFilled():CollaboRhythmValueAndUnit
         {
             return _amountFilled;
         }
 
-        public function set amountFilled(value:ValueAndUnit):void
+        public function set amountFilled(value:CollaboRhythmValueAndUnit):void
         {
             _amountFilled = value;
         }
 
-        public function get ndc():CodedValue
+        public function get ndc():CollaboRhythmCodedValue
         {
             return _ndc;
         }
 
-        public function set ndc(value:CodedValue):void
+        public function set ndc(value:CollaboRhythmCodedValue):void
         {
             _ndc = value;
         }

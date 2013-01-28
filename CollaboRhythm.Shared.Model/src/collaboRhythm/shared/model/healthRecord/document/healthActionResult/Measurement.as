@@ -1,56 +1,56 @@
 package collaboRhythm.shared.model.healthRecord.document.healthActionResult
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 
 	[Bindable]
 	public class Measurement
 	{
-		private var _name:CodedValue;
-		private var _type:CodedValue;
-		private var _value:ValueAndUnit;
-		private var _aggregationFunction:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
+		private var _type:CollaboRhythmCodedValue;
+		private var _value:CollaboRhythmValueAndUnit;
+		private var _aggregationFunction:CollaboRhythmCodedValue;
 
 		public function Measurement()
 		{
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
 
-		public function get type():CodedValue
+		public function get type():CollaboRhythmCodedValue
 		{
 			return _type;
 		}
 
-		public function set type(value:CodedValue):void
+		public function set type(value:CollaboRhythmCodedValue):void
 		{
 			_type = value;
 		}
 
-		public function get value():ValueAndUnit
+		public function get value():CollaboRhythmValueAndUnit
 		{
 			return _value;
 		}
 
-		public function set value(value:ValueAndUnit):void
+		public function set value(value:CollaboRhythmValueAndUnit):void
 		{
 			_value = value;
 		}
 
-		public function get aggregationFunction():CodedValue
+		public function get aggregationFunction():CollaboRhythmCodedValue
 		{
 			return _aggregationFunction;
 		}
 
-		public function set aggregationFunction(value:CodedValue):void
+		public function set aggregationFunction(value:CollaboRhythmCodedValue):void
 		{
 			_aggregationFunction = value;
 		}

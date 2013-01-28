@@ -17,7 +17,7 @@
 package collaboRhythm.shared.model
 {
 
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 
     [Bindable]

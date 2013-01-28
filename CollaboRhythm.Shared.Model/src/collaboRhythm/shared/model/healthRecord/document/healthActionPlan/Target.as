@@ -1,56 +1,56 @@
 package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 
 	[Bindable]
 	public class Target
 	{
-		private var _name:CodedValue;
-		private var _minimumValue:ValueAndUnit;
-		private var _maximumValue:ValueAndUnit;
-		private var _severityLevel:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
+		private var _minimumValue:CollaboRhythmValueAndUnit;
+		private var _maximumValue:CollaboRhythmValueAndUnit;
+		private var _severityLevel:CollaboRhythmCodedValue;
 
 		public function Target()
 		{
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
 
-		public function get minimumValue():ValueAndUnit
+		public function get minimumValue():CollaboRhythmValueAndUnit
 		{
 			return _minimumValue;
 		}
 
-		public function set minimumValue(value:ValueAndUnit):void
+		public function set minimumValue(value:CollaboRhythmValueAndUnit):void
 		{
 			_minimumValue = value;
 		}
 
-		public function get maximumValue():ValueAndUnit
+		public function get maximumValue():CollaboRhythmValueAndUnit
 		{
 			return _maximumValue;
 		}
 
-		public function set maximumValue(value:ValueAndUnit):void
+		public function set maximumValue(value:CollaboRhythmValueAndUnit):void
 		{
 			_maximumValue = value;
 		}
 
-		public function get severityLevel():CodedValue
+		public function get severityLevel():CollaboRhythmCodedValue
 		{
 			return _severityLevel;
 		}
 
-		public function set severityLevel(value:CodedValue):void
+		public function set severityLevel(value:CollaboRhythmCodedValue):void
 		{
 			_severityLevel = value;
 		}

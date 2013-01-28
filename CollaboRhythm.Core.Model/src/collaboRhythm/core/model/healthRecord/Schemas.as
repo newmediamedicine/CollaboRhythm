@@ -3,17 +3,20 @@ package collaboRhythm.core.model.healthRecord
 
 	public class Schemas
 	{
-		[Embed("/assets/healthRecord/schemas/data/contrib/codes.xsd", mimeType="application/octet-stream")]
+		[Embed("/assets/healthRecord/schemas/data/common/codes.xsd", mimeType="application/octet-stream")]
 		public static const CodedValuesSchema:Class;
 
+		[Embed("/assets/healthRecord/schemas/data/contrib/codes.xsd", mimeType="application/octet-stream")]
+		public static const CollaboRhythmCodedValuesSchema:Class;
+
 		[Embed("/assets/healthRecord/schemas/data/contrib/values.xsd", mimeType="application/octet-stream")]
-		public static const ValuesSchema:Class;
+		public static const CollaboRhythmValuesSchema:Class;
 
 		[Embed("/assets/healthRecord/schemas/data/contrib/provider.xsd", mimeType="application/octet-stream")]
 		public static const ProviderSchema:Class;
 
 		[Embed("/assets/healthRecord/schemas/data/contrib/CollaboRhythmVitalSign/schema.xsd", mimeType="application/octet-stream")]
-		public static const VitalSignSchema:Class;
+		public static const CollaboRhythmVitalSignSchema:Class;
 
 		[Embed("/assets/healthRecord/schemas/data/core/equipment/schema.xsd", mimeType="application/octet-stream")]
 		public static const EquipmentSchema:Class;

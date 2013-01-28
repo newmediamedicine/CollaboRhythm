@@ -1,6 +1,6 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 
 	import mx.collections.ArrayCollection;
@@ -10,14 +10,14 @@ package collaboRhythm.shared.model.healthRecord.document
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents/healthActionPlan#HealthActionPlan";
 
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _planType:String;
 		private var _plannedBy:String;
 		private var _datePlanned:Date;
 		private var _dateExpires:Date;
 		private var _indication:String;
 		private var _instructions:String;
-		private var _system:CodedValue;
+		private var _system:CollaboRhythmCodedValue;
 		private var _actions:ArrayCollection;
 		private var _schedules:ArrayCollection = new ArrayCollection();
 
@@ -26,12 +26,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			meta.type = DOCUMENT_TYPE;
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
@@ -96,12 +96,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			_instructions = value;
 		}
 
-		public function get system():CodedValue
+		public function get system():CollaboRhythmCodedValue
 		{
 			return _system;
 		}
 
-		public function set system(value:CodedValue):void
+		public function set system(value:CollaboRhythmCodedValue):void
 		{
 			_system = value;
 		}

@@ -2,7 +2,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleCreator;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.Equipment;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
@@ -65,16 +65,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				decisionHealthActionPlan = new HealthActionPlan();
 				decisionHealthActionPlan.meta.id = UIDUtil.createUID();
 
-				decisionHealthActionPlan.name = new CodedValue(null, null, null, "Insulin Titration Decision");
+				decisionHealthActionPlan.name = new CollaboRhythmCodedValue(null, null, null, "Insulin Titration Decision");
 				decisionHealthActionPlan.planType = "Prescribed";
 				decisionHealthActionPlan.plannedBy = _activeAccount.accountId;
 				decisionHealthActionPlan.datePlanned = _currentDateSource.now();
 				decisionHealthActionPlan.indication = "Type II Diabetes Mellitus";
 				decisionHealthActionPlan.instructions = "Use CollaboRhythm to follow the algorithm for changing your dose of basal insulin (generally every three days).";
-				decisionHealthActionPlan.system = new CodedValue(null, null, null, "CollaboRhythm Insulin Titration Support");
+				decisionHealthActionPlan.system = new CollaboRhythmCodedValue(null, null, null, "CollaboRhythm Insulin Titration Support");
 				var actionStep:ActionStep = new ActionStep();
-				actionStep.name = new CodedValue(null, null, null, "Choose a new dose for your insulin");
-				actionStep.type = new CodedValue(null, null, null, "Decide");
+				actionStep.name = new CollaboRhythmCodedValue(null, null, null, "Choose a new dose for your insulin");
+				actionStep.type = new CollaboRhythmCodedValue(null, null, null, "Decide");
 				decisionHealthActionPlan.actions = new ArrayCollection([actionStep]);
 				_activeRecordAccount.primaryRecord.addDocument(decisionHealthActionPlan, true);
 			}
@@ -98,7 +98,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var healthActionSchedule:HealthActionSchedule = new HealthActionSchedule();
 			healthActionSchedule.meta.id = UIDUtil.createUID();
 
-			healthActionSchedule.name = new CodedValue(null, null, null, "Insulin Titration Decision");
+			healthActionSchedule.name = new CollaboRhythmCodedValue(null, null, null, "Insulin Titration Decision");
 
 			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord, _activeAccount.accountId, _currentDateSource);
 			scheduleCreator.initializeDefaultSchedule(healthActionSchedule);
@@ -171,7 +171,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var healthActionSchedule:HealthActionSchedule = new HealthActionSchedule();
 			healthActionSchedule.meta.id = UIDUtil.createUID();
 
-			healthActionSchedule.name = new CodedValue(null, null, null, "FORA D40b");
+			healthActionSchedule.name = new CollaboRhythmCodedValue(null, null, null, "FORA D40b");
 			healthActionSchedule.instructions = "Use device to record blood glucose. Insert test strip into device and apply a drop of blood.";
 
 			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord, _activeAccount.accountId, _currentDateSource);

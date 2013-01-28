@@ -43,16 +43,14 @@ package collaboRhythm.core.model.healthRecord.service
 		protected function initializeXmlMarshaller():void
 		{
 			_xmlMarshaller = new XmlMarshaller();
-			_xmlMarshaller.addSchema(Schemas.CodedValuesSchema);
-			_xmlMarshaller.addSchema(Schemas.ValuesSchema);
 			_xmlMarshaller.addSchema(Schemas.DemographicsSchema);
 			_xmlMarshaller.registerClass(_demographicsQName, Demographics);
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "Name"), Name);
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "Telephone"), Telephone);
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "Address"), Address);
-			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmCodedValue"), CodedValue);
+			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmCodedValue"), CollaboRhythmCodedValue);
 			_xmlMarshaller.registerClass(new QName("http://indivo.org/vocab/xml/documents#", "CollaboRhythmValueAndUnit"),
-										 ValueAndUnit);
+										 CollaboRhythmValueAndUnit);
 		}
 
         // get the demographics for a record

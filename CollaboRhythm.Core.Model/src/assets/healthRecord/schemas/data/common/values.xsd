@@ -2,6 +2,8 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://indivo.org/vocab/xml/documents#"
 	   xmlns:indivo="http://indivo.org/vocab/xml/documents#" elementFormDefault="qualified">
 
+  <xs:include schemaLocation="codes.xsd" />
+
   <xs:complexType name="Range">
     <xs:sequence>
       <!-- a missing minimum means < max -->
