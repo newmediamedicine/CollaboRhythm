@@ -20,10 +20,8 @@ package collaboRhythm.core.model.healthRecord.service
     {
          // Indivo Api calls used in this healthRecordService
         public static const GET_DEMOGRAPHICS:String = "Get Demographics";
-        public static const GET_CONTACT:String = "Get Contact";
 
 		private var _pendingDemographics:HashMap = new HashMap();
-		private var _pendingContacts:HashMap = new HashMap();
 		protected var _xmlMarshaller:XmlMarshaller;
 
 		private var _demographicsQName:QName = new QName("http://indivo.org/vocab/xml/documents#", "Demographics");
@@ -57,13 +55,10 @@ package collaboRhythm.core.model.healthRecord.service
         public function getDemographics(record:Record):void
         {
 			_pendingDemographics.put(record.id, record);
-			_pendingContacts.put(record.id, record);
 
             var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_DEMOGRAPHICS,
 					null, record);
             _pha.special_demographicsGET(null, null, null, record.id, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
-            healthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_CONTACT, null, record);
-            _pha.special_contactGET(null, null, null, record.id, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
         }
 
         protected override function handleResponse(event:IndivoClientEvent, responseXml:XML, healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
@@ -71,10 +66,6 @@ package collaboRhythm.core.model.healthRecord.service
             if (healthRecordServiceRequestDetails.indivoApiCall == GET_DEMOGRAPHICS)
 			{
 				healthRecordServiceRequestDetails.record.demographics = _xmlMarshaller.unmarshallXml(responseXml, _demographicsQName) as Demographics;
-			}
-            else if (healthRecordServiceRequestDetails.indivoApiCall == GET_CONTACT)
-			{
-				healthRecordServiceRequestDetails.record.contact = new Contact(responseXml);
 			}
 
 			handleFinishedRequest(healthRecordServiceRequestDetails, event);
@@ -100,17 +91,13 @@ package collaboRhythm.core.model.healthRecord.service
 			{
 				_pendingDemographics.remove(healthRecordServiceRequestDetails.record.id);
 			}
-			else if (healthRecordServiceRequestDetails.indivoApiCall == GET_CONTACT)
-			{
-				_pendingContacts.remove(healthRecordServiceRequestDetails.record.id);
-			}
 
 			checkComplete(indivoClientEvent);
 		}
 
 		private function checkComplete(indivoClientEvent:IndivoClientEvent):void
 		{
-			if (_pendingContacts.size() == 0 && _pendingDemographics.size() == 0)
+			if (_pendingDemographics.size() == 0)
 			{
 				dispatchEvent(new HealthRecordServiceEvent(HealthRecordServiceEvent.COMPLETE, indivoClientEvent));
 			}
