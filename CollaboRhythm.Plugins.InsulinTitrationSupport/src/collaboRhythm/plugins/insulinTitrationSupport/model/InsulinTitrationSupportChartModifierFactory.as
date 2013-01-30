@@ -9,6 +9,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
 
+	import com.theory9.data.types.OrderedMap;
+
 	public class InsulinTitrationSupportChartModifierFactory implements IChartModifierFactory
 	{
 		public function InsulinTitrationSupportChartModifierFactory()
@@ -46,6 +48,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return chartDescriptor is VitalSignChartDescriptor &&
 					(chartDescriptor as VitalSignChartDescriptor).vitalSignCategory ==
 							VitalSignsModel.BLOOD_GLUCOSE_CATEGORY;
+		}
+
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			return null;
 		}
 	}
 }

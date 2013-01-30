@@ -3,6 +3,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.*;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 
+	import com.theory9.data.types.OrderedMap;
+
 	/**
 	 * Factory interface which a CollaboRhythm plugin can use to provide custom IChartModifier instances.
 	 * Each factory can support one or more type of chart descriptors. All registered factories will be given a chance
@@ -11,6 +13,14 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	 */
 	public interface IChartModifierFactory
 	{
+		/**
+		 * Updates the set of chart descriptors which will be used to create charts.
+		 * Descriptors can be added, removed, or reordered.
+		 * @param chartDescriptors the current set of chart descriptors
+		 * @return the new set of chart descriptors
+		 */
+		function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap;
+
 		/**
 		 * Creates or modifies a chart modifier for the specified chartDescriptor. If the factory does not have a
 		 * different or modified chart modifier to provide for the specified chartDescriptor it should return the
