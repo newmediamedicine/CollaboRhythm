@@ -7,6 +7,8 @@ package collaboRhythm.plugins.bloodPressure.model
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 
+	import com.theory9.data.types.OrderedMap;
+
 	public class BloodPressureChartModifierFactory implements IChartModifierFactory
 	{
 		public function BloodPressureChartModifierFactory()
@@ -22,6 +24,11 @@ package collaboRhythm.plugins.bloodPressure.model
 				return new BloodPressureChartModifier(chartDescriptor as VitalSignChartDescriptor, chartModelDetails, currentChartModifier);
 			else
 				return currentChartModifier;
+		}
+
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			return null;
 		}
 	}
 }
