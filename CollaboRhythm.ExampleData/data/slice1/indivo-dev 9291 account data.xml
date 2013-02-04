@@ -139,15 +139,15 @@
     
     <organDonar>true</organDonar>
     
-    <recordId/>
+    <recordId>023783ca-67c3-4c8e-af91-50e591d41a5d</recordId>
     
-    <status/>
+    <status>Demographics document created. Id: 4ff738ab-dab5-439c-a920-0a819c6a0706</status>
     
-    <accessKey/>
+    <accessKey>URTYq5QDhXXTUj9Iju17</accessKey>
     
-    <accessSecret/>
+    <accessSecret>usytbpp1bGcFoLLX2Ejp</accessSecret>
     
-    <demographicsId>f0db0f02-63f2-49e7-8da4-1c20f598059f</demographicsId>
+    <demographicsId>4ff738ab-dab5-439c-a920-0a819c6a0706</demographicsId>
     
     <notes>Demo physician</notes>
     
@@ -829,19 +829,19 @@
     
     <organDonar>true</organDonar>
     
-    <recordId/>
+    <recordId>0cbe1616-54aa-4571-9a91-2577a0274a9e</recordId>
     
-    <accessKey/>
+    <accessKey>ei1YAWbSHoxTkvbt1YR3</accessKey>
     
-    <accessSecret/>
+    <accessSecret>DiOzMjQPsCWy1fMj69JZ</accessSecret>
     
-    <status/>
+    <status>Created 165/165 documents, 161/162 relationships</status>
     
-    <demographicsId>19be9de3-5ae1-42b3-8e15-46db2f96c0d8</demographicsId>
+    <demographicsId>9521b7a2-9a39-4bfa-a59a-2e8296060524</demographicsId>
     
     <recordSeed/>
     
-    <shareAccountId>jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
     
     <shareRole>Coach</shareRole>
     
