@@ -24,7 +24,7 @@
 	</mx:AdvancedDataGrid>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.model.Record;
-		import collaboRhythm.shared.model.healthRecord.CodedValue;
+		import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 		import collaboRhythm.shared.model.healthRecord.IDocument;
 		import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 		import collaboRhythm.shared.model.healthRecord.Relationship;
@@ -52,7 +52,7 @@
 					if ((document as Object).hasOwnProperty("name"))
 					{
 						var documentName:Object = document["name"];
-						var documentNameCodedValue:CodedValue = documentName as CodedValue;
+						var documentNameCodedValue:CollaboRhythmCodedValue = documentName as CollaboRhythmCodedValue;
 						if (documentNameCodedValue)
 						{
 							return documentNameCodedValue.text;

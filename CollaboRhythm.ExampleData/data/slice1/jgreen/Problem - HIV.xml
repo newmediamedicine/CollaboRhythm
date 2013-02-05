@@ -16,8 +16,11 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <Problem xmlns="http://indivo.org/vocab/xml/documents#">
-	<dateOnset>2002-05-16T16:57:00Z</dateOnset>
-	<name type="umls-snomed" value="89293008" abbrev="None">HIV</name>
-	<comments>HIV</comments>
-	<diagnosedBy>jking@records.media.mit.edu</diagnosedBy>
+	<startDate>2002-05-16T16:57:00Z</startDate>
+	<name>
+        <title>HIV</title>
+        <system>http://purl.bioontology.org/ontology/SNOMEDCT/</system>
+        <identifier>89293008</identifier>
+    </name>
+	<notes>HIV</notes>
 </Problem>

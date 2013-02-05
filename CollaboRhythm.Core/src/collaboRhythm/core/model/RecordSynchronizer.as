@@ -10,12 +10,13 @@ package collaboRhythm.core.model
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.Attachment;
 	import collaboRhythm.shared.model.healthRecord.document.Equipment;
@@ -96,7 +97,8 @@ package collaboRhythm.core.model
 //			ScheduleItemOccurrence,
 			DocumentMetadata,
 			CodedValue,
-			ValueAndUnit,
+			CollaboRhythmCodedValue,
+			CollaboRhythmValueAndUnit,
 			Relationship,
 			RecurrenceRule,
 		];

@@ -2,7 +2,7 @@ package collaboRhythm.plugins.schedule.shared.model
 {
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.RecurrenceRule;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
@@ -57,7 +57,7 @@ package collaboRhythm.plugins.schedule.shared.model
 					_currentDateSource.now().month,
 					_currentDateSource.now().date, DEFAULT_START_TIME + DEFAULT_ADHERENCE_WINDOW, 0, 0);
 			var recurrenceRule:RecurrenceRule = new RecurrenceRule();
-			recurrenceRule.frequency = new CodedValue(null, null, null, ScheduleItemBase.DAILY);
+			recurrenceRule.frequency = ScheduleItemBase.DAILY;
 			recurrenceRule.count = DEFAULT_RECURRENCE_COUNT;
 			scheduleItem.recurrenceRule = recurrenceRule;
 		}

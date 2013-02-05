@@ -13,7 +13,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.VitalSignFactory;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
@@ -206,7 +206,7 @@ package collaboRhythm.plugins.foraD40b.model
 				if (currentStep == 0)
 				{
 					_hypoglycemiaHealthActionResult = new HealthActionResult();
-					_hypoglycemiaHealthActionResult.name = new CodedValue(null, null, null,
+					_hypoglycemiaHealthActionResult.name = new CollaboRhythmCodedValue(null, null, null,
 							HYPOGLYCEMIA_ACTION_PLAN_HEALTH_ACTION_RESULT_NAME);
 					_hypoglycemiaHealthActionResult.reportedBy = healthActionModelDetailsProvider.accountId;
 					_hypoglycemiaHealthActionResult.dateReported = _currentDateSource.now();
@@ -332,7 +332,7 @@ package collaboRhythm.plugins.foraD40b.model
 			occurrence.additionalDetails = description;
 
 			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CodedValue(null, null, null, EAT_CARBS_ACTION_STEP_NAME);
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, EAT_CARBS_ACTION_STEP_NAME);
 			actionStepResult.occurrences = new ArrayCollection();
 			actionStepResult.occurrences.addItem(occurrence);
 
@@ -352,7 +352,7 @@ package collaboRhythm.plugins.foraD40b.model
 			occurrence.measurements.addItem(measurement);
 
 			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CodedValue(null, null, null, MEASURE_BLOOD_GLUCOSE_ACTION_STEP_NAME);
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, MEASURE_BLOOD_GLUCOSE_ACTION_STEP_NAME);
 			actionStepResult.occurrences = new ArrayCollection();
 			actionStepResult.occurrences.addItem(occurrence);
 
@@ -381,7 +381,7 @@ package collaboRhythm.plugins.foraD40b.model
 			occurrence.additionalDetails = "Waited " + minutes + ":" + secondsString;
 
 			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CodedValue(null, null, null, WAIT_ACTION_STEP_NAME);
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, WAIT_ACTION_STEP_NAME);
 			actionStepResult.occurrences = new ArrayCollection();
 			actionStepResult.occurrences.addItem(occurrence);
 

@@ -1,0 +1,10 @@
+<MedicationFill xmlns="http://indivo.org/vocab/xml/documents#">
+    <name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="705814">Acetaminophen 21.7 MG/ML / Chlorpheniramine 0.833 MG/ML / Phenylephrine 0.333 MG/ML Oral Solution</name>
+    <filledBy>rpoole@records.media.mit.edu</filledBy>
+    <dateFilled>2009-05-16T14:02:51Z</dateFilled>
+    <amountFilled>
+        <value>300</value>
+        <unit>mL</unit>
+    </amountFilled>
+    <ndc>00363200408</ndc>
+</MedicationFill>

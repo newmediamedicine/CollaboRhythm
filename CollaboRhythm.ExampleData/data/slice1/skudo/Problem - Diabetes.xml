@@ -16,8 +16,11 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <Problem xmlns="http://indivo.org/vocab/xml/documents#">
-        <dateOnset>2009-06-22T15:47:00Z</dateOnset>
-        <name type="umls-snomed" value="313436004" abbrev="None">Type II Diabetes Mellitus</name>
-        <comments>Diabetes</comments>
-        <diagnosedBy>jking@records.media.mit.edu</diagnosedBy>
-      </Problem>
+	<startDate>2009-06-22T15:47:00Z</startDate>
+	<name>
+		<title>Type II Diabetes Mellitus</title>
+		<system>http://purl.bioontology.org/ontology/SNOMEDCT/</system>
+		<identifier>313436004</identifier>
+	</name>
+	<notes>Diabetes</notes>
+</Problem>

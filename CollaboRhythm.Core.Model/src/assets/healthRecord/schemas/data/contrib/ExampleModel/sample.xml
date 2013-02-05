@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExampleModel xmlns="http://indivo.org/vocab/xml/documents#">
+	<name type="http://rxnav.nlm.nih.gov/REST/rxcui/" value="847241">3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]</name>
+	<startDate>2011-07-14T09:00:00-04:00</startDate>
+	<notes>take in the evening</notes>
+</ExampleModel>

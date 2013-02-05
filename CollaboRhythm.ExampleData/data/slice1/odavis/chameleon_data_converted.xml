@@ -43,7 +43,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-15T20:00:00Z</dateMeasuredStart>
@@ -51,7 +51,7 @@
                                           <value>299</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -71,7 +71,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-16T20:00:00Z</dateMeasuredStart>
@@ -79,7 +79,7 @@
                                           <value>301</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -99,7 +99,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T20:00:00Z</dateMeasuredStart>
@@ -107,7 +107,7 @@
                                           <value>298</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -127,7 +127,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T20:00:00Z</dateMeasuredStart>
@@ -135,7 +135,7 @@
                                           <value>300</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -155,7 +155,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T20:00:00Z</dateMeasuredStart>
@@ -163,7 +163,7 @@
                                           <value>297</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -183,7 +183,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T20:00:00Z</dateMeasuredStart>
@@ -191,7 +191,7 @@
                                           <value>301</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -211,7 +211,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T20:00:00Z</dateMeasuredStart>
@@ -219,7 +219,7 @@
                                           <value>295</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -239,7 +239,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T20:00:00Z</dateMeasuredStart>
@@ -247,7 +247,7 @@
                                           <value>270</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -267,7 +267,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T20:00:00Z</dateMeasuredStart>
@@ -275,7 +275,7 @@
                                           <value>250</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -295,7 +295,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T20:00:00Z</dateMeasuredStart>
@@ -303,7 +303,7 @@
                                           <value>220</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -323,7 +323,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T20:00:00Z</dateMeasuredStart>
@@ -331,7 +331,7 @@
                                           <value>210</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -351,7 +351,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T20:00:00Z</dateMeasuredStart>
@@ -359,7 +359,7 @@
                                           <value>200</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -379,7 +379,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T20:00:00Z</dateMeasuredStart>
@@ -387,7 +387,7 @@
                                           <value>250</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -407,7 +407,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Peak Expiratory Flow Rate</name>
                                        <measuredBy>odavis@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T20:00:00Z</dateMeasuredStart>
@@ -415,7 +415,7 @@
                                           <value>285</value>
                                           <unit abbrev="L/min">litres/minute</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>

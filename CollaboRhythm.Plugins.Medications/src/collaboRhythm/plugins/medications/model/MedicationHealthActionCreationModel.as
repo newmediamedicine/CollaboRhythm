@@ -5,9 +5,9 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CodedValueFactory;
 	import collaboRhythm.shared.model.RecurrenceRule;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -45,7 +45,7 @@ package collaboRhythm.plugins.medications.model
 		private var _currentRxNormConcept:RxNormConcept;
 		private var _instructions:String;
 		private var _dose:String;
-		private var _doseUnit:CodedValue;
+		private var _doseUnit:CollaboRhythmCodedValue;
 		private var _frequency:int;
 		private var _currentNdcCode:String;
 
@@ -132,7 +132,7 @@ package collaboRhythm.plugins.medications.model
 			var codedValueFactory:CodedValueFactory = new CodedValueFactory();
 
 			var medicationOrder:MedicationOrder = new MedicationOrder();
-			medicationOrder.name = new CodedValue(RXCUI_CODED_VALUE_TYPE, currentRxNormConcept.rxcui, null,
+			medicationOrder.name = new CollaboRhythmCodedValue(RXCUI_CODED_VALUE_TYPE, currentRxNormConcept.rxcui, null,
 					currentRxNormConcept.name);
 			medicationOrder.orderType = PRESCRIBED_ORDER_TYPE;
 			medicationOrder.orderedBy = _activeAccount.accountId;
@@ -142,11 +142,11 @@ package collaboRhythm.plugins.medications.model
 			medicationOrder.indication = "Diabetes";
 			if (doseUnit.text == "tablet")
 			{
-				medicationOrder.amountOrdered = new ValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(), doseUnit);
+				medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(), doseUnit);
 			}
 			else if (doseUnit.text == "Unit")
 			{
-				medicationOrder.amountOrdered = new ValueAndUnit("1",
+				medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit("1",
 						codedValueFactory.createPrefilledSyringeCodedValue());
 			}
 			medicationOrder.instructions = instructions;
@@ -172,7 +172,7 @@ package collaboRhythm.plugins.medications.model
 				{
 					dose = DEFAULT_DOSE;
 				}
-				medicationScheduleItem.dose = new ValueAndUnit(dose, doseUnit);
+				medicationScheduleItem.dose = new CollaboRhythmValueAndUnit(dose, doseUnit);
 				medicationScheduleItem.instructions = instructions;
 
 				medicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
@@ -225,7 +225,7 @@ package collaboRhythm.plugins.medications.model
 				medicationFill.filledBy = _activeAccount.accountId;
 				medicationFill.dateFilled = _currentDateSource.now();
 				medicationFill.amountFilled = medicationOrder.amountOrdered;
-				medicationFill.ndc = new CodedValue(null, null, null, currentNdcCode);
+				medicationFill.ndc = new CollaboRhythmCodedValue(null, null, null, currentNdcCode);
 
 				medicationFill.pendingAction = DocumentBase.ACTION_CREATE;
 				_activeRecordAccount.primaryRecord.addDocument(medicationFill);
@@ -316,12 +316,12 @@ package collaboRhythm.plugins.medications.model
 			_dose = value;
 		}
 
-		public function get doseUnit():CodedValue
+		public function get doseUnit():CollaboRhythmCodedValue
 		{
 			return _doseUnit;
 		}
 
-		public function set doseUnit(value:CodedValue):void
+		public function set doseUnit(value:CollaboRhythmCodedValue):void
 		{
 			_doseUnit = value;
 		}

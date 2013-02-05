@@ -1,13 +1,13 @@
 package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 
 	import mx.collections.ArrayCollection;
 
 	[Bindable]
 	public class Action
 	{
-		private var _position:CodedValue;
+		private var _position:CollaboRhythmCodedValue;
 		private var _stopConditions:ArrayCollection;
 		private var _targets:ArrayCollection;
 		private var _measurementPlans:ArrayCollection;
@@ -18,12 +18,12 @@ package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 		{
 		}
 
-		public function get position():CodedValue
+		public function get position():CollaboRhythmCodedValue
 		{
 			return _position;
 		}
 
-		public function set position(value:CodedValue):void
+		public function set position(value:CollaboRhythmCodedValue):void
 		{
 			_position = value;
 		}

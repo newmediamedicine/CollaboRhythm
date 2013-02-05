@@ -23,13 +23,13 @@ package collaboRhythm.shared.model.healthRecord
 		{
 		}
 		
-		public static function xmlToCodedValue(valueXml:XML):CodedValue
+		public static function xmlToCodedValue(valueXml:XML):CollaboRhythmCodedValue
 		{
-			var codedValue:CodedValue = new CodedValue(valueXml.@type, valueXml.@value, valueXml.@abbrev, valueXml.toString());
+			var codedValue:CollaboRhythmCodedValue = new CollaboRhythmCodedValue(valueXml.@type, valueXml.@value, valueXml.@abbrev, valueXml.toString());
 			return codedValue;
 		}
 
-        public static function addCodedValueToXml(xml:XML, nodeName:String,  codedValue:CodedValue):void
+        public static function addCodedValueToXml(xml:XML, nodeName:String,  codedValue:CollaboRhythmCodedValue):void
         {
             // TODO:
         }

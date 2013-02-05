@@ -1,6 +1,6 @@
 package collaboRhythm.shared.model
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 
 	public class CodedValueFactory
 	{
@@ -51,63 +51,63 @@ package collaboRhythm.shared.model
 		{
 		}
 
-		public function createBloodPressureSystolicCodedValue():CodedValue
+		public function createBloodPressureSystolicCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BLOOD_PRESSURE_SYSTOLIC_CODED_VALUE,
+			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BLOOD_PRESSURE_SYSTOLIC_CODED_VALUE,
 					BLOOD_PRESSURE_SYSTOLIC_CODED_VALUE_ABBREV, BLOOD_PRESSURE_SYSTOLIC_CODED_VALUE_TEXT);
 		}
 
-		public function createBloodPressureDiastolicCodedValue():CodedValue
+		public function createBloodPressureDiastolicCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BLOOD_PRESSURE_DIASTOLIC_CODED_VALUE,
+			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BLOOD_PRESSURE_DIASTOLIC_CODED_VALUE,
 					BLOOD_PRESSURE_DIASTOLIC_CODED_VALUE_ABBREV, BLOOD_PRESSURE_DIASTOLIC_CODED_VALUE_TEXT);
 		}
 
-		public function createHeartRateCodedValue():CodedValue
+		public function createHeartRateCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, HEART_RATE_CODED_VALUE, HEART_RATE_CODED_VALUE_ABBREV,
+			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, HEART_RATE_CODED_VALUE, HEART_RATE_CODED_VALUE_ABBREV,
 					HEART_RATE_CODED_VALUE_TEXT);
 		}
 
-		public function createBloodGlucoseCodedValue():CodedValue
+		public function createBloodGlucoseCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BLOOD_GLUCOSE_CODED_VALUE,
+			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BLOOD_GLUCOSE_CODED_VALUE,
 					BLOOD_GLUCOSE_CODED_VALUE_ABBREV, BLOOD_GLUCOSE_CODED_VALUE_TEXT);
 		}
 
-		public function createMillimetersOfMercuryCodedValue():CodedValue
+		public function createMillimetersOfMercuryCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(UNITS_CODED_VALUE_TYPE, MILLIMETERS_OF_MERCURY_CODED_VALUE,
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, MILLIMETERS_OF_MERCURY_CODED_VALUE,
 					MILLIMETERS_OF_MERCURY_CODED_VALUE_ABBREV, MILLIMETERS_OF_MERCURY_CODED_VALUE_TEXT);
 		}
 
-		public function createBeatsPerMinuteCodedValue():CodedValue
+		public function createBeatsPerMinuteCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(UNITS_CODED_VALUE_TYPE, BEATS_PER_MINUTE_CODED_VALUE,
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, BEATS_PER_MINUTE_CODED_VALUE,
 					BEATS_PER_MINUTE_CODED_VALUE_ABBREV, BEATS_PER_MINUTE_CODED_VALUE_TEXT);
 		}
 
-		public function createMilligramsPerDeciliterCodedValue():CodedValue
+		public function createMilligramsPerDeciliterCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(UNITS_CODED_VALUE_TYPE, MILLIGRAMS_PER_DECILITER_CODED_VALUE,
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, MILLIGRAMS_PER_DECILITER_CODED_VALUE,
 					MILLIGRAMS_PER_DECILITER_CODED_VALUE_ABBREV, MILLIGRAMS_PER_DECILITER_CODED_VALUE_TEXT);
 		}
 
-		public function createTabletCodedValue():CodedValue
+		public function createTabletCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(UNITS_CODED_VALUE_TYPE, TABLET_CODED_VALUE,
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, TABLET_CODED_VALUE,
 					TABLET_CODED_VALUE_ABBREV, TABLET_CODED_VALUE_TEXT);
 		}
 
-		public function createUnitCodedValue():CodedValue
+		public function createUnitCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(UNITS_CODED_VALUE_TYPE, UNIT_CODED_VALUE, UNIT_CODED_VALUE_ABBREV,
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, UNIT_CODED_VALUE, UNIT_CODED_VALUE_ABBREV,
 					UNIT_CODED_VALUE_TEXT);
 		}
 
-		public function createPrefilledSyringeCodedValue():CodedValue
+		public function createPrefilledSyringeCodedValue():CollaboRhythmCodedValue
 		{
-			return new CodedValue(UNITS_CODED_VALUE_TYPE, PREFILLED_SYRINGE_CODED_VALUE,
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, PREFILLED_SYRINGE_CODED_VALUE,
 					PREFILLED_SYRINGE_CODED_VALUE_ABBREV, PREFILLED_SYRINGE_CODED_VALUE_TEXT)
 		}
 	}

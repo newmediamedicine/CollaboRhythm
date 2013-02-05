@@ -50,7 +50,7 @@
 		import collaboRhythm.plugins.medications.model.RxNormConcept;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionCreationModelAndController;
 		import collaboRhythm.shared.model.CodedValueFactory;
-		import collaboRhythm.shared.model.healthRecord.CodedValue;
+		import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;

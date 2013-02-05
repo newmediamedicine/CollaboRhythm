@@ -2,7 +2,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 {
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
@@ -53,12 +53,12 @@ package collaboRhythm.core.model.tests.healthRecord.service
 
 			var service:DocumentStorageServiceBase = serviceFacade.getService("http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult");
 			var document:HealthActionResult = new HealthActionResult();
-			document.name = new CodedValue(null, null, null, "Insulin Titration Decision");
+			document.name = new CollaboRhythmCodedValue(null, null, null, "Insulin Titration Decision");
 			document.planType = "Prescribed";
 			document.reportedBy = "mbrooks@records.media.mit.edu";
 			document.dateReported = new Date(2011, 8 - 1, 15, 13, 42, 5);
 			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CodedValue(null, null, null, "Chose a new dose");
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, "Chose a new dose");
 			document.actions = new ArrayCollection([actionStepResult]);
 
 			var resultXml = service.marshallToXml(document);

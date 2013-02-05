@@ -19,62 +19,50 @@ package collaboRhythm.shared.model.healthRecord
     [Bindable]
 	public class CodedValue
 	{
-		private var _type:String;
-		private var _value:String;
-		private var _abbrev:String;
-		private var _text:String;
-		
-		public function CodedValue(type:String=null, value:String=null, abbrev:String=null, text:String=null)
+		private var _title:String;
+		private var _system:String;
+		private var _identifier:String;
+
+		public function CodedValue(title:String=null, system:String=null, identifier:String=null)
 		{
-			_type = type;
-			_value = value;
-			_abbrev = abbrev;
-			_text = text;
+			_title = title;
+			_system = system;
+			_identifier = identifier;
 		}
 
-        public function get type():String
+        public function get system():String
         {
-            return _type;
+            return _system;
         }
 
-        public function set type(value:String):void
+        public function set system(value:String):void
         {
-            _type = value;
+            _system = value;
         }
 
-        public function get value():String
+        public function get identifier():String
         {
-            return _value;
+            return _identifier;
         }
 
-        public function set value(value:String):void
+        public function set identifier(value:String):void
         {
-            _value = value;
+            _identifier = value;
         }
 
-        public function get abbrev():String
+        public function get title():String
         {
-            return _abbrev;
+            return _title;
         }
 
-        public function set abbrev(value:String):void
+        public function set title(value:String):void
         {
-            _abbrev = value;
+            _title = value;
         }
 
-        public function get text():String
-        {
-            return _text;
-        }
-
-        public function set text(value:String):void
-        {
-            _text = value;
-        }
-
-		public function clone():CodedValue
+		public function clone():CollaboRhythmCodedValue
 		{
-			return new CodedValue(type, value, abbrev, text);
+			return new CollaboRhythmCodedValue(title, system, identifier);
 		}
     }
 }

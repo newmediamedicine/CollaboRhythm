@@ -17,7 +17,7 @@
   -->
 <settings xmlns="http://collaborhythm.org/application/settings">
 	<mode>patient</mode>
-	<indivoServerBaseURL>https://indivo-demo.media.mit.edu:8000</indivoServerBaseURL>
+	<indivoServerBaseURL>http://indivo-dev.media.mit.edu:9291</indivoServerBaseURL>
 	<username>shared-csantos</username>
 	<password>shared-csantos</password>
 	<clinicianTeamMembers>
@@ -29,6 +29,7 @@
 	<useSyslogTarget>false</useSyslogTarget>
 	<useGoogleAnalytics>false</useGoogleAnalytics>
 	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
+	<collaborationEnabled>false</collaborationEnabled>
 	<rtmpBaseURI>rtmfp://adrenaline.media.mit.edu</rtmpBaseURI>
 	<debuggingToolsEnabled>true</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>

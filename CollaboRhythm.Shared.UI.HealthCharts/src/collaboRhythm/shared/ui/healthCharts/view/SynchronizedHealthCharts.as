@@ -789,6 +789,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			_chartModifiers = new OrderedMap();
 
+			createAdditionalChartDescriptors();
+
 			for each (var chartDescriptor:IChartDescriptor in _chartDescriptors.values())
 			{
 				var currentModifier:IChartModifier = null;
@@ -801,6 +803,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 				{
 					_chartModifiers.addKeyValue(currentModifier.chartKey, currentModifier);
 				}
+			}
+		}
+
+		private function createAdditionalChartDescriptors():void
+		{
+			for each (var chartModifierFactory:IChartModifierFactory in _chartModifierFactories)
+			{
+				var updatedChartDescriptors:OrderedMap = chartModifierFactory.updateChartDescriptors(_chartDescriptors);
+				if (updatedChartDescriptors)
+					_chartDescriptors = updatedChartDescriptors;
 			}
 		}
 

@@ -18,7 +18,7 @@ package collaboRhythm.shared.model.healthRecord.document
 {
 
 	import collaboRhythm.shared.model.*;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
@@ -57,7 +57,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		private var _currentDateSource:ICurrentDateSource;
 		private var _scheduleItemXml:XML;
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _scheduledBy:String;
 		private var _dateScheduled:Date;
 		private var _dateStart:Date;
@@ -75,7 +75,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		public function init(name:CodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date,
+		public function init(name:CollaboRhythmCodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date,
 							 dateEnd:Date = null, recurrenceRule:RecurrenceRule = null, instructions:String = null):void
 		{
 			_name = name;
@@ -129,10 +129,8 @@ package collaboRhythm.shared.model.healthRecord.document
 			scheduleItemXml.dateScheduled = com.adobe.utils.DateUtil.toW3CDTF(dateScheduled);
 			scheduleItemXml.dateStart = com.adobe.utils.DateUtil.toW3CDTF(dateStart);
 			scheduleItemXml.dateEnd = com.adobe.utils.DateUtil.toW3CDTF(dateEnd);
-			scheduleItemXml.recurrenceRule.frequency = recurrenceRule.frequency.text;
-			scheduleItemXml.recurrenceRule.frequency.@type = recurrenceRule.frequency.type;
-			scheduleItemXml.recurrenceRule.frequency.@value = recurrenceRule.frequency.value;
-			scheduleItemXml.recurrenceRule.frequency.@abbrev = recurrenceRule.frequency.abbrev;
+			scheduleItemXml.recurrenceRule.frequency = recurrenceRule.frequency;
+			scheduleItemXml.recurrenceRule.interval = recurrenceRule.interval;
 			scheduleItemXml.recurrenceRule.count = recurrenceRule.count;
 			scheduleItemXml = addExtraXml(scheduleItemXml);
 			scheduleItemXml.instructions = instructions;
@@ -166,7 +164,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		private function updateCount(dateStart:Date, dateStartUpdated:Date):int
 		{
-			var countCompleted:int = Math.floor((dateStartUpdated.time - dateStart.time) / getFrequencyMilliseconds(_recurrenceRule.frequency.text));
+			var countCompleted:int = Math.floor((dateStartUpdated.time - dateStart.time) / getFrequencyMilliseconds(_recurrenceRule.frequency));
 			return _recurrenceRule.count - countCompleted;
 		}
 
@@ -288,13 +286,13 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		public function getEffectiveFrequencyMilliseconds():int
 		{
-			var interval:CodedValue = _recurrenceRule.interval;
+			var interval:int = _recurrenceRule.interval;
 			var frequencyMilliseconds:int;
 			if (interval)
-				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text) *
-						int(_recurrenceRule.interval.text);
+				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency) *
+						_recurrenceRule.interval;
 			else
-				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
+				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency);
 			return frequencyMilliseconds;
 		}
 
@@ -308,12 +306,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			_scheduleItemXml = value;
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}

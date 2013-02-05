@@ -63,6 +63,25 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 		}
 
+		override protected function handleError(event:IndivoClientEvent, errorStatus:String,
+												healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
+		{
+			var isRetrying:Boolean = super.handleError(event, errorStatus, healthRecordServiceRequestDetails);
+			if (!isRetrying)
+			{
+				if (healthRecordServiceRequestDetails.indivoApiCall == GET_INBOX_MESSAGES)
+				{
+					_isGetInboxMessagesComplete = true;
+				}
+				else if (healthRecordServiceRequestDetails.indivoApiCall == GET_SENT_MESSAGES)
+				{
+					_isGetSentMessagesComplete = true;
+				}
+				isServiceComplete(event);
+			}
+			return isRetrying;
+		}
+
 		private function getInboxMessagesCompleteHandler(indivoClientEvent:IndivoClientEvent, responseXml:XML,
 														 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
 		{
