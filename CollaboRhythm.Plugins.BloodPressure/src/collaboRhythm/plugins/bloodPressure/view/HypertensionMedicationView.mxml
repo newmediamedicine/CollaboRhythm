@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" gap="0">
+	<fx:Style>
+		#medicationClassLabel {
+			font-size: 36;
+			color: #939598;
+		}
+
+		#medicationNameLabel {
+			font-size: 26;
+			fontWeight: bold;
+			color: #BCBEC0;
+		}
+
+		.medicationDosageChoice {
+			font-size: 24;
+			color: #BCBEC0;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedication;
+
+		[Bindable]
+		private var _hypertensionMedication:HypertensionMedication;
+
+		public function init(hypertensionMedication:HypertensionMedication):void
+		{
+			_hypertensionMedication = hypertensionMedication;
+
+			medicationClassLabel.text = hypertensionMedication.medicationClass;
+			medicationNameLabel.text = hypertensionMedication.medicationName;
+			medicationDosageChoice1Label.text = hypertensionMedication.medicationDosageChoice1;
+			medicationDosageChoice2Label.text = hypertensionMedication.medicationDosageChoice2;
+		}
+
+		private function stage1Button_clickHandler():void
+		{
+			dispatchEvent(new HypertensionMedicationViewEvent(HypertensionMedicationViewEvent.HYPERTENSION_MEDICATION_DOSE_CHOICE_CLICKED,
+					_hypertensionMedication, 1));
+		}
+
+		private function stage2Button_clickHandler():void
+		{
+			dispatchEvent(new HypertensionMedicationViewEvent(HypertensionMedicationViewEvent.HYPERTENSION_MEDICATION_DOSE_CHOICE_CLICKED,
+					_hypertensionMedication, 2));
+		}
+		]]></fx:Script>
+	<s:Label id="medicationClassLabel"/>
+	<s:HGroup>
+		<s:Group width="450" height="130">
+			<s:Rect width="100%" height="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x939598"/>
+				</s:stroke>
+			</s:Rect>
+			<s:HGroup verticalCenter="0" verticalAlign="middle" left="30">
+				<s:Image width="60" height="60"/>
+				<s:Label id="medicationNameLabel"/>
+			</s:HGroup>
+			<s:Label id="medicationDosageChoice2Label" styleName="medicationDosageChoice" right="20" top="15"/>
+			<s:Label id="medicationDosageChoice1Label" styleName="medicationDosageChoice" right="20" bottom="15"/>
+		</s:Group>
+		<s:Group height="130">
+			<s:Line top="25" bottom="25" horizontalCenter="0">
+				<s:stroke>
+					<s:SolidColorStroke color="0x939598" weight="10"/>
+				</s:stroke>
+			</s:Line>
+			<s:Group width="50" height="50" top="0" click="stage2Button_clickHandler()">
+				<s:Ellipse width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0x939598"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="100%" height="100%" visible="{_hypertensionMedication.medicationStage == 2}">
+					<s:fill>
+						<s:SolidColor color="0x37B6E1"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:Group>
+			<s:Group width="50" height="50" bottom="0" click="stage1Button_clickHandler()">
+				<s:Ellipse width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0x939598"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="100%" height="100%" visible="{_hypertensionMedication.medicationStage >= 1}">
+					<s:fill>
+						<s:SolidColor color="0x37B6E1"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:Group>
+		</s:Group>
+	</s:HGroup>
+</s:VGroup>

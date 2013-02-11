@@ -45,11 +45,16 @@ package collaboRhythm.plugins.bloodPressure.controller
 			typeName = ReflectionUtils.getClassInfo(BloodPressureAppController).name;
 			var mainAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureAppController);
 			mainAppControllerInfo.initializationOrderConstraints.push(new AppOrderConstraint(AppOrderConstraint.ORDER_AFTER,
-																							 chartAppControllerInfo.appId));
+					chartAppControllerInfo.appId));
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, mainAppControllerInfo);
 
+			typeName = ReflectionUtils.getClassInfo(HypertensionMedicationTitrationAppController).name;
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+					new AppControllerInfo(HypertensionMedicationTitrationAppController));
+
 			typeName = ReflectionUtils.getClassInfo(BloodPressureChartModifierFactory).name;
-			componentContainer.registerComponentInstance(typeName, IChartModifierFactory, new BloodPressureChartModifierFactory());
+			componentContainer.registerComponentInstance(typeName, IChartModifierFactory,
+					new BloodPressureChartModifierFactory());
 		}
 	}
 }
