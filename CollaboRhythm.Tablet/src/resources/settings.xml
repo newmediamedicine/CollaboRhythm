@@ -85,6 +85,7 @@
 				<appDescriptor>collaboRhythm.plugins.messages.controller::MessagesAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.insulinTitrationSupport.controller::InsulinTitrationFAQAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.problems.HIV.controller::HIVAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::HypertensionMedicationTitrationAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
 	</appGroups>

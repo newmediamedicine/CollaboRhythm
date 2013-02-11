@@ -41,6 +41,15 @@
             <entry module-name="McCuneChart" build-configuration-name="McCuneChart">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="9e798919-0fe3-4200-bab3-78244015e551">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="e91f910a-70e0-4aae-a5e1-525dc95dffa4">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -85,6 +94,27 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="9e798919-0fe3-4200-bab3-78244015e551" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/themes/Mobile/mobile.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="e91f910a-70e0-4aae-a5e1-525dc95dffa4" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/mobile/mobilecomponents.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
   </component>
 </module>
 
