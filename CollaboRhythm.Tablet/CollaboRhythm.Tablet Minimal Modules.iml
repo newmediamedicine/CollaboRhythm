@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Tablet Minimal Modules - Emulator">
+    <configurations>
+      <configuration name="CollaboRhythm.Tablet Minimal Modules - Emulator" target-platform="Mobile" main-class="CollaboRhythmTabletApplication" output-file="CollaboRhythm_Tablet_Minimal_Modules_-_Emulator.swf" output-folder="$MODULE_DIR$/bin-debug">
+        <dependencies>
+          <entries>
+            <entry library-id="b48841ad-5b3d-4bc4-94e6-0246deaf66cc">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="1cbc08f8-a775-448b-83d5-8c2532d5a6c4">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="3d7a647b-ee57-480a-b26b-9a744f0639a0">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="324d9b11-2352-4627-a0e1-746ee1d79371">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="8351bc08-7e4c-4b1d-8f5b-83abfbaeb6cb">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="271429be-b13f-4f41-a694-74ee3cc83059">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="aacc1419-a5d3-4ecb-882d-c0008fcbe56a">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Desktop libraries for mobile applications" library-level="application">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="ExampleOrg.CollaboRhythm.Plugins.Problems.HypertensionHelpExample" build-configuration-name="ExampleOrg.CollaboRhythm.Plugins.Problems.HypertensionHelpExample">
+              <dependency linkage="Loaded" />
+            </entry>
+          </entries>
+          <sdk name="4.6.0" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/CollaboRhythmTabletApplication-Debug-app.xml" package-file-name="CollaboRhythm_Tablet_Minimal_Modules_-_Emulator">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/assets/images/icons" path-in-package="assets/images/icons" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Schedule/bin-debug/SchedulePluginModule.swf" path-in-package="plugins/SchedulePluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications/bin-debug/MedicationsPluginModule.swf" path-in-package="plugins/MedicationsPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HealthCharts/bin-debug/HealthChartsPluginModule.swf" path-in-package="plugins/HealthChartsPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Equipment/bin-debug/EquipmentPluginModule.swf" path-in-package="plugins/EquipmentPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.ForaD40b/bin-debug/ForaD40bPluginModule.swf" path-in-package="plugins/ForaD40bPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Messages/bin-debug/MessagesPluginModule.swf" path-in-package="plugins/MessagesPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications.Insulin/bin-debug/InsulinPluginModule.swf" path-in-package="plugins/InsulinPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug/CollaboRhythm_Plugins_InsulinTitrationSupportPluginModule.swf" path-in-package="plugins/InsulinTitrationSupportPluginModule.swf" />
+          </files-to-package>
+          <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" />
+        </packaging-android>
+        <packaging-ios package-file-name="CollaboRhythm_Tablet_Minimal_Modules_-_Emulator" />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin-debug" />
+    <output-test url="file://$MODULE_DIR$/bin-debug" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="library" exported="" name="Desktop libraries for mobile applications" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="b48841ad-5b3d-4bc4-94e6-0246deaf66cc" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="1cbc08f8-a775-448b-83d5-8c2532d5a6c4" />
+        <CLASSES>
+          <root url="jar://$PROJECT_FRAMEWORKS$/libs/air/applicationupdater.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="3d7a647b-ee57-480a-b26b-9a744f0639a0" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../out/production/CollaboRhythm.Core.Model/CollaboRhythm_Core_Model.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="324d9b11-2352-4627-a0e1-746ee1d79371" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../out/production/CollaboRhythm.Shared.Collaboration/CollaboRhythm_Shared_Collaboration.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="8351bc08-7e4c-4b1d-8f5b-83abfbaeb6cb" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../out/production/CollaboRhythm.Core/CollaboRhythm_Core.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="271429be-b13f-4f41-a694-74ee3cc83059" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../out/production/CollaboRhythm.Shared/CollaboRhythm_Shared.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="aacc1419-a5d3-4ecb-882d-c0008fcbe56a" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../out/production/CollaboRhythm.Shared.PluginsSupport/CollaboRhythm_Shared_PluginsSupport.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" exported="" name="Desktop libraries for mobile applications" level="application" />
+    <orderEntry type="module" module-name="ExampleOrg.CollaboRhythm.Plugins.Problems.HypertensionHelpExample" exported="" />
+  </component>
+</module>
+

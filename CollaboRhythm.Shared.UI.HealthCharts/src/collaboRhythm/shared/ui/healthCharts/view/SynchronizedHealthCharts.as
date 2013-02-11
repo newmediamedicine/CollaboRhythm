@@ -15,6 +15,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.model.DateUtil;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.StringUtils;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
@@ -677,7 +678,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 		private function createChartDescriptors():void
 		{
-			_chartDescriptors = new OrderedMap();
+			_chartDescriptors = new OrderedMap(null, "descriptorKey");
 
 			// TODO: make the list of chart descriptors plugable so that new charts can be added (other than the default list of medications and vitals)
 			var medicationScheduleItemCollection:ArrayCollection = new ArrayCollection();
@@ -788,6 +789,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 		{
 			_chartModifiers = new OrderedMap();
 
+			createAdditionalChartDescriptors();
+
 			for each (var chartDescriptor:IChartDescriptor in _chartDescriptors.values())
 			{
 				var currentModifier:IChartModifier = null;
@@ -800,6 +803,16 @@ package collaboRhythm.shared.ui.healthCharts.view
 				{
 					_chartModifiers.addKeyValue(currentModifier.chartKey, currentModifier);
 				}
+			}
+		}
+
+		private function createAdditionalChartDescriptors():void
+		{
+			for each (var chartModifierFactory:IChartModifierFactory in _chartModifierFactories)
+			{
+				var updatedChartDescriptors:OrderedMap = chartModifierFactory.updateChartDescriptors(_chartDescriptors);
+				if (updatedChartDescriptors)
+					_chartDescriptors = updatedChartDescriptors;
 			}
 		}
 
@@ -1310,8 +1323,31 @@ package collaboRhythm.shared.ui.healthCharts.view
 
 			chart.addEventListener(SkinPartEvent.PART_ADDED, adherenceChart_skinPartAddedHandler, false, 0,
 					true);
+			chart.addEventListener(ChartItemEvent.ITEM_CLICK, vitalSignChart_itemClickHandler, false, 0, true);
 
 			return chart;
+		}
+
+		private function vitalSignChart_itemClickHandler(event:ChartItemEvent):void
+		{
+			if (event.ctrlKey)
+			{
+				var vitalSign:VitalSign = event.hitData.item as VitalSign;
+
+				if (vitalSign == null)
+				{
+					if (event.hitData.item && event.hitData.item.hasOwnProperty("vitalSign"))
+					{
+						vitalSign = event.hitData.item["vitalSign"] as VitalSign;
+					}
+				}
+
+				if (vitalSign)
+				{
+					_model.record.removeDocument(vitalSign, true, false, DocumentBase.ACTION_VOID, "debugging");
+					_model.record.saveChanges(new ArrayCollection([vitalSign]));
+				}
+			}
 		}
 
 		private function setVitalSignChartStyles(chart:TouchScrollingScrubChart, vitalSignKey:String):void

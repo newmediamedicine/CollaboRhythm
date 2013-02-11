@@ -137,7 +137,7 @@
 														<xsl:if test="systolic">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -150,14 +150,14 @@
 																		</result>
 																		<site>left arm</site>
 																		<position>sitting</position>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="diastolic">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -170,14 +170,14 @@
 																		</result>
 																		<site>left arm</site>
 																		<position>sitting</position>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="heartRate">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name type="http://codes.indivo.org/vitalsigns/" value="125" abbrev="HR">Heart Rate</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -190,14 +190,14 @@
 																		</result>
 																		<site>left arm</site>
 																		<position>sitting</position>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="bloodGlucose">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Blood Glucose</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -209,14 +209,14 @@
 																			<unit abbrev="mg/dL">milligrams per deciliter</unit>
 																		</result>
 																		<site>abdomen</site>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="peakFlow">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Peak Expiratory Flow Rate</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -227,14 +227,14 @@
 																			<value><xsl:value-of select="peakFlow"/></value>
 																			<unit abbrev="L/min">litres/minute</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="durationOfExercise">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Duration of Exercise</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -245,14 +245,14 @@
 																			<value><xsl:value-of select="durationOfExercise"/></value>
 																			<unit abbrev="sec">seconds</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="metabolicEquivalent">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Metabolic Equivalent Task</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -263,14 +263,14 @@
 																			<value><xsl:value-of select="metabolicEquivalent"/></value>
 																			<unit abbrev="met">met</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="oxygenSaturation">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Oxygen Saturation</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -282,14 +282,14 @@
 																			<unit abbrev="%">percent</unit>
 																		</result>
 																		<site>abdomen</site>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="fluid">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Fluid Intake</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -300,14 +300,14 @@
 																			<value><xsl:value-of select="fluid"/></value>
 																			<unit abbrev="cups">cups</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="food">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Food Level</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -326,14 +326,14 @@
 																			<textValue><xsl:value-of select="food"/></textValue>
 																			<unit>Delta from Average</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="caloricIntake">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Caloric Intake</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -344,14 +344,14 @@
 																			<value><xsl:value-of select="caloricIntake"/></value>
 																			<unit>Calories</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="stepCount">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Step Count</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -362,14 +362,14 @@
 																			<value><xsl:value-of select="stepCount"/></value>
 																			<unit>Steps</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="urineoutone">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Food Level</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -380,14 +380,14 @@
 																			<value><xsl:value-of select="urineoutone"/></value>
 																			<unit abbrev="mL">millileters</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>
 														<xsl:if test="urineouttwo">
 															<LoadableIndivoDocument>
 																<document>
-																	<VitalSign
+																	<CollaboRhythmVitalSign
 																			xmlns="http://indivo.org/vocab/xml/documents#">
 																		<name>Food Level</name>
 																		<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -398,7 +398,7 @@
 																			<value><xsl:value-of select="urineouttwo"/></value>
 																			<unit abbrev="mL">millileters</unit>
 																		</result>
-																	</VitalSign>
+																	</CollaboRhythmVitalSign>
 																</document>
 															</LoadableIndivoDocument>
 														</xsl:if>

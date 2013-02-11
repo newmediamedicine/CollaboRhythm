@@ -1,0 +1,3747 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataroot>
+  
+  <indivoServerBaseURL>http://indivo-dev.media.mit.edu:9291</indivoServerBaseURL>
+  
+  <AccountSource>
+    
+    <accountId>janitor@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Janitor</fullName>
+    
+    <username>janitor</username>
+    
+    <password>janitor-password</password>
+    
+    <givenName>Janitor</givenName>
+    
+    <familyName>Garbageman</familyName>
+    
+    <streetAddress>86 Spruce Street</streetAddress>
+    
+    <postalCode>2215</postalCode>
+    
+    <locality>Boston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>janitor@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>janitor@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1940-02-24T00:00:00Z</dateOfBirth>
+    
+    <age>70</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Widowed</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Education</employmentIndustry>
+    
+    <occupation>Janitor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>374946d9-232e-47a2-a9f4-303a66e4030f</demographicsId>
+    
+    <notes>Trash can account</notes>
+    
+    <recordSeed/>
+    
+  </AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>023783ca-67c3-4c8e-af91-50e591d41a5d</recordId>
+    
+    <status>Demographics document created. Id: 4ff738ab-dab5-439c-a920-0a819c6a0706</status>
+    
+    <accessKey>URTYq5QDhXXTUj9Iju17</accessKey>
+    
+    <accessSecret>usytbpp1bGcFoLLX2Ejp</accessSecret>
+    
+    <demographicsId>4ff738ab-dab5-439c-a920-0a819c6a0706</demographicsId>
+    
+    <notes>Demo physician</notes>
+    
+    <recordSeed/>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>jking2@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King2</fullName>
+    
+    <username>jking2</username>
+    
+    <password>jking2-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King2</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking2@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking2@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>79d7bffd-d268-42bb-bf61-480957846d88</demographicsId>
+    
+    <notes>Demo physician copy for titration</notes>
+    
+    <recordSeed/>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>whsu@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Will Hsu</fullName>
+    
+    <username>whsu</username>
+    
+    <password>whsu-dope75</password>
+    
+    <givenName>Will</givenName>
+    
+    <familyName>Hsu</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>whsu@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>whsu@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Asian</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>4785ca4a-0a06-4f43-90a1-f68862ead037</demographicsId>
+    
+    <notes>Demo physician for Will</notes>
+    
+    <recordSeed/>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>sghiloni@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Sue Ghiloni</fullName>
+    
+    <username>sghiloni</username>
+    
+    <password>sghiloni-dope75</password>
+    
+    <givenName>Sue</givenName>
+    
+    <familyName>Ghiloni</familyName>
+    
+    <streetAddress>366 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>sghiloni@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>sghiloni@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-05-27T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Certified Diabetes Educator</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>6ddb8426-fcb6-45b6-906c-41e589415152</demographicsId>
+    
+    <notes>Demo health coach for Sue</notes>
+    
+    <recordSeed/>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>pricci@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Paige Ricci</fullName>
+    
+    <username>pricci</username>
+    
+    <password>pricci-dope75</password>
+    
+    <givenName>Paige</givenName>
+    
+    <familyName>Ricci</familyName>
+    
+    <streetAddress>654 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>pricci@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>pricci@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-05-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Certified Diabetes Educator</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>17ec509d-435e-4c96-930a-4dcfff27638b</demographicsId>
+    
+    <notes>Demo health coach for Paige</notes>
+    
+    <recordSeed/>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>singlemed1@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Single Medication Test1</fullName>
+    
+    <username>singlemed1</username>
+    
+    <password>singlemed1-dope75</password>
+    
+    <givenName>Single Medication</givenName>
+    
+    <familyName>Test1</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>singlemed1@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>singlemed1@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>36c61591-772e-41ae-9023-b893292c8597</demographicsId>
+    
+    <notes>Test single medication (hydrochlorothiazide)</notes>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>singlevital1@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Single Vital Test1</fullName>
+    
+    <username>singlevital1</username>
+    
+    <password>singlevital1-dope75</password>
+    
+    <givenName>Single Vital</givenName>
+    
+    <familyName>Test1</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>singlevital1@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>singlevital1@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>679dfc9d-0816-4589-99a6-78450abe3149</demographicsId>
+    
+    <notes>Test single vital sign (peak flow)</notes>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>skudo@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Sarah Kudo</fullName>
+    
+    <username>skudo</username>
+    
+    <password>skudo-dope75</password>
+    
+    <givenName>Sarah</givenName>
+    
+    <familyName>Kudo</familyName>
+    
+    <streetAddress>28 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>skudo@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>skudo@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1988-03-21T00:00:00Z</dateOfBirth>
+    
+    <age>23</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>Asian</ethnicity>
+    
+    <language>Japanese</language>
+    
+    <maritalStatus>Single</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Sales</occupation>
+    
+    <religion>Christian</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>ac8faa53-bf41-4fb3-8fc0-5752239be0df</demographicsId>
+    
+    <notes>Demo for fitness-tracking group</notes>
+    
+    <recordSeed/>
+    
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>agreen@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Alice Green</fullName>
+    
+    <username>agreen</username>
+    
+    <password>agreen-dope75</password>
+    
+    <givenName>Alice</givenName>
+    
+    <familyName>Green</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>agreen@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>agreen@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1964-06-04T00:00:00Z</dateOfBirth>
+    
+    <age>45</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Nurse</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>ab7af272-0da6-4734-b5a6-1021fd75970c</demographicsId>
+    
+    <status/>
+    
+    <notes/>
+    
+    <recordSeed/>
+    
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>jgreen@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James Green</fullName>
+    
+    <username>jgreen</username>
+    
+    <password>jgreen-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>Green</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jgreen@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jgreen@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1961-08-05T00:00:00Z</dateOfBirth>
+    
+    <age>48</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>0cbe1616-54aa-4571-9a91-2577a0274a9e</recordId>
+    
+    <accessKey>ei1YAWbSHoxTkvbt1YR3</accessKey>
+    
+    <accessSecret>DiOzMjQPsCWy1fMj69JZ</accessSecret>
+    
+    <status>Created 165/165 documents, 161/162 relationships</status>
+    
+    <demographicsId>9521b7a2-9a39-4bfa-a59a-2e8296060524</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>rpoole@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Robert Poole</fullName>
+    
+    <username>rpoole</username>
+    
+    <password>rpoole-dope75</password>
+    
+    <givenName>Robert</givenName>
+    
+    <familyName>Poole</familyName>
+    
+    <streetAddress>84 Spruce Street</streetAddress>
+    
+    <postalCode>2215</postalCode>
+    
+    <locality>Boston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>rpoole@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>rpoole@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1940-02-24T00:00:00Z</dateOfBirth>
+    
+    <age>70</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Widowed</maritalStatus>
+    
+    <employmentStatus>Retired</employmentStatus>
+    
+    <employmentIndustry>Education</employmentIndustry>
+    
+    <occupation>Teacher</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>286346f4-9fce-4e2a-9728-4fe57fb5fc5b</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>invalid-document</documentsDirectory>
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>rpoole_test@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Robert Poole</fullName>
+    
+    <username>rpoole_test</username>
+    
+    <password>rpoole_test-dope75</password>
+    
+    <givenName>Robert</givenName>
+    
+    <familyName>Poole</familyName>
+    
+    <streetAddress>84 Spruce Street</streetAddress>
+    
+    <postalCode>2215</postalCode>
+    
+    <locality>Boston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>rpoole@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>rpoole@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1940-02-24T00:00:00Z</dateOfBirth>
+    
+    <age>70</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Widowed</maritalStatus>
+    
+    <employmentStatus>Retired</employmentStatus>
+    
+    <employmentIndustry>Education</employmentIndustry>
+    
+    <occupation>Teacher</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>0a78c9ac-7d9d-4459-8d27-8ab7a75c0c67</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>gstark@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Gertude Stark</fullName>
+    
+    <username>gstark</username>
+    
+    <password>gstark-dope75</password>
+    
+    <givenName>Gertude</givenName>
+    
+    <familyName>Stark</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>gstark@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>gstark@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1933-09-15T00:00:00Z</dateOfBirth>
+    
+    <age>76</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Widowed</maritalStatus>
+    
+    <employmentStatus>Retired</employmentStatus>
+    
+    <employmentIndustry>Jounalism</employmentIndustry>
+    
+    <occupation>Writer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>1c7f83d6-cd11-436c-8dc5-fc14f95aae09</demographicsId>
+    
+    <notes>Demo account for Yadid and pain-management-hw2012@googlegroups.com</notes>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>dpoole@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Daniel Poole</fullName>
+    
+    <username>dpoole</username>
+    
+    <password>dpoole-dope75</password>
+    
+    <givenName>Daniel</givenName>
+    
+    <familyName>Poole</familyName>
+    
+    <streetAddress>21 Evergreen Street</streetAddress>
+    
+    <postalCode>98101</postalCode>
+    
+    <locality>Seattle</locality>
+    
+    <region>Washington</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>dpoole@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>dpoole@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1968-06-08T00:00:00Z</dateOfBirth>
+    
+    <age>41</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Single</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Business Owner</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>High School</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>860e12f2-3342-4040-a2d6-34fcf6dea96e</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>cbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Claire Brooks</fullName>
+    
+    <username>cbrooks</username>
+    
+    <password>cbrooks-dope75</password>
+    
+    <givenName>Claire</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>cbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>cbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1994-01-25T00:00:00Z</dateOfBirth>
+    
+    <age>16</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Single</maritalStatus>
+    
+    <employmentStatus>Student</employmentStatus>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>High School</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>114bc114-279f-4a1f-80bf-cf7703c82452</demographicsId>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>jbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Joyce Brooks</fullName>
+    
+    <username>jbrooks</username>
+    
+    <password>jbrooks-dope75</password>
+    
+    <givenName>Joyce</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>jbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1990-06-10T00:00:00Z</dateOfBirth>
+    
+    <age>19</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Single</maritalStatus>
+    
+    <employmentStatus>Student</employmentStatus>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>f3af9de8-3445-412a-bae3-4c6e248f3fcd</demographicsId>
+    
+    <notes>Demo account for Frank and fitness-tracking-hw2012@googlegroups.com</notes>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>abrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Amy Brooks</fullName>
+    
+    <username>abrooks</username>
+    
+    <password>abrooks-dope75</password>
+    
+    <givenName>Amy</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>abrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>abrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1966-03-18T00:00:00Z</dateOfBirth>
+    
+    <age>44</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>bc90ae1f-45cf-4c2f-80e2-5ac32e3e6fde</demographicsId>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>mbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks</fullName>
+    
+    <username>mbrooks</username>
+    
+    <password>mbrooks-dope75</password>
+    
+    <givenName>Michael</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>59dc9e87-dc05-4bce-961b-fac13bf1886d</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Demo for diabetes</notes>
+    
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>mbrooks3@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks3</fullName>
+    
+    <username>mbrooks3</username>
+    
+    <password>mbrooks3-dope75</password>
+    
+    <givenName>Michael</givenName>
+    
+    <familyName>Brooks3</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks3@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks3@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>4017268e-a48e-4d76-8ae7-dbdaf46e45fa</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Demo for diabetes with titration</notes>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>mjones@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Madeline Jones</fullName>
+    
+    <username>mjones</username>
+    
+    <password>mjones-dope75</password>
+    
+    <givenName>Madeline</givenName>
+    
+    <familyName>Jones</familyName>
+    
+    <streetAddress>186 Ranger Court</streetAddress>
+    
+    <postalCode>60601</postalCode>
+    
+    <locality>Chicago</locality>
+    
+    <region>Illinois</region>
+    
+    <country>US</country>
+    
+    <timeZone>-6GMT</timeZone>
+    
+    <emailPersonal>mjones@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mjones@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1921-06-14T00:00:00Z</dateOfBirth>
+    
+    <age>88</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Widowed</maritalStatus>
+    
+    <employmentStatus>Unemployed</employmentStatus>
+    
+    <employmentIndustry>Homemaker</employmentIndustry>
+    
+    <occupation>Homemaker</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>High School</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>5595ba6f-646d-40de-837d-a9b01a31fb63</demographicsId>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>msato@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Makoto Sato</fullName>
+    
+    <username>msato</username>
+    
+    <password>msato-dope75</password>
+    
+    <givenName>Makoto</givenName>
+    
+    <familyName>Sato</familyName>
+    
+    <streetAddress>112 River Street</streetAddress>
+    
+    <postalCode>21201</postalCode>
+    
+    <locality>Baltimore</locality>
+    
+    <region>Maryland</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>msato@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>msato@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1930-10-28T00:00:00Z</dateOfBirth>
+    
+    <age>79</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Asian</ethnicity>
+    
+    <language>Japanese</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Retired</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Business Owner</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>High School</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>ae1e273d-4b73-41b8-bfbe-facacc9607c3</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>whsu@records.media.mit.edu,jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>csantos@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>csantos</username>
+    
+    <password>csantos-dope75</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>4efcc45c-1435-4f86-abbb-8c72635b9213</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Primary demo account with hypertension data</notes>
+    
+    <shareAccountId>jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>ssmith@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Scott Smith</fullName>
+    
+    <username>ssmith</username>
+    
+    <password>ssmith-dope75</password>
+    
+    <givenName>Scott</givenName>
+    
+    <familyName>Smith</familyName>
+    
+    <streetAddress>1818 Amherst St</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>ssmith@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>ssmith@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1978-04-28T00:00:00Z</dateOfBirth>
+    
+    <age>34</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Tourism</employmentIndustry>
+    
+    <occupation>Circus Instructor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>84f096b3-88e3-4999-8843-1f7d5ec9452c</demographicsId>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>sgilroy@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Scott Gilroy</fullName>
+    
+    <username>sgilroy</username>
+    
+    <password>sgilroy-dope75</password>
+    
+    <givenName>Scott</givenName>
+    
+    <familyName>Gilroy</familyName>
+    
+    <streetAddress>1811 Amherst St</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>sgilroy@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>sgilroy@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1978-04-28T00:00:00Z</dateOfBirth>
+    
+    <age>34</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Tourism</employmentIndustry>
+    
+    <occupation>Circus Instructor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>6e5e3c1d-6aed-4915-af24-8d6820a91936</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>jmoore@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>John Moore</fullName>
+    
+    <username>jmoore</username>
+    
+    <password>jmoore-dope75</password>
+    
+    <givenName>John</givenName>
+    
+    <familyName>Moore</familyName>
+    
+    <streetAddress>1812 Amherst St</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jmoore@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jmoore@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1977-10-18T00:00:00Z</dateOfBirth>
+    
+    <age>34</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Sales Representative</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>5c7579d6-aad6-41df-8832-9a51fe132b02</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>sghiloni@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>gwhite@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>George White</fullName>
+    
+    <username>gwhite</username>
+    
+    <password>gwhite-password</password>
+    
+    <givenName>George</givenName>
+    
+    <familyName>White</familyName>
+    
+    <streetAddress>86 Spruce Street</streetAddress>
+    
+    <postalCode>2215</postalCode>
+    
+    <locality>Boston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>gwhite@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>gwhite@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1940-02-24T00:00:00Z</dateOfBirth>
+    
+    <age>70</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Widowed</maritalStatus>
+    
+    <employmentStatus>Retired</employmentStatus>
+    
+    <employmentIndustry>Education</employmentIndustry>
+    
+    <occupation>Teacher</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>32c66f0b-0588-40e3-be6c-7547c53620e9</demographicsId>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>osmith@records.media.mit.edu</accountId>
+    
+    <contactEmail>margf@mit.edu</contactEmail>
+    
+    <fullName>osmith</fullName>
+    
+    <username>osmith</username>
+    
+    <password>osmith-password</password>
+    
+    <givenName>Owen</givenName>
+    
+    <familyName>Smith</familyName>
+    
+    <streetAddress>86 Mass Avenue</streetAddress>
+    
+    <postalCode>2138</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>osmith@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>osmith@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1975-01-15T00:00:00Z</dateOfBirth>
+    
+    <age>37</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Single</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Education</employmentIndustry>
+    
+    <occupation>Professor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>9d9ab1e5-4970-4565-ac4c-a2b97de5c6cc</demographicsId>
+    
+    <notes>Demo account for Mar and Oovit</notes>
+    
+    <recordSeed/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>mhindman@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Margaret Hindman</fullName>
+    
+    <username>mhindman</username>
+    
+    <password>mhindman-dope75</password>
+    
+    <givenName>Margaret</givenName>
+    
+    <familyName>Hindman</familyName>
+    
+    <streetAddress>366 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>mhindman@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mhindman@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-05-27T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Health Coach</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>833f4f39-76c6-470a-90f8-fd7bebd74802</demographicsId>
+    
+    <notes>Demo health coach for Margaret</notes>
+    
+    <recordSeed/>
+    
+    <shareAccountId>lbrooks@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Patient</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>ksato@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Kumiko Sato</fullName>
+    
+    <username>ksato</username>
+    
+    <password>ksato-dope75</password>
+    
+    <givenName>Kumiko</givenName>
+    
+    <familyName>Sato</familyName>
+    
+    <streetAddress>112 River Street</streetAddress>
+    
+    <postalCode>21201</postalCode>
+    
+    <locality>Baltimore</locality>
+    
+    <region>Maryland</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>ksato@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>ksato@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1933-11-22T00:00:00Z</dateOfBirth>
+    
+    <age>76</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>Asian</ethnicity>
+    
+    <language>Japanese</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Retired</employmentStatus>
+    
+    <employmentIndustry>Education</employmentIndustry>
+    
+    <occupation>Teacher</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>High School</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>e1a07f3a-6099-4e70-bf96-eb956b770d01</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>mhindman@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>lbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Linda Brooks</fullName>
+    
+    <username>lbrooks</username>
+    
+    <password>lbrooks-dope75</password>
+    
+    <givenName>Linda</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>26 Frost Road</streetAddress>
+    
+    <postalCode>60601</postalCode>
+    
+    <locality>Chicago</locality>
+    
+    <region>Illinois</region>
+    
+    <country>US</country>
+    
+    <timeZone>-6GMT</timeZone>
+    
+    <emailPersonal>lbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>lbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1942-06-13T00:00:00Z</dateOfBirth>
+    
+    <age>67</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Retired</employmentStatus>
+    
+    <employmentIndustry>Education</employmentIndustry>
+    
+    <occupation>Teacher</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>069962c1-27e9-4de7-b3b2-ed484799bd15</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>mhindman@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>endometrioisis-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>endometrioisis-jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>f9a7c4df-eb7a-44c8-980d-ec72984cb3fa</demographicsId>
+    
+    <notes>Endometrioisis demo physician</notes>
+    
+    <recordSeed/>
+    
+    <documentsDirectory>jking</documentsDirectory>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>endometrioisis-jgreen@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James Green</fullName>
+    
+    <username>endometrioisis-jgreen</username>
+    
+    <password>jgreen-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>Green</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jgreen@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jgreen@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1961-08-05T00:00:00Z</dateOfBirth>
+    
+    <age>48</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>7113f3b2-b814-428f-946c-6f7a7aedb45a</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>endometrioisis-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>jgreen</documentsDirectory>
+    
+    <notes>Endometrioisis HIV demo patient</notes>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>endometrioisis-csantos@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>endometrioisis-csantos</username>
+    
+    <password>csantos-dope75</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>c0647be5-2dea-4394-8c14-ccda869337f9</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Endometrioisis demo account with diabetes data</notes>
+    
+    <shareAccountId>endometrioisis-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>csantos</documentsDirectory>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>gsk-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>gsk-jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>acdc72fe-2fa9-44b1-9a18-1aa26cd9362c</demographicsId>
+    
+    <notes>GSK demo physician</notes>
+    
+    <recordSeed/>
+    
+    <documentsDirectory>jking</documentsDirectory>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>gsk-jgreen@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James Green</fullName>
+    
+    <username>gsk-jgreen</username>
+    
+    <password>jgreen-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>Green</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jgreen@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jgreen@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1961-08-05T00:00:00Z</dateOfBirth>
+    
+    <age>48</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>9ab7a5bc-7f2a-4445-a407-19c680ee7272</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>gsk-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>jgreen</documentsDirectory>
+    
+    <notes>GSK HIV demo patient</notes>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>sgilroy-simple@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Scott Gilroy</fullName>
+    
+    <username>sgilroy-simple</username>
+    
+    <password>sgilroy-dope75</password>
+    
+    <givenName>Scott</givenName>
+    
+    <familyName>Gilroy</familyName>
+    
+    <streetAddress>1811 Amherst St</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>sgilroy@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>sgilroy@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1978-04-28T00:00:00Z</dateOfBirth>
+    
+    <age>34</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Tourism</employmentIndustry>
+    
+    <occupation>Circus Instructor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>3a4dfee4-39df-4d8c-a9bb-f480aed97d2d</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>akiel@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>mbrooks</documentsDirectory>
+    
+    <notes>Demo patient for CollaboRhythm video Nov 2012</notes>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>akiel@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Sue Ghiloni</fullName>
+    
+    <username>akiel</username>
+    
+    <password>akiel-dope75</password>
+    
+    <givenName>Amanda</givenName>
+    
+    <familyName>Kiel</familyName>
+    
+    <streetAddress>366 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>sghiloni@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>sghiloni@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-05-27T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Female</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Certified Diabetes Educator</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>87905d66-ebbe-459c-ae12-28030d8bead6</demographicsId>
+    
+    <notes>Demo health coach for CollaboRhythm video Nov 2012</notes>
+    
+    <recordSeed/>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>test1-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>test1-jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>ab790d10-7393-465e-bb5c-366ef9d12749</demographicsId>
+    
+    <notes>Test1 physician</notes>
+    
+    <recordSeed/>
+    
+    <documentsDirectory>jking</documentsDirectory>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>test1-jgreen@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James Green</fullName>
+    
+    <username>test1-jgreen</username>
+    
+    <password>jgreen-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>Green</familyName>
+    
+    <streetAddress>18 Grape Street</streetAddress>
+    
+    <postalCode>2134</postalCode>
+    
+    <locality>Allston</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jgreen@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jgreen@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1961-08-05T00:00:00Z</dateOfBirth>
+    
+    <age>48</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Retail</employmentIndustry>
+    
+    <occupation>Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>1176f45c-2d8f-4caa-b617-58e8975c1277</demographicsId>
+    
+    <recordSeed/>
+    
+    <shareAccountId>test1-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>jgreen</documentsDirectory>
+    
+    <notes>Test1 HIV demo patient</notes>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>test1-csantos@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>test1-csantos</username>
+    
+    <password>csantos-dope75</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>4e804235-6dc4-4790-bfb2-f51248ba0545</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Test1 hypertension</notes>
+    
+    <shareAccountId>test1-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>csantos</documentsDirectory>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>test1-mbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks</fullName>
+    
+    <username>test1-mbrooks</username>
+    
+    <password>mbrooks-dope75</password>
+    
+    <givenName>Michael</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>079f9067-680e-47cb-8717-e41e14a98289</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Test1 diabetes</notes>
+    
+    <shareAccountId>test1-jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory/>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>test1-dbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>David Brooks</fullName>
+    
+    <username>test1-dbrooks</username>
+    
+    <password>dbrooks-dope75</password>
+    
+    <givenName>David</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1965-07-08T00:00:00Z</dateOfBirth>
+    
+    <age>44</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>e33c0fc7-49a1-4d59-8058-1f51d1ae3982</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Test1 diabetes for David</notes>
+    
+    <shareAccountId>test1-jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>test1-mbrooks</documentsDirectory>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>shared-csantos@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>shared-csantos</username>
+    
+    <password>shared-csantos</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>00ab636d-7848-4e52-8456-ab898016f884</recordId>
+    
+    <accessKey>OJzsCA2OkCgzasmhcTwW</accessKey>
+    
+    <accessSecret>R2fiE6Gy6NttgfDtMNsD</accessSecret>
+    
+    <status>Created 334/334 documents, 329/330 relationships</status>
+    
+    <demographicsId>376a84e7-336a-46d0-8914-8248918fbe69</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Shared hypertension account</notes>
+    
+    <shareAccountId>shared-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>csantos</documentsDirectory>
+    
+  <mode>patient</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>shared-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>shared-jking</username>
+    
+    <password>shared-jking</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>8e5351ea-5def-40eb-89aa-235c97f3a2d5</recordId>
+    
+    <status>Demographics document created. Id: 040c1409-f55d-4240-94f7-2fb8e2924893</status>
+    
+    <accessKey>k0msOpHe291EaLTta776</accessKey>
+    
+    <accessSecret>7mgNxxKQrXoIfN1QwQ0C</accessSecret>
+    
+    <demographicsId>040c1409-f55d-4240-94f7-2fb8e2924893</demographicsId>
+    
+    <notes>Shared physician</notes>
+    
+    <recordSeed/>
+    
+  <mode>clinician</mode></AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>apf-mbrooks@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks</fullName>
+    
+    <username>apf-mbrooks</username>
+    
+    <password>mbrooks-dope75</password>
+    
+    <givenName>Michael</givenName>
+    
+    <familyName>Brooks</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>14e549da-8bf6-479b-b277-cd6f9184b7da</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>APF diabetes</notes>
+    
+    <shareAccountId>apf-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>test1-mbrooks</documentsDirectory>
+    
+    <mode>patient</mode>
+    
+  </AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>apf-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>apf-jking</username>
+    
+    <password>jking-dope75</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <status/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <demographicsId>4a89ef9e-a7e5-4913-ba3d-bc70dfc08fb4</demographicsId>
+    
+    <notes>APF physician</notes>
+    
+    <recordSeed/>
+    
+    <documentsDirectory>jking</documentsDirectory>
+    
+    <mode>clinician</mode>
+    
+  </AccountSource>
+  
+<AccountSource>
+    
+    <accountId>hsmith@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks</fullName>
+    
+    <username>hsmith</username>
+    
+    <password>hsmith</password>
+    
+    <givenName>Henry</givenName>
+    
+    <familyName>Smith</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId/>
+    
+    <accessKey/>
+    
+    <accessSecret/>
+    
+    <status/>
+    
+    <demographicsId>f4b57aae-7dfb-4309-bf0d-7b51244dcdd8</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>HW2013 Examplle</notes>
+    
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+  <mode>patient</mode></AccountSource></dataroot>

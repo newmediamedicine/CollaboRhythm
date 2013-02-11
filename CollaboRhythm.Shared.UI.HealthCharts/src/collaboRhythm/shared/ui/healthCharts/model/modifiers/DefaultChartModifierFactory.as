@@ -5,6 +5,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 
+	import com.theory9.data.types.OrderedMap;
+
 	public class DefaultChartModifierFactory implements IChartModifierFactory
 	{
 		public function DefaultChartModifierFactory()
@@ -23,6 +25,11 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 				return new DefaultVitalSignChartModifier(chartDescriptor as VitalSignChartDescriptor, chartModelDetails, currentChartModifier);
 			}
 			return currentChartModifier;
+		}
+
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			return null;
 		}
 	}
 }

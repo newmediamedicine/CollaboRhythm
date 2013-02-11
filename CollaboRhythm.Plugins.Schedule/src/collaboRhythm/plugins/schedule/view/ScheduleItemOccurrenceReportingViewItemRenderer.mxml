@@ -176,7 +176,7 @@
 			<s:layout>
 				<controls:ChildIndependentLayout/>
 			</s:layout>
-			<sharedView:AdherenceCheckBox id="adherenceCheckBox" width="100%" height="100%"
+			<sharedView:AdherenceCheckBox id="adherenceCheckBox" verticalCenter="0" horizontalCenter="0"
 									skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"
 									selected="{_scheduleItemOccurrence.adherenceItem != null}"
 									click="adherenceCheckBoxClickHandler(event)"

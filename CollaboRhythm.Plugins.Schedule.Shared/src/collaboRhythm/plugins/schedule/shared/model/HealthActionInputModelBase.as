@@ -10,12 +10,13 @@ package collaboRhythm.plugins.schedule.shared.model
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
+	[Bindable]
 	public class HealthActionInputModelBase
 	{
 		private var _scheduleItemOccurrence:ScheduleItemOccurrence;
 		protected var _urlVariables:URLVariables;
 		protected var _currentDateSource:ICurrentDateSource;
-		private var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
+		protected var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
 		protected var _logger:ILogger;
 		private var _scheduleCollectionsProvider:IScheduleCollectionsProvider;
 
@@ -56,6 +57,16 @@ package collaboRhythm.plugins.schedule.shared.model
 		public function get scheduleCollectionsProvider():IScheduleCollectionsProvider
 		{
 			return _scheduleCollectionsProvider;
+		}
+
+		public function getPossibleScheduleItemOccurrences():Vector.<ScheduleItemOccurrence>
+		{
+			return null;
+		}
+
+		public function get urlVariables():URLVariables
+		{
+			return _urlVariables;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package collaboRhythm.shared.model.settings
 {
 
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 
 	import mx.logging.Log;
 	import mx.rpc.xml.ContentProxy;
@@ -10,7 +10,7 @@ package collaboRhythm.shared.model.settings
 	use namespace object_proxy;
 
 	/**
-	 * Adds a fix for decoding CodedValue which has both attributes and content (and would otherwise not be
+	 * Adds a fix for decoding CollaboRhythmCodedValue which has both attributes and content (and would otherwise not be
 	 * handled by XMLDecoder correctly).
 	 */
 	public class XmlDecoderEx2 extends XmlDecoderEx
@@ -30,10 +30,10 @@ package collaboRhythm.shared.model.settings
 			{
 				var parentProxy:ContentProxy = parent as ContentProxy;
 
-				if (parentProxy.content is CodedValue)
+				if (parentProxy.content is CollaboRhythmCodedValue)
 				{
 					parentProxy.object_proxy::isSimple = false;
-					var codedValue:CodedValue = parentProxy.content;
+					var codedValue:CollaboRhythmCodedValue = parentProxy.content;
 					codedValue.text = value;
 					return;
 				}

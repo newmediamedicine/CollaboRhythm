@@ -32,8 +32,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="indivo_client_flash" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="indivo_client_flash" exported="" />
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: libs" type="flex">
         <properties id="596e12cc-c6a1-4431-a420-491ae6768435" />
         <CLASSES>

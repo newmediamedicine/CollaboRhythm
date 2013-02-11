@@ -15,40 +15,58 @@
  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  - <http://www.gnu.org/licenses/>.
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 		 xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
-		 width="100%" height="100%">
+		 width="100%" height="100%" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
 
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionListViewAdapter;
 		import collaboRhythm.plugins.schedule.shared.view.ScheduledHealthActionDetailViewEvent;
 
+		import mx.binding.utils.BindingUtils;
+
+		import mx.events.ResizeEvent;
+
+		[Bindable]
+		private var _dataInputModel:BloodGlucoseHealthActionInputModelCollection;
 		private var _dataInputController:BloodGlucoseHealthActionInputController;
 
-		function init(dataInputModel:BloodGlucoseHealthActionInputModel,
-					  dataInputController:BloodGlucoseHealthActionInputController):void
+		public function init(dataInputModel:BloodGlucoseHealthActionInputModelCollection,
+							 dataInputController:BloodGlucoseHealthActionInputController):void
 		{
+			_dataInputModel = dataInputModel;
 			_dataInputController = dataInputController;
+
+			reportBloodGlucoseList.setStyle("valueFontSize", 60);
 
 			scheduledHealthActionDetailView.init(new BloodGlucoseHealthActionListViewAdapter(dataInputModel.scheduleItemOccurrence,
 					dataInputModel.healthActionModelDetailsProvider));
 			scheduledHealthActionDetailView.addEventListener(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO,
 					playVideoEventHandler);
 
-			reportBloodGlucoseView.init(dataInputModel, _dataInputController);
-			reportAdherenceTimeView.init(dataInputModel, _dataInputController);
-			if (dataInputModel.scheduleItemOccurrence)
+			BindingUtils.bindSetter(reportBloodGlucoseList_viewport_verticalScrollPositionSetterHandler,
+					reportBloodGlucoseList.scroller.viewport, "verticalScrollPosition");
+			BindingUtils.bindSetter(dataInputModel_reportBloodGlucoseListScrollPositionSetterHandler, _dataInputModel,
+					"reportBloodGlucoseListScrollPosition");
+		}
+
+		private function dataInputModel_reportBloodGlucoseListScrollPositionSetterHandler(value:Number):void
+		{
+			if (!isNaN(value) && reportBloodGlucoseList && reportBloodGlucoseList.scroller && reportBloodGlucoseList.scroller.viewport)
 			{
-				scheduleHealthActionsClockIconView.init(dataInputModel.scheduleCollectionsProvider, dataInputModel.scheduleItemOccurrence.dateStart, dataInputModel.scheduleItemOccurrence.dateEnd);
+				reportBloodGlucoseList.scroller.viewport.verticalScrollPosition = value;
 			}
-			else
-			{
-				scheduleHealthActionsClockIconView.visible = false;
-			}
+		}
+
+		private function reportBloodGlucoseList_viewport_verticalScrollPositionSetterHandler(value:Number):void
+		{
+			_dataInputController.setReportBloodGlucoseListScrollPosition(value);
 		}
 
 		private function playVideoEventHandler(event:ScheduledHealthActionDetailViewEvent):void
@@ -69,7 +87,6 @@
 		</s:Rect>
 		<s:Group height="100%" horizontalCenter="0">
 			<sharedView:ScheduledHealthActionDetailView id="scheduledHealthActionDetailView" height="100%"/>
-			<sharedView:ScheduledHealthActionsClockIconView id="scheduleHealthActionsClockIconView" width="50" height="50" left="10" top="10"/>
 		</s:Group>
 		<s:Group width="25%" height="100%" right="0">
 			<s:Button label="Show History" verticalCenter="0" click="showHistoryButton_clickHandler()"/>
@@ -80,10 +97,34 @@
 			</s:stroke>
 		</s:Line>
 	</s:Group>
-	<s:Group width="50%" height="100%" left="0">
-		<view:ReportBloodGlucoseView id="reportBloodGlucoseView" verticalCenter="0" right="50"/>
+
+	<s:List id="reportBloodGlucoseList" width="100%" height="100%"
+			dataProvider="{_dataInputModel.reportBloodGlucoseItemDataCollection.length != 1 ? _dataInputModel.reportBloodGlucoseItemDataCollection : null}"
+			itemRenderer="collaboRhythm.plugins.foraD40b.view.ReportBloodGlucoseItemRenderer"
+			contentBackgroundAlpha="0"
+			includeInLayout="{_dataInputModel.reportBloodGlucoseItemDataCollection.length != 1}"
+			visible="{_dataInputModel.reportBloodGlucoseItemDataCollection.length != 1}"
+			/>
+	<s:Group width="100%" height="100%"
+			 includeInLayout="{_dataInputModel.reportBloodGlucoseItemDataCollection.length == 1}"
+			 visible="{_dataInputModel.reportBloodGlucoseItemDataCollection.length == 1}"
+			>
+		<s:DataGroup id="reportBloodGlucoseDataGroup" width="100%" verticalCenter="0"
+					 dataProvider="{_dataInputModel.reportBloodGlucoseItemDataCollection.length == 1 ? _dataInputModel.reportBloodGlucoseItemDataCollection : null}"
+					 itemRenderer="collaboRhythm.plugins.foraD40b.view.ReportBloodGlucoseItemRenderer"
+					 contentBackgroundAlpha="0"
+				>
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+		</s:DataGroup>
 	</s:Group>
-	<s:Group width="50%" height="100%" right="0">
-		<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView" verticalCenter="0" left="50"/>
-	</s:Group>
-</s:Group>
+	<s:Line width="100%"
+			includeInLayout="{_dataInputModel.reportBloodGlucoseItemDataCollection.length != 1}"
+			visible="{_dataInputModel.reportBloodGlucoseItemDataCollection.length != 1}">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+
+</s:VGroup>

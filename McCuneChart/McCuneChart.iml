@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="McCuneChart">
     <configurations>
-      <configuration name="McCuneChart" target-platform="Desktop" output-type="Library" output-file="McCuneChart.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="McCuneChart" target-platform="Desktop" output-type="Library" output-file="McCuneChart.swc" output-folder="$MODULE_DIR$/../out/production/McCuneChart">
         <dependencies>
           <entries>
             <entry module-name="CollaboRhythm.View.Scroll" build-configuration-name="CollaboRhythm.View.Scroll">
@@ -30,9 +30,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="module" module-name="ChartBackgroundsLib" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
   </component>
 </module>
 

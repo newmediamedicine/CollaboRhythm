@@ -21,7 +21,7 @@
 		<IndivoDocuments>
 			<xsl:for-each select="root/data">
 				<xsl:if test="systolic">
-					<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+					<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 						<name type="http://codes.indivo.org/vitalsigns/" value="123" abbrev="BPsys">Blood Pressure Systolic</name>
 						<dateMeasuredStart>
 							<xsl:value-of select="date"/>
@@ -34,10 +34,10 @@
 						</result>
 						<site>left arm</site>
 						<position>sitting down</position>
-					</VitalSign>
+					</CollaboRhythmVitalSign>
 				</xsl:if>
 				<xsl:if test="diastolic">
-					<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+					<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 						<name type="http://codes.indivo.org/vitalsigns/" value="124" abbrev="BPdia">Blood Pressure Diastolic</name>
 						<dateMeasuredStart>
 							<xsl:value-of select="date"/>
@@ -50,7 +50,7 @@
 						</result>
 						<site>left arm</site>
 						<position>sitting down</position>
-					</VitalSign>
+					</CollaboRhythmVitalSign>
 				</xsl:if>
 <!--
 				<xsl:if test="adherence = 'yes' or adherence = 'no'">

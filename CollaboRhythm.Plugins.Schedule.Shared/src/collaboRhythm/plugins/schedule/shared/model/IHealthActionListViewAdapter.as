@@ -8,6 +8,7 @@ package collaboRhythm.plugins.schedule.shared.model
 	/**
 	 * View adapter responsible for customizing how the health action is displayed in the various views associated with
 	 * scheduling and acting upon the health action, including the clock view, reporting view, and time line view.
+	 * @see IHealthActionListViewAdapterFactory
 	 */
 	public interface IHealthActionListViewAdapter
 	{

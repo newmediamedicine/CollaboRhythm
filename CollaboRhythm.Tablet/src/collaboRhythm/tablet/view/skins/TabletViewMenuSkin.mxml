@@ -54,6 +54,10 @@ in accordance with the terms of the license agreement accompanying it.
 		 */
 		override protected function initializationComplete():void
 		{
+			// TODO: eliminate this workaround for an unhandled exception in PopUpManagerImpl.addModalPopUpAccessibility
+			if (hostComponent.accessibilityProperties == null)
+				hostComponent.accessibilityProperties = new AccessibilityProperties();
+
 			useChromeColor = false;
 			super.initializationComplete();
 		}

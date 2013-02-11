@@ -23,7 +23,7 @@
 				height="100">
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateTimeFormatter"
-							 dateTimePattern="M-dd-yy h:mm a"/>
+							 dateTimePattern="M-dd-yyyy h:mm a"/>
 	</fx:Declarations>
 	<s:states>
 		<s:State name="unknown"/>
@@ -44,6 +44,7 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.model.healthRecord.document.Message;
+		import collaboRhythm.shared.model.healthRecord.document.MessageStatusCodes;
 		import collaboRhythm.shared.model.services.IImageCacheService;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -92,11 +93,8 @@
 					}
 				}
 
-				if (_message.read_at == null || _message.body == null)
-				{
-					dispatchEvent(new MessageItemRendererEvent(MessageItemRendererEvent.MESSAGE_ITEM_RENDERER_VIEWED,
-							_message));
-				}
+				dispatchEvent(new MessageItemRendererEvent(MessageItemRendererEvent.MESSAGE_ITEM_RENDERER_VIEWED,
+						_message));
 
 				if (_netStreamLocation)
 				{
@@ -124,19 +122,24 @@
 			dispatchEvent(new VideoActionEvent(VideoActionEvent.PLAY_VIDEO, _netStreamLocation));
 		}
 
-		private function formatTimeStampLabel(id:String, received_at:Date):String
+		private function formatTimeStampLabel(received_at:Date, localStatus:String):String
 		{
-			if (id && received_at)
+			if (localStatus == MessageStatusCodes.COMPLETE)
 			{
 				return dateTimeFormatter.format(received_at);
 			}
-			else if (received_at)
+			else if (localStatus == MessageStatusCodes.FAILED)
 			{
 				return FAILED_TO_SEND_MESSAGE;
 			}
-			else
+			else if (localStatus == MessageStatusCodes.SENDING)
 			{
 				return SENDING_MESSAGE;
+			}
+			else
+			{
+				// unhandled status
+				return "invalid message status";
 			}
 		}
 		]]></fx:Script>
@@ -156,7 +159,7 @@
 		</s:Group>
 		<s:Label id="bodyLabel" text="{_message.body}" width="{this.width - 140}" maxDisplayedLines="3" includeIn="text"
 				 textAlign.sent="right" textAlign.inbox="left"/>
-		<s:Label id="timeStampLabel" text="{formatTimeStampLabel(_message.id, _message.received_at)}"
+		<s:Label id="timeStampLabel" text="{formatTimeStampLabel(_message.received_at, _message.localStatus)}"
 				 textAlign.sent="right"
 				 textAlign.inbox="left"/>
 	</s:VGroup>

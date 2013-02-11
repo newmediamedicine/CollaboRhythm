@@ -7,7 +7,7 @@ package collaboRhythm.shared.model
 
     public class BackgroundProcessCollectionModel
 	{
-		private var _processes:OrderedMap = new OrderedMap();
+		private var _processes:OrderedMap = new OrderedMap(null, "processKey");
 		private var _isRunning:Boolean;
 		private var _summary:String;
 		public function BackgroundProcessCollectionModel()

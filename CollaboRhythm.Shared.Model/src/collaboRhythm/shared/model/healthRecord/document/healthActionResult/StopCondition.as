@@ -1,34 +1,34 @@
 package collaboRhythm.shared.model.healthRecord.document.healthActionResult
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 
 	[Bindable]
 	public class StopCondition
 	{
-		private var _name:CodedValue;
-		private var _value:ValueAndUnit;
+		private var _name:CollaboRhythmCodedValue;
+		private var _value:CollaboRhythmValueAndUnit;
 
 		public function StopCondition()
 		{
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
 
-		public function get value():ValueAndUnit
+		public function get value():CollaboRhythmValueAndUnit
 		{
 			return _value;
 		}
 
-		public function set value(value:ValueAndUnit):void
+		public function set value(value:CollaboRhythmValueAndUnit):void
 		{
 			_value = value;
 		}

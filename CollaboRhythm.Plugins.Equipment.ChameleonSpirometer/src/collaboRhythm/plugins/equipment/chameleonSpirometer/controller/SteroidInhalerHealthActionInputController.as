@@ -2,6 +2,7 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 {
 	import collaboRhythm.plugins.equipment.chameleonSpirometer.model.SteroidInhalerHealthActionInputModel;
 	import collaboRhythm.plugins.equipment.chameleonSpirometer.view.SteroidInhalerHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -11,7 +12,7 @@ package collaboRhythm.plugins.equipment.chameleonSpirometer.controller
 
 	import spark.components.ViewNavigator;
 
-	public class SteroidInhalerHealthActionInputController implements IHealthActionInputController
+	public class SteroidInhalerHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = SteroidInhalerHealthActionInputView;
 

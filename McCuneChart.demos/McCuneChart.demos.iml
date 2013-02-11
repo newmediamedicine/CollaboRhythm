@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="McCuneChart.demos">
     <configurations>
-      <configuration name="McCuneChart.demos" target-platform="Desktop" main-class="McCuneChartDemo" output-file="McCuneChartDemo.swf" output-folder="$MODULE_DIR$/bin-debug">
+      <configuration name="McCuneChart.demos" target-platform="Desktop" main-class="McCuneChartDemo" output-file="McCuneChartDemo.swf" output-folder="$MODULE_DIR$/../out/production/McCuneChart.demos">
         <dependencies>
           <entries>
             <entry library-id="a3a38662-8b5a-4941-a60d-42fd47c8abf3">
@@ -32,8 +32,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="McCuneChart" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: libs" type="flex">
         <properties id="a3a38662-8b5a-4941-a60d-42fd47c8abf3" />
         <CLASSES>

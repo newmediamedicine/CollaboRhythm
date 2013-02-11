@@ -44,6 +44,7 @@ package collaboRhythm.shared.model.settings
 		private var _indivoServerBaseURL:String;
 		private var _logSourceIdentifier:String;
 		private var _mode:String;
+		private var _collaborationEnabled:Boolean = true;
 		private var _rtmpBaseURI:String;
 		private var _useSingleScreen:Boolean;
 
@@ -57,6 +58,7 @@ package collaboRhythm.shared.model.settings
 		private var _appGroups:ArrayCollection;
 		private var _pluginSearchPaths:ArrayCollection;
 		private var _applicationUpdateDescriptorURL:String;
+		private var _clockAnimationMode:String;
 
 		public function Settings()
 		{
@@ -363,6 +365,26 @@ package collaboRhythm.shared.model.settings
 		public function set primaryClinicianTeamMember(value:String):void
 		{
 			_primaryClinicianTeamMember = value;
+		}
+
+		public function get clockAnimationMode():String
+		{
+			return _clockAnimationMode;
+		}
+
+		public function set clockAnimationMode(value:String):void
+		{
+			_clockAnimationMode = value;
+		}
+
+		public function get collaborationEnabled():Boolean
+		{
+			return _collaborationEnabled;
+		}
+
+		public function set collaborationEnabled(value:Boolean):void
+		{
+			_collaborationEnabled = value;
 		}
 	}
 }

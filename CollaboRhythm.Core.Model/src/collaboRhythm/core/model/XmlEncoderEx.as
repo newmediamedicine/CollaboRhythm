@@ -2,7 +2,7 @@ package collaboRhythm.core.model
 {
 
 	import collaboRhythm.core.model.healthRecord.TypeSchemaRegistry;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 
 	import mx.rpc.xml.SchemaTypeRegistry;
 
@@ -21,12 +21,12 @@ package collaboRhythm.core.model
 			schemaTypeRegistry = SchemaTypeRegistry.getInstance();
 		}
 
-		// Added special handling for CodedValue type which has both attributes (which already map correctly to
+		// Added special handling for CollaboRhythmCodedValue type which has both attributes (which already map correctly to
 		// properties) and a child/content/value element that needs to be mapped explicitly to the "text" property of
-		// the CodedValue class.
+		// the CollaboRhythmCodedValue class.
 		override public function getSimpleValue(parent:*, name:*):*
 		{
-			var codedValue:CodedValue = parent as CodedValue;
+			var codedValue:CollaboRhythmCodedValue = parent as CollaboRhythmCodedValue;
 			if (codedValue != null)
 			{
 				return codedValue.text;

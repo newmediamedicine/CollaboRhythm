@@ -521,7 +521,7 @@ package collaboRhythm.plugins.schedule.model
 			var dateStart:Date = DateUtil.parseW3CDTF(dateStartString);
 			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
 			var now:Date = _currentDateSource.now();
-			if (dateStart.date == now.date && dateStart.month == now.month && dateStart.fullYear == now.fullYear)
+			if (dateStart && dateStart.date == now.date && dateStart.month == now.month && dateStart.fullYear == now.fullYear)
 			{
 				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesHashMap)
 				{

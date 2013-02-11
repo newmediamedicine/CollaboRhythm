@@ -1,13 +1,15 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CollaboRhythm.Tablet - Device (Release)" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="CollaboRhythm.Tablet - Device (Release)" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
     <option name="BCName" value="CollaboRhythm.Tablet Release" />
+    <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
-    <option name="appDescriptorForEmulator" value="Generated" />
+    <option name="appDescriptorForEmulator" value="Android" />
     <option name="debugTransport" value="USB" />
     <option name="debuggerSdkRaw" value="BC SDK" />
     <option name="emulator" value="SamsungGalaxyTab" />
     <option name="emulatorAdlOptions" value="" />
+    <option name="fastPackaging" value="true" />
     <option name="fullScreenHeight" value="0" />
     <option name="fullScreenWidth" value="0" />
     <option name="launchUrl" value="false" />
@@ -24,6 +26,7 @@
     <option name="overriddenOutputFileName" value="" />
     <option name="overrideMainClass" value="false" />
     <option name="runTrusted" value="true" />
+    <option name="screenDpi" value="0" />
     <option name="screenHeight" value="0" />
     <option name="screenWidth" value="0" />
     <option name="url" value="http://" />

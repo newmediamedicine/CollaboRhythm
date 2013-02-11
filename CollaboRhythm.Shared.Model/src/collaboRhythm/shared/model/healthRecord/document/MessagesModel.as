@@ -1,14 +1,15 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
-	import mx.collections.ArrayCollection;
+	import com.theory9.data.types.OrderedMapCollection;
+
 	import mx.events.CollectionEvent;
 
 	[Bindable]
 	public class MessagesModel
 	{
-		private var _inboxMessages:ArrayCollection = new ArrayCollection();
-		private var _sentMessages:ArrayCollection = new ArrayCollection();
-		private var _messages:ArrayCollection = new ArrayCollection();
+		private var _inboxMessages:OrderedMapCollection = new OrderedMapCollection(null, "id");
+		private var _sentMessages:OrderedMapCollection = new OrderedMapCollection(null, "id");
+		private var _messages:OrderedMapCollection = new OrderedMapCollection(null, "id");
 		private var _unreadMessageCount:int;
 
 		public function MessagesModel()
@@ -33,42 +34,48 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		public function addInboxMessage(message:Message):void
 		{
-			inboxMessages.addItem(message);
-			messages.addItem(message);
+			if (!inboxMessages.contains(message))
+			{
+				inboxMessages.addItem(message);
+				messages.addItem(message);
+			}
 		}
 
 		public function addSentMessage(message:Message):void
 		{
-			sentMessages.addItem(message);
-			messages.addItem(message);
+			if (!sentMessages.contains(message))
+			{
+				sentMessages.addItem(message);
+				messages.addItem(message);
+			}
 		}
 
-		public function get inboxMessages():ArrayCollection
+		public function get inboxMessages():OrderedMapCollection
 		{
 			return _inboxMessages;
 		}
 
-		public function set inboxMessages(value:ArrayCollection):void
+		public function set inboxMessages(value:OrderedMapCollection):void
 		{
 			_inboxMessages = value;
 		}
 
-		public function get sentMessages():ArrayCollection
+		public function get sentMessages():OrderedMapCollection
 		{
 			return _sentMessages;
 		}
 
-		public function set sentMessages(value:ArrayCollection):void
+		public function set sentMessages(value:OrderedMapCollection):void
 		{
 			_sentMessages = value;
 		}
 
-		public function get messages():ArrayCollection
+		public function get messages():OrderedMapCollection
 		{
 			return _messages;
 		}
 
-		public function set messages(value:ArrayCollection):void
+		public function set messages(value:OrderedMapCollection):void
 		{
 			_messages = value;
 		}

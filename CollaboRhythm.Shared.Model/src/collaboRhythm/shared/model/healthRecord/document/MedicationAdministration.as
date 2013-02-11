@@ -17,27 +17,27 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 
 	[Bindable]
     public class MedicationAdministration extends DocumentBase
     {
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationAdministration";
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _reportedBy:String;
 		private var _dateReported:Date;
 		private var _dateAdministered:Date;
-		private var _amountAdministered:ValueAndUnit;
-		private var _amountRemaining:ValueAndUnit;
+		private var _amountAdministered:CollaboRhythmValueAndUnit;
+		private var _amountRemaining:CollaboRhythmValueAndUnit;
 
         public function MedicationAdministration()
         {
 			meta.type = DOCUMENT_TYPE;
         }
 
-        public function init(name:CodedValue, reportedBy:String, dateReported:Date, dateAdministered:Date = null, amountAdministered:ValueAndUnit = null, amountRemaining:ValueAndUnit = null):void
+        public function init(name:CollaboRhythmCodedValue, reportedBy:String, dateReported:Date, dateAdministered:Date = null, amountAdministered:CollaboRhythmValueAndUnit = null, amountRemaining:CollaboRhythmValueAndUnit = null):void
 		{
 			_name = name;
             _reportedBy = reportedBy;
@@ -47,12 +47,12 @@ package collaboRhythm.shared.model.healthRecord.document
             _amountRemaining = amountRemaining;
 		}
 
-        public function get name():CodedValue
+        public function get name():CollaboRhythmCodedValue
         {
             return _name;
         }
 
-        public function set name(value:CodedValue):void
+        public function set name(value:CollaboRhythmCodedValue):void
         {
             _name = value;
         }
@@ -95,22 +95,22 @@ package collaboRhythm.shared.model.healthRecord.document
 			return dateAdministered.valueOf();
 		}
 
-        public function get amountAdministered():ValueAndUnit
+        public function get amountAdministered():CollaboRhythmValueAndUnit
         {
             return _amountAdministered;
         }
 
-        public function set amountAdministered(value:ValueAndUnit):void
+        public function set amountAdministered(value:CollaboRhythmValueAndUnit):void
         {
             _amountAdministered = value;
         }
 
-        public function get amountRemaining():ValueAndUnit
+        public function get amountRemaining():CollaboRhythmValueAndUnit
         {
             return _amountRemaining;
         }
 
-        public function set amountRemaining(value:ValueAndUnit):void
+        public function set amountRemaining(value:CollaboRhythmValueAndUnit):void
         {
             _amountRemaining = value;
         }

@@ -23,7 +23,7 @@
 					   creationComplete="creationCompleteHandler()">
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateFormatter"
-							 dateTimePattern="M-dd-yy"/>
+							 dateTimePattern="M-dd-yyyy"/>
 	</fx:Declarations>
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -44,6 +44,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;

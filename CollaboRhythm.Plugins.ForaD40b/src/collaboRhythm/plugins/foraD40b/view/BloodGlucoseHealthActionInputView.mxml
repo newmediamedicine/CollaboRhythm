@@ -26,19 +26,28 @@
 		<s:DateTimeFormatter id="timeFormatter" dateTimePattern="h a"/>
 	</fx:Declarations>
 	<fx:Script><![CDATA[
+		import castle.flexbridge.common.Uri;
+		import castle.flexbridge.common.UriBuilder;
+
 		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
-		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
+		import collaboRhythm.plugins.foraD40b.model.ReportBloodGlucoseItemData;
+		import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
-		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+		import collaboRhythm.shared.model.DateUtil;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.events.FlexEvent;
 
+		import org.osmf.utils.URL;
+
+		import spark.components.ViewMenuItem;
+
 		[Bindable]
-		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
+		protected var _dataInputModel:BloodGlucoseHealthActionInputModelCollection;
 		protected var _dataInputController:BloodGlucoseHealthActionInputController;
 		private var _currentDateSource:ICurrentDateSource;
 
@@ -49,8 +58,10 @@
 			var dataInputModelAndController:HealthActionInputModelAndController = value as
 					HealthActionInputModelAndController;
 
-			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
+			_dataInputModel = dataInputModelAndController.healthActionInputModel as
+					BloodGlucoseHealthActionInputModelCollection;
+			_dataInputController = dataInputModelAndController.healthActionInputController as
+					BloodGlucoseHealthActionInputController;
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
@@ -58,7 +69,7 @@
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem)
+			if (_dataInputModel.isReview)
 			{
 				title = "Review Blood Glucose Measurement - Scheduled (" +
 						timeFormatter.format(_dataInputModel.scheduleItemOccurrence.dateStart) + " to " +
@@ -77,32 +88,49 @@
 				title = "Report Blood Glucose Measurement - Unscheduled";
 				actionContent.unshift(saveActionButton);
 			}
+
+			// TODO: perhaps we should also include these menu items when debug tools is enabled or allow independent control via a new setting
+			var isDebugger:Boolean = Capabilities.isDebugger;
+			var playerType:String = Capabilities.playerType;
+
+			if (playerType == "Desktop" && isDebugger)
+			{
+				addMenuItem("Sim 3 Random Measurements", simulateDeviceMenuItem_clickHandler);
+				addMenuItem("Sim high measurement", simulateDeviceHighMenuItem_clickHandler);
+				addMenuItem("Sim low measurement", simulateDeviceLowMenuItem_clickHandler);
+				addMenuItem("Sim duplicate measurement", simulateDevice3MenuItem_clickHandler);
+			}
+		}
+
+		private function simulateDevice3MenuItem_clickHandler(event:MouseEvent):void
+		{
+			simulateDeviceBatchTransferBegin();
+			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
+					["collaborhythm://collaborhythm?deviceMeasuredDate=2012-10-19T23%3A15%3A00-04%3A00&bloodGlucose=181&equipmentName=FORA%20D40b&correctedMeasuredDate=2012-10-19T22%3A16%3A40-04%3A00&healthActionName=Blood%20Glucose&localTransmittedDate=2012-11-19T18%3A12%3A40-05%3A00&deviceTransmittedDate=2012-11-19T19%3A11%3A00-05%3A00&debug=0%20of%20181&healthActionType=Equipment&success=true&batchTransfer=data"]));
+			simulateDeviceBatchTransferEnd();
 		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
 			reportBloodGlucoseDetailedView.init(_dataInputModel, _dataInputController);
 
-			saveActionButton.enabled = false;
-			saveButton.enabled = false;
+			saveActionButton.enabled = saveButton.enabled = false;
 
-			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel, "manualBloodGlucose");
-			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel, "deviceBloodGlucose");
+			BindingUtils.bindSetter(setManualBloodGlucose, _dataInputModel.firstInputModel, "manualBloodGlucose");
+			BindingUtils.bindSetter(setDeviceBloodGlucose, _dataInputModel.firstInputModel, "deviceBloodGlucose");
 		}
 
 		private function setManualBloodGlucose(manualBloodGlucose:String):void
 		{
 			if (manualBloodGlucose == "")
 			{
-				saveActionButton.enabled = false;
-				saveButton.enabled = false;
+				saveActionButton.enabled = saveButton.enabled = false;
 			}
 			else if (manualBloodGlucose != "" &&
 					_dataInputModel.healthActionModelDetailsProvider.accountId ==
 							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
 			{
-				saveActionButton.enabled = true;
-				saveButton.enabled = true;
+				saveActionButton.enabled = saveButton.enabled = true;
 			}
 		}
 
@@ -112,8 +140,7 @@
 					_dataInputModel.healthActionModelDetailsProvider.accountId ==
 							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
 			{
-				saveActionButton.enabled = true;
-				saveButton.enabled = true;
+				saveActionButton.enabled = saveButton.enabled = !_dataInputModel.firstInputModel.isDuplicate;
 			}
 		}
 
@@ -143,8 +170,130 @@
 
 			super.stage_keyUpHandler(event);
 		}
+
+		private function simulateDeviceMenuItem_clickHandler(event:MouseEvent):void
+		{
+
+			var index:Number;
+			if ((_dataInputModel.reportBloodGlucoseItemDataCollection[0] as
+					ReportBloodGlucoseItemData).dataInputModel.isFromDevice)
+			{
+				index = _dataInputModel.reportBloodGlucoseItemDataCollection.length;
+			}
+			else
+			{
+				index = 0;
+			}
+			var numToSimulate:Number = 3;
+
+			simulateDeviceBatchTransferBegin();
+			for (var i:int = 0; i < numToSimulate; i++)
+			{
+				simulateDeviceOffsetFromNow(index / numToSimulate + i * (1.0 / numToSimulate), 1.0 / numToSimulate);
+			}
+			simulateDeviceBatchTransferEnd();
+		}
+
+		private function simulateDeviceHighMenuItem_clickHandler(event:MouseEvent):void
+		{
+			simulateSingleBloodGlucoseFromDevice(150);
+		}
+
+		private function simulateDeviceLowMenuItem_clickHandler(event:MouseEvent):void
+		{
+			simulateSingleBloodGlucoseFromDevice(60);
+		}
+
+		public function simulateDeviceOffsetFromNow(daysBeforeNow:Number, maximumRandomDaysFraction:Number):void
+		{
+			var correctedMeasuredDate:Date = new Date(_currentDateSource.now().valueOf() -
+					DateUtil.MILLISECONDS_IN_DAY * daysBeforeNow -
+					(DateUtil.MILLISECONDS_IN_DAY * maximumRandomDaysFraction * Math.random()));
+			var bloodGlucose:int = Math.round(70 + Math.random() * 200);
+			simulateDevice(bloodGlucose, correctedMeasuredDate);
+		}
+
+		private function addMenuItem(label:String, listener:Function):void
+		{
+			var menuItem:ViewMenuItem = new ViewMenuItem();
+			menuItem.label = label;
+			menuItem.addEventListener(MouseEvent.CLICK, listener);
+			viewMenuItems.push(menuItem)
+		}
+
+		private function simulateDevice(bloodGlucose:int, correctedMeasuredDate:Date):void
+		{
+			var urlVariables:URLVariables = new URLVariables();
+			urlVariables.healthActionType = "Equipment";
+			urlVariables.healthActionName = "Blood Glucose";
+			urlVariables.equipmentName = "FORA D40b";
+			urlVariables.success = "true";
+			urlVariables.bloodGlucose = bloodGlucose.toString();
+			urlVariables.correctedMeasuredDate = DateUtil.format(correctedMeasuredDate, false);
+			urlVariables.deviceMeasuredDate = DateUtil.format(correctedMeasuredDate, false);
+			urlVariables.localTransmittedDate = DateUtil.format(_currentDateSource.now(), false);
+			urlVariables.deviceTransmittedDate = DateUtil.format(_currentDateSource.now(), false);
+			urlVariables.batchTransfer = "data";
+
+			var uriString:String = "collaborhythm://loadData?" + urlVariables.toString();
+			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
+					[uriString]))
+		}
+
+		private function simulateDeviceBatchTransferBegin():void
+		{
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN, "Blood Glucose");
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN, "Blood Pressure");
+		}
+
+		private function simulateDeviceBatchTransferEnd():void
+		{
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END, "Blood Glucose");
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END, "Blood Pressure");
+		}
+
+		private function simulateDeviceBatchTransfer(batchTransfer:String, healthActionName:String):void
+		{
+			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
+					["collaborhythm://healthActionType=Equipment&healthActionName=" + healthActionName +
+							"&equipmentName=FORA D40b&success=true&" +
+							HealthActionInputControllerBase.BATCH_TRANSFER_URL_VARIABLE +
+							"=" +
+							batchTransfer]));
+		}
+
+		private function simulateSingleBloodGlucoseFromDevice(bloodGlucose:int):void
+		{
+			var dateValue:Number;
+			if (_dataInputModel && _dataInputModel.scheduleItemOccurrence)
+			{
+				dateValue = _dataInputModel.scheduleItemOccurrence.dateEnd.valueOf();
+			}
+
+			if (_dataInputModel && _dataInputModel.lastInputModel &&
+					_dataInputModel.lastInputModel.dateMeasuredStart.valueOf() < dateValue)
+			{
+				dateValue = _dataInputModel.lastInputModel.dateMeasuredStart.valueOf();
+			}
+
+			if (!isNaN(dateValue))
+			{
+				simulateDeviceBatchTransferBegin();
+				simulateDevice(bloodGlucose, new Date(dateValue - 1000 * 60 * 5));
+				simulateDeviceBatchTransferEnd();
+			}
+		}
 		]]></fx:Script>
-	<view:ReportBloodGlucoseDetailedView id="reportBloodGlucoseDetailedView"/>
-	<s:Button id="saveButton" label="Save" width="200" height="100" bottom="90" horizontalCenter="0"
-			  enabled="false" fontSize="40" click="saveButton_clickHandler()"/>
+	<view:ReportBloodGlucoseDetailedView id="reportBloodGlucoseDetailedView" height="{footerGroup.y - reportBloodGlucoseDetailedView.y}"/>
+	<s:Group id="footerGroup" width="100%" bottom="0">
+		<s:Rect width="100%" height="100%" visible="{_dataInputModel.reportBloodGlucoseItemDataCollection.length > 1}">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup paddingTop="10" paddingBottom="{_dataInputModel.reportBloodGlucoseItemDataCollection.length > 1 ? 10 : 90}" width="100%" horizontalAlign="center">
+			<s:Button id="saveButton" label="Save"
+					  enabled="false" click="saveButton_clickHandler()"/>
+		</s:VGroup>
+	</s:Group>
 </tablet:TabletViewBase>

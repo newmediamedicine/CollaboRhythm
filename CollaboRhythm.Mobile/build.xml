@@ -41,10 +41,10 @@
 	</target>
 
 	<target name="pull_collaboRhythm_log">
-		<echo>Pulling "${collaboRhythm.application-device.local-store}collaboRhythmCopy.log" to "${app.data}/${APP_ID}/Local Store/collaboRhythmCopy.log"</echo>
+		<echo>Pulling "${collaboRhythm.application-device.log}" to "${app.data}/${APP_ID}/Local Store/collaboRhythmCopy.log"</echo>
 		<exec executable="${ADB}">
 			<arg value="pull"/>
-			<arg value="${collaboRhythm.application-device.local-store}collaboRhythmCopy.log"/>
+			<arg value="${collaboRhythm.application-device.log}"/>
 			<arg value="${app.data}/${APP_ID}/Local Store/collaboRhythmCopy.log"/>
 		</exec>
 	</target>

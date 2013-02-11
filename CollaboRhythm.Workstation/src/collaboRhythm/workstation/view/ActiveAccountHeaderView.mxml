@@ -98,7 +98,7 @@
 	</s:HGroup>
     <s:HGroup width="100%" height="100%" horizontalAlign="right" gap="0">
         <s:VGroup paddingTop="12" paddingRight="15" horizontalAlign="right" gap="4">
-            <s:Label id="fullName" text="{_activeAccount.primaryRecord.contact.fullName}" styleName="labelText" />
+            <s:Label id="fullName" text="{_activeAccount.primaryRecord.demographics.Name.givenName} {_activeAccount.primaryRecord.demographics.Name.familyName}" styleName="labelText" />
             <s:Label id="occupation" text="{_activeAccount.primaryRecord.demographics.occupation}" styleName="labelText" />
         </s:VGroup>
         <s:Line height="100%">

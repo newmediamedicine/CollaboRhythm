@@ -17,10 +17,12 @@
 -->
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
-				xmlns:view="collaboRhythm.plugins.foraD40b.view.*">
+				xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+				xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
+		preinitialize="preinitializeHandler(event)">
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateFormatter"
-							 dateTimePattern="M-dd-yy"/>
+							 dateTimePattern="M-dd-yyyy"/>
 		<s:DateTimeFormatter id="timeFormatter"
 							 dateTimePattern=" h:mm a"/>
 	</fx:Declarations>
@@ -36,13 +38,28 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHistoryItemData;
+		import collaboRhythm.shared.model.healthRecord.Relationship;
+		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+
+		import mx.events.FlexEvent;
+
+		import mx.events.SandboxMouseEvent;
+		import mx.events.TouchInteractionEvent;
+
+		import mx.managers.ISystemManager;
+
+		import spark.components.List;
 
 		override public function set data(value:Object):void
 		{
 			super.data = value;
 
-			var bloodGlucoseVitalSign:VitalSign = value as VitalSign;
+			var bloodGlucoseHistoryItemData:BloodGlucoseHistoryItemData = value as BloodGlucoseHistoryItemData;
+			var bloodGlucoseVitalSign:VitalSign = bloodGlucoseHistoryItemData.bloodGlucoseVitalSign;
 
 			if (bloodGlucoseVitalSign)
 			{
@@ -54,8 +71,54 @@
 				warningIcon.visible = bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0;
 				wirelessIcon.visible = (bloodGlucoseVitalSign.comments !=
 						BloodGlucoseHealthActionInputModel.SELF_REPORT);
+
+				var scheduleItemOccurrence:ScheduleItemOccurrence;
+				for each (var relationship:Relationship in bloodGlucoseVitalSign.isRelatedFrom)
+				{
+					if (relationship.type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT)
+					{
+						var adherenceItem:AdherenceItem;
+						adherenceItem = relationship.relatesFrom as AdherenceItem;
+						if (adherenceItem && adherenceItem.scheduleItem)
+						{
+							var scheduleItem:ScheduleItemBase = adherenceItem.scheduleItem as ScheduleItemBase;
+							if (scheduleItem)
+							{
+								scheduleItemOccurrence = scheduleItem.createScheduleItemOccurrence(adherenceItem.recurrenceIndex);
+							}
+						}
+						break;
+					}
+				}
+
+				var bloodGlucoseHealthActionInputModel:BloodGlucoseHealthActionInputModel = new BloodGlucoseHealthActionInputModel(scheduleItemOccurrence,
+						bloodGlucoseHistoryItemData.dataInputModel.healthActionModelDetailsProvider,
+						bloodGlucoseHistoryItemData.dataInputModel.scheduleCollectionsProvider,
+						bloodGlucoseHistoryItemData.dataInputModel.bloodGlucoseHealthActionInputModelCollection);
+				bloodGlucoseHealthActionInputModel.dateMeasuredStart = bloodGlucoseVitalSign.dateMeasuredStart;
+				reportScheduleAdherenceView.init(bloodGlucoseHealthActionInputModel,
+						bloodGlucoseHistoryItemData.dataInputController);
+
 			}
 		}
+
+		private function reportScheduleAdherenceView_mouseDownHandler(event:MouseEvent):void
+		{
+			// prevent selection of the list item
+			event.preventDefault();
+		}
+
+		private function preinitializeHandler(event:FlexEvent):void
+		{
+			addEventListener(Event.SCROLL, scrollHandler, false, 0, true);
+			addEventListener(TouchInteractionEvent.TOUCH_INTERACTION_START, scrollHandler, false, 0, true);
+		}
+
+		private function scrollHandler(event:Event):void
+		{
+			reportScheduleAdherenceView.closeDropDown();
+		}
+
 		]]></fx:Script>
 	<s:Group left="10" right="10" top="10" bottom="10">
 		<s:HGroup verticalCenter="0">
@@ -63,10 +126,17 @@
 			<s:Label id="bloodGlucoseLabel" left="0"/>
 			<view:WarningIcon id="warningIcon" width="40" height="35" visible="false"/>
 		</s:HGroup>
-		<s:VGroup id="dateMeasuredStartGroup" right="0" horizontalAlign="right">
-			<s:Label id="dateMeasuredStartHistoryLabel"/>
-			<s:Label id="timeMeasuredStartHistoryLabel"/>
-		</s:VGroup>
+		<s:HGroup right="0" verticalAlign="middle">
+			<s:VGroup id="dateMeasuredStartGroup" horizontalAlign="right">
+				<s:Label id="dateMeasuredStartHistoryLabel"/>
+				<s:Label id="timeMeasuredStartHistoryLabel"/>
+			</s:VGroup>
+			<sharedView:ReportScheduleAdherenceView id="reportScheduleAdherenceView"
+													checkBoxSkin="collaboRhythm.plugins.foraD40b.view.FastingAdherenceCheckBoxSkin" editable="false"
+					mouseDown="reportScheduleAdherenceView_mouseDownHandler(event)"
+					/>
+		</s:HGroup>
+
 	</s:Group>
 	<s:Line width="100%" bottom="0">
 		<s:stroke>

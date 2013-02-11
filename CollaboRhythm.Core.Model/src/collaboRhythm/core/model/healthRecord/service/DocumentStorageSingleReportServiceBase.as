@@ -70,13 +70,13 @@ package collaboRhythm.core.model.healthRecord.service
 			
 			var healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails = new HealthRecordServiceRequestDetails(GET_REPORTS_MINIMAL,
 					null, record, indivoReportName);
-			_pha.reports_minimal_X_GET(params, null, null, null, record.id, indivoReportName, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
+			_pha.reports_X_GET(params, null, null, null, record.id, indivoReportName, _activeAccount.oauthAccountToken, _activeAccount.oauthAccountTokenSecret, healthRecordServiceRequestDetails);
 			_pendingReportRequests.put(PRIMARY_REPORT_REQUEST, PRIMARY_REPORT_REQUEST);
 		}
 
 		/**
 		 * The name of the report, such as "equipment", for making a request to Indivo for a minimal report,
-		 * GET /records/{record_id}/reports/minimal/{report}/
+		 * GET /records/{record_id}/reports/{report}/
 		 */
 		protected function get indivoReportName():String
 		{

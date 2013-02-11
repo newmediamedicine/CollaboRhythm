@@ -73,6 +73,14 @@
 			<xs:element type="xs:boolean" name="useGoogleAnalytics" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="googleAnalyticsTrackingId" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="logSourceIdentifier" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="collaborationEnabled" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						If true, CollaboRhythm will attempt to connect to the collaboration server using the
+						rtmpBaseURI. Otherwise, a connection will not be attempted. Default value is true.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:string" name="rtmpBaseURI" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="indivoServerBaseURL" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="debuggingToolsEnabled" minOccurs="0" maxOccurs="1"/>
@@ -176,6 +184,13 @@
 					<xs:documentation xml:lang="en">
 						URL specifying the location of the update descriptor XML file to use for updating the
 						application (CollaboRhythm).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="xs:string" name="clockAnimationMode" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Mode for animating the clock. Valid values: slide (Optional).
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>

@@ -2,6 +2,7 @@ package collaboRhythm.plugins.foraD40b.controller
 {
 	import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
 	import collaboRhythm.plugins.foraD40b.view.BloodPressureHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -13,7 +14,7 @@ package collaboRhythm.plugins.foraD40b.controller
 	import spark.components.ViewNavigator;
 	import spark.transitions.SlideViewTransition;
 
-	public class BloodPressureHealthActionInputController implements IHealthActionInputController
+	public class BloodPressureHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = BloodPressureHealthActionInputView;
 

@@ -22,7 +22,7 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
 	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;

@@ -6,3 +6,5 @@ out/*
 */bin/*
 */bin-debug/*
 .idea/workspace.xml
+Ignored/**/*
+Ignored/*

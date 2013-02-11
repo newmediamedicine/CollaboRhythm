@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://indivo.org/vocab/xml/documents#"
+		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		   elementFormDefault="qualified">
+
+	<xs:include schemaLocation="../codes.xsd"/>
+	<xs:include schemaLocation="../values.xsd"/>
+
+	<xs:complexType name="MedicationOrder">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CollaboRhythmCodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						RxNorm name for the medication
+						This is a coded value using the url http://rxnav.nlm.nih.gov/REST/rxcui/ where the value is the
+						rxcui (RxNorm Coded Unique Identifier). The rxcui should correspond to the SBD (branded drug
+						name) or SCD (clinical drug name) that is most specific for the medication and includes name and
+						dose for each clinical drug component.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="orderType" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Type of medication order
+						All medications are ordered in some capacity, whether it is prescribed by a health professional,
+						recommended by a professional or a friend, or self-prescribed. Possible values are "Prescribed",
+						"Recommended", or "Self-prescribed." Note that some patients self-prescribe medications
+						illegally as well as over-the-counter.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="orderedBy" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Person or agent who prescribed the medication
+						Currently, this uses the e-mail address of the person, eventually it should use a more robust
+						form of identity. It might also use an identity for a software agent that automates reordering
+						in the future based on patient data.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateOrdered" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the medication was ordered
+						This may be different than the date created in the meta data, for example if it is ordered from
+						a mobile phone and later uploaded, so it needs to be specified here.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateExpires" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time that the medication will expire
+						If the patient should only be able to fill the medication during a specific interval, this
+						optional element can be used.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="indication" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Reason for the medication
+						Reason that the medication was ordered. Medications should be related to problems, but some
+						medications such as vitamins do not require problems, so having an indication is needed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+        <xs:element name="amountOrdered" type="indivo:CollaboRhythmValueAndUnit" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Amount of medication ordered
+						Includes a value and a unit.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="refills" type="xs:integer" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Number of refills allowed
+						CollaboRhythm does not use the refills element. Instead, each time that a medication is ordered,
+						either by a clinician or a software agent, a new MedicationOrder document is created. Refills
+						are based on an outdated paper-based approach to managing patient medications. This element is
+						included in the schema to allow this information to be imported from legacy systems.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="substitutionPermitted" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Boolean that specifies whether or not it is acceptable to substitute a generic for the ordered
+						brand medication
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="instructions" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Instructions for administering the medication
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="MedicationOrder" type="indivo:MedicationOrder">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				A MedicationOrder document is created every time that a medication is "ordered", meaning that it is
+				prescribed by a provider (for prescription drugs), recommended by a health care provider, friend, etc.
+				(for over-the-counter medications), or patient self-prescribed (for over-the-counter or illegal
+				medications). A MedicationOrder document should relate to its MedicationFIll document using the
+				"medicationFill" relationship type and to its HealthActionSchedule (MedicationSchedule for now)
+				documents using the "healthActionSchedule" relationship type.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+</xs:schema>

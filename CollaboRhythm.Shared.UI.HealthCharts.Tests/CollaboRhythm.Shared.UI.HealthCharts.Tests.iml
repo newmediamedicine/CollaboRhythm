@@ -44,13 +44,13 @@
     </content>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.InsulinTitrationSupport" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" />
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.HealthCharts" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module" module-name="CollaboRhythm.Core" />
-    <orderEntry type="module" module-name="CollaboRhythm.Core.Model" />
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.InsulinTitrationSupport" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.HealthCharts" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Core" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Core.Model" exported="" />
   </component>
 </module>
 

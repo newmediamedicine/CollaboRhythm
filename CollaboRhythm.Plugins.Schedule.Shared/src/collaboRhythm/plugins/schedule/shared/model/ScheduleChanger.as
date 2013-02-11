@@ -193,10 +193,8 @@ package collaboRhythm.plugins.schedule.shared.model
 			newScheduleItem.dateStart = occurrence.dateStart;
 			newScheduleItem.dateEnd = occurrence.dateEnd;
 			newScheduleItem.recurrenceRule = new RecurrenceRule();
-			if (currentScheduleItem.recurrenceRule.frequency)
-				newScheduleItem.recurrenceRule.frequency = currentScheduleItem.recurrenceRule.frequency.clone();
-			if (currentScheduleItem.recurrenceRule.interval)
-				newScheduleItem.recurrenceRule.interval = currentScheduleItem.recurrenceRule.interval.clone();
+			newScheduleItem.recurrenceRule.frequency = currentScheduleItem.recurrenceRule.frequency;
+			newScheduleItem.recurrenceRule.interval = currentScheduleItem.recurrenceRule.interval;
 			newScheduleItem.recurrenceRule.count = remainingOccurrenceCount;
 
 			updateScheduleItemPropertiesFunction(newScheduleItem);

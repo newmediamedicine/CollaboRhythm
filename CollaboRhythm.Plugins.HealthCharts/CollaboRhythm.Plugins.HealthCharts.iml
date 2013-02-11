@@ -57,14 +57,14 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="ChartBackgroundsLib" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" />
-    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
-    <orderEntry type="module" module-name="McCuneChart" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" exported="" />
+    <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="20578300-4144-4616-9584-41e120db7dfb" />
         <CLASSES>
@@ -74,7 +74,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="a01feabd-4f05-4cf7-83fc-902bed0d02fa" />
         <CLASSES>
@@ -84,7 +84,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="libs" type="flex">
         <properties id="134abb8d-822b-48de-b0a2-ca66d369a222" />
         <CLASSES>
@@ -97,7 +97,7 @@
       </library>
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
   </component>
 </module>
 

@@ -6,20 +6,20 @@ package collaboRhythm.shared.model.healthRecord.document
 	[Bindable]
 	public class VitalSign extends DocumentBase
 	{
-		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#VitalSign";
+		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#CollaboRhythmVitalSign";
 
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _measuredBy:String;
 		private var _dateMeasuredStart:Date;
 		private var _dateMeasuredEnd:Date;
-		private var _result:ValueAndUnit;
+		private var _result:CollaboRhythmValueAndUnit;
 		private var _site:String;
 		private var _position:String;
 		private var _technique:String;
 		private var _comments:String;
 		private var _triggeredHealthActionResults:Vector.<HealthActionResult> = new Vector.<HealthActionResult>();
 
-		public function VitalSign(name:CodedValue = null, measuredBy:String = null, dateMeasuredStart:Date = null, dateMeasuredEnd:Date = null, result:ValueAndUnit = null, site:String = null, position:String = null, technique:String = null, comments:String = null)
+		public function VitalSign(name:CollaboRhythmCodedValue = null, measuredBy:String = null, dateMeasuredStart:Date = null, dateMeasuredEnd:Date = null, result:CollaboRhythmValueAndUnit = null, site:String = null, position:String = null, technique:String = null, comments:String = null)
 		{
 			meta.type = DOCUMENT_TYPE;
 			_name = name;
@@ -33,12 +33,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			_comments = comments;
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
@@ -78,12 +78,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			_dateMeasuredEnd = value;
 		}
 
-		public function get result():ValueAndUnit
+		public function get result():CollaboRhythmValueAndUnit
 		{
 			return _result;
 		}
 
-		public function set result(value:ValueAndUnit):void
+		public function set result(value:CollaboRhythmValueAndUnit):void
 		{
 			_result = value;
 		}

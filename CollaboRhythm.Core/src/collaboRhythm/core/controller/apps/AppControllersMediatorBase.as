@@ -297,10 +297,10 @@ package collaboRhythm.core.controller.apps
 		{
 			closeApps();
 
-			_appGroups = new OrderedMap();
+			_appGroups = new OrderedMap(null, "id");
 			initializeDynamicAppLookup();
-			_apps = new OrderedMap();
-			_appsById = new OrderedMap();
+			_apps = new OrderedMap(null, "name");
+			_appsById = new OrderedMap(null, "appId");
 			_factory = new AppControllerFactory();
 			_factory.fullContainer = _fullContainer;
 			_factory.componentContainer = _componentContainer;
@@ -313,7 +313,7 @@ package collaboRhythm.core.controller.apps
 
 		private function initializeDynamicAppLookup():void
 		{
-			dynamicAppDictionary = new OrderedMap();
+			dynamicAppDictionary = new OrderedMap(null, "appId");
 
 			var infoArray:Array = componentContainer.resolveAll(AppControllerInfo);
 

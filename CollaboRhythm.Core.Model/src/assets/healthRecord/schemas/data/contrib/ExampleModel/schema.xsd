@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://indivo.org/vocab/xml/documents#"
+		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		   elementFormDefault="qualified">
+
+	<xs:include schemaLocation="../codes.xsd"/>
+	<xs:include schemaLocation="../values.xsd"/>
+
+	<xs:complexType name="ExampleModel">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CollaboRhythmCodedValue" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Name for the ExampleModel, formatted at a CollaboRhythmCodedValue
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="startDate" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Date and time for the start of this ExampleModel
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="notes" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Notes for this ExampleModel
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="ExampleModel" type="indivo:ExampleModel">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				This is a example model
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+</xs:schema>

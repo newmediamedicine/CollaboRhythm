@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="ChartBackgroundsLib">
     <configurations>
-      <configuration name="ChartBackgroundsLib" target-platform="Desktop" output-type="Library" output-file="ChartBackgroundsLib.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="ChartBackgroundsLib" target-platform="Desktop" output-type="Library" output-file="ChartBackgroundsLib.swc" output-folder="$MODULE_DIR$/../out/production/ChartBackgroundsLib">
         <dependencies>
           <sdk name="4.6.0" />
         </dependencies>

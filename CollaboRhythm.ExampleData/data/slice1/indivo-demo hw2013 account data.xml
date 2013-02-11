@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataroot>
+	<AccountSource>
+		<accountId>example-clinician@records.media.mit.edu</accountId>
+		<contactEmail>not_used@localhost</contactEmail>
+		<fullName>Example Clinician</fullName>
+		<username>example-clinician</username>
+		<password>example-clinician</password>
+		<givenName>Example</givenName>
+		<familyName>Clinician</familyName>
+		<streetAddress>1066 Spinel Rd</streetAddress>
+		<postalCode>2142</postalCode>
+		<locality>Cambridge</locality>
+		<region>Massachusetts</region>
+		<country>US</country>
+		<timeZone>-5GMT</timeZone>
+		<emailPersonal>example-clinician@records.media.mit.edu</emailPersonal>
+		<phoneNumberHome>1-555-555-6548</phoneNumberHome>
+		<phoneNumberWork>1-555-555-8654</phoneNumberWork>
+		<instantMessengerName>example-clinician@records.media.mit.edu</instantMessengerName>
+		<dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+		<age>53</age>
+		<gender>Male</gender>
+		<ethnicity>White</ethnicity>
+		<language>English</language>
+		<maritalStatus>Married</maritalStatus>
+		<employmentStatus>Employed</employmentStatus>
+		<employmentIndustry>Medical</employmentIndustry>
+		<occupation>Doctor</occupation>
+		<religion>Protestant</religion>
+		<highestEducation>University</highestEducation>
+		<organDonar>true</organDonar>
+		<recordId>Please do not use this account</recordId>
+		<status/>
+		<accessKey/>
+		<accessSecret/>
+		<demographicsId/>
+		<notes>Use "Account -&gt; Duplicate Account Source" to make your own account based on this one</notes>
+		<recordSeed/>
+		<mode>clinician</mode>
+	</AccountSource>
+	<AccountSource>
+		<accountId>example-patient@records.media.mit.edu</accountId>
+		<contactEmail>not_used@localhost</contactEmail>
+		<fullName>Example Patient</fullName>
+		<username>example-patient</username>
+		<password>example-patient</password>
+		<givenName>Example</givenName>
+		<familyName>Patient</familyName>
+		<streetAddress>84 Spruce Street</streetAddress>
+		<postalCode>2215</postalCode>
+		<locality>Boston</locality>
+		<region>Massachusetts</region>
+		<country>US</country>
+		<timeZone>-5GMT</timeZone>
+		<emailPersonal>example-patient@records.media.mit.edu</emailPersonal>
+		<phoneNumberHome>1-555-555-6548</phoneNumberHome>
+		<phoneNumberWork>1-555-555-8654</phoneNumberWork>
+		<instantMessengerName>example-patient@records.media.mit.edu</instantMessengerName>
+		<dateOfBirth>1940-02-24T00:00:00Z</dateOfBirth>
+		<age>70</age>
+		<gender>Female</gender>
+		<ethnicity>White</ethnicity>
+		<language>English</language>
+		<maritalStatus>Widowed</maritalStatus>
+		<employmentStatus>Retired</employmentStatus>
+		<employmentIndustry>Education</employmentIndustry>
+		<occupation>Teacher</occupation>
+		<religion>Protestant</religion>
+		<highestEducation>University</highestEducation>
+		<organDonar>true</organDonar>
+		<recordId>Please do not use this account</recordId>
+		<accessKey/>
+		<accessSecret/>
+		<status/>
+		<demographicsId>18124489-3b91-45bd-90a9-375a520eca26</demographicsId>
+		<recordSeed/>
+		<shareAccountId>example-clinician@records.media.mit.edu</shareAccountId>
+		<notes>Use "Account -&gt; Duplicate Account Source" to make your own account based on this one</notes>
+		<shareRole>Coach</shareRole>
+		<documentsDirectory>mbrooks</documentsDirectory>
+		<mode>patient</mode>
+	</AccountSource>
+	<indivoServerBaseURL>http://records.media.mit.edu:8000</indivoServerBaseURL>
+</dataroot>

@@ -2,7 +2,7 @@
 <IndivoDocuments xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-15T12:30:00Z</dateMeasuredStart>
@@ -10,12 +10,12 @@
 					<value>754</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-15T15:15:00Z</dateMeasuredStart>
@@ -23,12 +23,12 @@
 					<value>548</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-15T20:00:00Z</dateMeasuredStart>
@@ -36,12 +36,12 @@
 					<value>245</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-16T00:00:00Z</dateMeasuredStart>
@@ -49,12 +49,12 @@
 					<value>542</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-16T10:45:00Z</dateMeasuredStart>
@@ -62,12 +62,12 @@
 					<value>675</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-16T14:15:00Z</dateMeasuredStart>
@@ -75,12 +75,12 @@
 					<value>245</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-16T18:15:00Z</dateMeasuredStart>
@@ -88,12 +88,12 @@
 					<value>654</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-16T23:00:00Z</dateMeasuredStart>
@@ -101,12 +101,12 @@
 					<value>345</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-17T11:15:00Z</dateMeasuredStart>
@@ -114,12 +114,12 @@
 					<value>485</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-17T17:15:00Z</dateMeasuredStart>
@@ -127,12 +127,12 @@
 					<value>525</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-17T23:45:00Z</dateMeasuredStart>
@@ -140,12 +140,12 @@
 					<value>475</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-18T10:00:00Z</dateMeasuredStart>
@@ -153,12 +153,12 @@
 					<value>458</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-18T14:00:00Z</dateMeasuredStart>
@@ -166,12 +166,12 @@
 					<value>437</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-18T17:30:00Z</dateMeasuredStart>
@@ -179,12 +179,12 @@
 					<value>345</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-18T21:30:00Z</dateMeasuredStart>
@@ -192,12 +192,12 @@
 					<value>452</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-19T09:45:00Z</dateMeasuredStart>
@@ -205,12 +205,12 @@
 					<value>568</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-19T16:30:00Z</dateMeasuredStart>
@@ -218,12 +218,12 @@
 					<value>457</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-19T19:30:00Z</dateMeasuredStart>
@@ -231,12 +231,12 @@
 					<value>378</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-20T02:00:00Z</dateMeasuredStart>
@@ -244,12 +244,12 @@
 					<value>457</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-20T11:15:00Z</dateMeasuredStart>
@@ -257,12 +257,12 @@
 					<value>488</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-20T14:45:00Z</dateMeasuredStart>
@@ -270,12 +270,12 @@
 					<value>425</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-20T18:45:00Z</dateMeasuredStart>
@@ -283,12 +283,12 @@
 					<value>487</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-20T22:30:00Z</dateMeasuredStart>
@@ -296,12 +296,12 @@
 					<value>432</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-21T11:30:00Z</dateMeasuredStart>
@@ -309,12 +309,12 @@
 					<value>478</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-21T16:45:00Z</dateMeasuredStart>
@@ -322,12 +322,12 @@
 					<value>452</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 	<LoadableIndivoDocument>
 		<document>
-			<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+			<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
 				<name>Caloric Intake</name>
 				<measuredBy>skudo@records.media.mit.edu</measuredBy>
 				<dateMeasuredStart>2011-07-21T23:00:00Z</dateMeasuredStart>
@@ -335,7 +335,7 @@
 					<value>485</value>
 					<unit>Calories</unit>
 				</result>
-			</VitalSign>
+			</CollaboRhythmVitalSign>
 		</document>
 	</LoadableIndivoDocument>
 </IndivoDocuments>

@@ -9,6 +9,8 @@ package collaboRhythm.plugins.physicalTherapy.model
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
 
+	import com.theory9.data.types.OrderedMap;
+
 	public class PhysicalTherapyChartModifierFactory implements IChartModifierFactory
 	{
 		public function PhysicalTherapyChartModifierFactory()
@@ -30,6 +32,11 @@ package collaboRhythm.plugins.physicalTherapy.model
 			/*hartDescriptor is MedicationChartDescriptor &&
 					(chartDescriptor as MedicationChartDescriptor).medicationCode ==
 							PhysicalTherapyChartModifier.INSULIN_LEVEMIR_CODE;*/
+		}
+
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			return null;
 		}
 	}
 }

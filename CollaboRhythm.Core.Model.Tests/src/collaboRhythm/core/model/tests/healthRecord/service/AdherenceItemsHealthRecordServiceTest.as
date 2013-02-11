@@ -3,7 +3,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 
 	import collaboRhythm.core.model.healthRecord.service.AdherenceItemsHealthRecordService;
 	import collaboRhythm.shared.model.DateUtil;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
@@ -119,7 +119,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 			var document:AdherenceItem = new AdherenceItem();
 			var date:Date = new Date();
 			date.setTime(DateUtil.parseW3CDTF("2009-05-17T12:52:21-00:00"));
-			document.init(new CodedValue(null, null, null, "Atorvastatin 40 MG Oral Tablet [Lipitor]"),
+			document.init(new CollaboRhythmCodedValue(null, null, null, "Atorvastatin 40 MG Oral Tablet [Lipitor]"),
 					"rpoole@records.media.mit.edu", date, 10);
 
 			var resultXml = service.marshallToXml(document);
@@ -142,7 +142,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 			var document:AdherenceItem = new AdherenceItem();
 			var date:Date = new Date();
 			date.setTime(DateUtil.parseW3CDTF("2009-05-17T12:52:21-00:00"));
-			document.init(new CodedValue(null, null, null, "Atorvastatin 40 MG Oral Tablet [Lipitor]"),
+			document.init(new CollaboRhythmCodedValue(null, null, null, "Atorvastatin 40 MG Oral Tablet [Lipitor]"),
 					"rpoole@records.media.mit.edu", date, 10);
 			document.adherence = false;
 			document.nonadherenceReason = "upset stomach";

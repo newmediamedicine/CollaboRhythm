@@ -19,7 +19,7 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.apps.healthCharts.model.*;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministrationsModel;
@@ -139,7 +139,7 @@ package collaboRhythm.core.model.healthRecord.service
 					if (medicationAdministrationCollection.length > 0)
 					{
 						var medicationAdministration:MedicationAdministration = medicationAdministrationCollection[0];
-						var name:CodedValue = medicationAdministration.name;
+						var name:CollaboRhythmCodedValue = medicationAdministration.name;
 						createMedication(simulation, name);
 					}
 				}
@@ -152,7 +152,7 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 		}
 
-		private function createMedication(simulation:SimulationModel, medicationNameCodedValue:CodedValue):void
+		private function createMedication(simulation:SimulationModel, medicationNameCodedValue:CollaboRhythmCodedValue):void
 		{
 			var index:int = simulation.medicationsByCode.getIndexByKey(medicationNameCodedValue.value);
 			if (index == -1)
