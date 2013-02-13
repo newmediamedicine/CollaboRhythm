@@ -2,7 +2,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 {
 
 	import collaboRhythm.core.model.healthRecord.service.AdherenceItemsHealthRecordService;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;

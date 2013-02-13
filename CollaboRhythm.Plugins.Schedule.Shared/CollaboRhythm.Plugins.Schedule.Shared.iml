@@ -29,6 +29,9 @@
             <entry module-name="CollaboRhythm.Shared.UI.Buttons" build-configuration-name="CollaboRhythm.Shared.UI.Buttons">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -87,6 +90,7 @@
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
   </component>
 </module>
 

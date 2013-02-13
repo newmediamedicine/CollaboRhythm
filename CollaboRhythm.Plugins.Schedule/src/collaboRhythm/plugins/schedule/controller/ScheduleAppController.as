@@ -23,6 +23,7 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
+	import collaboRhythm.plugins.schedule.shared.model.DeviceGatewayConstants;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
@@ -180,7 +181,7 @@ package collaboRhythm.plugins.schedule.controller
 				var urlVariables:URLVariables;
 				urlVariables = new URLVariables(urlVariablesString);
 
-				if (urlVariables.success == "true")
+				if (urlVariables[DeviceGatewayConstants.SUCCESS_KEY] == "true")
 				{
 					handleUrlVariables(urlVariables);
 				}
@@ -196,6 +197,12 @@ package collaboRhythm.plugins.schedule.controller
 
 			var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
 					scheduleModel, scheduleModel, _viewNavigator);
+
+			if (healthActionInputController == null)
+			{
+				_logger.warn("Failed to create a IHealthActionInputController for incoming data. Make sure there is a registered factory that can handle this data: " + urlVariables.toString());
+				return;
+			}
 
 			var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
 					IHealthActionInputView;

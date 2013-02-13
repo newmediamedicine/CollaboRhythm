@@ -7,7 +7,11 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
+	import flash.utils.getQualifiedClassName;
+
 	import mx.collections.ArrayCollection;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	public class MedicationConcentrationCurveBuilder
 	{
@@ -16,6 +20,7 @@ package collaboRhythm.core.model.healthRecord.service
 		private var _concentrationCurve:ArrayCollection;
 		private var _medicationAdministrationCollection:ArrayCollection;
 		private var _currentDateSource:ICurrentDateSource;
+		protected var _logger:ILogger;
 
 		private var _intervalDuration:Number = 1000 * 60 * 60;
 		// duration of one interval in milliseconds (1000 ms * 60 sec * 60 min = 1 hour)
@@ -24,6 +29,7 @@ package collaboRhythm.core.model.healthRecord.service
 		public function MedicationConcentrationCurveBuilder()
 		{
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
 		public function get currentDateSource():ICurrentDateSource
@@ -130,11 +136,13 @@ package collaboRhythm.core.model.healthRecord.service
 						// determine where in the curve to align this curve
 						var previousDate:Date = currentConcentrationCurve[previousAdministrationIndex].date;
 
-						/*
-						 // validate that the current date is not before the previous date
-						 if (dataItem.dateAdministered.time < previousDate.time)
-						 throw new Error("Dates are not in ascending order: " + previousDate.toString() + ", " + dataItem.dateAdministered.toString());
-						 */
+						// validate that the current date is not before the previous date
+						if (dataItem.dateAdministered.time < previousDate.time)
+						{
+							_logger.warn("Medication concentration curve can not be built. Dates are not in ascending order: " + previousDate.toString() + ", " +
+									dataItem.dateAdministered.toString());
+							return currentConcentrationCurve;
+						}
 
 						intervalsToAdvance = Math.ceil((dataItem.dateAdministered.time - previousDate.time) / intervalDuration);
 

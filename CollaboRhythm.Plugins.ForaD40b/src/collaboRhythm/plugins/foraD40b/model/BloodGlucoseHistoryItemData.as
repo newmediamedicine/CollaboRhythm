@@ -1,17 +1,17 @@
 package collaboRhythm.plugins.foraD40b.model
 {
-	import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
+	import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	public class BloodGlucoseHistoryItemData
 	{
 		private var _bloodGlucoseVitalSign:VitalSign;
 		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
-		private var _dataInputController:BloodGlucoseHealthActionInputController;
+		private var _dataInputController:ForaD40bHealthActionInputController;
 
 		public function BloodGlucoseHistoryItemData(bloodGlucoseVitalSign:VitalSign,
 													dataInputModel:BloodGlucoseHealthActionInputModel,
-													dataInputController:BloodGlucoseHealthActionInputController)
+													dataInputController:ForaD40bHealthActionInputController)
 		{
 			_bloodGlucoseVitalSign = bloodGlucoseVitalSign;
 			_dataInputModel = dataInputModel;
@@ -38,12 +38,12 @@ package collaboRhythm.plugins.foraD40b.model
 			_dataInputModel = value;
 		}
 
-		public function get dataInputController():BloodGlucoseHealthActionInputController
+		public function get dataInputController():ForaD40bHealthActionInputController
 		{
 			return _dataInputController;
 		}
 
-		public function set dataInputController(value:BloodGlucoseHealthActionInputController):void
+		public function set dataInputController(value:ForaD40bHealthActionInputController):void
 		{
 			_dataInputController = value;
 		}

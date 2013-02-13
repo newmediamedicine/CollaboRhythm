@@ -68,7 +68,12 @@
 			_scheduleModel = scheduleViewInitializationParameters.scheduleModel;
 			_scheduleReportingModel = _scheduleModel.scheduleReportingModel;
 
-			title = "Scheduled Health Actions (" + timeFormatter.format(_scheduleReportingModel.currentScheduleGroup.dateStart) + " to " + timeFormatter.format(_scheduleReportingModel.currentScheduleGroup.dateEnd) + ")";
+			if (_scheduleReportingModel.currentScheduleGroup)
+			{
+				title = "Scheduled Health Actions (" +
+						timeFormatter.format(_scheduleReportingModel.currentScheduleGroup.dateStart) + " to " +
+						timeFormatter.format(_scheduleReportingModel.currentScheduleGroup.dateEnd) + ")";
+			}
 		}
 
 		override protected function createChildren():void
@@ -86,7 +91,9 @@
 					_scheduleReportingController);
 			if (_scheduleReportingModel.currentScheduleGroup)
 			{
-				scheduledHealthActionsClockIconView.init(_scheduleModel, _scheduleReportingModel.currentScheduleGroup.dateStart, _scheduleReportingModel.currentScheduleGroup.dateEnd);
+				scheduledHealthActionsClockIconView.init(_scheduleModel,
+						_scheduleReportingModel.currentScheduleGroup.dateStart,
+						_scheduleReportingModel.currentScheduleGroup.dateEnd);
 			}
 
 			_scheduleReportingModel.sortScheduleItemOccurrences();
@@ -123,7 +130,8 @@
 		{
 			if (event.keyCode == Keyboard.BACK)
 			{
-				_scheduleReportingController.save();
+				// TODO: test during collaboration and ensure that this save is not necessary; removed 2013.02.12 by sgilroy@mit.edu because second save in ScheduleReportingFullView.removedFromStageHandler() was causing save error to be masked (dialog hidden when it should be visible)
+				// _scheduleReportingController.save();
 			}
 
 			super.stage_keyUpHandler(event);

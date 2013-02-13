@@ -18,7 +18,7 @@ package collaboRhythm.plugins.schedule.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;

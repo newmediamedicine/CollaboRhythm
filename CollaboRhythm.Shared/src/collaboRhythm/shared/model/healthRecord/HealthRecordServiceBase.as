@@ -2,6 +2,8 @@ package collaboRhythm.shared.model.healthRecord
 {
 
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.StringUtils;
+	import collaboRhythm.shared.model.services.HtmlParser;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -42,7 +44,7 @@ package collaboRhythm.shared.model.healthRecord
                 // TODO: what if responseXml is null
                 if (responseXml != null)
                 {
-					_logger.info("Indivo response COMPLETE from {1} {2} ({0} bytes)", event.response.toString().length, event.urlRequest.method, event.relativePath);
+					_logger.info("Indivo response COMPLETE from {1} {2} ({0} bytes)", event.responseData.length, event.urlRequest.method, event.relativePath);
                     handleResponse(event, responseXml, healthRecordServiceRequestDetails);
                 }
                 else
@@ -93,6 +95,9 @@ package collaboRhythm.shared.model.healthRecord
 			return defaultHandleError(event, healthRecordServiceRequestDetails);
 		}
 
+		private static const DOCTYPE_TAG:String = '\<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
+		private var _lastErrorDescription:String;
+
 		protected function defaultHandleError(event:IndivoClientEvent,
 											  healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):Boolean
 		{
@@ -114,6 +119,25 @@ package collaboRhythm.shared.model.healthRecord
 
 			_logger.warn("Indivo response ERROR {0} from {1} {2}", errorDescriptionParts.join(" "),
 						 event.urlRequest.method, event.relativePath);
+			if (event.responseData.indexOf(DOCTYPE_TAG) != -1)
+			{
+				// XPath: //*[@id="summary"]/h1  XPath: //*[@id="summary"]/pre
+				var parser:HtmlParser = new HtmlParser();
+				var parsed:String = parser.HTMLtoXML(StringUtils.trim(event.responseData).replace(DOCTYPE_TAG, ""));
+				var parsedXml:XML = new XML(parsed);
+
+				var summary:String = parsedXml.body.div.(@id=="summary").h1.toString();
+				var exceptionValue:String = parsedXml.body.div.(@id=="summary").pre.(@["class"]=="exception_value").toString(); // .(@class=="exception_value")
+
+				_logger.warn(summary);
+				_logger.warn(exceptionValue);
+				lastErrorDescription = summary + "\n" + exceptionValue;
+			}
+			else
+			{
+				_logger.warn(event.responseData);
+				lastErrorDescription = event.responseData;
+			}
 			return handleErrorWithRetry(healthRecordServiceRequestDetails, event);
 		}
 
@@ -211,6 +235,16 @@ package collaboRhythm.shared.model.healthRecord
 		public function set activeAccount(value:Account):void
 		{
 			_activeAccount = value;
+		}
+
+		public function get lastErrorDescription():String
+		{
+			return _lastErrorDescription;
+		}
+
+		public function set lastErrorDescription(value:String):void
+		{
+			_lastErrorDescription = value;
 		}
 	}
 }

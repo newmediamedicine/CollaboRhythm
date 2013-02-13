@@ -23,7 +23,7 @@
 				<name>Insulin Titration Decision</name>
 				<planType>Prescribed</planType>
 				<plannedBy>jking@records.media.mit.edu</plannedBy>
-				<datePlanned>2012-07-27T09:00:00-04:00</datePlanned>
+				<datePlanned>2013-01-27T09:00:00-04:00</datePlanned>
 				<indication>Type II Diabetes Mellitus</indication>
 				<instructions>Use CollaboRhythm to follow the algorithm for changing your dose of basal insulin
 					(generally every three days).
@@ -45,9 +45,9 @@
 											  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 							<name>Insulin Titration Decision</name>
 							<scheduledBy>jking@records.media.mit.edu</scheduledBy>
-							<dateScheduled>2012-07-27T09:00:00-04:00</dateScheduled>
-							<dateStart>2012-07-28T13:00:00Z</dateStart>
-							<dateEnd>2012-07-28T17:00:00Z</dateEnd>
+							<dateScheduled>2013-01-27T09:00:00-04:00</dateScheduled>
+							<dateStart>2013-01-28T13:00:00Z</dateStart>
+							<dateEnd>2013-01-28T17:00:00Z</dateEnd>
 							<recurrenceRule>
 								<frequency>DAILY</frequency>
 								<count>120</count>

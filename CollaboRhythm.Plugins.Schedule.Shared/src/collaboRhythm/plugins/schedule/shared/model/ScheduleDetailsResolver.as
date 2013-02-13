@@ -1,6 +1,6 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 

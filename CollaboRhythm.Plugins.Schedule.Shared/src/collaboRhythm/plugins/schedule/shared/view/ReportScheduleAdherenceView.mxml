@@ -30,6 +30,7 @@
 		>
 	<fx:Metadata>
 		[Style(name="checkBoxSkin", type="Class", inherit="no")]
+		[Style(name="checkBoxTitle", type="String", inherit="no")]
 	</fx:Metadata>
 	<fx:Declarations>
 		<s:DateTimeFormatter id="dateFormatter" dateTimePattern="M-dd-yyyy"/>
@@ -55,7 +56,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
-		import collaboRhythm.shared.model.DateUtil;
+		import collaboRhythm.shared.model.services.DateUtil;
 		import collaboRhythm.shared.model.healthRecord.DocumentBase;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
@@ -192,6 +193,7 @@
 						_dataInputModel.getPossibleScheduleItemOccurrences())
 				{
 					var checkBox:CheckBox = createPossibleScheduleItemOccurrenceCheckBox();
+					checkBox.setStyle("checkBoxTitle", scheduleItemOccurrence.scheduleItem.name.text);
 					if (scheduleItemOccurrence.equals(_dataInputModel.scheduleItemOccurrence))
 					{
 						checkBox.selected = true;
@@ -282,6 +284,7 @@
 			var checkBox:CheckBox = new CheckBox();
 			var checkBoxSkinClass:Class = getStyle("checkBoxSkin");
 			checkBox.setStyle("skinClass", checkBoxSkinClass ? checkBoxSkinClass : AdherenceCheckBoxSkin);
+			checkBox.setStyle("checkBoxTitle", getStyle("checkBoxTitle"));
 			checkBox.percentWidth = 100;
 			return checkBox;
 		}

@@ -86,8 +86,8 @@ package collaboRhythm.shared.model.healthRecord.document
             _name = HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.name[0]);
             _orderType = medicationOrderXml.orderType;
             _orderedBy = medicationOrderXml.orderedBy;
-            _dateOrdered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationOrderXml.dateOrdered.toString());
-			_dateExpires = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationOrderXml.dateExpires.toString());
+            _dateOrdered = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(medicationOrderXml.dateOrdered.toString());
+			_dateExpires = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(medicationOrderXml.dateExpires.toString());
             _indication = medicationOrderXml.indication;
             _amountOrdered = new CollaboRhythmValueAndUnit(medicationOrderXml.amountOrdered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.amountOrdered.unit[0]));
             _refills = int(medicationOrderXml.refills);

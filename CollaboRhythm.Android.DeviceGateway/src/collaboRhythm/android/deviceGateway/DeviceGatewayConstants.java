@@ -17,8 +17,8 @@
 package collaboRhythm.android.deviceGateway;
 
 public class DeviceGatewayConstants {
-	public static final String BLOOD_GLUCOSE = "Blood Glucose";
-	public static final String BLOOD_PRESSURE = "Blood Pressure";
+	public static final String BLOOD_GLUCOSE_HEALTH_ACTION_NAME = "Blood Glucose";
+	public static final String BLOOD_PRESSURE_HEALTH_ACTION_NAME = "Blood Pressure";
 	public static final String W3CDTF_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 	public static final String HEALTH_ACTION_TYPE_KEY = "healthActionType";
 	public static final String EQUIPMENT_NAME_KEY = "equipmentName";

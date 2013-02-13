@@ -33,7 +33,7 @@ package collaboRhythm.plugins.foraD40b.model
 															   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
-			var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
+			var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence ? scheduleItemOccurrence.scheduleItem as HealthActionSchedule : null;
 			if (healthActionSchedule)
 			{
 				if (healthActionSchedule.scheduledEquipment)

@@ -24,6 +24,7 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
     import collaboRhythm.shared.model.services.WorkstationKernel;
 

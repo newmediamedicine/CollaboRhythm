@@ -153,7 +153,8 @@
     
     <recordSeed/>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -229,7 +230,8 @@
     
     <recordSeed/>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -305,7 +307,8 @@
     
     <recordSeed/>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -381,7 +384,8 @@
     
     <recordSeed/>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -457,7 +461,8 @@
     
     <recordSeed/>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -533,7 +538,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -609,7 +615,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -687,7 +694,8 @@
     
     <shareAccountId>jking@records.media.mit.edu</shareAccountId>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -767,7 +775,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -845,7 +854,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -924,7 +934,9 @@
     <shareRole>Coach</shareRole>
     
     <documentsDirectory>invalid-document</documentsDirectory>
-  <mode>patient</mode></AccountSource>
+    
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1002,7 +1014,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1078,7 +1091,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1156,7 +1170,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1226,7 +1241,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1298,7 +1314,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1372,7 +1389,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1452,7 +1470,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1528,7 +1547,8 @@
     
     <notes>Demo for diabetes with titration</notes>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1602,7 +1622,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1680,7 +1701,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1760,7 +1782,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1834,7 +1857,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1896,23 +1920,24 @@
     
     <organDonar>true</organDonar>
     
-    <recordId/>
+    <recordId>c1935622-b4de-4444-b3ef-a57888ba7ff5</recordId>
     
-    <accessKey/>
+    <accessKey>E5OCt2I7BWAGhmMIJ6aV</accessKey>
     
-    <accessSecret/>
+    <accessSecret>qlLAgr6LKDHMpZsWWmMu</accessSecret>
     
-    <status/>
+    <status>Created 15/15 documents, 8/9 relationships</status>
     
-    <demographicsId>6e5e3c1d-6aed-4915-af24-8d6820a91936</demographicsId>
+    <demographicsId>04d9488f-8491-44ee-9da8-8619c3383865</demographicsId>
     
-    <recordSeed/>
+    <recordSeed>2</recordSeed>
     
-    <shareAccountId>whsu@records.media.mit.edu</shareAccountId>
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -1990,7 +2015,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2064,7 +2090,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2140,7 +2167,8 @@
     
     <recordSeed/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2220,7 +2248,8 @@
     
     <shareRole>Patient</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2298,7 +2327,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2376,7 +2406,8 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2454,7 +2485,8 @@
     
     <documentsDirectory>jking</documentsDirectory>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2536,7 +2568,8 @@
     
     <notes>Endometrioisis HIV demo patient</notes>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2618,7 +2651,8 @@
     
     <documentsDirectory>csantos</documentsDirectory>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2696,7 +2730,8 @@
     
     <documentsDirectory>jking</documentsDirectory>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2778,7 +2813,8 @@
     
     <notes>GSK HIV demo patient</notes>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2860,7 +2896,8 @@
     
     <notes>Demo patient for CollaboRhythm video Nov 2012</notes>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -2936,7 +2973,8 @@
     
     <recordSeed/>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -3014,7 +3052,8 @@
     
     <documentsDirectory>jking</documentsDirectory>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -3096,7 +3135,8 @@
     
     <notes>Test1 HIV demo patient</notes>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -3178,7 +3218,8 @@
     
     <documentsDirectory>csantos</documentsDirectory>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -3260,7 +3301,8 @@
     
     <documentsDirectory/>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -3342,7 +3384,8 @@
     
     <documentsDirectory>test1-mbrooks</documentsDirectory>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -3424,7 +3467,8 @@
     
     <documentsDirectory>csantos</documentsDirectory>
     
-  <mode>patient</mode></AccountSource>
+    <mode>patient</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -3500,7 +3544,8 @@
     
     <recordSeed/>
     
-  <mode>clinician</mode></AccountSource>
+    <mode>clinician</mode>
+  </AccountSource>
   
   <AccountSource>
     
@@ -3666,7 +3711,7 @@
     
   </AccountSource>
   
-<AccountSource>
+  <AccountSource>
     
     <accountId>hsmith@records.media.mit.edu</accountId>
     
@@ -3744,4 +3789,6 @@
     
     <shareRole>Coach</shareRole>
     
-  <mode>patient</mode></AccountSource></dataroot>
+    <mode>patient</mode>
+  </AccountSource>
+</dataroot>

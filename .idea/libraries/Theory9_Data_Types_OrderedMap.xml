@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Theory9.Data.Types.OrderedMap" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ExternalLibraries/Theory9.Data.Types.OrderedMap.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

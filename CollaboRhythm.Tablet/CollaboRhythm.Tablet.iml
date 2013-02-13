@@ -29,6 +29,9 @@
             <entry library-id="092dc380-9bdb-417d-9fd6-2c5466a86dfb">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -75,6 +78,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-id="167a450b-eb6f-4e63-bba3-2d58755ec563">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -128,6 +134,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-id="ae0ec781-f049-4ead-be1a-6a472f070eac">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -224,6 +233,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
   </component>
 </module>
 

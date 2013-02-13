@@ -2,7 +2,7 @@ package collaboRhythm.plugins.messages.model
 {
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;

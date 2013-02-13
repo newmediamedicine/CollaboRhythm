@@ -29,6 +29,15 @@
             <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="18b28d91-467d-47c7-9c87-99679e733e5c">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.UI.Buttons" build-configuration-name="CollaboRhythm.Shared.UI.Buttons">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -86,6 +95,20 @@
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="18b28d91-467d-47c7-9c87-99679e733e5c" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../ExternalLibraries/FlextrasMobileComponents/MobileComponents45.swc!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="https://www.flextras.com/MobileComponents/Docs/asdocs/" />
+        </JAVADOC>
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
   </component>
 </module>
 

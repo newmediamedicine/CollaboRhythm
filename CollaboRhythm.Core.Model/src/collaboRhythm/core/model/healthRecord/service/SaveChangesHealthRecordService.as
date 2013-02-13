@@ -233,6 +233,27 @@ package collaboRhythm.core.model.healthRecord.service
 				return "No failed operations.";
 		}
 
+		public function get errorsSavingLongDescription():String
+		{
+			if (errorsSavingCount > 0)
+			{
+				var parts:Array = new Array();
+				if (unexpectedErrorsChangeSet.length > 0)
+				{
+					parts.push("Unexpected error " + unexpectedErrorsChangeSet.summary + ".");
+					parts.push(unexpectedErrorsChangeSet.combinedErrorDescription);
+				}
+				if (connectionErrorsChangeSet.length > 0)
+				{
+					parts.push("Connection error " + connectionErrorsChangeSet.summary + ".");
+					parts.push(connectionErrorsChangeSet.combinedErrorDescription);
+				}
+
+				return parts.join("\n");
+			}
+			else
+				return "No failed operations.";
+		}
 
 		private function checkRelationshipsRequiringDocuments(record:Record):void
 		{
@@ -594,13 +615,13 @@ package collaboRhythm.core.model.healthRecord.service
 				// update the appropriate "pending" collections
 				if (healthRecordServiceRequestDetails.indivoApiCall == CREATE_DOCUMENT)
 				{
-					errorChangeSet.addDocument(document);
+					errorChangeSet.addDocument(document, lastErrorDescription);
 					removePendingDocument(document.meta.id, pendingCreateDocuments);
 					document.isBeingSaved = false;
 				}
 				else if (healthRecordServiceRequestDetails.indivoApiCall == UPDATE_DOCUMENT)
 				{
-					errorChangeSet.addDocument(document);
+					errorChangeSet.addDocument(document, lastErrorDescription);
 					removePendingDocument(document.meta.id, pendingUpdateDocuments);
 					document.isBeingSaved = false;
 				}
@@ -608,7 +629,7 @@ package collaboRhythm.core.model.healthRecord.service
 						healthRecordServiceRequestDetails.indivoApiCall == ARCHIVE_DOCUMENT ||
 						healthRecordServiceRequestDetails.indivoApiCall == VOID_DOCUMENT)
 				{
-					errorChangeSet.addDocument(document);
+					errorChangeSet.addDocument(document, lastErrorDescription);
 					removePendingDocument(document.meta.id, pendingRemoveDocuments);
 					document.isBeingSaved = false;
 				}
@@ -622,7 +643,7 @@ package collaboRhythm.core.model.healthRecord.service
 					var relationship:Relationship = healthRecordServiceRequestDetails.customData as Relationship;
 					if (relationship == null)
 						throw new Error("Relationship not specified on the HealthRecordServiceRequestDetails. Unable to finish relate documents operation.");
-					errorChangeSet.addRelationship(relationship);
+					errorChangeSet.addRelationship(relationship, lastErrorDescription);
 					removePendingRelationship(relationship);
 				}
 

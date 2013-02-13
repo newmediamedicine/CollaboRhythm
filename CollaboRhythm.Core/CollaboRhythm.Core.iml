@@ -56,6 +56,12 @@
             <entry module-name="CollaboRhythm.Shared.Messages" build-configuration-name="CollaboRhythm.Shared.Messages">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.DeviceSimulator" build-configuration-name="CollaboRhythm.Shared.DeviceSimulator">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -136,6 +142,8 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Messages" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.DeviceSimulator" exported="" />
   </component>
 </module>
 

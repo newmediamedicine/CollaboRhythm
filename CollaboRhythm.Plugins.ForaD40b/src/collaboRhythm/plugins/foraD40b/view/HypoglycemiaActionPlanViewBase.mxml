@@ -26,9 +26,9 @@
 	</fx:Declarations>
 
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
-		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModelCollection;
+		import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputModelCollection;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
@@ -37,7 +37,7 @@
 
 		import spark.events.PopUpEvent;
 
-		protected var _dataInputController:BloodGlucoseHealthActionInputController;
+		protected var _dataInputController:ForaD40bHealthActionInputController;
 		[Bindable]
 		protected var _dataInputModel:BloodGlucoseHealthActionInputModel;
 
@@ -48,7 +48,7 @@
 			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
 
 			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
+			_dataInputController = ForaD40bHealthActionInputController(dataInputModelAndController.healthActionInputController);
 		}
 
 		override protected function createChildren():void

@@ -8,7 +8,7 @@
 		import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
 		import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
-		import collaboRhythm.shared.model.DateUtil;
+		import collaboRhythm.shared.model.services.DateUtil;
 		import collaboRhythm.shared.model.Record;
 		import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 		import collaboRhythm.shared.model.healthRecord.Relationship;

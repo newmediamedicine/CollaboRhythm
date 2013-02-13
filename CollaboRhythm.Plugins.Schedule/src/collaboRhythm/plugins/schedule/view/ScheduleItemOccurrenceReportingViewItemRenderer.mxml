@@ -135,8 +135,14 @@
 
 		private function removedHandler(event:Event):void
 		{
-			_scheduleItemOccurrenceReportingController.removeEventListener();
-			_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController.removeEventListener();
+			if (_scheduleItemOccurrenceReportingController)
+			{
+				_scheduleItemOccurrenceReportingController.removeEventListener();
+			}
+			if (_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController)
+			{
+				_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController.removeEventListener();
+			}
 		}
 
 		private function mouseDownHandler(event:MouseEvent):void
@@ -159,7 +165,10 @@
 
 		private function clickHandler():void
 		{
-			_scheduleItemOccurrenceReportingController.handleHealthActionSelected();
+			if (_scheduleItemOccurrenceReportingController)
+			{
+				_scheduleItemOccurrenceReportingController.handleHealthActionSelected();
+			}
 		}
 		]]>
 	</fx:Script>

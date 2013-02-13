@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+				xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
+				creationComplete="creationCompleteHandler(event)"
+				autoDrawBackground="false"
+				width="100%">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.ReportForaD40bItemData;
+
+		import mx.binding.utils.BindingUtils;
+		import mx.events.FlexEvent;
+		import mx.events.TouchInteractionEvent;
+
+		[Bindable]
+		private var _reportForaD40bItemData:ReportForaD40bItemData;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			_reportForaD40bItemData = value as ReportForaD40bItemData;
+			if (_reportForaD40bItemData && _reportForaD40bItemData.dataInputModel)
+			{
+				BindingUtils.bindSetter(dataInputModel_isFromDevice_setterHandler,
+						_reportForaD40bItemData.dataInputModel, "isFromDevice");
+			}
+			initChildren();
+		}
+
+		private function dataInputModel_isFromDevice_setterHandler(value:Number):void
+		{
+			if (_reportForaD40bItemData && _reportForaD40bItemData.dataInputModel)
+			{
+				reportAdherenceTimeView.init(_reportForaD40bItemData.dataInputModel,
+						_reportForaD40bItemData.dataInputController);
+			}
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			initChildren();
+		}
+
+		private function initChildren():void
+		{
+			if (_reportForaD40bItemData && reportScheduleAdherenceView &&
+					reportBloodGlucoseView &&
+					reportAdherenceTimeView)
+			{
+				if (_reportForaD40bItemData.dataInputModel is BloodGlucoseHealthActionInputModel)
+				{
+					reportBloodGlucoseView.init(_reportForaD40bItemData.dataInputModel as BloodGlucoseHealthActionInputModel,
+							_reportForaD40bItemData.dataInputController);
+					reportBloodGlucoseView.visible = reportBloodGlucoseView.includeInLayout = true;
+					reportBloodPressureView.visible = reportBloodPressureView.includeInLayout = false;
+				}
+				else
+				{
+					reportBloodPressureView.init(_reportForaD40bItemData.dataInputModel as BloodPressureHealthActionInputModel,
+							_reportForaD40bItemData.dataInputController);
+					reportBloodGlucoseView.visible = reportBloodGlucoseView.includeInLayout = false;
+					reportBloodPressureView.visible = reportBloodPressureView.includeInLayout = true;
+				}
+				reportAdherenceTimeView.init(_reportForaD40bItemData.dataInputModel,
+						_reportForaD40bItemData.dataInputController);
+				reportScheduleAdherenceView.init(_reportForaD40bItemData.dataInputModel,
+						_reportForaD40bItemData.dataInputController);
+			}
+		}
+
+		private function reportScheduleAdherenceView_mouseDownHandler(event:MouseEvent):void
+		{
+			// prevent selection of the list item
+			event.preventDefault();
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			addEventListener(Event.SCROLL, scrollHandler, false, 0, true);
+			addEventListener(TouchInteractionEvent.TOUCH_INTERACTION_START, scrollHandler, false, 0, true);
+		}
+
+		private function scrollHandler(event:Event):void
+		{
+			reportScheduleAdherenceView.closeDropDown();
+			if (reportBloodPressureView)
+			{
+				reportBloodPressureView.closeDropDowns();
+			}
+		}
+		]]></fx:Script>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.reportMeasurementDuplicateWarning {
+			fontSize: 40;
+		}
+
+	</fx:Style>
+	<s:VGroup horizontalAlign="center" horizontalCenter="0">
+		<s:HGroup horizontalAlign="center" gap="10" verticalAlign="baseline" horizontalCenter="0">
+			<view:ReportBloodGlucoseView id="reportBloodGlucoseView" visible="false" includeInLayout="false"/>
+			<view:ReportBloodPressureView id="reportBloodPressureView" visible="false" includeInLayout="false"/>
+			<sharedView:ReportAdherenceTimeView id="reportAdherenceTimeView"/>
+			<sharedView:ReportScheduleAdherenceView id="reportScheduleAdherenceView"
+													checkBoxSkin="collaboRhythm.plugins.foraD40b.view.AdherenceCheckBoxSkin"
+													checkBoxTitle="Scheduled blood pressure"
+													mouseDown="reportScheduleAdherenceView_mouseDownHandler(event)"
+													editable="{!_reportForaD40bItemData.dataInputModel.isDuplicate}"
+					/>
+		</s:HGroup>
+		<s:Label id="duplicateWarningLabel" styleName="reportMeasurementDuplicateWarning" text="Measurement has already been saved (duplicate)." visible="{_reportForaD40bItemData.dataInputModel.isDuplicate}" includeInLayout="{_reportForaD40bItemData.dataInputModel.isDuplicate}"/>
+	</s:VGroup>
+
+</s:ItemRenderer>

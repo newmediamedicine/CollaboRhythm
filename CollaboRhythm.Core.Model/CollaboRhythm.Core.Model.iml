@@ -17,6 +17,9 @@
             <entry module-name="indivo_client_flash" build-configuration-name="indivo_client_flash">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -53,6 +56,7 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
     <orderEntry type="module" module-name="indivo_client_flash" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
   </component>
 </module>
 

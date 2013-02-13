@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2012 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		width="100%" height="100%"
+		backgroundAlpha="0.3"
+		backgroundColor="0x000000"
+		click="clickHandler(event)"
+		resize="resizeHandler(event)">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.connectivityText {
+			color: #FFFFFF;
+			lineBreak: "toFit";
+			textAlign: "center";
+		}
+
+		@media (application-dpi: 320) {
+			.connectivityText {
+				font-size: 40;
+			}
+		}
+		@media (application-dpi: 240) {
+			.connectivityText {
+				font-size: 32;
+			}
+		}
+		@media (application-dpi: 160) {
+			.connectivityText {
+				font-size: 24;
+			}
+		}
+
+		.connectivityDetailsText {
+			contentBackgroundAlpha: 0;
+			color: #FFFFFF;
+			/*font-size: 16;*/
+		}
+
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.shared.deviceSimulator.model.DeviceSimulator;
+
+		import flashx.textLayout.formats.TextAlign;
+
+		import mx.events.FlexMouseEvent;
+
+		import mx.events.ResizeEvent;
+		import mx.managers.PopUpManager;
+
+		import spark.skins.mobile.StageTextInputSkin;
+
+		[Bindable]
+		private var _deviceSimulator:DeviceSimulator;
+		//		private var _record:Record;
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+
+			var textInputs:Vector.<TextInput> = new <TextInput>[bloodGlucoseTextInput, systolicTextInput, diastolicTextInput, heartRateTextInput];
+			for each (var textInput:TextInput in textInputs)
+			{
+				textInput.width = 50;
+				textInput.setStyle("skinClass", StageTextInputSkin);
+				textInput.setStyle("contentBackgroundAlpha", 1);
+				textInput.softKeyboardType = SoftKeyboardType.NUMBER;
+				textInput.restrict = "0-9";
+				textInput.maxChars = 3;
+				textInput.setStyle("textAlign", TextAlign.RIGHT);
+			}
+		}
+
+		override protected function initializationComplete():void
+		{
+			super.initializationComplete();
+
+			if (accessibilityProperties == null)
+				accessibilityProperties = new AccessibilityProperties();
+		}
+
+		private function resizeHandler(event:ResizeEvent):void
+		{
+			var dialogWidth:Number = this.width * 0.8;
+			// limit the width to a reasonable size
+			dialogWidth = Math.min(1000, dialogWidth);
+			dialogGroup.percentWidth = NaN;
+			dialogGroup.width = dialogWidth;
+		}
+
+		private function simulateBloodGlucoseButton_clickHandler(event:MouseEvent):void
+		{
+			_deviceSimulator.simulateSingleBloodGlucoseFromDevice(int(bloodGlucoseTextInput.text));
+			PopUpManager.removePopUp(this);
+		}
+
+		public function get deviceSimulator():DeviceSimulator
+		{
+			return _deviceSimulator;
+		}
+
+		public function set deviceSimulator(value:DeviceSimulator):void
+		{
+			_deviceSimulator = value;
+		}
+
+		private function clickHandler(event:MouseEvent):void
+		{
+			PopUpManager.removePopUp(this);
+		}
+
+		private function dialogGroup_clickHandler(event:MouseEvent):void
+		{
+			event.stopImmediatePropagation();
+		}
+
+		private function simulateBloodPressureButton_clickHandler(event:MouseEvent):void
+		{
+			_deviceSimulator.simulateSingleBloodPressureFromDevice(int(systolicTextInput.text),
+					int(diastolicTextInput.text), int(heartRateTextInput.text));
+			PopUpManager.removePopUp(this);
+		}
+		]]></fx:Script>
+	<s:Group id="dialogGroup" verticalCenter="0" horizontalCenter="0" width="80%" click="dialogGroup_clickHandler(event)">
+		<s:Rect width="100%" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FFFFFF" alpha="0.5"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="#000000" alpha="0.9"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup id="dialogContentGroup" horizontalAlign="center" paddingLeft="20" paddingRight="20"
+				  paddingTop="20" paddingBottom="20" gap="20" width="100%">
+			<s:HGroup>
+				<s:Button id="nowButton" label="Now" click="{_deviceSimulator.resetNextInputDate()}"/>
+				<s:DateSpinner id="dateMeasuredDateSpinner"
+							   displayMode="dateAndTime"
+							   selectedDate="{_deviceSimulator.nextInputDate}"
+							   change="{_deviceSimulator.nextInputDate = dateMeasuredDateSpinner.selectedDate}"/>
+			</s:HGroup>
+			<s:HGroup verticalAlign="baseline">
+				<s:Label color="#FFFFFF">Blood Glucose</s:Label>
+				<s:TextInput id="bloodGlucoseTextInput" text="{_deviceSimulator.defaultBloodGlucose}"/>
+				<s:Button id="simulateBloodGlucoseButton" label="Simulate" click="simulateBloodGlucoseButton_clickHandler(event)"/>
+			</s:HGroup>
+			<s:HGroup verticalAlign="baseline">
+				<s:Label color="#FFFFFF">Systolic</s:Label>
+				<s:TextInput id="systolicTextInput" text="{_deviceSimulator.defaultSystolic}"/>
+				<s:Label color="#FFFFFF">Diastolic</s:Label>
+				<s:TextInput id="diastolicTextInput" text="{_deviceSimulator.defaultDiastolic}"/>
+				<s:Label color="#FFFFFF">HR</s:Label>
+				<s:TextInput id="heartRateTextInput" text="{_deviceSimulator.defaultHeartRate}"/>
+				<s:Button id="simulateBloodPressureButton" label="Simulate" click="simulateBloodPressureButton_clickHandler(event)"/>
+			</s:HGroup>
+		</s:VGroup>
+	</s:Group>
+</s:SkinnablePopUpContainer>

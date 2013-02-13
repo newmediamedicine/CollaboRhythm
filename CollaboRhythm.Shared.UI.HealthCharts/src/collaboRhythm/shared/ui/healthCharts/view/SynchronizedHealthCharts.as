@@ -12,7 +12,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
 	import collaboRhythm.shared.apps.healthCharts.model.MedicationComponentAdherenceModel;
 	import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -3299,7 +3299,7 @@ package collaboRhythm.shared.ui.healthCharts.view
 					{
 						var equipment:Equipment = healthActionSchedule.scheduledEquipment;
 
-						healthAction = new EquipmentHealthAction(healthActionSchedule.instructions, equipment.name);
+						healthAction = new EquipmentHealthAction(healthActionSchedule.name.text, equipment.name, healthActionSchedule.instructions);
 					}
 				}
 

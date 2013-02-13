@@ -18,7 +18,7 @@ package collaboRhythm.shared.model.healthRecord.document
 {
 
 	import collaboRhythm.shared.model.*;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;

@@ -18,7 +18,7 @@ package collaboRhythm.plugins.cataractMap.model
 {
 
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 

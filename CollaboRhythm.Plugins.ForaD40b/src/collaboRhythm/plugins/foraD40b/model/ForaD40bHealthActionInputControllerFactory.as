@@ -1,7 +1,7 @@
 package collaboRhythm.plugins.foraD40b.model
 {
-	import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
-	import collaboRhythm.plugins.foraD40b.controller.BloodPressureHealthActionInputController;
+	import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
+	import collaboRhythm.plugins.schedule.shared.model.DeviceGatewayConstants;
 	import collaboRhythm.plugins.schedule.shared.model.EquipmentHealthAction;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
@@ -38,13 +38,8 @@ package collaboRhythm.plugins.foraD40b.model
 			if (healthAction.type == EquipmentHealthAction.TYPE)
 			{
 				var equipmentHealthAction:EquipmentHealthAction = EquipmentHealthAction(healthAction);
-				if (equipmentHealthAction.name == BLOOD_PRESSURE_INSTRUCTIONS &&
-						equipmentHealthAction.equipmentName == EQUIPMENT_NAME)
-					return new BloodPressureHealthActionInputController(scheduleItemOccurrence,
-							healthActionModelDetailsProvider, viewNavigator);
-				else if (equipmentHealthAction.name == BLOOD_GLUCOSE_INSTRUCTIONS &&
-						equipmentHealthAction.equipmentName == EQUIPMENT_NAME)
-					return new BloodGlucoseHealthActionInputController(scheduleItemOccurrence,
+				if (equipmentHealthAction.equipmentName == EQUIPMENT_NAME)
+					return new ForaD40bHealthActionInputController(equipmentHealthAction, scheduleItemOccurrence,
 							healthActionModelDetailsProvider, scheduleCollectionsProvider, viewNavigator);
 			}
 			return currentHealthActionInputController;
@@ -58,22 +53,12 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			var scheduleItemOccurrence:ScheduleItemOccurrence;
 
-			if (urlVariables.healthActionType == EquipmentHealthAction.TYPE &&
-					urlVariables.healthActionName == HEALTH_ACTION_NAME_BLOOD_PRESSURE &&
-					urlVariables.equipmentName == EQUIPMENT_NAME)
+			if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_TYPE_KEY] == EquipmentHealthAction.TYPE &&
+					urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY] == EQUIPMENT_NAME)
 			{
 				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
-						urlVariables.correctedMeasuredDate);
-				return new BloodPressureHealthActionInputController(scheduleItemOccurrence,
-						healthActionModelDetailsProvider, viewNavigator);
-			}
-			else if (urlVariables.healthActionType == EquipmentHealthAction.TYPE &&
-					urlVariables.healthActionName == HEALTH_ACTION_NAME_BLOOD_GLUCOSE &&
-					urlVariables.equipmentName == EQUIPMENT_NAME)
-			{
-				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
-						urlVariables.correctedMeasuredDate);
-				return new BloodGlucoseHealthActionInputController(scheduleItemOccurrence,
+						urlVariables[DeviceGatewayConstants.CORRECTED_MEASURED_DATE_KEY]);
+				return new ForaD40bHealthActionInputController(new ForaD40bHealthAction(urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY], urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY], urlVariables[DeviceGatewayConstants.HEALTH_ACTION_TYPE_KEY]), scheduleItemOccurrence,
 						healthActionModelDetailsProvider, scheduleCollectionsProvider, viewNavigator);
 			}
 			else

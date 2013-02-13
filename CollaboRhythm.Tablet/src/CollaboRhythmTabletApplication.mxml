@@ -106,12 +106,14 @@
 		import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.settings.Settings;
+		import collaboRhythm.shared.view.MenuIcon;
 		import collaboRhythm.shared.view.tablet.TabletViewBase;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
 		import collaboRhythm.tablet.view.SelectRecordView;
 		import collaboRhythm.tablet.view.TabletHomeView;
 
 		import mx.binding.utils.BindingUtils;
+		import mx.core.FlexGlobals;
 		import mx.events.FlexEvent;
 
 		import spark.primitives.Graphic;
@@ -362,6 +364,11 @@
 			navigator.popToFirstView();
 			_applicationController.synchronize()
 		}
+
+		private function menuButton_clickHandler(event:MouseEvent):void
+		{
+			FlexGlobals.topLevelApplication.viewMenuOpen = true;
+		}
 		]]></fx:Script>
 	<s:navigationContent>
 		<s:HGroup gap="0">
@@ -435,4 +442,7 @@
 		<s:Callout visible="false" includeInLayout="false"/>
 		<s:DateSpinner visible='false' includeInLayout="false"/>
 	</s:navigationContent>
+	<s:actionContent>
+		<s:Button id="menuButton" click="menuButton_clickHandler(event)" icon="{MenuIcon}"/>
+	</s:actionContent>
 </s:ViewNavigatorApplication>

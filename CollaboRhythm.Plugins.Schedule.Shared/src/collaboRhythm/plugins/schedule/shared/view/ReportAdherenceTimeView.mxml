@@ -39,7 +39,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
-		import collaboRhythm.shared.model.DateUtil;
+		import collaboRhythm.shared.model.services.DateUtil;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 

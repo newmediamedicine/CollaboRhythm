@@ -27,6 +27,7 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import com.adobe.utils.DateUtil;
+	import com.theory9.data.types.OrderedMap;
 
 	import flash.utils.getQualifiedClassName;
 
@@ -69,6 +70,8 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _logger:ILogger;
 		private const _logGetScheduleItemOccurrences:Boolean = false;
 
+		private var _occurrences:OrderedMap = new OrderedMap(null, "recurrenceIndex");
+
 		public function ScheduleItemBase():void
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
@@ -95,9 +98,9 @@ package collaboRhythm.shared.model.healthRecord.document
 																			 scheduleItemElementName))[0];
 			_name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
 			_scheduledBy = _scheduleItemXml.scheduledBy;
-			_dateScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());
-			_dateStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateStart.toString());
-			_dateEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
+			_dateScheduled = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());
+			_dateStart = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(_scheduleItemXml.dateStart.toString());
+			_dateEnd = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
 			_recurrenceRule = new RecurrenceRule(_scheduleItemXml.recurrenceRule[0]);
 			_instructions = _scheduleItemXml.instructions;
 		}
@@ -217,12 +220,18 @@ package collaboRhythm.shared.model.healthRecord.document
 
 				if ((searchStart == null || occurrenceDateStart.time >= searchStart.time) && (searchEnd == null || occurrenceDateStart.time <= searchEnd.time))
 				{
-					var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
-					var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(this,
-							occurrenceDateStart,
-							occurrenceDateEnd,
-							recurrenceIndex);
-					updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence, occurrenceDateStart);
+					var scheduleItemOccurrence:ScheduleItemOccurrence = _occurrences.getValueByKey(recurrenceIndex);
+					if (scheduleItemOccurrence == null)
+					{
+						var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
+						scheduleItemOccurrence = new ScheduleItemOccurrence(this,
+								occurrenceDateStart,
+								occurrenceDateEnd,
+								recurrenceIndex);
+						updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence,
+								occurrenceDateStart);
+						_occurrences.addKeyValue(recurrenceIndex, scheduleItemOccurrence);
+					}
 					scheduleItemOccurrencesVector.push(scheduleItemOccurrence);
 				}
 			}
@@ -273,14 +282,19 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		public function createScheduleItemOccurrence(recurrenceIndex:int):ScheduleItemOccurrence
 		{
-			var frequencyMilliseconds:int = getEffectiveFrequencyMilliseconds();
-			var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
-			var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
-			var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(this,
-																						   occurrenceDateStart,
-																						   occurrenceDateEnd,
-																						   recurrenceIndex);
-			updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence, occurrenceDateStart);
+			var scheduleItemOccurrence:ScheduleItemOccurrence = _occurrences.getValueByKey(recurrenceIndex);
+			if (scheduleItemOccurrence == null)
+			{
+				var frequencyMilliseconds:int = getEffectiveFrequencyMilliseconds();
+				var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
+				var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
+				scheduleItemOccurrence = new ScheduleItemOccurrence(this,
+						occurrenceDateStart,
+						occurrenceDateEnd,
+						recurrenceIndex);
+				updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence, occurrenceDateStart);
+				_occurrences.addKeyValue(recurrenceIndex, scheduleItemOccurrence);
+			}
 			return scheduleItemOccurrence;
 		}
 

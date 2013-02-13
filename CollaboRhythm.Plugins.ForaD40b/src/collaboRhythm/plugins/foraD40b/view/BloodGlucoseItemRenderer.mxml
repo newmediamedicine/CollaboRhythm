@@ -39,6 +39,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHistoryItemData;
+		import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputModelBase;
 		import collaboRhythm.shared.model.healthRecord.Relationship;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
@@ -46,13 +47,7 @@
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 		import mx.events.FlexEvent;
-
-		import mx.events.SandboxMouseEvent;
 		import mx.events.TouchInteractionEvent;
-
-		import mx.managers.ISystemManager;
-
-		import spark.components.List;
 
 		override public function set data(value:Object):void
 		{
@@ -70,7 +65,7 @@
 
 				warningIcon.visible = bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0;
 				wirelessIcon.visible = (bloodGlucoseVitalSign.comments !=
-						BloodGlucoseHealthActionInputModel.SELF_REPORT);
+						ForaD40bHealthActionInputModelBase.SELF_REPORT);
 
 				var scheduleItemOccurrence:ScheduleItemOccurrence;
 				for each (var relationship:Relationship in bloodGlucoseVitalSign.isRelatedFrom)
@@ -94,7 +89,7 @@
 				var bloodGlucoseHealthActionInputModel:BloodGlucoseHealthActionInputModel = new BloodGlucoseHealthActionInputModel(scheduleItemOccurrence,
 						bloodGlucoseHistoryItemData.dataInputModel.healthActionModelDetailsProvider,
 						bloodGlucoseHistoryItemData.dataInputModel.scheduleCollectionsProvider,
-						bloodGlucoseHistoryItemData.dataInputModel.bloodGlucoseHealthActionInputModelCollection);
+						bloodGlucoseHistoryItemData.dataInputModel.foraD40bHealthActionInputModelCollection);
 				bloodGlucoseHealthActionInputModel.dateMeasuredStart = bloodGlucoseVitalSign.dateMeasuredStart;
 				reportScheduleAdherenceView.init(bloodGlucoseHealthActionInputModel,
 						bloodGlucoseHistoryItemData.dataInputController);
@@ -118,7 +113,6 @@
 		{
 			reportScheduleAdherenceView.closeDropDown();
 		}
-
 		]]></fx:Script>
 	<s:Group left="10" right="10" top="10" bottom="10">
 		<s:HGroup verticalCenter="0">

@@ -45,6 +45,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.controller.IApplicationControllerBase;
 	import collaboRhythm.shared.controller.ICollaborationController;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
+	import collaboRhythm.shared.deviceSimulator.model.DeviceSimulatorViewModifier;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportState;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
@@ -70,6 +71,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.IImageCacheService;
 	import collaboRhythm.shared.model.services.IMedicationColorSource;
+	import collaboRhythm.shared.model.services.IViewModifier;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.model.settings.SettingsFileStore;
@@ -576,6 +578,8 @@ package collaboRhythm.core.controller
 
 			_kernel.registerComponentInstance("BackgroundProcessCollectionModel", BackgroundProcessCollectionModel,
 					backgroundProcessModel);
+
+			_kernel.registerComponentInstance("DeviceSimulatorViewModifier", IViewModifier, new DeviceSimulatorViewModifier());
 
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader(_settings);
@@ -1325,13 +1329,13 @@ package collaboRhythm.core.controller
 				{
 					connectivityState = ConnectivityView.CONNECTION_ERRORS_SAVING_STATE;
 					_connectivityView.detailsMessage = "Connection to health record server " +
-							settings.indivoServerBaseURL + " failed. " + _healthRecordServiceFacade.errorsSavingSummary;
+							settings.indivoServerBaseURL + " failed. " + _healthRecordServiceFacade.errorsSavingLongDescription;
 				}
 				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasUnexpectedErrorsSaving)
 				{
 					connectivityState = ConnectivityView.UNEXPECTED_ERRORS_SAVING_STATE;
 					_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server " +
-							settings.indivoServerBaseURL + ". " + _healthRecordServiceFacade.errorsSavingSummary;
+							settings.indivoServerBaseURL + ". " + _healthRecordServiceFacade.errorsSavingLongDescription;
 				}
 				else if (_collaborationLobbyNetConnectionService &&
 						_collaborationLobbyNetConnectionService.hasConnectionFailed)

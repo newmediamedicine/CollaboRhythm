@@ -26,6 +26,24 @@
             <entry module-name="McCuneChart" build-configuration-name="McCuneChart">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="J2AS3Collections" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="as3corelib" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Castle.FlexBridge.Flash" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="doc_logging_framework-1.0" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Theory9.Data.Types.OrderedMap" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -85,6 +103,12 @@
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="library" exported="" name="J2AS3Collections" level="project" />
+    <orderEntry type="library" exported="" name="as3corelib" level="project" />
+    <orderEntry type="library" exported="" name="Castle.FlexBridge.Flash" level="project" />
+    <orderEntry type="library" exported="" name="doc_logging_framework-1.0" level="project" />
+    <orderEntry type="library" exported="" name="Theory9.Data.Types.OrderedMap" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
   </component>
 </module>
 

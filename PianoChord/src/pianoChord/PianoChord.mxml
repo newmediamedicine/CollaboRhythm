@@ -723,7 +723,7 @@
 
 		private function parseResponse(event:IndivoClientEvent, shouldAddHistoryItem:Boolean = true):String
 		{
-			var responseXmlString:String = event.response && IndivoClientEvent.COMPLETE ? event.response.toString() : event.responseData;
+			var responseXmlString:String = event.response && IndivoClientEvent.COMPLETE ? event.response.toXMLString() : event.responseData;
 
 			if (event.type == IndivoClientEvent.COMPLETE)
 			{
