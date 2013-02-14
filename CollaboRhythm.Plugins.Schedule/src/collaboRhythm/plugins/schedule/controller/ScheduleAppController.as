@@ -363,6 +363,11 @@ package collaboRhythm.plugins.schedule.controller
 				_scheduleReportingController.destroy();
 				_scheduleReportingController = null;
 			}
+			if (_activeHealthActionInputController)
+			{
+				_activeHealthActionInputController.destroy();
+				_activeHealthActionInputController = null;
+			}
 		}
 	}
 }

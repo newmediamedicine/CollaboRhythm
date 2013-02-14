@@ -99,6 +99,11 @@ package collaboRhythm.plugins.foraD40b.model
 
 		override public function saveResult(initiatedLocally:Boolean, persist:Boolean):void
 		{
+			if (healthActionModelDetailsProvider.record == null)
+			{
+				_logger.warn("Record is null. Unexpected error. Save can not be completed and changes will be lost.");
+			}
+
 			submitBloodPressure();
 			if (persist)
 			{

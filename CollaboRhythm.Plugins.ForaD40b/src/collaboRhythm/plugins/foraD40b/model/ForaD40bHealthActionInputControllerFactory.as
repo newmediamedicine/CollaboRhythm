@@ -9,6 +9,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.net.URLVariables;
@@ -56,9 +57,31 @@ package collaboRhythm.plugins.foraD40b.model
 			if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_TYPE_KEY] == EquipmentHealthAction.TYPE &&
 					urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY] == EQUIPMENT_NAME)
 			{
-				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
+				scheduleItemOccurrence = scheduleCollectionsProvider.findClosestMatchingScheduleItemOccurrence(function (scheduleItemOccurrence:ScheduleItemOccurrence):Boolean
+						{
+							var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as
+									HealthActionSchedule;
+							if (healthActionSchedule && healthActionSchedule.scheduledEquipment)
+							{
+								var healthAction:ForaD40bHealthAction = new ForaD40bHealthAction(healthActionSchedule.name.text,
+										healthActionSchedule.scheduledEquipment.name,
+										healthActionSchedule.instructions);
+								if (healthAction.isBloodPressure &&
+										urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] ==
+												DeviceGatewayConstants.BLOOD_PRESSURE_HEALTH_ACTION_NAME ||
+										healthAction.isBloodGlucose &&
+												urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] ==
+														DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME)
+								{
+									return true;
+								}
+							}
+							return false;
+						},
 						urlVariables[DeviceGatewayConstants.CORRECTED_MEASURED_DATE_KEY]);
-				return new ForaD40bHealthActionInputController(new ForaD40bHealthAction(urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY], urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY], urlVariables[DeviceGatewayConstants.HEALTH_ACTION_TYPE_KEY]), scheduleItemOccurrence,
+				return new ForaD40bHealthActionInputController(new ForaD40bHealthAction(urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY],
+						urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY],
+						urlVariables[DeviceGatewayConstants.HEALTH_ACTION_TYPE_KEY]), scheduleItemOccurrence,
 						healthActionModelDetailsProvider, scheduleCollectionsProvider, viewNavigator);
 			}
 			else

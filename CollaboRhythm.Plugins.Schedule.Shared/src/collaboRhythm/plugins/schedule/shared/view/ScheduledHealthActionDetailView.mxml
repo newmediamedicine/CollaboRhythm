@@ -97,29 +97,7 @@
 				calloutButton.right = 0;
 				calloutButton.top = 0;
 				calloutButton.bottom = 0;
-
-				var commandButtons:Vector.<Button> = scheduleItemOccurrenceReportingViewAdapter.createCommandButtons();
-				if (commandButtons)
-				{
-					for each (var commandButton:Button in commandButtons)
-					{
-						commandButton.percentWidth = 100;
-						commandButton.addEventListener(MouseEvent.CLICK,
-								function commandButton_clickHandler(event:MouseEvent):void
-								{
-									// TODO: eliminate this workaround for an unhandled exception in PopUpManagerImpl.addModalPopUpAccessibility
-									calloutButton.callout.accessibilityProperties = new AccessibilityProperties();
-
-									calloutButton.callout.close();
-									if (scheduleItemOccurrenceReportingViewAdapter.controller)
-									{
-										scheduleItemOccurrenceReportingViewAdapter.controller.handleHealthActionCommandButtonClick(event);
-									}
-								});
-						calloutButton.calloutContent.push(commandButton);
-					}
-				}
-
+				addCommandButtons(scheduleItemOccurrenceReportingViewAdapter);
 				if (calloutButton.calloutContent.length == 0)
 				{
 					calloutButton.mouseEnabled = false;
@@ -138,6 +116,30 @@
 			event.stopImmediatePropagation();
 		}
 
+		private function addCommandButtons(scheduleItemOccurrenceReportingViewAdapter:IHealthActionListViewAdapter):void
+		{
+			var commandButtons:Vector.<Button> = scheduleItemOccurrenceReportingViewAdapter.createCommandButtons();
+			if (commandButtons)
+			{
+				for each (var commandButton:Button in commandButtons)
+				{
+					commandButton.percentWidth = 100;
+					commandButton.addEventListener(MouseEvent.CLICK,
+							function commandButton_clickHandler(event:MouseEvent):void
+							{
+								// TODO: eliminate this workaround for an unhandled exception in PopUpManagerImpl.addModalPopUpAccessibility
+								calloutButton.callout.accessibilityProperties = new AccessibilityProperties();
+
+								calloutButton.callout.close();
+								if (scheduleItemOccurrenceReportingViewAdapter.controller)
+								{
+									scheduleItemOccurrenceReportingViewAdapter.controller.handleHealthActionCommandButtonClick(event);
+								}
+							});
+					calloutButton.calloutContent.push(commandButton);
+				}
+			}
+		}
 		]]></fx:Script>
 
 	<s:HGroup id="mainGroup" width="100%" height="100%">

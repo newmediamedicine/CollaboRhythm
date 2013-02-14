@@ -53,5 +53,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * Returns true if an existing health action is being reviewed (in read-only mode).
 		 */
 		function get isReview():Boolean;
+
+		function destroy():void;
 	}
 }

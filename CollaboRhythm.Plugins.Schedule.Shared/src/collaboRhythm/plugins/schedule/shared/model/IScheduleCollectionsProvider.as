@@ -24,19 +24,36 @@ package collaboRhythm.plugins.schedule.shared.model
 	public interface IScheduleCollectionsProvider
 	{
 		function get scheduleGroupsCollection():ArrayCollection;
+
 		function get scheduleItemOccurrencesVector():Vector.<ScheduleItemOccurrence>;
+
 		function get scheduleItemsCollectionsArray():Array
+
 		function getScheduleItemOccurrences(dateStart:Date, dateEnd:Date):Vector.<ScheduleItemOccurrence>
+
 		function get healthActionListViewAdapterFactory():MasterHealthActionListViewAdapterFactory;
 
 		/**
-		 * Finds the closest schedule item occurrence to the current time from the schedule item occurrences for today
+		 * Finds the closest matching (by name) schedule item occurrence to the specified time from the schedule item occurrences for today
 		 * that do not already have adherence items. If the current time falls within the adherence window of a schedule
 		 * item occurrence, then this schedule item occurrence is automatically the closest.
 		 *
 		 * @param name The name of the schedule item occurrence, which is the name of the device for an equipmentScheduleItem
+		 * @param dateStartString The date/time to search for (W3C Date-time Format)
 		 * @return The schedule item occurrence that meets the criteria for being the closest
 		 */
 		function findClosestScheduleItemOccurrence(name:String, dateStartString:String):ScheduleItemOccurrence;
+
+		/**
+		 * Finds the closest matching (by match function) schedule item occurrence to the specified time from the schedule item occurrences for today
+		 * that do not already have adherence items. If the current time falls within the adherence window of a schedule
+		 * item occurrence, then this schedule item occurrence is automatically the closest.
+		 *
+		 * @param matchFunction Function used to evaluate whether a given schedule item matches
+		 * @param dateStartString The date/time to search for (W3C Date-time Format)
+		 * @return The schedule item occurrence that meets the criteria for being the closest
+		 */
+		function findClosestMatchingScheduleItemOccurrence(matchFunction:Function,
+														   dateStartString:String):ScheduleItemOccurrence;
 	}
 }

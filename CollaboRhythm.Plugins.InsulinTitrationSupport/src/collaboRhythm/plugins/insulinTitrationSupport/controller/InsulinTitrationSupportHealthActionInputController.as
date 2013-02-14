@@ -23,7 +23,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		private var _dataInputModel:InsulinTitrationSupportHealthActionInputModel;
 		private var _viewNavigator:ViewNavigator;
 		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
-		private var _synchronizationService:SynchronizationService;
 
 		public function InsulinTitrationSupportHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,

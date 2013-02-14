@@ -53,7 +53,6 @@ package collaboRhythm.plugins.foraD40b.controller
 		private var _dataInputModelCollection:ForaD40bHealthActionInputModelCollection;
 		private var _viewNavigator:ViewNavigator;
 		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
-		private var _synchronizationService:SynchronizationService;
 		private var _duplicateDetected:Boolean = false;
 		protected var _logger:ILogger;
 		protected var _backgroundProcessModel:BackgroundProcessCollectionModel;
@@ -206,6 +205,11 @@ package collaboRhythm.plugins.foraD40b.controller
 					{
 						_dataInputModelCollection.reportForaD40bItemDataCollection.removeAll();
 						itemData = _dataInputModelCollection.addHealthActionInputModel(isBloodGlucose);
+					}
+					var possibleScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = itemData.dataInputModel.getPossibleScheduleItemOccurrences();
+					if (possibleScheduleItemOccurrences && possibleScheduleItemOccurrences.length > 0)
+					{
+						_dataInputModelCollection.scheduleItemOccurrence = possibleScheduleItemOccurrences[0];
 					}
 				}
 				else
@@ -559,6 +563,14 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function useDefaultHandleHealthActionResult():Boolean
 		{
 			return false;
+		}
+
+		public function showHistoryView():void
+		{
+			if (_dataInputModelCollection.firstInputModel is BloodGlucoseHealthActionInputModel)
+			{
+				showBloodGlucoseHistoryView();
+			}
 		}
 
 		public function showBloodGlucoseHistoryView():void

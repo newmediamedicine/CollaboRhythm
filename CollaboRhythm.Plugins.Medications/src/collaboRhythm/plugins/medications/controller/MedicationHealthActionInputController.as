@@ -26,7 +26,6 @@ package collaboRhythm.plugins.medications.controller
 		private var _dataInputModel:MedicationHealthActionInputModel;
 		private var _viewNavigator:ViewNavigator;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
-		private var _synchronizationService:SynchronizationService;
 
 		public function MedicationHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
