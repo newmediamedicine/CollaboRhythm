@@ -130,10 +130,10 @@ package collaboRhythm.plugins.bloodPressure.controller
 			return _model;
 		}
 
-		public function handleHypertensionMedicationDoseChoice(hypertensionMedication:HypertensionMedication,
-															   doseChoice:int):void
+		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
+															   doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
 		{
-			_model.handleHypertensionMedicationDoseChoice(hypertensionMedication, doseChoice);
+			_model.handleHypertensionMedicationDoseSelected(hypertensionMedication, doseSelected, altKey, ctrlKey);
 		}
 	}
 }

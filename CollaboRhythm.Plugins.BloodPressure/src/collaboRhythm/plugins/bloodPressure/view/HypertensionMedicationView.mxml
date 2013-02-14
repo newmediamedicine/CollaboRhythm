@@ -15,7 +15,11 @@
  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
  - <http://www.gnu.org/licenses/>.
 -->
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" gap="0">
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
+		  gap="0">
+
 	<fx:Style>
 		#medicationClassLabel {
 			font-size: 36;
@@ -45,20 +49,20 @@
 
 			medicationClassLabel.text = hypertensionMedication.medicationClass;
 			medicationNameLabel.text = hypertensionMedication.medicationName;
-			medicationDosageChoice1Label.text = hypertensionMedication.medicationDosageChoice1;
-			medicationDosageChoice2Label.text = hypertensionMedication.medicationDosageChoice2;
+			medicationDosageChoice1Label.text = hypertensionMedication.dose1;
+			medicationDosageChoice2Label.text = hypertensionMedication.dose2;
 		}
 
-		private function stage1Button_clickHandler():void
+		private function dose1Button_clickHandler(event:MouseEvent):void
 		{
-			dispatchEvent(new HypertensionMedicationViewEvent(HypertensionMedicationViewEvent.HYPERTENSION_MEDICATION_DOSE_CHOICE_CLICKED,
-					_hypertensionMedication, 1));
+			dispatchEvent(new HypertensionMedicationViewEvent(HypertensionMedicationViewEvent.DOSE_SELECTED,
+					_hypertensionMedication, 1, event.altKey, event.ctrlKey));
 		}
 
-		private function stage2Button_clickHandler():void
+		private function dose2Button_clickHandler(event:MouseEvent):void
 		{
-			dispatchEvent(new HypertensionMedicationViewEvent(HypertensionMedicationViewEvent.HYPERTENSION_MEDICATION_DOSE_CHOICE_CLICKED,
-					_hypertensionMedication, 2));
+			dispatchEvent(new HypertensionMedicationViewEvent(HypertensionMedicationViewEvent.DOSE_SELECTED,
+					_hypertensionMedication, 2, event.altKey, event.ctrlKey));
 		}
 		]]></fx:Script>
 	<s:Label id="medicationClassLabel"/>
@@ -82,7 +86,12 @@
 					<s:SolidColorStroke color="0x939598" weight="10"/>
 				</s:stroke>
 			</s:Line>
-			<s:Group width="50" height="50" top="0" click="stage2Button_clickHandler()">
+			<s:Line top="25" bottom="25" horizontalCenter="0" visible="{_hypertensionMedication.currentDose == 2}">
+				<s:stroke>
+					<s:SolidColorStroke color="0x37B6E1" weight="10"/>
+				</s:stroke>
+			</s:Line>
+			<s:Group width="50" height="50" top="0" click="dose2Button_clickHandler(event)">
 				<s:Ellipse width="100%" height="100%">
 					<s:fill>
 						<s:SolidColor color="0x939598"/>
@@ -93,13 +102,25 @@
 						<s:SolidColor color="0xFFFFFF"/>
 					</s:fill>
 				</s:Ellipse>
-				<s:Ellipse width="100%" height="100%" visible="{_hypertensionMedication.medicationStage == 2}">
+				<s:Ellipse width="100%" height="100%" visible="{_hypertensionMedication.currentDose == 2}">
+					<s:fill>
+						<s:SolidColor color="0x37B6E1"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
+						   visible="{(_hypertensionMedication.patientDoseSelected == 2 || _hypertensionMedication.patientDoseSelected == 1)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedication.REMOVE}">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
+						   visible="{(_hypertensionMedication.patientDoseSelected == 2)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedication.ADD}">
 					<s:fill>
 						<s:SolidColor color="0x37B6E1"/>
 					</s:fill>
 				</s:Ellipse>
 			</s:Group>
-			<s:Group width="50" height="50" bottom="0" click="stage1Button_clickHandler()">
+			<s:Group id="dose1Button" width="50" height="50" bottom="0" click="dose1Button_clickHandler(event)">
 				<s:Ellipse width="100%" height="100%">
 					<s:fill>
 						<s:SolidColor color="0x939598"/>
@@ -110,12 +131,76 @@
 						<s:SolidColor color="0xFFFFFF"/>
 					</s:fill>
 				</s:Ellipse>
-				<s:Ellipse width="100%" height="100%" visible="{_hypertensionMedication.medicationStage >= 1}">
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="100%" height="100%" visible="{_hypertensionMedication.currentDose >= 1}">
+					<s:fill>
+						<s:SolidColor color="0x37B6E1"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
+						   visible="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedication.REMOVE}">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
+						   visible="{(_hypertensionMedication.patientDoseSelected == 1 || _hypertensionMedication.patientDoseSelected == 2)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedication.ADD}">
 					<s:fill>
 						<s:SolidColor color="0x37B6E1"/>
 					</s:fill>
 				</s:Ellipse>
 			</s:Group>
+		</s:Group>
+		<s:Group height="130">
+			<s:HGroup height="50" top="0">
+				<s:VGroup visible="{_hypertensionMedication.systemDoseSelected == 2}"
+						  includeInLayout="{_hypertensionMedication.systemDoseSelected == 2}">
+					<view:SystemAdvise width="30" height="30"/>
+					<s:Label text="{_hypertensionMedication.systemDoseAction}"/>
+				</s:VGroup>
+				<s:VGroup
+						visible="{_hypertensionMedication.patientDoseSelected == 2 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.ADVISE}"
+						includeInLayout="{_hypertensionMedication.patientDoseSelected == 2 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.ADVISE}">
+					<view:PatientAdvise width="30" height="30"/>
+					<s:Label text="{_hypertensionMedication.patientDoseAction}"/>
+				</s:VGroup>
+				<s:VGroup visible="{_hypertensionMedication.coachDoseSelected == 2 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.ADVISE}"
+													  includeInLayout="{_hypertensionMedication.coachDoseSelected == 2 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.ADVISE}">
+					<view:CoachAdvise width="30" height="30"/>
+					<s:Label text="{_hypertensionMedication.coachDoseAction}"/>
+				</s:VGroup>
+				<s:VGroup visible="{_hypertensionMedication.patientDoseSelected == 2 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.AGREE}"
+													   includeInLayout="{_hypertensionMedication.patientDoseSelected == 2 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.AGREE}">
+					<view:PatientAgree width="30" height="30"/>
+					<s:Label text="{_hypertensionMedication.patientDoseAction}"/>
+				</s:VGroup>
+				<s:VGroup visible="{_hypertensionMedication.coachDoseSelected == 2 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.AGREE}"
+													 includeInLayout="{_hypertensionMedication.coachDoseSelected == 2 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.AGREE}">
+					<view:CoachAgree width="30" height="30"/>
+					<s:Label text="{_hypertensionMedication.coachDoseAction}"/>
+				</s:VGroup>
+			</s:HGroup>
+			<s:HGroup height="50" bottom="0">
+				<view:SystemAdvise width="30" height="30"
+								   visible="{_hypertensionMedication.systemDoseSelected == 1}"
+								   includeInLayout="{_hypertensionMedication.systemDoseSelected == 1}"/>
+				<view:PatientAdvise width="30" height="30"
+									visible="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.ADVISE}"
+									includeInLayout="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.ADVISE}"/>
+				<view:CoachAdvise width="30" height="30"
+								  visible="{_hypertensionMedication.coachDoseSelected == 1 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.ADVISE}"
+								  includeInLayout="{_hypertensionMedication.coachDoseSelected == 1 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.ADVISE}"/>
+				<view:PatientAgree width="30" height="30"
+								   visible="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.AGREE}"
+								   includeInLayout="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.AGREE}"/>
+				<view:CoachAgree width="30" height="30"
+								 visible="{_hypertensionMedication.coachDoseSelected == 1 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.AGREE}"
+								 includeInLayout="{_hypertensionMedication.coachDoseSelected == 1 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.AGREE}"/>
+			</s:HGroup>
 		</s:Group>
 	</s:HGroup>
 </s:VGroup>

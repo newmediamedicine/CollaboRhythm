@@ -8,8 +8,6 @@ package collaboRhythm.plugins.bloodPressure.model
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
-	import com.theory9.data.types.HashMapCollection;
-
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 
@@ -56,12 +54,12 @@ package collaboRhythm.plugins.bloodPressure.model
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
-			_primaryMedications.push(new HypertensionMedication("ACE Inhibitor", LISINOPRIL_20_MG_ORAL_TABLET_RXNORM,
-					LISINOPRIL_40_MG_ORAL_TABLET_RXNORM));
-			_primaryMedications.push(new HypertensionMedication("Calcium Channel Blocker",
-					AMLODIPINE_5_MG_ORAL_TABLET_RXNORM, AMLODIPINE_10_MG_ORAL_TABLET_RXNORM));
 			_primaryMedications.push(new HypertensionMedication("Diuretic",
 					HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET_RXNORM, HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET_RXNORM));
+			_primaryMedications.push(new HypertensionMedication("Calcium Channel Blocker",
+					AMLODIPINE_5_MG_ORAL_TABLET_RXNORM, AMLODIPINE_10_MG_ORAL_TABLET_RXNORM));
+			_primaryMedications.push(new HypertensionMedication("ACE Inhibitor", LISINOPRIL_20_MG_ORAL_TABLET_RXNORM,
+					LISINOPRIL_40_MG_ORAL_TABLET_RXNORM));
 
 			BindingUtils.bindSetter(recordIsLoading_changeHandler, _record, "isLoading");
 		}
@@ -78,7 +76,7 @@ package collaboRhythm.plugins.bloodPressure.model
 				{
 					hypertensionMedication.determineMedicationStage(_medicationScheduleItemsCollection);
 
-					if (hypertensionMedication.medicationStage != 0)
+					if (hypertensionMedication.currentDose != 0)
 					{
 						_highestHypertensionMedication = hypertensionMedication;
 					}
@@ -127,18 +125,98 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		private function determineMostRecentSystolicVitalSign():void
 		{
-			_mostRecentSystolicVitalSign = _systolicVitalSignsCollection.getItemAt(_systolicVitalSignsCollection.length - 1) as VitalSign;
+			_mostRecentSystolicVitalSign = _systolicVitalSignsCollection.getItemAt(_systolicVitalSignsCollection.length -
+					1) as VitalSign;
+		}
+
+		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
+																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
+		{
+			if (altKey && ctrlKey)
+			{
+				if (hypertensionMedication.currentDose < doseSelected)
+				{
+					hypertensionMedication.currentDose = doseSelected;
+				}
+				else
+				{
+					hypertensionMedication.currentDose = doseSelected - 1;
+				}
+			}
+			else if (altKey)
+			{
+				if (hypertensionMedication.systemDoseSelected == doseSelected)
+				{
+					hypertensionMedication.systemDoseSelected = 0;
+				}
+				else
+				{
+					hypertensionMedication.systemDoseSelected = doseSelected;
+				}
+			}
+			else if (ctrlKey)
+			{
+				if (hypertensionMedication.coachDoseSelected == doseSelected)
+				{
+					hypertensionMedication.coachDoseSelected = -1;
+					hypertensionMedication.coachDoseAction = null;
+				}
+				else
+				{
+					hypertensionMedication.coachDoseSelected = doseSelected;
+					if (doseSelected <= hypertensionMedication.currentDose)
+					{
+						hypertensionMedication.coachDoseAction = HypertensionMedication.REMOVE
+					}
+					else
+					{
+						hypertensionMedication.coachDoseAction = HypertensionMedication.ADD;
+					}
+				}
+
+				if (hypertensionMedication.patientDoseSelected == doseSelected)
+				{
+					hypertensionMedication.coachDoseAdviseVsAgree = HypertensionMedication.AGREE;
+				}
+				else
+				{
+					hypertensionMedication.coachDoseAdviseVsAgree = HypertensionMedication.ADVISE;
+				}
+			}
+			else
+			{
+				if (hypertensionMedication.patientDoseSelected == doseSelected)
+				{
+					hypertensionMedication.patientDoseSelected = -1;
+					hypertensionMedication.patientDoseAction = null;
+				}
+				else
+				{
+					hypertensionMedication.patientDoseSelected = doseSelected;
+					if (doseSelected <= hypertensionMedication.currentDose)
+					{
+						hypertensionMedication.patientDoseAction = HypertensionMedication.REMOVE
+					}
+					else
+					{
+						hypertensionMedication.patientDoseAction = HypertensionMedication.ADD;
+					}
+				}
+
+				if (hypertensionMedication.coachDoseSelected == doseSelected)
+				{
+					hypertensionMedication.patientDoseAdviseVsAgree = HypertensionMedication.AGREE;
+				}
+				else
+				{
+					hypertensionMedication.patientDoseAdviseVsAgree = HypertensionMedication.ADVISE;
+				}
+			}
 		}
 
 		public function get primaryMedications():Vector.<HypertensionMedication>
 		{
 			return _primaryMedications;
-		}
-
-		public function handleHypertensionMedicationDoseChoice(hypertensionMedication:HypertensionMedication,
-															   doseChoice:int):void
-		{
-			hypertensionMedication.medicationStage = doseChoice;
 		}
 	}
 }

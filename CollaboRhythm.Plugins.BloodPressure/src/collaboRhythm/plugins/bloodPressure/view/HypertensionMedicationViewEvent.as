@@ -6,19 +6,22 @@ package collaboRhythm.plugins.bloodPressure.view
 
 	public class HypertensionMedicationViewEvent extends Event
 	{
-		public static const HYPERTENSION_MEDICATION_DOSE_CHOICE_CLICKED:String = "HypertensionMedicationDoseChoiceClicked";
+		public static const DOSE_SELECTED:String = "HypertensionMedicationDoseChoiceClicked";
 
 		private var _hypertensionMedication:HypertensionMedication;
-		private var _doseChoice:int;
+		private var _doseSelected:int;
+		private var _altKey:Boolean;
+		private var _ctrlKey:Boolean;
 
-		public function HypertensionMedicationViewEvent(type:String,
-													hypertensionMedication:HypertensionMedication,
-													doseChoice:int)
+		public function HypertensionMedicationViewEvent(type:String, hypertensionMedication:HypertensionMedication,
+														doseSelected:int, altKey:Boolean, ctrlKey:Boolean)
 		{
 			super(type, true);
 
 			_hypertensionMedication = hypertensionMedication;
-			_doseChoice = doseChoice;
+			_doseSelected = doseSelected;
+			_altKey = altKey;
+			_ctrlKey = ctrlKey;
 		}
 
 		public function get hypertensionMedication():HypertensionMedication
@@ -31,14 +34,35 @@ package collaboRhythm.plugins.bloodPressure.view
 			_hypertensionMedication = value;
 		}
 
-		public function get doseChoice():int
+		public function get doseSelected():int
 		{
-			return _doseChoice;
+			return _doseSelected;
 		}
 
-		public function set doseChoice(value:int):void
+		public function set doseSelected(value:int):void
 		{
-			_doseChoice = value;
+			_doseSelected = value;
 		}
+
+		public function get altKey():Boolean
+		{
+			return _altKey;
+		}
+
+		public function set altKey(value:Boolean):void
+		{
+			_altKey = value;
+		}
+
+		public function get ctrlKey():Boolean
+		{
+			return _ctrlKey;
+		}
+
+		public function set ctrlKey(value:Boolean):void
+		{
+			_ctrlKey = value;
+		}
+
 	}
 }
