@@ -61,9 +61,7 @@ package collaboRhythm.plugins.foraD40b.view
 		{
 			if (dataInputModelBase)
 			{
-				if (dataInputModelBase.scheduleItemOccurrence &&
-						dataInputModelBase.scheduleItemOccurrence.adherenceItem &&
-						dataInputModelBase.currentView == ForaD40bHealthActionInputView)
+				if (dataInputModelBase.isReview)
 				{
 					currentState = "review";
 				}

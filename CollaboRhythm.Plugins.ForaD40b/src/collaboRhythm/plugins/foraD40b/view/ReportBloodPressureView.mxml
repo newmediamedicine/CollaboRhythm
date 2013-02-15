@@ -81,6 +81,7 @@
 			_dataInputController = dataInputController;
 
 			initializeListeners();
+			sitePositionCalloutButton.label = getSitePositionCalloutButtonLabel(_dataInputModel.position, _dataInputModel.site);
 		}
 
 		public override function get dataInputModelBase():ForaD40bHealthActionInputModelBase
@@ -96,46 +97,50 @@
 			}
 		}
 
-/*
-		override public function updateChildren():void
+		/*
+		 override public function updateChildren():void
+		 {
+		 if (_dataInputModel)
+		 {
+		 if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem &&
+		 _dataInputModel.currentView == ForaD40bHealthActionInputView)
+		 {
+		 if (_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults &&
+		 _dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
+		 {
+		 for each (var documentBase:DocumentBase in
+		 _dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults)
+		 {
+		 var vitalSign:VitalSign = documentBase as VitalSign;
+		 switch(vitalSign.name.text)
+		 {
+		 case VitalSignsModel.SYSTOLIC_CATEGORY:
+		 {
+		 break;
+		 }
+		 }
+		 }
+
+		 if (bloodGlucoseVitalSign && reportedBloodGlucoseLabel)
+		 {
+		 reportedBloodGlucoseLabel.text = bloodGlucoseVitalSign.result.value;
+		 }
+
+		 if (bloodGlucoseVitalSign.comments !=
+		 ForaD40bHealthActionInputModelBase.SELF_REPORT &&
+		 wirelessIcon)
+		 {
+		 wirelessIcon.visible = true;
+		 }
+		 }
+		 }
+		 }
+		 }
+		 */
+		private function getSitePositionCalloutButtonLabel(positionSelectedItem:String, siteSelectedItem:String):String
 		{
-			if (_dataInputModel)
-			{
-				if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem &&
-						_dataInputModel.currentView == ForaD40bHealthActionInputView)
-				{
-					if (_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults &&
-							_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
-					{
-						for each (var documentBase:DocumentBase in
-								_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults)
-						{
-							var vitalSign:VitalSign = documentBase as VitalSign;
-							switch(vitalSign.name.text)
-							{
-								case VitalSignsModel.SYSTOLIC_CATEGORY:
-								{
-									break;
-								}
-							}
-						}
-
-						if (bloodGlucoseVitalSign && reportedBloodGlucoseLabel)
-						{
-							reportedBloodGlucoseLabel.text = bloodGlucoseVitalSign.result.value;
-						}
-
-						if (bloodGlucoseVitalSign.comments !=
-								ForaD40bHealthActionInputModelBase.SELF_REPORT &&
-								wirelessIcon)
-						{
-							wirelessIcon.visible = true;
-						}
-					}
-				}
-			}
+			return positionSelectedItem.substr(0, 1) + "/" + siteSelectedItem.substr(0, 1);
 		}
-*/
 		]]>
 	</fx:Script>
 	<view:WirelessIcon id="wirelessIcon" visible="{_dataInputModel.isFromDevice}" scaleX="{_valueSizeScale}"
@@ -207,12 +212,14 @@
 					 width="{60 * _valueSizeScale}"
 					 height="{60 * _valueSizeScale}"
 					 fontSize="{30 * _valueSizeScale}"
-					 label="{(positionDropDownList.selectedItem as String).substr(0, 1)}/{(siteDropDownList.selectedItem as String).substr(0, 1)}"
+					 label="{getSitePositionCalloutButtonLabel(positionDropDownList.selectedItem as String, siteDropDownList.selectedItem as String)}"
 					 horizontalPosition="after"
 			>
 		<s:calloutContent>
 			<s:VGroup>
-				<flextras:DropDownList id="positionDropDownList" selectedIndex="0"
+				<flextras:DropDownList id="positionDropDownList"
+									   selectedItem="{_dataInputModel.position}"
+									   change="{_dataInputModel.position = positionDropDownList.selectedItem}"
 									   enabled.review="false"
 									   styleName="reportingLabelsText" fontSize="{40 * _valueSizeScale}"
 									   width="{300 * _valueSizeScale}">
@@ -222,7 +229,9 @@
 						<fx:String>Standing</fx:String>
 					</s:ArrayCollection>
 				</flextras:DropDownList>
-				<flextras:DropDownList id="siteDropDownList" selectedIndex="0"
+				<flextras:DropDownList id="siteDropDownList"
+									   selectedItem="{_dataInputModel.site}"
+									   change="{_dataInputModel.site = siteDropDownList.selectedItem}"
 									   enabled.review="false"
 									   styleName="reportingLabelsText" fontSize="{40 * _valueSizeScale}"
 									   width="{300 * _valueSizeScale}">

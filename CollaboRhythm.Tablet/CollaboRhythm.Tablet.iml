@@ -104,6 +104,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications.Insulin/bin-debug/InsulinPluginModule.swf" path-in-package="plugins/InsulinPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug/CollaboRhythm_Plugins_InsulinTitrationSupportPluginModule.swf" path-in-package="plugins/InsulinTitrationSupportPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Problems.HIV/bin-debug/HIVPluginModule.swf" path-in-package="plugins/HIVPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.BloodPressure/bin-debug/BloodPressurePluginModule.swf" path-in-package="plugins/BloodPressurePluginModule.swf" />
           </files-to-package>
           <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" use-temp-certificate="false" />
         </packaging-android>

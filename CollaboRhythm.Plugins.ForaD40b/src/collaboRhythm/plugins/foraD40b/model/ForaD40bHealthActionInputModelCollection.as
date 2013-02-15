@@ -1,8 +1,6 @@
 package collaboRhythm.plugins.foraD40b.model
 {
 	import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
-	import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthAction;
-	import collaboRhythm.plugins.schedule.shared.model.EquipmentHealthAction;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -21,6 +19,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _reportBloodGlucoseListScrollPosition:Number;
 		private var _healthAction:ForaD40bHealthAction;
 		private var _healthActionInputController:ForaD40bHealthActionInputController;
+		private var _isReportingExplicit:Boolean;
 
 		public function ForaD40bHealthActionInputModelCollection(healthAction:ForaD40bHealthAction,
 																 scheduleItemOccurrence:ScheduleItemOccurrence,
@@ -250,7 +249,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function get isReview():Boolean
 		{
-			return scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem;
+			return !isReportingExplicit && firstInputModel && firstInputModel.isReview;
 		}
 
 		public function synchronizeActionsListScrollerPosition(verticalScrollPosition:Number):void
@@ -283,6 +282,16 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			reportForaD40bItemDataCollection.removeAll();
 			initializeModel();
+		}
+
+		public function set isReportingExplicit(isReviewExplicit:Boolean):void
+		{
+			_isReportingExplicit = isReviewExplicit;
+		}
+
+		public function get isReportingExplicit():Boolean
+		{
+			return _isReportingExplicit;
 		}
 	}
 }

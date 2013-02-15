@@ -89,7 +89,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 			if (hypoglycemiaActionPlanIterationCount == 0)
 			{
-				if (currentView != ForaD40bHealthActionInputView)
+				if (foraD40bHealthActionInputModelCollection.pushedViewCount == 0 || currentView != ForaD40bHealthActionInputView)
 				{
 					setCurrentView(ForaD40bHealthActionInputView);
 				}

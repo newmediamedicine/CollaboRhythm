@@ -8,7 +8,7 @@ set AndroidADBFolder=C:\Program Files (x86)\Android\android-sdk\platform-tools
 :: Android default path used to include the word "windows", so you might need this depending on the version you have
 ::set AndroidADBFolder=C:\Program Files (x86)\Android\android-sdk-windows\platform-tools
 ::set SettingsFile=my_settings_debug.xml
-set SettingsFile=my_settings.xml
+set SettingsFile=%USERPROFILE%\AppData\Roaming\CollaboRhythm.Tablet.debug\Local Store\settings.xml
 set CollaboRhythmTabletApk=CollaboRhythm.Tablet.apk
 
 :: ***************************************************************************************
@@ -24,7 +24,7 @@ echo Settings: %SettingsFile%
 echo.
 
 "%AndroidADBFolder%"\adb push %SettingsFile% "/data/local/air.CollaboRhythm.Tablet.debug/CollaboRhythm.Tablet.debug/Local Store/settings.xml"
-"%AndroidADBFolder%"\adb push plugins "/data/local/air.CollaboRhythm.Tablet.debug/CollaboRhythm.Tablet.debug/Local Store/plugins"
+::"%AndroidADBFolder%"\adb push plugins "/data/local/air.CollaboRhythm.Tablet.debug/CollaboRhythm.Tablet.debug/Local Store/plugins"
 
 "%AndroidADBFolder%"\adb -d uninstall air.CollaboRhythm.Tablet.debug
 "%AndroidADBFolder%"\adb -d install -r %CollaboRhythmTabletApk%

@@ -28,6 +28,7 @@ package collaboRhythm.plugins.foraD40b.controller
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.tablet.ViewNavigatorExtendedEvent;
 
 	import com.adobe.nativeExtensions.Vibration;
 
@@ -95,6 +96,17 @@ package collaboRhythm.plugins.foraD40b.controller
 			_backgroundProcessModel = BackgroundProcessCollectionModel(WorkstationKernel.instance.resolve(BackgroundProcessCollectionModel));
 
 //			BindingUtils.bindSetter(scheduleItemOccurrence_changeHandler, _dataInputModelCollection, "scheduleItemOccurrence");
+			if (_viewNavigator)
+			{
+				_viewNavigator.addEventListener(ViewNavigatorExtendedEvent.VIEW_POPPED, viewNavigator_viewPopped);
+			}
+		}
+
+		private function viewNavigator_viewPopped(event:ViewNavigatorExtendedEvent):void
+		{
+			_dataInputModelCollection.pushedViewCount--;
+			if (_dataInputModelCollection.pushedViewCount < 0)
+				_dataInputModelCollection.pushedViewCount = 0;
 		}
 
 		private function createModel(scheduleItemOccurrence:ScheduleItemOccurrence):void
@@ -125,6 +137,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 			popPushedViews();
 			createModel(null);
+			_dataInputModelCollection.isReportingExplicit = true;
 			addCollaborationViewSynchronizationEventListener();
 		}
 
@@ -408,6 +421,7 @@ package collaboRhythm.plugins.foraD40b.controller
 					ForaD40bHealthActionInputView ? _dataInputModelCollection : _dataInputModelCollection.firstInputModel,
 					this);
 			_viewNavigator.pushView(currentView, healthActionInputModelAndController, null, new SlideViewTransition());
+			_dataInputModelCollection.pushedViewCount++;
 		}
 
 		public function get healthActionInputViewClass():Class
@@ -643,6 +657,15 @@ package collaboRhythm.plugins.foraD40b.controller
 		public function get healthAction():ForaD40bHealthAction
 		{
 			return _healthAction;
+		}
+
+		override public function destroy():void
+		{
+			super.destroy();
+			if (_viewNavigator)
+			{
+				_viewNavigator.removeEventListener(ViewNavigatorExtendedEvent.VIEW_POPPED, viewNavigator_viewPopped);
+			}
 		}
 	}
 }

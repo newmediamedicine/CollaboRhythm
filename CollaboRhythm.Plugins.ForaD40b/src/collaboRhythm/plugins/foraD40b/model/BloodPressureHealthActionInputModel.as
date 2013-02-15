@@ -25,12 +25,20 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _heartRate:String = "";
 		private var _results:Vector.<DocumentBase>;
 
+		private static const SITTING_POSITION:String = "Sitting";
+		private static const LEFT_ARM_SITE:String = "Left Arm";
+
+		private static const DEFAULT_POSITION:String = SITTING_POSITION;
+		private static const DEFAULT_SITE:String = LEFT_ARM_SITE;
+
 		public function BloodPressureHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence,
 															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 															scheduleCollectionsProvider:IScheduleCollectionsProvider,
 															foraD40bHealthActionInputModelCollection:ForaD40bHealthActionInputModelCollection)
 		{
 			super(scheduleItemOccurrence, healthActionModelDetailsProvider, scheduleCollectionsProvider, foraD40bHealthActionInputModelCollection);
+			position = DEFAULT_POSITION;
+			site = DEFAULT_SITE;
 			updateFromAdherence();
 		}
 
@@ -51,6 +59,8 @@ package collaboRhythm.plugins.foraD40b.model
 							{
 								systolic = vitalSign.result.value;
 								isFromDevice = vitalSign.comments != ForaD40bHealthActionInputModelBase.SELF_REPORT;
+								site = vitalSign.site;
+								position = vitalSign.position;
 								break;
 							}
 							case VitalSignsModel.DIASTOLIC_CATEGORY:
@@ -138,7 +148,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 			this.urlVariables = urlVariables;
 
-			if (currentView != ForaD40bHealthActionInputView)
+			if (foraD40bHealthActionInputModelCollection.pushedViewCount == 0 || currentView != ForaD40bHealthActionInputView)
 			{
 				setCurrentView(ForaD40bHealthActionInputView);
 			}

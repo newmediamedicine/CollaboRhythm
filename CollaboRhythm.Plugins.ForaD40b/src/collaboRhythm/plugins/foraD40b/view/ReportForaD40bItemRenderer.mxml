@@ -127,7 +127,7 @@
 													checkBoxSkin="collaboRhythm.plugins.foraD40b.view.AdherenceCheckBoxSkin"
 													checkBoxTitle="Scheduled blood pressure"
 													mouseDown="reportScheduleAdherenceView_mouseDownHandler(event)"
-													editable="{!_reportForaD40bItemData.dataInputModel.isDuplicate}"
+													editable="{!_reportForaD40bItemData.dataInputModel.isDuplicate &amp;&amp; !_reportForaD40bItemData.dataInputController.isReview}"
 					/>
 		</s:HGroup>
 		<s:Label id="duplicateWarningLabel" styleName="reportMeasurementDuplicateWarning" text="Measurement has already been saved (duplicate)." visible="{_reportForaD40bItemData.dataInputModel.isDuplicate}" includeInLayout="{_reportForaD40bItemData.dataInputModel.isDuplicate}"/>

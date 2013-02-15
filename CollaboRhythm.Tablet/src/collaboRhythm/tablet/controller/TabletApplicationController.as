@@ -32,7 +32,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.tablet.TabletViewBase;
 	import collaboRhythm.tablet.model.ViewNavigatorExtended;
-	import collaboRhythm.tablet.model.ViewNavigatorExtendedEvent;
+	import collaboRhythm.shared.model.tablet.ViewNavigatorExtendedEvent;
 	import collaboRhythm.tablet.view.SelectRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
 	import collaboRhythm.tablet.view.TabletHomeView;

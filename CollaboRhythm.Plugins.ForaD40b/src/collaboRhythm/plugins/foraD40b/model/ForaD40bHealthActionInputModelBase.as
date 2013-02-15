@@ -199,28 +199,19 @@ package collaboRhythm.plugins.foraD40b.model
 			_foraD40bHealthActionInputModelCollection.currentView = currentView;
 		}
 
-		public function get pushedViewCount():int
-		{
-			return _foraD40bHealthActionInputModelCollection.pushedViewCount;
-		}
-
-		public function set pushedViewCount(pushedViewCount:int):void
-		{
-			_foraD40bHealthActionInputModelCollection.pushedViewCount = pushedViewCount;
-		}
-
 		protected function setCurrentView(view:Class):void
 		{
 			currentView = view;
-			if (view != null)
-			{
-				pushedViewCount += 1;
-			}
 		}
 
 		public function get foraD40bHealthActionInputModelCollection():ForaD40bHealthActionInputModelCollection
 		{
 			return _foraD40bHealthActionInputModelCollection;
+		}
+
+		public function get isReview():Boolean
+		{
+			return scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem && currentView == ForaD40bHealthActionInputView;
 		}
 	}
 }

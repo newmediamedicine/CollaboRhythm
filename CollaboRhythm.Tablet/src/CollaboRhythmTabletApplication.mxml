@@ -330,7 +330,7 @@
 						x, y);
 			}
 
-			updatePointer(source, true, x,  y);
+			updatePointer(source, true, x, y);
 		}
 
 		private function mouseUpHandler(event:MouseEvent):void
@@ -356,7 +356,16 @@
 
 		private function homeButton_clickHandler():void
 		{
-			(navigator.activeView as TabletViewBase).homeButton_clickHandler();
+			var tabletViewBase:TabletViewBase = navigator && navigator.activeView ? navigator.activeView as
+					TabletViewBase : null;
+			if (tabletViewBase)
+			{
+				tabletViewBase.homeButton_clickHandler();
+			}
+			else if (navigator && navigator.activeView == null)
+			{
+				navigator.pushView(TabletHomeView);
+			}
 		}
 
 		private function synchronize():void
