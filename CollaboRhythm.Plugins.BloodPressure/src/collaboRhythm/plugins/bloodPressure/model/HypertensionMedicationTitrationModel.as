@@ -32,7 +32,7 @@ package collaboRhythm.plugins.bloodPressure.model
 		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET_RXNORM:String = "Hydrochlorothiazide 12.5 MG Oral Tablet";
 		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET_RXNORM:String = "Hydrochlorothiazide 25 MG Oral Tablet";
 
-		private const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
+		private	const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
 
 		private var _record:Record;
 
@@ -72,15 +72,7 @@ package collaboRhythm.plugins.bloodPressure.model
 				_systolicVitalSignsCollection = _record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY) as
 						ArrayCollection;
 
-				for each (var hypertensionMedication:HypertensionMedication in _primaryMedications)
-				{
-					hypertensionMedication.determineMedicationStage(_medicationScheduleItemsCollection);
-
-					if (hypertensionMedication.currentDose != 0)
-					{
-						_highestHypertensionMedication = hypertensionMedication;
-					}
-				}
+				determineHighestHypertensionMedication();
 
 				determineMostRecentDoseChange();
 
@@ -103,6 +95,19 @@ package collaboRhythm.plugins.bloodPressure.model
 			}
 
 
+		}
+
+		private function determineHighestHypertensionMedication():void
+		{
+			for each (var hypertensionMedication:HypertensionMedication in _primaryMedications)
+			{
+				hypertensionMedication.determineMedicationStage(_medicationScheduleItemsCollection);
+
+				if (hypertensionMedication.currentDose != 0)
+				{
+					_highestHypertensionMedication = hypertensionMedication;
+				}
+			}
 		}
 
 		private function determineMostRecentDoseChange():void
