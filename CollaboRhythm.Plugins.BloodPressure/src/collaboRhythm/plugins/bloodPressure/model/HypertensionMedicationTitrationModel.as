@@ -47,9 +47,11 @@ package collaboRhythm.plugins.bloodPressure.model
 		private var _mostRecentSystolicVitalSign:VitalSign;
 
 		private var _currentDateSource:ICurrentDateSource;
+		private var _activeRecordAccount:Account;
 
 		public function HypertensionMedicationTitrationModel(activeRecordAccount:Account)
 		{
+			_activeRecordAccount = activeRecordAccount;
 			_record = activeRecordAccount.primaryRecord;
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
@@ -101,7 +103,7 @@ package collaboRhythm.plugins.bloodPressure.model
 		{
 			for each (var hypertensionMedication:HypertensionMedication in _primaryMedications)
 			{
-				hypertensionMedication.determineMedicationStage(_medicationScheduleItemsCollection);
+				hypertensionMedication.determineCurrentDose(_medicationScheduleItemsCollection);
 
 				if (hypertensionMedication.currentDose != 0)
 				{
@@ -137,86 +139,7 @@ package collaboRhythm.plugins.bloodPressure.model
 		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
 																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
 		{
-			if (altKey && ctrlKey)
-			{
-				if (hypertensionMedication.currentDose < doseSelected)
-				{
-					hypertensionMedication.currentDose = doseSelected;
-				}
-				else
-				{
-					hypertensionMedication.currentDose = doseSelected - 1;
-				}
-			}
-			else if (altKey)
-			{
-				if (hypertensionMedication.systemDoseSelected == doseSelected)
-				{
-					hypertensionMedication.systemDoseSelected = 0;
-				}
-				else
-				{
-					hypertensionMedication.systemDoseSelected = doseSelected;
-				}
-			}
-			else if (ctrlKey)
-			{
-				if (hypertensionMedication.coachDoseSelected == doseSelected)
-				{
-					hypertensionMedication.coachDoseSelected = -1;
-					hypertensionMedication.coachDoseAction = null;
-				}
-				else
-				{
-					hypertensionMedication.coachDoseSelected = doseSelected;
-					if (doseSelected <= hypertensionMedication.currentDose)
-					{
-						hypertensionMedication.coachDoseAction = HypertensionMedication.REMOVE
-					}
-					else
-					{
-						hypertensionMedication.coachDoseAction = HypertensionMedication.ADD;
-					}
-				}
-
-				if (hypertensionMedication.patientDoseSelected == doseSelected)
-				{
-					hypertensionMedication.coachDoseAdviseVsAgree = HypertensionMedication.AGREE;
-				}
-				else
-				{
-					hypertensionMedication.coachDoseAdviseVsAgree = HypertensionMedication.ADVISE;
-				}
-			}
-			else
-			{
-				if (hypertensionMedication.patientDoseSelected == doseSelected)
-				{
-					hypertensionMedication.patientDoseSelected = -1;
-					hypertensionMedication.patientDoseAction = null;
-				}
-				else
-				{
-					hypertensionMedication.patientDoseSelected = doseSelected;
-					if (doseSelected <= hypertensionMedication.currentDose)
-					{
-						hypertensionMedication.patientDoseAction = HypertensionMedication.REMOVE
-					}
-					else
-					{
-						hypertensionMedication.patientDoseAction = HypertensionMedication.ADD;
-					}
-				}
-
-				if (hypertensionMedication.coachDoseSelected == doseSelected)
-				{
-					hypertensionMedication.patientDoseAdviseVsAgree = HypertensionMedication.AGREE;
-				}
-				else
-				{
-					hypertensionMedication.patientDoseAdviseVsAgree = HypertensionMedication.ADVISE;
-				}
-			}
+			hypertensionMedication.handleDoseSelection(doseSelected, altKey, ctrlKey, _activeRecordAccount);
 		}
 
 		public function get primaryMedications():Vector.<HypertensionMedication>

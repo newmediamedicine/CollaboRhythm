@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.bloodPressure.model
 {
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
@@ -9,12 +10,6 @@ package collaboRhythm.plugins.bloodPressure.model
 	[Bindable]
 	public class HypertensionMedication
 	{
-		public static const ADVISE:String = "Advise";
-		public static const AGREE:String = "Agree";
-
-		public static const ADD:String = "Add";
-		public static const REMOVE:String = "Remove";
-
 		private var _medicationClass:String;
 		private var _rxNorm1:String;
 		private var _rxNorm2:String;
@@ -25,15 +20,11 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		private var _currentDose:int = 0;
 
-		private var _systemDoseSelected:int = -1;
-		private var _systemDoseAction:String;
 		private var _patientDoseSelected:int = -1;
 		private var _patientDoseAction:String;
-		private var _coachDoseSelected:int = -1;
-		private var _coachDoseAction:String;
 
-		private var _patientDoseAdviseVsAgree:String;
-		private var _coachDoseAdviseVsAgree:String;
+		private var _dose1SelectionArrayCollection:ArrayCollection = new ArrayCollection();
+		private var _dose2SelectionArrayCollection:ArrayCollection = new ArrayCollection();
 
 		public function HypertensionMedication(medicationClass:String, rxNorm1:String, rxNorm2:String)
 		{
@@ -47,18 +38,137 @@ package collaboRhythm.plugins.bloodPressure.model
 			dose2 = medicationName2.strength;
 		}
 
-		public function determineMedicationStage(medicationScheduleItemsCollection:ArrayCollection):void
+		public function determineCurrentDose(medicationScheduleItemsCollection:ArrayCollection):void
 		{
 			for each (var medicationScheduleItem:MedicationScheduleItem in medicationScheduleItemsCollection)
 			{
-				if ((medicationScheduleItem.name.value == _rxNorm1 && medicationScheduleItem.dose.value == "1") || (medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "0.5"))
+				if ((medicationScheduleItem.name.value == _rxNorm1 && medicationScheduleItem.dose.value == "1") ||
+						(medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "0.5"))
 				{
 					currentDose = 1;
 				}
-				else if ((medicationScheduleItem.name.value == _rxNorm1 && medicationScheduleItem.dose.value == "2") || (medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "1"))
+				else if ((medicationScheduleItem.name.value == _rxNorm1 && medicationScheduleItem.dose.value == "2") ||
+						(medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "1"))
 				{
 					currentDose = 2;
 				}
+			}
+		}
+
+		public function handleDoseSelection(doseSelected:int, altKey:Boolean, ctrlKey:Boolean, account:Account):void
+		{
+			if (altKey && ctrlKey)
+			{
+				if (currentDose < doseSelected)
+				{
+					currentDose = doseSelected;
+				}
+				else
+				{
+					currentDose = doseSelected - 1;
+				}
+			}
+			else
+			{
+				var action:String = determineAction(doseSelected);
+				var selectionType:String;
+
+				if (altKey)
+				{
+					selectionType = HypertensionMedicationDoseSelection.SYSTEM;
+				}
+				else if (ctrlKey)
+				{
+					selectionType = HypertensionMedicationDoseSelection.COACH;
+				}
+				else
+				{
+					if (patientDoseSelected == doseSelected)
+					{
+						patientDoseSelected = -1;
+						patientDoseAction = null;
+					}
+					else
+					{
+						patientDoseSelected = doseSelected;
+						patientDoseAction = action;
+					}
+
+					selectionType = HypertensionMedicationDoseSelection.PATIENT;
+				}
+
+				addOrRemoveHypertensionMedicationDoseSelection(doseSelected, action, selectionType, account);
+			}
+		}
+
+		private function determineAction(doseSelected:int):String
+		{
+			var action:String;
+
+			if (doseSelected <= currentDose)
+			{
+				action = HypertensionMedicationDoseSelection.DECREASE;
+			}
+			else
+			{
+				action = HypertensionMedicationDoseSelection.INCREASE;
+			}
+
+			return action;
+		}
+
+		private function addOrRemoveHypertensionMedicationDoseSelection(doseSelected:int, action:String,
+																		selectionType:String, account:Account):void
+		{
+			if (doseSelected == 1)
+			{
+				var remove:Boolean = removeHypertensionMedicationDoseSelection(_dose1SelectionArrayCollection,
+						selectionType);
+				removeHypertensionMedicationDoseSelection(_dose2SelectionArrayCollection, selectionType);
+
+				if (!remove)
+				{
+					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
+							action, selectionType, account);
+					_dose1SelectionArrayCollection.addItem(hypertensionMedicationDoseSelection);
+				}
+			}
+			else if (doseSelected == 2)
+			{
+				var remove:Boolean = removeHypertensionMedicationDoseSelection(_dose2SelectionArrayCollection,
+						selectionType);
+				removeHypertensionMedicationDoseSelection(_dose1SelectionArrayCollection, selectionType);
+
+				if (!remove)
+				{
+					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
+							action, selectionType, account);
+					_dose2SelectionArrayCollection.addItem(hypertensionMedicationDoseSelection);
+				}
+			}
+		}
+
+		private function removeHypertensionMedicationDoseSelection(doseSelectionArrayCollection:ArrayCollection,
+																   selectionType:String):Boolean
+		{
+			var indexToRemove:int = -1;
+			for each (var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection in
+					doseSelectionArrayCollection)
+			{
+				if (hypertensionMedicationDoseSelection.selectionType == selectionType)
+				{
+					indexToRemove = doseSelectionArrayCollection.getItemIndex(hypertensionMedicationDoseSelection);
+				}
+			}
+
+			if (indexToRemove == -1)
+			{
+				return false;
+			}
+			else
+			{
+				doseSelectionArrayCollection.removeItemAt(indexToRemove);
+				return true;
 			}
 		}
 
@@ -133,16 +243,6 @@ package collaboRhythm.plugins.bloodPressure.model
 			_currentDose = value;
 		}
 
-		public function get systemDoseSelected():int
-		{
-			return _systemDoseSelected;
-		}
-
-		public function set systemDoseSelected(value:int):void
-		{
-			_systemDoseSelected = value;
-		}
-
 		public function get patientDoseSelected():int
 		{
 			return _patientDoseSelected;
@@ -151,26 +251,6 @@ package collaboRhythm.plugins.bloodPressure.model
 		public function set patientDoseSelected(value:int):void
 		{
 			_patientDoseSelected = value;
-		}
-
-		public function get coachDoseSelected():int
-		{
-			return _coachDoseSelected;
-		}
-
-		public function set coachDoseSelected(value:int):void
-		{
-			_coachDoseSelected = value;
-		}
-
-		public function get systemDoseAction():String
-		{
-			return _systemDoseAction;
-		}
-
-		public function set systemDoseAction(value:String):void
-		{
-			_systemDoseAction = value;
 		}
 
 		public function get patientDoseAction():String
@@ -183,34 +263,14 @@ package collaboRhythm.plugins.bloodPressure.model
 			_patientDoseAction = value;
 		}
 
-		public function get coachDoseAction():String
+		public function get dose1SelectionArrayCollection():ArrayCollection
 		{
-			return _coachDoseAction;
+			return _dose1SelectionArrayCollection;
 		}
 
-		public function set coachDoseAction(value:String):void
+		public function get dose2SelectionArrayCollection():ArrayCollection
 		{
-			_coachDoseAction = value;
-		}
-
-		public function get patientDoseAdviseVsAgree():String
-		{
-			return _patientDoseAdviseVsAgree;
-		}
-
-		public function set patientDoseAdviseVsAgree(value:String):void
-		{
-			_patientDoseAdviseVsAgree = value;
-		}
-
-		public function get coachDoseAdviseVsAgree():String
-		{
-			return _coachDoseAdviseVsAgree;
-		}
-
-		public function set coachDoseAdviseVsAgree(value:String):void
-		{
-			_coachDoseAdviseVsAgree = value;
+			return _dose2SelectionArrayCollection;
 		}
 	}
 }

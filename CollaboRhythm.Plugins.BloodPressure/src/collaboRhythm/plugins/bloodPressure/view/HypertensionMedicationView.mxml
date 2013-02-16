@@ -51,9 +51,9 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedication;
+		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedicationDoseSelection;
 
 		import mx.binding.utils.BindingUtils;
-
 
 
 		[Bindable]
@@ -162,13 +162,13 @@
 					</s:fill>
 				</s:Ellipse>
 				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
-						   visible="{(_hypertensionMedication.patientDoseSelected == 2 || _hypertensionMedication.patientDoseSelected == 1)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedication.REMOVE}">
+						   visible="{(_hypertensionMedication.patientDoseSelected == 2 || _hypertensionMedication.patientDoseSelected == 1)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedicationDoseSelection.DECREASE}">
 					<s:fill>
 						<s:SolidColor color="0xFFFFFF"/>
 					</s:fill>
 				</s:Ellipse>
 				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
-						   visible="{(_hypertensionMedication.patientDoseSelected == 2)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedication.ADD}">
+						   visible="{(_hypertensionMedication.patientDoseSelected == 2)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedicationDoseSelection.INCREASE}">
 					<s:fill>
 						<s:SolidColor color="0x37B6E1"/>
 					</s:fill>
@@ -196,13 +196,13 @@
 					</s:fill>
 				</s:Ellipse>
 				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
-						   visible="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedication.REMOVE}">
+						   visible="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedicationDoseSelection.DECREASE}">
 					<s:fill>
 						<s:SolidColor color="0xFFFFFF"/>
 					</s:fill>
 				</s:Ellipse>
 				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
-						   visible="{(_hypertensionMedication.patientDoseSelected == 1 || _hypertensionMedication.patientDoseSelected == 2)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedication.ADD}">
+						   visible="{(_hypertensionMedication.patientDoseSelected == 1 || _hypertensionMedication.patientDoseSelected == 2)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedicationDoseSelection.INCREASE}">
 					<s:fill>
 						<s:SolidColor color="0x37B6E1"/>
 					</s:fill>
@@ -210,68 +210,18 @@
 			</s:Group>
 		</s:Group>
 		<s:Group height="130">
-			<s:HGroup height="50" top="0">
-				<s:VGroup visible="{_hypertensionMedication.systemDoseSelected == 2}"
-						  includeInLayout="{_hypertensionMedication.systemDoseSelected == 2}">
-					<view:SystemAdvise width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.systemDoseAction}"/>
-				</s:VGroup>
-				<s:VGroup
-						visible="{_hypertensionMedication.patientDoseSelected == 2 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.ADVISE}"
-						includeInLayout="{_hypertensionMedication.patientDoseSelected == 2 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.ADVISE}">
-					<view:PatientAdvise width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.patientDoseAction}"/>
-				</s:VGroup>
-				<s:VGroup
-						visible="{_hypertensionMedication.coachDoseSelected == 2 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.ADVISE}"
-						includeInLayout="{_hypertensionMedication.coachDoseSelected == 2 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.ADVISE}">
-					<view:CoachAdvise width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.coachDoseAction}"/>
-				</s:VGroup>
-				<s:VGroup
-						visible="{_hypertensionMedication.patientDoseSelected == 2 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.AGREE}"
-						includeInLayout="{_hypertensionMedication.patientDoseSelected == 2 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.AGREE}">
-					<view:PatientAgree width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.patientDoseAction}"/>
-				</s:VGroup>
-				<s:VGroup
-						visible="{_hypertensionMedication.coachDoseSelected == 2 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.AGREE}"
-						includeInLayout="{_hypertensionMedication.coachDoseSelected == 2 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.AGREE}">
-					<view:CoachAgree width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.coachDoseAction}"/>
-				</s:VGroup>
-			</s:HGroup>
-			<s:HGroup height="50" bottom="0">
-				<s:VGroup visible="{_hypertensionMedication.systemDoseSelected == 2}"
-						  includeInLayout="{_hypertensionMedication.systemDoseSelected == 2}">
-					<view:SystemAdvise width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.systemDoseAction}"/>
-				</s:VGroup>
-				<s:VGroup
-						visible="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.ADVISE}"
-						includeInLayout="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.ADVISE}">
-					<view:PatientAdvise width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.patientDoseAction}"/>
-				</s:VGroup>
-				<s:VGroup
-						visible="{_hypertensionMedication.coachDoseSelected == 1 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.ADVISE}"
-						includeInLayout="{_hypertensionMedication.coachDoseSelected == 1 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.ADVISE}">
-					<view:CoachAdvise width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.coachDoseAction}"/>
-				</s:VGroup>
-				<s:VGroup
-						visible="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.AGREE}"
-						includeInLayout="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAdviseVsAgree == HypertensionMedication.AGREE}">
-					<view:PatientAgree width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.patientDoseAction}"/>
-				</s:VGroup>
-				<s:VGroup
-						visible="{_hypertensionMedication.coachDoseSelected == 1 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.AGREE}"
-						includeInLayout="{_hypertensionMedication.coachDoseSelected == 1 &amp;&amp; _hypertensionMedication.coachDoseAdviseVsAgree == HypertensionMedication.AGREE}">
-					<view:CoachAgree width="30" height="30"/>
-					<s:Label text="{_hypertensionMedication.coachDoseAction}"/>
-				</s:VGroup>
-			</s:HGroup>
+			<s:List height="50" top="0" dataProvider="{_hypertensionMedication.dose2SelectionArrayCollection}"
+					itemRenderer="collaboRhythm.plugins.bloodPressure.view.HypertensionMedicationDoseSelectionItemRenderer" contentBackgroundAlpha="0">
+				<s:layout>
+					<s:HorizontalLayout/>
+				</s:layout>
+			</s:List>
+			<s:List height="50" bottom="0" dataProvider="{_hypertensionMedication.dose1SelectionArrayCollection}"
+					itemRenderer="collaboRhythm.plugins.bloodPressure.view.HypertensionMedicationDoseSelectionItemRenderer" contentBackgroundAlpha="0">
+				<s:layout>
+					<s:HorizontalLayout/>
+				</s:layout>
+			</s:List>
 		</s:Group>
 	</s:HGroup>
 </s:VGroup>
