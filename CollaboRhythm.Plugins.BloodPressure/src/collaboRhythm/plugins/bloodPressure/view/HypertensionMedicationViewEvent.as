@@ -6,7 +6,7 @@ package collaboRhythm.plugins.bloodPressure.view
 
 	public class HypertensionMedicationViewEvent extends Event
 	{
-		public static const DOSE_SELECTED:String = "HypertensionMedicationDoseChoiceClicked";
+		public static const DOSE_SELECTED:String = "HypertensionMedicationDoseSelected";
 
 		private var _hypertensionMedication:HypertensionMedication;
 		private var _doseSelected:int;

@@ -26,23 +26,22 @@ package collaboRhythm.plugins.bloodPressure.model
 		private static const LISINOPRIL_20_MG_ORAL_TABLET_RXNORM:String = "Lisinopril 20 MG Oral Tablet";
 		private static const LISINOPRIL_40_MG_ORAL_TABLET_RXNORM:String = "Lisinopril 40 MG Oral Tablet";
 		private static const VALSARTAN_160_MG_ORAL_TABLET_RXNORM:String = "Valsartan 160 MG Oral Tablet";
-		private static const VALSARTAN_320_MG_ORAL_TABLET_RXNORM:String = "Valsartan 160 MG Oral Tablet";
+		private static const VALSARTAN_320_MG_ORAL_TABLET_RXNORM:String = "Valsartan 320 MG Oral Tablet";
 		private static const AMLODIPINE_5_MG_ORAL_TABLET_RXNORM:String = "Amlodipine 5 MG Oral Tablet";
 		private static const AMLODIPINE_10_MG_ORAL_TABLET_RXNORM:String = "Amlodipine 10 MG Oral Tablet";
 		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET_RXNORM:String = "Hydrochlorothiazide 12.5 MG Oral Tablet";
 		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET_RXNORM:String = "Hydrochlorothiazide 25 MG Oral Tablet";
 
-		private	const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
+		private const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
 
 		private var _record:Record;
 
 		private var _medicationScheduleItemsCollection:ArrayCollection;
 		private var _systolicVitalSignsCollection:ArrayCollection;
 
-		private var _primaryMedications:Vector.<HypertensionMedication> = new Vector.<HypertensionMedication>();
-		private var _secondaryMedications:Vector.<HypertensionMedication> = new Vector.<HypertensionMedication>();
+		private var _hypertensionMedicationAlternatePairsVector:Vector.<HypertensionMedicationAlternatePair> = new Vector.<HypertensionMedicationAlternatePair>();
 
-		private var _highestHypertensionMedication:HypertensionMedication;
+		private var _highestHypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair;
 		private var _mostRecentDoseChange:Date;
 		private var _mostRecentSystolicVitalSign:VitalSign;
 
@@ -56,12 +55,24 @@ package collaboRhythm.plugins.bloodPressure.model
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
-			_primaryMedications.push(new HypertensionMedication("Diuretic",
-					HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET_RXNORM, HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET_RXNORM));
-			_primaryMedications.push(new HypertensionMedication("Calcium Channel Blocker",
-					AMLODIPINE_5_MG_ORAL_TABLET_RXNORM, AMLODIPINE_10_MG_ORAL_TABLET_RXNORM));
-			_primaryMedications.push(new HypertensionMedication("ACE Inhibitor", LISINOPRIL_20_MG_ORAL_TABLET_RXNORM,
-					LISINOPRIL_40_MG_ORAL_TABLET_RXNORM));
+			_hypertensionMedicationAlternatePairsVector.push(
+					new HypertensionMedicationAlternatePair(
+							new HypertensionMedication("Diuretic", HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET_RXNORM,
+									HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET_RXNORM),
+							null));
+
+			_hypertensionMedicationAlternatePairsVector.push(
+					new HypertensionMedicationAlternatePair(
+							new HypertensionMedication("Calcium Channel Blocker",
+									AMLODIPINE_5_MG_ORAL_TABLET_RXNORM, AMLODIPINE_10_MG_ORAL_TABLET_RXNORM),
+							null));
+
+			_hypertensionMedicationAlternatePairsVector.push(
+					new HypertensionMedicationAlternatePair(
+							new HypertensionMedication("ACE Inhibitor", LISINOPRIL_20_MG_ORAL_TABLET_RXNORM,
+									LISINOPRIL_40_MG_ORAL_TABLET_RXNORM),
+							new HypertensionMedication("ARB", VALSARTAN_160_MG_ORAL_TABLET_RXNORM,
+									VALSARTAN_320_MG_ORAL_TABLET_RXNORM)));
 
 			BindingUtils.bindSetter(recordIsLoading_changeHandler, _record, "isLoading");
 		}
@@ -74,7 +85,7 @@ package collaboRhythm.plugins.bloodPressure.model
 				_systolicVitalSignsCollection = _record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY) as
 						ArrayCollection;
 
-				determineHighestHypertensionMedication();
+				determineHighestHypertensionMedicationAlternatePair();
 
 				determineMostRecentDoseChange();
 
@@ -95,19 +106,17 @@ package collaboRhythm.plugins.bloodPressure.model
 					}
 				}
 			}
-
-
 		}
 
-		private function determineHighestHypertensionMedication():void
+		private function determineHighestHypertensionMedicationAlternatePair():void
 		{
-			for each (var hypertensionMedication:HypertensionMedication in _primaryMedications)
+			for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in _hypertensionMedicationAlternatePairsVector)
 			{
-				hypertensionMedication.determineCurrentDose(_medicationScheduleItemsCollection);
+				hypertensionMedicationAlternatePair.determineCurrentDose(_medicationScheduleItemsCollection);
 
-				if (hypertensionMedication.currentDose != 0)
+				if (hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose != 0)
 				{
-					_highestHypertensionMedication = hypertensionMedication;
+					_highestHypertensionMedicationAlternatePair = hypertensionMedicationAlternatePair;
 				}
 			}
 		}
@@ -139,12 +148,18 @@ package collaboRhythm.plugins.bloodPressure.model
 		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
 																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
 		{
-			hypertensionMedication.handleDoseSelection(doseSelected, altKey, ctrlKey, _activeRecordAccount);
+			hypertensionMedication.handleDoseSelected(doseSelected, altKey, ctrlKey, _activeRecordAccount);
 		}
 
-		public function get primaryMedications():Vector.<HypertensionMedication>
+		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
+																	  altKey:Boolean, ctrlKey:Boolean):void
 		{
-			return _primaryMedications;
+			hypertensionMedicationAlternatePair.handleAlternateSelected(altKey, ctrlKey);
+		}
+
+		public function get hypertensionMedicationAlternatePairsVector():Vector.<HypertensionMedicationAlternatePair>
+		{
+			return _hypertensionMedicationAlternatePairsVector;
 		}
 	}
 }

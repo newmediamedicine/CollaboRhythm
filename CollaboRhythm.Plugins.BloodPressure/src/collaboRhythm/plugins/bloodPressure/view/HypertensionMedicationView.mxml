@@ -17,13 +17,16 @@
 -->
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		  xmlns:s="library://ns.adobe.com/flex/spark"
-		  xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
 		  gap="0">
 
 	<fx:Style>
 		#medicationClassLabel {
 			font-size: 36;
 			color: #939598;
+		}
+
+		#alternateMedicationLabel {
+			font-size: 18;
 		}
 
 		.medicationNameLabel {
@@ -52,9 +55,6 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedication;
 		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedicationDoseSelection;
-
-		import mx.binding.utils.BindingUtils;
-
 
 		[Bindable]
 		private var _hypertensionMedication:HypertensionMedication;

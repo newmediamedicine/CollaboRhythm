@@ -18,20 +18,21 @@
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-					   xmlns:view="collaboRhythm.plugins.bloodPressure.view.*"
 					   title="HypertensionMedicationTitration"
 					   creationComplete="creationCompleteHandler(event)">
+	<fx:Style>
+		.extremesLabels {
+			font-size: 36;
+			color: #939598;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.controller.HypertensionMedicationTitrationAppController;
 		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedication;
-		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedication;
+		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedicationAlternatePair;
 		import collaboRhythm.plugins.bloodPressure.model.HypertensionMedicationTitrationModel;
 
-		import mx.core.LayoutDirection;
-
 		import mx.events.FlexEvent;
-
-		import spark.primitives.Line;
 
 		[Bindable]
 		private var _controller:HypertensionMedicationTitrationAppController;
@@ -43,21 +44,28 @@
 
 			_controller = value as HypertensionMedicationTitrationAppController;
 			_model = _controller.model;
-
 		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
-			var count:int = 0
-			for each (var hypertensionMedication:HypertensionMedication in _model.primaryMedications)
+			for each (var hypertensionMedicationAlternatePair in _model.hypertensionMedicationAlternatePairsVector)
 			{
-				var hypertensionMedicationView:HypertensionMedicationView = new HypertensionMedicationView();
-				hypertensionMedicationView.init(hypertensionMedication);
-				hypertensionMedicationView.addEventListener(HypertensionMedicationViewEvent.DOSE_SELECTED,
-						hypertensionMedicationViewEvent_doseSelectedHandler);
-				hypertensionMedicationsVGroup.addElement(hypertensionMedicationView);
+				createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair);
 			}
+
 			determineConnectorsVisible();
+		}
+
+		private function createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair):void
+		{
+			var hypertensionMedicationAlternatePairView:HypertensionMedicationAlternatePairView = new HypertensionMedicationAlternatePairView();
+			hypertensionMedicationAlternatePairView.init(hypertensionMedicationAlternatePair);
+			addEventListener(HypertensionMedicationViewEvent.DOSE_SELECTED,
+					hypertensionMedicationViewEvent_doseSelectedHandler);
+			addEventListener(HypertensionMedicationAlternatePairViewEvent.ALTERNATE_SELECTED,
+					hypertensionMedicationViewEvent_alternateSelectedHandler);
+
+			hypertensionMedicationsVGroup.addElement(hypertensionMedicationAlternatePairView);
 		}
 
 		private function hypertensionMedicationViewEvent_doseSelectedHandler(event:HypertensionMedicationViewEvent):void
@@ -67,18 +75,24 @@
 			determineConnectorsVisible();
 		}
 
+		private function hypertensionMedicationViewEvent_alternateSelectedHandler(event:HypertensionMedicationAlternatePairViewEvent):void
+		{
+			_controller.handleHypertensionMedicationAlternateSelected(event.hypertensionMedicationAlternatePair,
+					event.altKey, event.ctrlKey);
+		}
+
 		private function determineConnectorsVisible():void
 		{
-			var firstMedication:HypertensionMedication = _model.primaryMedications[2];
-			var secondMedication:HypertensionMedication = _model.primaryMedications[1];
-			var thirdMedication:HypertensionMedication = _model.primaryMedications[0];
+			var firstMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[2];
+			var secondMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[1];
+			var thirdMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[0];
 
-			connector1.visible = (firstMedication.currentDose == 2 && secondMedication.currentDose != 0);
+			connector1.visible = (firstMedicationAlternatePair.activeHypertensionMedication.currentDose == 2 && secondMedicationAlternatePair.activeHypertensionMedication.currentDose != 0);
 
-			connector2.visible = (secondMedication.currentDose == 2 && thirdMedication.currentDose != 0);
+			connector2.visible = (secondMedicationAlternatePair.activeHypertensionMedication.currentDose == 2 && thirdMedicationAlternatePair.activeHypertensionMedication.currentDose != 0);
 		}
 		]]></fx:Script>
-	<s:VGroup x="481" top="130" gap="60">
+	<s:VGroup x="481" top="150" gap="60">
 		<s:Group height="180">
 			<s:Line height="100%">
 				<s:stroke>
@@ -104,7 +118,9 @@
 			</s:Line>
 		</s:Group>
 	</s:VGroup>
-	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" height="100%" gap="80">
+	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" top="20" gap="70">
 
 	</s:VGroup>
+	<s:Label text="Max" styleName="extremesLabels" top="18" x="456"/>
+	<s:Label text="Start" styleName="extremesLabels" top="664" x="456"/>
 </tablet:TabletViewBase>

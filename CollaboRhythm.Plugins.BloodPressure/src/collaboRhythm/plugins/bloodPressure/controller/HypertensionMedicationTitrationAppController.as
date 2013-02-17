@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.bloodPressure.controller
 {
 	import collaboRhythm.plugins.bloodPressure.model.HypertensionMedication;
+	import collaboRhythm.plugins.bloodPressure.model.HypertensionMedicationAlternatePair;
 	import collaboRhythm.plugins.bloodPressure.model.HypertensionMedicationTitrationModel;
 	import collaboRhythm.plugins.bloodPressure.view.HypertensionMedicationTitrationButtonWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.HypertensionMedicationTitrationView;
@@ -134,6 +135,12 @@ package collaboRhythm.plugins.bloodPressure.controller
 															   doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
 		{
 			_model.handleHypertensionMedicationDoseSelected(hypertensionMedication, doseSelected, altKey, ctrlKey);
+		}
+
+		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
+																	  altKey:Boolean, ctrlKey:Boolean):void
+		{
+			_model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair, altKey, ctrlKey);
 		}
 	}
 }

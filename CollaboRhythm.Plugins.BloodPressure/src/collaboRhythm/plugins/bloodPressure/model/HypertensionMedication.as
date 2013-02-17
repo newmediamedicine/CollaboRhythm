@@ -55,7 +55,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			}
 		}
 
-		public function handleDoseSelection(doseSelected:int, altKey:Boolean, ctrlKey:Boolean, account:Account):void
+		public function handleDoseSelected(doseSelected:int, altKey:Boolean, ctrlKey:Boolean, account:Account):void
 		{
 			if (altKey && ctrlKey)
 			{
@@ -148,7 +148,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			}
 		}
 
-		private function removeHypertensionMedicationDoseSelection(doseSelectionArrayCollection:ArrayCollection,
+		public function removeHypertensionMedicationDoseSelection(doseSelectionArrayCollection:ArrayCollection,
 																   selectionType:String):Boolean
 		{
 			var indexToRemove:int = -1;
@@ -169,6 +169,18 @@ package collaboRhythm.plugins.bloodPressure.model
 			{
 				doseSelectionArrayCollection.removeItemAt(indexToRemove);
 				return true;
+			}
+		}
+
+		public function removeAllHypertensionMedicationDoseSelections(selectionType:String):void
+		{
+			removeHypertensionMedicationDoseSelection(_dose1SelectionArrayCollection, selectionType);
+			removeHypertensionMedicationDoseSelection(_dose2SelectionArrayCollection, selectionType);
+
+			if (selectionType == HypertensionMedicationDoseSelection.PATIENT)
+			{
+				patientDoseSelected = -1;
+				patientDoseAction = null;
 			}
 		}
 
@@ -202,6 +214,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			_rxNorm2 = value;
 		}
 
+
 		public function get medicationName():String
 		{
 			return _medicationName;
@@ -211,7 +224,6 @@ package collaboRhythm.plugins.bloodPressure.model
 		{
 			_medicationName = value;
 		}
-
 
 		public function get dose1():String
 		{
