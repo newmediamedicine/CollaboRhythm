@@ -41,7 +41,7 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		private var _hypertensionMedicationAlternatePairsVector:Vector.<HypertensionMedicationAlternatePair> = new Vector.<HypertensionMedicationAlternatePair>();
 
-		private var _highestHypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair;
+		private var _highestHypertensionMedicationAlternatePairIndex:int;
 		private var _mostRecentDoseChange:Date;
 		private var _mostRecentSystolicVitalSign:VitalSign;
 
@@ -95,13 +95,27 @@ package collaboRhythm.plugins.bloodPressure.model
 				{
 					if (_mostRecentSystolicVitalSign)
 					{
+						//TODO: This needs to be tested and needs to be implemented for average of last 3 blood pressures
 						if (_mostRecentSystolicVitalSign.resultAsNumber > 130)
 						{
-
+							if (_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose <
+									2)
+							{
+								_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose +
+										1, HypertensionMedicationDoseSelection.INCREASE,
+										HypertensionMedicationDoseSelection.SYSTEM, null);
+							}
+							else if (_highestHypertensionMedicationAlternatePairIndex < 2)
+							{
+								_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex +
+										1].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(1,
+										HypertensionMedicationDoseSelection.INCREASE,
+										HypertensionMedicationDoseSelection.SYSTEM, null);
+							}
 						}
 						else
 						{
-
+							_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose, HypertensionMedicationDoseSelection.DECREASE, HypertensionMedicationDoseSelection.SYSTEM, null);
 						}
 					}
 				}
@@ -110,13 +124,16 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		private function determineHighestHypertensionMedicationAlternatePair():void
 		{
-			for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in _hypertensionMedicationAlternatePairsVector)
+			_highestHypertensionMedicationAlternatePairIndex = 0;
+
+			for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in
+					_hypertensionMedicationAlternatePairsVector)
 			{
 				hypertensionMedicationAlternatePair.determineCurrentDose(_medicationScheduleItemsCollection);
 
 				if (hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose != 0)
 				{
-					_highestHypertensionMedicationAlternatePair = hypertensionMedicationAlternatePair;
+					_highestHypertensionMedicationAlternatePairIndex = _hypertensionMedicationAlternatePairsVector.indexOf(hypertensionMedicationAlternatePair);
 				}
 			}
 		}

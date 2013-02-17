@@ -117,7 +117,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			return action;
 		}
 
-		private function addOrRemoveHypertensionMedicationDoseSelection(doseSelected:int, action:String,
+		public function addOrRemoveHypertensionMedicationDoseSelection(doseSelected:int, action:String,
 																		selectionType:String, account:Account):void
 		{
 			if (doseSelected == 1)
