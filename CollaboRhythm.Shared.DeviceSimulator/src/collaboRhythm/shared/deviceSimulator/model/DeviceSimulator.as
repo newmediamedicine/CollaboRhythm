@@ -14,6 +14,11 @@ package collaboRhythm.shared.deviceSimulator.model
 
 	import spark.components.ViewMenuItem;
 
+	/**
+	 * Simulates input from a device (currently only the FORA D40b is supported) as though data was coming into
+	 * CollaboRhythm from CollaboRhythm.Android.DeviceGateway. Useful for testing when running the emulator or when
+	 * testing without the actual device.
+	 */
 	[Bindable]
 	public class DeviceSimulator
 	{

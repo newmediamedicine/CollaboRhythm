@@ -32,6 +32,7 @@
 	<collaborationEnabled>false</collaborationEnabled>
 	<rtmpBaseURI>rtmfp://adrenaline.media.mit.edu</rtmpBaseURI>
 	<debuggingToolsEnabled>true</debuggingToolsEnabled>
+	<deviceSimulatorEnabled>true</deviceSimulatorEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<pluginSearchPaths>

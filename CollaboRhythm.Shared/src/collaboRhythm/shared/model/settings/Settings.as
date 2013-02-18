@@ -59,6 +59,7 @@ package collaboRhythm.shared.model.settings
 		private var _pluginSearchPaths:ArrayCollection;
 		private var _applicationUpdateDescriptorURL:String;
 		private var _clockAnimationMode:String;
+		private var _deviceSimulatorEnabled:Boolean;
 
 		public function Settings()
 		{
@@ -385,6 +386,16 @@ package collaboRhythm.shared.model.settings
 		public function set collaborationEnabled(value:Boolean):void
 		{
 			_collaborationEnabled = value;
+		}
+
+		public function get deviceSimulatorEnabled():Boolean
+		{
+			return _deviceSimulatorEnabled;
+		}
+
+		public function set deviceSimulatorEnabled(value:Boolean):void
+		{
+			_deviceSimulatorEnabled = value;
 		}
 	}
 }

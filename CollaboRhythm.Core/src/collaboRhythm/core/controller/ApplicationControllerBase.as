@@ -579,7 +579,11 @@ package collaboRhythm.core.controller
 			_kernel.registerComponentInstance("BackgroundProcessCollectionModel", BackgroundProcessCollectionModel,
 					backgroundProcessModel);
 
-			_kernel.registerComponentInstance("DeviceSimulatorViewModifier", IViewModifier, new DeviceSimulatorViewModifier());
+			if (_settings.deviceSimulatorEnabled)
+			{
+				_kernel.registerComponentInstance("DeviceSimulatorViewModifier", IViewModifier,
+						new DeviceSimulatorViewModifier());
+			}
 
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader(_settings);

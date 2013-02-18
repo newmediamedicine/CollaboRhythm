@@ -13,6 +13,9 @@ package collaboRhythm.shared.deviceSimulator.model
 	import spark.components.View;
 	import spark.components.ViewMenuItem;
 
+	/**
+	 * Adds the Device Simulator menu item to any view.
+	 */
 	public class DeviceSimulatorViewModifier implements IViewModifier
 	{
 		private var _deviceSimulator:DeviceSimulator;
