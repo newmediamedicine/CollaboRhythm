@@ -56,9 +56,5 @@ package collaboRhythm.plugins.equipment.pillBox.controller
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
 		{
 		}
-
-		public function removeEventListener():void
-		{
-		}
 	}
 }

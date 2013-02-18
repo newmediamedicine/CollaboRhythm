@@ -346,6 +346,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function nextStep():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("nextStep"))
 			{
 				return;
@@ -356,6 +357,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function createAndSubmitResults():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("createAndSubmitResults"))
 			{
 				return;
@@ -407,7 +409,8 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private function popPushedViews():void
 		{
-			for (var pushedViewIndex:int = 0; pushedViewIndex < _dataInputModelCollection.pushedViewCount;
+			var viewsToPop:int = _dataInputModelCollection.pushedViewCount;
+			for (var pushedViewIndex:int = 0; pushedViewIndex < viewsToPop;
 				 pushedViewIndex++)
 			{
 				_viewNavigator.popView();
@@ -441,7 +444,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function updateManualBloodGlucose(text:String = ""):void
 		{
-			if (_synchronizationService.synchronize("updateManualBloodGlucose", text))
+			if (_synchronizationService && _synchronizationService.synchronize("updateManualBloodGlucose", text))
 			{
 				return;
 			}
@@ -451,7 +454,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function updateDateMeasuredStart(selectedDate:Date):void
 		{
-			if (_synchronizationService.synchronize("updateDateMeasuredStart", selectedDate))
+			if (_synchronizationService && _synchronizationService.synchronize("updateDateMeasuredStart", selectedDate))
 			{
 				return;
 			}
@@ -605,10 +608,6 @@ package collaboRhythm.plugins.foraD40b.controller
 		}
 
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
-		{
-		}
-
-		public function removeEventListener():void
 		{
 		}
 

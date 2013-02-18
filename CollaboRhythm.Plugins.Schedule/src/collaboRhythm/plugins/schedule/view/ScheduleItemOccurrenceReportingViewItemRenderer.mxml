@@ -141,7 +141,7 @@
 			}
 			if (_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController)
 			{
-				_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController.removeEventListener();
+				_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController.destroy();
 			}
 		}
 

@@ -113,10 +113,5 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		public function updateDateMeasuredStart(date:Date):void
 		{
 		}
-
-		public function removeEventListener():void
-		{
-			_synchronizationService.removeEventListener(this);
-		}
 	}
 }

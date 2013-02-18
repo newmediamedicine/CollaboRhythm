@@ -33,10 +33,10 @@ package collaboRhythm.shared.deviceSimulator.model
 
 		private function simulateDevice3MenuItem_clickHandler(event:MouseEvent):void
 		{
-			simulateDeviceBatchTransferBegin();
+			simulateDeviceBatchTransferBegin(DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME);
 			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
 					["collaborhythm://collaborhythm?deviceMeasuredDate=2012-10-19T23%3A15%3A00-04%3A00&bloodGlucose=181&equipmentName=FORA%20D40b&correctedMeasuredDate=2012-10-19T22%3A16%3A40-04%3A00&healthActionName=Blood%20Glucose&localTransmittedDate=2012-11-19T18%3A12%3A40-05%3A00&deviceTransmittedDate=2012-11-19T19%3A11%3A00-05%3A00&debug=0%20of%20181&healthActionType=Equipment&success=true&batchTransfer=data"]));
-			simulateDeviceBatchTransferEnd();
+			simulateDeviceBatchTransferEnd(DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME);
 		}
 
 		private function simulateDeviceMenuItem_clickHandler(event:MouseEvent):void
@@ -46,12 +46,12 @@ package collaboRhythm.shared.deviceSimulator.model
 			index = 0;
 			var numToSimulate:Number = 3;
 
-			simulateDeviceBatchTransferBegin();
+			simulateDeviceBatchTransferBegin(DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME);
 			for (var i:int = 0; i < numToSimulate; i++)
 			{
-				simulateDeviceOffsetFromNow(index / numToSimulate + i * (1.0 / numToSimulate), 1.0 / numToSimulate);
+				simulateDeviceBloodGlucoseOffsetFromNow(index / numToSimulate + i * (1.0 / numToSimulate), 1.0 / numToSimulate);
 			}
-			simulateDeviceBatchTransferEnd();
+			simulateDeviceBatchTransferEnd(DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME);
 		}
 
 		private function simulateDeviceHighMenuItem_clickHandler(event:MouseEvent):void
@@ -69,7 +69,7 @@ package collaboRhythm.shared.deviceSimulator.model
 			simulateSingleBloodGlucoseFromDevice(60);
 		}
 
-		private function simulateDeviceOffsetFromNow(daysBeforeNow:Number, maximumRandomDaysFraction:Number):void
+		private function simulateDeviceBloodGlucoseOffsetFromNow(daysBeforeNow:Number, maximumRandomDaysFraction:Number):void
 		{
 			var correctedMeasuredDate:Date = new Date(_currentDateSource.now().valueOf() -
 					DateUtil.MILLISECONDS_IN_DAY * daysBeforeNow -
@@ -90,7 +90,7 @@ package collaboRhythm.shared.deviceSimulator.model
 		{
 			var urlVariables:URLVariables = new URLVariables();
 			urlVariables[DeviceGatewayConstants.BLOOD_GLUCOSE_KEY] = bloodGlucose.toString();
-			simulateDevice(urlVariables, correctedMeasuredDate, "Blood Glucose");
+			simulateDevice(urlVariables, correctedMeasuredDate, DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME);
 		}
 
 		private function simulateDeviceBloodPressure(systolic:int, diastolic:int, heartRate:int,
@@ -100,19 +100,17 @@ package collaboRhythm.shared.deviceSimulator.model
 			urlVariables[DeviceGatewayConstants.SYSTOLIC_KEY] = systolic.toString();
 			urlVariables[DeviceGatewayConstants.DIASTOLIC_KEY] = diastolic.toString();
 			urlVariables[DeviceGatewayConstants.HEARTRATE_KEY] = heartRate.toString();
-			simulateDevice(urlVariables, correctedMeasuredDate, "Blood Pressure");
+			simulateDevice(urlVariables, correctedMeasuredDate, DeviceGatewayConstants.BLOOD_PRESSURE_HEALTH_ACTION_NAME);
 		}
 
-		private function simulateDeviceBatchTransferBegin():void
+		private function simulateDeviceBatchTransferBegin(healthActionName:String):void
 		{
-			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN, "Blood Glucose");
-			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN, "Blood Pressure");
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN, healthActionName);
 		}
 
-		private function simulateDeviceBatchTransferEnd():void
+		private function simulateDeviceBatchTransferEnd(healthActionName:String):void
 		{
-			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END, "Blood Glucose");
-			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END, "Blood Pressure");
+			simulateDeviceBatchTransfer(HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END, healthActionName);
 		}
 
 		private function simulateDeviceBatchTransfer(batchTransfer:String, healthActionName:String):void
@@ -130,9 +128,9 @@ package collaboRhythm.shared.deviceSimulator.model
 			var dateValue:Number = previousInputDateValue;
 			if (!isNaN(dateValue))
 			{
-				simulateDeviceBatchTransferBegin();
+				simulateDeviceBatchTransferBegin(DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME);
 				simulateDeviceBloodGlucose(bloodGlucose, nextInputDate);
-				simulateDeviceBatchTransferEnd();
+				simulateDeviceBatchTransferEnd(DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME);
 			}
 		}
 
@@ -146,9 +144,9 @@ package collaboRhythm.shared.deviceSimulator.model
 			var dateValue:Number = previousInputDateValue;
 			if (!isNaN(dateValue))
 			{
-				simulateDeviceBatchTransferBegin();
+				simulateDeviceBatchTransferBegin(DeviceGatewayConstants.BLOOD_PRESSURE_HEALTH_ACTION_NAME);
 				simulateDeviceBloodPressure(systolic, diastolic, heartRate, nextInputDate);
-				simulateDeviceBatchTransferEnd();
+				simulateDeviceBatchTransferEnd(DeviceGatewayConstants.BLOOD_PRESSURE_HEALTH_ACTION_NAME);
 			}
 		}
 

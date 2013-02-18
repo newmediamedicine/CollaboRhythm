@@ -280,8 +280,22 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function clearMeasurements():void
 		{
-			reportForaD40bItemDataCollection.removeAll();
-			initializeModel();
+			// Clear the existing measurements, but keep the firstBloodGlucoseInputModel so that fields regarding the hypoglycemia action plan are preserved
+			if (firstBloodGlucoseInputModel)
+			{
+				firstBloodGlucoseInputModel.manualBloodGlucose = "";
+				firstBloodGlucoseInputModel.deviceBloodGlucose = "";
+				firstBloodGlucoseInputModel.dateMeasuredStart = _currentDateSource.now();
+				firstBloodGlucoseInputModel.isFromDevice = false;
+			}
+
+			// Remove other measurements; they should have been persisted already, and should not appear again in a reporting view.
+			// Also, we want to ensure that in ForaD40bHealthActionInputController.handleUrlVariablesNewMeasurement() isFirstFromDevice resolves to true so that
+			// the value coming from the device will be displayed correctly.
+			while (_reportForaD40bItemDataCollection.length > 1)
+			{
+				_reportForaD40bItemDataCollection.removeItemAt(_reportForaD40bItemDataCollection.length - 1);
+			}
 		}
 
 		public function set isReportingExplicit(isReviewExplicit:Boolean):void

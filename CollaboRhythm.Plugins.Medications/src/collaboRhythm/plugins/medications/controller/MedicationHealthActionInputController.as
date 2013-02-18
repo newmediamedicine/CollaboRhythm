@@ -127,9 +127,5 @@ package collaboRhythm.plugins.medications.controller
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
 		{
 		}
-
-		public function removeEventListener():void
-		{
-		}
 	}
 }

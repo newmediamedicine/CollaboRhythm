@@ -4,6 +4,9 @@ package collaboRhythm.shared.collaboration.model
 
 	import flash.utils.getQualifiedClassName;
 
+	/**
+	 * Service for synchronizing controller methods during collaboration.
+	 */
 	public class SynchronizationService
 	{
 		private var _collaborationSynchronizationController:*;
@@ -21,8 +24,16 @@ package collaboRhythm.shared.collaboration.model
 			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
 			_documentId = documentId;
 
-			_collaborationLobbyNetConnectionServiceProxy.addEventListener(getQualifiedClassName(_collaborationSynchronizationController),
-					collaborationViewSynchronization_eventHandler);
+			var qualifiedClassName:String = getQualifiedClassName(_collaborationSynchronizationController);
+			if (_documentId == null && _collaborationLobbyNetConnectionServiceProxy.hasEventListener(qualifiedClassName))
+			{
+				throw new Error("Attempted to created SynchronizationService for controller " + qualifiedClassName + " but there is already another instance of SynchronizationService for this same controller type. Only one instance of SynchronizationService may exist at a time for a given controller type.");
+			}
+			else
+			{
+				_collaborationLobbyNetConnectionServiceProxy.addEventListener(qualifiedClassName,
+						collaborationViewSynchronization_eventHandler);
+			}
 		}
 
 		private function collaborationViewSynchronization_eventHandler(event:CollaborationViewSynchronizationEvent):void
@@ -52,6 +63,13 @@ package collaboRhythm.shared.collaboration.model
 			_primaryCall = true;
 		}
 
+		/**
+		 * Synchronize a controller method between multiple collaboration clients.
+		 * @param synchronizeFunction The name of the function to synchronize. The method will be invoked via reflection on the other client(s).
+		 * @param synchronizeData must be the documentId, if a documentId was specified in the constructor; other wise, the synchronizeData may be any data used by the method
+		 * @param executeLocally
+		 * @return
+		 */
 		public function synchronize(synchronizeFunction:String, synchronizeData:* = null,
 									executeLocally:Boolean = true):Boolean
 		{

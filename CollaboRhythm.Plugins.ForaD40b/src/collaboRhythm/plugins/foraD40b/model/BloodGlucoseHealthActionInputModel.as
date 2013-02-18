@@ -82,11 +82,6 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			_logger.debug("handleUrlVariables " + urlVariables.toString());
 
-			manualBloodGlucose = "";
-			deviceBloodGlucose = urlVariables[DeviceGatewayConstants.BLOOD_GLUCOSE_KEY];
-			dateMeasuredStart = DateUtil.parseW3CDTF(urlVariables[DeviceGatewayConstants.CORRECTED_MEASURED_DATE_KEY]);
-			isFromDevice = true;
-
 			if (hypoglycemiaActionPlanIterationCount == 0)
 			{
 				if (foraD40bHealthActionInputModelCollection.pushedViewCount == 0 || currentView != ForaD40bHealthActionInputView)
@@ -98,6 +93,11 @@ package collaboRhythm.plugins.foraD40b.model
 			{
 				showStep3();
 			}
+
+			manualBloodGlucose = "";
+			deviceBloodGlucose = urlVariables[DeviceGatewayConstants.BLOOD_GLUCOSE_KEY];
+			dateMeasuredStart = DateUtil.parseW3CDTF(urlVariables[DeviceGatewayConstants.CORRECTED_MEASURED_DATE_KEY]);
+			isFromDevice = true;
 
 			this.urlVariables = urlVariables;
 		}
@@ -351,6 +351,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		private function startHypoglycemiaActionPlan():void
 		{
+			_foraD40bHealthActionInputModelCollection.clearMeasurements();
 			hypoglycemiaActionPlanIterationCount++;
 			setCurrentView(StartHypoglycemiaActionPlanView);
 		}

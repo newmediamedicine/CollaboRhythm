@@ -25,11 +25,17 @@ package collaboRhythm.plugins.schedule.shared.controller
 			return false;
 		}
 
+		public function removeEventListener():void
+		{
+			destroy();
+		}
+
 		public function destroy():void
 		{
 			if (_synchronizationService)
 			{
 				_synchronizationService.removeEventListener(this);
+				_synchronizationService = null;
 			}
 		}
 	}

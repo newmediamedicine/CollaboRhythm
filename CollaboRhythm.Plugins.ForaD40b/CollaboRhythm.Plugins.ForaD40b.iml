@@ -38,6 +38,9 @@
             <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="Castle.FlexBridge.Flash" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -109,6 +112,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
+    <orderEntry type="library" exported="" name="Castle.FlexBridge.Flash" level="project" />
   </component>
 </module>
 

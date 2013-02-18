@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.foraD40b.model
 {
+	import collaboRhythm.plugins.schedule.shared.model.DeviceGatewayConstants;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -11,8 +12,8 @@ package collaboRhythm.plugins.foraD40b.model
 
 	public class ForaD40bHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
-		private static const HEALTH_ACTION_NAME_BLOOD_PRESSURE:String = "Blood Pressure";
-		private static const HEALTH_ACTION_NAME_BLOOD_GLUCOSE:String = "Blood Glucose";
+		private static const HEALTH_ACTION_NAME_BLOOD_PRESSURE:String = DeviceGatewayConstants.BLOOD_PRESSURE_HEALTH_ACTION_NAME;
+		private static const HEALTH_ACTION_NAME_BLOOD_GLUCOSE:String = DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME;
 		private static const EQUIPMENT_NAME:String = "FORA D40b";
 		private static const BLOOD_PRESSURE_INSTRUCTIONS:String = "Use device to record blood pressure systolic and blood pressure diastolic readings. Heart rate will also be recorded. Press the power button and wait several seconds to take reading.";
 		private static const BLOOD_PRESSURE_PARTIAL_INSTRUCTIONS:String = "blood pressure";

@@ -81,9 +81,5 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
 		{
 		}
-
-		public function removeEventListener():void
-		{
-		}
 	}
 }
