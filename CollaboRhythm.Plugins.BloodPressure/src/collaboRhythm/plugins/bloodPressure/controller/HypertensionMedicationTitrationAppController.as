@@ -1,10 +1,11 @@
 package collaboRhythm.plugins.bloodPressure.controller
 {
-	import collaboRhythm.plugins.bloodPressure.model.HypertensionMedication;
-	import collaboRhythm.plugins.bloodPressure.model.HypertensionMedicationAlternatePair;
-	import collaboRhythm.plugins.bloodPressure.model.HypertensionMedicationTitrationModel;
-	import collaboRhythm.plugins.bloodPressure.view.HypertensionMedicationTitrationButtonWidgetView;
-	import collaboRhythm.plugins.bloodPressure.view.HypertensionMedicationTitrationView;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
+	import collaboRhythm.plugins.bloodPressure.model.titration.PersistableHypertensionMedicationTitrationModel;
+	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationButtonWidgetView;
+	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationView;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
@@ -18,7 +19,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 
 		private var _widgetView:HypertensionMedicationTitrationButtonWidgetView;
 
-		private var _model:HypertensionMedicationTitrationModel;
+		private var _model:PersistableHypertensionMedicationTitrationModel;
 		private var _collaborationLobbyNetConnectionServiceProxyLocal:CollaborationLobbyNetConnectionServiceProxy;
 		private var _synchronizationService:SynchronizationService;
 
@@ -44,7 +45,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			if (_model == null)
 			{
-				_model = new HypertensionMedicationTitrationModel(_activeRecordAccount);
+				_model = new PersistableHypertensionMedicationTitrationModel(_activeRecordAccount);
 			}
 		}
 
@@ -141,6 +142,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 																	  altKey:Boolean, ctrlKey:Boolean):void
 		{
 			_model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair, altKey, ctrlKey);
+		}
+
+		public function save():void
+		{
+			_model.save();
 		}
 	}
 }

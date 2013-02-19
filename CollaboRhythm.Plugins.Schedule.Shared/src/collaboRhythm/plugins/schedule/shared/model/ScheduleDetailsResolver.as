@@ -6,6 +6,9 @@ package collaboRhythm.plugins.schedule.shared.model
 
 	import mx.collections.ArrayCollection;
 
+	/**
+	 * Utility class which determines the current schedule for a given medication or other health action.
+	 */
 	public class ScheduleDetailsResolver
 	{
 		/**

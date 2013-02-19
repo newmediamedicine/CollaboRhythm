@@ -252,7 +252,10 @@
 
 		private function removeHandler():void
 		{
-			_scheduleModelInitialized_changeWatcher.unwatch();
+			if (_scheduleModelInitialized_changeWatcher)
+			{
+				_scheduleModelInitialized_changeWatcher.unwatch();
+			}
 		}
 
 		private function currentDateSource_changeHandler(event:Event):void

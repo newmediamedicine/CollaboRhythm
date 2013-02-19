@@ -41,6 +41,18 @@
             <entry module-name="CollaboRhythm.Shared.UI.Buttons" build-configuration-name="CollaboRhythm.Shared.UI.Buttons">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Castle.FlexBridge.Flash" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Theory9.Data.Types.OrderedMap" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Medications" build-configuration-name="CollaboRhythm.Shared.Model.Medications">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -83,6 +95,10 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Messages" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
+    <orderEntry type="library" exported="" name="Castle.FlexBridge.Flash" level="project" />
+    <orderEntry type="library" exported="" name="Theory9.Data.Types.OrderedMap" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Medications" exported="" />
   </component>
 </module>
 

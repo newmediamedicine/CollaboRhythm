@@ -368,6 +368,10 @@ package collaboRhythm.plugins.schedule.controller
 				_activeHealthActionInputController.destroy();
 				_activeHealthActionInputController = null;
 			}
+			if (_synchronizationService)
+			{
+				_synchronizationService.removeEventListener(this);
+			}
 		}
 	}
 }

@@ -2,7 +2,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 {
 	import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationDecisionPanelController;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.DosageChangeValueProxy;
-	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionModelBase;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationDecisionPanelModel;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step1Icon;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step2Icon;
@@ -10,6 +9,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.Step4Icon;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.instructions.WarningIcon;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
+	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.ui.buttons.view.skins.SolidFillButtonSkin;
 	import collaboRhythm.shared.ui.buttons.view.skins.TransparentButtonSkin;
 	import collaboRhythm.shared.ui.healthCharts.view.SynchronizedHealthCharts;
@@ -498,7 +498,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 
 		private function updateBadge(badge:SpriteVisualElement, stepState:String):void
 		{
-			if (stepState != InsulinTitrationDecisionModelBase.STEP_SATISFIED)
+			if (stepState != TitrationDecisionModelBase.STEP_SATISFIED)
 			{
 				badge.filters = [_greyScaleFilter];
 				badge.alpha = 0.3;
@@ -776,11 +776,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 				});
 			switch (stepState)
 			{
-				case InsulinTitrationDecisionModelBase.STEP_SATISFIED:
+				case TitrationDecisionModelBase.STEP_SATISFIED:
 					arrow = new DecisionSupportArrow();
 					richText.textFlow = TextConverter.importToFlow("The requirements for this step of the algorithm have been satisfied. " + stepStateDescription, TextConverter.TEXT_FIELD_HTML_FORMAT);
 					break;
-				case InsulinTitrationDecisionModelBase.STEP_STOP:
+				case TitrationDecisionModelBase.STEP_STOP:
 					arrow = new DecisionSupportArrowStop();
 					richText.textFlow = TextConverter.importToFlow("The requirements for this step of the algorithm have <b>not</b> been satisfied. " + stepStateDescription, TextConverter.TEXT_FIELD_HTML_FORMAT);
 					break;

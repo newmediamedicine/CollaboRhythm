@@ -27,7 +27,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
@@ -57,8 +57,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportChartModifierFactory).name,
 					IChartModifierFactory, new InsulinTitrationSupportChartModifierFactory());
 
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(IInsulinTitrationDecisionSupportStatesFileStore).name,
-					IInsulinTitrationDecisionSupportStatesFileStore,
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(ITitrationDecisionSupportStatesFileStore).name,
+					ITitrationDecisionSupportStatesFileStore,
 					new InsulinTitrationDecisionSupportStatesFileStore());
 
 			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportHealthActionCreationControllerFactory).name,

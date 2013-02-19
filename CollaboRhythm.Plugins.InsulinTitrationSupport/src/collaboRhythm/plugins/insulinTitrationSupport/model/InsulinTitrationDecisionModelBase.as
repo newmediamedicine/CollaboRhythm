@@ -3,15 +3,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleChanger;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportState;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
-	import collaboRhythm.shared.model.services.DateUtil;
-	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
-	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
@@ -26,8 +23,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.StopCondition;
+	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
+	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.services.IComponentContainer;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
 	import com.dougmccune.controls.LimitedLinearAxis;
 
@@ -44,15 +43,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import mx.utils.StringUtil;
 
 	[Bindable]
-	public class InsulinTitrationDecisionModelBase
+	public class InsulinTitrationDecisionModelBase extends TitrationDecisionModelBase
 	{
-		public static const STEP_SATISFIED:String = "satisfied";
-		public static const STEP_STOP:String = "stop";
-		public static const STEP_PREVIOUS_STOP:String = "previous stop";
 		private static const REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS:int = 3;
 		private static const REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE:int = 4;
 		private static const NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE:int = 4;
-
 
 		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET:String = "There <b>are</b> at least three acceptable blood glucose measurements for the protocol that conform the following rules: ";
 		private static const STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET:String = "There are <b>not</b> at least three acceptable blood glucose measurements for the protocol that conform the following rules: ";
@@ -106,20 +101,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		 */
 		private static const TITRATION_DECISION_MESSAGE_MISSING_PREREQUISITES:String = "{0} (note: prerequisites of the 303 Protocol not met)";
 
-		private static const TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME:String = "Titration Decision";
-		public static const PATIENT_DECISION_ACTION_STEP_RESULT_NAME:String = "Patient Decision";
-		public static const CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME:String = "Clinician Decision";
-		private static const AGREE_STOP_CONDITION_NAME:String = "Agree";
-		private static const NEW_STOP_CONDITION_NAME:String = "New";
-
-		private static const AGREE:String = "Agree";
-		private static const NEW:String = "New";
-		private static const NONE:String = "None";
-
-		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _dosageChangeValue:Number;
 		private var _persistedDosageChangeValue:Number;
-		private var _isAdherencePerfect:Boolean = true;
 		private var _algorithmSuggestsIncreaseDose:Boolean = true;
 		private var _algorithmSuggestsNoChangeDose:Boolean;
 		private var _algorithmSuggestsDecreaseDose:Boolean;
@@ -127,17 +110,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private const _dosageDecreaseText:String = "-3";
 		private const _dosageIncreaseValue:Number = +3;
 		private const _dosageDecreaseValue:Number = -3;
-		private var _isChangeSpecified:Boolean;
-
-		private var _step1State:String;
-		private var _step2State:String;
-		private var _step3State:String;
-		private var _step4State:String;
-
-		private var _step1StateDescription:String = "";
-		private var _step2StateDescription:String = "";
-		private var _step3StateDescription:String = "";
-		private var _step4StateDescription:String = "";
 
 		private var _bloodGlucoseAverage:Number;
 		private var _verticalAxisMinimum:Number;
@@ -153,7 +125,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _currentDoseValue:Number;
 		private var _newDose:Number;
 		private var _previousDoseValue:Number;
-		private var _nonAdherenceDescription:String;
 
 		private var _medicationTitrationHelper:MedicationTitrationHelper;
 		private var _bloodGlucoseRequirementsDetails:String;
@@ -166,23 +137,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _algorithmSuggestedDoseChange:Number;
 		private var _algorithmSuggestedDoseChangeLabel:String;
 		private var _instructionsHtml:String;
-		private var _algorithmPrerequisitesSatisfied:Boolean;
 		private var _isNewDoseDifferentFromOtherPartyLatest:Boolean;
 
-		private var _latestDecisionResult:HealthActionResult;
-		private var _patientLatestDecisionResult:HealthActionResult;
-		private var _clinicianLatestDecisionResult:HealthActionResult;
-		private var _otherPartyLatestDecisionResult:HealthActionResult;
 
 		private var _latestDecisionDose:Number;
 		private var _patientLatestDecisionDose:Number;
 		private var _clinicianLatestDecisionDose:Number;
 		private var _otherPartyLatestDecisionDose:Number;
-		private var _states:ArrayCollection;
 		private var _initializedDosageChangeValue:Boolean;
-
-		private var _confirmationMessage:String;
-		private var _instructionsSteps:ArrayCollection;
 
 		public function InsulinTitrationDecisionModelBase()
 		{
@@ -193,36 +155,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function initializeStates():void
 		{
-			var array:Array = componentContainer.resolveAll(IInsulinTitrationDecisionSupportStatesFileStore);
+			var array:Array = componentContainer.resolveAll(ITitrationDecisionSupportStatesFileStore);
 			if (array && array.length > 0)
 			{
 				var fileStore:InsulinTitrationDecisionSupportStatesFileStore = array[0] as
 						InsulinTitrationDecisionSupportStatesFileStore;
-				_states = fileStore.insulinTitrationDecisionSupportStates;
+				_states = fileStore.titrationDecisionSupportStates;
 			}
 		}
 
-		public function get record():Record
-		{
-			return null;
-		}
-
-		protected function get decisionScheduleItemOccurrence():ScheduleItemOccurrence
-		{
-			return null;
-		}
-
 		protected function get componentContainer():IComponentContainer
-		{
-			return null;
-		}
-
-		protected function get accountId():String
-		{
-			return null;
-		}
-
-		protected function get currentDateSource():ICurrentDateSource
 		{
 			return null;
 		}
@@ -306,23 +248,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return currentDateSource.now();
 		}
 
-		public function get areBloodGlucoseRequirementsMet():Boolean
-		{
-			return _areBloodGlucoseRequirementsMet;
-		}
-
 		public function get isAverageAvailable():Boolean
 		{
 			return !isNaN(_bloodGlucoseAverage);
 		}
 
-		public function set areBloodGlucoseRequirementsMet(value:Boolean):void
-		{
-			_areBloodGlucoseRequirementsMet = value;
-			updateStep1State();
-		}
-
-		private function updateStep1State():void
+		protected override function updateStep1State():void
 		{
 			step1StateDescription = (areBloodGlucoseRequirementsMet ?
 					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET :
@@ -333,7 +264,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			updateStep2State();
 		}
 
-		private function updateStep2State():void
+		protected override function updateStep2State():void
 		{
 			step2StateDescription = isAdherencePerfect ?
 					STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_PERFECT :
@@ -342,7 +273,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			updateStep3State();
 		}
 
-		private function updateStep3State():void
+		protected override function updateStep3State():void
 		{
 			step3State = step2State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
 			updateStep4State();
@@ -359,21 +290,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			instructionsSteps = getSteps();
 		}
 
-		public function get instructionsSteps():ArrayCollection
-		{
-			return _instructionsSteps;
-		}
-
-		public function set instructionsSteps(instructionsSteps:ArrayCollection):void
-		{
-			_instructionsSteps = instructionsSteps;
-		}
-
-		public function get isChangeSpecified():Boolean
-		{
-			return _isChangeSpecified;
-		}
-
 		public function get dosageChangeValue():Number
 		{
 			return _dosageChangeValue;
@@ -385,20 +301,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			isChangeSpecified = !isNaN(_dosageChangeValue);
 			evaluateForSave();
 			isNewDoseDifferentFromOtherPartyLatest = _newDose != _otherPartyLatestDecisionDose;
-		}
-
-		public function get isAdherencePerfect():Boolean
-		{
-			return _isAdherencePerfect;
-		}
-
-		public function set isAdherencePerfect(value:Boolean):void
-		{
-			if (_isAdherencePerfect != value)
-			{
-				_isAdherencePerfect = value;
-				updateStep2State();
-			}
 		}
 
 		public function get algorithmSuggestsIncreaseDose():Boolean
@@ -449,43 +351,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get dosageDecreaseValue():Number
 		{
 			return _dosageDecreaseValue;
-		}
-
-		public function set isChangeSpecified(value:Boolean):void
-		{
-			_isChangeSpecified = value;
-			updateStep3State();
-		}
-
-		public function get step1State():String
-		{
-			return _step1State;
-		}
-
-		public function set step1State(value:String):void
-		{
-			_step1State = value;
-		}
-
-		public function get step2State():String
-		{
-			return _step2State;
-		}
-
-		public function set step2State(value:String):void
-		{
-			_step2State = value;
-			algorithmPrerequisitesSatisfied = step2State == STEP_SATISFIED;
-		}
-
-		public function get step3State():String
-		{
-			return _step3State;
-		}
-
-		public function set step3State(value:String):void
-		{
-			_step3State = value;
 		}
 
 		public function get bloodGlucoseAverage():Number
@@ -713,8 +578,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function evaluateForSave():void
 		{
-			if (decisionScheduleItemOccurrence == null)
-				throw new Error("Failed to save. Decision data on the health charts model was not a ScheduleItemOccurrence.");
+			validateDecisionPreConditions();
 
 			// validate
 			if (isChangeSpecified)
@@ -725,10 +589,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				_newDose = (isNaN(_previousDoseValue) ? 0 : _previousDoseValue) + dosageChangeValue;
 			}
 
-			_confirmationMessage = !isPatient ||
+			confirmationMessage = !isPatient ||
 					!_clinicianLatestDecisionResult ? (algorithmPrerequisitesSatisfied ? (_dosageChangeValue ==
 					algorithmSuggestedDoseChange ? "This change agrees with the 303 Protocol." : "This change does not agree with the 303 Protocol.") : "Prerequisites of the 303 Protocol not met.") : (_newDose ==
 					_clinicianLatestDecisionDose ? "This change agrees with your coach’s advice." : "This change does not agree with your coach’s advice.")
+		}
+
+		override protected function validateDecisionPreConditions():void
+		{
+			if (decisionScheduleItemOccurrence == null)
+				throw new Error("Failed to save. Decision data on the health charts model was not a ScheduleItemOccurrence.");
 		}
 
 		public function evaluateForInitialize():void
@@ -769,116 +639,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 		}
 
-		private function getDecisionDoseFromResult(titrationResult:HealthActionResult):Number
-		{
-			if (titrationResult && titrationResult.actions && titrationResult.actions.length > 0)
-			{
-				var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
-
-				if (actionStepResult && actionStepResult.occurrences && actionStepResult.occurrences.length > 0)
-				{
-					var occurrence:Occurrence = actionStepResult.occurrences[0] as Occurrence;
-					if (occurrence.stopCondition && occurrence.stopCondition.value)
-					{
-						return Number(occurrence.stopCondition.value.value);
-					}
-				}
-			}
-
-			// No decision from other party or failed to determine the decision
-			return NaN;
-		}
-
-		public function isDecisionResultAgreement(titrationResult:HealthActionResult):Boolean
-		{
-			if (titrationResult && titrationResult.actions && titrationResult.actions.length > 0)
-			{
-				var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
-
-				if (actionStepResult && actionStepResult.occurrences && actionStepResult.occurrences.length > 0)
-				{
-					var occurrence:Occurrence = actionStepResult.occurrences[0] as Occurrence;
-					if (occurrence.stopCondition && occurrence.stopCondition.name)
-					{
-						return occurrence.stopCondition.name.text == AGREE_STOP_CONDITION_NAME;
-					}
-				}
-			}
-
-			// No decision from other party or failed to determine the decision
-			return false;
-		}
-
-		public function isDecisionResultByPatient(titrationResult:HealthActionResult):Boolean
-		{
-			if (titrationResult && titrationResult.actions && titrationResult.actions.length > 0)
-			{
-				var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
-
-				if (actionStepResult && actionStepResult.name)
-				{
-					return actionStepResult.name.text == PATIENT_DECISION_ACTION_STEP_RESULT_NAME;
-				}
-			}
-
-			return false;
-		}
-
-		private function getLatestDecisionResults(parentForTitrationDecisionResult:DocumentBase):void
-		{
-			latestDecisionResult = null;
-			patientLatestDecisionResult = null;
-			clinicianLatestDecisionResult = null;
-
-			// Loop through all relationships on the parent to find the potential latest titration result from the other party
-			for each (var relationship:Relationship in parentForTitrationDecisionResult.relatesTo)
-			{
-				if (relationship.type == HealthActionResult.RELATION_TYPE_TITRATION_DECISION)
-				{
-					var titrationResult:HealthActionResult = relationship.relatesTo as HealthActionResult;
-					if (titrationResult && titrationResult.name &&
-							titrationResult.name.text == TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME &&
-							titrationResult.actions && titrationResult.actions.length > 0)
-					{
-						var actionStepResult:ActionStepResult = titrationResult.actions[0] as ActionStepResult;
-						latestDecisionResult = getLatestMatchingResult(actionStepResult,
-								_latestDecisionResult, titrationResult,
-								function(a:ActionStepResult):Boolean { return true;});
-						patientLatestDecisionResult = getLatestMatchingResult(actionStepResult,
-								_patientLatestDecisionResult, titrationResult,
-								function(a:ActionStepResult):Boolean { return a && a.name && a.name.text == PATIENT_DECISION_ACTION_STEP_RESULT_NAME;});
-						clinicianLatestDecisionResult = getLatestMatchingResult(actionStepResult,
-								_clinicianLatestDecisionResult, titrationResult,
-								function(a:ActionStepResult):Boolean { return a && a.name && a.name.text == CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME;});
-					}
-				}
-			}
-
-			otherPartyLatestDecisionResult = isPatient ? _clinicianLatestDecisionResult : _patientLatestDecisionResult;
-		}
-
-		private function getLatestMatchingResult(actionStepResult:ActionStepResult,
-												 latestMatchingResult:HealthActionResult,
-												 titrationResult:HealthActionResult,
-												 matchingFunction:Function):HealthActionResult
-		{
-			if (matchingFunction(actionStepResult) &&
-					(latestMatchingResult == null ||
-							(titrationResult.dateReported && latestMatchingResult.dateReported &&
-									titrationResult.dateReported.valueOf() >
-											latestMatchingResult.dateReported.valueOf())))
-			{
-				latestMatchingResult = titrationResult;
-			}
-			return latestMatchingResult;
-		}
-
 		public function save():Boolean
 		{
 			var saveSucceeded:Boolean = true;
 
-			if (decisionScheduleItemOccurrence == null)
-				throw new Error("Failed to save. Decision data on the health charts model was not a ScheduleItemOccurrence.");
+			validateDecisionPreConditions();
 
 			var healthActionSchedule:HealthActionSchedule = decisionScheduleItemOccurrence.scheduleItem as HealthActionSchedule;
 			var plan:HealthActionPlan = healthActionSchedule.scheduledHealthAction as HealthActionPlan;
@@ -888,15 +653,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				evaluateForSave();
 
-				if (_scheduleDetails.currentSchedule == null || _scheduleDetails.occurrence == null)
+				if (_scheduleDetails.isCurrentScheduleDetermined)
 				{
-					// TODO: warn the user why the dose cannot be changed; possibly provide a means to fix the problem
-					_logger.warn("User is attempting to change the dose but the current schedule/dose could not be determined.");
-					return false;
-				}
-				else
-				{
-					var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.currentSchedule as MedicationScheduleItem;
+					var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.currentSchedule as
+							MedicationScheduleItem;
 					if (isPatient)
 						saveSucceeded = saveForPatient(currentMedicationScheduleItem, plan, saveSucceeded);
 					else
@@ -904,6 +664,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 					saveTitrationResult(currentMedicationScheduleItem);
 					evaluateForInitialize();
+				}
+				else
+				{
+					// TODO: warn the user why the dose cannot be changed; possibly provide a means to fix the problem
+					_logger.warn("User is attempting to change the dose but the current schedule/dose could not be determined.");
+					return false;
 				}
 			}
 
@@ -968,11 +734,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return saveSucceeded;
 		}
 
-		public function get isPatient():Boolean
-		{
-			return record.ownerAccountId == accountId;
-		}
-
 		private function saveForPatient(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
 										saveSucceeded:Boolean):Boolean
 		{
@@ -1034,11 +795,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get bloodGlucoseAverageLabel():String
 		{
 			return bloodGlucoseAverage.toFixed(0);
-		}
-
-		public function get algorithmPrerequisitesSatisfied():Boolean
-		{
-			return _algorithmPrerequisitesSatisfied;
 		}
 
 		private function saveScheduledDecisionResult(plan:HealthActionPlan):void
@@ -1211,46 +967,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 		}
 
-		public function get step1StateDescription():String
-		{
-			return _step1StateDescription;
-		}
-
-		public function set step1StateDescription(value:String):void
-		{
-			_step1StateDescription = value;
-		}
-
-		public function get step2StateDescription():String
-		{
-			return _step2StateDescription;
-		}
-
-		public function set step2StateDescription(value:String):void
-		{
-			_step2StateDescription = value;
-		}
-
-		public function get step3StateDescription():String
-		{
-			return _step3StateDescription;
-		}
-
-		public function set step3StateDescription(value:String):void
-		{
-			_step3StateDescription = value;
-		}
-
-		public function get nonAdherenceDescription():String
-		{
-			return _nonAdherenceDescription;
-		}
-
-		public function set nonAdherenceDescription(value:String):void
-		{
-			_nonAdherenceDescription = value;
-		}
-
 		public function get bloodGlucoseRequirementsDetails():String
 		{
 			return _bloodGlucoseRequirementsDetails;
@@ -1259,26 +975,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set bloodGlucoseRequirementsDetails(value:String):void
 		{
 			_bloodGlucoseRequirementsDetails = value;
-		}
-
-		public function get step4State():String
-		{
-			return _step4State;
-		}
-
-		public function set step4State(value:String):void
-		{
-			_step4State = value;
-		}
-
-		public function get step4StateDescription():String
-		{
-			return _step4StateDescription;
-		}
-
-		public function set step4StateDescription(value:String):void
-		{
-			_step4StateDescription = value;
 		}
 
 		public function get isBloodGlucoseMaximumExceeded():Boolean
@@ -1390,11 +1086,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_instructionsHtml = value;
 		}
 
-		public function set algorithmPrerequisitesSatisfied(value:Boolean):void
-		{
-			_algorithmPrerequisitesSatisfied = value;
-		}
-
 		public function get isNewDoseDifferentFromOtherPartyLatest():Boolean
 		{
 			return _isNewDoseDifferentFromOtherPartyLatest;
@@ -1435,31 +1126,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return _otherPartyLatestDecisionDose;
 		}
 
-		public function get latestDecisionResult():HealthActionResult
-		{
-			return _latestDecisionResult;
-		}
-
-		public function set latestDecisionResult(value:HealthActionResult):void
-		{
-			_latestDecisionResult = value;
-		}
-
-		public function set patientLatestDecisionResult(value:HealthActionResult):void
-		{
-			_patientLatestDecisionResult = value;
-		}
-
-		public function set clinicianLatestDecisionResult(value:HealthActionResult):void
-		{
-			_clinicianLatestDecisionResult = value;
-		}
-
-		public function set otherPartyLatestDecisionResult(value:HealthActionResult):void
-		{
-			_otherPartyLatestDecisionResult = value;
-		}
-
 		public function set latestDecisionDose(value:Number):void
 		{
 			_latestDecisionDose = value;
@@ -1483,52 +1149,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get evaluateTodayOnly():Boolean
 		{
 			return false;
-		}
-
-		public function getSteps():ArrayCollection
-		{
-			var patient:String = (_patientLatestDecisionResult ? (isDecisionResultAgreement(_patientLatestDecisionResult) ? AGREE : NEW) : NONE);
-			var clinician:String = (_clinicianLatestDecisionResult ? (isDecisionResultAgreement(_clinicianLatestDecisionResult) ? AGREE : NEW) : NONE);
-			var protocol:String = (algorithmPrerequisitesSatisfied ? "ConditionsMet" : (step2State == InsulinTitrationDecisionModelBase.STEP_STOP ? "InsufficientAdherence" : "InsufficientBloodGlucose"));
-
-			if (patient == AGREE && clinician == AGREE)
-			{
-				if (_latestDecisionResult == _patientLatestDecisionResult)
-				{
-					clinician = NEW;
-				}
-				else
-				{
-					patient = NEW;
-				}
-			}
-			else if (patient == AGREE && clinician == NONE)
-			{
-				clinician = NEW;
-			}
-			else if (patient == NONE && clinician == AGREE)
-			{
-				patient = NEW;
-			}
-
-			for each (var state:InsulinTitrationDecisionSupportState in _states)
-			{
-				if (state.selectors.contains("mode" + (isPatient ? "Patient" : "Clinician")) &&
-						state.selectors.contains("decisionPatient" + patient) &&
-						state.selectors.contains("decisionClinician" + clinician) &&
-						state.selectors.contains("protocol" + protocol)
-					)
-				{
-					return state.steps;
-				}
-			}
-			// no match; return empty array collection
-			return new ArrayCollection();
-		}
-
-		public function get confirmationMessage():String
-		{
-			return _confirmationMessage;
 		}
 	}
 }

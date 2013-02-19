@@ -46,8 +46,8 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.controller.ICollaborationController;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.deviceSimulator.model.DeviceSimulatorViewModifier;
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.IInsulinTitrationDecisionSupportStatesFileStore;
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.InsulinTitrationDecisionSupportState;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Account;
@@ -596,16 +596,16 @@ package collaboRhythm.core.controller
 		{
 // TODO: move the classes to the plugin and register the component from the plugin
 //			_componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationDecisionSupportStatesFileStore).name, InsulinTitrationDecisionSupportStatesFileStore, new InsulinTitrationDecisionSupportStatesFileStore());
-			var array:Array = componentContainer.resolveAll(IInsulinTitrationDecisionSupportStatesFileStore);
+			var array:Array = componentContainer.resolveAll(ITitrationDecisionSupportStatesFileStore);
 			if (array && array.length > 0)
 			{
-				var state:InsulinTitrationDecisionSupportState = new InsulinTitrationDecisionSupportState();
-				var defState:Object = getDefinitionByName(ReflectionUtils.getClassInfo(InsulinTitrationDecisionSupportState).name);
+				var state:TitrationDecisionSupportState = new TitrationDecisionSupportState();
+				var defState:Object = getDefinitionByName(ReflectionUtils.getClassInfo(TitrationDecisionSupportState).name);
 				var step:Step = new Step();
 				var defStep:Object = getDefinitionByName(ReflectionUtils.getClassInfo(Step).name);
 
-				var fileStore:IInsulinTitrationDecisionSupportStatesFileStore = array[0] as
-						IInsulinTitrationDecisionSupportStatesFileStore;
+				var fileStore:ITitrationDecisionSupportStatesFileStore = array[0] as
+						ITitrationDecisionSupportStatesFileStore;
 				fileStore.readStates();
 			}
 		}

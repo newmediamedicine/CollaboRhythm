@@ -41,7 +41,6 @@ package collaboRhythm.plugins.medications.controller
 
 		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
-			addCollaborationViewSynchronizationEventListener();
 			_dataInputModel.handleHealthActionResult(initiatedLocally);
 		}
 
