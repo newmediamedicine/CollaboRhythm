@@ -18,14 +18,8 @@
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-					   title="HypertensionMedicationTitration"
-					   creationComplete="creationCompleteHandler(event)">
-	<fx:Style>
-		.extremesLabels {
-			font-size: 36;
-			color: #939598;
-		}
-	</fx:Style>
+					   xmlns:titration="collaboRhythm.plugins.bloodPressure.view.titration.*"
+					   title="HypertensionMedicationTitration">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.controller.HypertensionMedicationTitrationAppController;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
@@ -48,92 +42,17 @@
 			_model = _controller.model;
 		}
 
-		private function creationCompleteHandler(event:FlexEvent):void
-		{
-			for each (var hypertensionMedicationAlternatePair in _model.hypertensionMedicationAlternatePairsVector)
-			{
-				createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair);
-			}
-
-			determineConnectorsVisible();
-		}
-
-		private function createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair):void
-		{
-			var hypertensionMedicationAlternatePairView:HypertensionMedicationAlternatePairView = new HypertensionMedicationAlternatePairView();
-			hypertensionMedicationAlternatePairView.init(hypertensionMedicationAlternatePair);
-			addEventListener(HypertensionMedicationViewEvent.DOSE_SELECTED,
-					hypertensionMedicationViewEvent_doseSelectedHandler);
-			addEventListener(HypertensionMedicationAlternatePairViewEvent.ALTERNATE_SELECTED,
-					hypertensionMedicationViewEvent_alternateSelectedHandler);
-
-			hypertensionMedicationsVGroup.addElement(hypertensionMedicationAlternatePairView);
-		}
-
-		private function hypertensionMedicationViewEvent_doseSelectedHandler(event:HypertensionMedicationViewEvent):void
-		{
-			_controller.handleHypertensionMedicationDoseSelected(event.hypertensionMedication, event.doseSelected,
-					event.altKey, event.ctrlKey);
-			determineConnectorsVisible();
-		}
-
-		private function hypertensionMedicationViewEvent_alternateSelectedHandler(event:HypertensionMedicationAlternatePairViewEvent):void
-		{
-			_controller.handleHypertensionMedicationAlternateSelected(event.hypertensionMedicationAlternatePair,
-					event.altKey, event.ctrlKey);
-		}
-
-		private function determineConnectorsVisible():void
-		{
-			var firstMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[2];
-			var secondMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[1];
-			var thirdMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[0];
-
-			connector1.visible = (firstMedicationAlternatePair.activeHypertensionMedication.currentDose == 2 &&
-					secondMedicationAlternatePair.activeHypertensionMedication.currentDose != 0);
-
-			connector2.visible = (secondMedicationAlternatePair.activeHypertensionMedication.currentDose == 2 &&
-					thirdMedicationAlternatePair.activeHypertensionMedication.currentDose != 0);
-		}
-
 		private function saveButton_clickHandler(event:MouseEvent):void
 		{
 			_controller.save();
 		}
 		]]></fx:Script>
-	<s:VGroup x="481" top="150" gap="60">
-		<s:Group height="180">
-			<s:Line height="100%">
-				<s:stroke>
-					<s:SolidColorStroke color="0x939598" weight="10"/>
-				</s:stroke>
-			</s:Line>
-			<s:Line id="connector2" height="100%" visible="false">
-				<s:stroke>
-					<s:SolidColorStroke color="0x37B6E1" weight="10"/>
-				</s:stroke>
-			</s:Line>
-		</s:Group>
-		<s:Group height="180">
-			<s:Line height="100%">
-				<s:stroke>
-					<s:SolidColorStroke color="0x939598" weight="10"/>
-				</s:stroke>
-			</s:Line>
-			<s:Line id="connector1" height="100%" visible="false">
-				<s:stroke>
-					<s:SolidColorStroke color="0x37B6E1" weight="10"/>
-				</s:stroke>
-			</s:Line>
-		</s:Group>
-	</s:VGroup>
-	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" top="20" gap="70">
+	<s:HGroup width="100%" height="100%">
+		<titration:TitrationMapView id="titrationMapView" controller="{_controller}"/>
+		<s:VGroup right="0" height="100%" width="100%">
+			<s:TextArea width="100%" height="100%" editable="false" text="{_model.confirmationMessage}"/>
+			<s:Button id="saveButton" label="Save" click="saveButton_clickHandler(event)"/>
+		</s:VGroup>
+	</s:HGroup>
 
-	</s:VGroup>
-	<s:Label text="Max" styleName="extremesLabels" top="18" x="456"/>
-	<s:Label text="Start" styleName="extremesLabels" top="664" x="456"/>
-	<s:VGroup right="0" height="100%" width="50%">
-		<s:TextArea height="100%" width="100%" editable="false" text="{_model.confirmationMessage}"/>
-		<s:Button id="saveButton" label="Save" click="saveButton_clickHandler(event)"/>
-	</s:VGroup>
 </tablet:TabletViewBase>

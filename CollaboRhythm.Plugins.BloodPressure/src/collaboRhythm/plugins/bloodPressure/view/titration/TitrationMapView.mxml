@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2013 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		 creationComplete="creationCompleteHandler(event)">
+	<fx:Style>
+		.extremesLabels {
+			font-size: 36;
+			color: #939598;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.controller.HypertensionMedicationTitrationAppController;
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
+
+		import mx.events.FlexEvent;
+
+		[Bindable]
+		private var _controller:HypertensionMedicationTitrationAppController;
+		[Bindable]
+		private var _model:HypertensionMedicationTitrationModel;
+
+		public function set controller(value:HypertensionMedicationTitrationAppController):void
+		{
+			_controller = value as HypertensionMedicationTitrationAppController;
+			_model = _controller.model;
+		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in _model.hypertensionMedicationAlternatePairsVector)
+			{
+				createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair);
+			}
+
+			determineConnectorsVisible();
+		}
+
+		private function createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair):void
+		{
+			var hypertensionMedicationAlternatePairView:HypertensionMedicationAlternatePairView = new HypertensionMedicationAlternatePairView();
+			hypertensionMedicationAlternatePairView.init(hypertensionMedicationAlternatePair);
+			addEventListener(HypertensionMedicationViewEvent.DOSE_SELECTED,
+					hypertensionMedicationViewEvent_doseSelectedHandler);
+			addEventListener(HypertensionMedicationAlternatePairViewEvent.ALTERNATE_SELECTED,
+					hypertensionMedicationViewEvent_alternateSelectedHandler);
+
+			hypertensionMedicationsVGroup.addElement(hypertensionMedicationAlternatePairView);
+		}
+
+		private function hypertensionMedicationViewEvent_doseSelectedHandler(event:HypertensionMedicationViewEvent):void
+		{
+			_controller.handleHypertensionMedicationDoseSelected(event.hypertensionMedication, event.doseSelected,
+					event.altKey, event.ctrlKey);
+			determineConnectorsVisible();
+		}
+
+		private function hypertensionMedicationViewEvent_alternateSelectedHandler(event:HypertensionMedicationAlternatePairViewEvent):void
+		{
+			_controller.handleHypertensionMedicationAlternateSelected(event.hypertensionMedicationAlternatePair,
+					event.altKey, event.ctrlKey);
+		}
+
+		private function determineConnectorsVisible():void
+		{
+			var firstMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[2];
+			var secondMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[1];
+			var thirdMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[0];
+
+			connector1.visible = (firstMedicationAlternatePair.activeHypertensionMedication.currentDose == 2 &&
+					secondMedicationAlternatePair.activeHypertensionMedication.currentDose != 0);
+
+			connector2.visible = (secondMedicationAlternatePair.activeHypertensionMedication.currentDose == 2 &&
+					thirdMedicationAlternatePair.activeHypertensionMedication.currentDose != 0);
+		}
+
+		private function saveButton_clickHandler(event:MouseEvent):void
+		{
+			_controller.save();
+		}
+		]]></fx:Script>
+	<s:VGroup x="481" top="150" gap="60">
+		<s:Group height="180">
+			<s:Line height="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x939598" weight="10"/>
+				</s:stroke>
+			</s:Line>
+			<s:Line id="connector2" height="100%" visible="false">
+				<s:stroke>
+					<s:SolidColorStroke color="0x37B6E1" weight="10"/>
+				</s:stroke>
+			</s:Line>
+		</s:Group>
+		<s:Group height="180">
+			<s:Line height="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x939598" weight="10"/>
+				</s:stroke>
+			</s:Line>
+			<s:Line id="connector1" height="100%" visible="false">
+				<s:stroke>
+					<s:SolidColorStroke color="0x37B6E1" weight="10"/>
+				</s:stroke>
+			</s:Line>
+		</s:Group>
+	</s:VGroup>
+	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" top="20" gap="70">
+
+	</s:VGroup>
+	<s:Label text="Max" styleName="extremesLabels" top="18" x="456"/>
+	<s:Label text="Start" styleName="extremesLabels" top="664" x="456"/>
+</s:Group>
