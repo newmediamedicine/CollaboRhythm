@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
+		creationComplete="creationCompleteHandler(event)"
 		addedToStage="addedToStageHandler()"
 		removedFromStage="removedFromStageHandler()">
 	<s:states>
@@ -15,7 +16,10 @@
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.view.MenuIcon;
 
+		import mx.core.DPIClassification;
+
 		import mx.core.FlexGlobals;
+		import mx.events.FlexEvent;
 
 		[Bindable]
 		protected var _tabletApplicationController:IApplicationControllerBase;
@@ -27,6 +31,27 @@
 		protected var _activeRecordAccount:Account;
 		private var _trackingUrl:String;
 
+		[Embed('/assets/images320dpi/btn_check_on_holo_dark.png')]
+		private static var checkOnIcon320:Class;
+
+		[Embed('/assets/images320dpi/btn_check_off_holo_dark.png')]
+		private static var checkOffIcon320:Class;
+
+		[Embed('/assets/images240dpi/btn_check_on_holo_dark.png')]
+		private static var checkOnIcon240:Class;
+
+		[Embed('/assets/images240dpi/btn_check_off_holo_dark.png')]
+		private static var checkOffIcon240:Class;
+
+		[Embed('/assets/images160dpi/btn_check_on_holo_dark.png')]
+		private static var checkOnIcon160:Class;
+
+		[Embed('/assets/images160dpi/btn_check_off_holo_dark.png')]
+		private static var checkOffIcon160:Class;
+
+		public static var checkOnIcon:Class;
+		public static var checkOffIcon:Class;
+
 		private function reloadPluginsViewMenuItem_clickHandler():void
 		{
 			_tabletApplicationController.reloadPlugins();
@@ -37,9 +62,16 @@
 			_tabletApplicationController.useDemoPreset(index);
 		}
 
-		private function demoModeOffMenuItem_clickHandler():void
+		private function demoModeMenuItem_clickHandler():void
 		{
-			_tabletApplicationController.targetDate = null;
+			if (_tabletApplicationController.settings.demoModeEnabled)
+			{
+				_tabletApplicationController.targetDate = null;
+			}
+			else
+			{
+				_tabletApplicationController.useDemoPreset(0);
+			}
 		}
 
 		private function createDemoDateLabel(isControllerReady:Boolean, index:int):String
@@ -162,6 +194,33 @@
 		{
 			_trackingUrl = value;
 		}
+
+		private function creationCompleteHandler(event:FlexEvent):void
+		{
+			if (checkOnIcon == null)
+			{
+				switch (FlexGlobals.topLevelApplication.applicationDPI)
+				{
+					case DPIClassification.DPI_320:
+					{
+						checkOnIcon = checkOnIcon320;
+						checkOffIcon = checkOffIcon320;
+						break;
+					}
+					case DPIClassification.DPI_240:
+					{
+						checkOnIcon = checkOnIcon240;
+						checkOffIcon = checkOffIcon240;
+						break;
+					}
+					default:
+					{
+						checkOnIcon = checkOnIcon160;
+						checkOffIcon = checkOffIcon160;
+					}
+				}
+			}
+		}
 		]]></fx:Script>
 	<s:viewMenuItems>
 		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 0)}" includeIn="debuggingToolsEnabled"
@@ -172,17 +231,23 @@
 						click="demoDateMenuItem_clickHandler(2)"/>
 		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 3)}" includeIn="debuggingToolsEnabled"
 						click="demoDateMenuItem_clickHandler(3)"/>
-		<s:ViewMenuItem label="Demo Mode Off" includeIn="debuggingToolsEnabled"
-						click="demoModeOffMenuItem_clickHandler()"/>
+		<s:ViewMenuItem label="Demo Mode" includeIn="debuggingToolsEnabled"
+						icon="{_tabletApplicationController.settings.demoModeEnabled ? checkOnIcon : checkOffIcon}"
+						iconPlacement="right"
+						click="demoModeMenuItem_clickHandler()"/>
 		<s:ViewMenuItem
-				label="{(_tabletApplicationController &amp;&amp; _tabletApplicationController.fastForwardEnabled ? 'Stop' : 'Start') + ' Fast Forward'}"
+				label="Fast Forward"
+				icon="{_tabletApplicationController &amp;&amp; _tabletApplicationController.fastForwardEnabled ? checkOnIcon : checkOffIcon}"
+				iconPlacement="right"
 				includeIn="debuggingToolsEnabled"
 				click="toggleFastForwardMenuItem_clickHandler(event)"/>
 		<s:ViewMenuItem label="Select Record" id="selectRecordMenuItem" click="selectRecordMenuItem_clickHandler(event)"
 						visible="{_tabletApplicationController.settings.isClinicianMode}"
 						includeInLayout="{_tabletApplicationController.settings.isClinicianMode}"/>
 		<s:ViewMenuItem id="enableVoidingMenuItem"
-						label="{determineEnableVoidingMenuItemLabel(_tabletApplicationController.settings.adherenceVoidingEnabled)}"
+						label="Voiding"
+						icon="{_tabletApplicationController.settings.adherenceVoidingEnabled ? checkOnIcon : checkOffIcon}"
+						iconPlacement="right"
 						visible="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}"
 						includeInLayout="{_activeAccount.accountId == _activeRecordAccount.accountId &amp;&amp; _tabletApplicationController.settings.includeAdherenceVoidingMenuItem}"
 						click="_tabletApplicationController.settings.adherenceVoidingEnabled = !_tabletApplicationController.settings.adherenceVoidingEnabled"/>

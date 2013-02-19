@@ -151,7 +151,7 @@ in accordance with the terms of the license agreement accompanying it.
          The menu chrome is a separate group that is anchored to the bottom of the skin. -->
 
     <s:Group id="chromeGroup"
-             right="0"
+             right="8"
              top="{getActionBarHeight()}"
 			 minWidth="150"
              visible.closedGroup="false"
@@ -187,7 +187,7 @@ in accordance with the terms of the license agreement accompanying it.
         </s:Group>
 
 		<s:filters>
-			<s:DropShadowFilter alpha="0.5" angle="90" blurX="8" blurY="8"/>
+			<s:DropShadowFilter alpha="0.5" angle="120" blurX="8" blurY="8"/>
 		</s:filters>
     </s:Group>
 </s:SparkSkin>

@@ -1049,9 +1049,16 @@ package collaboRhythm.core.controller
 			}
 		}
 
+		public function get targetDate():Date
+		{
+			return _settings.targetDate;
+		}
+
 		public function set targetDate(value:Date):void
 		{
 			_settings.targetDate = value;
+			_settings.demoModeEnabled = value != null;
+			
 			var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as
 					DemoCurrentDateSource;
 			if (dateSource != null)

@@ -55,6 +55,7 @@ public class TabletViewMenuItemSkin extends ButtonSkin
 		upBorderSkin = Invisible;
     	downBorderSkin = Invisible;
 		showsCaretBorderSkin = Invisible;
+		useCenterAlignment = false;
 
         switch (applicationDPI)
         {
@@ -63,7 +64,7 @@ public class TabletViewMenuItemSkin extends ButtonSkin
                 layoutGap = 12;
                 layoutPaddingLeft = 24;
                 layoutPaddingRight = 12;
-                layoutPaddingTop = 24;
+                layoutPaddingTop = 12;
                 layoutPaddingBottom = 12;
 
                 break;
@@ -73,7 +74,7 @@ public class TabletViewMenuItemSkin extends ButtonSkin
                 layoutGap = 8;
                 layoutPaddingLeft = 16;
                 layoutPaddingRight = 8;
-                layoutPaddingTop = 16;
+                layoutPaddingTop = 8;
                 layoutPaddingBottom = 8;
 
                 break;
@@ -84,7 +85,7 @@ public class TabletViewMenuItemSkin extends ButtonSkin
                 layoutGap = 6;
                 layoutPaddingLeft = 12;
                 layoutPaddingRight = 6;
-                layoutPaddingTop = 12;
+                layoutPaddingTop = 6;
                 layoutPaddingBottom = 6;
             }
         }
@@ -120,18 +121,6 @@ public class TabletViewMenuItemSkin extends ButtonSkin
             borderClass = showsCaretBorderSkin;  
         
         return borderClass;
-    }
-    
-    /**
-     *  @private
-     */
-    override protected function layoutContents(unscaledWidth:Number, unscaledHeight:Number):void
-    {
-        var iconPlacement:String = getStyle("iconPlacement");
-        useCenterAlignment = (iconPlacement == IconPlacement.LEFT)
-            || (iconPlacement == IconPlacement.RIGHT);
-
-        super.layoutContents(unscaledWidth, unscaledHeight);
     }
     
     /**
