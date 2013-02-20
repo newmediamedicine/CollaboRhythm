@@ -5,12 +5,23 @@ package collaboRhythm.shared.model.medications
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
+	import flash.utils.getQualifiedClassName;
+
+	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
+	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	[Bindable]
 	public class TitrationDecisionModelBase
@@ -30,6 +41,7 @@ package collaboRhythm.shared.model.medications
 		private static const NEW:String = "New";
 		private static const NONE:String = "None";
 
+		private var _isInitialized:Boolean;
 		private var _areBloodGlucoseRequirementsMet:Boolean = true;
 		private var _isAdherencePerfect:Boolean = true;
 		private var _isChangeSpecified:Boolean;
@@ -55,8 +67,100 @@ package collaboRhythm.shared.model.medications
 
 		private var _confirmationMessage:String;
 
+		protected var _logger:ILogger;
+		private var _requiredDaysOfPerfectMedicationAdherence:int;
+
 		public function TitrationDecisionModelBase()
 		{
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+		}
+
+		public function updateForRecordChange():void
+		{
+			this.isInitialized = false;
+			BindingUtils.bindSetter(vitalSignsModel_isInitialized_setterHandler, record.vitalSignsModel,
+					"isInitialized");
+			BindingUtils.bindSetter(adherenceItemsModel_isInitialized_setterHandler, record.adherenceItemsModel,
+					"isInitialized");
+			BindingUtils.bindSetter(record_isLoading_setterHandler, record, "isLoading");
+		}
+
+		private function vitalSignsModel_isInitialized_setterHandler(isInitialized:Boolean):void
+		{
+			if (isInitialized)
+			{
+				var vitalSignsBloodGlucose:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
+				if (vitalSignsBloodGlucose)
+				{
+					vitalSignsBloodGlucose.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+														vitalSignsDocuments_collectionChangeEvent);
+				}
+			}
+			this.isInitialized = determineIsInitialized();
+		}
+
+		private function record_isLoading_setterHandler(isLoading:Boolean):void
+		{
+			if (!isLoading && record && !record.isLoading)
+			{
+				evaluateForInitialize();
+			}
+		}
+
+		public function evaluateForInitialize():void
+		{
+
+		}
+
+		private function adherenceItemsModel_isInitialized_setterHandler(isInitialized:Boolean):void
+		{
+			if (isInitialized)
+			{
+				record.adherenceItemsModel.documents.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+													adherenceItemsModelDocuments_collectionChangeEvent, false);
+			}
+			this.isInitialized = determineIsInitialized();
+		}
+
+		private function determineIsInitialized():Boolean
+		{
+			return (record && record.vitalSignsModel.isInitialized && record.adherenceItemsModel.isInitialized);
+		}
+
+		private function vitalSignsDocuments_collectionChangeEvent(event:CollectionEvent):void
+		{
+			if (record.vitalSignsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
+			{
+				updateVitalSignEvaluation();
+			}
+		}
+
+		protected function updateVitalSignEvaluation():void
+		{
+
+		}
+
+		private function adherenceItemsModelDocuments_collectionChangeEvent(event:CollectionEvent):void
+		{
+			if (record.adherenceItemsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
+			{
+				updateIsAdherencePerfect();
+			}
+		}
+
+		public function get isInitialized():Boolean
+		{
+			return _isInitialized;
+		}
+
+		public function set isInitialized(value:Boolean):void
+		{
+			if (_isInitialized != value)
+			{
+				_isInitialized = value;
+				updateIsAdherencePerfect();
+				evaluateForInitialize();
+			}
 		}
 
 		protected function get decisionScheduleItemOccurrence():ScheduleItemOccurrence
@@ -442,6 +546,72 @@ package collaboRhythm.shared.model.medications
 		public function set confirmationMessage(value:String):void
 		{
 			_confirmationMessage = value;
+		}
+
+		public function updateIsAdherencePerfect():void
+		{
+			var nonAdherenceVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
+
+			// loop through all MedicationScheduleItem instances in the time of interest and check that adherence is perfect
+			var now:Date = currentDateSource.now();
+			for each (var medicationScheduleItem:MedicationScheduleItem in
+					record.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			{
+				var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(
+						new Date(DateUtil.roundTimeToNextDay(now).valueOf() -
+								requiredDaysOfPerfectMedicationAdherence *
+										ScheduleItemBase.MILLISECONDS_IN_DAY),
+						now);
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+				{
+					// Does the scheduleItemOccurrence qualify as one that needs to be completed (or is it not yet over)?
+					if (scheduleItemOccurrence.dateEnd.valueOf() < now.valueOf())
+					{
+						if (scheduleItemOccurrence.adherenceItem == null ||
+								scheduleItemOccurrence.adherenceItem.adherence == false)
+						{
+							nonAdherenceVector.push(scheduleItemOccurrence);
+						}
+					}
+				}
+			}
+
+			isAdherencePerfect = nonAdherenceVector.length == 0;
+			updateNonAdherenceDescription(nonAdherenceVector);
+		}
+
+		public function get requiredDaysOfPerfectMedicationAdherence():int
+		{
+			return _requiredDaysOfPerfectMedicationAdherence;
+		}
+
+		public function set requiredDaysOfPerfectMedicationAdherence(value:int):void
+		{
+			_requiredDaysOfPerfectMedicationAdherence = value;
+		}
+
+		private function updateNonAdherenceDescription(nonAdherenceVector:Vector.<ScheduleItemOccurrence>):void
+		{
+			if (isAdherencePerfect)
+			{
+				nonAdherenceDescription = "";
+			}
+			else
+			{
+				var missedDoses:String = "";
+				for each (var missedOccurrence:ScheduleItemOccurrence in nonAdherenceVector)
+				{
+					var medicationScheduleItem:MedicationScheduleItem = missedOccurrence.scheduleItem as
+							MedicationScheduleItem;
+					if (medicationScheduleItem)
+					{
+						missedDoses += "<li>" + medicationScheduleItem.dose.value + " " +
+								medicationScheduleItem.dose.unit.text + " of " + medicationScheduleItem.name.text +
+								" on " + missedOccurrence.dateStart.toLocaleString() + "</li>";
+					}
+				}
+				nonAdherenceDescription = "The following doses were missed: <ul>" + missedDoses + "</ul>";
+			}
 		}
 	}
 }

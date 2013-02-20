@@ -31,15 +31,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.dougmccune.controls.LimitedLinearAxis;
 
 	import flash.events.Event;
-	import flash.utils.getQualifiedClassName;
 
-	import mx.binding.utils.BindingUtils;
 	import mx.charts.LinearAxis;
 	import mx.collections.ArrayCollection;
-	import mx.events.CollectionEvent;
-	import mx.events.CollectionEventKind;
-	import mx.logging.ILogger;
-	import mx.logging.Log;
 	import mx.utils.StringUtil;
 
 	[Bindable]
@@ -117,8 +111,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _goalZoneMinimum:Number;
 		private var _goalZoneMaximum:Number;
 		private var _goalZoneColor:uint;
-		private var _isInitialized:Boolean;
-		protected var _logger:ILogger;
 		private var _eligibleBloodGlucoseMeasurements:Vector.<VitalSign>;
 
 		private var _scheduleDetails:ScheduleDetails;
@@ -148,7 +140,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function InsulinTitrationDecisionModelBase()
 		{
-			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			super();
+			requiredDaysOfPerfectMedicationAdherence = REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE;
 			_medicationTitrationHelper = new MedicationTitrationHelper(record, currentDateSource);
 			initializeStates();
 		}
@@ -167,6 +160,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		protected function get componentContainer():IComponentContainer
 		{
 			return null;
+		}
+
+		override protected function updateVitalSignEvaluation():void
+		{
+			super.updateVitalSignEvaluation();
+			updateBloodGlucoseAverage();
 		}
 
 		private function updateBloodGlucoseAverage():void
@@ -498,84 +497,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return average;
 		}
 
-		internal function updateForRecordChange():void
-		{
-			this.isInitialized = false;
-			BindingUtils.bindSetter(vitalSignsModel_isInitialized_setterHandler, record.vitalSignsModel,
-					"isInitialized");
-			BindingUtils.bindSetter(adherenceItemsModel_isInitialized_setterHandler, record.adherenceItemsModel,
-					"isInitialized");
-			BindingUtils.bindSetter(record_isLoading_setterHandler, record, "isLoading");
-		}
-
-		private function vitalSignsModel_isInitialized_setterHandler(isInitialized:Boolean):void
-		{
-			if (isInitialized)
-			{
-				var vitalSignsBloodGlucose:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
-				if (vitalSignsBloodGlucose)
-				{
-					vitalSignsBloodGlucose.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-														vitalSignsDocuments_collectionChangeEvent);
-				}
-			}
-			this.isInitialized = determineIsInitialized();
-		}
-
-		private function record_isLoading_setterHandler(isLoading:Boolean):void
-		{
-			if (!isLoading && record && !record.isLoading)
-			{
-				evaluateForInitialize();
-			}
-		}
-
-		private function adherenceItemsModel_isInitialized_setterHandler(isInitialized:Boolean):void
-		{
-			if (isInitialized)
-			{
-				record.adherenceItemsModel.documents.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-													adherenceItemsModelDocuments_collectionChangeEvent, false);
-			}
-			this.isInitialized = determineIsInitialized();
-		}
-
-		private function determineIsInitialized():Boolean
-		{
-			return (record && record.vitalSignsModel.isInitialized && record.adherenceItemsModel.isInitialized);
-		}
-
-		private function vitalSignsDocuments_collectionChangeEvent(event:CollectionEvent):void
-		{
-			if (record.vitalSignsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
-			{
-				updateBloodGlucoseAverage();
-			}
-		}
-
-		private function adherenceItemsModelDocuments_collectionChangeEvent(event:CollectionEvent):void
-		{
-			if (record.adherenceItemsModel.isInitialized && (event.kind == CollectionEventKind.ADD || event.kind == CollectionEventKind.REMOVE))
-			{
-				updateIsAdherencePerfect();
-			}
-		}
-
-		public function get isInitialized():Boolean
-		{
-			return _isInitialized;
-		}
-
-		public function set isInitialized(value:Boolean):void
-		{
-			if (_isInitialized != value)
-			{
-				_isInitialized = value;
-				updateIsAdherencePerfect();
-				evaluateForInitialize();
-			}
-		}
-
 		public function evaluateForSave():void
 		{
 			validateDecisionPreConditions();
@@ -601,7 +522,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				throw new Error("Failed to save. Decision data on the health charts model was not a ScheduleItemOccurrence.");
 		}
 
-		public function evaluateForInitialize():void
+		override public function evaluateForInitialize():void
 		{
 			if (decisionScheduleItemOccurrence == null)
 				return;
@@ -910,61 +831,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			return decisionScheduleItemOccurrence && decisionScheduleItemOccurrence.adherenceItem != null &&
 					decisionScheduleItemOccurrence.adherenceItem.adherence;
-		}
-
-		public function updateIsAdherencePerfect():void
-		{
-			var nonAdherenceVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
-
-			// loop through all MedicationScheduleItem instances in the time of interest and check that adherence is perfect
-			var now:Date = currentDateSource.now();
-			for each (var medicationScheduleItem:MedicationScheduleItem in
-					record.medicationScheduleItemsModel.medicationScheduleItemCollection)
-			{
-				var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(
-						new Date(DateUtil.roundTimeToNextDay(now).valueOf() -
-								REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE * ScheduleItemBase.MILLISECONDS_IN_DAY),
-						now);
-				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
-				{
-					// Does the scheduleItemOccurrence qualify as one that needs to be completed (or is it not yet over)?
-					if (scheduleItemOccurrence.dateEnd.valueOf() < now.valueOf())
-					{
-						if (scheduleItemOccurrence.adherenceItem == null ||
-								scheduleItemOccurrence.adherenceItem.adherence == false)
-						{
-							nonAdherenceVector.push(scheduleItemOccurrence);
-						}
-					}
-				}
-			}
-
-			isAdherencePerfect = nonAdherenceVector.length == 0;
-			updateNonAdherenceDescription(nonAdherenceVector);
-		}
-
-		private function updateNonAdherenceDescription(nonAdherenceVector:Vector.<ScheduleItemOccurrence>):void
-		{
-			if (isAdherencePerfect)
-			{
-				nonAdherenceDescription = "";
-			}
-			else
-			{
-				var missedDoses:String = "";
-				for each (var missedOccurrence:ScheduleItemOccurrence in nonAdherenceVector)
-				{
-					var medicationScheduleItem:MedicationScheduleItem = missedOccurrence.scheduleItem as
-							MedicationScheduleItem;
-					if (medicationScheduleItem)
-					{
-						missedDoses += "<li>" + medicationScheduleItem.dose.value + " " +
-								medicationScheduleItem.dose.unit.text + " of " + medicationScheduleItem.name.text +
-								" on " + missedOccurrence.dateStart.toLocaleString() + "</li>";
-					}
-				}
-				nonAdherenceDescription = "The following doses were missed: <ul>" + missedDoses + "</ul>";
-			}
 		}
 
 		public function get bloodGlucoseRequirementsDetails():String

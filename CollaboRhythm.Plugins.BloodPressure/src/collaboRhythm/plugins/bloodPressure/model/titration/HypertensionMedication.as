@@ -27,6 +27,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _dose1SelectionArrayCollection:ArrayCollection = new ArrayCollection();
 		private var _dose2SelectionArrayCollection:ArrayCollection = new ArrayCollection();
 
+		private var _doseSelectionArrayCollectionVector:Vector.<ArrayCollection> = new <ArrayCollection>[new ArrayCollection(), _dose1SelectionArrayCollection, _dose2SelectionArrayCollection];
+		private var _pair:HypertensionMedicationAlternatePair;
+
 		public function HypertensionMedication(medicationClass:String, rxNorm1:String, rxNorm2:String)
 		{
 			_medicationClass = medicationClass;
@@ -56,7 +59,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 		}
 
-		public function handleDoseSelected(doseSelected:int, altKey:Boolean, ctrlKey:Boolean, account:Account):void
+		public function handleDoseSelected(doseSelected:int, altKey:Boolean, ctrlKey:Boolean, selectionByAccount:Account,
+										   isPatient:Boolean):void
 		{
 			if (altKey && ctrlKey)
 			{
@@ -78,7 +82,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					selectionType = HypertensionMedicationDoseSelection.SYSTEM;
 				}
-				else if (ctrlKey)
+				else if (isPatient == ctrlKey)
 				{
 					selectionType = HypertensionMedicationDoseSelection.COACH;
 				}
@@ -98,7 +102,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					selectionType = HypertensionMedicationDoseSelection.PATIENT;
 				}
 
-				addOrRemoveHypertensionMedicationDoseSelection(doseSelected, action, selectionType, account);
+				addOrRemoveHypertensionMedicationDoseSelection(doseSelected, action, selectionType, selectionByAccount);
 			}
 		}
 
@@ -119,7 +123,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		}
 
 		public function addOrRemoveHypertensionMedicationDoseSelection(doseSelected:int, action:String,
-																		selectionType:String, account:Account):void
+																		selectionType:String, selectionByAccount:Account):void
 		{
 			if (doseSelected == 1)
 			{
@@ -130,7 +134,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				if (!remove)
 				{
 					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
-							action, selectionType, account);
+							action, selectionType, selectionByAccount, false, this);
 					_dose1SelectionArrayCollection.addItem(hypertensionMedicationDoseSelection);
 				}
 			}
@@ -143,7 +147,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				if (!remove)
 				{
 					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
-							action, selectionType, account);
+							action, selectionType, selectionByAccount, false, this);
 					_dose2SelectionArrayCollection.addItem(hypertensionMedicationDoseSelection);
 				}
 			}
@@ -159,6 +163,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				if (hypertensionMedicationDoseSelection.selectionType == selectionType)
 				{
 					indexToRemove = doseSelectionArrayCollection.getItemIndex(hypertensionMedicationDoseSelection);
+					hypertensionMedicationDoseSelection.medication = null;
 				}
 			}
 
@@ -305,6 +310,39 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			if (doseSelected == DoseStrengthCode.HALF) return dose1;
 			if (doseSelected == DoseStrengthCode.FULL) return dose2;
 			return null;
+		}
+
+		public function set pair(pair:HypertensionMedicationAlternatePair):void
+		{
+			_pair = pair;
+		}
+
+		public function get pair():HypertensionMedicationAlternatePair
+		{
+			return _pair;
+		}
+
+		public function restoreMedicationDoseSelection(doseSelected:int, newDose:int, selectionByAccount:Account, patientAccountId:String,
+													   decisionDate:Date):void
+		{
+			var selection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
+					determineAction(doseSelected),
+					selectionByAccount && selectionByAccount.accountId ==
+							patientAccountId ? HypertensionMedicationDoseSelection.PATIENT : HypertensionMedicationDoseSelection.COACH,
+					selectionByAccount, true, this);
+
+			if (selection.newDose == newDose)
+			{
+				_doseSelectionArrayCollectionVector[doseSelected].addItem(selection);
+			}
+		}
+
+		public function clearSelections():void
+		{
+			for each (var arrayCollection:ArrayCollection in _doseSelectionArrayCollectionVector)
+			{
+				arrayCollection.removeAll();
+			}
 		}
 	}
 }

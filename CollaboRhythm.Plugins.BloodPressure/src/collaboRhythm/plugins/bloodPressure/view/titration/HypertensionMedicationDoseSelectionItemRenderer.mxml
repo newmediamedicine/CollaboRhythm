@@ -80,10 +80,10 @@
 
 			imageGroup.visible = true;
 
-			if (_hypertensionMedicationDoseSelection.account)
+			if (_hypertensionMedicationDoseSelection.selectionByAccount)
 			{
 				accountImage.source = imageCacheService.getImage(accountImage,
-						_hypertensionMedicationDoseSelection.account.imageURI);
+						_hypertensionMedicationDoseSelection.selectionByAccount.imageURI);
 			}
 		}
 		]]></fx:Script>

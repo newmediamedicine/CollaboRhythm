@@ -4,6 +4,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 	import collaboRhythm.plugins.bloodPressure.model.titration.PersistableHypertensionMedicationTitrationModel;
+	import collaboRhythm.plugins.bloodPressure.view.titration.ConfirmChangePopUp;
 	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationButtonWidgetView;
 	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationView;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
@@ -11,7 +12,14 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 
+	import flash.accessibility.AccessibilityProperties;
+
+	import mx.controls.Alert;
+
 	import mx.core.UIComponent;
+	import mx.managers.PopUpManager;
+
+	import spark.events.PopUpEvent;
 
 	public class HypertensionMedicationTitrationAppController extends AppControllerBase
 	{
@@ -22,6 +30,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 		private var _model:PersistableHypertensionMedicationTitrationModel;
 		private var _collaborationLobbyNetConnectionServiceProxyLocal:CollaborationLobbyNetConnectionServiceProxy;
 		private var _synchronizationService:SynchronizationService;
+		private var confirmChangePopUp:ConfirmChangePopUp = new ConfirmChangePopUp();
+		private var _changeConfirmed:Boolean = false;
 
 		public function HypertensionMedicationTitrationAppController(constructorParams:AppControllerConstructorParams)
 		{
@@ -31,6 +41,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 					CollaborationLobbyNetConnectionServiceProxy;
 			_synchronizationService = new SynchronizationService(this,
 					_collaborationLobbyNetConnectionServiceProxyLocal);
+
+			confirmChangePopUp.accessibilityProperties = new AccessibilityProperties();
 		}
 
 		override public function initialize():void
@@ -45,7 +57,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			if (_model == null)
 			{
-				_model = new PersistableHypertensionMedicationTitrationModel(_activeRecordAccount);
+				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount);
 			}
 		}
 
@@ -144,9 +156,45 @@ package collaboRhythm.plugins.bloodPressure.controller
 			_model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair, altKey, ctrlKey);
 		}
 
-		public function save():void
+		public function save():Boolean
 		{
-			_model.save();
+			_model.evaluateForSave();
+
+			if (!_model.isChangeSpecified)
+			{
+				// TODO: Use a better UI to tell the user that a change must be specified to save
+				Alert.show("Please choose a change to the dose before saving.");
+				return false;
+			}
+/*
+			else if (_changeConfirmed)
+			{
+				// already showing popup, so assume this is the result of user clicking OK
+				_changeConfirmed = false;
+				return true;
+			}
+*/
+			else
+			{
+				confirmChangePopUp.model = _model.confirmationMessage;
+				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
+				confirmChangePopUp.open(_viewNavigator, true);
+				PopUpManager.centerPopUp(confirmChangePopUp);
+
+				return false;
+			}
 		}
+
+		private function confirmChangePopUp_closeHandler(event:PopUpEvent):void
+		{
+			if (event.commit)
+			{
+				if (_model.save())
+				{
+					_changeConfirmed = true;
+				}
+			}
+		}
+
 	}
 }

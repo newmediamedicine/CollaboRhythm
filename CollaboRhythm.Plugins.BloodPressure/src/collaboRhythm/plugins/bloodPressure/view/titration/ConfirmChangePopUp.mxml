@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!---
+  - Copyright 2013 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+						   xmlns:s="library://ns.adobe.com/flex/spark"
+						   backgroundAlpha="0.3"
+						   backgroundColor="0x000000"
+						   width="100%" height="100%">
+	<fx:Declarations>
+		<s:ColorMatrixFilter id="grayScaleFilter"
+							 matrix="0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0,	0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0"/>
+	</fx:Declarations>
+	<fx:Style>
+		#mainLabel {
+			fontSize: 21;
+			color: #F3F3F3;
+		}
+
+		.proceedButtons {
+			fontSize: 16;
+			fontWeight: normal;
+			color: #F3F3F3;
+			textShadowAlpha: 0;
+		}
+	</fx:Style>
+	<s:Group minWidth="470" verticalCenter="0" horizontalCenter="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x282828"/>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup gap="0" width="100%">
+			<s:Spacer width="100%" height="10"/>
+			<s:HGroup width="100%" paddingLeft="20" paddingRight="20" paddingTop="40" paddingBottom="15"
+					  verticalAlign="middle" horizontalAlign="center">
+				<s:Label id="mainLabel" textAlign="center" text="{_model}"/>
+			</s:HGroup>
+			<s:Line width="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x444444"/>
+				</s:stroke>
+			</s:Line>
+			<s:HGroup width="100%">
+				<s:Button label="OK" width="50%" height="50" skinClass="spark.skins.mobile.TransparentActionButtonSkin"
+						  styleName="proceedButtons" click="this.close(true)"/>
+				<s:Button label="Cancel" width="50%" height="50" click="this.close()"
+						  skinClass="spark.skins.mobile.TransparentActionButtonSkin" styleName="proceedButtons"/>
+			</s:HGroup>
+		</s:VGroup>
+	</s:Group>
+
+	<fx:Script><![CDATA[
+		[Bindable]
+		private var _model:String;
+
+		public function set model(model:String):void
+		{
+			_model = model;
+		}
+		]]></fx:Script>
+</s:SkinnablePopUpContainer>

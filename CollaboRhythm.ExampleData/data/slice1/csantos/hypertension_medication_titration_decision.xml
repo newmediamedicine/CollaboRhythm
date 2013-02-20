@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2013 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<IndivoDocuments>
+	<LoadableIndivoDocument>
+		<document>
+			<HealthActionPlan xmlns="http://indivo.org/vocab/xml/documents/healthActionPlan#"
+							  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<name>Insulin Titration Decision</name>
+				<planType>Prescribed</planType>
+				<plannedBy>jking@records.media.mit.edu</plannedBy>
+				<datePlanned>2012-09-30T09:00:00-04:00</datePlanned>
+				<indication>Essential Hypertension</indication>
+				<instructions>Use CollaboRhythm to follow the algorithm for changing your dose of hypertension medications.</instructions>
+				<system>CollaboRhythm Hypertension Titration Support</system>
+				<actions>
+					<action xsi:type="ActionStep">
+						<name>Choose a new dose for your insulin</name>
+						<type>Decide</type>
+					</action>
+				</actions>
+			</HealthActionPlan>
+		</document>
+		<relatesTo>
+			<relation type="healthActionSchedule">
+				<LoadableIndivoDocument>
+					<document>
+						<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#"
+											  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+							<name>Insulin Titration Decision</name>
+							<scheduledBy>whsu@records.media.mit.edu</scheduledBy>
+							<dateScheduled>2012-09-30T09:00:00-04:00</dateScheduled>
+							<dateStart>2012-09-30T13:00:00Z</dateStart>
+							<dateEnd>2012-09-30T17:00:00Z</dateEnd>
+							<recurrenceRule>
+								<frequency>DAILY</frequency>
+								<count>120</count>
+							</recurrenceRule>
+						</HealthActionSchedule>
+					</document>
+				</LoadableIndivoDocument>
+			</relation>
+		</relatesTo>
+	</LoadableIndivoDocument>
+</IndivoDocuments>

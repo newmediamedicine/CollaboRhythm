@@ -18,6 +18,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			_primaryHypertensionMedication = primaryHypertensionMedication;
 			_secondaryHypertensionMedication = secondaryHypertensionMedication;
+
+			if (_primaryHypertensionMedication) _primaryHypertensionMedication.pair = this;
+			if (_secondaryHypertensionMedication) _secondaryHypertensionMedication.pair = this;
 		}
 
 		public function determineCurrentDose(medicationScheduleItemsCollection:ArrayCollection):void

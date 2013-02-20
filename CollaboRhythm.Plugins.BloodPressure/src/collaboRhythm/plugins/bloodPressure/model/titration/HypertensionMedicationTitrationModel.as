@@ -38,7 +38,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		protected var _record:Record;
 
-
 		protected var _medicationScheduleItemsCollection:ArrayCollection;
 		protected var _systolicVitalSignsCollection:ArrayCollection;
 
@@ -50,9 +49,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		protected var _currentDateSource:ICurrentDateSource;
 		protected var _activeRecordAccount:Account;
+		protected var _activeAccount:Account;
 
-		public function HypertensionMedicationTitrationModel(activeRecordAccount:Account)
+		public function HypertensionMedicationTitrationModel(activeAccount:Account, activeRecordAccount:Account)
 		{
+			super();
+			requiredDaysOfPerfectMedicationAdherence = 14;
+			_activeAccount = activeAccount;
 			_activeRecordAccount = activeRecordAccount;
 			_record = activeRecordAccount.primaryRecord;
 
@@ -78,6 +81,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 									VALSARTAN_320_MG_ORAL_TABLET_RXNORM)));
 
 			BindingUtils.bindSetter(recordIsLoading_changeHandler, _record, "isLoading");
+			updateForRecordChange();
 		}
 
 		private function recordIsLoading_changeHandler(isLoading:Boolean):void
@@ -177,7 +181,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
 																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
 		{
-			hypertensionMedication.handleDoseSelected(doseSelected, altKey, ctrlKey, _activeRecordAccount);
+			hypertensionMedication.handleDoseSelected(doseSelected, altKey, ctrlKey,
+					ctrlKey ? _activeRecordAccount : _activeAccount,
+					_activeAccount.accountId == _activeRecordAccount.accountId);
 			isChangeSpecified = true;
 		}
 
@@ -191,6 +197,21 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function get hypertensionMedicationAlternatePairsVector():Vector.<HypertensionMedicationAlternatePair>
 		{
 			return _hypertensionMedicationAlternatePairsVector;
+		}
+
+		override public function get record():Record
+		{
+			return _record;
+		}
+
+		override protected function get accountId():String
+		{
+			return _activeAccount.accountId;
+		}
+
+		override protected function get currentDateSource():ICurrentDateSource
+		{
+			return _currentDateSource;
 		}
 	}
 }

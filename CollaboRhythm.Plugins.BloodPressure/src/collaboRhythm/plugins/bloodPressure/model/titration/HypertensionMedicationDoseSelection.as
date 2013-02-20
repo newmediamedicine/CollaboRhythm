@@ -17,17 +17,21 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _newDose:int;
 		private var _action:String;
 		private var _selectionType:String;
-		private var _account:Account;
+		private var _selectionByAccount:Account;
 		private var _persisted:Boolean;
+		private var _medication:HypertensionMedication;
 
 		public function HypertensionMedicationDoseSelection(doseSelected:int, action:String, selectionType:String,
-															account:Account = null, persisted:Boolean = false)
+															selectionByAccount:Account,
+															persisted:Boolean,
+															medication:HypertensionMedication)
 		{
 			_doseSelected = doseSelected;
 			_action = action;
 			_selectionType = selectionType;
-			_account = account;
+			_selectionByAccount = selectionByAccount;
 			_persisted = persisted;
+			_medication = medication;
 			updateNewDose();
 		}
 
@@ -72,14 +76,14 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			_selectionType = value;
 		}
 
-		public function get account():Account
+		public function get selectionByAccount():Account
 		{
-			return _account;
+			return _selectionByAccount;
 		}
 
-		public function set account(value:Account):void
+		public function set selectionByAccount(value:Account):void
 		{
-			_account = value;
+			_selectionByAccount = value;
 		}
 
 		/**
@@ -95,22 +99,20 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			_persisted = value;
 		}
 
-		public function getSummary(pair:HypertensionMedicationAlternatePair, medication:HypertensionMedication):String
+		public function getSummary(includeSelectionType:Boolean = false):String
 		{
-			var summary:String = selectionType + " " + medication.medicationName;
-			if (action == INCREASE)
-			{
-				summary += " increase to ";
-			}
-			else
-			{
-				summary += " decrease to ";
-			}
+			var summary:String = (includeSelectionType ? selectionType + " " : "");
 
-			summary += DoseStrengthCode.describe(newDose);
-			if (newDose > DoseStrengthCode.NONE)
+			var verb:String = (action == INCREASE) ? (medication.currentDose == DoseStrengthCode.NONE ? "Add" : "Increase") : (newDose == DoseStrengthCode.NONE ? "Remove" : "Decrease");
+			summary += includeSelectionType ? verb.toLowerCase() : verb;
+			summary += " " + medication.medicationName;
+			if (newDose != DoseStrengthCode.NONE)
 			{
-				summary += " (" + medication.getDoseDescription(doseSelected) + ")";
+				summary += (medication.currentDose == DoseStrengthCode.NONE ? " at " : " to ") + DoseStrengthCode.describe(newDose);
+				if (newDose > DoseStrengthCode.NONE)
+				{
+					summary += " (" + medication.getDoseDescription(doseSelected) + ")";
+				}
 			}
 			return summary;
 		}
@@ -123,6 +125,26 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function set newDose(value:int):void
 		{
 			_newDose = value;
+		}
+
+		/**
+		 * Determines if this selection is in agreement with the selection of the other party
+		 * @return true if the dose selection is in agreement with the selection of the other party (other party for coach is patient, other party for patient is coach); otherwise, returns false indicating a new suggestion (or potentially disagreement).
+		 */
+		public function isInAgreement():Boolean
+		{
+			// TODO: implement
+			return false;
+		}
+
+		public function get medication():HypertensionMedication
+		{
+			return _medication;
+		}
+
+		public function set medication(value:HypertensionMedication):void
+		{
+			_medication = value;
 		}
 	}
 }

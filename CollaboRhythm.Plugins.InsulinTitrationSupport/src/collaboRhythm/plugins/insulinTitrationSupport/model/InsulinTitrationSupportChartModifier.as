@@ -17,6 +17,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import com.dougmccune.controls.SeriesDataSet;
 	import com.theory9.data.types.OrderedMap;
 
+	import flash.accessibility.AccessibilityProperties;
+
 	import mx.charts.HitData;
 	import mx.charts.LinearAxis;
 	import mx.charts.chartClasses.CartesianChart;
@@ -63,6 +65,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			initializeInsulinTitrationDecisionPanelModel();
 			_panelController = new InsulinTitrationDecisionPanelController(chartModelDetails.collaborationLobbyNetConnectionServiceProxy,
 					_insulinTitrationDecisionPanelModel, chartModelDetails.viewNavigator);
+			confirmChangePopUp.accessibilityProperties = new AccessibilityProperties();
 		}
 
 		public function modifyCartesianChart(chart:ScrubChart,

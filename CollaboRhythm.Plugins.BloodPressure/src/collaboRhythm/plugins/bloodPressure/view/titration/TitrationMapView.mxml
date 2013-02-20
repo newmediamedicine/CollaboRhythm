@@ -39,16 +39,18 @@
 		{
 			_controller = value as HypertensionMedicationTitrationAppController;
 			_model = _controller.model;
+			createAlternatePairs();
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			createAlternatePairs();
 		}
 
 		private function creationCompleteHandler(event:FlexEvent):void
 		{
-			for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in _model.hypertensionMedicationAlternatePairsVector)
-			{
-				createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair);
-			}
-
-			determineConnectorsVisible();
+			createAlternatePairs();
 		}
 
 		private function createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair):void
@@ -92,6 +94,20 @@
 		private function saveButton_clickHandler(event:MouseEvent):void
 		{
 			_controller.save();
+		}
+
+		private function createAlternatePairs():void
+		{
+			if (_model && hypertensionMedicationsVGroup.numElements == 0)
+			{
+				for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in
+						_model.hypertensionMedicationAlternatePairsVector)
+				{
+					createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair);
+				}
+
+				determineConnectorsVisible();
+			}
 		}
 		]]></fx:Script>
 	<s:VGroup x="481" top="150" gap="60">
