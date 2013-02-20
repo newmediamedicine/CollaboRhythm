@@ -1,23 +1,27 @@
 package collaboRhythm.plugins.bloodPressure.model.titration
 {
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
-	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Measurement;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.StopCondition;
 
+	import com.theory9.data.types.OrderedMap;
+
 	import mx.collections.ArrayCollection;
 
+	/**
+	 * Enhances HypertensionMedicationTitrationModel by adding support for saving decisions to the patient's health record.
+	 */
 	public class PersistableHypertensionMedicationTitrationModel extends HypertensionMedicationTitrationModel
 	{
 		private var _decisionScheduleItemOccurrence:ScheduleItemOccurrence;
@@ -35,47 +39,80 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			
 			if (plan)
 			{
-				for each (var relationship:Relationship in plan.relatesTo)
+				var decisionsFromAccounts:OrderedMap = new OrderedMap();
+
+				for (var i:int = plan.relatesTo.length - 1; i >= 0; i--)
 				{
+					var relationship:Relationship = plan.relatesTo[i];
 					var decisionResult:HealthActionResult = relationship ? relationship.relatesTo as HealthActionResult : null;
 					if (decisionResult && decisionResult.name.text == TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME)
 					{
-						var actionStepResult:ActionStepResult = decisionResult.actions && decisionResult.actions.length > 0 ? decisionResult.actions[0] as ActionStepResult: null;
-						if (actionStepResult)
+						// only use latest titration decision from each account (each person's latest decision)
+						if (decisionsFromAccounts.getValueByKey(decisionResult.reportedBy) != null)
 						{
-							var occurrence:Occurrence = actionStepResult.occurrences && actionStepResult.occurrences.length > 0 ? actionStepResult.occurrences[0] as Occurrence : null;
-							if (occurrence)
+							continue;
+						}
+						decisionsFromAccounts.addKeyValue(decisionResult.reportedBy, decisionResult);
+						restoreSelectionsFromDecisionResult(decisionResult);
+					}
+				}
+			}
+		}
+
+		private function restoreSelectionsFromDecisionResult(decisionResult:HealthActionResult):void
+		{
+			if (decisionResult.actions && decisionResult.actions.length > 0)
+			{
+				for each (var actionResult:ActionResult in decisionResult.actions)
+				{
+					var actionStepResult:ActionStepResult = actionResult as ActionStepResult;
+
+					if (actionStepResult)
+					{
+						var occurrence:Occurrence = actionStepResult.occurrences &&
+								actionStepResult.occurrences.length > 0 ? actionStepResult.occurrences[0] as
+								Occurrence : null;
+						if (occurrence)
+						{
+							var measurementNewDose:Measurement;
+							var measurementDoseSelected:Measurement;
+
+							for each (var measurement:Measurement in occurrence.measurements)
 							{
-								var measurementNewDose:Measurement;
-								var measurementDoseSelected:Measurement;
-
-								for each (var measurement:Measurement in occurrence.measurements)
+								if (measurement.name.text == "newDose")
 								{
-									if (measurement.name.text == "newDose")
-									{
-										measurementNewDose = measurement;
-									}
-									else if (measurement.name.text == "doseSelected")
-									{
-										measurementDoseSelected = measurement;
-									}
+									measurementNewDose = measurement;
 								}
-
-								if (measurementNewDose && measurementDoseSelected)
+								else if (measurement.name.text == "doseSelected")
 								{
-									var newDose:int = parseInt(measurementNewDose.value.value);
-									var doseSelected:int = parseInt(measurementDoseSelected.value.value);
-
-									var medication:HypertensionMedication = getMedication(occurrence.additionalDetails);
-									if (medication)
-									{
-										medication.restoreMedicationDoseSelection(doseSelected, newDose, getAccount(decisionResult.reportedBy), _activeRecordAccount.accountId, decisionResult.dateReported);
-									}
+									measurementDoseSelected = measurement;
 								}
+							}
+
+							if (measurementNewDose && measurementDoseSelected)
+							{
+								restoreMedicationDoseSelection(measurementNewDose, measurementDoseSelected, occurrence,
+										decisionResult);
 							}
 						}
 					}
 				}
+			}
+		}
+
+		private function restoreMedicationDoseSelection(measurementNewDose:Measurement,
+														measurementDoseSelected:Measurement, occurrence:Occurrence,
+														decisionResult:HealthActionResult):void
+		{
+			var newDose:int = parseInt(measurementNewDose.value.value);
+			var doseSelected:int = parseInt(measurementDoseSelected.value.value);
+
+			var medication:HypertensionMedication = getMedication(occurrence.additionalDetails);
+			if (medication)
+			{
+				medication.restoreMedicationDoseSelection(doseSelected, newDose,
+						getAccount(decisionResult.reportedBy),
+						_activeRecordAccount.accountId, decisionResult.dateReported);
 			}
 		}
 
@@ -89,6 +126,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					medication.clearSelections();
 				}
 			}
+			isChangeSpecified = false;
 		}
 
 		private function getAccount(targetAccountId:String):Account
@@ -159,11 +197,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				}
 */
 				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelections();
-				for each (var selection:HypertensionMedicationDoseSelection in selections)
-				{
-					saveTitrationResult(selection);
-					selection.persisted = true;
-				}
+				saveTitrationResult(selections);
 
 				record.saveAllChanges();
 				evaluateForInitialize();
@@ -192,16 +226,29 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private function updateConfirmationMessage():void
 		{
-			var selections:Vector.<HypertensionMedicationDoseSelection> = getSelections();
-			if (selections.length > 0)
+			if (isChangeSpecified)
 			{
-				var parts:Array = getSelectionsSummary(selections);
-				confirmationMessage = "You have chosen to make the following change(s). Please confirm.\n" +
-						parts.join("\n");
+				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelections();
+				var changeVerb:String = isPatient ? "make" : "suggest";
+				var maintainVerb:String = isPatient ? "keep" : "suggest keeping";
+				var medicationsOwner:String = isPatient ? "your" : "the patient's";
+				if (selections.length > 0)
+				{
+					var parts:Array = getSelectionsSummary(selections);
+					confirmationMessage = "You have chosen to " + changeVerb + " the following " +
+							StringUtils.pluralize("change", parts.length) + " to " + medicationsOwner +
+							" hypertension medications.\n\n" +
+							parts.join("\n");
+				}
+				else
+				{
+					confirmationMessage = "You have chosen to " + maintainVerb + " all of " + medicationsOwner +
+							" hypertension medications at current levels.";
+				}
 			}
 			else
 			{
-				confirmationMessage = "No changes";
+				confirmationMessage = null;
 			}
 		}
 
@@ -224,8 +271,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					for each (var selection:HypertensionMedicationDoseSelection in medication.doseSelections)
 					{
-						if (!selection.persisted && selection.selectionByAccount.accountId == accountId &&
-								selection.selectionType != HypertensionMedicationDoseSelection.SYSTEM)
+						if (selection.selectionType != HypertensionMedicationDoseSelection.SYSTEM &&
+							selection.selectionByAccount && selection.selectionByAccount.accountId == accountId)
 						{
 							selections.push(selection);
 						}
@@ -248,7 +295,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return _decisionScheduleItemOccurrence;
 		}
 
-		private function saveTitrationResult(selection:HypertensionMedicationDoseSelection):void
+		private function saveTitrationResult(selections:Vector.<HypertensionMedicationDoseSelection>):void
 		{
 			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult();
 
@@ -256,26 +303,39 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			titrationResult.name = new CollaboRhythmCodedValue(null, null, null, TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME);
 			titrationResult.reportedBy = accountId;
 			titrationResult.dateReported = currentDateSource.now();
-			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME);
-			actionStepResult.occurrences = new ArrayCollection();
-			var occurrence:Occurrence = new Occurrence();
-			occurrence.additionalDetails = selection.medication.medicationName;
-			occurrence.stopCondition = new StopCondition();
-			occurrence.stopCondition.name = new CollaboRhythmCodedValue(null, null, null, "agreement");
-			occurrence.stopCondition.value = new CollaboRhythmValueAndUnit(null, null, selection.isInAgreement() ? AGREE_STOP_CONDITION_NAME : NEW_STOP_CONDITION_NAME);
-			occurrence.measurements = new ArrayCollection();
-			var measurementNewDose:Measurement = new Measurement();
-			measurementNewDose.name = new CollaboRhythmCodedValue(null, null, null, "newDose");
-			measurementNewDose.value = new CollaboRhythmValueAndUnit(selection.newDose.toString(), createDoseStrengthCodeCodedValue());
-			occurrence.measurements.addItem(measurementNewDose);
-			var measurementDoseSelected:Measurement = new Measurement();
-			measurementDoseSelected.name = new CollaboRhythmCodedValue(null, null, null, "doseSelected");
-			measurementDoseSelected.value = new CollaboRhythmValueAndUnit(selection.doseSelected.toString(), createDoseStrengthCodeCodedValue());
-			occurrence.measurements.addItem(measurementDoseSelected);
-			actionStepResult.occurrences.addItem(occurrence);
-			titrationResult.actions = new ArrayCollection();
-			titrationResult.actions.addItem(actionStepResult);
+			if (selections.length > 0)
+			{
+				titrationResult.actions = new ArrayCollection();
+			}
+
+			for each (var selection:HypertensionMedicationDoseSelection in selections)
+			{
+				selection.persisted = true;
+
+				var actionStepResult:ActionStepResult = new ActionStepResult();
+				actionStepResult.name = new CollaboRhythmCodedValue(null, null, null,
+						isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME);
+				actionStepResult.occurrences = new ArrayCollection();
+				var occurrence:Occurrence = new Occurrence();
+				occurrence.additionalDetails = selection.medication.medicationName;
+				occurrence.stopCondition = new StopCondition();
+				occurrence.stopCondition.name = new CollaboRhythmCodedValue(null, null, null, "agreement");
+				occurrence.stopCondition.value = new CollaboRhythmValueAndUnit(null, null,
+						selection.isInAgreement() ? AGREE_STOP_CONDITION_NAME : NEW_STOP_CONDITION_NAME);
+				occurrence.measurements = new ArrayCollection();
+				var measurementNewDose:Measurement = new Measurement();
+				measurementNewDose.name = new CollaboRhythmCodedValue(null, null, null, "newDose");
+				measurementNewDose.value = new CollaboRhythmValueAndUnit(selection.newDose.toString(),
+						createDoseStrengthCodeCodedValue());
+				occurrence.measurements.addItem(measurementNewDose);
+				var measurementDoseSelected:Measurement = new Measurement();
+				measurementDoseSelected.name = new CollaboRhythmCodedValue(null, null, null, "doseSelected");
+				measurementDoseSelected.value = new CollaboRhythmValueAndUnit(selection.doseSelected.toString(),
+						createDoseStrengthCodeCodedValue());
+				occurrence.measurements.addItem(measurementDoseSelected);
+				actionStepResult.occurrences.addItem(occurrence);
+				titrationResult.actions.addItem(actionStepResult);
+			}
 
 			record.addDocument(titrationResult, true);
 

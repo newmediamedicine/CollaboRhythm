@@ -1,12 +1,15 @@
 package collaboRhythm.plugins.bloodPressure.model.titration
 {
-	import collaboRhythm.plugins.bloodPressure.model.*;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
 
+	import flash.utils.getQualifiedClassName;
+
 	import mx.collections.ArrayCollection;
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 
 	[Bindable]
 	public class HypertensionMedication
@@ -29,6 +32,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private var _doseSelectionArrayCollectionVector:Vector.<ArrayCollection> = new <ArrayCollection>[new ArrayCollection(), _dose1SelectionArrayCollection, _dose2SelectionArrayCollection];
 		private var _pair:HypertensionMedicationAlternatePair;
+		private var _logger:ILogger;
 
 		public function HypertensionMedication(medicationClass:String, rxNorm1:String, rxNorm2:String)
 		{
@@ -40,6 +44,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			medicationName = medicationName1.medicationName;
 			dose1 = medicationName1.strength;
 			dose2 = medicationName2.strength;
+			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
 		public function determineCurrentDose(medicationScheduleItemsCollection:ArrayCollection):void
@@ -72,6 +77,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					currentDose = doseSelected - 1;
 				}
+				removeAllHypertensionMedicationDoseSelections(null);
 			}
 			else
 			{
@@ -127,9 +133,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			if (doseSelected == 1)
 			{
-				var remove:Boolean = removeHypertensionMedicationDoseSelection(_dose1SelectionArrayCollection,
+				var remove:Boolean = removeHypertensionMedicationDoseSelections(_dose1SelectionArrayCollection,
 						selectionType);
-				removeHypertensionMedicationDoseSelection(_dose2SelectionArrayCollection, selectionType);
+				removeHypertensionMedicationDoseSelections(_dose2SelectionArrayCollection, selectionType);
 
 				if (!remove)
 				{
@@ -140,9 +146,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 			else if (doseSelected == 2)
 			{
-				var remove:Boolean = removeHypertensionMedicationDoseSelection(_dose2SelectionArrayCollection,
+				var remove:Boolean = removeHypertensionMedicationDoseSelections(_dose2SelectionArrayCollection,
 						selectionType);
-				removeHypertensionMedicationDoseSelection(_dose1SelectionArrayCollection, selectionType);
+				removeHypertensionMedicationDoseSelections(_dose1SelectionArrayCollection, selectionType);
 
 				if (!remove)
 				{
@@ -153,37 +159,40 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 		}
 
-		public function removeHypertensionMedicationDoseSelection(doseSelectionArrayCollection:ArrayCollection,
+		/**
+		 * Removes the dose selection(s) for the specified collection and type.
+		 * @param doseSelectionArrayCollection This should be dose1SelectionArrayCollection or dose2SelectionArrayCollection
+		 * @param selectionType Type to remove or null to remove all types
+		 * @return true if one or more selections were removed
+		 */
+		public function removeHypertensionMedicationDoseSelections(doseSelectionArrayCollection:ArrayCollection,
 																   selectionType:String):Boolean
 		{
-			var indexToRemove:int = -1;
-			for each (var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection in
-					doseSelectionArrayCollection)
+			var selectionRemoved:Boolean = false;
+			for (var i:int = doseSelectionArrayCollection.length - 1; i >= 0; i--)
 			{
-				if (hypertensionMedicationDoseSelection.selectionType == selectionType)
+				var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = doseSelectionArrayCollection[i];
+				if (selectionType == null || hypertensionMedicationDoseSelection.selectionType == selectionType)
 				{
-					indexToRemove = doseSelectionArrayCollection.getItemIndex(hypertensionMedicationDoseSelection);
+					doseSelectionArrayCollection.removeItemAt(i);
 					hypertensionMedicationDoseSelection.medication = null;
+					selectionRemoved = true;
 				}
 			}
 
-			if (indexToRemove == -1)
-			{
-				return false;
-			}
-			else
-			{
-				doseSelectionArrayCollection.removeItemAt(indexToRemove);
-				return true;
-			}
+			return selectionRemoved;
 		}
 
+		/**
+		 * Removes all the dose selection(s) for the specified type.
+		 * @param selectionType Type to remove or null to remove all types
+		 */
 		public function removeAllHypertensionMedicationDoseSelections(selectionType:String):void
 		{
-			removeHypertensionMedicationDoseSelection(_dose1SelectionArrayCollection, selectionType);
-			removeHypertensionMedicationDoseSelection(_dose2SelectionArrayCollection, selectionType);
+			removeHypertensionMedicationDoseSelections(_dose1SelectionArrayCollection, selectionType);
+			removeHypertensionMedicationDoseSelections(_dose2SelectionArrayCollection, selectionType);
 
-			if (selectionType == HypertensionMedicationDoseSelection.PATIENT)
+			if (selectionType == null || selectionType == HypertensionMedicationDoseSelection.PATIENT)
 			{
 				patientDoseSelected = -1;
 				patientDoseAction = null;
@@ -334,6 +343,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			if (selection.newDose == newDose)
 			{
 				_doseSelectionArrayCollectionVector[doseSelected].addItem(selection);
+			}
+			else
+			{
+				_logger.warn("Failed to restore medication dose selection. Current medication dose has changed from when selection was made. " + selection.getSummary(true));
 			}
 		}
 

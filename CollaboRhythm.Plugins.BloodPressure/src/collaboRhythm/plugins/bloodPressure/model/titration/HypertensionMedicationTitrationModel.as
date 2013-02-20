@@ -13,6 +13,14 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 
+	/**
+	 * Model for hypertension medication titration decision support. The protocol used supports 4 "classes"
+	 * (medically speaking) of medication which a patient can progressively add or remove. Each class of medication
+	 * has a single medication that is used for that class (Lisinopril is used as the ACE Inhibitor class of medication,
+	 * for example). Each medication has a half and full dose (Lisinopril can be at 20 MG or 40 MG). For the
+	 * ACE Inhibitor, an alternate, mutually exclusive class of medication (ARB, for which the medication Valsartan is
+	 * used) can be chosen.
+	 */
 	[Bindable]
 	public class HypertensionMedicationTitrationModel extends TitrationDecisionModelBase
 	{
@@ -88,48 +96,56 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			if (!isLoading)
 			{
-				_medicationScheduleItemsCollection = _record.medicationScheduleItemsModel.medicationScheduleItemCollection;
-				_systolicVitalSignsCollection = _record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY) as
-						ArrayCollection;
+				updateSystemRecommendedDoseSelections();
+			}
+		}
 
-				determineHighestHypertensionMedicationAlternatePair();
+		private function updateSystemRecommendedDoseSelections():void
+		{
+			_medicationScheduleItemsCollection = _record.medicationScheduleItemsModel.medicationScheduleItemCollection;
+			_systolicVitalSignsCollection = _record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY) as
+					ArrayCollection;
 
-				determineMostRecentDoseChange();
+			determineHighestMedicationAlternatePair();
 
-				determineMostRecentSystolicVitalSign();
+			determineMostRecentDoseChange();
 
-				if (_mostRecentDoseChange && (_currentDateSource.now().time - _mostRecentDoseChange.time) > NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS)
+			determineMostRecentSystolicVitalSign();
+
+			if (_mostRecentDoseChange &&
+					(_currentDateSource.now().time - _mostRecentDoseChange.time) > NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS)
+			{
+				if (_mostRecentSystolicVitalSign)
 				{
-					if (_mostRecentSystolicVitalSign)
+					//TODO: This needs to be tested and needs to be implemented for average of last 3 blood pressures
+					if (_mostRecentSystolicVitalSign.resultAsNumber > 130)
 					{
-						//TODO: This needs to be tested and needs to be implemented for average of last 3 blood pressures
-						if (_mostRecentSystolicVitalSign.resultAsNumber > 130)
+						if (_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose <
+								2)
 						{
-							if (_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose <
-									2)
-							{
-								_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose +
-										1, HypertensionMedicationDoseSelection.INCREASE,
-										HypertensionMedicationDoseSelection.SYSTEM, null);
-							}
-							else if (_highestHypertensionMedicationAlternatePairIndex < 2)
-							{
-								_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex +
-										1].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(1,
-										HypertensionMedicationDoseSelection.INCREASE,
-										HypertensionMedicationDoseSelection.SYSTEM, null);
-							}
+							_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose +
+									1, HypertensionMedicationDoseSelection.INCREASE,
+									HypertensionMedicationDoseSelection.SYSTEM, null);
 						}
-						else
+						else if (_highestHypertensionMedicationAlternatePairIndex < 2)
 						{
-							_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose, HypertensionMedicationDoseSelection.DECREASE, HypertensionMedicationDoseSelection.SYSTEM, null);
+							_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex +
+									1].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(1,
+											HypertensionMedicationDoseSelection.INCREASE,
+											HypertensionMedicationDoseSelection.SYSTEM, null);
 						}
+					}
+					else
+					{
+						_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose,
+								HypertensionMedicationDoseSelection.DECREASE,
+								HypertensionMedicationDoseSelection.SYSTEM, null);
 					}
 				}
 			}
 		}
 
-		private function determineHighestHypertensionMedicationAlternatePair():void
+		private function determineHighestMedicationAlternatePair():void
 		{
 			_highestHypertensionMedicationAlternatePairIndex = 0;
 
@@ -184,14 +200,20 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			hypertensionMedication.handleDoseSelected(doseSelected, altKey, ctrlKey,
 					ctrlKey ? _activeRecordAccount : _activeAccount,
 					_activeAccount.accountId == _activeRecordAccount.accountId);
-			isChangeSpecified = true;
+			if (!ctrlKey && !altKey)
+			{
+				isChangeSpecified = true;
+			}
 		}
 
 		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
 																	  altKey:Boolean, ctrlKey:Boolean):void
 		{
 			hypertensionMedicationAlternatePair.handleAlternateSelected(altKey, ctrlKey);
-			isChangeSpecified = true;
+			if (!ctrlKey && !altKey)
+			{
+				isChangeSpecified = true;
+			}
 		}
 
 		public function get hypertensionMedicationAlternatePairsVector():Vector.<HypertensionMedicationAlternatePair>

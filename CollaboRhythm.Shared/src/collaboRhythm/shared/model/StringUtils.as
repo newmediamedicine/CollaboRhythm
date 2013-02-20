@@ -713,6 +713,10 @@ package collaboRhythm.shared.model
 					return p_char;
 			}
 		}
-		
+
+		public static function pluralize(phrase:String, length:uint):String
+		{
+			return phrase + ((length == 1) ? "" : "s");
+		}
 	}
 }

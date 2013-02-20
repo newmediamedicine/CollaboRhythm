@@ -196,5 +196,9 @@ package collaboRhythm.plugins.bloodPressure.controller
 			}
 		}
 
+		public function reset():void
+		{
+			_model.evaluateForInitialize();
+		}
 	}
 }

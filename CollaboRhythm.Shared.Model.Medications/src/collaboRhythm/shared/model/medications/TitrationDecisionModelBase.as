@@ -23,6 +23,10 @@ package collaboRhythm.shared.model.medications
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
+	/**
+	 * Model for medication titration decision support. Uses a four step system involving patient and coach/clinician
+	 * decisions guided by some protocol to titrate one or more medications.
+	 */
 	[Bindable]
 	public class TitrationDecisionModelBase
 	{
@@ -531,7 +535,7 @@ package collaboRhythm.shared.model.medications
 		}
 
 		/**
-		 * Check any pre-onditions and throw an exception if any condition is not met
+		 * Check any pre-conditions and throw an exception if any condition is not met
 		 */
 		protected function validateDecisionPreConditions():void
 		{
