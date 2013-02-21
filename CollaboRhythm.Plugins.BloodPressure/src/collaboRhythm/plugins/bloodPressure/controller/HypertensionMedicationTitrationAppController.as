@@ -57,7 +57,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			if (_model == null)
 			{
-				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount);
+				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount, _settings);
 			}
 		}
 
@@ -194,6 +194,11 @@ package collaboRhythm.plugins.bloodPressure.controller
 					_changeConfirmed = true;
 				}
 			}
+		}
+
+		public function reloadSelections():void
+		{
+			_model.reloadSelections();
 		}
 
 		public function reset():void

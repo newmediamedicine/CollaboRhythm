@@ -34,13 +34,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _pair:HypertensionMedicationAlternatePair;
 		private var _logger:ILogger;
 
-		public function HypertensionMedication(medicationClass:String, rxNorm1:String, rxNorm2:String)
+		public function HypertensionMedication(medicationClass:String, medicationDefinition1:Array, medicationDefinition2:Array)
 		{
 			_medicationClass = medicationClass;
-			_rxNorm1 = rxNorm1;
-			_rxNorm2 = rxNorm2;
-			var medicationName1:MedicationName = MedicationNameUtil.parseName(rxNorm1);
-			var medicationName2:MedicationName = MedicationNameUtil.parseName(rxNorm2);
+			_rxNorm1 = medicationDefinition1[0];
+			_rxNorm2 = medicationDefinition2[0];
+			var medicationName1:MedicationName = MedicationNameUtil.parseName(medicationDefinition1[1]);
+			var medicationName2:MedicationName = MedicationNameUtil.parseName(medicationDefinition2[1]);
 			medicationName = medicationName1.medicationName;
 			dose1 = medicationName1.strength;
 			dose2 = medicationName2.strength;
@@ -55,13 +55,16 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 						(medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "0.5"))
 				{
 					currentDose = 1;
+					return;
 				}
 				else if ((medicationScheduleItem.name.value == _rxNorm1 && medicationScheduleItem.dose.value == "2") ||
 						(medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "1"))
 				{
 					currentDose = 2;
+					return;
 				}
 			}
+			currentDose = 0;
 		}
 
 		public function handleDoseSelected(doseSelected:int, altKey:Boolean, ctrlKey:Boolean, selectionByAccount:Account,
@@ -77,7 +80,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					currentDose = doseSelected - 1;
 				}
-				removeAllHypertensionMedicationDoseSelections(null);
+				removeAllHypertensionMedicationDoseSelections(null, matchSelectionAll);
 			}
 			else
 			{
@@ -94,21 +97,25 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				}
 				else
 				{
-					if (patientDoseSelected == doseSelected)
-					{
-						patientDoseSelected = -1;
-						patientDoseAction = null;
-					}
-					else
-					{
-						patientDoseSelected = doseSelected;
-						patientDoseAction = action;
-					}
-
+					updatePatientDoseSelected(doseSelected, action);
 					selectionType = HypertensionMedicationDoseSelection.PATIENT;
 				}
 
 				addOrRemoveHypertensionMedicationDoseSelection(doseSelected, action, selectionType, selectionByAccount);
+			}
+		}
+
+		private function updatePatientDoseSelected(doseSelected:int, action:String):void
+		{
+			if (patientDoseSelected == doseSelected)
+			{
+				patientDoseSelected = -1;
+				patientDoseAction = null;
+			}
+			else
+			{
+				patientDoseSelected = doseSelected;
+				patientDoseAction = action;
 			}
 		}
 
@@ -131,11 +138,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function addOrRemoveHypertensionMedicationDoseSelection(doseSelected:int, action:String,
 																		selectionType:String, selectionByAccount:Account):void
 		{
+			var matchParameters:MatchParameters = HypertensionMedication.getMatchParameters(selectionType == HypertensionMedicationDoseSelection.SYSTEM, selectionByAccount);
+
 			if (doseSelected == 1)
 			{
 				var remove:Boolean = removeHypertensionMedicationDoseSelections(_dose1SelectionArrayCollection,
-						selectionType);
-				removeHypertensionMedicationDoseSelections(_dose2SelectionArrayCollection, selectionType);
+						matchParameters.matchData, matchParameters.matchFunction);
+				removeHypertensionMedicationDoseSelections(_dose2SelectionArrayCollection, matchParameters.matchData, matchParameters.matchFunction);
 
 				if (!remove)
 				{
@@ -147,8 +156,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			else if (doseSelected == 2)
 			{
 				var remove:Boolean = removeHypertensionMedicationDoseSelections(_dose2SelectionArrayCollection,
-						selectionType);
-				removeHypertensionMedicationDoseSelections(_dose1SelectionArrayCollection, selectionType);
+						matchParameters.matchData, matchParameters.matchFunction);
+				removeHypertensionMedicationDoseSelections(_dose1SelectionArrayCollection, matchParameters.matchData, matchParameters.matchFunction);
 
 				if (!remove)
 				{
@@ -160,19 +169,49 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		}
 
 		/**
+		 * Match selection function that always returns true. Use this function to get all dose selections.
+		 * @param selection
+		 * @param ignored
+		 * @return true
+		 */
+		public static function matchSelectionAll(selection:HypertensionMedicationDoseSelection, ignored:String):Boolean
+		{
+			return true;
+		}
+
+		/**
+		 *
+		 * @param selection
+		 * @param selectionType
+		 * @return
+		 */
+		public static function matchSelectionByType(selection:HypertensionMedicationDoseSelection, selectionType:String):Boolean
+		{
+			return selection.selectionType == selectionType;
+		}
+
+		public static function matchSelectionByAccountId(selection:HypertensionMedicationDoseSelection, selectionByAccountId:String):Boolean
+		{
+			return selection.selectionType != HypertensionMedicationDoseSelection.SYSTEM &&
+					selection.selectionByAccount && selection.selectionByAccount.accountId == selectionByAccountId;
+		}
+
+		/**
 		 * Removes the dose selection(s) for the specified collection and type.
 		 * @param doseSelectionArrayCollection This should be dose1SelectionArrayCollection or dose2SelectionArrayCollection
-		 * @param selectionType Type to remove or null to remove all types
+		 * @param matchData Data passed to the match function for matching
+		 * @param matchFunction Function to test for a matching HypertensionMedicationDoseSelection. First parameter is
+		 * the HypertensionMedicationDoseSelection, second parameter is a String (optional data).
 		 * @return true if one or more selections were removed
 		 */
 		public function removeHypertensionMedicationDoseSelections(doseSelectionArrayCollection:ArrayCollection,
-																   selectionType:String):Boolean
+																   matchData:String, matchFunction:Function):Boolean
 		{
 			var selectionRemoved:Boolean = false;
 			for (var i:int = doseSelectionArrayCollection.length - 1; i >= 0; i--)
 			{
 				var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = doseSelectionArrayCollection[i];
-				if (selectionType == null || hypertensionMedicationDoseSelection.selectionType == selectionType)
+				if (matchFunction(hypertensionMedicationDoseSelection, matchData))
 				{
 					doseSelectionArrayCollection.removeItemAt(i);
 					hypertensionMedicationDoseSelection.medication = null;
@@ -185,14 +224,16 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		/**
 		 * Removes all the dose selection(s) for the specified type.
-		 * @param selectionType Type to remove or null to remove all types
+		 * @param matchData Data passed to the match function for matching
+		 * @param matchFunction Function to test for a matching HypertensionMedicationDoseSelection. First parameter is
+		 * the HypertensionMedicationDoseSelection, second parameter is a String (optional data).
 		 */
-		public function removeAllHypertensionMedicationDoseSelections(selectionType:String):void
+		public function removeAllHypertensionMedicationDoseSelections(matchData:String, matchFunction:Function):void
 		{
-			removeHypertensionMedicationDoseSelections(_dose1SelectionArrayCollection, selectionType);
-			removeHypertensionMedicationDoseSelections(_dose2SelectionArrayCollection, selectionType);
+			removeHypertensionMedicationDoseSelections(_dose1SelectionArrayCollection, matchData, matchFunction);
+			removeHypertensionMedicationDoseSelections(_dose2SelectionArrayCollection, matchData, matchFunction);
 
-			if (selectionType == null || selectionType == HypertensionMedicationDoseSelection.PATIENT)
+			if (matchData == null || matchData == HypertensionMedicationDoseSelection.PATIENT)
 			{
 				patientDoseSelected = -1;
 				patientDoseAction = null;
@@ -343,6 +384,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			if (selection.newDose == newDose)
 			{
 				_doseSelectionArrayCollectionVector[doseSelected].addItem(selection);
+
+				if (selection.selectionType == HypertensionMedicationDoseSelection.PATIENT)
+				{
+					updatePatientDoseSelected(doseSelected, selection.action);
+				}
 			}
 			else
 			{
@@ -356,6 +402,25 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			{
 				arrayCollection.removeAll();
 			}
+			patientDoseSelected = -1;
+			patientDoseAction = null;
+		}
+
+		public static function getMatchParameters(isSystem:Boolean, selectionByAccount:Account):MatchParameters
+		{
+			var matchData:String;
+			var matchFunction:Function;
+			if (isSystem)
+			{
+				matchData = HypertensionMedicationDoseSelection.SYSTEM;
+				matchFunction = matchSelectionByType;
+			}
+			else
+			{
+				matchData = selectionByAccount.accountId;
+				matchFunction = matchSelectionByAccountId;
+			}
+			return new MatchParameters(matchData, matchFunction);
 		}
 	}
 }

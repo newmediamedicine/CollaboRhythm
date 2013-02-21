@@ -8,12 +8,14 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Measurement;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.StopCondition;
+	import collaboRhythm.shared.model.settings.Settings;
 
 	import com.theory9.data.types.OrderedMap;
 
@@ -25,18 +27,54 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	public class PersistableHypertensionMedicationTitrationModel extends HypertensionMedicationTitrationModel
 	{
 		private var _decisionScheduleItemOccurrence:ScheduleItemOccurrence;
+		private var _settings:Settings;
 
-		public function PersistableHypertensionMedicationTitrationModel(activeAccount:Account, activeRecordAccount:Account)
+		public function PersistableHypertensionMedicationTitrationModel(activeAccount:Account,
+																		activeRecordAccount:Account,
+																		settings:Settings)
 		{
 			super(activeAccount, activeRecordAccount);
+			_settings = settings;
 		}
 
 		override public function evaluateForInitialize():void
 		{
+			reloadCurrentDoses();
+			reloadSelections();
+		}
+
+		private function reloadCurrentDoses():void
+		{
+/*
+			var medications:Vector.<HypertensionMedication> = getMedications();
+			for each (var medication:HypertensionMedication in medications)
+			{
+				// look for a match in the patient's record
+				var medicationOrder:MedicationOrder = record.medicationOrdersModel.medicationOrders.
+			}
+*/
+			updateSystemRecommendedDoseSelections();
+		}
+
+		private function getMedications():Vector.<HypertensionMedication>
+		{
+			var medications:Vector.<HypertensionMedication> = new <HypertensionMedication>[];
+			for each (var pair:HypertensionMedicationAlternatePair in _hypertensionMedicationAlternatePairsVector)
+			{
+				for each (var medication:HypertensionMedication in pair.medications)
+				{
+					medications.push(medication);
+				}
+			}
+			return medications;
+		}
+
+		public function reloadSelections():void
+		{
 			clearSelections();
 
 			var plan:DocumentBase = getParentForTitrationDecisionResult(false);
-			
+
 			if (plan)
 			{
 				var decisionsFromAccounts:OrderedMap = new OrderedMap();
@@ -44,7 +82,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				for (var i:int = plan.relatesTo.length - 1; i >= 0; i--)
 				{
 					var relationship:Relationship = plan.relatesTo[i];
-					var decisionResult:HealthActionResult = relationship ? relationship.relatesTo as HealthActionResult : null;
+					var decisionResult:HealthActionResult = relationship ? relationship.relatesTo as
+							HealthActionResult : null;
 					if (decisionResult && decisionResult.name.text == TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME)
 					{
 						// only use latest titration decision from each account (each person's latest decision)
@@ -142,8 +181,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			else
 			{
 				// TODO: make this more robust; find the correct account
-				_logger.error("Failed to get account for accountId " + targetAccountId);
-				return null;
+				_logger.warn("Creating fake Account for accountId " + targetAccountId);
+				var account:Account = new Account();
+				account.accountId = targetAccountId;
+				return account;
 			}
 		}
 
@@ -383,6 +424,23 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private static function createDoseStrengthCodeCodedValue():CollaboRhythmCodedValue
 		{
 			return new CollaboRhythmCodedValue("http://indivo.org/codes/units#", "DoseStrengthCode", "DSU", "DoseStrengthCode");
+		}
+
+
+		override protected function getAccountForSelectionAction(ctrlKey:Boolean):Account
+		{
+			return ctrlKey ? (isPatient ? getCoachAccount() : _activeRecordAccount) : _activeAccount;
+		}
+
+		private function getCoachAccount():Account
+		{
+			if (_settings.primaryClinicianTeamMember)
+			{
+				var account:Account = new Account();
+				account.accountId = _settings.primaryClinicianTeamMember;
+				return account;
+			}
+			return null;
 		}
 	}
 }

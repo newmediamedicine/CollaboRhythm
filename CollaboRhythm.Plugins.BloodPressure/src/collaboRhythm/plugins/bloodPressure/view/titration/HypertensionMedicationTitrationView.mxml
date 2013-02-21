@@ -47,10 +47,16 @@
 			_controller.save();
 		}
 
+		private function reloadSelectionsButton_clickHandler(event:MouseEvent):void
+		{
+			_controller.reloadSelections();
+		}
+
 		private function resetButton_clickHandler(event:MouseEvent):void
 		{
 			_controller.reset();
 		}
+
 		]]></fx:Script>
 	<s:HGroup width="100%" height="100%">
 		<titration:TitrationMapView id="titrationMapView" controller="{_controller}"/>
@@ -58,6 +64,7 @@
 			<s:TextArea width="100%" height="100%" editable="false" text="{_model.confirmationMessage}"/>
 			<s:HGroup>
 				<s:Button id="resetButton" label="Reset" click="resetButton_clickHandler(event)"/>
+				<s:Button id="reloadSelectionsButton" label="Reload Selections" click="reloadSelectionsButton_clickHandler(event)"/>
 				<s:Button id="saveButton" label="Save" click="saveButton_clickHandler(event)"/>
 			</s:HGroup>
 

@@ -2,6 +2,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 {
 	import collaboRhythm.shared.model.Account;
 
+	/**
+	 * Model class indicating a selection (decision or recommendation) for a medication dose.
+	 */
 	public class HypertensionMedicationDoseSelection
 	{
 		//Actions
@@ -41,7 +44,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		}
 
 		/**
-		 * Selected dose strength
+		 * Dose level clicked on to make the selection.
+		 * This is the dose strength to which the selection applies (and where it should be visually associated). For example,
+		 * if the dose is being decreased from 2 to 1 (newDose = 1) then the doseSelected would be 2.
 		 *
 		 * @see DoseStrengthCode
 		 */
@@ -56,6 +61,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			updateNewDose();
 		}
 
+		/**
+		 * Increase, Decrease, or null, indicating what is the intended action of the selection.
+		 * @see HypertensionMedicationDoseSelection.INCREASE
+		 * @see HypertensionMedicationDoseSelection.DECREASE
+		 */
 		public function get action():String
 		{
 			return _action;
@@ -66,6 +76,12 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			_action = value;
 		}
 
+		/**
+		 * System, Coach, or Patient indicating the type of entity that made the decision or recommendation.
+		 * @see HypertensionMedicationDoseSelection.SYSTEM
+		 * @see HypertensionMedicationDoseSelection.COACH
+		 * @see HypertensionMedicationDoseSelection.PATIENT
+		 */
 		public function get selectionType():String
 		{
 			return _selectionType;
@@ -76,6 +92,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			_selectionType = value;
 		}
 
+		/**
+		 * The account that made the selection (if applicable)
+		 */
 		public function get selectionByAccount():Account
 		{
 			return _selectionByAccount;
@@ -117,6 +136,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return summary;
 		}
 
+		/**
+		 * Dose strength code indicating what the new dose level would be after the selection.
+		 * @see DoseStrengthCode
+		 */
 		public function get newDose():int
 		{
 			return _newDose;

@@ -24,23 +24,14 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	[Bindable]
 	public class HypertensionMedicationTitrationModel extends TitrationDecisionModelBase
 	{
-//		private static const LISINOPRIL_20_MG_ORAL_TABLET_RXNORM:String = "314077";
-//		private static const LISINOPRIL_40_MG_ORAL_TABLET_RXNORM:String = "197884";
-//		private static const VALSARTAN_160_MG_ORAL_TABLET_RXNORM:String = "349201";
-//		private static const VALSARTAN_320_MG_ORAL_TABLET_RXNORM:String = "349200";
-//		private static const AMLODIPINE_5_MG_ORAL_TABLET_RXNORM:String = "197361";
-//		private static const AMLODIPINE_10_MG_ORAL_TABLET_RXNORM:String = "308135";
-//		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET_RXNORM:String = "199903";
-//		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET_RXNORM:String = "310798";
-
-		private static const LISINOPRIL_20_MG_ORAL_TABLET_RXNORM:String = "Lisinopril 20 MG Oral Tablet";
-		private static const LISINOPRIL_40_MG_ORAL_TABLET_RXNORM:String = "Lisinopril 40 MG Oral Tablet";
-		private static const VALSARTAN_160_MG_ORAL_TABLET_RXNORM:String = "Valsartan 160 MG Oral Tablet";
-		private static const VALSARTAN_320_MG_ORAL_TABLET_RXNORM:String = "Valsartan 320 MG Oral Tablet";
-		private static const AMLODIPINE_5_MG_ORAL_TABLET_RXNORM:String = "Amlodipine 5 MG Oral Tablet";
-		private static const AMLODIPINE_10_MG_ORAL_TABLET_RXNORM:String = "Amlodipine 10 MG Oral Tablet";
-		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET_RXNORM:String = "Hydrochlorothiazide 12.5 MG Oral Tablet";
-		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET_RXNORM:String = "Hydrochlorothiazide 25 MG Oral Tablet";
+		private static const LISINOPRIL_20_MG_ORAL_TABLET:Array = ["314077", "Lisinopril 20 MG Oral Tablet"];
+		private static const LISINOPRIL_40_MG_ORAL_TABLET:Array = ["197884", "Lisinopril 40 MG Oral Tablet"];
+		private static const VALSARTAN_160_MG_ORAL_TABLET:Array = ["349201", "Valsartan 160 MG Oral Tablet"];
+		private static const VALSARTAN_320_MG_ORAL_TABLET:Array = ["349200", "Valsartan 320 MG Oral Tablet"];
+		private static const AMLODIPINE_5_MG_ORAL_TABLET:Array = ["197361", "Amlodipine 5 MG Oral Tablet"];
+		private static const AMLODIPINE_10_MG_ORAL_TABLET:Array = ["308135", "Amlodipine 10 MG Oral Tablet"];
+		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET:Array = ["199903", "Hydrochlorothiazide 12.5 MG Oral Tablet"];
+		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET:Array = ["310798", "Hydrochlorothiazide 25 MG Oral Tablet"];
 
 		private static const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
 
@@ -71,36 +62,27 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 			_hypertensionMedicationAlternatePairsVector.push(
 					new HypertensionMedicationAlternatePair(
-							new HypertensionMedication("Diuretic", HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET_RXNORM,
-									HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET_RXNORM),
+							new HypertensionMedication("Diuretic", HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET,
+									HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET),
 							null));
 
 			_hypertensionMedicationAlternatePairsVector.push(
 					new HypertensionMedicationAlternatePair(
 							new HypertensionMedication("Calcium Channel Blocker",
-									AMLODIPINE_5_MG_ORAL_TABLET_RXNORM, AMLODIPINE_10_MG_ORAL_TABLET_RXNORM),
+									AMLODIPINE_5_MG_ORAL_TABLET, AMLODIPINE_10_MG_ORAL_TABLET),
 							null));
 
 			_hypertensionMedicationAlternatePairsVector.push(
 					new HypertensionMedicationAlternatePair(
-							new HypertensionMedication("ACE Inhibitor", LISINOPRIL_20_MG_ORAL_TABLET_RXNORM,
-									LISINOPRIL_40_MG_ORAL_TABLET_RXNORM),
-							new HypertensionMedication("ARB", VALSARTAN_160_MG_ORAL_TABLET_RXNORM,
-									VALSARTAN_320_MG_ORAL_TABLET_RXNORM)));
+							new HypertensionMedication("ACE Inhibitor", LISINOPRIL_20_MG_ORAL_TABLET,
+									LISINOPRIL_40_MG_ORAL_TABLET),
+							new HypertensionMedication("ARB", VALSARTAN_160_MG_ORAL_TABLET,
+									VALSARTAN_320_MG_ORAL_TABLET)));
 
-			BindingUtils.bindSetter(recordIsLoading_changeHandler, _record, "isLoading");
 			updateForRecordChange();
 		}
 
-		private function recordIsLoading_changeHandler(isLoading:Boolean):void
-		{
-			if (!isLoading)
-			{
-				updateSystemRecommendedDoseSelections();
-			}
-		}
-
-		private function updateSystemRecommendedDoseSelections():void
+		protected function updateSystemRecommendedDoseSelections():void
 		{
 			_medicationScheduleItemsCollection = _record.medicationScheduleItemsModel.medicationScheduleItemCollection;
 			_systolicVitalSignsCollection = _record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY) as
@@ -198,7 +180,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
 		{
 			hypertensionMedication.handleDoseSelected(doseSelected, altKey, ctrlKey,
-					ctrlKey ? _activeRecordAccount : _activeAccount,
+					getAccountForSelectionAction(ctrlKey),
 					_activeAccount.accountId == _activeRecordAccount.accountId);
 			if (!ctrlKey && !altKey)
 			{
@@ -209,11 +191,19 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
 																	  altKey:Boolean, ctrlKey:Boolean):void
 		{
-			hypertensionMedicationAlternatePair.handleAlternateSelected(altKey, ctrlKey);
+			hypertensionMedicationAlternatePair.handleAlternateSelected(altKey, ctrlKey,
+					getAccountForSelectionAction(ctrlKey),
+					_activeAccount.accountId == _activeRecordAccount.accountId);
 			if (!ctrlKey && !altKey)
 			{
 				isChangeSpecified = true;
 			}
+		}
+
+		protected function getAccountForSelectionAction(ctrlKey:Boolean):Account
+		{
+			// TODO: when in patient mode, control click should be for simulating the clinician
+			return ctrlKey ? _activeRecordAccount : _activeAccount;
 		}
 
 		public function get hypertensionMedicationAlternatePairsVector():Vector.<HypertensionMedicationAlternatePair>

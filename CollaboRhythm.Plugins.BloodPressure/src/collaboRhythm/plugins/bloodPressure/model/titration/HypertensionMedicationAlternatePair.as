@@ -1,7 +1,6 @@
 package collaboRhythm.plugins.bloodPressure.model.titration
 {
-	import collaboRhythm.plugins.bloodPressure.model.*;
-	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
+	import collaboRhythm.shared.model.Account;
 
 	import mx.collections.ArrayCollection;
 
@@ -48,7 +47,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 		}
 
-		public function handleAlternateSelected(altKey:Boolean, ctrlKey:Boolean):void
+		public function handleAlternateSelected(altKey:Boolean, ctrlKey:Boolean, selectionByAccount:Account,
+												   isPatient:Boolean):void
 		{
 			if (altKey && ctrlKey)
 			{
@@ -56,23 +56,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 			else
 			{
-				var selectionType:String;
-
-				if (ctrlKey)
-				{
-					selectionType = HypertensionMedicationDoseSelection.COACH;
-				}
-				else if (altKey)
-				{
-					selectionType = HypertensionMedicationDoseSelection.SYSTEM;
-				}
-				else
-				{
-					selectionType = HypertensionMedicationDoseSelection.PATIENT;
-				}
+				var isSystem:Boolean = altKey && !ctrlKey;
+				var matchParameters:MatchParameters = HypertensionMedication.getMatchParameters(isSystem, selectionByAccount);
+				activeHypertensionMedication.removeAllHypertensionMedicationDoseSelections(matchParameters.matchData, matchParameters.matchFunction);
 			}
-
-			activeHypertensionMedication.removeAllHypertensionMedicationDoseSelections(selectionType);
 
 			var currentActiveHypertensionMedication:HypertensionMedication = _activeHypertensionMedication;
 			var currentInactiveHypertensionMedication:HypertensionMedication = _inactiveHypertensionMedication;

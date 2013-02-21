@@ -29,6 +29,15 @@
 
 		override public function set data(value:Object):void
 		{
+			// start by hiding everything because this is an item renderer and may be recycled, leaving artifacts from previous data
+			imageGroup.visible =
+			doseIncreaseArrowSystem.visible =
+			doseDecreaseArrowSystem.visible =
+			doseIncreaseArrowPatient.visible =
+			doseDecreaseArrowPatient.visible =
+			doseIncreaseArrowCoach.visible =
+			doseDecreaseArrowCoach.visible = false;
+
 			_hypertensionMedicationDoseSelection = value as HypertensionMedicationDoseSelection;
 
 			if (_hypertensionMedicationDoseSelection)
