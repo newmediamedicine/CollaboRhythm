@@ -19,11 +19,11 @@ package collaboRhythm.shared.model.healthRecord.document
 
 	import collaboRhythm.shared.model.*;
 
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -41,13 +41,16 @@ package collaboRhythm.shared.model.healthRecord.document
 		 */
 		public static const RELATION_TYPE_MEDICATION_FILL:String = "http://indivo.org/vocab/documentrels#medicationFill";
 
-		private var _name:CodedValue;
+		public static const RXCUI_CODED_VALUE_TYPE:String = "http://rxnav.nlm.nih.gov/REST/rxcui/";
+		public static const PRESCRIBED_ORDER_TYPE:String = "prescribed";
+
+		private var _name:CollaboRhythmCodedValue;
 		private var _orderType:String;
 		private var _orderedBy:String;
 		private var _dateOrdered:Date;
 		private var _dateExpires:Date;
 		private var _indication:String;
-		private var _amountOrdered:ValueAndUnit;
+		private var _amountOrdered:CollaboRhythmValueAndUnit;
 		private var _refills:int;
 		private var _substitutionPermitted:Boolean;
 		private var _instructions:String;
@@ -56,13 +59,13 @@ package collaboRhythm.shared.model.healthRecord.document
         private var _scheduleItems:HashMap = new HashMap();
 		private var _currentDateSource:ICurrentDateSource;
 
-        public function MedicationOrder()
+		public function MedicationOrder()
         {
 			meta.type = DOCUMENT_TYPE;
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
         }
 
-        public function init(name:CodedValue, orderType:String, orderedBy:String, dateOrdered:Date, dateExpires:Date = null, indication:String = null, amountOrdered:ValueAndUnit = null, refills:int = 0, substitutionPermitted:Boolean = false, instructions:String = null, medicationFill:MedicationFill = null, scheduleItems:HashMap = null):void
+        public function init(name:CollaboRhythmCodedValue, orderType:String, orderedBy:String, dateOrdered:Date, dateExpires:Date = null, indication:String = null, amountOrdered:CollaboRhythmValueAndUnit = null, refills:int = 0, substitutionPermitted:Boolean = false, instructions:String = null, medicationFill:MedicationFill = null, scheduleItems:HashMap = null):void
 		{
 			_name = name;
             _orderType = orderType;
@@ -86,10 +89,10 @@ package collaboRhythm.shared.model.healthRecord.document
             _name = HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.name[0]);
             _orderType = medicationOrderXml.orderType;
             _orderedBy = medicationOrderXml.orderedBy;
-            _dateOrdered = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationOrderXml.dateOrdered.toString());
-			_dateExpires = collaboRhythm.shared.model.DateUtil.parseW3CDTF(medicationOrderXml.dateExpires.toString());
+            _dateOrdered = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(medicationOrderXml.dateOrdered.toString());
+			_dateExpires = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(medicationOrderXml.dateExpires.toString());
             _indication = medicationOrderXml.indication;
-            _amountOrdered = new ValueAndUnit(medicationOrderXml.amountOrdered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.amountOrdered.unit[0]));
+            _amountOrdered = new CollaboRhythmValueAndUnit(medicationOrderXml.amountOrdered.value, HealthRecordHelperMethods.xmlToCodedValue(medicationOrderXml.amountOrdered.unit[0]));
             _refills = int(medicationOrderXml.refills);
             _substitutionPermitted = HealthRecordHelperMethods.stringToBoolean(medicationOrderXml.substitutionPermitted);
             _instructions = medicationOrderXml.instructions;
@@ -134,12 +137,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			return medicationOrderXml;
 		}
 
-        public function get name():CodedValue
+        public function get name():CollaboRhythmCodedValue
         {
             return _name;
         }
 
-        public function set name(value:CodedValue):void
+        public function set name(value:CollaboRhythmCodedValue):void
         {
             _name = value;
         }
@@ -194,12 +197,12 @@ package collaboRhythm.shared.model.healthRecord.document
             _indication = value;
         }
 
-        public function get amountOrdered():ValueAndUnit
+        public function get amountOrdered():CollaboRhythmValueAndUnit
         {
             return _amountOrdered;
         }
 
-        public function set amountOrdered(value:ValueAndUnit):void
+        public function set amountOrdered(value:CollaboRhythmValueAndUnit):void
         {
             _amountOrdered = value;
         }

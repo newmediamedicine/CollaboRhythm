@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  gap="0">
+
+	<fx:Style>
+		#medicationClassLabel {
+			font-size: 36;
+			color: #939598;
+		}
+
+		#alternateMedicationLabel {
+			font-size: 18;
+		}
+
+		.medicationNameLabel {
+			font-size: 26;
+			fontWeight: bold;
+			color: #BCBEC0;
+		}
+
+		.medicationNameLabelActive {
+			font-size: 36;
+			fontWeight: bold;
+			color: #000000;
+		}
+
+		.doseInactive {
+			font-size: 24;
+			color: #BCBEC0;
+		}
+
+		.doseActive {
+			font-size: 30;
+			color: #000000;
+			fontWeight: bold;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationDoseSelection;
+		import collaboRhythm.plugins.bloodPressure.view.*;
+
+		[Bindable]
+		private var _hypertensionMedication:HypertensionMedication;
+
+		public function init(hypertensionMedication:HypertensionMedication):void
+		{
+			_hypertensionMedication = hypertensionMedication;
+
+			medicationClassLabel.text = hypertensionMedication.medicationClass;
+			medicationNameLabel.text = hypertensionMedication.medicationName;
+			dose1Label.text = hypertensionMedication.dose1;
+			dose2Label.text = hypertensionMedication.dose2;
+		}
+
+		private function dose1Button_clickHandler(event:MouseEvent):void
+		{
+			dispatchEvent(new HypertensionMedicationViewEvent(HypertensionMedicationViewEvent.DOSE_SELECTED,
+					_hypertensionMedication, 1, event.altKey, event.ctrlKey));
+		}
+
+		private function dose2Button_clickHandler(event:MouseEvent):void
+		{
+			dispatchEvent(new HypertensionMedicationViewEvent(HypertensionMedicationViewEvent.DOSE_SELECTED,
+					_hypertensionMedication, 2, event.altKey, event.ctrlKey));
+		}
+
+		private function determineMedicationNameLabelStyle(currentDose:int):String
+		{
+			if (currentDose != 0)
+			{
+				return "medicationNameLabelActive";
+			}
+			else
+			{
+				return "medicationNameLabel";
+			}
+		}
+
+		private function determineDose2LabelStyle(currentDose:int):String
+		{
+			if (currentDose == 2)
+			{
+				return "doseActive";
+			}
+			else
+			{
+				return "doseInactive";
+			}
+		}
+
+		private function determineDose1LabelStyle(currentDose:int):String
+		{
+			if (currentDose == 1)
+			{
+				return "doseActive";
+			}
+			else
+			{
+				return "doseInactive"
+			}
+		}
+		]]></fx:Script>
+	<s:Label id="medicationClassLabel"/>
+	<s:HGroup>
+		<s:Group width="450" height="130">
+			<s:Rect width="100%" height="100%">
+				<s:stroke>
+					<s:SolidColorStroke color="0x939598"/>
+				</s:stroke>
+			</s:Rect>
+			<s:HGroup verticalCenter="0" verticalAlign="middle" left="30">
+				<s:Label id="medicationNameLabel"
+						 styleName="{determineMedicationNameLabelStyle(_hypertensionMedication.currentDose)}"/>
+			</s:HGroup>
+			<s:Label id="dose2Label" styleName="{determineDose2LabelStyle(_hypertensionMedication.currentDose)}"
+					 right="20" top="15"/>
+			<s:Label id="dose1Label" styleName="{determineDose1LabelStyle(_hypertensionMedication.currentDose)}"
+					 right="20" bottom="15"/>
+		</s:Group>
+		<s:Group height="130">
+			<s:Line top="25" bottom="25" horizontalCenter="0">
+				<s:stroke>
+					<s:SolidColorStroke color="0x939598" weight="10"/>
+				</s:stroke>
+			</s:Line>
+			<s:Line top="25" bottom="25" horizontalCenter="0" visible="{_hypertensionMedication.currentDose == 2}">
+				<s:stroke>
+					<s:SolidColorStroke color="0x37B6E1" weight="10"/>
+				</s:stroke>
+			</s:Line>
+			<s:Group width="50" height="50" top="0" click="dose2Button_clickHandler(event)">
+				<s:Ellipse width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0x939598"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="100%" height="100%" visible="{_hypertensionMedication.currentDose == 2}">
+					<s:fill>
+						<s:SolidColor color="0x37B6E1"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
+						   visible="{(_hypertensionMedication.patientDoseSelected == 2 || _hypertensionMedication.patientDoseSelected == 1)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedicationDoseSelection.DECREASE}">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
+						   visible="{(_hypertensionMedication.patientDoseSelected == 2)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedicationDoseSelection.INCREASE}">
+					<s:fill>
+						<s:SolidColor color="0x37B6E1"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:Group>
+			<s:Group id="dose1Button" width="50" height="50" bottom="0" click="dose1Button_clickHandler(event)">
+				<s:Ellipse width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0x939598"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="100%" height="100%" visible="{_hypertensionMedication.currentDose >= 1}">
+					<s:fill>
+						<s:SolidColor color="0x37B6E1"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
+						   visible="{_hypertensionMedication.patientDoseSelected == 1 &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedicationDoseSelection.DECREASE}">
+					<s:fill>
+						<s:SolidColor color="0xFFFFFF"/>
+					</s:fill>
+				</s:Ellipse>
+				<s:Ellipse width="75%" height="75%" verticalCenter="0" horizontalCenter="0"
+						   visible="{(_hypertensionMedication.patientDoseSelected == 1 || _hypertensionMedication.patientDoseSelected == 2)  &amp;&amp; _hypertensionMedication.patientDoseAction == HypertensionMedicationDoseSelection.INCREASE}">
+					<s:fill>
+						<s:SolidColor color="0x37B6E1"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:Group>
+		</s:Group>
+		<s:Group height="130">
+			<s:List height="50" top="0" dataProvider="{_hypertensionMedication.dose2SelectionArrayCollection}"
+					itemRenderer="collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationDoseSelectionItemRenderer" contentBackgroundAlpha="0">
+				<s:layout>
+					<s:HorizontalLayout/>
+				</s:layout>
+			</s:List>
+			<s:List height="50" bottom="0" dataProvider="{_hypertensionMedication.dose1SelectionArrayCollection}"
+					itemRenderer="collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationDoseSelectionItemRenderer" contentBackgroundAlpha="0">
+				<s:layout>
+					<s:HorizontalLayout/>
+				</s:layout>
+			</s:List>
+		</s:Group>
+	</s:HGroup>
+</s:VGroup>

@@ -8,11 +8,11 @@
 		import collaboRhythm.core.model.healthRecord.service.MedicationAdministrationsHealthRecordService;
 		import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
 		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
-		import collaboRhythm.shared.model.DateUtil;
+		import collaboRhythm.shared.model.services.DateUtil;
 		import collaboRhythm.shared.model.Record;
-		import collaboRhythm.shared.model.healthRecord.CodedValue;
+		import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 		import collaboRhythm.shared.model.healthRecord.Relationship;
-		import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+		import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
@@ -47,8 +47,9 @@
 			record.isLoading = true;
 
 			var medicationFill:MedicationFill = new MedicationFill();
-			medicationFill.name = new CodedValue("http://rxnav.nlm.nih.gov/REST/rxcui/", "847241", null, "3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]");
-			medicationFill.ndc = new CodedValue(null, null, null, "0169643910");
+			medicationFill.name = new CollaboRhythmCodedValue("http://rxnav.nlm.nih.gov/REST/rxcui/", "847241", null,
+					"3 ML insulin detemir 100 UNT/ML Prefilled Syringe [Levemir]");
+			medicationFill.ndc = new CollaboRhythmCodedValue(null, null, null, "0169643910");
 			record.addDocument(medicationFill);
 
 			var medicationAdministration:MedicationAdministration = new MedicationAdministration();

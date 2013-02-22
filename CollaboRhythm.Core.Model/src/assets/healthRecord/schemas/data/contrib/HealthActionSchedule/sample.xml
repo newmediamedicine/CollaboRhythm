@@ -1,0 +1,12 @@
+<HealthActionSchedule xmlns="http://indivo.org/vocab/xml/documents#"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <name>Insulin Titration Decision</name>
+  <scheduledBy>jking@records.media.mit.edu</scheduledBy>
+  <dateScheduled>2011-07-14T09:00:00-04:00</dateScheduled>
+  <dateStart>2011-07-15T13:00:00Z</dateStart>
+  <dateEnd>2011-07-15T17:00:00Z</dateEnd>
+  <recurrenceRule>
+    <frequency>DAILY</frequency>
+    <count>90</count>
+  </recurrenceRule>
+</HealthActionSchedule>

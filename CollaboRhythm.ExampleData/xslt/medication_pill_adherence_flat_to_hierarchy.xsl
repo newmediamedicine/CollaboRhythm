@@ -208,7 +208,7 @@
 																		<xsl:if test="d:symptoms">
 																			<LoadableIndivoDocument>
 																				<document>
-																					<VitalSign
+																					<CollaboRhythmVitalSign
 																							xmlns="http://indivo.org/vocab/xml/documents#">
 																						<name>asthma symptom</name>
 																						<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -220,14 +220,14 @@
 																							<textValue><xsl:value-of select="d:symptoms"/></textValue>
 																							<unit>Count</unit>
 																						</result>
-																					</VitalSign>
+																					</CollaboRhythmVitalSign>
 																				</document>
 																			</LoadableIndivoDocument>
 																		</xsl:if>
 																		<xsl:if test="d:trigger">
 																			<LoadableIndivoDocument>
 																				<document>
-																					<VitalSign
+																					<CollaboRhythmVitalSign
 																							xmlns="http://indivo.org/vocab/xml/documents#">
 																						<name>asthma trigger</name>
 																						<measuredBy><xsl:value-of select="$reportedBy"/></measuredBy>
@@ -239,7 +239,7 @@
 																							<textValue><xsl:value-of select="d:trigger"/></textValue>
 																							<unit>Count</unit>
 																						</result>
-																					</VitalSign>
+																					</CollaboRhythmVitalSign>
 																				</document>
 																			</LoadableIndivoDocument>
 																		</xsl:if>

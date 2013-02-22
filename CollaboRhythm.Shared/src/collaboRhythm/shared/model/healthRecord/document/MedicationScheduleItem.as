@@ -17,10 +17,8 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
-	import collaboRhythm.shared.model.*;
-
-    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 
 	[Bindable]
 	public class MedicationScheduleItem extends ScheduleItemBase
@@ -28,7 +26,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#MedicationScheduleItem";
         public static const MEDICATION:String = "Medication";
 
-		private var _dose:ValueAndUnit;
+		private var _dose:CollaboRhythmValueAndUnit;
         private var _scheduledMedicationOrder:MedicationOrder;
 //		private var _scheduledActionID:String;
 //		private var _scheduledAction:Medication;
@@ -45,7 +43,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			default xml namespace = "http://indivo.org/vocab/xml/documents#";
             super.initFromReportXML(scheduleItemReportXml, scheduleItemElementName);
 
-            _dose = new ValueAndUnit(scheduleItemXml.dose.value, HealthRecordHelperMethods.xmlToCodedValue(scheduleItemXml.dose.unit[0]));
+            _dose = new CollaboRhythmValueAndUnit(scheduleItemXml.dose.value, HealthRecordHelperMethods.xmlToCodedValue(scheduleItemXml.dose.unit[0]));
         }
 
         override public function createXmlDocument():XML
@@ -83,14 +81,15 @@ package collaboRhythm.shared.model.healthRecord.document
             _scheduledMedicationOrder = value;
         }
 
-        public function get dose():ValueAndUnit
+        public function get dose():CollaboRhythmValueAndUnit
         {
             return _dose;
         }
 
-        public function set dose(value:ValueAndUnit):void
+        public function set dose(value:CollaboRhythmValueAndUnit):void
         {
             _dose = value;
         }
-    }
+
+	}
 }

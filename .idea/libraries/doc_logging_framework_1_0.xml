@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="doc_logging_framework-1.0" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ExternalLibraries/doc_logging_framework-1.0.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

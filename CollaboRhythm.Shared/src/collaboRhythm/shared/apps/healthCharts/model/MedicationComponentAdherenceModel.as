@@ -17,7 +17,7 @@
 package collaboRhythm.shared.apps.healthCharts.model
 {
 
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 
@@ -28,7 +28,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public static const CONCENTRATION_SEVERITY_LEVEL_LOW:int = 1;
 		public static const CONCENTRATION_SEVERITY_LEVEL_GOAL:int = 2;
 
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _drugClass:String;
 		private var _stepsProvider:IStepsProvider;
 		private var _goalConcentrationMinimum:Number = 0.1;
@@ -47,12 +47,12 @@ package collaboRhythm.shared.apps.healthCharts.model
 		{
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}

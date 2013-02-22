@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   xmlns:titration="collaboRhythm.plugins.bloodPressure.view.titration.*"
+					   title="HypertensionMedicationTitration">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.controller.HypertensionMedicationTitrationAppController;
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
+		import collaboRhythm.plugins.bloodPressure.view.*;
+
+		import mx.events.FlexEvent;
+
+		[Bindable]
+		private var _controller:HypertensionMedicationTitrationAppController;
+		[Bindable]
+		private var _model:HypertensionMedicationTitrationModel;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			_controller = value as HypertensionMedicationTitrationAppController;
+			_model = _controller.model;
+		}
+
+		private function saveButton_clickHandler(event:MouseEvent):void
+		{
+			_controller.save();
+		}
+
+		private function reloadSelectionsButton_clickHandler(event:MouseEvent):void
+		{
+			_controller.reloadSelections();
+		}
+
+		private function resetButton_clickHandler(event:MouseEvent):void
+		{
+			_controller.reset();
+		}
+
+		]]></fx:Script>
+	<s:HGroup width="100%" height="100%">
+		<titration:TitrationMapView id="titrationMapView" controller="{_controller}"/>
+		<s:VGroup right="0" height="100%" width="100%">
+			<s:TextArea width="100%" height="100%" editable="false" text="{_model.confirmationMessage}"/>
+			<s:HGroup>
+				<s:Button id="resetButton" label="Reset" click="resetButton_clickHandler(event)"/>
+				<s:Button id="reloadSelectionsButton" label="Reload Selections" click="reloadSelectionsButton_clickHandler(event)"/>
+				<s:Button id="saveButton" label="Save" click="saveButton_clickHandler(event)"/>
+			</s:HGroup>
+
+		</s:VGroup>
+	</s:HGroup>
+
+</tablet:TabletViewBase>

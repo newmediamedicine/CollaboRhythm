@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.equipment.insulinPen.model
 {
 	import collaboRhythm.plugins.equipment.insulinPen.controller.InsulinPenHealthActionInputController;
+	import collaboRhythm.plugins.schedule.shared.model.DeviceGatewayConstants;
 	import collaboRhythm.plugins.schedule.shared.model.EquipmentHealthAction;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
@@ -40,9 +41,9 @@ package collaboRhythm.plugins.equipment.insulinPen.model
 																viewNavigator:ViewNavigator,
 																currentDeviceHealthActionInputController:IHealthActionInputController):IHealthActionInputController
 		{
-			if (urlVariables.healthActionType == EquipmentHealthAction.TYPE &&
-					urlVariables.healthActionName == HEALTH_ACTION_NAME &&
-					urlVariables.equipmentName == EQUIPMENT_NAME)
+			if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_TYPE_KEY] == EquipmentHealthAction.TYPE &&
+					urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] == HEALTH_ACTION_NAME &&
+					urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY] == EQUIPMENT_NAME)
 			{
 				var scheduleItemOccurrence:ScheduleItemOccurrence = scheduleCollectionsProvider.findClosestScheduleItemOccurrence(EQUIPMENT_NAME,
 						urlVariables.dateMeasuredStart);

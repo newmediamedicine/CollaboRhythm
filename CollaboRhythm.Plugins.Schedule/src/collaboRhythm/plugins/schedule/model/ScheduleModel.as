@@ -18,7 +18,7 @@ package collaboRhythm.plugins.schedule.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.*;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.IApplicationNavigationProxy;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.Record;
@@ -518,14 +518,24 @@ package collaboRhythm.plugins.schedule.model
 
 		public function findClosestScheduleItemOccurrence(name:String, dateStartString:String):ScheduleItemOccurrence
 		{
+			return findClosestMatchingScheduleItemOccurrence(function(scheduleItemOccurrence:ScheduleItemOccurrence):Boolean
+			{
+				return scheduleItemOccurrence.scheduleItem.name.text == name;
+			}, dateStartString);
+		}
+
+		public function findClosestMatchingScheduleItemOccurrence(matchFunction:Function,
+																   dateStartString:String):ScheduleItemOccurrence
+		{
 			var dateStart:Date = DateUtil.parseW3CDTF(dateStartString);
 			var closestScheduleItemOccurrence:ScheduleItemOccurrence;
 			var now:Date = _currentDateSource.now();
-			if (dateStart.date == now.date && dateStart.month == now.month && dateStart.fullYear == now.fullYear)
+			if (dateStart && dateStart.date == now.date && dateStart.month == now.month &&
+					dateStart.fullYear == now.fullYear)
 			{
 				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrencesHashMap)
 				{
-					if (scheduleItemOccurrence.scheduleItem.name.text == name &&
+					if (matchFunction(scheduleItemOccurrence) &&
 							scheduleItemOccurrence.adherenceItem == null)
 					{
 						if (dateStart > scheduleItemOccurrence.dateStart &&

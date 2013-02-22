@@ -29,6 +29,18 @@
             <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="18b28d91-467d-47c7-9c87-99679e733e5c">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.UI.Buttons" build-configuration-name="CollaboRhythm.Shared.UI.Buttons">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Castle.FlexBridge.Flash" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -48,11 +60,11 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="91353508-de89-487f-b61e-f23991ff7852" />
         <CLASSES>
@@ -62,7 +74,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="e97385d4-3001-4818-af24-4b146061024f" />
         <CLASSES>
@@ -72,7 +84,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="libs" type="flex">
         <properties id="58a43f90-8ca1-41c2-b8f3-12456e80afd3" />
         <CLASSES>
@@ -85,7 +97,22 @@
       </library>
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="18b28d91-467d-47c7-9c87-99679e733e5c" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../ExternalLibraries/FlextrasMobileComponents/MobileComponents45.swc!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="https://www.flextras.com/MobileComponents/Docs/asdocs/" />
+        </JAVADOC>
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
+    <orderEntry type="library" exported="" name="Castle.FlexBridge.Flash" level="project" />
   </component>
 </module>
 

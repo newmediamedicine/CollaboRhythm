@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.View.Scroll">
     <configurations>
-      <configuration name="CollaboRhythm.View.Scroll" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm.View.Scroll.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="CollaboRhythm.View.Scroll" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_View_Scroll.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.View.Scroll">
         <dependencies>
           <sdk name="4.6.0" />
         </dependencies>

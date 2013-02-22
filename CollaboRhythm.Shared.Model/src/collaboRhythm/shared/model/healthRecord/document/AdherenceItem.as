@@ -16,7 +16,7 @@
  */
 package collaboRhythm.shared.model.healthRecord.document
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.IDocument;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
@@ -31,7 +31,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		// TODO: eliminate this copy of RELATION_TYPE_ADHERENCE_ITEM. Only ScheduleItem.RELATION_TYPE_ADHERENCE_ITEM should exist
 		public static const RELATION_TYPE_ADHERENCE_ITEM:String = "http://indivo.org/vocab/documentrels#adherenceItem";
 
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _reportedBy:String;
 		private var _dateReported:Date;
 		private var _recurrenceIndex:int;
@@ -43,7 +43,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			meta.type = DOCUMENT_TYPE;
 		}
 
-		public function init(name:CodedValue, reportedBy:String,
+		public function init(name:CollaboRhythmCodedValue, reportedBy:String,
 							 dateReported:Date, recurrenceIndex:int):void
 		{
 			_name = name;
@@ -57,7 +57,7 @@ package collaboRhythm.shared.model.healthRecord.document
 			_nonadherenceReason = null;
 		}
 		
-        public function get name():CodedValue
+        public function get name():CollaboRhythmCodedValue
         {
             return _name;
         }
@@ -92,7 +92,7 @@ package collaboRhythm.shared.model.healthRecord.document
             return _nonadherenceReason;
         }
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}

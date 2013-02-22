@@ -30,7 +30,7 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _healthActionSchedule:HealthActionSchedule;
 		private var _equipment:Equipment;
 
-		private var _equipmentHealthAction:EquipmentHealthAction;
+		private var _equipmentHealthAction:ForaD40bHealthAction;
 		private var _model:HealthActionListViewModelBase;
 		private var _controller:HealthActionListViewControllerBase;
 
@@ -45,7 +45,7 @@ package collaboRhythm.plugins.foraD40b.model
 				_healthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
 				_equipment = _healthActionSchedule.scheduledEquipment;
 
-				_equipmentHealthAction = new EquipmentHealthAction(_healthActionSchedule.instructions, _equipment.name);
+				_equipmentHealthAction = new ForaD40bHealthAction(_healthActionSchedule.name.text, _equipment.name, _healthActionSchedule.instructions);
 
 				_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
 			}
@@ -69,7 +69,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		public function get name():String
 		{
-			return EQUIPMENT_NAME;
+			return _healthActionSchedule ? _healthActionSchedule.name.text : EQUIPMENT_NAME;
 		}
 
 		public function get description():String

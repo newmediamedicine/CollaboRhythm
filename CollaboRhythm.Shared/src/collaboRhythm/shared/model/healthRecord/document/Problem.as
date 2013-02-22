@@ -18,8 +18,9 @@ package collaboRhythm.shared.model.healthRecord.document
 {
 
 	import collaboRhythm.shared.model.*;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
     import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
@@ -30,45 +31,16 @@ package collaboRhythm.shared.model.healthRecord.document
 	public class Problem extends DocumentBase
 	{
 		public static const DOCUMENT_TYPE:String = "http://indivo.org/vocab/xml/documents#Problem";
+		private var _startDate:Date;
+		private var _endDate:Date;
 		private var _name:CodedValue;
-		private var _commonName:String;
-		private var _dateOnset:Date;
-		private var _dateResolution:Date;
+		private var _notes:String;
 		private var _currentDateSource:ICurrentDateSource;
-		
+
 		public function Problem()
 		{
 			meta.type = DOCUMENT_TYPE;
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
-		}
-
-        public function initFromReportXML(problemReportXml:XML):void
-        {
-			default xml namespace = "http://indivo.org/vocab/xml/documents#";
-            DocumentMetadata.parseDocumentMetadata(problemReportXml.Meta.Document[0], this.meta);
-			var problemXml:XML = problemReportXml.Item.Problem[0];
-            _name = HealthRecordHelperMethods.xmlToCodedValue(problemXml.name[0]);
-			_commonName = problemXml.comments;
-			_dateOnset =  DateUtil.parseW3CDTF(problemXml.dateOnset.toString());
-			_dateResolution =  DateUtil.parseW3CDTF(problemXml.dateResolution.toString());
-        }
-
-		public function get commonNameLabel():String
-		{
-			if (_commonName != null && _commonName.length > 0)
-				return "(" + _commonName + ")";
-			
-			return null;
-		}
-		
-		public function get commonName():String
-		{
-			return _commonName;
-		}
-
-		public function set commonName(value:String):void
-		{
-			_commonName = value;
 		}
 
 		public function get name():CodedValue
@@ -83,31 +55,41 @@ package collaboRhythm.shared.model.healthRecord.document
 		
 		public function get isInactive():Boolean
 		{
-			if (_dateResolution != null)
+			if (_endDate != null)
 			{
-				return _dateResolution < _currentDateSource.now();
+				return _endDate < _currentDateSource.now();
 			}
 			return false;
 		}
 
-		public function get dateOnset():Date
+		public function get startDate():Date
 		{
-			return _dateOnset;
+			return _startDate;
 		}
 
-		public function set dateOnset(value:Date):void
+		public function set startDate(value:Date):void
 		{
-			_dateOnset = value;
+			_startDate = value;
 		}
 
-		public function get dateResolution():Date
+		public function get endDate():Date
 		{
-			return _dateResolution;
+			return _endDate;
 		}
 
-		public function set dateResolution(value:Date):void
+		public function set endDate(value:Date):void
 		{
-			_dateResolution = value;
+			_endDate = value;
+		}
+
+		public function get notes():String
+		{
+			return _notes;
+		}
+
+		public function set notes(value:String):void
+		{
+			_notes = value;
 		}
 	}
 }

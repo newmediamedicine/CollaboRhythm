@@ -1,6 +1,6 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 
 	import mx.collections.ArrayCollection;
@@ -13,7 +13,7 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const RELATION_TYPE_TRIGGERED_HEALTH_ACTION_RESULT:String = "http://indivo.org/vocab/documentrels#triggeredHealthActionResult";
 		public static const RELATION_TYPE_TITRATION_DECISION:String = "http://indivo.org/vocab/documentrels#titrationDecision";
 
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _planType:String;
 		private var _reportedBy:String;
 		private var _dateReported:Date;
@@ -26,12 +26,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			meta.type = DOCUMENT_TYPE;
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}

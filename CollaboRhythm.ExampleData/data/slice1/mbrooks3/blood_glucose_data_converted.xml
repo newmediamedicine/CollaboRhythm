@@ -59,7 +59,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
@@ -68,7 +68,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -88,7 +88,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T13:07:00Z</dateMeasuredStart>
@@ -97,7 +97,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -117,7 +117,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T13:54:00Z</dateMeasuredStart>
@@ -126,7 +126,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -146,7 +146,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T13:52:00Z</dateMeasuredStart>
@@ -155,7 +155,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -175,7 +175,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:48:00Z</dateMeasuredStart>
@@ -184,7 +184,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -204,7 +204,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T14:27:00Z</dateMeasuredStart>
@@ -213,7 +213,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -233,7 +233,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T14:24:00Z</dateMeasuredStart>
@@ -242,7 +242,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -262,7 +262,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T14:14:00Z</dateMeasuredStart>
@@ -271,7 +271,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -291,7 +291,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T14:15:00Z</dateMeasuredStart>
@@ -300,7 +300,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -320,7 +320,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T14:59:00Z</dateMeasuredStart>
@@ -329,7 +329,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -349,7 +349,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T13:12:00Z</dateMeasuredStart>
@@ -358,7 +358,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -378,7 +378,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T15:26:00Z</dateMeasuredStart>
@@ -387,7 +387,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -407,7 +407,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-29T13:47:00Z</dateMeasuredStart>
@@ -416,7 +416,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -436,7 +436,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-30T14:12:00Z</dateMeasuredStart>
@@ -445,7 +445,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -465,7 +465,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:44:00Z</dateMeasuredStart>
@@ -474,7 +474,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -494,7 +494,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-01T14:02:00Z</dateMeasuredStart>
@@ -503,7 +503,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -523,7 +523,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-02T13:24:00Z</dateMeasuredStart>
@@ -532,7 +532,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -552,7 +552,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-03T15:22:00Z</dateMeasuredStart>
@@ -561,7 +561,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -581,7 +581,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-04T15:00:00Z</dateMeasuredStart>
@@ -590,7 +590,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -610,7 +610,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-05T13:53:00Z</dateMeasuredStart>
@@ -619,7 +619,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -639,7 +639,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-06T14:00:00Z</dateMeasuredStart>
@@ -648,7 +648,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -668,7 +668,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-07T13:54:00Z</dateMeasuredStart>
@@ -677,7 +677,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -697,7 +697,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-08T13:14:00Z</dateMeasuredStart>
@@ -706,7 +706,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -726,7 +726,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-09T13:00:00Z</dateMeasuredStart>
@@ -735,7 +735,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -755,7 +755,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-10T13:10:00Z</dateMeasuredStart>
@@ -764,7 +764,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -784,7 +784,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-11T13:18:00Z</dateMeasuredStart>
@@ -793,7 +793,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -813,7 +813,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-12T13:29:00Z</dateMeasuredStart>
@@ -822,7 +822,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -842,7 +842,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Blood Glucose</name>
                                        <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-08-13T13:40:00Z</dateMeasuredStart>
@@ -851,7 +851,7 @@
                                           <unit abbrev="mg/dL">milligrams per deciliter</unit>
                                        </result>
                                        <site>abdomen</site>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>

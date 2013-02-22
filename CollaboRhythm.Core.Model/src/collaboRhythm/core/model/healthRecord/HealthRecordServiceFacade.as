@@ -418,9 +418,9 @@ package collaboRhythm.core.model.healthRecord
 			return _saveChangesHealthRecordService.unexpectedErrorsSummary;
 		}
 
-		public function get errorsSavingSummary():String
+		public function get errorsSavingLongDescription():String
 		{
-			return _saveChangesHealthRecordService.errorsSavingSummary;
+			return _saveChangesHealthRecordService.errorsSavingLongDescription;
 		}
 
 		public function closeRecord():void

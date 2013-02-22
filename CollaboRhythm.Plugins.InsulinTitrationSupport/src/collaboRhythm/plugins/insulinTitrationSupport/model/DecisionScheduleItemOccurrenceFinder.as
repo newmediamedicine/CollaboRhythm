@@ -1,7 +1,7 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;

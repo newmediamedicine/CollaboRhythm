@@ -15,7 +15,7 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+<CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
    <name>Blood Glucose</name>
    <measuredBy>mbrooks@records.media.mit.edu</measuredBy>
    <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
@@ -24,4 +24,4 @@
       <unit abbrev="mg/dL">milligrams per deciliter</unit>
    </result>
    <site>abdomen</site>
-</VitalSign>
+</CollaboRhythmVitalSign>

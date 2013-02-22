@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Castle.FlexBridge.Flash" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ExternalLibraries/Castle.FlexBridge.Flash.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

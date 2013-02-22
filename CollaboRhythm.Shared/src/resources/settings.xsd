@@ -73,9 +73,32 @@
 			<xs:element type="xs:boolean" name="useGoogleAnalytics" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="googleAnalyticsTrackingId" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="logSourceIdentifier" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="collaborationEnabled" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						If true, CollaboRhythm will attempt to connect to the collaboration server using the
+						rtmpBaseURI. Otherwise, a connection will not be attempted. Default value is true.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:string" name="rtmpBaseURI" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="indivoServerBaseURL" minOccurs="0" maxOccurs="1"/>
-			<xs:element type="xs:boolean" name="debuggingToolsEnabled" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:boolean" name="debuggingToolsEnabled" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Determines whether certain debugging features are enabled, including time shifting, the
+						Force Sync button, and the version watermark.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="xs:boolean" name="deviceSimulatorEnabled" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Determines whether the Device Simulator is enabled. If enabled, the Device Simulator can be
+						accessed from the menu of any view and can simulate data coming in from DeviceGateway.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:string" name="oauthChromeConsumerKey" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:string" name="oauthChromeConsumerSecret" minOccurs="0" maxOccurs="1"/>
 			<xs:element type="xs:boolean" name="useSingleScreen" minOccurs="0" maxOccurs="1">
@@ -111,6 +134,13 @@
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
 						Include a menu item to allow adherence voiding to be toggled on and off
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="xs:boolean" name="scheduleEditingEnabled" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Allow the user (even in patient mode) to edit the schedule (add, remove, edit schedule items).
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -176,6 +206,13 @@
 					<xs:documentation xml:lang="en">
 						URL specifying the location of the update descriptor XML file to use for updating the
 						application (CollaboRhythm).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="xs:string" name="clockAnimationMode" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Mode for animating the clock. Valid values: slide (Optional).
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>

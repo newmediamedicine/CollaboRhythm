@@ -1,12 +1,12 @@
 package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 
 	[Bindable]
 	public class ActionStep extends Action
 	{
-		private var _name:CodedValue;
-		private var _type:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
+		private var _type:CollaboRhythmCodedValue;
 		private var _additionalDetails:String;
 		private var _instructions:String;
 
@@ -14,22 +14,22 @@ package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 		{
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
 
-		public function get type():CodedValue
+		public function get type():CollaboRhythmCodedValue
 		{
 			return _type;
 		}
 
-		public function set type(value:CodedValue):void
+		public function set type(value:CollaboRhythmCodedValue):void
 		{
 			_type = value;
 		}

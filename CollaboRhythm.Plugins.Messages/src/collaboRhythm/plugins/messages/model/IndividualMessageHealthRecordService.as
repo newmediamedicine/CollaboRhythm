@@ -2,17 +2,20 @@ package collaboRhythm.plugins.messages.model
 {
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.DateUtil;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.PhaHealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.document.Message;
+	import collaboRhythm.shared.model.healthRecord.document.MessageStatusCodes;
 	import collaboRhythm.shared.model.healthRecord.document.MessagesModel;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import flash.net.URLVariables;
+
+	import mx.utils.UIDUtil;
 
 	public class IndividualMessageHealthRecordService extends PhaHealthRecordServiceBase implements IIndividualMessageHealthRecordService
 	{
@@ -87,11 +90,15 @@ package collaboRhythm.plugins.messages.model
 		private function createMessage(recipientAccountId:String, body:String):Message
 		{
 			var message:Message = new Message();
+			// create a temporary unique id so that the message can be added to an OrderedMap; the id will be updated
+			// after the message is sent and a response is received from the server
+			message.id = UIDUtil.createUID();
 			message.sender = _activeAccount.accountId;
 			message.recipient = recipientAccountId;
 			message.subject = _activeRecordAccount.accountId;
 			message.type = Message.SENT;
 			message.body = body;
+			message.localStatus = MessageStatusCodes.SENDING;
 
 			return message;
 		}
@@ -139,7 +146,8 @@ package collaboRhythm.plugins.messages.model
 			var message:Message = healthRecordServiceRequestDetails.message;
 
 			message.id = responseXml.@id;
-			message.received_at = new Date();
+			message.received_at = DateUtil.parseW3CDTF(responseXml.received_at, true);
+			message.localStatus = MessageStatusCodes.COMPLETE;
 
 			_collaborationLobbyNetConnectionServiceProxy.sendMessage(message.recipient, message);
 		}
@@ -150,6 +158,7 @@ package collaboRhythm.plugins.messages.model
 			var message:Message = healthRecordServiceRequestDetails.message;
 
 			message.received_at = new Date();
+			message.localStatus = MessageStatusCodes.FAILED;
 		}
 	}
 }

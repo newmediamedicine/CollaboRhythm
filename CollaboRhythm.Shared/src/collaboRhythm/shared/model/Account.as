@@ -78,13 +78,13 @@ package collaboRhythm.shared.model
 		{
 			var accountA:Account = objA as Account;
 			var accountB:Account = objB as Account;
-			if (accountA && accountA.primaryRecord.contact &&
-					accountB && accountB.primaryRecord.contact)
+			if (accountA && accountA.primaryRecord.demographics &&
+					accountB && accountB.primaryRecord.demographics)
 			{
-				var accountFullNameA:String = accountA.primaryRecord.contact.familyName + ", " +
-						accountA.primaryRecord.contact.givenName;
-				var accountFullNameB:String = accountB.primaryRecord.contact.familyName + ", " +
-						accountB.primaryRecord.contact.givenName;
+				var accountFullNameA:String = accountA.primaryRecord.demographics.Name.familyName + ", " +
+						accountA.primaryRecord.demographics.Name.givenName;
+				var accountFullNameB:String = accountB.primaryRecord.demographics.Name.familyName + ", " +
+						accountB.primaryRecord.demographics.Name.givenName;
 
 				if (accountFullNameA < accountFullNameB)
 				{

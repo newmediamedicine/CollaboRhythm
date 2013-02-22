@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Core.Model">
     <configurations>
-      <configuration name="CollaboRhythm.Core.Model" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Core_Model.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="CollaboRhythm.Core.Model" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Core_Model.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Core.Model">
         <dependencies>
           <entries>
             <entry module-name="CollaboRhythm.Shared.Model" build-configuration-name="CollaboRhythm.Shared.Model">
@@ -15,6 +15,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry module-name="indivo_client_flash" build-configuration-name="indivo_client_flash">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -36,8 +39,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module-library" exported="">
       <library name="libs" type="flex">
         <properties id="0da7810b-2697-4665-b631-90e87a5d975a" />
         <CLASSES>
@@ -45,17 +48,15 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/FlashBuilder/J2AS3Collections/src" />
-          <root url="file://$USER_HOME$/FlashBuilder/J2AS3Collections/src" />
-          <root url="file://$USER_HOME$/FlashBuilder/J2AS3Collections/src" />
-          <root url="file://$MODULE_DIR$/../../FlashBuilder/J2AS3Collections/src" />
+          <root url="file://$J2AS3_COLLECTIONS_HOME$/src" />
         </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="indivo_client_flash" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="indivo_client_flash" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
   </component>
 </module>
 

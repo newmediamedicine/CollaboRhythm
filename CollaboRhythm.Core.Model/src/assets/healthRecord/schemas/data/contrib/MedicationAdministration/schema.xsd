@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://indivo.org/vocab/xml/documents#"
+		   xmlns:indivo="http://indivo.org/vocab/xml/documents#"
+		   elementFormDefault="qualified">
+
+  <xs:include schemaLocation="../codes.xsd"/>
+  <xs:include schemaLocation="../values.xsd"/>
+
+	<xs:complexType name="MedicationAdministration">
+		<xs:sequence>
+			<xs:element name="name" type="indivo:CollaboRhythmCodedValue" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="reportedBy" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="dateReported" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="dateAdministered" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="amountAdministered" type="indivo:CollaboRhythmValueAndUnit" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="amountRemaining" type="indivo:CollaboRhythmValueAndUnit" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="MedicationAdministration" type="indivo:MedicationAdministration"/>
+
+</xs:schema>

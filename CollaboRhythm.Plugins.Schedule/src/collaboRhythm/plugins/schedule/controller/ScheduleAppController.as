@@ -21,7 +21,9 @@ package collaboRhythm.plugins.schedule.controller
 
 	import collaboRhythm.plugins.schedule.model.ScheduleModel;
 	import collaboRhythm.plugins.schedule.model.ScheduleModelEvent;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.AdherencePerformanceModel;
+	import collaboRhythm.plugins.schedule.shared.model.DeviceGatewayConstants;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleModelKey;
@@ -34,12 +36,15 @@ package collaboRhythm.plugins.schedule.controller
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.controller.apps.AppEvent;
 	import collaboRhythm.shared.model.InteractionLogUtil;
+	import collaboRhythm.shared.model.StringUtils;
 
 	import flash.desktop.NativeApplication;
 	import flash.events.InvokeEvent;
 	import flash.net.URLVariables;
 
 	import mx.core.UIComponent;
+
+	import org.osmf.utils.URL;
 
 	public class ScheduleAppController extends AppControllerBase
 	{
@@ -54,9 +59,14 @@ package collaboRhythm.plugins.schedule.controller
 		private var _fullView:IScheduleFullView;
 
 		private var _isInvokeEventListenerAdded:Boolean;
-		//TODO: Determine if the handled invoke events still need to be tracked
-		private var _handledInvokeEvents:Vector.<String> = new Vector.<String>();
 		private var _synchronizationService:SynchronizationService;
+		/**
+		 * Keeps track of the controller that is active (most recently used for handleUrlVariables on an INVOKE event).
+		 * This is intended to deal with the problem of multiple INVOKE events coming in rapidly and then multiple
+		 * redundant controllers being created, and multiple views being pushed because the _viewNavigator.activeView
+		 * may not be updated by the time the 2nd (or more) INVOKE event(s) occurs.
+		 */
+		private var _activeHealthActionInputController:IHealthActionInputController;
 
 		public function ScheduleAppController(constructorParams:AppControllerConstructorParams)
 		{
@@ -158,10 +168,20 @@ package collaboRhythm.plugins.schedule.controller
 			if (event.arguments.length != 0)
 			{
 				var urlString:String = event.arguments[0];
-				var urlVariablesString:String = urlString.split("//")[1];
-				var urlVariables:URLVariables = new URLVariables(urlVariablesString);
+				var url:URL = new URL(urlString);
+				var urlVariablesString:String;
+				if (StringUtils.isEmpty(url.query))
+				{
+					urlVariablesString = urlString.split("//")[1];
+				}
+				else
+				{
+					urlVariablesString = url.query;
+				}
+				var urlVariables:URLVariables;
+				urlVariables = new URLVariables(urlVariablesString);
 
-				if (urlVariables.success == "true")
+				if (urlVariables[DeviceGatewayConstants.SUCCESS_KEY] == "true")
 				{
 					handleUrlVariables(urlVariables);
 				}
@@ -178,24 +198,42 @@ package collaboRhythm.plugins.schedule.controller
 			var healthActionInputController:IHealthActionInputController = scheduleModel.healthActionInputControllerFactory.createDeviceHealthActionInputController(urlVariables,
 					scheduleModel, scheduleModel, _viewNavigator);
 
-			if (_viewNavigator.activeView as IHealthActionInputView)
+			if (healthActionInputController == null)
 			{
-				var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
-						IHealthActionInputView;
-				if (ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
-						ReflectionUtils.getClass(healthActionInputController))
-				{
-					healthActionInputView.healthActionInputController.handleUrlVariables(urlVariables);
-				}
-				else
-				{
-					healthActionInputController.handleUrlVariables(urlVariables)
-				}
+				_logger.warn("Failed to create a IHealthActionInputController for incoming data. Make sure there is a registered factory that can handle this data: " + urlVariables.toString());
+				return;
+			}
+
+			var healthActionInputView:IHealthActionInputView = _viewNavigator.activeView as
+					IHealthActionInputView;
+			if (healthActionInputView && ReflectionUtils.getClass(healthActionInputView.healthActionInputController) ==
+					ReflectionUtils.getClass(healthActionInputController))
+			{
+				handleUrlVariablesForController(healthActionInputView.healthActionInputController, urlVariables);
+			}
+			else if (_activeHealthActionInputController && ReflectionUtils.getClass(_activeHealthActionInputController) ==
+									ReflectionUtils.getClass(healthActionInputController))
+			{
+				handleUrlVariablesForController(_activeHealthActionInputController, urlVariables);
 			}
 			else
 			{
-				healthActionInputController.handleUrlVariables(urlVariables);
+				handleUrlVariablesForController(healthActionInputController, urlVariables);
 			}
+
+			// Note that we are currently using the "end" as a rough way to detect when we can clear the _activeHealthActionInputController. It may not be 100% robust but it works for all cases tested.
+			var batchTransferAction:String = urlVariables[HealthActionInputControllerBase.BATCH_TRANSFER_URL_VARIABLE];
+			if (batchTransferAction == HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END)
+			{
+				_activeHealthActionInputController = null;
+			}
+		}
+
+		private function handleUrlVariablesForController(healthActionInputController:IHealthActionInputController,
+														 urlVariables:URLVariables):void
+		{
+			healthActionInputController.handleUrlVariables(urlVariables);
+			_activeHealthActionInputController = healthActionInputController;
 		}
 
 		public override function get defaultName():String
@@ -324,6 +362,15 @@ package collaboRhythm.plugins.schedule.controller
 			{
 				_scheduleReportingController.destroy();
 				_scheduleReportingController = null;
+			}
+			if (_activeHealthActionInputController)
+			{
+				_activeHealthActionInputController.destroy();
+				_activeHealthActionInputController = null;
+			}
+			if (_synchronizationService)
+			{
+				_synchronizationService.removeEventListener(this);
 			}
 		}
 	}

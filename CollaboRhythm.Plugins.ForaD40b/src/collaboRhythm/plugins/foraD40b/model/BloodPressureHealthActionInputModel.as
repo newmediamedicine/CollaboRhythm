@@ -1,9 +1,13 @@
 package collaboRhythm.plugins.foraD40b.model
 {
-	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelBase;
-	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationModel;
+	import collaboRhythm.plugins.foraD40b.controller.ForaD40bAppController;
+	import collaboRhythm.plugins.foraD40b.view.ForaD40bHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.model.DeviceGatewayConstants;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
+	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -12,42 +16,114 @@ package collaboRhythm.plugins.foraD40b.model
 	import flash.net.URLVariables;
 
 	[Bindable]
-	public class BloodPressureHealthActionInputModel extends HealthActionInputModelBase implements IHealthActionInputModel
+	public class BloodPressureHealthActionInputModel extends ForaD40bHealthActionInputModelBase implements IHealthActionInputModel
 	{
 		private var _position:String;
 		private var _site:String;
 		private var _systolic:String = "";
 		private var _diastolic:String = "";
 		private var _heartRate:String = "";
+		private var _results:Vector.<DocumentBase>;
 
-		public function BloodPressureHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence = null,
-															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider = null)
+		private static const SITTING_POSITION:String = "Sitting";
+		private static const LEFT_ARM_SITE:String = "Left Arm";
+
+		private static const DEFAULT_POSITION:String = SITTING_POSITION;
+		private static const DEFAULT_SITE:String = LEFT_ARM_SITE;
+
+		public function BloodPressureHealthActionInputModel(scheduleItemOccurrence:ScheduleItemOccurrence,
+															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+															scheduleCollectionsProvider:IScheduleCollectionsProvider,
+															foraD40bHealthActionInputModelCollection:ForaD40bHealthActionInputModelCollection)
 		{
-			super(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			super(scheduleItemOccurrence, healthActionModelDetailsProvider, scheduleCollectionsProvider, foraD40bHealthActionInputModelCollection);
+			position = DEFAULT_POSITION;
+			site = DEFAULT_SITE;
+			updateFromAdherence();
 		}
 
-		public function submitBloodPressure(position:String, site:String):void
+		private function updateFromAdherence():void
 		{
-			_position = position;
-			_site = site;
-
-			createVitalSigns();
+			if (scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem)
+			{
+				if (scheduleItemOccurrence.adherenceItem.adherenceResults &&
+						scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
+				{
+					for each (var documentBase:DocumentBase in
+							scheduleItemOccurrence.adherenceItem.adherenceResults)
+					{
+						var vitalSign:VitalSign = documentBase as VitalSign;
+						switch(vitalSign.name.text)
+						{
+							case VitalSignsModel.SYSTOLIC_CATEGORY:
+							{
+								systolic = vitalSign.result.value;
+								isFromDevice = vitalSign.comments != ForaD40bHealthActionInputModelBase.SELF_REPORT;
+								site = vitalSign.site;
+								position = vitalSign.position;
+								break;
+							}
+							case VitalSignsModel.DIASTOLIC_CATEGORY:
+							{
+								diastolic = vitalSign.result.value;
+								break;
+							}
+							case VitalSignsModel.HEART_RATE_CATEGORY:
+							{
+								heartRate = vitalSign.result.value;
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 
-		private function createVitalSigns():void
+		override public function createResult():Boolean
 		{
 			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
 
-			var bloodPressureSystolic:VitalSign = vitalSignFactory.createBloodPressureSystolic(_currentDateSource.now(),
-					systolic, null, null, site, position);
-			var bloodPressureDiastolic:VitalSign = vitalSignFactory.createBloodPressureDiastolic(_currentDateSource.now(),
-					diastolic, null, null, site, position);
-			var heartRate:VitalSign = vitalSignFactory.createHeartRate(_currentDateSource.now(), heartRate, null, null,
-					site, position);
+			var comments:String = duplicatePreventionComments();
+			var bloodPressureSystolic:VitalSign = vitalSignFactory.createBloodPressureSystolic(dateMeasuredStart,
+					systolic, null, null, site, position, null, comments);
+			var bloodPressureDiastolic:VitalSign = vitalSignFactory.createBloodPressureDiastolic(dateMeasuredStart,
+					diastolic, null, null, site, position, null, comments);
+			var heartRate:VitalSign = vitalSignFactory.createHeartRate(dateMeasuredStart, heartRate, null, null,
+					site, position, null, comments);
 
-			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
+			results = new Vector.<DocumentBase>();
 			results.push(bloodPressureSystolic, bloodPressureDiastolic, heartRate);
 
+			return true;
+		}
+
+		private function duplicatePreventionComments():String
+		{
+			return isFromDevice ? FROM_DEVICE + ForaD40bAppController.DEFAULT_NAME + " " + _urlVariables.toString() : SELF_REPORT;
+		}
+
+		override public function submitResult(initiatedLocally:Boolean):void
+		{
+			saveResult(initiatedLocally, true);
+		}
+
+		override public function saveResult(initiatedLocally:Boolean, persist:Boolean):void
+		{
+			if (healthActionModelDetailsProvider.record == null)
+			{
+				_logger.warn("Record is null. Unexpected error. Save can not be completed and changes will be lost.");
+			}
+
+			submitBloodPressure();
+			if (persist)
+			{
+				healthActionModelDetailsProvider.record.saveAllChanges();
+				setCurrentView(null);
+			}
+		}
+
+		public function submitBloodPressure():void
+		{
 			if (scheduleItemOccurrence)
 			{
 				scheduleItemOccurrence.createAdherenceItem(results, healthActionModelDetailsProvider.record,
@@ -60,6 +136,21 @@ package collaboRhythm.plugins.foraD40b.model
 					result.pendingAction = DocumentBase.ACTION_CREATE;
 					healthActionModelDetailsProvider.record.addDocument(result);
 				}
+			}
+		}
+
+		override public function handleUrlVariables(urlVariables:URLVariables):void
+		{
+			_logger.debug("handleUrlVariables " + urlVariables.toString());
+
+			dateMeasuredStart = DateUtil.parseW3CDTF(urlVariables[DeviceGatewayConstants.CORRECTED_MEASURED_DATE_KEY]);
+			isFromDevice = true;
+
+			this.urlVariables = urlVariables;
+
+			if (foraD40bHealthActionInputModelCollection.pushedViewCount == 0 || currentView != ForaD40bHealthActionInputView)
+			{
+				setCurrentView(ForaD40bHealthActionInputView);
 			}
 		}
 
@@ -122,14 +213,14 @@ package collaboRhythm.plugins.foraD40b.model
 			_site = value;
 		}
 
-		public function get adherenceResultDate():Date
+		private function get results():Vector.<DocumentBase>
 		{
-			return null;
+			return _results;
 		}
 
-		public function get dateMeasuredStart():Date
+		private function set results(results:Vector.<DocumentBase>):void
 		{
-			return null;
+			_results = results;
 		}
 	}
 }

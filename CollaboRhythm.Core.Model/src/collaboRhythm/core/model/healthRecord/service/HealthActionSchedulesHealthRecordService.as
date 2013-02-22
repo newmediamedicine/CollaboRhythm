@@ -30,7 +30,7 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
 					HealthActionSchedule.DOCUMENT_TYPE, HealthActionSchedule, Schemas.HealthActionScheduleSchema,
-					"healthactionschedules", "dateStart");
+					"HealthActionSchedule", "dateStart");
 		}
 
 		override public function unmarshallDocumentXml(documentXml:XML):IDocument

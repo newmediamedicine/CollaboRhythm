@@ -1,8 +1,16 @@
 package collaboRhythm.plugins.schedule.shared.model
 {
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
 	import flash.events.MouseEvent;
 	import flash.net.URLVariables;
 
+	/**
+	 * A health action input controller is used to handle creating/reporting a scheduled and/or unscheduled health
+	 * action. A plugin can implement an input controller to customize the appearance and behavior of the view(s)
+	 * used for reporting a given health action.
+	 * @see IHealthActionInputControllerFactory
+	 */
 	public interface IHealthActionInputController
 	{
 		/**
@@ -37,5 +45,15 @@ package collaboRhythm.plugins.schedule.shared.model
 		function handleHealthActionCommandButtonClick(event:MouseEvent):void;
 
 		function removeEventListener():void;
+
+		function handleAdherenceChange(dataInputModel:IHealthActionInputModel,
+									   scheduleItemOccurrence:ScheduleItemOccurrence, selected:Boolean):void;
+
+		/**
+		 * Returns true if an existing health action is being reviewed (in read-only mode).
+		 */
+		function get isReview():Boolean;
+
+		function destroy():void;
 	}
 }

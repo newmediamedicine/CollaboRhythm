@@ -7,6 +7,7 @@ package collaboRhythm.shared.controller
 
 	import spark.components.ViewNavigator;
 
+	[Bindable]
 	public interface IApplicationControllerBase
     {
         /**
@@ -28,6 +29,8 @@ package collaboRhythm.shared.controller
         function set fastForwardEnabled(value:Boolean):void;
 
         function useDemoPreset(demoPresetIndex:int):void;
+
+		function get targetDate():Date;
 
         function set targetDate(value:Date):void;
 

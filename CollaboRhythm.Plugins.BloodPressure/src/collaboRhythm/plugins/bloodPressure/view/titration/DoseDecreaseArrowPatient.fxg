@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="20" viewWidth="20" ai:appVersion="15.0.0.399" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="20" d:pageWidth="20" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="151ca180" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path x="3.00195" y="1" winding="nonZero" ai:objID="26e30380" ai:seqID="3" data="M9.84961 0 4.14404 0 4.14404 6.05322 0 6.05322 3.49951 11.5254 6.99707 17 10.4951 11.5254 13.9961 6.05322 9.84961 6.05322 9.84961 0Z">
+        <fill>
+          <SolidColor color="#FFFFFF"/>
+        </fill>
+        <stroke>
+          <SolidColorStroke weight="2" caps="none" joints="miter" miterLimit="10" color="#38B6E1"/>
+        </stroke>
+      </Path>
+    </Group>
+  </Group>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B includeObjectOutsideArtboard 0 I preserveTextPolicy 4 I preserveFilterPolicy 3 I rasterizeResolution 72 I preserveGradientPolicy 4 B downsampleLinkedImages 0 I expandBlendsOption 5 B includeXMP 0 B aiEditCap 1 B writeImages 1 I versionKey 2 B includeSymbol 0 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="DoseDecreaseArrowPatient.assets/images" rulerCanvasDiffH="10.5" rulerCanvasDiffV="10.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="3E3B41A8B4D2BDC5C9DBCA2F6ED9145F" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

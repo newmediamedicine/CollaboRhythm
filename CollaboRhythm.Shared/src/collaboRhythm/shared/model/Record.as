@@ -18,6 +18,7 @@ package collaboRhythm.shared.model
 {
 
 	import collaboRhythm.shared.apps.healthCharts.model.HealthChartsModel;
+	import collaboRhythm.shared.model.demographics.Demographics;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentCollectionBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;

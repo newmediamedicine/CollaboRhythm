@@ -50,57 +50,54 @@ public class TabletViewMenuItemSkin extends ButtonSkin
     {
         super();
         
+		layoutBorderSize = 0;
+
+		upBorderSkin = Invisible;
+    	downBorderSkin = Invisible;
+		showsCaretBorderSkin = Invisible;
+		useCenterAlignment = false;
+
         switch (applicationDPI)
         {
             case DPIClassification.DPI_320:
             {
-                
-                upBorderSkin = spark.skins.mobile320.assets.ViewMenuItem_up;
-                downBorderSkin = spark.skins.mobile320.assets.ViewMenuItem_down;
-                showsCaretBorderSkin = spark.skins.mobile320.assets.ViewMenuItem_showsCaret;
-                
                 layoutGap = 12;
-                layoutPaddingLeft = 12;
+                layoutPaddingLeft = 24;
                 layoutPaddingRight = 12;
                 layoutPaddingTop = 12;
                 layoutPaddingBottom = 12;
-                layoutBorderSize = 2;   
-                
-                
+
                 break;
             }
             case DPIClassification.DPI_240:
             {   
-                upBorderSkin = spark.skins.mobile.assets.ViewMenuItem_up;
-                downBorderSkin = spark.skins.mobile.assets.ViewMenuItem_down;
-                showsCaretBorderSkin = spark.skins.mobile.assets.ViewMenuItem_showsCaret;
-                
                 layoutGap = 8;
-                layoutPaddingLeft = 8;
+                layoutPaddingLeft = 16;
                 layoutPaddingRight = 8;
                 layoutPaddingTop = 8;
                 layoutPaddingBottom = 8;
-                layoutBorderSize = 1;
-                
+
                 break;
                 
             }
             default:
             {
-                upBorderSkin = spark.skins.mobile.assets.ViewMenuItem_up;
-                downBorderSkin = spark.skins.mobile.assets.ViewMenuItem_down;
-                showsCaretBorderSkin = spark.skins.mobile.assets.ViewMenuItem_showsCaret; 
-                
                 layoutGap = 6;
-                layoutPaddingLeft = 6;
+                layoutPaddingLeft = 12;
                 layoutPaddingRight = 6;
                 layoutPaddingTop = 6;
                 layoutPaddingBottom = 6;
-                layoutBorderSize = 1;
             }
         }
     }
-    
+
+
+	override protected function createChildren():void
+	{
+		super.createChildren();
+		setStyle("textAlign", "left");
+	}
+
     /**
      *  Class to use for the border in the showsCaret state.
      * 
@@ -124,18 +121,6 @@ public class TabletViewMenuItemSkin extends ButtonSkin
             borderClass = showsCaretBorderSkin;  
         
         return borderClass;
-    }
-    
-    /**
-     *  @private
-     */
-    override protected function layoutContents(unscaledWidth:Number, unscaledHeight:Number):void
-    {
-        var iconPlacement:String = getStyle("iconPlacement");
-        useCenterAlignment = (iconPlacement == IconPlacement.LEFT)
-            || (iconPlacement == IconPlacement.RIGHT);
-
-        super.layoutContents(unscaledWidth, unscaledHeight);
     }
     
     /**

@@ -27,10 +27,12 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.controller.apps.AppControllerBase;
 	import collaboRhythm.shared.controller.apps.AppControllerConstructorParams;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.services.IViewModifier;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.view.tablet.TabletViewBase;
 	import collaboRhythm.tablet.model.ViewNavigatorExtended;
-	import collaboRhythm.tablet.model.ViewNavigatorExtendedEvent;
+	import collaboRhythm.shared.model.tablet.ViewNavigatorExtendedEvent;
 	import collaboRhythm.tablet.view.SelectRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
 	import collaboRhythm.tablet.view.TabletHomeView;
@@ -215,6 +217,12 @@ package collaboRhythm.tablet.controller
 			view.activeAccount = activeAccount;
 			view.activeRecordAccount = activeRecordAccount;
 			view.tabletApplicationController = this;
+
+			var viewModifiers:Array = WorkstationKernel.instance.resolveAll(IViewModifier);
+			for each (var viewModifier:IViewModifier in viewModifiers)
+			{
+				viewModifier.modify(view);
+			}
 		}
 
 		private function createGoogleAnalyticsSessionIdleTimer():void

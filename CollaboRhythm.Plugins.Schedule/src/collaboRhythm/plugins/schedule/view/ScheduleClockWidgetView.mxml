@@ -45,8 +45,12 @@
 		import mx.binding.utils.BindingUtils;
 		import mx.binding.utils.ChangeWatcher;
 		import mx.collections.ArrayCollection;
+		import mx.effects.Parallel;
 		import mx.events.CollectionEvent;
 		import mx.events.CollectionEventKind;
+
+		import spark.effects.Fade;
+		import spark.effects.Move;
 
 		//TODO: Maybe ChildIndependentLayout belongs in shared?
 
@@ -168,9 +172,42 @@
 		public function createScheduleGroupView(scheduleGroup:ScheduleGroup):void
 		{
 			var scheduleGroupClockView:ScheduleGroupClockView = new ScheduleGroupClockView();
+			animateNewScheduleGroup(scheduleGroupClockView, scheduleGroup);
 			scheduleGroupClockView.init(_scheduleModel, scheduleGroup, scheduleGroupsContainer);
 			scheduleGroupsContainer.addElement(scheduleGroupClockView);
-			_scheduleGroupClockViews.push(scheduleGroupClockView)
+			_scheduleGroupClockViews.push(scheduleGroupClockView);
+		}
+
+		private function animateNewScheduleGroup(scheduleGroupClockView:ScheduleGroupClockView,
+												 scheduleGroup:ScheduleGroup):void
+		{
+			if (useSlideInAnimation)
+			{
+				scheduleGroupClockView.alpha = 0;
+				scheduleGroupClockView.includeInLayout = false;
+
+				var parallel:Parallel = new Parallel(scheduleGroupClockView);
+
+				var fade:Fade = new Fade(scheduleGroupClockView);
+				fade.alphaFrom = 0;
+				fade.alphaTo = 1;
+				parallel.addChild(fade);
+
+				var angle:Number = (ScheduleGroupClockView.calculateAngleFromDate(scheduleGroup.dateCenter) - 90) *
+						Math.PI / 180;
+
+				var move:Move = new Move(scheduleGroupClockView);
+				var moveDistance:Number = width;
+				move.xFrom = Math.cos(angle) * moveDistance;
+				move.yFrom = Math.sin(angle) * moveDistance;
+				move.xTo = 0;
+				move.yTo = 0;
+				parallel.addChild(move);
+
+				// make the groups slide in sequentially
+				parallel.startDelay = 500 + _scheduleGroupClockViews.length * 100;
+				parallel.play();
+			}
 		}
 
 		public function destroyScheduleGroupView(scheduleGroup:ScheduleGroup):void
@@ -215,7 +252,10 @@
 
 		private function removeHandler():void
 		{
-			_scheduleModelInitialized_changeWatcher.unwatch();
+			if (_scheduleModelInitialized_changeWatcher)
+			{
+				_scheduleModelInitialized_changeWatcher.unwatch();
+			}
 		}
 
 		private function currentDateSource_changeHandler(event:Event):void
@@ -226,6 +266,11 @@
 		private function showScheduleTimelineFullViewButton_clickHandler():void
 		{
 			_scheduleClockController.showScheduleTimelineFullView("widget button click");
+		}
+
+		public function get useSlideInAnimation():Boolean
+		{
+			return _settings && _settings.clockAnimationMode == "slide";
 		}
 		]]>
 	</fx:Script>
@@ -238,7 +283,7 @@
 						  height="{clock.height / 2}" mouseEnabled="false" mouseChildren="false"/>
 		<images:clockForeground id="clockForeground" width="{clock.width}" height="{clock.height}" mouseEnabled="false"
 								mouseChildren="false"/>
-		<s:Group width="90" height="90" horizontalCenter="0" verticalCenter="0" visible="{_settings.isClinicianMode}"
+		<s:Group width="90" height="90" horizontalCenter="0" verticalCenter="0" visible="{_settings.isClinicianMode || _settings.scheduleEditingEnabled}"
 				 click="showScheduleTimelineFullViewButton_clickHandler()">
 			<s:Button width="100%" height="100%"
 					  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"/>

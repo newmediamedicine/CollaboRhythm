@@ -235,7 +235,7 @@ package collaboRhythm.core.pluginsManagement
 		private static function isPluginFile(file:File):Boolean
 		{
 			// TODO: come up with a more robust way to exclude non-module swf files or added error handling that will catch these
-			return file.extension && file.extension.toLowerCase() == "swf" && file.name.toLowerCase().indexOf("pluginmodule") != -1;
+			return file.extension && file.extension.toLowerCase() == "swf";
 		}
 		
 		private static function fileArrayToStringForTrace(array:Array):String
@@ -255,8 +255,10 @@ package collaboRhythm.core.pluginsManagement
 			moduleLoader.addEventListener(ModuleEvent.ERROR, moduleLoader_errorHandler);
 
 			var stream:FileStream = new FileStream();
+			_logger.debug("Opening plugin file " + file.url);
 			stream.open(file, FileMode.READ);
 			var moduleBytes:ByteArray = new ByteArray();
+			_logger.debug("Reading plugin file " + file.url);
 			stream.readBytes(moduleBytes);
 			stream.close();
 			
@@ -272,6 +274,7 @@ package collaboRhythm.core.pluginsManagement
 			// all of the modules are in the same domain.
 			// http://livedocs.adobe.com/flex/3/html/help.html?content=modular_2.html
 			moduleLoader.applicationDomain = _pluginsApplicationDomain;
+			_logger.debug("Loading module " + file.url + " (" + moduleBytes.length + " bytes)");
 			moduleLoader.loadModule(file.url, moduleBytes);
 		}
 		
@@ -371,10 +374,10 @@ package collaboRhythm.core.pluginsManagement
 			if (event.bytesLoaded == event.bytesTotal && event.module != null && completedModuleLoaders.contains(moduleLoader))
 			{
 				// expected error; just ignore it
+				_logger.debug("Expected (ignored) error loading module " + moduleLoader.url + " " + event.errorText);
 				return;
 			}
 
-			trace(event.errorText);
 			_logger.error("Error loading module " + moduleLoader.url + " " + event.errorText);
 
 			// TODO: update pendingModuleLoaders as in moduleLoader_readyHandler

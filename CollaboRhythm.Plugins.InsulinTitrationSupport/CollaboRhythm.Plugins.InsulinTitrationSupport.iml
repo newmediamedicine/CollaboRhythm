@@ -41,6 +41,18 @@
             <entry module-name="CollaboRhythm.Shared.UI.Buttons" build-configuration-name="CollaboRhythm.Shared.UI.Buttons">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Castle.FlexBridge.Flash" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Theory9.Data.Types.OrderedMap" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Medications" build-configuration-name="CollaboRhythm.Shared.Model.Medications">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -60,11 +72,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="libs" type="flex">
         <properties id="132b44f5-3217-4155-b47f-bbd275687d86" />
         <CLASSES>
@@ -76,13 +84,21 @@
       </library>
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" />
-    <orderEntry type="module" module-name="McCuneChart" />
-    <orderEntry type="module" module-name="ChartBackgroundsLib" />
-    <orderEntry type="library" name="mobile" level="project" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Messages" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" />
+    <orderEntry type="library" exported="" name="mobile" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.PluginsSupport" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" exported="" />
+    <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Messages" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
+    <orderEntry type="library" exported="" name="Castle.FlexBridge.Flash" level="project" />
+    <orderEntry type="library" exported="" name="Theory9.Data.Types.OrderedMap" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Medications" exported="" />
   </component>
 </module>
 

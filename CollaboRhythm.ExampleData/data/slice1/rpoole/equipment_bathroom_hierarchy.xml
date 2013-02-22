@@ -44,7 +44,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T08:00:00Z</dateMeasuredStart>
@@ -52,12 +52,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T08:00:00Z</dateMeasuredStart>
@@ -65,7 +65,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -85,7 +85,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T10:00:00Z</dateMeasuredStart>
@@ -93,12 +93,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T10:00:00Z</dateMeasuredStart>
@@ -106,7 +106,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -126,7 +126,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T12:00:00Z</dateMeasuredStart>
@@ -134,12 +134,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T12:00:00Z</dateMeasuredStart>
@@ -147,7 +147,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -167,7 +167,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:00:00Z</dateMeasuredStart>
@@ -175,12 +175,12 @@
                                           <value>130</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:00:00Z</dateMeasuredStart>
@@ -188,7 +188,7 @@
                                           <value>55</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -208,7 +208,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T16:00:00Z</dateMeasuredStart>
@@ -216,12 +216,12 @@
                                           <value>135</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T16:00:00Z</dateMeasuredStart>
@@ -229,7 +229,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -249,7 +249,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T18:00:00Z</dateMeasuredStart>
@@ -257,12 +257,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T18:00:00Z</dateMeasuredStart>
@@ -270,7 +270,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -290,7 +290,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T20:00:00Z</dateMeasuredStart>
@@ -298,12 +298,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T20:00:00Z</dateMeasuredStart>
@@ -311,7 +311,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -331,7 +331,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T08:00:00Z</dateMeasuredStart>
@@ -339,12 +339,12 @@
                                           <value>130</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T08:00:00Z</dateMeasuredStart>
@@ -352,7 +352,7 @@
                                           <value>55</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -372,7 +372,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T10:00:00Z</dateMeasuredStart>
@@ -380,12 +380,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T10:00:00Z</dateMeasuredStart>
@@ -393,7 +393,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -413,7 +413,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T12:00:00Z</dateMeasuredStart>
@@ -421,12 +421,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T12:00:00Z</dateMeasuredStart>
@@ -434,7 +434,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -454,7 +454,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T14:00:00Z</dateMeasuredStart>
@@ -462,12 +462,12 @@
                                           <value>145</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T14:00:00Z</dateMeasuredStart>
@@ -475,7 +475,7 @@
                                           <value>55</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -495,7 +495,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T16:00:00Z</dateMeasuredStart>
@@ -503,12 +503,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T16:00:00Z</dateMeasuredStart>
@@ -516,7 +516,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -536,7 +536,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T18:00:00Z</dateMeasuredStart>
@@ -544,12 +544,12 @@
                                           <value>135</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T18:00:00Z</dateMeasuredStart>
@@ -557,7 +557,7 @@
                                           <value>55</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -577,7 +577,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T20:00:00Z</dateMeasuredStart>
@@ -585,12 +585,12 @@
                                           <value>140</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T20:00:00Z</dateMeasuredStart>
@@ -598,7 +598,7 @@
                                           <value>60</value>
                                           <unit abbrev="mL">millileters</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>

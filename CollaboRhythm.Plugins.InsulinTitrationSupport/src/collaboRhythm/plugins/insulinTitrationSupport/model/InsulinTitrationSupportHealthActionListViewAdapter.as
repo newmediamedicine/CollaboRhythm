@@ -12,6 +12,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
+	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -19,7 +21,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import mx.events.PropertyChangeEvent;
 
 	import spark.components.Button;
-
 	import spark.components.Group;
 	import spark.components.Image;
 	import spark.core.SpriteVisualElement;
@@ -142,7 +143,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				{
 					conditionsMetIcon.visible = true;
 				}
-				else if (_decisionModel.step2State == InsulinTitrationDecisionModelBase.STEP_STOP)
+				else if (_decisionModel.step2State == TitrationDecisionModelBase.STEP_STOP)
 				{
 					insufficientAdherenceIcon.visible = true;
 				}

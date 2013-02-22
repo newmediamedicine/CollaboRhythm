@@ -35,7 +35,7 @@ package collaboRhythm.plugins.equipment.model
 			_healthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
 			_equipment = _healthActionSchedule.scheduledEquipment;
 
-			_equipmentHealthAction = new EquipmentHealthAction(_healthActionSchedule.instructions, _equipment.name);
+			_equipmentHealthAction = new EquipmentHealthAction(_healthActionSchedule.name.text, _equipment.name, _healthActionSchedule.instructions);
 
 			_model = new HealthActionListViewModelBase(scheduleItemOccurrence, healthActionModelDetailsProvider);
 

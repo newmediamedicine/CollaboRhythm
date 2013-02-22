@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+		 xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
+		 width="100%" height="100%" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
+
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputModelCollection;
+		import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputModelCollection;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionListViewAdapter;
+		import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionListViewAdapterFactory;
+		import collaboRhythm.plugins.schedule.shared.view.ScheduledHealthActionDetailViewEvent;
+		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+
+		import mx.binding.utils.BindingUtils;
+
+		import mx.events.ResizeEvent;
+
+		[Bindable]
+		private var _dataInputModel:ForaD40bHealthActionInputModelCollection;
+		private var _dataInputController:ForaD40bHealthActionInputController;
+		private var _currentScheduleItemOccurrence:ScheduleItemOccurrence;
+
+		public function init(dataInputModel:ForaD40bHealthActionInputModelCollection,
+							 dataInputController:ForaD40bHealthActionInputController):void
+		{
+			_dataInputModel = dataInputModel;
+			_dataInputController = dataInputController;
+
+			reportBloodGlucoseList.setStyle("valueFontSize", 60);
+			updateScheduledHealthActionDetailView();
+			scheduledHealthActionDetailView.addEventListener(ScheduledHealthActionDetailViewEvent.PLAY_VIDEO,
+					playVideoEventHandler);
+
+			BindingUtils.bindSetter(reportBloodGlucoseList_viewport_verticalScrollPositionSetterHandler,
+					reportBloodGlucoseList.scroller.viewport, "verticalScrollPosition");
+			BindingUtils.bindSetter(dataInputModel_reportBloodGlucoseListScrollPositionSetterHandler, _dataInputModel,
+					"reportBloodGlucoseListScrollPosition");
+			BindingUtils.bindSetter(dataInputModel_scheduleItemOccurrenceSetterHandler, _dataInputModel,
+					"scheduleItemOccurrence");
+		}
+
+		private function dataInputModel_scheduleItemOccurrenceSetterHandler(value:ScheduleItemOccurrence):void
+		{
+			if (_currentScheduleItemOccurrence != value)
+			{
+				updateScheduledHealthActionDetailView();
+			}
+		}
+
+		private function dataInputModel_reportBloodGlucoseListScrollPositionSetterHandler(value:Number):void
+		{
+			if (!isNaN(value) && reportBloodGlucoseList && reportBloodGlucoseList.scroller &&
+					reportBloodGlucoseList.scroller.viewport)
+			{
+				reportBloodGlucoseList.scroller.viewport.verticalScrollPosition = value;
+			}
+		}
+
+		private function reportBloodGlucoseList_viewport_verticalScrollPositionSetterHandler(value:Number):void
+		{
+			_dataInputController.setReportBloodGlucoseListScrollPosition(value);
+		}
+
+		private function playVideoEventHandler(event:ScheduledHealthActionDetailViewEvent):void
+		{
+			_dataInputController.playVideo(event.instructionalVideoPath);
+		}
+
+		private function showHistoryButton_clickHandler():void
+		{
+			_dataInputController.showHistoryView();
+		}
+
+		private function updateScheduledHealthActionDetailView():void
+		{
+			var factory:ForaD40bHealthActionListViewAdapterFactory = new ForaD40bHealthActionListViewAdapterFactory();
+
+			_currentScheduleItemOccurrence = _dataInputModel.scheduleItemOccurrence;
+			scheduledHealthActionDetailView.init(factory.createScheduledHealthActionViewAdapter(_currentScheduleItemOccurrence,
+					_dataInputModel.healthActionModelDetailsProvider, null));
+		}
+		]]></fx:Script>
+	<s:Group width="100%" height="140">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF"/>
+			</s:fill>
+		</s:Rect>
+		<s:Group height="100%" horizontalCenter="0">
+			<sharedView:ScheduledHealthActionDetailView id="scheduledHealthActionDetailView" height="100%"/>
+		</s:Group>
+		<s:Group width="25%" height="100%" right="0" visible="{_dataInputModel.firstInputModel is BloodGlucoseHealthActionInputModel}">
+			<s:Button label="Show History" verticalCenter="0" click="showHistoryButton_clickHandler()"/>
+		</s:Group>
+		<s:Line width="100%" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+
+	<s:List id="reportBloodGlucoseList" width="100%" height="100%"
+			dataProvider="{_dataInputModel.reportForaD40bItemDataCollection.length != 1 ? _dataInputModel.reportForaD40bItemDataCollection : null}"
+			itemRenderer="collaboRhythm.plugins.foraD40b.view.ReportForaD40bItemRenderer"
+			contentBackgroundAlpha="0"
+			includeInLayout="{_dataInputModel.reportForaD40bItemDataCollection.length != 1}"
+			visible="{_dataInputModel.reportForaD40bItemDataCollection.length != 1}"
+			/>
+	<s:Group width="100%" height="100%"
+			 includeInLayout="{_dataInputModel.reportForaD40bItemDataCollection.length == 1}"
+			 visible="{_dataInputModel.reportForaD40bItemDataCollection.length == 1}"
+			>
+		<s:DataGroup id="reportBloodGlucoseDataGroup" width="100%" verticalCenter="0"
+					 dataProvider="{_dataInputModel.reportForaD40bItemDataCollection.length == 1 ? _dataInputModel.reportForaD40bItemDataCollection : null}"
+					 itemRenderer="collaboRhythm.plugins.foraD40b.view.ReportForaD40bItemRenderer"
+					 contentBackgroundAlpha="0"
+				>
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+		</s:DataGroup>
+	</s:Group>
+	<s:Line width="100%"
+			includeInLayout="{_dataInputModel.reportForaD40bItemDataCollection.length != 1}"
+			visible="{_dataInputModel.reportForaD40bItemDataCollection.length != 1}">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+
+</s:VGroup>

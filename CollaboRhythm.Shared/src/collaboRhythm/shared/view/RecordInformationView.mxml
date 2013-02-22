@@ -93,7 +93,7 @@
         </s:stroke>
     </s:Line>
     <s:VGroup paddingTop="12" paddingLeft="15" horizontalAlign="left" gap="4">
-        <s:Label id="fullName" text="{_recordAccount.primaryRecord.contact.fullName}" styleName="labelText"  />
+        <s:Label id="fullName" text="{_recordAccount.primaryRecord.demographics.Name.givenName} {_recordAccount.primaryRecord.demographics.Name.familyName}" styleName="labelText"  />
         <s:RichText id="demographics" visible="{_recordAccount.primaryRecord.demographics.gender != null}">
             <s:textFlow>
                 <s:TextFlow>

@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.NativeExtensions.PlayVideo.Flex">
     <configurations>
-      <configuration name="CollaboRhythm.NativeExtensions.PlayVideo.Flex" target-platform="Desktop" output-type="Library" output-file="PlayVideo.swc" output-folder="$MODULE_DIR$/bin-debug">
+      <configuration name="CollaboRhythm.NativeExtensions.PlayVideo.Flex" target-platform="Desktop" output-type="Library" output-file="PlayVideo.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.NativeExtensions.PlayVideo.Flex">
         <dependencies target-player="11.1">
           <sdk name="4.6.0" />
         </dependencies>

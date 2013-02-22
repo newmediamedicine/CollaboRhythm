@@ -19,12 +19,13 @@ package collaboRhythm.core.model.healthRecord.service.supportClasses
 		private var _removeDocuments:HashMap = new HashMap();
 		private var _updateDocuments:HashMap = new HashMap();
 		private var _createRelationships:ArrayCollection = new ArrayCollection();
+		private var _errorDescriptions:Array = [];
 
 		public function ChangeSet()
 		{
 		}
 
-		public function addDocument(document:IDocument):void
+		public function addDocument(document:IDocument, errorDescription:String = null):void
 		{
 			if (document.pendingAction == DocumentBase.ACTION_CREATE)
 				createDocuments.put(document.meta.id, document);
@@ -34,11 +35,21 @@ package collaboRhythm.core.model.healthRecord.service.supportClasses
 				updateDocuments.put(document.meta.id, document);
 			else
 				throw new Error("Attempted to add document " + document.meta.id + " to a change set, but pendingAction is " + document.pendingAction);
+			updateErrorDescriptions(errorDescription);
 		}
 
-		public function addRelationship(relationship:Relationship):void
+		private function updateErrorDescriptions(errorDescription:String):void
+		{
+			if (errorDescription != null)
+			{
+				_errorDescriptions.push(errorDescription);
+			}
+		}
+
+		public function addRelationship(relationship:Relationship, errorDescription:String = null):void
 		{
 			createRelationships.addItem(relationship);
+			updateErrorDescriptions(errorDescription);
 		}
 
 		public function get createDocuments():HashMap
@@ -67,6 +78,7 @@ package collaboRhythm.core.model.healthRecord.service.supportClasses
 			removeDocuments.clear();
 			updateDocuments.clear();
 			createRelationships.removeAll();
+			_errorDescriptions = [];
 		}
 
 		public function get length():Number
@@ -78,15 +90,25 @@ package collaboRhythm.core.model.healthRecord.service.supportClasses
 		{
 			var parts:Array = new Array();
 			if (createDocuments.size() > 0)
-				parts.push("creating " + createDocuments.size() + " documents");
+				parts.push("creating " + createDocuments.size() + " document" + pluralize(createDocuments.size()));
 			if (updateDocuments.size() > 0)
-				parts.push("updating " + updateDocuments.size() + " documents");
+				parts.push("updating " + updateDocuments.size() + " document" + pluralize(updateDocuments.size()));
 			if (removeDocuments.size() > 0)
-				parts.push("removing " + removeDocuments.size() + " documents");
+				parts.push("removing " + removeDocuments.size() + " document" + pluralize(removeDocuments.size()));
 			if (createRelationships.length > 0)
-				parts.push("creating " + createRelationships.length + " relationships");
+				parts.push("creating " + createRelationships.length + " relationship" + pluralize(createRelationships.length));
 
 			return parts.join(", ");
+		}
+
+		private function pluralize(size:int):String
+		{
+			return size == 1 ? "" : "s";
+		}
+
+		public function get combinedErrorDescription():String
+		{
+			return _errorDescriptions.join("\n");
 		}
 
 		public function containsCreateDocument(documentId:String):Boolean

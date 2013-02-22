@@ -241,6 +241,9 @@ s|ViewMenu
 s|ViewMenuItem
 {
 	skinClass: ClassReference("collaboRhythm.tablet.view.skins.TabletViewMenuItemSkin");
+	textAlign: left;
+	color: #ffffff;
+	chromeColor: #303030;
 }
 
 /*

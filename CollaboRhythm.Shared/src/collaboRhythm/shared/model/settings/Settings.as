@@ -44,6 +44,7 @@ package collaboRhythm.shared.model.settings
 		private var _indivoServerBaseURL:String;
 		private var _logSourceIdentifier:String;
 		private var _mode:String;
+		private var _collaborationEnabled:Boolean = true;
 		private var _rtmpBaseURI:String;
 		private var _useSingleScreen:Boolean;
 
@@ -51,12 +52,15 @@ package collaboRhythm.shared.model.settings
 		private var _demoModeEnabled:Boolean;
 		private var _adherenceVoidingEnabled:Boolean;
 		private var _includeAdherenceVoidingMenuItem:Boolean;
+		private var _scheduleEditingEnabled:Boolean
 		private var _targetDate:Date;
 		private var _modality:String;
 		private var _demoDatePresets:ArrayCollection;
 		private var _appGroups:ArrayCollection;
 		private var _pluginSearchPaths:ArrayCollection;
 		private var _applicationUpdateDescriptorURL:String;
+		private var _clockAnimationMode:String;
+		private var _deviceSimulatorEnabled:Boolean;
 
 		public function Settings()
 		{
@@ -363,6 +367,46 @@ package collaboRhythm.shared.model.settings
 		public function set primaryClinicianTeamMember(value:String):void
 		{
 			_primaryClinicianTeamMember = value;
+		}
+
+		public function get clockAnimationMode():String
+		{
+			return _clockAnimationMode;
+		}
+
+		public function set clockAnimationMode(value:String):void
+		{
+			_clockAnimationMode = value;
+		}
+
+		public function get collaborationEnabled():Boolean
+		{
+			return _collaborationEnabled;
+		}
+
+		public function set collaborationEnabled(value:Boolean):void
+		{
+			_collaborationEnabled = value;
+		}
+
+		public function get deviceSimulatorEnabled():Boolean
+		{
+			return _deviceSimulatorEnabled;
+		}
+
+		public function set deviceSimulatorEnabled(value:Boolean):void
+		{
+			_deviceSimulatorEnabled = value;
+		}
+
+		public function get scheduleEditingEnabled():Boolean
+		{
+			return _scheduleEditingEnabled;
+		}
+
+		public function set scheduleEditingEnabled(value:Boolean):void
+		{
+			_scheduleEditingEnabled = value;
 		}
 	}
 }

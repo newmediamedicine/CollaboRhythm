@@ -59,9 +59,9 @@
 			<scroll:TouchScrollingDataGrid width="100%" height="100%" dataProvider="{_model.problemsCollection}" x="0" y="0">
 				<scroll:columns>
 					<mx:DataGridColumn headerText="Name" dataField="name"/>
-					<mx:DataGridColumn headerText="Onset" dataField="dateOnset"/>
-					<mx:DataGridColumn headerText="Resolution" dataField="dateResolution"/>
-					<mx:DataGridColumn headerText="Diagnosed By" dataField="diagnosedBy"/>
+					<mx:DataGridColumn headerText="Start" dataField="startDate"/>
+					<mx:DataGridColumn headerText="End" dataField="endDate"/>
+					<mx:DataGridColumn headerText="Notes" dataField="notes"/>
 				</scroll:columns>
 			</scroll:TouchScrollingDataGrid>
 		</s:NavigatorContent>

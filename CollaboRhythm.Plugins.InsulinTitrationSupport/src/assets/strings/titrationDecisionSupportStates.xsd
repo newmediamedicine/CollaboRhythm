@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--~
+  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+<xs:schema id="titrationDecisionSupportStates"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns="http://collaborhythm.org/application/titrationDecisionSupportStates"
+		   targetNamespace="http://collaborhythm.org/application/titrationDecisionSupportStates"
+		   attributeFormDefault="unqualified"
+		   elementFormDefault="qualified">
+
+	<xs:element name="titrationDecisionSupportStates" type="titrationDecisionSupportStates"/>
+
+	<xs:complexType name="titrationDecisionSupportStates">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				A collection of all of the titrationDecisionSupportState. Each
+				titrationDecisionSupportState defines all of the text that should be displayed for decision
+				support when the preconditions defined by the selectors are met.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="titrationDecisionSupportState" type="titrationDecisionSupportState"
+						maxOccurs="unbounded" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="titrationDecisionSupportState">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Each titrationDecisionSupportState defines all of the text that should be displayed for
+				decision support when the preconditions defined by the selectors are met.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="selectors" maxOccurs="1" minOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="selector" type="selector" maxOccurs="unbounded" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="steps" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Collection of the steps to show in the decision support. There should be 4 steps.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="step" type="step" maxOccurs="4" minOccurs="4"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:simpleType name="selector">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Each selector defines one of the preconditions that must be met for the
+				titrationDecisionSupportState to be applicable. For a given State, all of the
+				preconditions must be met.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="modePatient"/>
+			<xs:enumeration value="modeClinician"/>
+			<xs:enumeration value="decisionPatientNone"/>
+			<xs:enumeration value="decisionPatientNew"/>
+			<xs:enumeration value="decisionPatientAgree"/>
+			<xs:enumeration value="decisionClinicianNone"/>
+			<xs:enumeration value="decisionClinicianNew"/>
+			<xs:enumeration value="decisionClinicianAgree"/>
+			<xs:enumeration value="protocolConditionsMet"/>
+			<xs:enumeration value="protocolInsufficientAdherence"/>
+			<xs:enumeration value="protocolInsufficientBloodGlucose"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="step">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Each step has text and can have an icon and text color specified (optional). SubSteps can also be
+				specified.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="stepText" type="xs:string" maxOccurs="1" minOccurs="1"/>
+			<xs:element name="stepIcon" type="xs:string" maxOccurs="1" minOccurs="0"/>
+			<xs:element name="stepColor" type="xs:string" maxOccurs="1" minOccurs="0"/>
+			<xs:element name="subSteps" maxOccurs="1" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="subStep" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+</xs:schema>

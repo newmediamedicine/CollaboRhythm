@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.equipment.pillBox.model
 {
 	import collaboRhythm.plugins.equipment.pillBox.controller.PillBoxHealthActionInputController;
+	import collaboRhythm.plugins.schedule.shared.model.DeviceGatewayConstants;
 	import collaboRhythm.plugins.schedule.shared.model.EquipmentHealthAction;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
@@ -40,9 +41,9 @@ package collaboRhythm.plugins.equipment.pillBox.model
 																viewNavigator:ViewNavigator,
 																currentDeviceHealthActionInputController:IHealthActionInputController):IHealthActionInputController
 		{
-			if (urlVariables.healthActionType == EquipmentHealthAction.TYPE &&
-					urlVariables.healthActionName == HEALTH_ACTION_NAME &&
-					urlVariables.equipmentName == EQUIPMENT_NAME)
+			if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_TYPE_KEY] == EquipmentHealthAction.TYPE &&
+					urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] == HEALTH_ACTION_NAME &&
+					urlVariables[DeviceGatewayConstants.EQUIPMENT_NAME_KEY] == EQUIPMENT_NAME)
 			{
 				var scheduleItemOccurrence:ScheduleItemOccurrence = findClosestScheduleItemOccurrence(urlVariables, scheduleCollectionsProvider);
 				return new PillBoxHealthActionInputController(scheduleItemOccurrence,

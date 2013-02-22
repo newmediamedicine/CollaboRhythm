@@ -32,7 +32,7 @@
 
 		import collaboRhythm.shared.apps.healthCharts.model.HealthChartsEvent;
 
-		import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+		import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 
 		import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
@@ -78,7 +78,7 @@
 			var medicationAdministration:MedicationAdministration = adherenceItem && adherenceItem.adherenceResults &&
 					adherenceItem.adherenceResults.length >
 							0 ? adherenceItem.adherenceResults[0] as MedicationAdministration : null;
-			var doseValueAndUnit:ValueAndUnit;
+			var doseValueAndUnit:CollaboRhythmValueAndUnit;
 			if (medicationAdministration && medicationAdministration.amountAdministered)
 			{
 				doseValueAndUnit = medicationAdministration.amountAdministered;
@@ -171,7 +171,8 @@
 
 			if (event.property == "adherenceItem")
 			{
-				scheduleItemOccurrence.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE, scheduleItemOccurrence_propertyChangeHandler);
+				scheduleItemOccurrence.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+						scheduleItemOccurrence_propertyChangeHandler);
 				var adherenceStripItemProxy:AdherenceStripItemProxy = (data as PlotSeriesItem).item as
 						AdherenceStripItemProxy;
 				adherenceStripItemProxy.update();

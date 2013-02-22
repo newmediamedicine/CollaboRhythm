@@ -1221,7 +1221,7 @@ package collaboRhythm.shared.controller.apps
 				if (isTabletMode)
 				{
 					listenForModelInitialized();
-					if (_viewNavigator)
+					if (_viewNavigator && _viewNavigator.activeView)
 					{
 						_viewNavigator.activeView.addElement(fullView);
 						_logger.info("Initial pre-creation step complete. _viewNavigator.activeView.addElement(fullView)");

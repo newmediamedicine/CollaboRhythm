@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="J2AS3Collections" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ExternalLibraries/J2AS3Collections.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

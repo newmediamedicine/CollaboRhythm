@@ -14,9 +14,9 @@
   ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   ~ <http://www.gnu.org/licenses/>.
   -->
-<insulinTitrationDecisionSupportStates
-		xmlns="http://collaborhythm.org/application/insulinTitrationDecisionSupportStates">
-	<insulinTitrationDecisionSupportState>
+<titrationDecisionSupportStates
+		xmlns="http://collaborhythm.org/application/titrationDecisionSupportStates">
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
@@ -43,8 +43,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
@@ -78,8 +78,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
@@ -116,9 +116,9 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -146,8 +146,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -179,8 +179,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -215,9 +215,9 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -244,8 +244,8 @@
 				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -276,8 +276,8 @@
 				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -311,9 +311,9 @@
 				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -342,8 +342,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -376,8 +376,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNew</selector>
@@ -413,9 +413,9 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
@@ -442,8 +442,8 @@
 				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
@@ -474,8 +474,8 @@
 				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionPatientNone</selector>
@@ -509,9 +509,9 @@
 				<stepText>Click the Agree/Send button to save your choice and send a message to your coach.</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionClinicianNew</selector>
@@ -540,8 +540,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionClinicianNew</selector>
@@ -574,8 +574,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
 			<selector>decisionClinicianNew</selector>
@@ -611,10 +611,10 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNone</selector>
@@ -641,8 +641,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNone</selector>
@@ -677,8 +677,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNone</selector>
@@ -714,9 +714,9 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -745,8 +745,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -780,8 +780,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -816,9 +816,9 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -847,8 +847,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -882,8 +882,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -918,9 +918,9 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -950,8 +950,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -986,8 +986,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNew</selector>
@@ -1023,9 +1023,9 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNone</selector>
@@ -1053,8 +1053,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNone</selector>
@@ -1087,8 +1087,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionPatientNone</selector>
@@ -1122,9 +1122,9 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
 
-	<insulinTitrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionClinicianNew</selector>
@@ -1154,8 +1154,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionClinicianNew</selector>
@@ -1190,8 +1190,8 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-	<insulinTitrationDecisionSupportState>
+	</titrationDecisionSupportState>
+	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
 			<selector>decisionClinicianNew</selector>
@@ -1227,5 +1227,5 @@
 				</stepText>
 			</step>
 		</steps>
-	</insulinTitrationDecisionSupportState>
-</insulinTitrationDecisionSupportStates>
+	</titrationDecisionSupportState>
+</titrationDecisionSupportStates>

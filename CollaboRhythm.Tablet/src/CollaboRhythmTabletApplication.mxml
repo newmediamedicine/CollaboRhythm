@@ -106,12 +106,14 @@
 		import collaboRhythm.shared.collaboration.view.CollaborationVideoView;
 		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.settings.Settings;
+		import collaboRhythm.shared.view.MenuIcon;
 		import collaboRhythm.shared.view.tablet.TabletViewBase;
 		import collaboRhythm.tablet.controller.TabletApplicationController;
 		import collaboRhythm.tablet.view.SelectRecordView;
 		import collaboRhythm.tablet.view.TabletHomeView;
 
 		import mx.binding.utils.BindingUtils;
+		import mx.core.FlexGlobals;
 		import mx.events.FlexEvent;
 
 		import spark.primitives.Graphic;
@@ -328,7 +330,7 @@
 						x, y);
 			}
 
-			updatePointer(source, true, x,  y);
+			updatePointer(source, true, x, y);
 		}
 
 		private function mouseUpHandler(event:MouseEvent):void
@@ -354,13 +356,27 @@
 
 		private function homeButton_clickHandler():void
 		{
-			(navigator.activeView as TabletViewBase).homeButton_clickHandler();
+			var tabletViewBase:TabletViewBase = navigator && navigator.activeView ? navigator.activeView as
+					TabletViewBase : null;
+			if (tabletViewBase)
+			{
+				tabletViewBase.homeButton_clickHandler();
+			}
+			else if (navigator && navigator.activeView == null)
+			{
+				navigator.pushView(TabletHomeView);
+			}
 		}
 
 		private function synchronize():void
 		{
 			navigator.popToFirstView();
 			_applicationController.synchronize()
+		}
+
+		private function menuButton_clickHandler(event:MouseEvent):void
+		{
+			FlexGlobals.topLevelApplication.viewMenuOpen = true;
 		}
 		]]></fx:Script>
 	<s:navigationContent>
@@ -375,9 +391,9 @@
 							 source="{_applicationController.activeRecordAccount.imageURI}" smooth="true"/>
 					<s:VGroup gap="1" paddingTop="3" paddingLeft="5" paddingRight="10">
 						<s:Label id="activeRecordGivenName"
-								 text="{_applicationController.activeRecordAccount.primaryRecord.contact.givenName}"/>
+								 text="{_applicationController.activeRecordAccount.primaryRecord.demographics.Name.givenName}"/>
 						<s:Label id="activeRecordFamilyName"
-								 text="{_applicationController.activeRecordAccount.primaryRecord.contact.familyName}"/>
+								 text="{_applicationController.activeRecordAccount.primaryRecord.demographics.Name.familyName}"/>
 					</s:VGroup>
 				</s:HGroup>
 			</s:Group>
@@ -435,4 +451,7 @@
 		<s:Callout visible="false" includeInLayout="false"/>
 		<s:DateSpinner visible='false' includeInLayout="false"/>
 	</s:navigationContent>
+	<s:actionContent>
+		<s:Button id="menuButton" click="menuButton_clickHandler(event)" icon="{MenuIcon}"/>
+	</s:actionContent>
 </s:ViewNavigatorApplication>

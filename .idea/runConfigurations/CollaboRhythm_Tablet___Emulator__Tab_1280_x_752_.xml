@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CollaboRhythm.Tablet - Emulator (Tab 1280 x 752)" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="CollaboRhythm.Tablet - Emulator (Tab 1280 x 752)" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
     <option name="BCName" value="CollaboRhythm.Tablet Emulator" />
     <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />
@@ -33,8 +33,10 @@
     <option name="usbDebugPort" value="7936" />
     <RunnerSettings RunnerId="FlexDebugRunner" />
     <RunnerSettings RunnerId="FlexRunner" />
+    <RunnerSettings RunnerId="Profile" />
     <ConfigurationWrapper RunnerId="FlexDebugRunner" />
     <ConfigurationWrapper RunnerId="FlexRunner" />
+    <ConfigurationWrapper RunnerId="Profile" />
     <method />
   </configuration>
 </component>

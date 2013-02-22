@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.equipment.pillBox.controller
 {
 	import collaboRhythm.plugins.equipment.pillBox.model.PillBoxHealthActionInputModel;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -10,7 +11,7 @@ package collaboRhythm.plugins.equipment.pillBox.controller
 
 	import spark.components.ViewNavigator;
 
-	public class PillBoxHealthActionInputController implements IHealthActionInputController
+	public class PillBoxHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = PillBoxHealthActionInputController;
 
@@ -53,10 +54,6 @@ package collaboRhythm.plugins.equipment.pillBox.controller
 		}
 
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
-		{
-		}
-
-		public function removeEventListener():void
 		{
 		}
 	}

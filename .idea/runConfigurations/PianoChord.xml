@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="PianoChord" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="PianoChord" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
     <option name="BCName" value="PianoChord" />
     <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />

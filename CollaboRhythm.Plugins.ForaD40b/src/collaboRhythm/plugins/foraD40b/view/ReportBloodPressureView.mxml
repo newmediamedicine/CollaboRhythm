@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~
+~ Copyright 2011 John Moore, Scott Gilroy
+~
+~ This file is part of CollaboRhythm.
+~
+~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+~ version.
+~
+~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+~ details.
+~
+~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+~ <http://www.gnu.org/licenses/>.
+-->
+<view:ReportViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+					 xmlns:flextras="http://www.flextras.com/mxml"
+					 implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView"
+					 verticalAlign="middle"
+					 baseline.reportManual="{-80 * _valueSizeScale}"
+					 baselinePositionElement.reportDevice="{systolicResultGroup}"
+					 baselinePositionElement.review="{systolicResultGroup}">
+	<view:states>
+		<s:State name="reportDevice"/>
+		<s:State name="reportManual"/>
+		<s:State name="review"/>
+	</view:states>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.reportingLabelsText {
+			color: #000000;
+			fontSize: 30;
+		}
+
+		.textInputText {
+			color: #000000;
+			fontSize: 150;
+		}
+
+		#heartRate {
+			color: #000000;
+			fontSize: 110;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+		import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputModelBase;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.shared.model.healthRecord.DocumentBase;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+		import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+
+		private static const BLOOD_GLUCOSE_VALUE_WIDTH:Number = 190;
+		private static const BLOOD_GLUCOSE_VALUE_HEIGHT:Number = 130;
+
+		private static const HYPOTENSION_SYSTOLIC_THRESHOLD:int = 90;
+		private static const HYPOTENSION_DIASTOLIC_THRESHOLD:int = 60;
+		private static const HYPERTENSION_SYSTOLIC_THRESHOLD:int = 180;
+		private static const HYPERTENSION_DIASTOLIC_THRESHOLD:int = 120;
+
+		private const NUMBER_PAD_GAP:int = 2;
+
+		[Bindable]
+		protected var _dataInputModel:BloodPressureHealthActionInputModel;
+
+		public function get healthActionInputController():IHealthActionInputController
+		{
+			return _dataInputController;
+		}
+
+		public function init(bloodPressureHealthActionInputModel:BloodPressureHealthActionInputModel,
+							 dataInputController:ForaD40bHealthActionInputController):void
+		{
+			_dataInputModel = bloodPressureHealthActionInputModel;
+			_dataInputController = dataInputController;
+
+			initializeListeners();
+			sitePositionCalloutButton.label = getSitePositionCalloutButtonLabel(_dataInputModel.position, _dataInputModel.site);
+		}
+
+		public override function get dataInputModelBase():ForaD40bHealthActionInputModelBase
+		{
+			return _dataInputModel;
+		}
+
+		function closeDropDowns():void
+		{
+			if (sitePositionCalloutButton)
+			{
+				sitePositionCalloutButton.closeDropDown();
+			}
+		}
+
+		/*
+		 override public function updateChildren():void
+		 {
+		 if (_dataInputModel)
+		 {
+		 if (_dataInputModel.scheduleItemOccurrence && _dataInputModel.scheduleItemOccurrence.adherenceItem &&
+		 _dataInputModel.currentView == ForaD40bHealthActionInputView)
+		 {
+		 if (_dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults &&
+		 _dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
+		 {
+		 for each (var documentBase:DocumentBase in
+		 _dataInputModel.scheduleItemOccurrence.adherenceItem.adherenceResults)
+		 {
+		 var vitalSign:VitalSign = documentBase as VitalSign;
+		 switch(vitalSign.name.text)
+		 {
+		 case VitalSignsModel.SYSTOLIC_CATEGORY:
+		 {
+		 break;
+		 }
+		 }
+		 }
+
+		 if (bloodGlucoseVitalSign && reportedBloodGlucoseLabel)
+		 {
+		 reportedBloodGlucoseLabel.text = bloodGlucoseVitalSign.result.value;
+		 }
+
+		 if (bloodGlucoseVitalSign.comments !=
+		 ForaD40bHealthActionInputModelBase.SELF_REPORT &&
+		 wirelessIcon)
+		 {
+		 wirelessIcon.visible = true;
+		 }
+		 }
+		 }
+		 }
+		 }
+		 */
+		private function getSitePositionCalloutButtonLabel(positionSelectedItem:String, siteSelectedItem:String):String
+		{
+			return positionSelectedItem.substr(0, 1) + "/" + siteSelectedItem.substr(0, 1);
+		}
+		]]>
+	</fx:Script>
+	<view:WirelessIcon id="wirelessIcon" visible="{_dataInputModel.isFromDevice}" scaleX="{_valueSizeScale}"
+					   scaleY="{_valueSizeScale}"/>
+	<s:VGroup id="systolicResultGroup" horizontalAlign="right"
+			  baselinePositionElement.reportManual="{systolicTextInput}"
+			  baselinePositionElement="{reportedSystolicLabel}">
+		<!--TODO: Determine why the font size from the style is not working-->
+		<s:Label id="systolicLabel" text="SYS" styleName="reportingLabelsText" fontSize="{40 * _valueSizeScale}"/>
+		<s:TextInput id="systolicTextInput"
+					 width="{TEXT_INPUT_WIDTH * _valueSizeScale}" height="{TEXT_INPUT_HEIGHT * _valueSizeScale}"
+					 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+					 contentBackgroundAlpha="1"
+					 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
+					 text="@{_dataInputModel.systolic}"
+					 includeIn="reportManual" baseline="20"/>
+		<s:Label id="reportedSystolicLabel"
+				 width="{TEXT_INPUT_WIDTH * _valueSizeScale}"
+				 styleName="textInputText"
+				 textAlign="right"
+				 text="@{_dataInputModel.systolic}"
+				 includeIn="review,reportDevice"/>
+	</s:VGroup>
+	<s:VGroup baselinePositionElement="{slashLabel}" height="100%" verticalAlign="bottom">
+		<s:Label id="slashLabel"
+				 styleName="textInputText"
+				 text="/"/>
+	</s:VGroup>
+
+	<s:VGroup id="diastolicResultGroup" horizontalAlign="right">
+		<s:Label id="diastolicLabel" text="DIA" styleName="reportingLabelsText" fontSize="{40 * _valueSizeScale}"/>
+		<s:TextInput id="diastolicTextInput"
+					 width="{TEXT_INPUT_WIDTH * _valueSizeScale}" height="{TEXT_INPUT_HEIGHT * _valueSizeScale}"
+					 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+					 contentBackgroundAlpha="1"
+					 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
+					 text="@{_dataInputModel.diastolic}"
+					 includeIn="reportManual"/>
+		<s:Label id="reportedDiastolicLabel"
+				 width="{TEXT_INPUT_WIDTH * _valueSizeScale}"
+				 styleName="textInputText"
+				 textAlign="right"
+				 text="@{_dataInputModel.diastolic}"
+				 includeIn="review,reportDevice"/>
+	</s:VGroup>
+	<!--
+		<s:Group height="100%">
+			<s:Label text="mmHg" verticalCenter="0" styleName="reportingLabelsText"/>
+		</s:Group>
+	-->
+	<s:VGroup id="heartRateResultGroup" horizontalAlign="right" paddingLeft="{30 * _valueSizeScale}">
+		<s:Label text="HR (bpm)" styleName="reportingLabelsText" fontSize="{40 * _valueSizeScale}"/>
+		<s:TextInput id="heartRateTextInput"
+					 width="{TEXT_INPUT_WIDTH * _valueSizeScale}" height="{TEXT_INPUT_HEIGHT * _valueSizeScale}"
+					 skinClass="spark.skins.mobile.StageTextInputSkin" styleName="textInputText"
+					 contentBackgroundAlpha="1"
+					 textAlign="right" restrict="0-9" maxChars="3" softKeyboardType="number"
+					 text="@{_dataInputModel.heartRate}"
+					 includeIn="reportManual"/>
+		<s:Label id="reportedHeartRateLabel"
+				 width="{TEXT_INPUT_WIDTH * _valueSizeScale}"
+				 styleName="textInputText"
+				 textAlign="right"
+				 text="@{_dataInputModel.heartRate}"
+				 includeIn="review,reportDevice"/>
+	</s:VGroup>
+	<s:CalloutButton id="sitePositionCalloutButton"
+					 skinClass="collaboRhythm.shared.ui.buttons.view.skins.TransparentButtonSkin"
+					 width="{60 * _valueSizeScale}"
+					 height="{60 * _valueSizeScale}"
+					 fontSize="{30 * _valueSizeScale}"
+					 label="{getSitePositionCalloutButtonLabel(positionDropDownList.selectedItem as String, siteDropDownList.selectedItem as String)}"
+					 horizontalPosition="after"
+			>
+		<s:calloutContent>
+			<s:VGroup>
+				<flextras:DropDownList id="positionDropDownList"
+									   selectedItem="{_dataInputModel.position}"
+									   change="{_dataInputModel.position = positionDropDownList.selectedItem}"
+									   enabled.review="false"
+									   styleName="reportingLabelsText" fontSize="{40 * _valueSizeScale}"
+									   width="{300 * _valueSizeScale}">
+					<s:ArrayCollection>
+						<fx:String>Sitting</fx:String>
+						<fx:String>Lying Down</fx:String>
+						<fx:String>Standing</fx:String>
+					</s:ArrayCollection>
+				</flextras:DropDownList>
+				<flextras:DropDownList id="siteDropDownList"
+									   selectedItem="{_dataInputModel.site}"
+									   change="{_dataInputModel.site = siteDropDownList.selectedItem}"
+									   enabled.review="false"
+									   styleName="reportingLabelsText" fontSize="{40 * _valueSizeScale}"
+									   width="{300 * _valueSizeScale}">
+					<s:ArrayCollection>
+						<fx:String>Left Arm</fx:String>
+						<fx:String>Right Arm</fx:String>
+					</s:ArrayCollection>
+				</flextras:DropDownList>
+			</s:VGroup>
+		</s:calloutContent>
+	</s:CalloutButton>
+</view:ReportViewBase>

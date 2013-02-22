@@ -135,8 +135,14 @@
 
 		private function removedHandler(event:Event):void
 		{
-			_scheduleItemOccurrenceReportingController.removeEventListener();
-			_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController.removeEventListener();
+			if (_scheduleItemOccurrenceReportingController)
+			{
+				_scheduleItemOccurrenceReportingController.removeEventListener();
+			}
+			if (_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController)
+			{
+				_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController.destroy();
+			}
 		}
 
 		private function mouseDownHandler(event:MouseEvent):void
@@ -159,7 +165,10 @@
 
 		private function clickHandler():void
 		{
-			_scheduleItemOccurrenceReportingController.handleHealthActionSelected();
+			if (_scheduleItemOccurrenceReportingController)
+			{
+				_scheduleItemOccurrenceReportingController.handleHealthActionSelected();
+			}
 		}
 		]]>
 	</fx:Script>
@@ -176,7 +185,7 @@
 			<s:layout>
 				<controls:ChildIndependentLayout/>
 			</s:layout>
-			<sharedView:AdherenceCheckBox id="adherenceCheckBox" width="100%" height="100%"
+			<sharedView:AdherenceCheckBox id="adherenceCheckBox" verticalCenter="0" horizontalCenter="0"
 									skinClass="collaboRhythm.plugins.schedule.shared.view.AdherenceCheckBoxSkin"
 									selected="{_scheduleItemOccurrence.adherenceItem != null}"
 									click="adherenceCheckBoxClickHandler(event)"

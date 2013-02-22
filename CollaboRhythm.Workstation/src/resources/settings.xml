@@ -16,16 +16,21 @@
   ~ <http://www.gnu.org/licenses/>.
   -->
 <settings xmlns="http://collaborhythm.org/application/settings">
-	<mode>clinician</mode>
-	<indivoServerBaseURL>http://184.106.136.151:8000</indivoServerBaseURL>
-	<username>jking</username>
-	<password>jking-dope75</password>
+	<mode>patient</mode>
+	<indivoServerBaseURL>http://indivo-dev.media.mit.edu:9291</indivoServerBaseURL>
+	<username>shared-csantos</username>
+	<password>shared-csantos</password>
+	<clinicianTeamMembers>
+		<clinicianTeamMember>shared-jking@records.media.mit.edu</clinicianTeamMember>
+	</clinicianTeamMembers>
+	<primaryClinicianTeamMember>shared-jking@records.media.mit.edu</primaryClinicianTeamMember>
 	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>true</useTraceTarget>
-	<useSyslogTarget>true</useSyslogTarget>
+	<useSyslogTarget>false</useSyslogTarget>
+	<useGoogleAnalytics>false</useGoogleAnalytics>
 	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
-	<syslogServerIpAddress>collaborhythm.media.mit.edu</syslogServerIpAddress>
-	<rtmpBaseURI>rtmp://collaborhythm.media.mit.edu</rtmpBaseURI>
+	<collaborationEnabled>false</collaborationEnabled>
+	<rtmpBaseURI>rtmfp://adrenaline.media.mit.edu</rtmpBaseURI>
 	<debuggingToolsEnabled>true</debuggingToolsEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>

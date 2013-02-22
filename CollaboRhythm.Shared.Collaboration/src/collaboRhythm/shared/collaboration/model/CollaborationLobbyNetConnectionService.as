@@ -35,6 +35,8 @@ package collaboRhythm.shared.collaboration.model
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
+	import org.osmf.net.NetConnectionCodes;
+
 	/**
 	 *
 	 * @author jom
@@ -81,6 +83,7 @@ package collaboRhythm.shared.collaboration.model
 		private var _netStreamOut:NetStream;
 		private var _netStreamIn:NetStream;
 		private var _isNetStreamInPlaying:Boolean = false;
+		private var _manuallyDisconnected:Boolean = false;
 
 
 		public function CollaborationLobbyNetConnectionService(activeAccount:Account, rtmpBaseURI:String,
@@ -137,7 +140,10 @@ package collaboRhythm.shared.collaboration.model
 					break;
 				case NETCONNECTION_STATUS_CONNECT_CLOSED:
 					_logger.info(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_CLOSED);
-					connectionFailedHandler();
+					if (!_manuallyDisconnected)
+					{
+						connectionFailedHandler();
+					}
 					break;
 				case NETCONNECTION_STATUS_CONNECT_FAILED:
 					_logger.info(COLLABORATION_LOBBY + " status " + NETCONNECTION_STATUS_CONNECT_FAILED);
@@ -175,6 +181,7 @@ package collaboRhythm.shared.collaboration.model
 			isConnected = true;
 			hasConnectionFailed = false;
 			_failedAttempts = 0;
+			dispatchEvent(new NetStatusEvent(NetStatusEvent.NET_STATUS, false, false, {code: NetConnectionCodes.CONNECT_SUCCESS}));
 		}
 
 		private function connectionFailedHandler():void
@@ -436,6 +443,21 @@ package collaboRhythm.shared.collaboration.model
 		public function get collaborationModel():CollaborationModel
 		{
 			return _collaborationModel;
+		}
+
+		public function simulateDisconnect():void
+		{
+			if (_manuallyDisconnected)
+			{
+				_manuallyDisconnected = false;
+				enterCollaborationLobby();
+			}
+			else
+			{
+				_manuallyDisconnected = true;
+				exitCollaborationLobby();
+			}
+
 		}
 	}
 }

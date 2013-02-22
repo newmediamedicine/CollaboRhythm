@@ -18,15 +18,18 @@ package collaboRhythm.shared.model.healthRecord.document
 {
 
 	import collaboRhythm.shared.model.*;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import com.adobe.utils.DateUtil;
+
+	import com.theory9.data.types.OrderedMap;
 
 	import flash.utils.getQualifiedClassName;
 
@@ -57,7 +60,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		private var _currentDateSource:ICurrentDateSource;
 		private var _scheduleItemXml:XML;
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _scheduledBy:String;
 		private var _dateScheduled:Date;
 		private var _dateStart:Date;
@@ -69,13 +72,15 @@ package collaboRhythm.shared.model.healthRecord.document
 		private var _logger:ILogger;
 		private const _logGetScheduleItemOccurrences:Boolean = false;
 
+		private var _occurrences:OrderedMap = new OrderedMap(null, "recurrenceIndex");
+
 		public function ScheduleItemBase():void
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
-		public function init(name:CodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date,
+		public function init(name:CollaboRhythmCodedValue, scheduledBy:String, dateScheduled:Date, dateStart:Date,
 							 dateEnd:Date = null, recurrenceRule:RecurrenceRule = null, instructions:String = null):void
 		{
 			_name = name;
@@ -95,9 +100,9 @@ package collaboRhythm.shared.model.healthRecord.document
 																			 scheduleItemElementName))[0];
 			_name = HealthRecordHelperMethods.xmlToCodedValue(_scheduleItemXml.name[0]);
 			_scheduledBy = _scheduleItemXml.scheduledBy;
-			_dateScheduled = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());
-			_dateStart = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateStart.toString());
-			_dateEnd = collaboRhythm.shared.model.DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
+			_dateScheduled = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(_scheduleItemXml.dateScheduled.toString());
+			_dateStart = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(_scheduleItemXml.dateStart.toString());
+			_dateEnd = collaboRhythm.shared.model.services.DateUtil.parseW3CDTF(_scheduleItemXml.dateEnd.toString());
 			_recurrenceRule = new RecurrenceRule(_scheduleItemXml.recurrenceRule[0]);
 			_instructions = _scheduleItemXml.instructions;
 		}
@@ -129,10 +134,8 @@ package collaboRhythm.shared.model.healthRecord.document
 			scheduleItemXml.dateScheduled = com.adobe.utils.DateUtil.toW3CDTF(dateScheduled);
 			scheduleItemXml.dateStart = com.adobe.utils.DateUtil.toW3CDTF(dateStart);
 			scheduleItemXml.dateEnd = com.adobe.utils.DateUtil.toW3CDTF(dateEnd);
-			scheduleItemXml.recurrenceRule.frequency = recurrenceRule.frequency.text;
-			scheduleItemXml.recurrenceRule.frequency.@type = recurrenceRule.frequency.type;
-			scheduleItemXml.recurrenceRule.frequency.@value = recurrenceRule.frequency.value;
-			scheduleItemXml.recurrenceRule.frequency.@abbrev = recurrenceRule.frequency.abbrev;
+			scheduleItemXml.recurrenceRule.frequency = recurrenceRule.frequency;
+			scheduleItemXml.recurrenceRule.interval = recurrenceRule.interval;
 			scheduleItemXml.recurrenceRule.count = recurrenceRule.count;
 			scheduleItemXml = addExtraXml(scheduleItemXml);
 			scheduleItemXml.instructions = instructions;
@@ -166,7 +169,7 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		private function updateCount(dateStart:Date, dateStartUpdated:Date):int
 		{
-			var countCompleted:int = Math.floor((dateStartUpdated.time - dateStart.time) / getFrequencyMilliseconds(_recurrenceRule.frequency.text));
+			var countCompleted:int = Math.floor((dateStartUpdated.time - dateStart.time) / getFrequencyMilliseconds(_recurrenceRule.frequency));
 			return _recurrenceRule.count - countCompleted;
 		}
 
@@ -177,27 +180,32 @@ package collaboRhythm.shared.model.healthRecord.document
 
 		/**
 		 * Returns all of the occurrences of the ScheduleItem for which the dateStart of the occurrence
-		 * falls in the interval between the dateStart and dateEnd parameters. This is achieved by iterating through all
+		 * falls in the interval between the searchStart and searchEnd parameters. This is achieved by iterating through all
 		 * of the occurrences represented by the ScheduleItem and checking to see if they fall in the range. This function
 		 * also ensures that a reference to the AdherenceItem with the matching recurrenceIndex is added to each of the
 		 * occurrences. If more than one AdherenceItem matches, then that information is logged and a reference is only
 		 * added for the most recent AdherenceItem.
 		 *
-		 * @param dateStart Date specifying the start of the desired interval
-		 * @param dateEnd Date specifying the end of the desired interval
-		 * @return Vector of ScheduleItemOccurrence instances for which dateStart falls withing the desired interval
+		 * @param searchStart Date specifying the start of the desired interval
+		 * @param searchEnd Date specifying the end of the desired interval
+		 * @param intersect if true, search is expanded to include occurrences with any overlap with searchStart to searchEnd
+		 * @return Vector of ScheduleItemOccurrence instances for which searchStart falls withing the desired interval
 		 */
-		public function getScheduleItemOccurrences(dateStart:Date = null, dateEnd:Date = null):Vector.<ScheduleItemOccurrence>
+		public function getScheduleItemOccurrences(searchStart:Date = null, searchEnd:Date = null, intersect:Boolean = false):Vector.<ScheduleItemOccurrence>
 		{
 			//TODO: Implement for the case that the recurrence rule uses until instead of count
 			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
-			var interval:CodedValue = _recurrenceRule.interval;
-			var frequencyMilliseconds:int;
-			if (interval)
-				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text) * int(_recurrenceRule.interval.text);
-			else
-				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency.text);
+			var frequencyMilliseconds:int = getEffectiveFrequencyMilliseconds();
 			var excludeOccurrencesBecauseReplaced:int = -1;
+
+			if (intersect)
+			{
+				if (searchStart)
+				{
+					searchStart = new Date(searchStart.valueOf() - (_dateEnd.valueOf() - _dateStart.valueOf()));
+				}
+			}
+
 			for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
 			{
 				var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
@@ -212,36 +220,20 @@ package collaboRhythm.shared.model.healthRecord.document
 					}
 				}
 
-				if ((dateStart == null || occurrenceDateStart.time >= dateStart.time) && (dateEnd == null || occurrenceDateStart.time <= dateEnd.time))
+				if ((searchStart == null || occurrenceDateStart.time >= searchStart.time) && (searchEnd == null || occurrenceDateStart.time <= searchEnd.time))
 				{
-					var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
-					var scheduleItemOccurrence:ScheduleItemOccurrence = new ScheduleItemOccurrence(this,
-																								   occurrenceDateStart,
-																								   occurrenceDateEnd,
-																								   recurrenceIndex);
-					var matchingAdherenceItems:Vector.<AdherenceItem> = new Vector.<AdherenceItem>();
-					for each (var adherenceItem:AdherenceItem in adherenceItems)
+					var scheduleItemOccurrence:ScheduleItemOccurrence = _occurrences.getValueByKey(recurrenceIndex);
+					if (scheduleItemOccurrence == null)
 					{
-						if (adherenceItem && adherenceItem.recurrenceIndex == recurrenceIndex)
-						{
-							matchingAdherenceItems.push(adherenceItem);
-						}
+						var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
+						scheduleItemOccurrence = new ScheduleItemOccurrence(this,
+								occurrenceDateStart,
+								occurrenceDateEnd,
+								recurrenceIndex);
+						updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence,
+								occurrenceDateStart);
+						_occurrences.addKeyValue(recurrenceIndex, scheduleItemOccurrence);
 					}
-					if (matchingAdherenceItems.length > 0)
-					{
-						// Normally, outside of testing scenarios, there should only be one AdherenceItem corresponding
-						// to each ScheduleItemOccurrence recurrenceIndex. If there is more than one matching AdherenceItem
-						// log this and the sort the matching AdherenceItem documents by createdAt date in the metaData
-						// rather than by dateReported because, in testing scenarios, it is possible that the dateReported
-						// does not correspond correlate with the most recently created Document.
-						if (matchingAdherenceItems.length > 1)
-						{
-							_logger.info("Multiple matchingAdherenceItems (" + matchingAdherenceItems.length + ") found for " + scheduleItemOccurrence.scheduleItem.name.text + ". recurrenceIndex: " + recurrenceIndex + ";  date: " + occurrenceDateStart);
-							matchingAdherenceItems.sort(compareDocumentsByCreatedAtValue);
-						}
-						scheduleItemOccurrence.adherenceItem = matchingAdherenceItems[0];
-					}
-
 					scheduleItemOccurrencesVector.push(scheduleItemOccurrence);
 				}
 			}
@@ -250,14 +242,74 @@ package collaboRhythm.shared.model.healthRecord.document
 				_logger.debug("getScheduleItemOccurrences got " + scheduleItemOccurrencesVector.length +
 						" occurrences for " + this.name.text + " " + this.dateStart.toLocaleString() + " to " +
 						new Date(_dateStart.time + frequencyMilliseconds * _recurrenceRule.count).toLocaleString() +
-						((dateStart != null && dateEnd != null) ? (" in range " + dateStart.toLocaleString() + " to " +
-								dateEnd.toLocaleString()) : "")
+						((searchStart != null && searchEnd != null) ? (" in range " + searchStart.toLocaleString() + " to " +
+								searchEnd.toLocaleString()) : "")
 						+ ". Recurrence count " + _recurrenceRule.count + " excludeOccurrencesBecauseReplaced " +
 						excludeOccurrencesBecauseReplaced + " replacedById " + meta.replacedById +
 						(this as MedicationScheduleItem ? " order " +
 								(this as MedicationScheduleItem).scheduledMedicationOrder : ""));
 			}
 			return scheduleItemOccurrencesVector;
+		}
+
+		public function updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex:int,
+																  scheduleItemOccurrence:ScheduleItemOccurrence,
+																  occurrenceDateStart:Date):void
+		{
+			var matchingAdherenceItems:Vector.<AdherenceItem> = new Vector.<AdherenceItem>();
+			for each (var adherenceItem:AdherenceItem in adherenceItems)
+			{
+				if (adherenceItem && adherenceItem.recurrenceIndex == recurrenceIndex)
+				{
+					matchingAdherenceItems.push(adherenceItem);
+				}
+			}
+			if (matchingAdherenceItems.length > 0)
+			{
+				// Normally, outside of testing scenarios, there should only be one AdherenceItem corresponding
+				// to each ScheduleItemOccurrence recurrenceIndex. If there is more than one matching AdherenceItem
+				// log this and the sort the matching AdherenceItem documents by createdAt date in the metaData
+				// rather than by dateReported because, in testing scenarios, it is possible that the dateReported
+				// does not correspond correlate with the most recently created Document.
+				if (matchingAdherenceItems.length > 1)
+				{
+					_logger.info("Multiple matchingAdherenceItems (" + matchingAdherenceItems.length + ") found for " +
+							scheduleItemOccurrence.scheduleItem.name.text + ". recurrenceIndex: " + recurrenceIndex +
+							";  date: " + occurrenceDateStart);
+					matchingAdherenceItems.sort(compareDocumentsByCreatedAtValue);
+				}
+				scheduleItemOccurrence.adherenceItem = matchingAdherenceItems[0];
+			}
+		}
+
+		public function createScheduleItemOccurrence(recurrenceIndex:int):ScheduleItemOccurrence
+		{
+			var scheduleItemOccurrence:ScheduleItemOccurrence = _occurrences.getValueByKey(recurrenceIndex);
+			if (scheduleItemOccurrence == null)
+			{
+				var frequencyMilliseconds:int = getEffectiveFrequencyMilliseconds();
+				var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
+				var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
+				scheduleItemOccurrence = new ScheduleItemOccurrence(this,
+						occurrenceDateStart,
+						occurrenceDateEnd,
+						recurrenceIndex);
+				updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence, occurrenceDateStart);
+				_occurrences.addKeyValue(recurrenceIndex, scheduleItemOccurrence);
+			}
+			return scheduleItemOccurrence;
+		}
+
+		public function getEffectiveFrequencyMilliseconds():int
+		{
+			var interval:int = _recurrenceRule.interval;
+			var frequencyMilliseconds:int;
+			if (interval)
+				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency) *
+						_recurrenceRule.interval;
+			else
+				frequencyMilliseconds = getFrequencyMilliseconds(_recurrenceRule.frequency);
+			return frequencyMilliseconds;
 		}
 
 		public function get scheduleItemXml():XML
@@ -270,12 +322,12 @@ package collaboRhythm.shared.model.healthRecord.document
 			_scheduleItemXml = value;
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
@@ -352,6 +404,14 @@ package collaboRhythm.shared.model.healthRecord.document
 				}
 			}
 			return adherenceItems;
+		}
+
+		public function isScheduledCurrently():Boolean
+		{
+			var now:Date = _currentDateSource.now();
+			var dateEnd:Date = collaboRhythm.shared.model.services.DateUtil.roundTimeToNextDay(now);
+			var dateStart:Date = new Date(dateEnd.valueOf() - collaboRhythm.shared.model.services.DateUtil.MILLISECONDS_IN_DAY);
+			return getScheduleItemOccurrences(dateStart, dateEnd).length > 0;
 		}
 	}
 }

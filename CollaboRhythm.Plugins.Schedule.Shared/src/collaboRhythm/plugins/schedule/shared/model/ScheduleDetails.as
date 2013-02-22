@@ -44,5 +44,10 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 			_previousSchedule = previousSchedule;
 		}
+
+		public function get isCurrentScheduleDetermined():Boolean
+		{
+			return currentSchedule != null && occurrence != null;
+		}
 	}
 }

@@ -9,7 +9,7 @@ package collaboRhythm.plugins.medications.controller
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionCreationModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationController;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.events.MouseEvent;

@@ -2,6 +2,7 @@ package collaboRhythm.plugins.medications.controller
 {
 	import collaboRhythm.plugins.medications.model.MedicationHealthActionInputModel;
 	import collaboRhythm.plugins.medications.view.MedicationHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
@@ -18,14 +19,13 @@ package collaboRhythm.plugins.medications.controller
 
 	import spark.components.ViewNavigator;
 
-	public class MedicationHealthActionInputController implements IHealthActionInputController
+	public class MedicationHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = MedicationHealthActionInputView;
 
 		private var _dataInputModel:MedicationHealthActionInputModel;
 		private var _viewNavigator:ViewNavigator;
 		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
-		private var _synchronizationService:SynchronizationService;
 
 		public function MedicationHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 															  healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -41,7 +41,6 @@ package collaboRhythm.plugins.medications.controller
 
 		public function handleHealthActionResult(initiatedLocally:Boolean):void
 		{
-			addCollaborationViewSynchronizationEventListener();
 			_dataInputModel.handleHealthActionResult(initiatedLocally);
 		}
 
@@ -125,10 +124,6 @@ package collaboRhythm.plugins.medications.controller
 				}
 
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
-		{
-		}
-
-		public function removeEventListener():void
 		{
 		}
 	}

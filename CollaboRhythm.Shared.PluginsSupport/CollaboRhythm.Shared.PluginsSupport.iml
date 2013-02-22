@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Shared.PluginsSupport">
     <configurations>
-      <configuration name="CollaboRhythm.Shared.PluginsSupport" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm.Shared.PluginsSupport.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="CollaboRhythm.Shared.PluginsSupport" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Shared_PluginsSupport.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Shared.PluginsSupport">
         <dependencies>
           <entries>
             <entry module-name="CollaboRhythm.Shared" build-configuration-name="CollaboRhythm.Shared">
@@ -29,7 +29,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="CollaboRhythm.Shared" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
   </component>
 </module>

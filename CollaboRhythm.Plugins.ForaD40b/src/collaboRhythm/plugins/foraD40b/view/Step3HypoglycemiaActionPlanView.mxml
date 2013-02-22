@@ -74,7 +74,7 @@
 		override protected function nextStepButton_clickHandler():void
 		{
 			_dataInputController.updateDateMeasuredStart(_currentDateSource.now());
-			_dataInputController.createAndSubmitBloodGlucoseVitalSign();
+			_dataInputController.createAndSubmitResults();
 		}
 		]]></fx:Script>
 	<view:HypoglycemiaActionPlanStepsView id="hypoglycemiaWarningView"/>

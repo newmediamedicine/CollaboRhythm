@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Shared">
     <configurations>
-      <configuration name="CollaboRhythm.Shared" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm.Shared.swc" output-folder="$MODULE_DIR$/bin">
+      <configuration name="CollaboRhythm.Shared" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Shared.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Shared">
         <dependencies>
           <entries>
             <entry library-id="6cead453-ec79-4a08-8303-c8610abc8ae3">
@@ -26,6 +26,24 @@
             <entry module-name="McCuneChart" build-configuration-name="McCuneChart">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="J2AS3Collections" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="as3corelib" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Castle.FlexBridge.Flash" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="doc_logging_framework-1.0" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="Theory9.Data.Types.OrderedMap" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -47,9 +65,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="indivo_client_flash" />
-    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="indivo_client_flash" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.View.Scroll" exported="" />
+    <orderEntry type="module-library" exported="">
       <library name="Imported from Flash/Flex Builder: libs" type="flex">
         <properties id="6cead453-ec79-4a08-8303-c8610abc8ae3" />
         <CLASSES>
@@ -62,8 +80,8 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" />
-    <orderEntry type="module-library">
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="1e89480e-40ae-4718-8fec-27e08945b24d" />
         <CLASSES>
@@ -73,7 +91,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library type="flex">
         <properties id="76450cf8-a553-4d69-837e-7a10ebd68e16" />
         <CLASSES>
@@ -84,7 +102,13 @@
       </library>
     </orderEntry>
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
-    <orderEntry type="module" module-name="McCuneChart" />
+    <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="library" exported="" name="J2AS3Collections" level="project" />
+    <orderEntry type="library" exported="" name="as3corelib" level="project" />
+    <orderEntry type="library" exported="" name="Castle.FlexBridge.Flash" level="project" />
+    <orderEntry type="library" exported="" name="doc_logging_framework-1.0" level="project" />
+    <orderEntry type="library" exported="" name="Theory9.Data.Types.OrderedMap" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
   </component>
 </module>
 

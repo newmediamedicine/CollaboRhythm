@@ -19,7 +19,6 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   resize="resizeHandler()"
-					   creationComplete="creationCompleteHandler()"
 					   title="Fora D40b Blood Glucose Meter History">
 	<fx:Style>
 		#foraLabel {
@@ -37,8 +36,10 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.foraD40b.controller.BloodGlucoseHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHealthActionInputModel;
+		import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputModelCollection;
+		import collaboRhythm.plugins.foraD40b.model.BloodGlucoseHistoryItemData;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
 		import collaboRhythm.shared.model.healthRecord.document.VitalSign;
@@ -52,7 +53,7 @@
 		import spark.collections.SortField;
 
 		private var _dataInputModel:BloodGlucoseHealthActionInputModel;
-		private var _dataInputController:BloodGlucoseHealthActionInputController;
+		private var _dataInputController:ForaD40bHealthActionInputController;
 		[Bindable]
 		private var _bloodGlucoseArrayCollection:ArrayCollection;
 		private var _touchInteraction:Boolean = false;
@@ -65,10 +66,23 @@
 					HealthActionInputModelAndController;
 
 			_dataInputModel = BloodGlucoseHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
-			_dataInputController = BloodGlucoseHealthActionInputController(dataInputModelAndController.healthActionInputController);
+			_dataInputController = ForaD40bHealthActionInputController(dataInputModelAndController.healthActionInputController);
 
 			_bloodGlucoseArrayCollection = new ArrayCollection();
-			_bloodGlucoseArrayCollection.addAll(_dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY));
+			for each (var bloodGlucoseVitalSign:VitalSign in
+					_dataInputModel.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY))
+			{
+				var historyItemData:BloodGlucoseHistoryItemData = new BloodGlucoseHistoryItemData(bloodGlucoseVitalSign,
+						_dataInputModel, _dataInputController);
+				_bloodGlucoseArrayCollection.addItem(historyItemData);
+			}
+
+			var sort:Sort = new Sort();
+			sort.fields = [new SortField("dateMeasuredStart")];
+			sort.reverse();
+			_bloodGlucoseArrayCollection.sort = sort;
+			_bloodGlucoseArrayCollection.refresh();
+
 
 			BindingUtils.bindSetter(bloodGlucoseHistoryListScrollerPosition_changeHandler, _dataInputModel,
 					"bloodGlucoseHistoryListScrollerPosition");
@@ -84,7 +98,9 @@
 
 		private function bloodGlucoseHistoryList_changeHandler():void
 		{
-			var bloodGlucoseVitalSign:VitalSign = bloodGlucoseHistoryList.selectedItem;
+			var bloodGlucoseHistoryItemData:BloodGlucoseHistoryItemData = bloodGlucoseHistoryList.selectedItem as
+					BloodGlucoseHistoryItemData;
+			var bloodGlucoseVitalSign:VitalSign = bloodGlucoseHistoryItemData.bloodGlucoseVitalSign;
 			if (bloodGlucoseVitalSign.triggeredHealthActionResults.length != 0)
 			{
 				_dataInputController.showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSign.dateMeasuredStart);
@@ -100,18 +116,6 @@
 			else
 			{
 				hypoGlycemiaActionPlanSummaryGroup.width = width;
-			}
-		}
-
-		private function creationCompleteHandler():void
-		{
-			if (_bloodGlucoseArrayCollection)
-			{
-				var sort:Sort = new Sort();
-				sort.fields = [new SortField("dateMeasuredStart")];
-				sort.reverse();
-				_bloodGlucoseArrayCollection.sort = sort;
-				_bloodGlucoseArrayCollection.refresh();
 			}
 		}
 

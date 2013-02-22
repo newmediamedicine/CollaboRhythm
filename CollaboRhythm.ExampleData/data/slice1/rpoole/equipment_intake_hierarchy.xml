@@ -43,7 +43,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
@@ -51,12 +51,12 @@
                                           <value>5</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-17T14:57:00Z</dateMeasuredStart>
@@ -65,7 +65,7 @@
                                           <textValue>less</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -85,7 +85,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T13:07:00Z</dateMeasuredStart>
@@ -93,12 +93,12 @@
                                           <value>6</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-18T13:07:00Z</dateMeasuredStart>
@@ -107,7 +107,7 @@
                                           <textValue>same</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -127,7 +127,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T13:54:00Z</dateMeasuredStart>
@@ -135,12 +135,12 @@
                                           <value>8</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-19T13:54:00Z</dateMeasuredStart>
@@ -149,7 +149,7 @@
                                           <textValue>more</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -169,7 +169,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T13:52:00Z</dateMeasuredStart>
@@ -177,12 +177,12 @@
                                           <value>7</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-20T13:52:00Z</dateMeasuredStart>
@@ -191,7 +191,7 @@
                                           <textValue>same</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -211,7 +211,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:48:00Z</dateMeasuredStart>
@@ -219,12 +219,12 @@
                                           <value>8</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-21T13:48:00Z</dateMeasuredStart>
@@ -233,7 +233,7 @@
                                           <textValue>more</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -253,7 +253,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T14:27:00Z</dateMeasuredStart>
@@ -261,12 +261,12 @@
                                           <value>8</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-22T14:27:00Z</dateMeasuredStart>
@@ -275,7 +275,7 @@
                                           <textValue>same</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -295,7 +295,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T14:24:00Z</dateMeasuredStart>
@@ -303,12 +303,12 @@
                                           <value>9</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-23T14:24:00Z</dateMeasuredStart>
@@ -317,7 +317,7 @@
                                           <textValue>more</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -337,7 +337,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T14:14:00Z</dateMeasuredStart>
@@ -345,12 +345,12 @@
                                           <value>9</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-24T14:14:00Z</dateMeasuredStart>
@@ -359,7 +359,7 @@
                                           <textValue>more</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -379,7 +379,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T14:15:00Z</dateMeasuredStart>
@@ -387,12 +387,12 @@
                                           <value>9</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-25T14:15:00Z</dateMeasuredStart>
@@ -401,7 +401,7 @@
                                           <textValue>more</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -421,7 +421,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T14:59:00Z</dateMeasuredStart>
@@ -429,12 +429,12 @@
                                           <value>6</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-26T14:59:00Z</dateMeasuredStart>
@@ -443,7 +443,7 @@
                                           <textValue>less</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -463,7 +463,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T13:12:00Z</dateMeasuredStart>
@@ -471,12 +471,12 @@
                                           <value>6</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-27T13:12:00Z</dateMeasuredStart>
@@ -485,7 +485,7 @@
                                           <textValue>same</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -505,7 +505,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T15:26:00Z</dateMeasuredStart>
@@ -513,12 +513,12 @@
                                           <value>7</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-28T15:26:00Z</dateMeasuredStart>
@@ -527,7 +527,7 @@
                                           <textValue>more</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -547,7 +547,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-29T13:47:00Z</dateMeasuredStart>
@@ -555,12 +555,12 @@
                                           <value>8</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-29T13:47:00Z</dateMeasuredStart>
@@ -569,7 +569,7 @@
                                           <textValue>more</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -589,7 +589,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-30T14:12:00Z</dateMeasuredStart>
@@ -597,12 +597,12 @@
                                           <value>7</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-30T14:12:00Z</dateMeasuredStart>
@@ -611,7 +611,7 @@
                                           <textValue>same</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>
@@ -631,7 +631,7 @@
                            <relation type="adherenceResult">
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Fluid Intake</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:44:00Z</dateMeasuredStart>
@@ -639,12 +639,12 @@
                                           <value>8</value>
                                           <unit abbrev="cups">cups</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                               <LoadableIndivoDocument>
                                  <document>
-                                    <VitalSign xmlns="http://indivo.org/vocab/xml/documents#">
+                                    <CollaboRhythmVitalSign xmlns="http://indivo.org/vocab/xml/documents#">
                                        <name>Food Level</name>
                                        <measuredBy>jgreen@records.media.mit.edu</measuredBy>
                                        <dateMeasuredStart>2011-07-31T14:44:00Z</dateMeasuredStart>
@@ -653,7 +653,7 @@
                                           <textValue>more</textValue>
                                           <unit>Delta from Average</unit>
                                        </result>
-                                    </VitalSign>
+                                    </CollaboRhythmVitalSign>
                                  </document>
                               </LoadableIndivoDocument>
                            </relation>

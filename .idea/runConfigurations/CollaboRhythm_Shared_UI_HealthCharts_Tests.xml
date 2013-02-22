@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CollaboRhythm.Shared.UI.HealthCharts.Tests" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="CollaboRhythm.Shared.UI.HealthCharts.Tests" type="FlashRunConfigurationType" factoryName="Flash App" singleton="true">
     <option name="BCName" value="CollaboRhythm.Shared.UI.HealthCharts.Tests" />
     <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />

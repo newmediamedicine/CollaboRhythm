@@ -108,7 +108,20 @@
 						  id="submitIndivoClient"/>
 			</mx:FormItem>
 			<mx:FormItem label="Response" width="100%" height="100%">
-				<s:TextArea width="100%" height="100%" id="response" editable="false"/>
+				<s:Group id="responseGroup" width="100%" height="100%">
+					<s:Rect width="100%" height="100%">
+						<s:stroke>
+							<s:SolidColorStroke color="0x686868" weight="1"/>
+						</s:stroke>
+					</s:Rect>
+					<s:Scroller id="responseScroller" hasFocusableChildren="true" width="100%" height="100%">
+						<s:RichEditableText id="response"
+											left="0" right="0" top="0" bottom="0"
+											editable="false" selectable="true"
+											paddingLeft="4" paddingTop="4" paddingRight="4" paddingBottom="4"/>
+					</s:Scroller>
+				</s:Group>
+
 			</mx:FormItem>
 			<mx:Form width="100%" height="100%" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
 				<mx:FormItem label="Response Summary" width="100%">
@@ -157,6 +170,8 @@
 
 		import flash.filesystem.*;
 		import flash.net.URLRequestMethod;
+
+		import flashx.textLayout.conversion.TextConverter;
 
 		import j2as3.collection.HashMap;
 
@@ -382,7 +397,7 @@
 				updateCommandParametersComponentsFromXml(commandParametersGroup, "commandParameters", parentXml);
 			if (!dataLock.selected)
 				updateTextComponentFromXml(data, parentXml);
-			updateTextComponentFromXml(response, parentXml);
+			updateRichTextComponentFromXml(response, parentXml);
 			updateResponseSummary();
 		}
 
@@ -451,10 +466,28 @@
 			updateXmlFromText("commandAsExecuted", substituteCommandParams(command.text), parentXml);
 			updateXmlFromHashMap("commandParameters", getHashMapOfParams(commandParametersGroup), parentXml);
 			updateXmlFromTextComponent(data, parentXml);
-			updateXmlFromTextComponent(response, parentXml);
+			updateXmlFromRichTextComponent(response, parentXml);
 		}
 
 		private function updateTextComponentFromXml(textInput:SkinnableTextBase, parentXml:XML):void
+		{
+			var validValueFound:Boolean = false;
+
+			if (parentXml[textInput.id].length() > 0)
+			{
+				var textInputXml:XML = parentXml[textInput.id][0];
+				if (textInputXml.hasSimpleContent())
+				{
+					textInput.text = textInputXml.toString();
+					validValueFound = true;
+				}
+			}
+
+			if (!validValueFound)
+				textInput.text = null;
+		}
+
+		private function updateRichTextComponentFromXml(textInput:RichEditableText, parentXml:XML):void
 		{
 			var validValueFound:Boolean = false;
 
@@ -517,6 +550,13 @@
 		}
 
 		private function updateXmlFromTextComponent(textInput:SkinnableTextBase, parentXml:XML):void
+		{
+			parentXml.appendChild(
+					<{textInput.id}>{textInput.text}</{textInput.id}>
+			);
+		}
+
+		private function updateXmlFromRichTextComponent(textInput:RichEditableText, parentXml:XML):void
 		{
 			parentXml.appendChild(
 					<{textInput.id}>{textInput.text}</{textInput.id}>
@@ -683,9 +723,17 @@
 
 		private function parseResponse(event:IndivoClientEvent, shouldAddHistoryItem:Boolean = true):String
 		{
-			var responseXml:XML = event.response;
-			response.text = responseXml.toXMLString();
-			logger.info(responseXml.toXMLString());
+			var responseXmlString:String = event.response && IndivoClientEvent.COMPLETE ? event.response.toXMLString() : event.responseData;
+
+			if (event.type == IndivoClientEvent.COMPLETE)
+			{
+				response.text = responseXmlString;
+			}
+			else
+			{
+				response.textFlow = TextConverter.importToFlow(event.responseData, TextConverter.TEXT_FIELD_HTML_FORMAT);
+			}
+			logger.info(responseXmlString);
 			removeEventListener(IndivoClientEvent.COMPLETE, indivoClientEventHandler);
 			removeEventListener(IndivoClientEvent.ERROR, indivoClientEventHandler);
 
@@ -695,7 +743,7 @@
 			if (shouldAddHistoryItem)
 				addHistoryItem();
 
-			return responseXml.toXMLString();
+			return responseXmlString;
 		}
 
 		private function loginIndivoClientEventHandler(event:IndivoClientEvent):void
@@ -715,9 +763,15 @@
 
 		private function updateResponseSummary():void
 		{
-			var responseXml:XML = new XML(response.text);
-			responseSummary.text = responseXml.name() + " (" + responseXml.children().length() + ") , " +
-					responseXml.toXMLString().length + " characters";
+			try
+			{
+				var responseXml:XML = new XML(response.text);
+				responseSummary.text = responseXml.name() + " (" + responseXml.children().length() + ") , " +
+						responseXml.toXMLString().length + " characters";
+			} catch (e:TypeError)
+			{
+				responseSummary.text = "Error (" + response.text.length + " characters)";
+			}
 		}
 
 		private function addHistoryItem():void

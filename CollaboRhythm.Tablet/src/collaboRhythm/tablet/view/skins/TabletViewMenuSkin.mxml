@@ -54,6 +54,10 @@ in accordance with the terms of the license agreement accompanying it.
 		 */
 		override protected function initializationComplete():void
 		{
+			// TODO: eliminate this workaround for an unhandled exception in PopUpManagerImpl.addModalPopUpAccessibility
+			if (hostComponent.accessibilityProperties == null)
+				hostComponent.accessibilityProperties = new AccessibilityProperties();
+
 			useChromeColor = false;
 			super.initializationComplete();
 		}
@@ -86,28 +90,10 @@ in accordance with the terms of the license agreement accompanying it.
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 
 			var separatorWeight:Number = 1;
-			var strokeWeight:Number = 2;
-			var borderWeight:Number = 3;
-
-			if (applicationDPI == DPIClassification.DPI_320)
-			{
-				separatorWeight = 4;
-				strokeWeight = 6;
-				borderWeight = 8;
-			}
-			else if (applicationDPI == DPIClassification.DPI_240)
-			{
-				separatorWeight = 2;
-				strokeWeight = 3;
-				borderWeight = 4;
-			}
+			var strokeWeight:Number = 0;
+			var borderWeight:Number = 0;
 
 			background.radiusX = strokeWeight + borderWeight;
-
-			dividerStroke.weight = strokeWeight;
-			dividerLine.left = borderWeight;
-			dividerLine.right = borderWeight;
-			dividerLine.y = borderWeight + 1;
 
 			contentGroup.top = strokeWeight + borderWeight;
 			contentGroup.bottom = borderWeight;
@@ -165,25 +151,27 @@ in accordance with the terms of the license agreement accompanying it.
          The menu chrome is a separate group that is anchored to the bottom of the skin. -->
 
     <s:Group id="chromeGroup"
-             right="0"
+             right="8"
              top="{getActionBarHeight()}"
 			 minWidth="150"
              visible.closedGroup="false"
 			>
         
         <!-- Background -->
-        <s:Rect left="0" right="0" top="0" bottom="0" id="background" radiusX="8">
+        <s:Rect left="0" right="0" top="0" bottom="0" id="background">
             <s:fill> 
-                <s:SolidColor color="#000000" alpha=".3"/>
+                <s:SolidColor color="#4f4f4f" alpha="1"/>
             </s:fill>
         </s:Rect>
         
 		<!-- Divider line -->
+<!--
 		<s:Line left="5" right="5" y="5" id="dividerLine">
 			<s:stroke>
 				<s:SolidColorStroke id="dividerStroke" weight="3" color="#AAAAFF" alpha="0.9"/>
 			</s:stroke>
 		</s:Line>
+-->
 
         <!--
         Note: setting the minimum size to 0 here so that changes to the host component's
@@ -196,6 +184,10 @@ in accordance with the terms of the license agreement accompanying it.
                 <s:TileLayout id="contentGroupLayout" verticalGap="1" requestedColumnCount="1" columnAlign="justifyUsingWidth"
                                   />
             </s:layout>
-        </s:Group>    
+        </s:Group>
+
+		<s:filters>
+			<s:DropShadowFilter alpha="0.5" angle="120" blurX="8" blurY="8"/>
+		</s:filters>
     </s:Group>
 </s:SparkSkin>

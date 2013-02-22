@@ -1,27 +1,27 @@
 package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 {
-	import collaboRhythm.shared.model.healthRecord.CodedValue;
-	import collaboRhythm.shared.model.healthRecord.ValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 
 	[Bindable]
 	public class MedicationPlan
 	{
-		private var _name:CodedValue;
+		private var _name:CollaboRhythmCodedValue;
 		private var _indication:String;
-		private var _dose:ValueAndUnit;
-		private var _route:CodedValue;
+		private var _dose:CollaboRhythmValueAndUnit;
+		private var _route:CollaboRhythmCodedValue;
 		private var _instructions:String;
 
 		public function MedicationPlan()
 		{
 		}
 
-		public function get name():CodedValue
+		public function get name():CollaboRhythmCodedValue
 		{
 			return _name;
 		}
 
-		public function set name(value:CodedValue):void
+		public function set name(value:CollaboRhythmCodedValue):void
 		{
 			_name = value;
 		}
@@ -36,22 +36,22 @@ package collaboRhythm.shared.model.healthRecord.document.healthActionPlan
 			_indication = value;
 		}
 
-		public function get dose():ValueAndUnit
+		public function get dose():CollaboRhythmValueAndUnit
 		{
 			return _dose;
 		}
 
-		public function set dose(value:ValueAndUnit):void
+		public function set dose(value:CollaboRhythmValueAndUnit):void
 		{
 			_dose = value;
 		}
 
-		public function get route():CodedValue
+		public function get route():CollaboRhythmCodedValue
 		{
 			return _route;
 		}
 
-		public function set route(value:CodedValue):void
+		public function set route(value:CollaboRhythmCodedValue):void
 		{
 			_route = value;
 		}

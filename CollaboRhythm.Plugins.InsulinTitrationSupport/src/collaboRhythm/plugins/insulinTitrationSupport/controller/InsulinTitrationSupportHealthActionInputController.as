@@ -2,6 +2,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 {
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportHealthActionInputModel;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationSupportHealthActionInputView;
+	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
@@ -15,14 +16,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 	import spark.components.ViewNavigator;
 
-	public class InsulinTitrationSupportHealthActionInputController implements IHealthActionInputController
+	public class InsulinTitrationSupportHealthActionInputController extends HealthActionInputControllerBase implements IHealthActionInputController
 	{
 		private const HEALTH_ACTION_INPUT_VIEW_CLASS:Class = InsulinTitrationSupportHealthActionInputView;
 
 		private var _dataInputModel:InsulinTitrationSupportHealthActionInputModel;
 		private var _viewNavigator:ViewNavigator;
 		private var _collaborationLobbyNetConnectionServiceProxy:CollaborationLobbyNetConnectionServiceProxy;
-		private var _synchronizationService:SynchronizationService;
 
 		public function InsulinTitrationSupportHealthActionInputController(scheduleItemOccurrence:ScheduleItemOccurrence,
 																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -79,10 +79,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 		}
 
 		public function handleHealthActionCommandButtonClick(event:MouseEvent):void
-		{
-		}
-
-		public function removeEventListener():void
 		{
 		}
 	}

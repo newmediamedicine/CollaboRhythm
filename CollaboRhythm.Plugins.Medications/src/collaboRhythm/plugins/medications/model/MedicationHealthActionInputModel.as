@@ -84,5 +84,10 @@ package collaboRhythm.plugins.medications.model
 		{
 			_dateMeasuredStart = value;
 		}
+
+		public function get isChangeTimeAllowed():Boolean
+		{
+			return true;
+		}
 	}
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Problem xmlns="http://indivo.org/vocab/xml/documents#">
-        <dateOnset>2002-07-11</dateOnset>
-        <name type="umls-snomed" value="13644009" abbrev="None">Hypercholesterolemia (disorder)</name>
-        <comments>High Cholesterol</comments>
-        <diagnosedBy>Dr. James King</diagnosedBy>
-      </Problem>
+	<startDate>2002-07-11</startDate>
+	<name>
+		<title>Hypercholesterolemia (disorder)</title>
+		<system>http://purl.bioontology.org/ontology/SNOMEDCT/</system>
+		<identifier>13644009</identifier>
+	</name>
+	<notes>High Cholesterol</notes>
+</Problem>

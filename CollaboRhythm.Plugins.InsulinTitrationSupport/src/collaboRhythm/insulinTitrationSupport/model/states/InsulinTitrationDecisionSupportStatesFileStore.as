@@ -31,10 +31,10 @@ package collaboRhythm.insulinTitrationSupport.model.states
 	import mx.rpc.xml.XMLEncoder;
 	import mx.utils.ObjectUtil;
 
-	public class InsulinTitrationDecisionSupportStatesFileStore implements IInsulinTitrationDecisionSupportStatesFileStore
+	public class InsulinTitrationDecisionSupportStatesFileStore implements ITitrationDecisionSupportStatesFileStore
 	{
-		[Embed("/assets/strings/insulinTitrationDecisionSupportStates.xsd", mimeType="application/octet-stream")]
-		private var insulinTitrationDecisionSupportStatesSchema:Class;
+		[Embed("/assets/strings/titrationDecisionSupportStates.xsd", mimeType="application/octet-stream")]
+		private var titrationDecisionSupportStatesSchema:Class;
 
 		[Embed("/assets/strings/insulinTitrationDecisionSupportStates.xml", mimeType="application/octet-stream")]
 		private var insulinTitrationDecisionSupportStatesEmbeddedFile:Class;
@@ -42,7 +42,7 @@ package collaboRhythm.insulinTitrationSupport.model.states
         private var schema:Schema;
 
 		private var schemaManager:SchemaManager;
-        private var _insulinTitrationDecisionSupportStates:ArrayCollection;
+        private var _titrationDecisionSupportStates:ArrayCollection;
         private var traceXmlEncodeDecode:Boolean = false;
         protected var _logger:ILogger;
         private var _isLoaded:Boolean;
@@ -55,12 +55,12 @@ package collaboRhythm.insulinTitrationSupport.model.states
 
 		private function loadSchema():void
 		{
-			var byteArray:ByteArray = new insulinTitrationDecisionSupportStatesSchema;
+			var byteArray:ByteArray = new titrationDecisionSupportStatesSchema;
 			if (byteArray.length == 0)
-				byteArray = new insulinTitrationDecisionSupportStatesSchema();
+				byteArray = new titrationDecisionSupportStatesSchema();
 			
 			if (byteArray.length == 0)
-				throw new Error("Failed to load embedded insulinTitrationDecisionSupportStates.xsd schema.");
+				throw new Error("Failed to load embedded titrationDecisionSupportStates.xsd schema.");
 				
 			schema = new Schema(new XML(byteArray.readUTFBytes(byteArray.length)));
 
@@ -70,17 +70,17 @@ package collaboRhythm.insulinTitrationSupport.model.states
 			var schemaTypeRegistry:SchemaTypeRegistry;
 			schemaTypeRegistry = SchemaTypeRegistry.getInstance();
 //			schemaTypeRegistry.registerClass(new QName(schema.targetNamespace.uri,
-//					"insulinTitrationDecisionSupportStates"), InsulinTitrationDecisionSupportStates);
-			schemaTypeRegistry.registerClass(new QName(schema.targetNamespace.uri, "insulinTitrationDecisionSupportState"), InsulinTitrationDecisionSupportState);
+//					"titrationDecisionSupportStates"), TitrationDecisionSupportStates);
+			schemaTypeRegistry.registerClass(new QName(schema.targetNamespace.uri, "titrationDecisionSupportState"), TitrationDecisionSupportState);
 			schemaTypeRegistry.registerClass(new QName(schema.targetNamespace.uri, "step"), Step);
 		}
 
 		public function readStates():void
 		{
-			_isLoaded = readInsulinTitrationDecisionSupportStatesFromEmbeddedFile(insulinTitrationDecisionSupportStatesEmbeddedFile);
+			_isLoaded = readTitrationDecisionSupportStatesFromEmbeddedFile(insulinTitrationDecisionSupportStatesEmbeddedFile);
 		}
 
-		private function readInsulinTitrationDecisionSupportStatesFromEmbeddedFile(embeddedFile:Class):Boolean
+		private function readTitrationDecisionSupportStatesFromEmbeddedFile(embeddedFile:Class):Boolean
 		{
 			if (!embeddedFile)
 				throw new Error("Failed to load embedded file");
@@ -91,10 +91,10 @@ package collaboRhythm.insulinTitrationSupport.model.states
 				byteArray = new embeddedFile();
 
 			if (byteArray.length == 0)
-				throw new Error("Failed to load embedded insulinTitrationDecisionSupportStates.xml file.");
+				throw new Error("Failed to load embedded titrationDecisionSupportStates.xml file.");
 
 			var embeddedXML:XML = XML(byteArray.readUTFBytes(byteArray.length));
-			return decodeXML("Embedded (application level) insulinTitrationDecisionSupportStates.xml file", embeddedXML);
+			return decodeXML("Embedded (application level) titrationDecisionSupportStates.xml file", embeddedXML);
 		}
 
 		/**
@@ -109,7 +109,7 @@ package collaboRhythm.insulinTitrationSupport.model.states
 			if (xml.namespaceDeclarations().length == 0 ||
 					xml.namespace("").uri != schema.namespaces[""].uri)
 			{
-				var message:String = "Warning: all insulinTitrationDecisionSupportStates will be ignored. " + fileSourceDescription + " must be updated to include expected namespace: " + schema.namespaces[""].uri;
+				var message:String = "Warning: all titrationDecisionSupportStates will be ignored. " + fileSourceDescription + " must be updated to include expected namespace: " + schema.namespaces[""].uri;
 				_logger.warn(message);
                 return false;
 			}
@@ -117,35 +117,35 @@ package collaboRhythm.insulinTitrationSupport.model.states
 			var qName:QName;
 			var xmlDecoder:XmlDecoderEx2;
 
-			qName = new QName(schema.targetNamespace.uri, "insulinTitrationDecisionSupportStates");
+			qName = new QName(schema.targetNamespace.uri, "titrationDecisionSupportStates");
 			xmlDecoder = new XmlDecoderEx2();
 			xmlDecoder.schemaManager = schemaManager;
 			xmlDecoder.makeObjectsBindable = true;
 
 /*
-			var test:InsulinTitrationDecisionSupportState = new InsulinTitrationDecisionSupportState();
+			var test:TitrationDecisionSupportState = new TitrationDecisionSupportState();
 			test.selectors = new ArrayCollection();
-			var aliasName:String = ReflectionUtils.getClassInfo(InsulinTitrationDecisionSupportState).name;
-			registerClassAlias(aliasName, InsulinTitrationDecisionSupportState);
+			var aliasName:String = ReflectionUtils.getClassInfo(TitrationDecisionSupportState).name;
+			registerClassAlias(aliasName, TitrationDecisionSupportState);
 			var currentDomain:ApplicationDomain = ApplicationDomain.currentDomain;
 			trace(currentDomain);
 			var definition:Object = currentDomain.getDefinition(aliasName);
 			trace(definition);
 */
 
-			if (!insulinTitrationDecisionSupportStates)
+			if (!titrationDecisionSupportStates)
 			{
 				var result:*;
 				result = xmlDecoder.decode(xml, qName, qName);
-				insulinTitrationDecisionSupportStates = result as ArrayCollection;
+				titrationDecisionSupportStates = result as ArrayCollection;
 			}
 			else
 			{
-				xmlDecoder.decodeType(qName, insulinTitrationDecisionSupportStates, qName, xml);
+				xmlDecoder.decodeType(qName, titrationDecisionSupportStates, qName, xml);
 			}
 
 			if (traceXmlEncodeDecode)
-				trace(ObjectUtil.toString(insulinTitrationDecisionSupportStates));
+				trace(ObjectUtil.toString(titrationDecisionSupportStates));
 
             return true;
 		}
@@ -160,11 +160,11 @@ package collaboRhythm.insulinTitrationSupport.model.states
 			var xmlList:XMLList;
 
 
-			qName = new QName(schema.targetNamespace.uri, "insulinTitrationDecisionSupportStates");
+			qName = new QName(schema.targetNamespace.uri, "titrationDecisionSupportStates");
 			xmlEncoder = new XMLEncoder();
 			xmlEncoder.schemaManager = schemaManager;
 
-			xmlList = xmlEncoder.encode(insulinTitrationDecisionSupportStates, qName);
+			xmlList = xmlEncoder.encode(titrationDecisionSupportStates, qName);
 
 			xmlEncoder.setAttribute(xmlList[0], "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			xmlEncoder.setAttribute(xmlList[0], "xmlns", schema.namespaces[""].uri);
@@ -175,14 +175,14 @@ package collaboRhythm.insulinTitrationSupport.model.states
 			return xmlList.toXMLString();
 		}
 
-		public function get insulinTitrationDecisionSupportStates():ArrayCollection
+		public function get titrationDecisionSupportStates():ArrayCollection
 		{
-			return _insulinTitrationDecisionSupportStates;
+			return _titrationDecisionSupportStates;
 		}
 
-		public function set insulinTitrationDecisionSupportStates(value:ArrayCollection):void
+		public function set titrationDecisionSupportStates(value:ArrayCollection):void
 		{
-			_insulinTitrationDecisionSupportStates = value;
+			_titrationDecisionSupportStates = value;
 		}
 
 		public function get isLoaded():Boolean
