@@ -18,6 +18,8 @@ package collaboRhythm.plugins.schedule.model
 {
 
 	import collaboRhythm.plugins.schedule.shared.model.MoveData;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleChanger;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleGroup;
 	import collaboRhythm.plugins.schedule.view.ScheduleGroupTimelineView;
 	import collaboRhythm.plugins.schedule.view.ScheduleItemOccurrenceTimelineView;
@@ -26,6 +28,7 @@ package collaboRhythm.plugins.schedule.model
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
 
 	[Bindable]
 	public class ScheduleTimelineModel
@@ -293,10 +296,9 @@ package collaboRhythm.plugins.schedule.model
 					}
 				}
 
-				//TODO: Persist unscheduling a scheduleItem. If there is no data for the scheduleItem, it can be voided. Otherwise, the
-				//recurrenceRule of the scheduleItem should be changed as appropriate
-				_scheduleModel.record.removeDocument(scheduleItemOccurrence.scheduleItem, true,
-						DocumentBase.ACTION_VOID);
+				// If there is no data for the scheduleItem, it can be voided. Otherwise, the recurrenceRule of the scheduleItem should be changed as appropriate
+				var scheduleChanger:ScheduleChanger = new ScheduleChanger(_scheduleModel.record, _scheduleModel.accountId, _scheduleModel.currentDateSource);
+				scheduleChanger.endSchedule(scheduleItemOccurrence.scheduleItem, scheduleItemOccurrence, true);
 			}
 
 			stackingUpdated = true;

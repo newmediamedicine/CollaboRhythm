@@ -17,10 +17,8 @@
 package collaboRhythm.shared.model.healthRecord.document
 {
 
-	import collaboRhythm.shared.model.*;
-
-    import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 
 	[Bindable]
 	public class MedicationScheduleItem extends ScheduleItemBase
@@ -92,5 +90,6 @@ package collaboRhythm.shared.model.healthRecord.document
         {
             _dose = value;
         }
-    }
+
+	}
 }

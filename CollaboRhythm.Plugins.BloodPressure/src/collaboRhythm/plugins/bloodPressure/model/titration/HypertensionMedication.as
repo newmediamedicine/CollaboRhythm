@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.bloodPressure.model.titration
 {
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
@@ -33,17 +34,25 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _doseSelectionArrayCollectionVector:Vector.<ArrayCollection> = new <ArrayCollection>[new ArrayCollection(), _dose1SelectionArrayCollection, _dose2SelectionArrayCollection];
 		private var _pair:HypertensionMedicationAlternatePair;
 		private var _logger:ILogger;
+		private var _medicationScheduleItem:MedicationScheduleItem;
+
+		private var _medicationName1:MedicationName;
+		private var _medicationName2:MedicationName;
+		private var _defaultNdcCode1:String;
+		private var _defaultNdcCode2:String;
 
 		public function HypertensionMedication(medicationClass:String, medicationDefinition1:Array, medicationDefinition2:Array)
 		{
 			_medicationClass = medicationClass;
 			_rxNorm1 = medicationDefinition1[0];
 			_rxNorm2 = medicationDefinition2[0];
-			var medicationName1:MedicationName = MedicationNameUtil.parseName(medicationDefinition1[1]);
-			var medicationName2:MedicationName = MedicationNameUtil.parseName(medicationDefinition2[1]);
-			medicationName = medicationName1.medicationName;
-			dose1 = medicationName1.strength;
-			dose2 = medicationName2.strength;
+			_medicationName1 = MedicationNameUtil.parseName(medicationDefinition1[1]);
+			_medicationName2 = MedicationNameUtil.parseName(medicationDefinition2[1]);
+			_defaultNdcCode1 = medicationDefinition1[2];
+			_defaultNdcCode2 = medicationDefinition2[2];
+			medicationName = _medicationName1.medicationName;
+			dose1 = _medicationName1.strength;
+			dose2 = _medicationName2.strength;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 		}
 
@@ -51,17 +60,24 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			for each (var medicationScheduleItem:MedicationScheduleItem in medicationScheduleItemsCollection)
 			{
-				if ((medicationScheduleItem.name.value == _rxNorm1 && medicationScheduleItem.dose.value == "1") ||
-						(medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "0.5"))
+				if (medicationScheduleItem.isScheduledCurrently())
 				{
-					currentDose = 1;
-					return;
-				}
-				else if ((medicationScheduleItem.name.value == _rxNorm1 && medicationScheduleItem.dose.value == "2") ||
-						(medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "1"))
-				{
-					currentDose = 2;
-					return;
+					if ((medicationScheduleItem.name.value == _rxNorm1 && medicationScheduleItem.dose.value == "1") ||
+							(medicationScheduleItem.name.value == _rxNorm2 &&
+									medicationScheduleItem.dose.value == "0.5"))
+					{
+						this.medicationScheduleItem = medicationScheduleItem;
+						currentDose = 1;
+						return;
+					}
+					else if ((medicationScheduleItem.name.value == _rxNorm1 &&
+							medicationScheduleItem.dose.value == "2") ||
+							(medicationScheduleItem.name.value == _rxNorm2 && medicationScheduleItem.dose.value == "1"))
+					{
+						this.medicationScheduleItem = medicationScheduleItem;
+						currentDose = 2;
+						return;
+					}
 				}
 			}
 			currentDose = 0;
@@ -270,7 +286,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			_rxNorm2 = value;
 		}
 
-
 		public function get medicationName():String
 		{
 			return _medicationName;
@@ -279,6 +294,26 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function set medicationName(value:String):void
 		{
 			_medicationName = value;
+		}
+
+		public function get defaultNdcCode1():String
+		{
+			return _defaultNdcCode1;
+		}
+
+		public function set defaultNdcCode1(value:String):void
+		{
+			_defaultNdcCode1 = value;
+		}
+
+		public function get defaultNdcCode2():String
+		{
+			return _defaultNdcCode2;
+		}
+
+		public function set defaultNdcCode2(value:String):void
+		{
+			_defaultNdcCode2 = value;
 		}
 
 		public function get dose1():String
@@ -321,6 +356,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			_patientDoseSelected = value;
 		}
 
+		/**
+		 * Increase, Decrease, or null, indicating what is the intended action by the patient.
+		 * @see HypertensionMedicationDoseSelection.INCREASE
+		 * @see HypertensionMedicationDoseSelection.DECREASE
+		 */
 		public function get patientDoseAction():String
 		{
 			return _patientDoseAction;
@@ -421,6 +461,82 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				matchFunction = matchSelectionByAccountId;
 			}
 			return new MatchParameters(matchData, matchFunction);
+		}
+
+		public function set medicationScheduleItem(medicationScheduleItem:MedicationScheduleItem):void
+		{
+			_medicationScheduleItem = medicationScheduleItem;
+		}
+
+		public function get medicationScheduleItem():MedicationScheduleItem
+		{
+			return _medicationScheduleItem;
+		}
+
+		public function get medicationName1():MedicationName
+		{
+			return _medicationName1;
+		}
+
+		public function set medicationName1(value:MedicationName):void
+		{
+			_medicationName1 = value;
+		}
+
+		public function get medicationName2():MedicationName
+		{
+			return _medicationName2;
+		}
+
+		public function set medicationName2(value:MedicationName):void
+		{
+			_medicationName2 = value;
+		}
+
+		public function getScheduleDose(medicationOrder:MedicationOrder,
+										selection:HypertensionMedicationDoseSelection):Number
+		{
+			if (medicationOrder.name.value == rxNorm1)
+			{
+				return selection.newDose == 1 ? 1 : 2;
+			}
+			else if (medicationOrder.name.value == rxNorm2)
+			{
+				return selection.newDose == 2 ? 1 : 0.5;
+			}
+			else
+			{
+				_logger.error("Unexpected RxNorm code in MedicationOrder " + medicationOrder.name.toString());
+				return 1;
+			}
+		}
+
+		public function getSelectionForAccount(byAccountSelection:Account):HypertensionMedicationDoseSelection
+		{
+			return getMatchingSelection(byAccountSelection.accountId, matchSelectionByAccountId);
+		}
+
+		/**
+		 * Finds the most recent matching HypertensionMedicationDoseSelection, or null if there are no matches.
+		 * @param matchData Data passed to the match function for matching
+		 * @param matchFunction Function to test for a matching HypertensionMedicationDoseSelection. First parameter is
+		 * the HypertensionMedicationDoseSelection, second parameter is a String (optional data).
+		 * @return the most recent matching HypertensionMedicationDoseSelection, or null if there are no matches
+		 */
+		public function getMatchingSelection(matchData:String, matchFunction:Function):HypertensionMedicationDoseSelection
+		{
+			for each (var doseSelectionArrayCollection:ArrayCollection in _doseSelectionArrayCollectionVector)
+			{
+				for (var i:int = doseSelectionArrayCollection.length - 1; i >= 0; i--)
+				{
+					var selection:HypertensionMedicationDoseSelection = doseSelectionArrayCollection[i];
+					if (matchFunction(selection, matchData))
+					{
+						return selection;
+					}
+				}
+			}
+			return null;
 		}
 	}
 }

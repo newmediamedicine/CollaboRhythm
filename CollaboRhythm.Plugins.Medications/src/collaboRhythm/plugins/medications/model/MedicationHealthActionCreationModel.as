@@ -4,10 +4,9 @@ package collaboRhythm.plugins.medications.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleCreator;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CodedValueFactory;
-	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
-	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -20,15 +19,12 @@ package collaboRhythm.plugins.medications.model
 
 	import mx.binding.utils.BindingUtils;
 	import mx.binding.utils.ChangeWatcher;
-
 	import mx.collections.ArrayCollection;
 	import mx.utils.UIDUtil;
 
 	[Bindable]
 	public class MedicationHealthActionCreationModel extends EventDispatcher implements IHealthActionCreationModel
 	{
-		private static const RXCUI_CODED_VALUE_TYPE:String = "http://rxnav.nlm.nih.gov/REST/rxcui/";
-		private static const PRESCRIBED_ORDER_TYPE:String = "prescribed";
 		private static const DEFAULT_RECURRENCE_COUNT:int = 120;
 		private static const DEFAULT_DOSE:String = "1";
 
@@ -132,9 +128,9 @@ package collaboRhythm.plugins.medications.model
 			var codedValueFactory:CodedValueFactory = new CodedValueFactory();
 
 			var medicationOrder:MedicationOrder = new MedicationOrder();
-			medicationOrder.name = new CollaboRhythmCodedValue(RXCUI_CODED_VALUE_TYPE, currentRxNormConcept.rxcui, null,
+			medicationOrder.name = new CollaboRhythmCodedValue(MedicationOrder.RXCUI_CODED_VALUE_TYPE, currentRxNormConcept.rxcui, null,
 					currentRxNormConcept.name);
-			medicationOrder.orderType = PRESCRIBED_ORDER_TYPE;
+			medicationOrder.orderType = MedicationOrder.PRESCRIBED_ORDER_TYPE;
 			medicationOrder.orderedBy = _activeAccount.accountId;
 			medicationOrder.dateOrdered = _currentDateSource.now();
 			//TODO: Indication should not be required by the server. This can be removed once this is fixed

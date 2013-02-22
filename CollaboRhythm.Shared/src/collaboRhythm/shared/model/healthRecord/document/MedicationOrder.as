@@ -41,6 +41,9 @@ package collaboRhythm.shared.model.healthRecord.document
 		 */
 		public static const RELATION_TYPE_MEDICATION_FILL:String = "http://indivo.org/vocab/documentrels#medicationFill";
 
+		public static const RXCUI_CODED_VALUE_TYPE:String = "http://rxnav.nlm.nih.gov/REST/rxcui/";
+		public static const PRESCRIBED_ORDER_TYPE:String = "prescribed";
+
 		private var _name:CollaboRhythmCodedValue;
 		private var _orderType:String;
 		private var _orderedBy:String;
@@ -56,7 +59,7 @@ package collaboRhythm.shared.model.healthRecord.document
         private var _scheduleItems:HashMap = new HashMap();
 		private var _currentDateSource:ICurrentDateSource;
 
-        public function MedicationOrder()
+		public function MedicationOrder()
         {
 			meta.type = DOCUMENT_TYPE;
             _currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;

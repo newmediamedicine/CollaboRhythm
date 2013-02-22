@@ -24,7 +24,7 @@ package collaboRhythm.shared.model
     public class RecurrenceRule
 	{
 		private var _frequency:String;
-        private var _interval:int;
+        private var _interval:int = 1;
 		private var _dateUntil:Date;
 		private var _count:int;
 		

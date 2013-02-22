@@ -283,7 +283,7 @@
 						  height="{clock.height / 2}" mouseEnabled="false" mouseChildren="false"/>
 		<images:clockForeground id="clockForeground" width="{clock.width}" height="{clock.height}" mouseEnabled="false"
 								mouseChildren="false"/>
-		<s:Group width="90" height="90" horizontalCenter="0" verticalCenter="0" visible="{_settings.isClinicianMode}"
+		<s:Group width="90" height="90" horizontalCenter="0" verticalCenter="0" visible="{_settings.isClinicianMode || _settings.scheduleEditingEnabled}"
 				 click="showScheduleTimelineFullViewButton_clickHandler()">
 			<s:Button width="100%" height="100%"
 					  skinClass="collaboRhythm.shared.view.skins.HomeTransparentNavigationButtonSkin"/>

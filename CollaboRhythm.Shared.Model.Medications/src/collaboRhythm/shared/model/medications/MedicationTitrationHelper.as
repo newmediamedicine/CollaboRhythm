@@ -3,7 +3,9 @@ package collaboRhythm.shared.model.medications
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetailsResolver;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
 	public class MedicationTitrationHelper
@@ -126,6 +128,43 @@ package collaboRhythm.shared.model.medications
 		public function get dosageChangeValueLabel():String
 		{
 			return (isNaN(_dosageChangeValue) || _dosageChangeValue == 0) ? "No Change" : (_dosageChangeValue > 0 ? "+" : "") + _dosageChangeValue.toString();
+		}
+
+		/**
+		 * Fix data corruption (missing relationship) if there is an obvious solution by finding a MedicationOrder with a matching name for the MedicationScheduleItem
+		 * @param currentMedicationScheduleItem
+		 */
+		public function relateMedicationOrderToSchedule(currentMedicationScheduleItem:MedicationScheduleItem):void
+		{
+			if (currentMedicationScheduleItem.scheduledMedicationOrder == null)
+			{
+				var matchingMedicationOrder:MedicationOrder = getMatchingMedicationOrder(currentMedicationScheduleItem);
+				if (matchingMedicationOrder)
+				{
+					currentMedicationScheduleItem.scheduledMedicationOrder = matchingMedicationOrder;
+					record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+							matchingMedicationOrder, currentMedicationScheduleItem,
+							true);
+				}
+			}
+		}
+
+		/**
+		 * Finds a MedicationOrder that matches the name of the specified MedicationScheduleItem
+		 * @param medicationScheduleItem The MedicationScheduleItem to match
+		 * @return The matching MedicationOrder
+		 */
+		public function getMatchingMedicationOrder(medicationScheduleItem:MedicationScheduleItem):MedicationOrder
+		{
+			for each (var medicationOrder:MedicationOrder in
+					record.medicationOrdersModel.medicationOrdersCollection)
+			{
+				if (medicationOrder.name && medicationOrder.name.value && medicationScheduleItem.name && medicationScheduleItem.name.value && medicationOrder.name.value == medicationScheduleItem.name.value)
+				{
+					return medicationOrder;
+				}
+			}
+			return null;
 		}
 	}
 }

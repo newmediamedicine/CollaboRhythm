@@ -23,10 +23,12 @@ package collaboRhythm.shared.model.healthRecord.document
 	import collaboRhythm.shared.model.healthRecord.DocumentMetadata;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordHelperMethods;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import com.adobe.utils.DateUtil;
+
 	import com.theory9.data.types.OrderedMap;
 
 	import flash.utils.getQualifiedClassName;
@@ -402,6 +404,14 @@ package collaboRhythm.shared.model.healthRecord.document
 				}
 			}
 			return adherenceItems;
+		}
+
+		public function isScheduledCurrently():Boolean
+		{
+			var now:Date = _currentDateSource.now();
+			var dateEnd:Date = collaboRhythm.shared.model.services.DateUtil.roundTimeToNextDay(now);
+			var dateStart:Date = new Date(dateEnd.valueOf() - collaboRhythm.shared.model.services.DateUtil.MILLISECONDS_IN_DAY);
+			return getScheduleItemOccurrences(dateStart, dateEnd).length > 0;
 		}
 	}
 }

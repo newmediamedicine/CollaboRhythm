@@ -1,6 +1,8 @@
 package collaboRhythm.plugins.bloodPressure.model.titration
 {
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 
 	/**
 	 * Model class indicating a selection (decision or recommendation) for a medication dose.
@@ -168,6 +170,26 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function set medication(value:HypertensionMedication):void
 		{
 			_medication = value;
+		}
+
+		public function get rxNorm():String
+		{
+			return newDose == 1 ? medication.rxNorm1 : (newDose == 2 ? medication.rxNorm2 : null);
+		}
+
+		public function get medicationName():MedicationName
+		{
+			return newDose == 1 ? medication.medicationName1 : (newDose == 2 ? medication.medicationName2 : null);
+		}
+
+		public function get defaultNdcCode():String
+		{
+			return newDose == 1 ? medication.defaultNdcCode1 : (newDose == 2 ? medication.defaultNdcCode2 : null);
+		}
+
+		public function getScheduleDose(medicationOrder:MedicationOrder):Number
+		{
+			return medication.getScheduleDose(medicationOrder, this);
 		}
 	}
 }

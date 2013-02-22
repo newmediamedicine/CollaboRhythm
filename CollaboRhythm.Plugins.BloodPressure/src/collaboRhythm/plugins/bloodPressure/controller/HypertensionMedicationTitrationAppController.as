@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.bloodPressure.controller
 {
+	import collaboRhythm.plugins.bloodPressure.model.ConfirmChangePopUpModel;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
@@ -32,6 +33,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		private var _synchronizationService:SynchronizationService;
 		private var confirmChangePopUp:ConfirmChangePopUp = new ConfirmChangePopUp();
 		private var _changeConfirmed:Boolean = false;
+		private var _confirmChangePopUpModel:ConfirmChangePopUpModel;
 
 		public function HypertensionMedicationTitrationAppController(constructorParams:AppControllerConstructorParams)
 		{
@@ -57,7 +59,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			if (_model == null)
 			{
-				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount, _settings);
+				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount, _settings, _componentContainer);
 			}
 		}
 
@@ -74,6 +76,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 			removeUserData();
 
 			super.reloadUserData();
+			initializeModel();
 		}
 
 		override protected function updateWidgetViewModel():void
@@ -176,7 +179,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 */
 			else
 			{
-				confirmChangePopUp.model = _model.confirmationMessage;
+				_confirmChangePopUpModel = new ConfirmChangePopUpModel(_model.confirmationMessage);
+				confirmChangePopUp.model = _confirmChangePopUpModel;
 				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
 				confirmChangePopUp.open(_viewNavigator, true);
 				PopUpManager.centerPopUp(confirmChangePopUp);
@@ -189,7 +193,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			if (event.commit)
 			{
-				if (_model.save())
+				if (_model.save(_confirmChangePopUpModel.shouldFinalize))
 				{
 					_changeConfirmed = true;
 				}
