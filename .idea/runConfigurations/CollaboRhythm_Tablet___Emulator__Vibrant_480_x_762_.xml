@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CollaboRhythm.Tablet - Emulator (Vibrant 480 x 762)" type="FlashRunConfigurationType" factoryName="Flash App">
     <option name="BCName" value="CollaboRhythm.Tablet Emulator" />
+    <option name="IOSSimulatorSdkPath" value="" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
@@ -8,6 +9,7 @@
     <option name="debuggerSdkRaw" value="BC SDK" />
     <option name="emulator" value="Other" />
     <option name="emulatorAdlOptions" value="" />
+    <option name="fastPackaging" value="true" />
     <option name="fullScreenHeight" value="800" />
     <option name="fullScreenWidth" value="480" />
     <option name="launchUrl" value="false" />
@@ -24,6 +26,7 @@
     <option name="overriddenOutputFileName" value="" />
     <option name="overrideMainClass" value="false" />
     <option name="runTrusted" value="true" />
+    <option name="screenDpi" value="0" />
     <option name="screenHeight" value="762" />
     <option name="screenWidth" value="480" />
     <option name="url" value="http://" />

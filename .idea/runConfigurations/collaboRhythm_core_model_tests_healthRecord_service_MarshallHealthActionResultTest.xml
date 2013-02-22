@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="collaboRhythm.core.model.tests.healthRecord.service.MarshallHealthActionResultTest" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" class_name="collaboRhythm.core.model.tests.healthRecord.service.MarshallHealthActionResultTest" method_name="adherenceItemMarshallToXml" output_log_level="" package_name="collaboRhythm.core.model.tests" scope="Class">
+  <configuration default="false" name="collaboRhythm.core.model.tests.healthRecord.service.MarshallHealthActionResultTest" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="collaboRhythm.core.model.tests.healthRecord.service.MarshallHealthActionResultTest" emulatorAdlOptions="" method_name="adherenceItemMarshallToXml" output_log_level="null" package_name="collaboRhythm.core.model.tests" scope="Class">
     <option name="BCName" value="CollaboRhythm.Core.Model.Tests" />
     <option name="launcherParameters">
       <LauncherParameters>
