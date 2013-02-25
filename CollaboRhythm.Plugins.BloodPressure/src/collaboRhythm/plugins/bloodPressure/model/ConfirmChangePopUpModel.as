@@ -1,11 +1,11 @@
 package collaboRhythm.plugins.bloodPressure.model
 {
+	[Bindable]
 	public class ConfirmChangePopUpModel
 	{
 		private var _shouldFinalize:Boolean;
 		private var _confirmationMessage:String;
 
-		[Bindable]
 		public function ConfirmChangePopUpModel(confirmationMessage:String)
 		{
 			_confirmationMessage = confirmationMessage;

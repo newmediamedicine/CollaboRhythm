@@ -54,15 +54,22 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationDoseSelection;
-		import collaboRhythm.plugins.bloodPressure.view.*;
 
 		[Bindable]
 		private var _hypertensionMedication:HypertensionMedication;
+		[Bindable]
+		private var _nextPairGap:int;
+		[Bindable]
+		private var _nextPair:HypertensionMedicationAlternatePair;
 
-		public function init(hypertensionMedication:HypertensionMedication):void
+		public function init(hypertensionMedication:HypertensionMedication, nextPairGap:int,
+							 nextPair:HypertensionMedicationAlternatePair):void
 		{
 			_hypertensionMedication = hypertensionMedication;
+			_nextPairGap = nextPairGap;
+			_nextPair = nextPair;
 
 			medicationClassLabel.text = hypertensionMedication.medicationClass;
 			medicationNameLabel.text = hypertensionMedication.medicationName;
@@ -117,10 +124,15 @@
 				return "doseInactive"
 			}
 		}
+
+		function set nextPairGap(nextPairGap:int):void
+		{
+			_nextPairGap = nextPairGap;
+		}
 		]]></fx:Script>
 	<s:Label id="medicationClassLabel"/>
-	<s:HGroup>
-		<s:Group width="450" height="130">
+	<s:HGroup id="medicationBox">
+		<s:Group id="medicationLabelsGroup" width="450" height="130">
 			<s:Rect width="100%" height="100%">
 				<s:stroke>
 					<s:SolidColorStroke color="0x939598"/>
@@ -136,6 +148,21 @@
 					 right="20" bottom="15"/>
 		</s:Group>
 		<s:Group height="130">
+			<s:Group id="nextPairConnectorGroup" includeInLayout="false" visible="{_nextPair != null}"
+					 height="{_nextPairGap + medicationBox.y + 20}" width="50"
+					 y="{dose1Button.y + dose1Button.height - 10}">
+				<s:Line height="100%" horizontalCenter="0">
+					<s:stroke>
+						<s:SolidColorStroke color="0x939598" weight="10"/>
+					</s:stroke>
+				</s:Line>
+				<s:Line height="100%" horizontalCenter="0"
+						visible="{_hypertensionMedication.currentDose > 0 &amp;&amp; _nextPair.activeHypertensionMedication.currentDose == 2}">
+					<s:stroke>
+						<s:SolidColorStroke color="0x37B6E1" weight="10"/>
+					</s:stroke>
+				</s:Line>
+			</s:Group>
 			<s:Line top="25" bottom="25" horizontalCenter="0">
 				<s:stroke>
 					<s:SolidColorStroke color="0x939598" weight="10"/>
