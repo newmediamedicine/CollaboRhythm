@@ -38,6 +38,10 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			var typeName:String;
 
+			typeName = ReflectionUtils.getClassInfo(BloodPressureMedicationTitrationFAQAppController).name;
+			componentContainer.registerComponentInstance(typeName, AppControllerInfo,
+					new AppControllerInfo(BloodPressureMedicationTitrationFAQAppController));
+
 			typeName = ReflectionUtils.getClassInfo(BloodPressureChartAppController).name;
 			var chartAppControllerInfo:AppControllerInfo = new AppControllerInfo(BloodPressureChartAppController);
 			componentContainer.registerComponentInstance(typeName, AppControllerInfo, chartAppControllerInfo);
