@@ -47,7 +47,7 @@
 			<s:Spacer width="100%" height="10"/>
 			<s:HGroup width="100%" paddingLeft="20" paddingRight="20" paddingTop="40" paddingBottom="15"
 					  verticalAlign="middle" horizontalAlign="center">
-				<s:Label id="mainLabel" textAlign="center" text="{_model}"/>
+				<s:Label id="mainLabel" textAlign="center" text="{_model.confirmationMessage}"/>
 			</s:HGroup>
 			<s:Line width="100%">
 				<s:stroke>
@@ -55,21 +55,41 @@
 				</s:stroke>
 			</s:Line>
 			<s:HGroup width="100%">
-				<s:Button label="OK" width="50%" height="50" skinClass="spark.skins.mobile.TransparentActionButtonSkin"
-						  styleName="proceedButtons" click="this.close(true)"/>
-				<s:Button label="Cancel" width="50%" height="50" click="this.close()"
+				<s:Button id="proposeButton" label="Propose" width="100%" height="50" skinClass="spark.skins.mobile.TransparentActionButtonSkin"
+						  styleName="proceedButtons" click="proposeButton_clickHandler(event)"/>
+				<s:Button id="finalizeButton" label="Finalize" width="100%" height="50" skinClass="spark.skins.mobile.TransparentActionButtonSkin"
+						  styleName="proceedButtons" click="finalizeButton_clickHandler(event)"/>
+				<s:Button id="cancelButton" label="Cancel" width="100%" height="50" click="cancelButton_clickHandler(event)"
 						  skinClass="spark.skins.mobile.TransparentActionButtonSkin" styleName="proceedButtons"/>
 			</s:HGroup>
 		</s:VGroup>
 	</s:Group>
 
 	<fx:Script><![CDATA[
-		[Bindable]
-		private var _model:String;
+		import collaboRhythm.plugins.bloodPressure.model.ConfirmChangePopUpModel;
 
-		public function set model(model:String):void
+		[Bindable]
+		private var _model:ConfirmChangePopUpModel;
+
+		public function set model(model:ConfirmChangePopUpModel):void
 		{
 			_model = model;
+		}
+
+		private function proposeButton_clickHandler(event:MouseEvent):void
+		{
+			this.close(true);
+		}
+
+		private function finalizeButton_clickHandler(event:MouseEvent):void
+		{
+			_model.shouldFinalize = true;
+			this.close(true);
+		}
+
+		private function cancelButton_clickHandler(event:MouseEvent):void
+		{
+			this.close();
 		}
 		]]></fx:Script>
 </s:SkinnablePopUpContainer>

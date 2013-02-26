@@ -4,7 +4,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleChanger;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
-	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -26,7 +25,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.services.DateUtil;
-	import collaboRhythm.shared.model.services.IComponentContainer;
 
 	import com.dougmccune.controls.LimitedLinearAxis;
 
@@ -57,7 +55,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private static const STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_PERFECT:String = "Medication adherence for the past three days <b>is</b> perfect.";
 		private static const STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_NOT_PERFECT:String = "Medication adherence for the past three days is <b>not</b> perfect. ";
 
-		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
 		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN_DISAGREE:String = "[Automated Message] New insulin titration: ";
 		private static const TITRATION_LEADING_PHRASE_TO_CLINICIAN_AGREE:String = "[Automated Message] Agreed insulin titration: ";
@@ -155,11 +152,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						InsulinTitrationDecisionSupportStatesFileStore;
 				_states = fileStore.titrationDecisionSupportStates;
 			}
-		}
-
-		protected function get componentContainer():IComponentContainer
-		{
-			return null;
 		}
 
 		override protected function updateVitalSignEvaluation():void
@@ -646,7 +638,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return null;
 		}
 
-		private function saveForClinician(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
+		protected function saveForClinician(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
 										  saveSucceeded:Boolean):Boolean
 		{
 			var message:String = getMessage(_newDose == _patientLatestDecisionDose ?
@@ -655,14 +647,10 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return saveSucceeded;
 		}
 
-		private function saveForPatient(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
+		protected function saveForPatient(currentMedicationScheduleItem:MedicationScheduleItem, plan:HealthActionPlan,
 										saveSucceeded:Boolean):Boolean
 		{
-			// If revisiting/changing the decision, don't make a new AdherenceItem (just change the schedule/dose)
-			if (!decisionAdherenceItemAlreadyPersisted())
-			{
-				saveScheduledDecisionResult(plan);
-			}
+			saveNewScheduledDecision(plan);
 
 			// if dose is specified and is different, update existing and/or create a new schedule
 			if (_newDose != _currentDoseValue)
@@ -674,16 +662,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					TITRATION_LEADING_PHRASE_TO_CLINICIAN_AGREE : TITRATION_LEADING_PHRASE_TO_CLINICIAN_DISAGREE);
 			sendMessage(message);
 			return saveSucceeded;
-		}
-
-		private function sendMessage(message:String):void
-		{
-			var servicesArray:Array = componentContainer.resolveAll(IIndividualMessageHealthRecordService);
-			if (servicesArray && servicesArray.length > 0)
-			{
-				var messageService:IIndividualMessageHealthRecordService = servicesArray[0];
-				messageService.createAndSendMessage(message);
-			}
 		}
 
 		private function getMessage(leadingPhrase:String):String
@@ -718,59 +696,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return bloodGlucoseAverage.toFixed(0);
 		}
 
-		private function saveScheduledDecisionResult(plan:HealthActionPlan):void
-		{
-			// create new HealthActionOccurrence, related to HealthActionSchedule
-			// create new HealthActionResult, related to HealthActionOccurrence
-			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
-			var decisionHealthActionResult:HealthActionResult = new HealthActionResult();
-
-			decisionHealthActionResult.name = plan.name.clone();
-			decisionHealthActionResult.planType = plan.planType;
-			decisionHealthActionResult.dateReported = currentDateSource.now();
-			decisionHealthActionResult.reportedBy = accountId;
-			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT);
-			decisionHealthActionResult.actions = new ArrayCollection();
-			decisionHealthActionResult.actions.addItem(actionStepResult);
-			results.push(decisionHealthActionResult);
-
-			if (decisionScheduleItemOccurrence)
-			{
-				// TODO: switch to the new data types
-				//						decisionScheduleItemOccurrence.createHealthActionOccurrence(results, record,
-				//								accountId);
-				decisionScheduleItemOccurrence.createAdherenceItem(results, record, accountId, true);
-			}
-			else
-			{
-				for each (var result:DocumentBase in results)
-				{
-					result.pendingAction = DocumentBase.ACTION_CREATE;
-					record.addDocument(result);
-				}
-			}
-		}
-
 		private function saveDosageChange(currentMedicationScheduleItem:MedicationScheduleItem):Boolean
 		{
 			var saveSucceeded:Boolean = true;
 
+			_medicationTitrationHelper.relateMedicationOrderToSchedule(currentMedicationScheduleItem);
+
 			// determine cut off date for schedule change
 			// update existing MedicationScheduleItem (old dose) to end the recurrence by cut off date
-
-			// Fix data corruption (missing relationship) if there is an obvious solution by finding a MedicationOrder with a matching name for the MedicationScheduleItem
-			if (currentMedicationScheduleItem.scheduledMedicationOrder == null)
-			{
-				var matchingMedicationOrder:MedicationOrder = getMatchingMedicationOrder(currentMedicationScheduleItem);
-				if (matchingMedicationOrder)
-				{
-					currentMedicationScheduleItem.scheduledMedicationOrder = matchingMedicationOrder;
-					record.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
-							matchingMedicationOrder, currentMedicationScheduleItem,
-							true);
-				}
-			}
 			var scheduleChanger:ScheduleChanger = new ScheduleChanger(record, accountId, currentDateSource);
 			saveSucceeded = scheduleChanger.updateScheduleItem(currentMedicationScheduleItem,
 					_scheduleDetails.occurrence, function (scheduleItem:ScheduleItemBase):void
@@ -779,20 +712,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					}, saveSucceeded);
 			return saveSucceeded;
 		}
-
-		private function getMatchingMedicationOrder(medicationScheduleItem:MedicationScheduleItem):MedicationOrder
-		{
-			for each (var medicationOrder:MedicationOrder in
-					record.medicationOrdersModel.medicationOrdersCollection)
-			{
-				if (medicationOrder.name && medicationOrder.name.value && medicationScheduleItem.name && medicationScheduleItem.name.value && medicationOrder.name.value == medicationScheduleItem.name.value)
-				{
-					return medicationOrder;
-				}
-			}
-			return null;
-		}
-
 
 		private static function createUnitsCodedValue():CollaboRhythmCodedValue
 		{
@@ -825,12 +744,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				return "";
 			else
 				return dosageChangeValue > 0 ? "+" + dosageChangeValue.toString() : dosageChangeValue.toString();
-		}
-
-		public function decisionAdherenceItemAlreadyPersisted():Boolean
-		{
-			return decisionScheduleItemOccurrence && decisionScheduleItemOccurrence.adherenceItem != null &&
-					decisionScheduleItemOccurrence.adherenceItem.adherence;
 		}
 
 		public function get bloodGlucoseRequirementsDetails():String

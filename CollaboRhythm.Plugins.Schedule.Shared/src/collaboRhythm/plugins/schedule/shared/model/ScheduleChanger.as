@@ -57,7 +57,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * document to preserve its schedule (previous occurrences) up to (but not including) the target occurrence.
 		 *
 		 * @param currentScheduleItem
-		 * @param occurrence
+		 * @param occurrence The next occurrence for the current schedule that is in the future and has not been administered yet
 		 * @param updateScheduleItemPropertiesFunction
 		 * @param saveSucceeded
 		 * @return true if save succeeded
@@ -102,6 +102,49 @@ package collaboRhythm.plugins.schedule.shared.model
 				if (currentScheduleItem.pendingAction == null)
 					currentScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
 				updateScheduleItemPropertiesFunction(currentScheduleItem);
+			}
+			return saveSucceeded;
+		}
+
+		/**
+		 * Ends the schedule by either (a) voiding the existing schedule document if we are dealing with the first
+		 * occurrence or (b) updating the existing schedule document to preserve its schedule (previous occurrences) up
+		 * to (but not including) the target occurrence.
+		 *
+		 * @param currentScheduleItem The schedule to end
+		 * @param occurrence The next occurrence for the current schedule that is in the future and has not been administered yet. This occurrence (and any following occurrences) will be effectively deleted.
+		 * @param saveSucceeded
+		 * @return true if save succeeded
+		 */
+		public function endSchedule(currentScheduleItem:ScheduleItemBase,
+										   occurrence:ScheduleItemOccurrence,
+										   saveSucceeded:Boolean):Boolean
+		{
+			var administeredOccurrenceCount:int = occurrence.recurrenceIndex;
+			if (administeredOccurrenceCount > 0)
+			{
+				if (currentScheduleItem.recurrenceRule)
+				{
+					var remainingOccurrenceCount:int = currentScheduleItem.recurrenceRule.count -
+							administeredOccurrenceCount;
+					if (remainingOccurrenceCount > 0)
+					{
+						currentScheduleItem.recurrenceRule.count = administeredOccurrenceCount;
+						if (currentScheduleItem.pendingAction == null)
+							currentScheduleItem.pendingAction = DocumentBase.ACTION_UPDATE;
+					}
+					else
+					{
+						// schedule has ended; no future occurrences to worry about
+					}
+				}
+			}
+			else
+			{
+				if (currentScheduleItem.pendingAction == null)
+					currentScheduleItem.pendingAction = DocumentBase.ACTION_VOID;
+
+				// TODO: perhaps we should also void the MedicationOrder if it is not being used for anything else
 			}
 			return saveSucceeded;
 		}

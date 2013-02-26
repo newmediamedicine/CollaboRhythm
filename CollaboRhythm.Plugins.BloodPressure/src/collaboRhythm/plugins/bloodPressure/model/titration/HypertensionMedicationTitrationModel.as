@@ -24,14 +24,14 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	[Bindable]
 	public class HypertensionMedicationTitrationModel extends TitrationDecisionModelBase
 	{
-		private static const LISINOPRIL_20_MG_ORAL_TABLET:Array = ["314077", "Lisinopril 20 MG Oral Tablet"];
-		private static const LISINOPRIL_40_MG_ORAL_TABLET:Array = ["197884", "Lisinopril 40 MG Oral Tablet"];
-		private static const VALSARTAN_160_MG_ORAL_TABLET:Array = ["349201", "Valsartan 160 MG Oral Tablet"];
-		private static const VALSARTAN_320_MG_ORAL_TABLET:Array = ["349200", "Valsartan 320 MG Oral Tablet"];
-		private static const AMLODIPINE_5_MG_ORAL_TABLET:Array = ["197361", "Amlodipine 5 MG Oral Tablet"];
-		private static const AMLODIPINE_10_MG_ORAL_TABLET:Array = ["308135", "Amlodipine 10 MG Oral Tablet"];
-		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET:Array = ["199903", "Hydrochlorothiazide 12.5 MG Oral Tablet"];
-		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET:Array = ["310798", "Hydrochlorothiazide 25 MG Oral Tablet"];
+		private static const LISINOPRIL_20_MG_ORAL_TABLET:Array = ["314077", "Lisinopril 20 MG Oral Tablet", "001723760"];
+		private static const LISINOPRIL_40_MG_ORAL_TABLET:Array = ["197884", "Lisinopril 40 MG Oral Tablet", "003782076"];
+		private static const VALSARTAN_160_MG_ORAL_TABLET:Array = ["349201", "Valsartan 160 MG Oral Tablet", "000780359"];
+		private static const VALSARTAN_320_MG_ORAL_TABLET:Array = ["349200", "Valsartan 320 MG Oral Tablet", "000780360"];
+		private static const AMLODIPINE_5_MG_ORAL_TABLET:Array = ["197361", "Amlodipine 5 MG Oral Tablet", "000691530"];
+		private static const AMLODIPINE_10_MG_ORAL_TABLET:Array = ["308135", "Amlodipine 10 MG Oral Tablet", "000691540"];
+		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET:Array = ["199903", "Hydrochlorothiazide 12.5 MG Oral Tablet", "002282820"];
+		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET:Array = ["310798", "Hydrochlorothiazide 25 MG Oral Tablet", "006033856"];
 
 		private static const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
 

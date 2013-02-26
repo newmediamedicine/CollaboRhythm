@@ -1,9 +1,12 @@
 package collaboRhythm.shared.model.medications
 {
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
+	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
+	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
@@ -12,6 +15,7 @@ package collaboRhythm.shared.model.medications
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 	import collaboRhythm.shared.model.services.DateUtil;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
 	import flash.utils.getQualifiedClassName;
@@ -73,6 +77,8 @@ package collaboRhythm.shared.model.medications
 
 		protected var _logger:ILogger;
 		private var _requiredDaysOfPerfectMedicationAdherence:int;
+
+		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
 		public function TitrationDecisionModelBase()
 		{
@@ -615,6 +621,76 @@ package collaboRhythm.shared.model.medications
 					}
 				}
 				nonAdherenceDescription = "The following doses were missed: <ul>" + missedDoses + "</ul>";
+			}
+		}
+
+		public function decisionAdherenceItemAlreadyPersisted():Boolean
+		{
+			return decisionScheduleItemOccurrence && decisionScheduleItemOccurrence.adherenceItem != null &&
+					decisionScheduleItemOccurrence.adherenceItem.adherence;
+		}
+
+		protected function saveScheduledDecisionResult(plan:HealthActionPlan):void
+		{
+			// create new HealthActionOccurrence, related to HealthActionSchedule
+			// create new HealthActionResult, related to HealthActionOccurrence
+			var results:Vector.<DocumentBase> = new Vector.<DocumentBase>();
+			var decisionHealthActionResult:HealthActionResult = new HealthActionResult();
+
+			decisionHealthActionResult.name = plan.name.clone();
+			decisionHealthActionResult.planType = plan.planType;
+			decisionHealthActionResult.dateReported = currentDateSource.now();
+			decisionHealthActionResult.reportedBy = accountId;
+			var actionStepResult:ActionStepResult = new ActionStepResult();
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null,
+					CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT);
+			decisionHealthActionResult.actions = new ArrayCollection();
+			decisionHealthActionResult.actions.addItem(actionStepResult);
+			results.push(decisionHealthActionResult);
+
+			if (decisionScheduleItemOccurrence)
+			{
+				// TODO: switch to the new data types
+				//						decisionScheduleItemOccurrence.createHealthActionOccurrence(results, record,
+				//								accountId);
+				decisionScheduleItemOccurrence.createAdherenceItem(results, record, accountId, true);
+			}
+			else
+			{
+				for each (var result:DocumentBase in results)
+				{
+					result.pendingAction = DocumentBase.ACTION_CREATE;
+					record.addDocument(result);
+				}
+			}
+		}
+
+		protected function get componentContainer():IComponentContainer
+		{
+			return null;
+		}
+
+		protected function sendMessage(message:String):void
+		{
+			var servicesArray:Array = componentContainer.resolveAll(IIndividualMessageHealthRecordService);
+			if (servicesArray && servicesArray.length > 0)
+			{
+				var messageService:IIndividualMessageHealthRecordService = servicesArray[0];
+				messageService.createAndSendMessage(message);
+			}
+		}
+
+		/**
+		 * Saves the scheduled decision result (indicating that a decision has been made as scheduled) if an
+		 * AdherenceItem does not yet existing for the schedule item occurrence of the decision.
+		 * If revisiting/changing the decision, don't make a new AdherenceItem (just change the schedule/dose)
+		 * @param plan
+		 */
+		protected function saveNewScheduledDecision(plan:HealthActionPlan):void
+		{
+			if (!decisionAdherenceItemAlreadyPersisted())
+			{
+				saveScheduledDecisionResult(plan);
 			}
 		}
 	}

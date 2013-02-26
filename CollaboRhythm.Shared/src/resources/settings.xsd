@@ -137,6 +137,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element type="xs:boolean" name="scheduleEditingEnabled" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Allow the user (even in patient mode) to edit the schedule (add, remove, edit schedule items).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:dateTime" name="targetDate" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">

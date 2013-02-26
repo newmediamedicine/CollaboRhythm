@@ -1,6 +1,10 @@
 package collaboRhythm.plugins.bloodPressure.model.titration
 {
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleChanger;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleCreator;
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.CodedValueFactory;
 	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
@@ -8,33 +12,47 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
+	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Measurement;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.StopCondition;
+	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
+	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.settings.Settings;
 
 	import com.theory9.data.types.OrderedMap;
 
 	import mx.collections.ArrayCollection;
+	import mx.utils.UIDUtil;
 
 	/**
 	 * Enhances HypertensionMedicationTitrationModel by adding support for saving decisions to the patient's health record.
 	 */
 	public class PersistableHypertensionMedicationTitrationModel extends HypertensionMedicationTitrationModel
 	{
+		private static const DEFAULT_RECURRENCE_COUNT:int = 120;
+		private static const ESSENTIAL_HYPERTENSION_INDICATION:String = "Essential Hypertension";
+		private static const DEFAULT_MEDICATION_INSTRUCTIONS:String = "take with water";
+		private static const DEFAULT_SCHEDULE_ADMINISTRATIONS_PER_DAY:int = 1;
+
 		private var _decisionScheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _settings:Settings;
+		private var _componentContainer:IComponentContainer;
 
 		public function PersistableHypertensionMedicationTitrationModel(activeAccount:Account,
 																		activeRecordAccount:Account,
-																		settings:Settings)
+																		settings:Settings,
+																		componentContainer:IComponentContainer)
 		{
 			super(activeAccount, activeRecordAccount);
 			_settings = settings;
+			_componentContainer = componentContainer;
 		}
 
 		override public function evaluateForInitialize():void
@@ -45,14 +63,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private function reloadCurrentDoses():void
 		{
-/*
-			var medications:Vector.<HypertensionMedication> = getMedications();
-			for each (var medication:HypertensionMedication in medications)
-			{
-				// look for a match in the patient's record
-				var medicationOrder:MedicationOrder = record.medicationOrdersModel.medicationOrders.
-			}
-*/
 			updateSystemRecommendedDoseSelections();
 		}
 
@@ -204,47 +214,235 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return null;
 		}
 
-		public function save(persist:Boolean = true):Boolean
+		public function save(shouldFinalize:Boolean, persist:Boolean = true):Boolean
 		{
 			var saveSucceeded:Boolean = true;
 
 			validateDecisionPreConditions();
 
-//			var healthActionSchedule:HealthActionSchedule = decisionScheduleItemOccurrence.scheduleItem as HealthActionSchedule;
-//			var plan:HealthActionPlan = healthActionSchedule.scheduledHealthAction as HealthActionPlan;
+			var plan:HealthActionPlan = getTitrationDecisionPlan(true);
 
-			// validate
 			if (isChangeSpecified)
 			{
 				evaluateForSave();
-				/*
 
-				if (_scheduleDetails.currentSchedule == null || _scheduleDetails.occurrence == null)
-				{
-					// TODO: warn the user why the dose cannot be changed; possibly provide a means to fix the problem
-					_logger.warn("User is attempting to change the dose but the current schedule/dose could not be determined.");
-					return false;
-				}
+				if (isPatient)
+					saveSucceeded = saveForPatient(shouldFinalize, plan, saveSucceeded);
 				else
-				{
-					var currentMedicationScheduleItem:MedicationScheduleItem = _scheduleDetails.currentSchedule as MedicationScheduleItem;
-					if (isPatient)
-						saveSucceeded = saveForPatient(currentMedicationScheduleItem, plan, saveSucceeded);
-					else
-						saveSucceeded = saveForClinician(currentMedicationScheduleItem, plan, saveSucceeded);
+					saveSucceeded = saveForClinician(shouldFinalize, plan, saveSucceeded);
 
-					saveTitrationResult(currentMedicationScheduleItem);
-					evaluateForInitialize();
-				}
-*/
 				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelections();
 				saveTitrationResult(selections);
 
-				record.saveAllChanges();
+				if (persist)
+				{
+					record.saveAllChanges();
+				}
 				evaluateForInitialize();
 			}
 
 			return saveSucceeded;
+		}
+
+		protected function saveForClinician(shouldFinalize:Boolean,
+											plan:HealthActionPlan,
+											saveSucceeded:Boolean):Boolean
+		{
+			if (shouldFinalize)
+			{
+				saveSucceeded = persistMedicationChanges(saveSucceeded);
+			}
+
+			// TODO: create an appropriate clinician/coach message; see InsulinTitrationDecisionModelBase for an example
+			var message:String = "[Automated Message] " + confirmationMessage;
+			sendMessage(message);
+			return saveSucceeded;
+		}
+
+		protected function saveForPatient(shouldFinalize:Boolean,
+										  plan:HealthActionPlan,
+										  saveSucceeded:Boolean):Boolean
+		{
+			saveNewScheduledDecision(plan);
+
+			if (shouldFinalize)
+			{
+				saveSucceeded = persistMedicationChanges(saveSucceeded);
+			}
+
+			// TODO: create an appropriate patient message; see InsulinTitrationDecisionModelBase for an example
+			var message:String = "[Automated Message] " + confirmationMessage;
+			sendMessage(message);
+			return saveSucceeded;
+		}
+
+		private function persistMedicationChanges(saveSucceeded:Boolean):Boolean
+		{
+			// if dose is specified and is different, update existing and/or create a new schedule
+			var medications:Vector.<HypertensionMedication> = getMedications();
+			for each (var medication:HypertensionMedication in medications)
+			{
+				var selection:HypertensionMedicationDoseSelection = medication.getSelectionForAccount(_activeAccount);
+
+				if (selection != null)
+				{
+					var medicationScheduleItem:MedicationScheduleItem = medication.medicationScheduleItem;
+
+					if (selection.newDose > 0)
+					{
+						if (medicationScheduleItem == null)
+						{
+							saveSucceeded = createNewSchedule(selection);
+						}
+						else
+						{
+							saveSucceeded = updateSchedule(medicationScheduleItem, selection, saveSucceeded);
+						}
+					}
+					else
+					{
+						if (medicationScheduleItem)
+						{
+							endSchedule(medicationScheduleItem, saveSucceeded);
+						}
+					}
+				}
+			}
+			return saveSucceeded;
+		}
+
+		private function endSchedule(medicationScheduleItem:MedicationScheduleItem, saveSucceeded:Boolean):Boolean
+		{
+			var medicationTitrationHelper:MedicationTitrationHelper = new MedicationTitrationHelper(record,
+					currentDateSource);
+			var scheduleDetails:ScheduleDetails = medicationTitrationHelper.getNextMedicationScheduleDetails(new <String>[medicationScheduleItem.name.value]);
+
+			var scheduleChanger:ScheduleChanger = new ScheduleChanger(record, accountId, currentDateSource);
+			saveSucceeded = scheduleChanger.endSchedule(medicationScheduleItem,
+					scheduleDetails.occurrence, saveSucceeded);
+			return saveSucceeded;
+		}
+
+		private function updateSchedule(medicationScheduleItem:MedicationScheduleItem,
+										selection:HypertensionMedicationDoseSelection,
+										saveSucceeded:Boolean):Boolean
+		{
+			var medicationTitrationHelper:MedicationTitrationHelper = new MedicationTitrationHelper(record,
+					currentDateSource);
+			var scheduleDetails:ScheduleDetails = medicationTitrationHelper.getNextMedicationScheduleDetails(new <String>[medicationScheduleItem.name.value]);
+
+			if (medicationScheduleItem.scheduledMedicationOrder == null)
+			{
+				medicationTitrationHelper.relateMedicationOrderToSchedule(medicationScheduleItem);
+
+				if (medicationScheduleItem.scheduledMedicationOrder == null)
+				{
+					// create and relate MedicationOrder if there is no order (but there is a schedule)
+					createMedicationOrder(selection);
+					medicationTitrationHelper.relateMedicationOrderToSchedule(medicationScheduleItem);
+				}
+			}
+
+			if (medicationScheduleItem.scheduledMedicationOrder == null)
+			{
+				_logger.error("Failed to save schedule change for " + selection.getSummary() +
+						". There is an existing schedule but no MedicationOrder. Failed to resolve the problem.");
+				saveSucceeded = false;
+			}
+			else
+			{
+				var scheduleDose:Number = selection.getScheduleDose(medicationScheduleItem.scheduledMedicationOrder);
+
+				// determine cut off date for schedule change
+				// update existing MedicationScheduleItem (old dose) to end the recurrence by cut off date
+				var scheduleChanger:ScheduleChanger = new ScheduleChanger(record, accountId, currentDateSource);
+				saveSucceeded = scheduleChanger.updateScheduleItem(medicationScheduleItem,
+						scheduleDetails.occurrence, function (scheduleItem:ScheduleItemBase):void
+						{
+							(scheduleItem as MedicationScheduleItem).dose.value = scheduleDose.toString();
+						}, saveSucceeded);
+			}
+			return saveSucceeded;
+		}
+
+		private function createNewSchedule(selection:HypertensionMedicationDoseSelection):Boolean
+		{
+			var medicationOrder:MedicationOrder;
+
+			// TODO: look for an existing matching (unscheduled) medication in the patient's record that we can use for scheduling instead of creating a new instance
+			//						medicationOrder = findMatchingMedicationOrder(medication);
+
+			medicationOrder = createMedicationOrder(selection);
+			createMedicationScheduleItems(medicationOrder, selection);
+			return true;
+		}
+
+		private function createMedicationOrder(selection:HypertensionMedicationDoseSelection):MedicationOrder
+		{
+			var codedValueFactory:CodedValueFactory = new CodedValueFactory();
+
+			var medicationOrder:MedicationOrder = new MedicationOrder();
+			medicationOrder.name = new CollaboRhythmCodedValue(MedicationOrder.RXCUI_CODED_VALUE_TYPE, selection.rxNorm, null,
+					selection.medicationName.rawName);
+			// TODO: should there be a different order type for this type of situation?
+			medicationOrder.orderType = MedicationOrder.PRESCRIBED_ORDER_TYPE;
+			medicationOrder.orderedBy = _activeAccount.accountId;
+			medicationOrder.dateOrdered = _currentDateSource.now();
+			//TODO: Indication should not be required by the server. This can be removed once this is fixed
+			//Alternatively, the UI could allow an indication to be specified
+			medicationOrder.indication = ESSENTIAL_HYPERTENSION_INDICATION;
+			var doseUnit:CollaboRhythmCodedValue = codedValueFactory.createTabletCodedValue();
+			medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(), doseUnit);
+			medicationOrder.instructions = DEFAULT_MEDICATION_INSTRUCTIONS;
+
+			medicationOrder.pendingAction = DocumentBase.ACTION_CREATE;
+			_activeRecordAccount.primaryRecord.addDocument(medicationOrder);
+
+			createMedicationFill(medicationOrder, selection);
+
+			return medicationOrder;
+		}
+
+		private function createMedicationFill(medicationOrder:MedicationOrder,
+											  selection:HypertensionMedicationDoseSelection):void
+		{
+			var medicationFill:MedicationFill = new MedicationFill();
+			medicationFill.name = medicationOrder.name;
+			medicationFill.filledBy = _activeAccount.accountId;
+			medicationFill.dateFilled = _currentDateSource.now();
+			medicationFill.amountFilled = medicationOrder.amountOrdered;
+			medicationFill.ndc = new CollaboRhythmCodedValue(null, null, null, selection.defaultNdcCode);
+
+			medicationFill.pendingAction = DocumentBase.ACTION_CREATE;
+			_activeRecordAccount.primaryRecord.addDocument(medicationFill);
+
+			medicationOrder.medicationFill = medicationFill;
+			_activeRecordAccount.primaryRecord.addRelationship(MedicationOrder.RELATION_TYPE_MEDICATION_FILL,
+					medicationOrder, medicationFill, true);
+		}
+
+		private function createMedicationScheduleItems(medicationOrder:MedicationOrder, selection:HypertensionMedicationDoseSelection):void
+		{
+			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord, _activeAccount.accountId, _currentDateSource);
+
+			for (var i:int = 0; i < DEFAULT_SCHEDULE_ADMINISTRATIONS_PER_DAY; i++)
+			{
+				var medicationScheduleItem:MedicationScheduleItem = new MedicationScheduleItem();
+				medicationScheduleItem.meta.id = UIDUtil.createUID();
+				medicationScheduleItem.name = medicationOrder.name.clone();
+				scheduleCreator.initializeDefaultSchedule(medicationScheduleItem);
+
+				var codedValueFactory:CodedValueFactory = new CodedValueFactory();
+				medicationScheduleItem.dose = new CollaboRhythmValueAndUnit(selection.getScheduleDose(medicationOrder).toString(), codedValueFactory.createTabletCodedValue());
+				medicationScheduleItem.instructions = DEFAULT_MEDICATION_INSTRUCTIONS;
+
+				medicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
+				_activeRecordAccount.primaryRecord.addDocument(medicationScheduleItem);
+
+				medicationScheduleItem.scheduledMedicationOrder = medicationOrder;
+				_activeRecordAccount.primaryRecord.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
+						medicationOrder, medicationScheduleItem, true);
+			}
 		}
 
 		override public function set isChangeSpecified(value:Boolean):void
@@ -286,6 +484,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					confirmationMessage = "You have chosen to " + maintainVerb + " all of " + medicationsOwner +
 							" hypertension medications at current levels.";
 				}
+
+				// TODO: Finalize should commit the current user's changes, not necessarily the patient's
+				confirmationMessage += "\n\nPropose will save your decision annotations for you and others to view." +
+						"\nFinalize will commit " + medicationsOwner + " changes to the medications and clear all annotations.";
 			}
 			else
 			{
@@ -386,10 +588,19 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private static const HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME:String = "Hypertension Medication Titration Decision";
 
 		/**
-		 * Finds the HealthActionPlan for hypertension medication titration decision, or create one if it does not exist.
+		 * Finds the document that should be used as the parent for titration decision result(s), or creates one if it does not exist.
 		 * @return a document that can be used as the parent for titration decision result(s)
 		 */
 		private function getParentForTitrationDecisionResult(createIfNeeded:Boolean = true):DocumentBase
+		{
+			return getTitrationDecisionPlan(createIfNeeded);
+		}
+
+		/**
+		 * Finds the HealthActionPlan for hypertension medication titration decision, or creates one if it does not exist.
+		 * @return a HealthActionPlan corresponding to the titration decision
+		 */
+		private function getTitrationDecisionPlan(createIfNeeded:Boolean):HealthActionPlan
 		{
 			var titrationDecisionPlan:HealthActionPlan;
 
@@ -407,13 +618,15 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			if (createIfNeeded && titrationDecisionPlan == null)
 			{
 				titrationDecisionPlan = new HealthActionPlan();
-				titrationDecisionPlan.name = new CollaboRhythmCodedValue(null, null, null, HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME);
+				titrationDecisionPlan.name = new CollaboRhythmCodedValue(null, null, null,
+						HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME);
 				titrationDecisionPlan.planType = "Prescribed";
 				titrationDecisionPlan.plannedBy = accountId;
 				titrationDecisionPlan.datePlanned = _currentDateSource.now();
-				titrationDecisionPlan.indication = "Essential Hypertension";
+				titrationDecisionPlan.indication = ESSENTIAL_HYPERTENSION_INDICATION;
 				titrationDecisionPlan.instructions = "Use CollaboRhythm to follow the algorithm for changing your dose of hypertension medications.";
-				titrationDecisionPlan.system = new CollaboRhythmCodedValue(null, null, null, "CollaboRhythm Hypertension Titration Support");
+				titrationDecisionPlan.system = new CollaboRhythmCodedValue(null, null, null,
+						"CollaboRhythm Hypertension Titration Support");
 
 				record.addDocument(titrationDecisionPlan, true);
 			}
@@ -441,6 +654,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				return account;
 			}
 			return null;
+		}
+
+		override protected function get componentContainer():IComponentContainer
+		{
+			return _componentContainer;
 		}
 	}
 }

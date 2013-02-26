@@ -836,7 +836,17 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var medicationAdministrationsCollection:ArrayCollection = model.record.medicationAdministrationsModel.getMedicationAdministrationsCollectionByCode(medicationCode);
 			var medicationNameText:String;
 			if (medicationFill && medicationFill.name)
+			{
 				medicationNameText = medicationFill.name.text;
+			}
+			else
+			{
+				var medicationScheduleItem:MedicationScheduleItem = getMatchingMedicationScheduleItem(medicationCode);
+				if (medicationScheduleItem && medicationScheduleItem.name)
+				{
+					medicationNameText = medicationScheduleItem.name.text;
+				}
+			}
 
 			if (medicationAdministrationsCollection)
 			{

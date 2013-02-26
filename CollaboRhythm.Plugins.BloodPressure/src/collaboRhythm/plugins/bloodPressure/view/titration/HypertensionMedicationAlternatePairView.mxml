@@ -23,22 +23,28 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
-		import collaboRhythm.plugins.bloodPressure.view.*;
 
 		[Bindable]
 		private var _hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair;
+		private var _nextPairGap:int;
+		private var _nextPair:HypertensionMedicationAlternatePair;
 
-		function init(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair):void
+		public function init(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
+							 nextPairGap:int, nextPair:HypertensionMedicationAlternatePair):void
 		{
 			_hypertensionMedicationAlternatePair = hypertensionMedicationAlternatePair;
+			_nextPairGap = nextPairGap;
+			_nextPair = nextPair;
 		}
 
 		private function creationCompleteHandler():void
 		{
-			primaryHypertensionMedicationView.init(_hypertensionMedicationAlternatePair.primaryHypertensionMedication);
+			primaryHypertensionMedicationView.init(_hypertensionMedicationAlternatePair.primaryHypertensionMedication,
+					_nextPairGap, _nextPair);
 			if (_hypertensionMedicationAlternatePair.secondaryHypertensionMedication)
 			{
-				secondaryHypertensionMedicationView.init(_hypertensionMedicationAlternatePair.secondaryHypertensionMedication);
+				secondaryHypertensionMedicationView.init(_hypertensionMedicationAlternatePair.secondaryHypertensionMedication,
+						_nextPairGap, _nextPair);
 				alternateMedicationHGroup.visible = true;
 			}
 		}
@@ -47,7 +53,7 @@
 														  visible:Boolean):void
 		{
 			var hypertensionMedicationView:HypertensionMedicationView = new HypertensionMedicationView();
-			hypertensionMedicationView.init(hypertensionMedication);
+			hypertensionMedicationView.init(hypertensionMedication, _nextPairGap, _nextPair);
 			hypertensionMedicationView.visible = visible;
 
 			addElement(hypertensionMedicationView);
@@ -71,6 +77,24 @@
 			}
 
 			return false;
+		}
+
+		public function get nextPairGap():int
+		{
+			return _nextPairGap;
+		}
+
+		public function set nextPairGap(value:int):void
+		{
+			_nextPairGap = value;
+			if (primaryHypertensionMedicationView)
+			{
+				primaryHypertensionMedicationView.nextPairGap = _nextPairGap;
+			}
+			if (secondaryHypertensionMedicationView)
+			{
+				secondaryHypertensionMedicationView.nextPairGap = _nextPairGap;
+			}
 		}
 		]]></fx:Script>
 	<titration:HypertensionMedicationView id="primaryHypertensionMedicationView"
