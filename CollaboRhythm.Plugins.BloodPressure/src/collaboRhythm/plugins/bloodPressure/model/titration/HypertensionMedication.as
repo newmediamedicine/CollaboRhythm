@@ -5,6 +5,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import flash.utils.getQualifiedClassName;
 
@@ -41,6 +43,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _defaultNdcCode1:String;
 		private var _defaultNdcCode2:String;
 
+		protected var _currentDateSource:ICurrentDateSource;
+
 		public function HypertensionMedication(medicationClass:String, medicationDefinition1:Array, medicationDefinition2:Array)
 		{
 			_medicationClass = medicationClass;
@@ -54,6 +58,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			dose1 = _medicationName1.strength;
 			dose2 = _medicationName2.strength;
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 		}
 
 		public function determineCurrentDose(medicationScheduleItemsCollection:ArrayCollection):void
@@ -165,7 +170,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				if (!remove)
 				{
 					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
-							action, selectionType, selectionByAccount, false, this);
+							action, selectionType, selectionByAccount, false, this, _currentDateSource.now());
 					_dose1SelectionArrayCollection.addItem(hypertensionMedicationDoseSelection);
 				}
 			}
@@ -178,7 +183,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				if (!remove)
 				{
 					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
-							action, selectionType, selectionByAccount, false, this);
+							action, selectionType, selectionByAccount, false, this, _currentDateSource.now());
 					_dose2SelectionArrayCollection.addItem(hypertensionMedicationDoseSelection);
 				}
 			}
@@ -419,11 +424,23 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					determineAction(doseSelected),
 					selectionByAccount && selectionByAccount.accountId ==
 							patientAccountId ? HypertensionMedicationDoseSelection.PATIENT : HypertensionMedicationDoseSelection.COACH,
-					selectionByAccount, true, this);
+					selectionByAccount, true, this, decisionDate);
 
 			if (selection.newDose == newDose)
 			{
-				_doseSelectionArrayCollectionVector[doseSelected].addItem(selection);
+				var index:int = 0;
+				var targetIndex:int = 0;
+				for each (var existingSelection:HypertensionMedicationDoseSelection in
+						_doseSelectionArrayCollectionVector[doseSelected])
+				{
+					if (existingSelection.isBefore(selection))
+					{
+						targetIndex = index + 1;
+					}
+					index++;
+				}
+
+				_doseSelectionArrayCollectionVector[doseSelected].addItemAt(selection, targetIndex);
 
 				if (selection.selectionType == HypertensionMedicationDoseSelection.PATIENT)
 				{
