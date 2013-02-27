@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:view="collaboRhythm.plugins.foraD40b.view.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.warningText {
+			color: #F79521;
+			fontSize: 36;
+		}
+
+		.actionPlanStepLarge {
+			fontSize: 36;
+		}
+
+		.actionPlanStepSmall {
+			fontSize: 24;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
+
+		public function init(bloodPressureHealthActionInputModel:BloodPressureHealthActionInputModel)
+		{
+			statusLabel.text = bloodPressureHealthActionInputModel.bloodPressureState;
+
+			bloodPressureLabel.text = bloodPressureHealthActionInputModel.previousSystolic + "/" +
+					bloodPressureHealthActionInputModel.previousDiastolic + " mmHg";
+		}
+		]]></fx:Script>
+	<s:Group width="100%" height="110">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0xF4F4F4"/>
+			</s:fill>
+		</s:Rect>
+		<s:HGroup id="hypotensionHGroup" left="20" top="20" gap="10" horizontalCenter="0">
+			<view:WarningIcon/>
+			<s:VGroup paddingTop="10" gap="0">
+				<s:Label id="statusLabel" styleName="actionPlanStepLarge"/>
+				<s:Label id="bloodPressureLabel" styleName="actionPlanStepSmall"/>
+			</s:VGroup>
+		</s:HGroup>
+		<s:Line left="0" right="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0x666766"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+
+	<s:Group width="100%" height="56" bottom="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="0x000000"/>
+			</s:fill>
+		</s:Rect>
+		<s:Label text="If you need help, call the APF at 617-724-1100 or call 911." styleName="warningText" bottom="8"
+				 horizontalCenter="0"/>
+	</s:Group>
+</s:Group>
