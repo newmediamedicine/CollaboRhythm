@@ -142,8 +142,9 @@ package collaboRhythm.shared.model.services
 				var minutes:Number = Number(timeArr.shift());
 				var secondsArr:Array = (timeArr.length > 0) ? String(timeArr.shift()).split(".") : null;
 				var seconds:Number = (secondsArr != null && secondsArr.length > 0) ? Number(secondsArr.shift()) : 0;
-				var milliseconds:Number = (secondsArr != null &&
-						secondsArr.length > 0) ? Number(secondsArr.shift()) : 0;
+				var millisecondsStr:String = (secondsArr != null &&
+						secondsArr.length > 0) ? secondsArr.shift() : null;
+				var milliseconds:Number = millisecondsStr ? (Number("0." + millisecondsStr) * 1000) : 0;
 				var utc:Number = Date.UTC(year, month - 1, date, hour, minutes, seconds, milliseconds);
 				var offset:Number = (((offsetHours * 3600000) + (offsetMinutes * 60000)) * multiplier);
 				finalDate = new Date(utc - offset);
