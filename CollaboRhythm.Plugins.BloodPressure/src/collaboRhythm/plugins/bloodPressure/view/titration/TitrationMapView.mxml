@@ -33,6 +33,9 @@
 		import mx.events.FlexEvent;
 		import mx.events.ResizeEvent;
 
+		private static const MEDICATION_PAIRS_GAP_MIN:int = 5;
+		private static const MEDICATION_PAIRS_GAP_MAX:int = 140;
+
 		[Bindable]
 		private var _controller:HypertensionMedicationTitrationAppController;
 		[Bindable]
@@ -94,7 +97,7 @@
 				for (var i:int = 0; i < _model.hypertensionMedicationAlternatePairsVector.length; i++)
 				{
 					var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair =
-											_model.hypertensionMedicationAlternatePairsVector[i];
+							_model.hypertensionMedicationAlternatePairsVector[i];
 					var nextPair:HypertensionMedicationAlternatePair = i + 1 <
 							_model.hypertensionMedicationAlternatePairsVector.length ?
 							_model.hypertensionMedicationAlternatePairsVector[i + 1] : null;
@@ -128,18 +131,19 @@
 				var firstPairView:IVisualElement = hypertensionMedicationsVGroup.getElementAt(0);
 				var gap:Number = (parent.height - (numPairs * firstPairView.height) - startLabelGroup.height) /
 						(numPairs - 1);
-				gap = Math.max(5, Math.min(gap, 70));
+				gap = Math.max(MEDICATION_PAIRS_GAP_MIN, Math.min(gap, MEDICATION_PAIRS_GAP_MAX));
 				hypertensionMedicationsVGroup.gap = gap;
 
 				for (var i:int = 0; i < numPairs; i++)
 				{
-					(hypertensionMedicationsVGroup.getElementAt(i) as HypertensionMedicationAlternatePairView).nextPairGap = gap;
+					(hypertensionMedicationsVGroup.getElementAt(i) as
+							HypertensionMedicationAlternatePairView).nextPairGap = gap;
 				}
 			}
 		}
 		]]>
 	</fx:Script>
-	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" top="20" gap="5">
+	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" top="20" gap="{MEDICATION_PAIRS_GAP_MIN}">
 		<!-- medications get added here dynamically -->
 	</s:VGroup>
 	<s:Group includeInLayout="false">
