@@ -68,10 +68,10 @@ package collaboRhythm.plugins.foraD40b.controller
 		private var _healthAction:ForaD40bHealthAction;
 
 		public function ForaD40bHealthActionInputController(equipmentHealthAction:EquipmentHealthAction,
-																scheduleItemOccurrence:ScheduleItemOccurrence,
-																healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
-																scheduleCollectionsProvider:IScheduleCollectionsProvider,
-																viewNavigator:ViewNavigator)
+															scheduleItemOccurrence:ScheduleItemOccurrence,
+															healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+															scheduleCollectionsProvider:IScheduleCollectionsProvider,
+															viewNavigator:ViewNavigator)
 		{
 			_logger = Log.getLogger(getQualifiedClassName(this).replace("::", "."));
 			_scheduleItemOccurrence = scheduleItemOccurrence;
@@ -84,7 +84,8 @@ package collaboRhythm.plugins.foraD40b.controller
 				_healthAction = equipmentHealthAction as ForaD40bHealthAction;
 				if (_healthAction == null)
 				{
-					_healthAction = new ForaD40bHealthAction(equipmentHealthAction.name, equipmentHealthAction.equipmentName, equipmentHealthAction.instructions);
+					_healthAction = new ForaD40bHealthAction(equipmentHealthAction.name,
+							equipmentHealthAction.equipmentName, equipmentHealthAction.instructions);
 				}
 			}
 
@@ -117,7 +118,8 @@ package collaboRhythm.plugins.foraD40b.controller
 				_currentViewChangeWatcher = null;
 			}
 
-			_dataInputModelCollection = new ForaD40bHealthActionInputModelCollection(_healthAction, scheduleItemOccurrence,
+			_dataInputModelCollection = new ForaD40bHealthActionInputModelCollection(_healthAction,
+					scheduleItemOccurrence,
 					_healthActionModelDetailsProvider, _scheduleCollectionsProvider, this);
 
 //			_dataInputModelCollection.currentView = ReflectionUtils.getClass(_viewNavigator.activeView);
@@ -128,12 +130,12 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function clearReviewMode():void
 		{
-/*
-			if (_synchronizationService.synchronize("clearReviewMode"))
-			{
-				return;
-			}
-*/
+			/*
+			 if (_synchronizationService.synchronize("clearReviewMode"))
+			 {
+			 return;
+			 }
+			 */
 
 			popPushedViews();
 			createModel(null);
@@ -171,7 +173,9 @@ package collaboRhythm.plugins.foraD40b.controller
 			if (batchTransferAction == HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_BEGIN)
 			{
 				_duplicateDetected = false;
-				backgroundProcessModel.updateProcess(BATCH_TRANSFER_PROCESS_KEY, "Transferring data from " + ForaD40bHealthActionInputControllerFactory.EQUIPMENT_NAME + "...", true);
+				backgroundProcessModel.updateProcess(BATCH_TRANSFER_PROCESS_KEY,
+						"Transferring data from " + ForaD40bHealthActionInputControllerFactory.EQUIPMENT_NAME + "...",
+						true);
 			}
 			else if (batchTransferAction == HealthActionInputControllerBase.BATCH_TRANSFER_ACTION_END)
 			{
@@ -200,8 +204,8 @@ package collaboRhythm.plugins.foraD40b.controller
 			 */
 			var isFirstFromDevice:Boolean =
 					!(_dataInputModelCollection.reportForaD40bItemDataCollection.length > 1 ||
-					_dataInputModelCollection.reportForaD40bItemDataCollection.length == 1 &&
-							(itemData).dataInputModel.isFromDevice);
+							_dataInputModelCollection.reportForaD40bItemDataCollection.length == 1 &&
+									(itemData).dataInputModel.isFromDevice);
 
 			if (isFirstFromDevice || !_duplicateDetected)
 			{
@@ -211,7 +215,8 @@ package collaboRhythm.plugins.foraD40b.controller
 					return;
 				}
 
-				var isBloodGlucose:Boolean = urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] == DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME;
+				var isBloodGlucose:Boolean = urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] ==
+						DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME;
 				if (isFirstFromDevice)
 				{
 					if (itemData.dataInputModel is BloodGlucoseHealthActionInputModel != isBloodGlucose)
@@ -254,14 +259,17 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private static function isValidMeasurement(urlVariables:URLVariables):Boolean
 		{
-			if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] == DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME)
+			if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] ==
+					DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME)
 			{
 				return StringUtils.isNumeric(urlVariables[DeviceGatewayConstants.BLOOD_GLUCOSE_KEY]) &&
 						hasCorrectedMeasuredDate(urlVariables);
 			}
-			else if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] == DeviceGatewayConstants.BLOOD_PRESSURE_HEALTH_ACTION_NAME)
+			else if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] ==
+					DeviceGatewayConstants.BLOOD_PRESSURE_HEALTH_ACTION_NAME)
 			{
-				return StringUtils.isNumeric(urlVariables[DeviceGatewayConstants.SYSTOLIC_KEY]) && StringUtils.isNumeric(urlVariables[DeviceGatewayConstants.DIASTOLIC_KEY]) &&
+				return StringUtils.isNumeric(urlVariables[DeviceGatewayConstants.SYSTOLIC_KEY]) &&
+						StringUtils.isNumeric(urlVariables[DeviceGatewayConstants.DIASTOLIC_KEY]) &&
 						hasCorrectedMeasuredDate(urlVariables);
 			}
 			return false;
@@ -278,7 +286,8 @@ package collaboRhythm.plugins.foraD40b.controller
 			var playerType:String = Capabilities.playerType;
 
 			// check all existing blood glucose measurements
-			for each (var bloodGlucoseVitalSign:VitalSign in _dataInputModelCollection.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY))
+			for each (var bloodGlucoseVitalSign:VitalSign in
+					_dataInputModelCollection.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY))
 			{
 				if (isDuplicate(urlVariables, bloodGlucoseVitalSign))
 				{
@@ -305,10 +314,12 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private static function isDuplicate(urlVariables:URLVariables, bloodGlucoseVitalSign:VitalSign):Boolean
 		{
-			if (bloodGlucoseVitalSign.result && bloodGlucoseVitalSign.result.value == urlVariables[DeviceGatewayConstants.BLOOD_GLUCOSE_KEY])
+			if (bloodGlucoseVitalSign.result &&
+					bloodGlucoseVitalSign.result.value == urlVariables[DeviceGatewayConstants.BLOOD_GLUCOSE_KEY])
 			{
 				var deviceMeasuredDateKey:String = "deviceMeasuredDate";
-				var existingDeviceMeasuredDateString:String = parseVitalSignComment(bloodGlucoseVitalSign.comments, deviceMeasuredDateKey);
+				var existingDeviceMeasuredDateString:String = parseVitalSignComment(bloodGlucoseVitalSign.comments,
+						deviceMeasuredDateKey);
 				if (existingDeviceMeasuredDateString)
 				{
 					return existingDeviceMeasuredDateString == urlVariables[deviceMeasuredDateKey];
@@ -318,7 +329,8 @@ package collaboRhythm.plugins.foraD40b.controller
 					// if the comments can't be parsed or do not include the deviceMeasuredDate, check to see if the dateMeasured is close to the correctedMeasuredDate
 					var correctedMeasuredDate:Date = DateUtil.parseW3CDTF(urlVariables[DeviceGatewayConstants.CORRECTED_MEASURED_DATE_KEY]);
 					return correctedMeasuredDate == null || bloodGlucoseVitalSign.dateMeasuredStart == null ||
-							Math.abs(bloodGlucoseVitalSign.dateMeasuredStart.valueOf() - correctedMeasuredDate.valueOf()) < 1000 * 60 * 60;
+							Math.abs(bloodGlucoseVitalSign.dateMeasuredStart.valueOf() -
+									correctedMeasuredDate.valueOf()) < 1000 * 60 * 60;
 				}
 			}
 			return false;
@@ -665,6 +677,26 @@ package collaboRhythm.plugins.foraD40b.controller
 			{
 				_viewNavigator.removeEventListener(ViewNavigatorExtendedEvent.VIEW_POPPED, viewNavigator_viewPopped);
 			}
+		}
+
+		public function abnormalBloodPressureSymptomsHandler(symptomsPresent:Boolean):void
+		{
+			if (_synchronizationService.synchronize("abnormalBloodPressureSymptomsHandler", symptomsPresent))
+			{
+				return;
+			}
+
+			_dataInputModelCollection.abnormalBloodPressureSymptomsHandler(symptomsPresent);
+		}
+
+		public function quitAbnormalBloodPressureActionPlan():void
+		{
+			if (_synchronizationService.synchronize("quitAbnormalBloodPressureActionPlan"))
+			{
+				return;
+			}
+
+			_dataInputModelCollection.quitAbnormalBloodPressureActionPlan(_synchronizationService.initiatedLocally);
 		}
 	}
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<view:AbnormalBloodPressureViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+									xmlns:s="library://ns.adobe.com/flex/spark"
+									xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+		creationComplete="creationCompleteHandler()">
+	<fx:Style>
+		#hypertensiveUrgencyLabel {
+			fontSize: 36;
+		}
+
+		#symptomsQuestionLabel {
+			fontSize: 48;
+		}
+
+		.symptom {
+			fontSize: 20;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		private function creationCompleteHandler():void
+		{
+			abnormalBloodPressureHeaderAndFooterView.init(_dataInputModel);
+		}
+
+		private function yesButton_clickHandler():void
+		{
+			_dataInputController.abnormalBloodPressureSymptomsHandler(true);
+		}
+
+		private function noButton_clickHandler():void
+		{
+			_dataInputController.abnormalBloodPressureSymptomsHandler(false);
+		}
+		]]></fx:Script>
+
+	<view:AbnormalBloodPressureHeaderAndFooterView id="abnormalBloodPressureHeaderAndFooterView" width="100%"
+												   height="100%"/>
+	<s:Label id="hypertensiveUrgencyLabel" text="Your blood pressure is high (grater than 180/120 mmHg)." horizontalCenter="0"
+			 top="150"/>
+	<s:Label id="symptomsQuestionLabel" text="Do you have any of these symptoms?" horizontalCenter="0" top="230"/>
+	<s:VGroup width="100%" top="290" horizontalCenter="0" horizontalAlign="center" gap="10">
+		<s:Label text="headache" styleName="symptom"/>
+		<s:Label text="anxiety" styleName="symptom"/>
+		<s:Label text="shortness of breath" styleName="symptom"/>
+		<s:Label text="other worrisome symptom" styleName="symptom"/>
+		<s:HGroup>
+			<s:Button label="Yes" width="100" click="yesButton_clickHandler()"/>
+			<s:Button label="No" width="100" click="noButton_clickHandler()"/>
+		</s:HGroup>
+	</s:VGroup>
+</view:AbnormalBloodPressureViewBase>
