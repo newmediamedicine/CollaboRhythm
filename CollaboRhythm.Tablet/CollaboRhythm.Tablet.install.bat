@@ -9,7 +9,7 @@ set AndroidADBFolder=C:\Program Files (x86)\Android\android-sdk\platform-tools
 ::set AndroidADBFolder=C:\Program Files (x86)\Android\android-sdk-windows\platform-tools
 ::set SettingsFile=my_settings_debug.xml
 set SettingsFile=%USERPROFILE%\AppData\Roaming\CollaboRhythm.Tablet.debug\Local Store\settings.xml
-set CollaboRhythmTabletApk=CollaboRhythm.Tablet.apk
+set CollaboRhythmTabletApk=bin-debug\CollaboRhythm.Tablet.Release.apk
 
 :: ***************************************************************************************
 
@@ -23,7 +23,7 @@ echo.
 echo Settings: %SettingsFile%
 echo.
 
-"%AndroidADBFolder%"\adb push %SettingsFile% "/data/local/air.CollaboRhythm.Tablet.debug/CollaboRhythm.Tablet.debug/Local Store/settings.xml"
+"%AndroidADBFolder%"\adb push "%SettingsFile%" "/data/local/air.CollaboRhythm.Tablet.debug/CollaboRhythm.Tablet.debug/Local Store/settings.xml"
 ::"%AndroidADBFolder%"\adb push plugins "/data/local/air.CollaboRhythm.Tablet.debug/CollaboRhythm.Tablet.debug/Local Store/plugins"
 
 "%AndroidADBFolder%"\adb -d uninstall air.CollaboRhythm.Tablet.debug
