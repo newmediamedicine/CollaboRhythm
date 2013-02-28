@@ -15,8 +15,9 @@
   - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
   - <http://www.gnu.org/licenses/>.
   -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-		 creationComplete="creationCompleteHandler(event)">
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		creationComplete="creationCompleteHandler(event)"
+		resize="resizeHandler(event)">
 	<fx:Style>
 		.extremesLabels {
 			font-size: 36;
@@ -28,7 +29,12 @@
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 
+		import mx.core.IVisualElement;
 		import mx.events.FlexEvent;
+		import mx.events.ResizeEvent;
+
+		private static const MEDICATION_PAIRS_GAP_MIN:int = 5;
+		private static const MEDICATION_PAIRS_GAP_MAX:int = 140;
 
 		[Bindable]
 		private var _controller:HypertensionMedicationTitrationAppController;
@@ -53,10 +59,12 @@
 			createAlternatePairs();
 		}
 
-		private function createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair):void
+		private function createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
+																	   nextPair:HypertensionMedicationAlternatePair):void
 		{
 			var hypertensionMedicationAlternatePairView:HypertensionMedicationAlternatePairView = new HypertensionMedicationAlternatePairView();
-			hypertensionMedicationAlternatePairView.init(hypertensionMedicationAlternatePair);
+			hypertensionMedicationAlternatePairView.init(hypertensionMedicationAlternatePair,
+					hypertensionMedicationsVGroup.gap, nextPair);
 			addEventListener(HypertensionMedicationViewEvent.DOSE_SELECTED,
 					hypertensionMedicationViewEvent_doseSelectedHandler);
 			addEventListener(HypertensionMedicationAlternatePairViewEvent.ALTERNATE_SELECTED,
@@ -69,26 +77,12 @@
 		{
 			_controller.handleHypertensionMedicationDoseSelected(event.hypertensionMedication, event.doseSelected,
 					event.altKey, event.ctrlKey);
-			determineConnectorsVisible();
 		}
 
 		private function hypertensionMedicationViewEvent_alternateSelectedHandler(event:HypertensionMedicationAlternatePairViewEvent):void
 		{
 			_controller.handleHypertensionMedicationAlternateSelected(event.hypertensionMedicationAlternatePair,
 					event.altKey, event.ctrlKey);
-		}
-
-		private function determineConnectorsVisible():void
-		{
-			var firstMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[2];
-			var secondMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[1];
-			var thirdMedicationAlternatePair:HypertensionMedicationAlternatePair = _model.hypertensionMedicationAlternatePairsVector[0];
-
-			connector1.visible = (firstMedicationAlternatePair.activeHypertensionMedication.currentDose == 2 &&
-					secondMedicationAlternatePair.activeHypertensionMedication.currentDose != 0);
-
-			connector2.visible = (secondMedicationAlternatePair.activeHypertensionMedication.currentDose == 2 &&
-					thirdMedicationAlternatePair.activeHypertensionMedication.currentDose != 0);
 		}
 
 		private function saveButton_clickHandler(event:MouseEvent):void
@@ -100,45 +94,62 @@
 		{
 			if (_model && hypertensionMedicationsVGroup.numElements == 0)
 			{
-				for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in
-						_model.hypertensionMedicationAlternatePairsVector)
+				for (var i:int = 0; i < _model.hypertensionMedicationAlternatePairsVector.length; i++)
 				{
-					createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair);
+					var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair =
+							_model.hypertensionMedicationAlternatePairsVector[i];
+					var nextPair:HypertensionMedicationAlternatePair = i + 1 <
+							_model.hypertensionMedicationAlternatePairsVector.length ?
+							_model.hypertensionMedicationAlternatePairsVector[i + 1] : null;
+					createHypertensionMedicationAlternatePairView(hypertensionMedicationAlternatePair, nextPair);
 				}
-
-				determineConnectorsVisible();
 			}
 		}
-		]]></fx:Script>
-	<s:VGroup x="481" top="150" gap="60">
-		<s:Group height="180">
-			<s:Line height="100%">
-				<s:stroke>
-					<s:SolidColorStroke color="0x939598" weight="10"/>
-				</s:stroke>
-			</s:Line>
-			<s:Line id="connector2" height="100%" visible="false">
-				<s:stroke>
-					<s:SolidColorStroke color="0x37B6E1" weight="10"/>
-				</s:stroke>
-			</s:Line>
-		</s:Group>
-		<s:Group height="180">
-			<s:Line height="100%">
-				<s:stroke>
-					<s:SolidColorStroke color="0x939598" weight="10"/>
-				</s:stroke>
-			</s:Line>
-			<s:Line id="connector1" height="100%" visible="false">
-				<s:stroke>
-					<s:SolidColorStroke color="0x37B6E1" weight="10"/>
-				</s:stroke>
-			</s:Line>
-		</s:Group>
-	</s:VGroup>
-	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" top="20" gap="70">
 
+		private function resizeHandler(event:ResizeEvent):void
+		{
+			updateLayout();
+		}
+
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+		{
+			super.updateDisplayList(unscaledWidth, unscaledHeight);
+			updateLayout();
+		}
+
+		override protected function childrenCreated():void
+		{
+			super.childrenCreated();
+			updateLayout();
+		}
+
+		private function updateLayout():void
+		{
+			if (hypertensionMedicationsVGroup && hypertensionMedicationsVGroup.numElements > 0 && parent)
+			{
+				var numPairs:int = hypertensionMedicationsVGroup.numElements;
+				var firstPairView:IVisualElement = hypertensionMedicationsVGroup.getElementAt(0);
+				var gap:Number = (parent.height - (numPairs * firstPairView.height) - startLabelGroup.height) /
+						(numPairs - 1);
+				gap = Math.max(MEDICATION_PAIRS_GAP_MIN, Math.min(gap, MEDICATION_PAIRS_GAP_MAX));
+				hypertensionMedicationsVGroup.gap = gap;
+
+				for (var i:int = 0; i < numPairs; i++)
+				{
+					(hypertensionMedicationsVGroup.getElementAt(i) as
+							HypertensionMedicationAlternatePairView).nextPairGap = gap;
+				}
+			}
+		}
+		]]>
+	</fx:Script>
+	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" top="20" gap="{MEDICATION_PAIRS_GAP_MIN}">
+		<!-- medications get added here dynamically -->
 	</s:VGroup>
-	<s:Label text="Max" styleName="extremesLabels" top="18" x="456"/>
-	<s:Label text="Start" styleName="extremesLabels" top="664" x="456"/>
-</s:Group>
+	<s:Group includeInLayout="false">
+		<s:Label text="Max" styleName="extremesLabels" x="456" mouseEnabled="false"/>
+	</s:Group>
+	<s:Group id="startLabelGroup">
+		<s:Label text="Start" styleName="extremesLabels" x="456" mouseEnabled="false"/>
+	</s:Group>
+</s:VGroup>

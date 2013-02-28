@@ -89,9 +89,12 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			var adherenceResultDate:Date;
 
-			if (scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem && scheduleItemOccurrence.adherenceItem.adherenceResults && scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
+			if (scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem &&
+					scheduleItemOccurrence.adherenceItem.adherenceResults &&
+					scheduleItemOccurrence.adherenceItem.adherenceResults.length != 0)
 			{
-				var bloodGlucoseVitalSign:VitalSign = scheduleItemOccurrence.adherenceItem.adherenceResults[0] as VitalSign;
+				var bloodGlucoseVitalSign:VitalSign = scheduleItemOccurrence.adherenceItem.adherenceResults[0] as
+						VitalSign;
 				adherenceResultDate = bloodGlucoseVitalSign.dateMeasuredStart;
 			}
 
@@ -128,19 +131,30 @@ package collaboRhythm.plugins.foraD40b.model
 		public function get firstBloodGlucoseInputModel():BloodGlucoseHealthActionInputModel
 		{
 			return _reportForaD40bItemDataCollection &&
-					_reportForaD40bItemDataCollection.length > 0 ? (_reportForaD40bItemDataCollection[0] as ReportForaD40bItemData).dataInputModel as BloodGlucoseHealthActionInputModel : null;
+					_reportForaD40bItemDataCollection.length > 0 ? (_reportForaD40bItemDataCollection[0] as
+					ReportForaD40bItemData).dataInputModel as BloodGlucoseHealthActionInputModel : null;
+		}
+
+		public function get firstBloodPressureInputModel():BloodPressureHealthActionInputModel
+		{
+			return _reportForaD40bItemDataCollection &&
+					_reportForaD40bItemDataCollection.length > 0 ? (_reportForaD40bItemDataCollection[0] as
+					ReportForaD40bItemData).dataInputModel as BloodPressureHealthActionInputModel : null;
 		}
 
 		public function get firstInputModel():ForaD40bHealthActionInputModelBase
 		{
 			return _reportForaD40bItemDataCollection &&
-					_reportForaD40bItemDataCollection.length > 0 ? (_reportForaD40bItemDataCollection[0] as ReportForaD40bItemData).dataInputModel : null;
+					_reportForaD40bItemDataCollection.length > 0 ? (_reportForaD40bItemDataCollection[0] as
+					ReportForaD40bItemData).dataInputModel : null;
 		}
 
 		public function get lastInputModel():ForaD40bHealthActionInputModelBase
 		{
 			return _reportForaD40bItemDataCollection &&
-					_reportForaD40bItemDataCollection.length > 0 ? (_reportForaD40bItemDataCollection[_reportForaD40bItemDataCollection.length - 1] as ReportForaD40bItemData).dataInputModel : null;
+					_reportForaD40bItemDataCollection.length >
+							0 ? (_reportForaD40bItemDataCollection[_reportForaD40bItemDataCollection.length - 1] as
+					ReportForaD40bItemData).dataInputModel : null;
 		}
 
 		public function handleHealthActionSelected():void
@@ -289,6 +303,20 @@ package collaboRhythm.plugins.foraD40b.model
 				firstBloodGlucoseInputModel.isFromDevice = false;
 			}
 
+			if (firstBloodPressureInputModel)
+			{
+				firstBloodPressureInputModel.previousSystolic = firstBloodPressureInputModel.systolic;
+				firstBloodPressureInputModel.previousDiastolic = firstBloodPressureInputModel.diastolic;
+				firstBloodPressureInputModel.previousHeartRate = firstBloodPressureInputModel.heartRate;
+
+				firstBloodPressureInputModel.systolic = "";
+				firstBloodPressureInputModel.diastolic = "";
+				firstBloodPressureInputModel.heartRate = "";
+
+				firstBloodPressureInputModel.dateMeasuredStart = _currentDateSource.now();
+				firstBloodPressureInputModel.isFromDevice = false;
+			}
+
 			// Remove other measurements; they should have been persisted already, and should not appear again in a reporting view.
 			// Also, we want to ensure that in ForaD40bHealthActionInputController.handleUrlVariablesNewMeasurement() isFirstFromDevice resolves to true so that
 			// the value coming from the device will be displayed correctly.
@@ -306,6 +334,22 @@ package collaboRhythm.plugins.foraD40b.model
 		public function get isReportingExplicit():Boolean
 		{
 			return _isReportingExplicit;
+		}
+
+		public function abnormalBloodPressureSymptomsHandler(symptomsPresent:Boolean):void
+		{
+			if (firstBloodPressureInputModel)
+			{
+				firstBloodPressureInputModel.abnormalBloodPressureSymptomsHandler(symptomsPresent);
+			}
+		}
+
+		public function quitAbnormalBloodPressureActionPlan(initiatedLocally:Boolean):void
+		{
+			if (firstBloodPressureInputModel)
+			{
+				firstBloodPressureInputModel.quitAbnormalBloodPressureActionPlan(initiatedLocally);
+			}
 		}
 	}
 }

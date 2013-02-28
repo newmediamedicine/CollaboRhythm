@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   title="Abnormal Blood Pressure Action Plan">
+	<fx:Declarations>
+		<view:AbnormalBloodPressureQuitPopUp id="abnormalBloodPressureQuitPopUp"/>
+	</fx:Declarations>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
+		import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+
+		import mx.managers.PopUpManager;
+
+		import spark.events.PopUpEvent;
+
+		protected var _dataInputModel:BloodPressureHealthActionInputModel;
+		protected var _dataInputController:ForaD40bHealthActionInputController;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var dataInputModelAndController:HealthActionInputModelAndController = HealthActionInputModelAndController(value);
+
+			_dataInputModel = BloodPressureHealthActionInputModel(dataInputModelAndController.healthActionInputModel);
+			_dataInputController = ForaD40bHealthActionInputController(dataInputModelAndController.healthActionInputController);
+		}
+
+		override protected function stage_keyUpHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.BACK)
+			{
+				event.stopImmediatePropagation();
+				event.preventDefault();
+
+				showAbnormalBloodPressureActionPlanPopUp();
+			}
+		}
+
+		override public function homeButton_clickHandler():void
+		{
+			showAbnormalBloodPressureActionPlanPopUp();
+		}
+
+		private function showAbnormalBloodPressureActionPlanPopUp():void
+		{
+			abnormalBloodPressureQuitPopUp.addEventListener('close', quitHypoglycemiaActionPlanPopUp_closeHandler);
+			abnormalBloodPressureQuitPopUp.open(this, true);
+			PopUpManager.centerPopUp(abnormalBloodPressureQuitPopUp);
+		}
+
+		private function quitHypoglycemiaActionPlanPopUp_closeHandler(event:PopUpEvent):void
+		{
+			if (event.commit)
+			{
+				_dataInputController.quitAbnormalBloodPressureActionPlan();
+			}
+		}
+		]]></fx:Script>
+</tablet:TabletViewBase>

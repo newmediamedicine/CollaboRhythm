@@ -59,7 +59,9 @@
 
 		]]></fx:Script>
 	<s:HGroup width="100%" height="100%">
-		<titration:TitrationMapView id="titrationMapView" controller="{_controller}"/>
+		<s:Scroller height="100%">
+			<titration:TitrationMapView id="titrationMapView" controller="{_controller}"/>
+		</s:Scroller>
 		<s:VGroup right="0" height="100%" width="100%">
 			<s:TextArea width="100%" height="100%" editable="false" text="{_model.confirmationMessage}"/>
 			<s:HGroup>
@@ -67,8 +69,6 @@
 				<s:Button id="reloadSelectionsButton" label="Reload Selections" click="reloadSelectionsButton_clickHandler(event)"/>
 				<s:Button id="saveButton" label="Save" click="saveButton_clickHandler(event)"/>
 			</s:HGroup>
-
 		</s:VGroup>
 	</s:HGroup>
-
 </tablet:TabletViewBase>

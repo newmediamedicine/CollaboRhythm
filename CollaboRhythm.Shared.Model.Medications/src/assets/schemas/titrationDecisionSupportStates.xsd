@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--~
-  ~ Copyright 2012 John Moore, Scott Gilroy
+  ~ Copyright 2013 John Moore, Scott Gilroy
   ~
   ~ This file is part of CollaboRhythm.
   ~
@@ -53,15 +53,23 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="stepNumber" type="xs:integer" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Specifies a single step number to which the selectors apply. In the case that a step number is
+						specified, only the first step in the steps element will be used. Others will be ignored.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="steps" maxOccurs="1" minOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
-						Collection of the steps to show in the decision support. There should be 4 steps.
+						Collection of the steps to show in the decision support.
 					</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="step" type="step" maxOccurs="4" minOccurs="4"/>
+						<xs:element name="step" type="step" maxOccurs="unbounded" minOccurs="1"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -88,6 +96,14 @@
 			<xs:enumeration value="protocolConditionsMet"/>
 			<xs:enumeration value="protocolInsufficientAdherence"/>
 			<xs:enumeration value="protocolInsufficientBloodGlucose"/>
+
+			<xs:enumeration value="measurementGoalInsufficient"/>
+			<xs:enumeration value="measurementGoalNotMet"/>
+			<xs:enumeration value="measurementGoalMet"/>
+			<xs:enumeration value="durationSinceChangeGoalNotMet"/>
+			<xs:enumeration value="durationSinceChangeGoalMet"/>
+			<xs:enumeration value="medicationAdherenceGoalNotMet"/>
+			<xs:enumeration value="medicationAdherenceGoalMet"/>
 		</xs:restriction>
 	</xs:simpleType>
 

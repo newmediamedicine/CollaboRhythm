@@ -57,6 +57,7 @@ package collaboRhythm.core.model.healthRecord.service
 		protected var _pendingReplacedDocumentRequests:HashMap = new HashMap();
 
 		private var _shouldLoadReplacedDocuments:Boolean;
+		private const LOG_FILTERED_OUT_DOCUMENTS:Boolean = true;
 
 		public function DocumentStorageServiceBase(consumerKey:String, consumerSecret:String, baseURL:String,
 												   account:Account,
@@ -260,6 +261,13 @@ package collaboRhythm.core.model.healthRecord.service
 					_relationshipXmlMarshaller.unmarshallRelationships(reportXml, document);
 					unmarshallSpecialRelationships(reportXml, document);
 					collection.addItem(document);
+				}
+				else
+				{
+					if (LOG_FILTERED_OUT_DOCUMENTS)
+					{
+						_logger.debug("Filtering out " + targetDocumentType + " " + reportXml.toString());
+					}
 				}
 			}
 			logParsedReportDocuments(collection, numDocuments);

@@ -142,7 +142,9 @@ package collaboRhythm.plugins.schedule.shared.model
 			else
 			{
 				if (currentScheduleItem.pendingAction == null)
-					currentScheduleItem.pendingAction = DocumentBase.ACTION_VOID;
+				{
+					record.removeDocument(currentScheduleItem, true, false, DocumentBase.ACTION_VOID, "schedule changed");
+				}
 
 				// TODO: perhaps we should also void the MedicationOrder if it is not being used for anything else
 			}

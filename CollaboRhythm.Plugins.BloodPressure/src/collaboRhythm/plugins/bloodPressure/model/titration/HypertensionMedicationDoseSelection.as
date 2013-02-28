@@ -25,11 +25,12 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _selectionByAccount:Account;
 		private var _persisted:Boolean;
 		private var _medication:HypertensionMedication;
+		private var _selectionDate:Date;
 
 		public function HypertensionMedicationDoseSelection(doseSelected:int, action:String, selectionType:String,
 															selectionByAccount:Account,
 															persisted:Boolean,
-															medication:HypertensionMedication)
+															medication:HypertensionMedication, selectionDate:Date)
 		{
 			_doseSelected = doseSelected;
 			_action = action;
@@ -37,6 +38,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			_selectionByAccount = selectionByAccount;
 			_persisted = persisted;
 			_medication = medication;
+			_selectionDate = selectionDate;
 			updateNewDose();
 		}
 
@@ -190,6 +192,31 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function getScheduleDose(medicationOrder:MedicationOrder):Number
 		{
 			return medication.getScheduleDose(medicationOrder, this);
+		}
+
+		public function get selectionDate():Date
+		{
+			return _selectionDate;
+		}
+
+		public function set selectionDate(value:Date):void
+		{
+			_selectionDate = value;
+		}
+
+		/**
+		 * Returns true if the otherSelection should be ordered before this selection.
+		 * @param otherSelection
+		 * @return
+		 */
+		public function isBefore(otherSelection:HypertensionMedicationDoseSelection):Boolean
+		{
+			if (selectionType == HypertensionMedicationDoseSelection.SYSTEM)
+			{
+				return false;
+			}
+			return selectionDate && otherSelection.selectionDate &&
+					selectionDate.valueOf() < otherSelection.selectionDate.valueOf();
 		}
 	}
 }
