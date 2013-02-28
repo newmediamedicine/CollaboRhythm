@@ -134,7 +134,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				summary += (medication.currentDose == DoseStrengthCode.NONE ? " at " : " to ") + DoseStrengthCode.describe(newDose);
 				if (newDose > DoseStrengthCode.NONE)
 				{
-					summary += " (" + medication.getDoseDescription(doseSelected) + ")";
+					summary += " (" + medication.getDoseDescription(newDose) + ")";
 				}
 			}
 			return summary;
