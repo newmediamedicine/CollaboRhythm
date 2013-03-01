@@ -257,7 +257,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 
 			// TODO: create an appropriate clinician/coach message; see InsulinTitrationDecisionModelBase for an example
-			var message:String = "[Automated Message] " + confirmationMessage;
+			var proposeVsFinalizeString:String = shouldFinalize ? "finalized" : "proposed";
+			var agreeWithSystemString:String = selectionsAgreeWithSystem ? "(These changes agree with the MAP)" : "(These changes do not agree with the MAP)";
+
+			var message:String = "[Automated Message] The following decision has been " + proposeVsFinalizeString  + ".\n" + selectionsMessage + "\n" + agreeWithSystemString;
 			sendMessage(message);
 			return saveSucceeded;
 		}
@@ -471,9 +474,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			if (isChangeSpecified)
 			{
 				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
-				var agrees:String = selectionsAgreeWithSystem ? "agrees" : "does not agree";
+				var agreeWithSystemString:String = selectionsAgreeWithSystem ? "agrees" : "does not agree";
 
-				headerMessage = "Your decision below " + agrees + " with the protocol";
+				headerMessage = "Your decision below " + agreeWithSystemString + " with the protocol";
 
 				if (selections.length > 0)
 				{
