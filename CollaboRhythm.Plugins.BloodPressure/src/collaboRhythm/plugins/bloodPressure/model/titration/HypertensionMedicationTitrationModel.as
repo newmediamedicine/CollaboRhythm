@@ -35,6 +35,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private static const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
 
+		protected static const REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE:int = 14;
+		protected static const REQUIRED_BLOOD_PRESSURE_MEASUREMENTS:int = 3;
+		protected static const NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_PRESSURE:int = 7;
+
 		protected var _record:Record;
 
 		protected var _medicationScheduleItemsCollection:ArrayCollection;
@@ -53,7 +57,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function HypertensionMedicationTitrationModel(activeAccount:Account, activeRecordAccount:Account)
 		{
 			super();
-			requiredDaysOfPerfectMedicationAdherence = 14;
+			_protocolVitalSignCategory = VitalSignsModel.SYSTOLIC_CATEGORY;
+			_requiredNumberVitalSigns = REQUIRED_BLOOD_PRESSURE_MEASUREMENTS;
+			_numberOfDaysForEligibleVitalSigns = NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_PRESSURE;
+			requiredDaysOfPerfectMedicationAdherence = REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE;
 			_activeAccount = activeAccount;
 			_activeRecordAccount = activeRecordAccount;
 			_record = activeRecordAccount.primaryRecord;

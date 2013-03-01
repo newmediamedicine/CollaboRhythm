@@ -259,7 +259,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function initializeInsulinTitrationDecisionPanelModel():void
 		{
 			_insulinTitrationDecisionPanelModel = new InsulinTitrationDecisionPanelModel(chartModelDetails);
-			_insulinTitrationDecisionPanelModel.updateAreBloodGlucoseRequirementsMet();
+			_insulinTitrationDecisionPanelModel.updateAreVitalSignRequirementsMet();
 			_insulinTitrationDecisionPanelModel.updateIsAdherencePerfect();
 			_insulinTitrationDecisionPanelModel.verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
 			_insulinTitrationDecisionPanelModel.verticalAxisMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;

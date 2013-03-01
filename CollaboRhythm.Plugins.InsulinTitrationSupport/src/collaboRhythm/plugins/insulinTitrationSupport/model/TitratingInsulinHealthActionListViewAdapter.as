@@ -69,7 +69,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				_decisionModel = new InsulinTitrationDecisionHealthActionModel(decisionScheduleItemOccurrence,
 						healthActionModelDetailsProvider);
-				_decisionModel.updateAreBloodGlucoseRequirementsMet();
+				_decisionModel.updateAreVitalSignRequirementsMet();
 				_decisionModel.updateIsAdherencePerfect();
 			}
 		}

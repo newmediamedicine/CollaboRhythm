@@ -6,11 +6,13 @@ package collaboRhythm.shared.model.medications
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
@@ -21,6 +23,7 @@ package collaboRhythm.shared.model.medications
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
+	import mx.charts.LinearAxis;
 	import mx.collections.ArrayCollection;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
@@ -50,7 +53,7 @@ package collaboRhythm.shared.model.medications
 		private static const NONE:String = "None";
 
 		private var _isInitialized:Boolean;
-		private var _areBloodGlucoseRequirementsMet:Boolean = true;
+		private var _areProtocolMeasurementRequirementsMet:Boolean = true;
 		private var _isAdherencePerfect:Boolean = true;
 		private var _isChangeSpecified:Boolean;
 
@@ -79,6 +82,38 @@ package collaboRhythm.shared.model.medications
 		private var _requiredDaysOfPerfectMedicationAdherence:int;
 
 		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
+
+		private var _protocolMeasurementAverage:Number;
+
+		private var _verticalAxisMinimum:Number;
+
+		private var _verticalAxisMaximum:Number;
+
+		private var _goalZoneMinimum:Number;
+
+		private var _goalZoneMaximum:Number;
+
+		private var _goalZoneColor:uint;
+
+		private var _eligibleVitalSigns:Vector.<VitalSign>;
+
+		private var _isVerticalAxisMaximumExceeded:Boolean;
+
+		private var _isVerticalAxisMinimumExceeded:Boolean;
+
+		private var _protocolMeasurementAverageRangeLimited:Number;
+
+		protected var _chartVerticalAxis:LinearAxis;
+
+		private var _connectedChartVerticalAxisMaximum:Number;
+
+		private var _connectedChartVerticalAxisMinimum:Number;
+
+		protected var _numberOfDaysForEligibleVitalSigns:int;
+
+		protected var _requiredNumberVitalSigns:int;
+
+		protected var _protocolVitalSignCategory:String;
 
 		public function TitrationDecisionModelBase()
 		{
@@ -193,14 +228,14 @@ package collaboRhythm.shared.model.medications
 			return null;
 		}
 
-		public function get areBloodGlucoseRequirementsMet():Boolean
+		public function get areProtocolMeasurementRequirementsMet():Boolean
 		{
-			return _areBloodGlucoseRequirementsMet;
+			return _areProtocolMeasurementRequirementsMet;
 		}
 
-		public function set areBloodGlucoseRequirementsMet(value:Boolean):void
+		public function set areProtocolMeasurementRequirementsMet(value:Boolean):void
 		{
-			_areBloodGlucoseRequirementsMet = value;
+			_areProtocolMeasurementRequirementsMet = value;
 			updateStep1State();
 		}
 
@@ -410,7 +445,11 @@ package collaboRhythm.shared.model.medications
 
 		public function set algorithmPrerequisitesSatisfied(value:Boolean):void
 		{
-			_algorithmPrerequisitesSatisfied = value;
+			if (_algorithmPrerequisitesSatisfied != value)
+			{
+				_algorithmPrerequisitesSatisfied = value;
+				updateAlgorithmSuggestions();
+			}
 		}
 
 		public function get step1StateDescription():String
@@ -692,6 +731,257 @@ package collaboRhythm.shared.model.medications
 			{
 				saveScheduledDecisionResult(plan);
 			}
+		}
+
+		protected function getFirstAdministrationDateOfPreviousSchedule():Date
+		{
+			return null;
+		}
+
+		protected function updateAlgorithmSuggestions():void
+		{
+		}
+
+		protected function updateProtocolMeasurementAverage():void
+		{
+			pickEligibleProtocolMeasurements();
+			protocolMeasurementAverage = getProtocolMeasurementAverage();
+			updateStep1State();
+		}
+
+		/**
+		 * Picks the eligible measurements for the protocol.
+		 * For a measurement to eligible for determining the average for the algorithm:
+		 *     1) must be the scheduled measurement (for blood glucose, first measurement taken in the day)
+		 *     2) must be taken before eating breakfast (preprandial)
+		 *     3) must be after the last titration and also in the last X days
+		 */
+		protected function pickEligibleProtocolMeasurements():void
+		{
+			_eligibleVitalSigns = new Vector.<VitalSign>();
+			var vitalSignsArrayCollection:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(_protocolVitalSignCategory);
+			var previousVitalSign:VitalSign;
+			var now:Date = currentDateSource.now();
+			var timeConstraintValue:Number = DateUtil.roundTimeToNextDay(now).valueOf() -
+					DateUtil.MILLISECONDS_IN_DAY * _numberOfDaysForEligibleVitalSigns;
+			var firstAdministrationDateOfPreviousSchedule:Number = getFirstAdministrationDateOfPreviousSchedule().valueOf();
+			var eligibleWindowCutoff:Date = new Date(Math.max(timeConstraintValue,
+					firstAdministrationDateOfPreviousSchedule));
+			if (vitalSignsArrayCollection && vitalSignsArrayCollection.length > 0)
+			{
+				for each (var vitalSign:VitalSign in vitalSignsArrayCollection)
+				{
+					if (vitalSign.dateMeasuredStart.valueOf() > eligibleWindowCutoff.valueOf() &&
+							vitalSign.dateMeasuredStart.valueOf() < now.valueOf())
+					{
+						for each (var relationship:Relationship in vitalSign.isRelatedFrom)
+						{
+							// TODO: implement more robustly; for now we are assuming that any VitalSign that is an adherence result is the eligible preprandial measurement
+							if (relationship.type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT)
+							{
+								// TODO: find a better way to determine if the two measurements are in the same day
+								if (previousVitalSign == null
+										||
+										previousVitalSign.dateMeasuredStart.toDateString() !=
+												vitalSign.dateMeasuredStart.toDateString())
+								{
+									_eligibleVitalSigns.push(vitalSign);
+									previousVitalSign = vitalSign;
+								}
+							}
+						}
+					}
+				}
+
+				// remove the oldest so we only have the 3 most recent
+				while (_eligibleVitalSigns.length > _requiredNumberVitalSigns)
+				{
+					_eligibleVitalSigns.shift();
+				}
+			}
+		}
+
+		public function get isAverageAvailable():Boolean
+		{
+			return !isNaN(_protocolMeasurementAverage);
+		}
+
+		public function get protocolMeasurementAverage():Number
+		{
+			return _protocolMeasurementAverage;
+		}
+
+		public function set protocolMeasurementAverage(value:Number):void
+		{
+			_protocolMeasurementAverage = value;
+			updateOutsideRange();
+			updateAreVitalSignRequirementsMet();
+			updateAlgorithmSuggestions();
+		}
+
+		protected function updateOutsideRange():void
+		{
+			protocolMeasurementAverageRangeLimited = Math.min(verticalAxisMaximum,
+					Math.max(verticalAxisMinimum, protocolMeasurementAverage));
+			isVerticalAxisMaximumExceeded = protocolMeasurementAverage > verticalAxisMaximum;
+			isVerticalAxisMinimumExceeded = protocolMeasurementAverage < verticalAxisMinimum;
+		}
+
+		public function updateAreVitalSignRequirementsMet():void
+		{
+			areProtocolMeasurementRequirementsMet = !isNaN(protocolMeasurementAverage) && _eligibleVitalSigns != null &&
+					_eligibleVitalSigns.length >= _requiredNumberVitalSigns &&
+					isLastVitalSignFromToday();
+		}
+
+		private function isLastVitalSignFromToday():Boolean
+		{
+			var now:Date = currentDateSource.now();
+			var startOfToday:Date = new Date(DateUtil.roundTimeToNextDay(now).valueOf() -
+					DateUtil.MILLISECONDS_IN_DAY);
+
+			if (_eligibleVitalSigns && _eligibleVitalSigns.length > 0)
+			{
+				var vitalSign:VitalSign = _eligibleVitalSigns[_eligibleVitalSigns.length -
+						1];
+				return vitalSign && vitalSign.dateMeasuredStart != null &&
+						vitalSign.dateMeasuredStart.valueOf() >= startOfToday.valueOf();
+			}
+			return false;
+		}
+
+		protected function algorithmValuesAvailable():Boolean
+		{
+			return areProtocolMeasurementRequirementsMet && !isNaN(goalZoneMinimum) && !isNaN(goalZoneMaximum);
+		}
+
+		public function get verticalAxisMinimum():Number
+		{
+			return _verticalAxisMinimum;
+		}
+
+		public function set verticalAxisMinimum(value:Number):void
+		{
+			_verticalAxisMinimum = value;
+		}
+
+		public function get verticalAxisMaximum():Number
+		{
+			return _verticalAxisMaximum;
+		}
+
+		public function set verticalAxisMaximum(value:Number):void
+		{
+			_verticalAxisMaximum = value;
+		}
+
+		public function get goalZoneMinimum():Number
+		{
+			return _goalZoneMinimum;
+		}
+
+		public function set goalZoneMinimum(value:Number):void
+		{
+			_goalZoneMinimum = value;
+			updateAlgorithmSuggestions();
+		}
+
+		public function get goalZoneMaximum():Number
+		{
+			return _goalZoneMaximum;
+		}
+
+		public function set goalZoneMaximum(value:Number):void
+		{
+			_goalZoneMaximum = value;
+			updateAlgorithmSuggestions();
+		}
+
+		public function get goalZoneColor():uint
+		{
+			return _goalZoneColor;
+		}
+
+		public function set goalZoneColor(value:uint):void
+		{
+			_goalZoneColor = value;
+		}
+
+		private function getProtocolMeasurementAverage():Number
+		{
+			var sum:Number = 0;
+			var count:int = 0;
+
+			for each (var vitalSign:VitalSign in _eligibleVitalSigns)
+			{
+				sum += vitalSign.resultAsNumber;
+				count++;
+			}
+
+			var average:Number = NaN;
+			if (count > 0)
+				average = sum / count;
+			return average;
+		}
+
+		public function isMeasurementEligible(vitalSign:VitalSign):Boolean
+		{
+			return _eligibleVitalSigns && _eligibleVitalSigns.indexOf(vitalSign) != -1;
+		}
+
+		public function get isVerticalAxisMaximumExceeded():Boolean
+		{
+			return _isVerticalAxisMaximumExceeded;
+		}
+
+		public function set isVerticalAxisMaximumExceeded(value:Boolean):void
+		{
+			_isVerticalAxisMaximumExceeded = value;
+		}
+
+		public function get isVerticalAxisMinimumExceeded():Boolean
+		{
+			return _isVerticalAxisMinimumExceeded;
+		}
+
+		public function set isVerticalAxisMinimumExceeded(value:Boolean):void
+		{
+			_isVerticalAxisMinimumExceeded = value;
+		}
+
+		public function get protocolMeasurementAverageRangeLimited():Number
+		{
+			return _protocolMeasurementAverageRangeLimited;
+		}
+
+		/**
+		 * Average of measurements (vital signs, such as blood glucose or systolic) for protocol, but limited to be
+		 * within the range that is shown in the summary chart.
+		 * @param value
+		 */
+		public function set protocolMeasurementAverageRangeLimited(value:Number):void
+		{
+			_protocolMeasurementAverageRangeLimited = value;
+		}
+
+		public function get connectedChartVerticalAxisMaximum():Number
+		{
+			return _connectedChartVerticalAxisMaximum;
+		}
+
+		public function set connectedChartVerticalAxisMaximum(value:Number):void
+		{
+			_connectedChartVerticalAxisMaximum = value;
+		}
+
+		public function get connectedChartVerticalAxisMinimum():Number
+		{
+			return _connectedChartVerticalAxisMinimum;
+		}
+
+		public function set connectedChartVerticalAxisMinimum(value:Number):void
+		{
+			_connectedChartVerticalAxisMinimum = value;
 		}
 	}
 }
