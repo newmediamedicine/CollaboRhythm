@@ -279,7 +279,8 @@ package collaboRhythm.plugins.foraD40b.model
 
 		private function saveAbnormalBloodPressureHealthActionResult(initiatedLocally:Boolean):void
 		{
-			healthActionModelDetailsProvider.record.addDocument(_abnormalBloodPressureActionPlanHealthActionResult, initiatedLocally);
+			healthActionModelDetailsProvider.record.addDocument(_abnormalBloodPressureActionPlanHealthActionResult,
+					initiatedLocally);
 			healthActionModelDetailsProvider.record.addRelationship(HealthActionResult.RELATION_TYPE_TRIGGERED_HEALTH_ACTION_RESULT,
 					_abnormalBloodPressure, _abnormalBloodPressureActionPlanHealthActionResult, initiatedLocally);
 
@@ -298,10 +299,20 @@ package collaboRhythm.plugins.foraD40b.model
 
 			this.urlVariables = urlVariables;
 
-			if (foraD40bHealthActionInputModelCollection.pushedViewCount == 0 ||
-					currentView != ForaD40bHealthActionInputView)
+			if (repeatBloodPressureCount == 0)
 			{
-				setCurrentView(ForaD40bHealthActionInputView);
+				if (foraD40bHealthActionInputModelCollection.pushedViewCount == 0 ||
+						currentView != ForaD40bHealthActionInputView)
+				{
+					setCurrentView(ForaD40bHealthActionInputView);
+				}
+			}
+			else
+			{
+				if (currentView != AbnormalBloodPressureRepeatView)
+				{
+					setCurrentView(AbnormalBloodPressureRepeatView);
+				}
 			}
 		}
 
