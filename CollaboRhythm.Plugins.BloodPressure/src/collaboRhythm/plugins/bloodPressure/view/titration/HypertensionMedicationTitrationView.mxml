@@ -19,7 +19,7 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
 					   xmlns:titration="collaboRhythm.plugins.bloodPressure.view.titration.*"
-					   title="HypertensionMedicationTitration">
+					   title="Medication Adjustment Plan (MAP)">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.controller.HypertensionMedicationTitrationAppController;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;

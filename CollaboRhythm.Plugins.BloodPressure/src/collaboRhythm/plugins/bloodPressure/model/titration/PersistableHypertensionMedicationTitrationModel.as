@@ -234,6 +234,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				else
 					saveSucceeded = saveForClinician(shouldFinalize, plan, saveSucceeded);
 
+				sendMedicationTitrationAutomatedMessage(shouldFinalize);
+
 				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
 				saveTitrationResult(selections);
 
@@ -256,12 +258,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				saveSucceeded = persistMedicationChanges(saveSucceeded);
 			}
 
-			// TODO: create an appropriate clinician/coach message; see InsulinTitrationDecisionModelBase for an example
-			var proposeVsFinalizeString:String = shouldFinalize ? "finalized" : "proposed";
-			var agreeWithSystemString:String = selectionsAgreeWithSystem ? "(These changes agree with the MAP)" : "(These changes do not agree with the MAP)";
-
-			var message:String = "[Automated Message] The following decision has been " + proposeVsFinalizeString  + ".\n" + selectionsMessage + "\n" + agreeWithSystemString;
-			sendMessage(message);
 			return saveSucceeded;
 		}
 
@@ -276,10 +272,16 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				saveSucceeded = persistMedicationChanges(saveSucceeded);
 			}
 
-			// TODO: create an appropriate patient message; see InsulinTitrationDecisionModelBase for an example
-			var message:String = "[Automated Message] " + confirmationMessage;
-			sendMessage(message);
 			return saveSucceeded;
+		}
+
+		private function sendMedicationTitrationAutomatedMessage(shouldFinalize:Boolean):void
+		{
+			var proposeVsFinalizeString:String = shouldFinalize ? "finalized" : "proposed";
+			var agreeWithSystemString:String = selectionsAgreeWithSystem ? "(This decisions agrees with the MAP)" : "(This decision does not agree with the MAP)";
+
+			var message:String = "[Automated Message] The following decision has been " + proposeVsFinalizeString  + ": " + selectionsMessage + "\n" + agreeWithSystemString;
+			sendMessage(message);
 		}
 
 		private function persistMedicationChanges(saveSucceeded:Boolean):Boolean
@@ -476,7 +478,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
 				var agreeWithSystemString:String = selectionsAgreeWithSystem ? "agrees" : "does not agree";
 
-				headerMessage = "Your decision below " + agreeWithSystemString + " with the protocol";
+				headerMessage = "Your decision below " + agreeWithSystemString + " with the MAP";
 
 				if (selections.length > 0)
 				{
