@@ -20,6 +20,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.StopCondition;
 	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 
 	import com.dougmccune.controls.LimitedLinearAxis;
 
@@ -125,6 +126,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_numberOfDaysForEligibleVitalSigns = NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE;
 			requiredDaysOfPerfectMedicationAdherence = REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE;
 			_medicationTitrationHelper = new MedicationTitrationHelper(record, currentDateSource);
+			verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
+			verticalAxisMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
+			goalZoneMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM;
+			goalZoneMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM;
+			goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
 			initializeStates();
 		}
 
@@ -137,12 +143,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						InsulinTitrationDecisionSupportStatesFileStore;
 				_states = fileStore.titrationDecisionSupportStates;
 			}
-		}
-
-		override protected function updateVitalSignEvaluation():void
-		{
-			super.updateVitalSignEvaluation();
-			updateProtocolMeasurementAverage();
 		}
 
 		override protected function getFirstAdministrationDateOfPreviousSchedule():Date

@@ -114,6 +114,8 @@ package collaboRhythm.shared.model.medications
 		protected var _requiredNumberVitalSigns:int;
 
 		protected var _protocolVitalSignCategory:String;
+		private var _protocolMeasurementsMustBeAfterTitration:Boolean = true;
+
 
 		public function TitrationDecisionModelBase()
 		{
@@ -182,7 +184,7 @@ package collaboRhythm.shared.model.medications
 
 		protected function updateVitalSignEvaluation():void
 		{
-
+			updateProtocolMeasurementAverage();
 		}
 
 		private function adherenceItemsModelDocuments_collectionChangeEvent(event:CollectionEvent):void
@@ -764,9 +766,17 @@ package collaboRhythm.shared.model.medications
 			var now:Date = currentDateSource.now();
 			var timeConstraintValue:Number = DateUtil.roundTimeToNextDay(now).valueOf() -
 					DateUtil.MILLISECONDS_IN_DAY * _numberOfDaysForEligibleVitalSigns;
-			var firstAdministrationDateOfPreviousSchedule:Number = getFirstAdministrationDateOfPreviousSchedule().valueOf();
-			var eligibleWindowCutoff:Date = new Date(Math.max(timeConstraintValue,
-					firstAdministrationDateOfPreviousSchedule));
+			var eligibleWindowCutoff:Date;
+			if (_protocolMeasurementsMustBeAfterTitration)
+			{
+				var firstAdministrationDateOfPreviousSchedule:Number = getFirstAdministrationDateOfPreviousSchedule().valueOf();
+				eligibleWindowCutoff = new Date(Math.max(timeConstraintValue,
+						firstAdministrationDateOfPreviousSchedule));
+			}
+			else
+			{
+				eligibleWindowCutoff = new Date(timeConstraintValue);
+			}
 			if (vitalSignsArrayCollection && vitalSignsArrayCollection.length > 0)
 			{
 				for each (var vitalSign:VitalSign in vitalSignsArrayCollection)
@@ -982,6 +992,16 @@ package collaboRhythm.shared.model.medications
 		public function set connectedChartVerticalAxisMinimum(value:Number):void
 		{
 			_connectedChartVerticalAxisMinimum = value;
+		}
+
+		public function get protocolMeasurementsMustBeAfterTitration():Boolean
+		{
+			return _protocolMeasurementsMustBeAfterTitration;
+		}
+
+		public function set protocolMeasurementsMustBeAfterTitration(value:Boolean):void
+		{
+			_protocolMeasurementsMustBeAfterTitration = value;
 		}
 	}
 }

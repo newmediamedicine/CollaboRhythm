@@ -68,6 +68,11 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		public static const BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM:Number = 110;
 		private static const PLOT_ITEM_RADIUS:int = 10;
 
+		public static const SYSTOLIC_VERTICAL_AXIS_MINIMUM:Number = 40;
+		public static const SYSTOLIC_VERTICAL_AXIS_MAXIMUM:Number = 180;
+		public static const SYSTOLIC_GOAL_ZONE_MINIMUM:Number = 90;
+		public static const SYSTOLIC_GOAL_ZONE_MAXIMUM:Number = 130;
+
 		public function DefaultVitalSignChartModifier(chartDescriptor:VitalSignChartDescriptor,
 														   chartModelDetails:IChartModelDetails,
 														   decoratedChartModifier:IChartModifier)

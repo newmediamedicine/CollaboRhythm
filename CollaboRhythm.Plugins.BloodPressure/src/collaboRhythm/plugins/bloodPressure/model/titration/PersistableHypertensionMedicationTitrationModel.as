@@ -57,13 +57,17 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		override public function evaluateForInitialize():void
 		{
-			reloadCurrentDoses();
+			determineCurrentDoses();
+			updateIsAdherencePerfect();
+			updateProtocolMeasurementAverage();
 			reloadSelections();
 		}
 
-		private function reloadCurrentDoses():void
+		public function reloadSelections():void
 		{
-			updateSystemRecommendedDoseSelections();
+			clearSelections();
+			updateAlgorithmSuggestions();
+			loadSelections();
 		}
 
 		private function getMedications():Vector.<HypertensionMedication>
@@ -79,10 +83,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return medications;
 		}
 
-		public function reloadSelections():void
+		public function loadSelections():void
 		{
-			clearSelections();
-
 			var plan:DocumentBase = getParentForTitrationDecisionResult(false);
 
 			if (plan)
@@ -165,7 +167,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 		}
 
-		private function clearSelections():void
+		public function clearSelections():void
 		{
 			for each (var pair:HypertensionMedicationAlternatePair in
 					_hypertensionMedicationAlternatePairsVector)
