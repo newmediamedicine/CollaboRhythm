@@ -36,6 +36,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	 */
 	public class PersistableHypertensionMedicationTitrationModel extends HypertensionMedicationTitrationModel
 	{
+		private static const HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME:String = "Hypertension Medication Titration Decision";
+
 		private static const DECISION_ACTION_STEP_RESULT_NAME:String = "Decision Action";
 		private static const FINALIZE_ACTION_TYPE:String = "Finalize";
 		private static const PROPOSE_ACTION_TYPE:String = "Propose";
@@ -685,8 +687,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 			record.addRelationship(HealthActionResult.RELATION_TYPE_TITRATION_DECISION, parentForTitrationDecisionResult, titrationResult, true);
 		}
-
-		private static const HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME:String = "Hypertension Medication Titration Decision";
 
 		/**
 		 * Finds the document that should be used as the parent for titration decision result(s), or creates one if it does not exist.
