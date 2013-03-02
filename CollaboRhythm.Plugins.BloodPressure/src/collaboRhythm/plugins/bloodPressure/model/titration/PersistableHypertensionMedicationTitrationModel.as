@@ -36,6 +36,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	 */
 	public class PersistableHypertensionMedicationTitrationModel extends HypertensionMedicationTitrationModel
 	{
+		private static const DECISION_ACTION_STEP_RESULT_NAME:String = "Decision Action";
+		private static const FINALIZE_ACTION_TYPE:String = "Finalize";
+		private static const PROPOSE_ACTION_TYPE:String = "Propose";
+		private static const SELECTION_ACTION_TYPE:String = "Selection";
+
 		private static const DEFAULT_RECURRENCE_COUNT:int = 120;
 		private static const ESSENTIAL_HYPERTENSION_INDICATION:String = "Essential Hypertension";
 		private static const DEFAULT_MEDICATION_INSTRUCTIONS:String = "take with water";
@@ -47,6 +52,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _selectionsAgreeWithSystem:Boolean = true;
 		private var _headerMessage:String;
 		private var _selectionsMessage:String;
+		private var _mostRecentFinalizeDecisionDate:Date;
 
 		public function PersistableHypertensionMedicationTitrationModel(activeAccount:Account,
 																		activeRecordAccount:Account,
@@ -89,6 +95,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function loadSelections():void
 		{
 			var plan:DocumentBase = getParentForTitrationDecisionResult(false);
+			_mostRecentFinalizeDecisionDate = null;
 
 			if (plan)
 			{
@@ -101,6 +108,12 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 							HealthActionResult : null;
 					if (decisionResult && decisionResult.name.text == TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME)
 					{
+						checkForMostRecentFinalize(decisionResult);
+						if (_mostRecentFinalizeDecisionDate != null)
+						{
+							break;
+						}
+
 						// only use latest titration decision from each account (each person's latest decision)
 						if (decisionsFromAccounts.getValueByKey(decisionResult.reportedBy) != null)
 						{
@@ -108,6 +121,28 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 						}
 						decisionsFromAccounts.addKeyValue(decisionResult.reportedBy, decisionResult);
 						restoreSelectionsFromDecisionResult(decisionResult);
+					}
+				}
+			}
+		}
+
+		private function checkForMostRecentFinalize(decisionResult:HealthActionResult):void
+		{
+			if (decisionResult.actions && decisionResult.actions.length > 0)
+			{
+				for each (var actionResult:ActionResult in decisionResult.actions)
+				{
+					var actionStepResult:ActionStepResult = actionResult as ActionStepResult;
+
+					if (actionStepResult && actionStepResult.actionType == FINALIZE_ACTION_TYPE)
+					{
+						if (decisionResult.dateReported &&
+								(_mostRecentFinalizeDecisionDate == null ||
+										decisionResult.dateReported.valueOf() >
+												_mostRecentFinalizeDecisionDate.valueOf()))
+						{
+							_mostRecentFinalizeDecisionDate = decisionResult.dateReported;
+						}
 					}
 				}
 			}
@@ -121,7 +156,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					var actionStepResult:ActionStepResult = actionResult as ActionStepResult;
 
-					if (actionStepResult)
+					if (actionStepResult && actionStepResult.actionType == SELECTION_ACTION_TYPE)
 					{
 						var occurrence:Occurrence = actionStepResult.occurrences &&
 								actionStepResult.occurrences.length > 0 ? actionStepResult.occurrences[0] as
@@ -239,7 +274,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				sendMedicationTitrationAutomatedMessage(shouldFinalize);
 
 				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
-				saveTitrationResult(selections);
+				saveTitrationResult(selections, shouldFinalize);
 
 				if (persist)
 				{
@@ -596,7 +631,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return _decisionScheduleItemOccurrence;
 		}
 
-		private function saveTitrationResult(selections:Vector.<HypertensionMedicationDoseSelection>):void
+		private function saveTitrationResult(selections:Vector.<HypertensionMedicationDoseSelection>,
+											 shouldFinalize:Boolean):void
 		{
 			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult();
 
@@ -609,11 +645,18 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				titrationResult.actions = new ArrayCollection();
 			}
 
+			var actionStepResult:ActionStepResult = new ActionStepResult();
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null,
+					DECISION_ACTION_STEP_RESULT_NAME);
+			actionStepResult.actionType = shouldFinalize ? FINALIZE_ACTION_TYPE : PROPOSE_ACTION_TYPE;
+			titrationResult.actions.addItem(actionStepResult);
+
 			for each (var selection:HypertensionMedicationDoseSelection in selections)
 			{
 				selection.persisted = true;
 
 				var actionStepResult:ActionStepResult = new ActionStepResult();
+				actionStepResult.actionType = SELECTION_ACTION_TYPE;
 				actionStepResult.name = new CollaboRhythmCodedValue(null, null, null,
 						isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME);
 				actionStepResult.occurrences = new ArrayCollection();
