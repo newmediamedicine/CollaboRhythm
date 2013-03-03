@@ -2,6 +2,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 {
 	import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationDecisionPanelController;
 	import collaboRhythm.plugins.bloodPressure.model.ConfirmChangePopUpModel;
+	import collaboRhythm.plugins.bloodPressure.view.BloodPressureDiastolicPlotItemRenderer;
 	import collaboRhythm.plugins.bloodPressure.view.titration.ConfirmChangePopUp;
 	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationDecisionPanel;
 	import collaboRhythm.shared.model.Account;
@@ -13,11 +14,20 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
 
+	import com.dougmccune.controls.ScrubChart;
+	import com.dougmccune.controls.SeriesDataSet;
+
 	import com.theory9.data.types.OrderedMap;
 
 	import flash.accessibility.AccessibilityProperties;
 
+	import mx.charts.series.PlotSeries;
+	import mx.collections.ArrayCollection;
+
+	import mx.core.ClassFactory;
+
 	import mx.core.IVisualElement;
+	import mx.graphics.SolidColorStroke;
 	import mx.managers.PopUpManager;
 
 	import spark.events.PopUpEvent;
@@ -190,6 +200,33 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		override protected function get titrationDecisionModel():TitrationDecisionModelBase
 		{
 			return _model;
+		}
+
+		override protected function updateMainChartSeriesDataSets(chart:ScrubChart,
+																  seriesDataSets:Vector.<SeriesDataSet>):void
+		{
+			super.updateMainChartSeriesDataSets(chart, seriesDataSets);
+
+			var systolicSeriesDataSet:SeriesDataSet = seriesDataSets[0];
+			systolicSeriesDataSet.series.setStyle("shape", TitrationSupportChartModifierBase.WEDGE_SHAPE);
+			var color:uint = 0;
+			systolicSeriesDataSet.series.setStyle("stroke", new SolidColorStroke(color, 2));
+
+			var vitalSignSeries:PlotSeries;
+			var seriesDataCollection:ArrayCollection;
+			vitalSignSeries = new PlotSeries();
+			vitalSignSeries.name = "diastolic";
+			vitalSignSeries.id = chart.id + "_diastolicSeries";
+			vitalSignSeries.xField = "dateMeasuredStart";
+			vitalSignSeries.yField = "resultAsNumber";
+			seriesDataCollection = chartModelDetails.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.DIASTOLIC_CATEGORY);
+			vitalSignSeries.dataProvider = seriesDataCollection;
+			vitalSignSeries.displayName = "Blood Pressure Diastolic";
+			vitalSignSeries.setStyle("itemRenderer", new ClassFactory(BloodPressureDiastolicPlotItemRenderer));
+			vitalSignSeries.filterDataValues = "none";
+			vitalSignSeries.setStyle("stroke", new SolidColorStroke(0x808080, 2));
+			seriesDataSets.push(new SeriesDataSet(vitalSignSeries, seriesDataCollection, "dateMeasuredStart"));
+
 		}
 	}
 }

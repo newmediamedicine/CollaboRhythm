@@ -1,7 +1,5 @@
 package collaboRhythm.shared.model.medications
 {
-	import collaboRhythm.shared.model.medications.VitalSignForDecisionProxy;
-
 	import flash.display.Graphics;
 	import flash.geom.Rectangle;
 
@@ -96,7 +94,33 @@ package collaboRhythm.shared.model.medications
 				stroke.apply(g,null,null);
 			if (fill)
 				fill.begin(g, rcFill, null);
-			g.drawEllipse(w - adjustedRadius,w - adjustedRadius,unscaledWidth - 2 * w + adjustedRadius * 2, unscaledHeight - 2 * w + adjustedRadius * 2);
+
+			var shape:String = getStyle("shape");
+			if (shape == TitrationSupportChartModifierBase.WEDGE_SHAPE)
+			{
+                // center
+                var cx:Number = unscaledWidth / 2;
+                var cy:Number = unscaledHeight / 2;
+
+				var directionScale:Number = -1;
+
+				var deltaY:Number = 8 * directionScale;
+				var deltaX:Number = 8;
+
+                // left top corner
+                g.moveTo(cx - deltaX, cy + deltaY);
+
+                // center
+                g.lineTo(cx, cy);
+
+                // right top corner
+                g.lineTo(cx + deltaX, cy + deltaY);
+			}
+			else
+			{
+				g.drawEllipse(w - adjustedRadius, w - adjustedRadius, unscaledWidth - 2 * w + adjustedRadius * 2,
+						unscaledHeight - 2 * w + adjustedRadius * 2);
+			}
 	
 			if (fill)
 				fill.end(g);
