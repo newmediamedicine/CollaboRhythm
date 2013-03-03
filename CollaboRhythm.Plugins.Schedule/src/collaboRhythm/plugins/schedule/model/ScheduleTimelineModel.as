@@ -265,6 +265,16 @@ package collaboRhythm.plugins.schedule.model
 				// because we needed to remove it before modifying the collection of occurrences in the group to avoid
 				// changing the group's id.
 			}
+
+			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
+			{
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
+				{
+					scheduleItemOccurrence.dateStart = scheduleGroup.dateStart;
+					scheduleItemOccurrence.dateEnd = scheduleGroup.dateEnd;
+				}
+			}
+
 			stackingUpdated = true;
 		}
 
@@ -281,7 +291,7 @@ package collaboRhythm.plugins.schedule.model
 
 		public function unscheduleItem(moveData:MoveData):void
 		{
-			stackingUpdated = false;
+//			stackingUpdated = false;
 
 			var scheduleItemOccurrence:ScheduleItemOccurrence = _scheduleModel.scheduleItemOccurrencesHashMap[moveData.id];
 			if (scheduleItemOccurrence)
@@ -301,7 +311,7 @@ package collaboRhythm.plugins.schedule.model
 				scheduleChanger.endSchedule(scheduleItemOccurrence.scheduleItem, scheduleItemOccurrence, true);
 			}
 
-			stackingUpdated = true;
+//			stackingUpdated = true;
 		}
 
 		public function get stackingUpdated():Boolean

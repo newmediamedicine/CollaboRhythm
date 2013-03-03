@@ -200,6 +200,13 @@
 					destroyScheduleGroupView(scheduleGroupRemoved);
 				}
 			}
+			else if (event.kind == CollectionEventKind.RESET)
+			{
+				for each (var scheduleGroupTimelineView:ScheduleGroupTimelineView in _scheduleGroupTimelineViews)
+				{
+					destroyScheduleGroupView(scheduleGroupTimelineView.scheduleGroup);
+				}
+			}
 		}
 
 		public function createScheduleGroupView(scheduleGroup:ScheduleGroup):ScheduleGroupTimelineView
