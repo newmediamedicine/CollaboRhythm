@@ -14,6 +14,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 		public function HypertensionMedicationTitrationDecisionPanel()
 		{
 			super();
+			this.width = TITRATION_DECISION_PANEL_WIDTH;
 		}
 
 		public function get model():PersistableHypertensionMedicationTitrationModel

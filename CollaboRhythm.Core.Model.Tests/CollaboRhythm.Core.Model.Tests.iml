@@ -17,6 +17,9 @@
             <entry library-name="FlexUnit" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -39,6 +42,7 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared" exported="" />
     <orderEntry type="jdk" jdkName="4.6.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="library" exported="" name="FlexUnit" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
   </component>
 </module>
 

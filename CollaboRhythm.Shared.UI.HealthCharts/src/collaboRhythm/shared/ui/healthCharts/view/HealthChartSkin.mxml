@@ -102,7 +102,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			<mx:backgroundElements>
 				<datashapes:DataDrawingCanvas id="mainDataDrawingCanvas" includeInRanges="true" width="100%" height="100%">
 <!--
-					<s:Label id="goalZoneLabel" styleName="ZoneLabel" visible="false" text="Goal Range"/>
+					<s:Label id="goalZoneLabel" width="400" height="200" styleName="ZoneLabel" visible="false" text="Goal Range"/>
 -->
 				</datashapes:DataDrawingCanvas>
 			</mx:backgroundElements>

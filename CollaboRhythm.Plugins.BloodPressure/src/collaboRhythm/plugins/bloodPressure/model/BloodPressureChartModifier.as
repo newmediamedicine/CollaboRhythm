@@ -130,6 +130,7 @@ package collaboRhythm.plugins.bloodPressure.model
 
 			if (zoneLabel)
 			{
+				zoneLabel.visible = true;
 				zoneLabel.setStyle("color", color);
 				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:200});
 			}

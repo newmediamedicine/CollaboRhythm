@@ -42,6 +42,8 @@ package collaboRhythm.shared.model.medications
 
 		protected var _changeConfirmed:Boolean = false;
 
+		public static const WEDGE_SHAPE:String = "wedge";
+
 		public function TitrationSupportChartModifierBase(chartDescriptor:IChartDescriptor,
 																	 chartModelDetails:IChartModelDetails,
 																	 currentChartModifier:IChartModifier)
@@ -67,7 +69,16 @@ package collaboRhythm.shared.model.medications
 		private function mainChart_dataTipFunction(hitData:HitData):String
 		{
 			var proxy:VitalSignForDecisionProxy = hitData.item as VitalSignForDecisionProxy;
-			var vitalSign:VitalSign = proxy.vitalSign;
+			var vitalSign:VitalSign;
+			if (proxy)
+			{
+				vitalSign = proxy.vitalSign;
+			}
+			else
+			{
+				vitalSign = hitData.item as VitalSign;
+			}
+
 			if (vitalSign)
 			{
 				var result:String;
@@ -76,9 +87,9 @@ package collaboRhythm.shared.model.medications
 				else
 					result = vitalSign.resultAsNumber.toFixed(2);
 
-				var eligiblePhrase:String = proxy.isEligible ? "Measurement is <b>eligible</b> for algorithm" : "Measurement is <b>not</b> eligible for algorithm";
+				var eligiblePhrase:String = proxy ? (proxy.isEligible ? "Measurement is <b>eligible</b> for algorithm<br/>" : "Measurement is <b>not</b> eligible for algorithm<br/>") : "";
 				return vitalSign.name.text + " " + result + "<br/>" +
-						eligiblePhrase + "<br/>" +
+						eligiblePhrase +
 						"Date: " + vitalSign.dateMeasuredStart.toLocaleString();
 			}
 
@@ -111,7 +122,13 @@ package collaboRhythm.shared.model.medications
 			vitalSignSeries.setStyle("fill", new SolidColor(color));
 
 			seriesDataSets.push(new SeriesDataSet(vitalSignSeries, seriesDataCollection, "dateMeasuredStart"));
+
+			updateMainChartSeriesDataSets(chart, seriesDataSets);
 			return seriesDataSets;
+		}
+
+		protected function updateMainChartSeriesDataSets(chart:ScrubChart, seriesDataSets:Vector.<SeriesDataSet>):void
+		{
 		}
 
 		public override function getSeriesDataCollection():ArrayCollection
