@@ -1,10 +1,9 @@
-package collaboRhythm.plugins.insulinTitrationSupport.model
+package collaboRhythm.plugins.insulinTitrationSupport.controller
 {
-	import collaboRhythm.plugins.insulinTitrationSupport.view.CreateInsulinTitrationSupportHealthActionView;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationController;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
+	import collaboRhythm.shared.model.medications.TitrationHealthActionCreator;
 
 	import flash.events.MouseEvent;
 
@@ -39,9 +38,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			// TODO: push the view and provide some fields for the schedule to be customized
 //			_viewNavigator.pushView(CreateInsulinTitrationSupportHealthActionView, this);
-			var creationModel:InsulinTitrationSupportHealthActionCreationModel = new InsulinTitrationSupportHealthActionCreationModel(_activeAccount, _activeRecordAccount);
-			creationModel.createDecisionHealthAction();
-			creationModel.createBloodGlucoseHealthAction();
+			var creator:TitrationHealthActionCreator = new TitrationHealthActionCreator(_activeAccount.accountId,
+					_activeRecordAccount.primaryRecord);
+
+			creator.equipmentTypeMatchString = "blood glucose";
+			creator.equipmentInstructions = "Use device to record blood glucose. Insert test strip into device and apply a drop of blood.";
+			creator.equipmentType = "Blood Glucose Meter";
+			creator.equipmentName = "FORA D40b";
+			creator.decisionPlanSystem = "CollaboRhythm Hypertension Medication Titration Support";
+			creator.decisionPlanStepType = "Decide";
+			creator.decisionPlanStepName = "Choose a new dose for your insulin";
+			creator.decisionPlanName = "Insulin Titration Decision";
+			creator.decisionPlanInstructions = "Use CollaboRhythm to follow the algorithm for changing your dose of basal insulin (generally every three days).";
+			creator.indication = "Type II Diabetes Mellitus";
+			
+			creator.createDecisionHealthAction();
+			creator.createMeasurementHealthAction();
+			_activeRecordAccount.primaryRecord.saveAllChanges();
 		}
 
 		public function showHealthActionEditView(scheduleItemOccurrence:ScheduleItemOccurrence):void

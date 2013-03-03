@@ -43,10 +43,5 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 		public function drawBackgroundElements(canvas:DataDrawingCanvas, zoneLabel:Label):void
 		{
 		}
-
-		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
-		{
-			return chartDescriptors;
-		}
 	}
 }

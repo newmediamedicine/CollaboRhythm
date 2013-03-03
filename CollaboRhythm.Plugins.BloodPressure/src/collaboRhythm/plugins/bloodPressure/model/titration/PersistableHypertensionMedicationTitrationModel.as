@@ -36,7 +36,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	 */
 	public class PersistableHypertensionMedicationTitrationModel extends HypertensionMedicationTitrationModel
 	{
-		private static const HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME:String = "Hypertension Medication Titration Decision";
+		public static const HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME:String = "Hypertension Medication Titration Decision";
 
 		private static const DECISION_ACTION_STEP_RESULT_NAME:String = "Decision Action";
 		private static const FINALIZE_ACTION_TYPE:String = "Finalize";
@@ -44,7 +44,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private static const SELECTION_ACTION_TYPE:String = "Selection";
 
 		private static const DEFAULT_RECURRENCE_COUNT:int = 120;
-		private static const ESSENTIAL_HYPERTENSION_INDICATION:String = "Essential Hypertension";
+		public static const ESSENTIAL_HYPERTENSION_INDICATION:String = "Essential Hypertension";
 		private static const DEFAULT_MEDICATION_INSTRUCTIONS:String = "take with water";
 		private static const DEFAULT_SCHEDULE_ADMINISTRATIONS_PER_DAY:int = 1;
 
@@ -55,6 +55,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _headerMessage:String;
 		private var _selectionsMessage:String;
 		private var _mostRecentFinalizeDecisionDate:Date;
+		private var _instructionsScrollPosition:Number;
 
 		public function PersistableHypertensionMedicationTitrationModel(activeAccount:Account,
 																		activeRecordAccount:Account,
@@ -718,20 +719,27 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 			if (createIfNeeded && titrationDecisionPlan == null)
 			{
-				titrationDecisionPlan = new HealthActionPlan();
-				titrationDecisionPlan.name = new CollaboRhythmCodedValue(null, null, null,
-						HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME);
-				titrationDecisionPlan.planType = "Prescribed";
-				titrationDecisionPlan.plannedBy = accountId;
-				titrationDecisionPlan.datePlanned = _currentDateSource.now();
-				titrationDecisionPlan.indication = ESSENTIAL_HYPERTENSION_INDICATION;
-				titrationDecisionPlan.instructions = "Use CollaboRhythm to follow the algorithm for changing your dose of hypertension medications.";
-				titrationDecisionPlan.system = new CollaboRhythmCodedValue(null, null, null,
-						"CollaboRhythm Hypertension Titration Support");
-
-				record.addDocument(titrationDecisionPlan, true);
+				titrationDecisionPlan = createTitrationDecisionPlan();
 			}
 
+			return titrationDecisionPlan;
+		}
+
+		private function createTitrationDecisionPlan():HealthActionPlan
+		{
+			var titrationDecisionPlan:HealthActionPlan;
+			titrationDecisionPlan = new HealthActionPlan();
+			titrationDecisionPlan.name = new CollaboRhythmCodedValue(null, null, null,
+					HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME);
+			titrationDecisionPlan.planType = "Prescribed";
+			titrationDecisionPlan.plannedBy = accountId;
+			titrationDecisionPlan.datePlanned = _currentDateSource.now();
+			titrationDecisionPlan.indication = ESSENTIAL_HYPERTENSION_INDICATION;
+			titrationDecisionPlan.instructions = "Use CollaboRhythm to follow the algorithm for changing your dose of hypertension medications.";
+			titrationDecisionPlan.system = new CollaboRhythmCodedValue(null, null, null,
+					"CollaboRhythm Hypertension Titration Support");
+
+			record.addDocument(titrationDecisionPlan, true);
 			return titrationDecisionPlan;
 		}
 
@@ -790,6 +798,16 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function set headerMessage(value:String):void
 		{
 			_headerMessage = value;
+		}
+
+		public function get instructionsScrollPosition():Number
+		{
+			return _instructionsScrollPosition;
+		}
+
+		public function set instructionsScrollPosition(instructionsScrollPosition:Number):void
+		{
+			_instructionsScrollPosition = instructionsScrollPosition;
 		}
 	}
 }

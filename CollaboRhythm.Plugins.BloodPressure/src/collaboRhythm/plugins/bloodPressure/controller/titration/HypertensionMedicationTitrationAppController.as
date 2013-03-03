@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.bloodPressure.controller
+package collaboRhythm.plugins.bloodPressure.controller.titration
 {
 	import collaboRhythm.plugins.bloodPressure.model.ConfirmChangePopUpModel;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;

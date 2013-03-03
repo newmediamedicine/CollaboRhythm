@@ -66,13 +66,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			_activeAccount = activeAccount;
 			_activeRecordAccount = activeRecordAccount;
 			_record = activeRecordAccount.primaryRecord;
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+
 			verticalAxisMinimum = DefaultVitalSignChartModifier.SYSTOLIC_VERTICAL_AXIS_MINIMUM;
 			verticalAxisMaximum = DefaultVitalSignChartModifier.SYSTOLIC_VERTICAL_AXIS_MAXIMUM;
 			goalZoneMinimum = DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MINIMUM;
 			goalZoneMaximum = DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MAXIMUM;
 			goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
-
-			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
 			_hypertensionMedicationAlternatePairsVector.push(
 					new HypertensionMedicationAlternatePair(

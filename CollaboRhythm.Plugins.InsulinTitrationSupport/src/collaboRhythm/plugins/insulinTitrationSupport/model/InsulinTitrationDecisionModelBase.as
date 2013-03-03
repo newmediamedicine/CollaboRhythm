@@ -22,11 +22,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 
-	import com.dougmccune.controls.LimitedLinearAxis;
-
-	import flash.events.Event;
-
-	import mx.charts.LinearAxis;
 	import mx.collections.ArrayCollection;
 	import mx.utils.StringUtil;
 
@@ -558,35 +553,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set bloodGlucoseRequirementsDetails(value:String):void
 		{
 			_bloodGlucoseRequirementsDetails = value;
-		}
-
-		public function get chartVerticalAxis():LinearAxis
-		{
-			return _chartVerticalAxis;
-		}
-
-		public function set chartVerticalAxis(value:LinearAxis):void
-		{
-			if (_chartVerticalAxis)
-				_chartVerticalAxis.removeEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT, chartVerticalAxis_axisChangeHandler);
-
-			_chartVerticalAxis = value;
-			if (_chartVerticalAxis)
-			{
-				updateConnectedChartVerticalAxisLimits();
-				_chartVerticalAxis.addEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT, chartVerticalAxis_axisChangeHandler, false, 0, true);
-			}
-		}
-
-		private function chartVerticalAxis_axisChangeHandler(event:Event):void
-		{
-			updateConnectedChartVerticalAxisLimits();
-		}
-
-		private function updateConnectedChartVerticalAxisLimits():void
-		{
-			connectedChartVerticalAxisMaximum = _chartVerticalAxis.maximum;
-			connectedChartVerticalAxisMinimum = _chartVerticalAxis.minimum;
 		}
 
 		public function get algorithmSuggestedDoseChange():Number

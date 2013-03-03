@@ -1,64 +1,55 @@
-package collaboRhythm.plugins.insulinTitrationSupport.model
+package collaboRhythm.plugins.bloodPressure.model.titration
 {
-	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationHealthActionConditionsMet;
-	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationHealthActionInsufficientAdherence;
-	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationHealthActionInsufficientBloodGlucose;
+	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationHealthActionConditionsMet;
+	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationHealthActionInsufficientAdherence;
+	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationHealthActionInsufficientBloodPressure;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
-	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
+	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
 	import collaboRhythm.shared.model.medications.TitrationSupportHealthActionListViewAdapterBase;
-	import collaboRhythm.shared.model.services.ICurrentDateSource;
-	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import spark.components.Button;
 	import spark.components.Image;
 	import spark.core.SpriteVisualElement;
 
-	public class InsulinTitrationSupportHealthActionListViewAdapter extends TitrationSupportHealthActionListViewAdapterBase implements IHealthActionListViewAdapter
+	public class HypertensionMedicationTitrationSupportHealthActionListViewAdapter extends TitrationSupportHealthActionListViewAdapterBase implements IHealthActionListViewAdapter
 	{
-		private var _healthAction:InsulinTitrationSupportHealthAction;
-		private var _model:InsulinTitrationSupportHealthActionListViewModel;
-		private var _dosageChangeValueLabel:String;
+		private var _healthAction:HypertensionMedicationTitrationSupportHealthAction;
+		private var _model:HypertensionMedicationTitrationSupportHealthActionListViewModel;
 
-		private var _medicationScheduleDetails:ScheduleDetails;
-
-		public function InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
+		public function HypertensionMedicationTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
 		{
-			_healthAction = new InsulinTitrationSupportHealthAction();
-			_model = new InsulinTitrationSupportHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			_healthAction = new HypertensionMedicationTitrationSupportHealthAction();
+			_model = new HypertensionMedicationTitrationSupportHealthActionListViewModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
 
-			var medicationTitrationHelper:MedicationTitrationHelper = new MedicationTitrationHelper(_model.healthActionInputModelDetailsProvider.record,
-					WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource);
-			_medicationScheduleDetails = medicationTitrationHelper.getNextMedicationScheduleDetails(InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES,
-					true);
-			_dosageChangeValueLabel = medicationTitrationHelper.dosageChangeValueLabel;
-
-			_decisionModel = new InsulinTitrationDecisionHealthActionModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
+			var activeRecordAccount:Account = new Account();
+			activeRecordAccount.accountId = healthActionModelDetailsProvider.accountId;
+			activeRecordAccount.primaryRecord = healthActionModelDetailsProvider.record;
+			_decisionModel = new HypertensionMedicationTitrationModel(healthActionModelDetailsProvider.activeAccount, activeRecordAccount);
 			_decisionModel.updateAreVitalSignRequirementsMet();
 			_decisionModel.updateIsAdherencePerfect();
 		}
 
 		override protected function createConditionsMetIcon():SpriteVisualElement
 		{
-			return new InsulinTitrationHealthActionConditionsMet();
+			return new HypertensionMedicationTitrationHealthActionConditionsMet();
 		}
 
 		override protected function createInsufficientAdherenceIcon():SpriteVisualElement
 		{
-			return new InsulinTitrationHealthActionInsufficientAdherence();
+			return new HypertensionMedicationTitrationHealthActionInsufficientAdherence();
 		}
 
 		override protected function createInsufficientMeasurementIcon():SpriteVisualElement
 		{
-			return new InsulinTitrationHealthActionInsufficientBloodGlucose();
+			return new HypertensionMedicationTitrationHealthActionInsufficientBloodPressure();
 		}
 
 		public function get healthAction():HealthActionBase
@@ -73,27 +64,27 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get name():String
 		{
-			return InsulinTitrationSupportHealthAction.HEALTH_ACTION_TYPE;
+			return "MAP";
 		}
 
 		public function get description():String
 		{
-			return "Dose Change Decision";
+			return "Medication Adjustment Plan";
 		}
 
 		public function get indication():String
 		{
-			return "Diabetes";
+			return "Hypertension";
 		}
 
 		public function get primaryInstructions():String
 		{
-			return "View this daily to learn about titration";
+			return "Every 14 days, consider an adjustment";
 		}
 
 		public function get secondaryInstructions():String
 		{
-			return "Only make a change when appropriate";
+			return "0 days until your next adjustment";
 		}
 
 		public function get instructionalVideoPath():String
@@ -115,7 +106,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				var adherenceResults:Vector.<DocumentBase> = _model.scheduleItemOccurrence.adherenceItem.adherenceResults;
 				if (adherenceResults.length != 0)
 				{
-					additionalAdherenceInformation = _dosageChangeValueLabel;
+					// TODO: come up with an appropriate additional information when a change has been made
+					additionalAdherenceInformation = "Changed";
 				}
 			}
 
@@ -131,7 +123,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		{
 			if (!_controller)
 			{
-				_controller = new HealthActionListViewControllerBase(_model)
+				_controller = new HealthActionListViewControllerBase(_model);
 			}
 			return _controller;
 		}

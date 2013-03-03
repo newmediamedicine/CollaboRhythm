@@ -1,5 +1,7 @@
-package collaboRhythm.plugins.insulinTitrationSupport.model
+package collaboRhythm.shared.model.medications
 {
+	import collaboRhythm.shared.model.medications.VitalSignForDecisionProxy;
+
 	import flash.display.Graphics;
 	import flash.geom.Rectangle;
 

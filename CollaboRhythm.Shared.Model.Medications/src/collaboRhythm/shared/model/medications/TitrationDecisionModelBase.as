@@ -20,6 +20,9 @@ package collaboRhythm.shared.model.medications
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
+	import com.dougmccune.controls.LimitedLinearAxis;
+
+	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
@@ -1002,6 +1005,37 @@ package collaboRhythm.shared.model.medications
 		public function set protocolMeasurementsMustBeAfterTitration(value:Boolean):void
 		{
 			_protocolMeasurementsMustBeAfterTitration = value;
+		}
+
+		public function get chartVerticalAxis():LinearAxis
+		{
+			return _chartVerticalAxis;
+		}
+
+		public function set chartVerticalAxis(value:LinearAxis):void
+		{
+			if (_chartVerticalAxis)
+				_chartVerticalAxis.removeEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT,
+						chartVerticalAxis_axisChangeHandler);
+
+			_chartVerticalAxis = value;
+			if (_chartVerticalAxis)
+			{
+				updateConnectedChartVerticalAxisLimits();
+				_chartVerticalAxis.addEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT,
+						chartVerticalAxis_axisChangeHandler, false, 0, true);
+			}
+		}
+
+		private function chartVerticalAxis_axisChangeHandler(event:Event):void
+		{
+			updateConnectedChartVerticalAxisLimits();
+		}
+
+		private function updateConnectedChartVerticalAxisLimits():void
+		{
+			connectedChartVerticalAxisMaximum = _chartVerticalAxis.maximum;
+			connectedChartVerticalAxisMinimum = _chartVerticalAxis.minimum;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.insulinTitrationSupport.model
+package collaboRhythm.plugins.bloodPressure.model.titration
 {
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
@@ -12,16 +12,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 	import mx.collections.ArrayCollection;
 
-	public class InsulinTitrationSupportHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
+	public class HypertensionMedicationTitrationSupportHealthActionListViewAdapterFactory implements IHealthActionListViewAdapterFactory
 	{
-		public function InsulinTitrationSupportHealthActionListViewAdapterFactory()
+		public function HypertensionMedicationTitrationSupportHealthActionListViewAdapterFactory()
 		{
 		}
 
 		public function createUnscheduledHealthActionViewAdapters(healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
 																  adapters:ArrayCollection):void
 		{
-			adapters.addItem(new InsulinTitrationSupportHealthActionListViewAdapter(null, healthActionModelDetailsProvider));
+			adapters.addItem(new HypertensionMedicationTitrationSupportHealthActionListViewAdapter(null, healthActionModelDetailsProvider));
 		}
 
 		public function createScheduledHealthActionViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
@@ -33,20 +33,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 					&& healthActionModelDetailsProvider.record)
 			{
 				var healthActionPlan:HealthActionPlan = (healthActionSchedule.scheduledHealthAction as HealthActionPlan);
-				if (healthActionPlan.name.text == TitratingInsulinHealthActionListViewAdapter.INSULIN_TITRATION_DECISION_HEALTH_ACTION_SCHEDULE_NAME)
+				if (healthActionPlan.name.text == PersistableHypertensionMedicationTitrationModel.HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME)
 				{
-					return new InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
+					return new HypertensionMedicationTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence,
+							healthActionModelDetailsProvider);
 				}
 			}
 
-			var medicationScheduleItem:MedicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
-			if (medicationScheduleItem)
-			{
-				if (InsulinTitrationSupportChartModifier.INSULIN_MEDICATION_CODES.indexOf(medicationScheduleItem.name.value) != -1)
-				{
-					return new TitratingInsulinHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider, currentHealthActionListViewAdapter);
-				}
-			}
 			return currentHealthActionListViewAdapter;
 		}
 	}
