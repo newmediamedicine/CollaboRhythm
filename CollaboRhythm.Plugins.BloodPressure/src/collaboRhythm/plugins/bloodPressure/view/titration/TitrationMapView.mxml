@@ -25,7 +25,7 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.bloodPressure.controller.HypertensionMedicationTitrationAppController;
+		import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationAppController;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 

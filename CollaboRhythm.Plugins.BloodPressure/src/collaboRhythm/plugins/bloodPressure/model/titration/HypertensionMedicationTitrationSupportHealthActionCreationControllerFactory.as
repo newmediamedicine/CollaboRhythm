@@ -1,6 +1,6 @@
-package collaboRhythm.plugins.insulinTitrationSupport.model
+package collaboRhythm.plugins.bloodPressure.model.titration
 {
-	import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationSupportHealthActionCreationController;
+	import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationSupportHealthActionCreationController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationControllerFactory;
 	import collaboRhythm.shared.model.Account;
@@ -8,16 +8,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 	import spark.components.ViewNavigator;
 
-	public class InsulinTitrationSupportHealthActionCreationControllerFactory implements IHealthActionCreationControllerFactory
+	public class HypertensionMedicationTitrationSupportHealthActionCreationControllerFactory implements IHealthActionCreationControllerFactory
 	{
-		public function InsulinTitrationSupportHealthActionCreationControllerFactory()
+		public function HypertensionMedicationTitrationSupportHealthActionCreationControllerFactory()
 		{
 		}
 
 		public function createHealthActionCreationController(activeAccount:Account, activeRecordAccount:Account,
 															 viewNavigator:ViewNavigator):IHealthActionCreationController
 		{
-			return new InsulinTitrationSupportHealthActionCreationController(activeAccount, activeRecordAccount,
+			return new HypertensionMedicationTitrationSupportHealthActionCreationController(activeAccount, activeRecordAccount,
 					viewNavigator);
 		}
 
@@ -26,7 +26,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 																					   scheduleItemOccurrence:ScheduleItemOccurrence,
 																					   viewNavigator:ViewNavigator):IHealthActionCreationController
 		{
-			return new InsulinTitrationSupportHealthActionCreationController(activeAccount, activeRecordAccount, viewNavigator,
+			return new HypertensionMedicationTitrationSupportHealthActionCreationController(activeAccount, activeRecordAccount, viewNavigator,
 									scheduleItemOccurrence);
 		}
 	}

@@ -15,6 +15,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 	import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
+	import collaboRhythm.shared.model.medications.DecisionScheduleItemOccurrenceFinder;
 	import collaboRhythm.shared.model.services.IImageCacheService;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -69,14 +70,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			{
 				_decisionModel = new InsulinTitrationDecisionHealthActionModel(decisionScheduleItemOccurrence,
 						healthActionModelDetailsProvider);
-				_decisionModel.updateAreBloodGlucoseRequirementsMet();
+				_decisionModel.updateAreVitalSignRequirementsMet();
 				_decisionModel.updateIsAdherencePerfect();
 			}
 		}
 
 		public function getDecisionScheduleItemOccurrence():ScheduleItemOccurrence
 		{
-			var finder:DecisionScheduleItemOccurrenceFinder = new DecisionScheduleItemOccurrenceFinder(_healthActionModelDetailsProvider);
+			var finder:DecisionScheduleItemOccurrenceFinder = new DecisionScheduleItemOccurrenceFinder(_healthActionModelDetailsProvider,
+					TitratingInsulinHealthActionListViewAdapter.INSULIN_TITRATION_DECISION_HEALTH_ACTION_SCHEDULE_NAME);
 			return finder.getDecisionScheduleItemOccurrence();
 		}
 

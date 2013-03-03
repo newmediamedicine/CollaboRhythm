@@ -818,21 +818,27 @@ package com.dougmccune.controls
 		{
 			updateSliderMinMax();
 
-			try
+			if (isNaN(rightRangeTime))
 			{
-				rightRangeTime = initialRightRangeTime;
-			} catch(e:Error)
-			{
-				trace("Error setting rightRangeTime: " + e.message);
+				try
+				{
+					rightRangeTime = initialRightRangeTime;
+				} catch (e:Error)
+				{
+					trace("Error setting rightRangeTime: " + e.message);
+				}
 			}
 
-			try
+			if (isNaN(leftRangeTime))
 			{
-//				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
-				leftRangeTime = rightRangeTime - initialDurationTime;
-			} catch(e:Error)
-			{
-				trace("Error setting leftRangeTime: " + e.message);
+				try
+				{
+	//				leftRangeTime = Math.max(t0, t1 - initialDurationTime);
+					leftRangeTime = rightRangeTime - initialDurationTime;
+				} catch (e:Error)
+				{
+					trace("Error setting leftRangeTime: " + e.message);
+				}
 			}
 
 			calculateRangeDataRatio();

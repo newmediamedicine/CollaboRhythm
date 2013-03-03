@@ -47,7 +47,7 @@ package collaboRhythm.plugins.physicalTherapy.model
 			return decoratedModifier.drawBackgroundElements(canvas, zoneLabel);
 		}
 
-		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		override public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
 		{
 			// create MeasurementChartDescriptor
 		/*	var measurementChartDescriptor:MeasurementChartDescriptor= new MeasurementChartDescriptor();

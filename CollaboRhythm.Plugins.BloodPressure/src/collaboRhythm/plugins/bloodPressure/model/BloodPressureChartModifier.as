@@ -135,7 +135,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			}
 		}
 
-		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		override public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
 		{
 			var diastolicDescriptor:VitalSignChartDescriptor = new VitalSignChartDescriptor();
 			diastolicDescriptor.vitalSignCategory = VitalSignsModel.DIASTOLIC_CATEGORY;

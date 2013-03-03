@@ -196,7 +196,7 @@
 		[Bindable]
 		public var prefsXml:XML; // The XML data
 		[Bindable]
-		private var _historyXml:XML;
+		private var _historyXml:XML = <history/>;
 		public var stream:FileStream; // The FileStream object used to read and write prefsFile data.
 
 		private var appInfo:Object;

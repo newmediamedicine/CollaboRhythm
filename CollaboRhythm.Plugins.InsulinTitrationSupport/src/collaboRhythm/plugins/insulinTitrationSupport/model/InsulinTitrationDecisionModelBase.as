@@ -7,30 +7,21 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
-	import collaboRhythm.shared.model.healthRecord.Relationship;
-	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionPlan;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationAdministration;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.StopCondition;
 	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
-	import collaboRhythm.shared.model.services.DateUtil;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 
-	import com.dougmccune.controls.LimitedLinearAxis;
-
-	import flash.events.Event;
-
-	import mx.charts.LinearAxis;
 	import mx.collections.ArrayCollection;
 	import mx.utils.StringUtil;
 
@@ -102,13 +93,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private const _dosageIncreaseValue:Number = +3;
 		private const _dosageDecreaseValue:Number = -3;
 
-		private var _bloodGlucoseAverage:Number;
-		private var _verticalAxisMinimum:Number;
-		private var _verticalAxisMaximum:Number;
-		private var _goalZoneMinimum:Number;
-		private var _goalZoneMaximum:Number;
-		private var _goalZoneColor:uint;
-		private var _eligibleBloodGlucoseMeasurements:Vector.<VitalSign>;
 
 		private var _scheduleDetails:ScheduleDetails;
 		private var _currentDoseValue:Number;
@@ -117,12 +101,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		private var _medicationTitrationHelper:MedicationTitrationHelper;
 		private var _bloodGlucoseRequirementsDetails:String;
-		private var _isBloodGlucoseMaximumExceeded:Boolean;
-		private var _isBloodGlucoseMinimumExceeded:Boolean;
-		private var _bloodGlucoseAverageRangeLimited:Number;
-		private var _chartVerticalAxis:LinearAxis;
-		private var _connectedChartVerticalAxisMaximum:Number;
-		private var _connectedChartVerticalAxisMinimum:Number;
 		private var _algorithmSuggestedDoseChange:Number;
 		private var _algorithmSuggestedDoseChangeLabel:String;
 		private var _instructionsHtml:String;
@@ -138,8 +116,16 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function InsulinTitrationDecisionModelBase()
 		{
 			super();
+			_protocolVitalSignCategory = VitalSignsModel.BLOOD_GLUCOSE_CATEGORY;
+			_requiredNumberVitalSigns = REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS;
+			_numberOfDaysForEligibleVitalSigns = NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE;
 			requiredDaysOfPerfectMedicationAdherence = REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE;
 			_medicationTitrationHelper = new MedicationTitrationHelper(record, currentDateSource);
+			verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
+			verticalAxisMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
+			goalZoneMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM;
+			goalZoneMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM;
+			goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
 			initializeStates();
 		}
 
@@ -154,67 +140,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 		}
 
-		override protected function updateVitalSignEvaluation():void
-		{
-			super.updateVitalSignEvaluation();
-			updateBloodGlucoseAverage();
-		}
-
-		private function updateBloodGlucoseAverage():void
-		{
-			pickEligibleBloodGlucoseMeasurements();
-			bloodGlucoseAverage = getBloodGlucoseAverage();
-			updateStep1State();
-		}
-
-		/**
-		 * Picks the eligible blood glucose measurements for the 303 algorithm.
-		 * For a blood glucose measurement to eligible for determining the average for the algorithm:
-		 * 	1) must be the first measurement taken in the day
-		 * 	2) must be taken before eating breakfast (preprandial)
-		 * 	3) must be after the last titration and also in the last four days
-		 */
-		private function pickEligibleBloodGlucoseMeasurements():void
-		{
-			_eligibleBloodGlucoseMeasurements = new Vector.<VitalSign>();
-			var bloodGlucoseArrayCollection:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
-			var previousBloodGlucose:VitalSign;
-			var now:Date = currentDateSource.now();
-			var timeConstraintValue:Number = DateUtil.roundTimeToNextDay(now).valueOf() - DateUtil.MILLISECONDS_IN_DAY * NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_GLUCOSE;
-			var firstAdministrationDateOfPreviousSchedule:Number = getFirstAdministrationDateOfPreviousSchedule().valueOf();
-			var eligibleWindowCutoff:Date = new Date(Math.max(timeConstraintValue, firstAdministrationDateOfPreviousSchedule));
-			if (bloodGlucoseArrayCollection && bloodGlucoseArrayCollection.length > 0)
-			{
-				for each (var bloodGlucose:VitalSign in bloodGlucoseArrayCollection)
-				{
-					if (bloodGlucose.dateMeasuredStart.valueOf() > eligibleWindowCutoff.valueOf() && bloodGlucose.dateMeasuredStart.valueOf() < now.valueOf())
-					{
-						for each (var relationship:Relationship in bloodGlucose.isRelatedFrom)
-						{
-							// TODO: implement more robustly; for now we are assuming that any blood glucose that is an adherence result is the eligible preprandial measurement
-							if (relationship.type == AdherenceItem.RELATION_TYPE_ADHERENCE_RESULT)
-							{
-								// TODO: find a better way to determine if the two measurements are in the same day
-								if (previousBloodGlucose == null
-										|| previousBloodGlucose.dateMeasuredStart.toDateString() != bloodGlucose.dateMeasuredStart.toDateString())
-								{
-									_eligibleBloodGlucoseMeasurements.push(bloodGlucose);
-									previousBloodGlucose = bloodGlucose;
-								}
-							}
-						}
-					}
-				}
-
-				// remove the oldest so we only have the 3 most recent
-				while (_eligibleBloodGlucoseMeasurements.length > REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS)
-				{
-					_eligibleBloodGlucoseMeasurements.shift();
-				}
-			}
-		}
-
-		private function getFirstAdministrationDateOfPreviousSchedule():Date
+		override protected function getFirstAdministrationDateOfPreviousSchedule():Date
 		{
 			if (_scheduleDetails && _scheduleDetails.previousSchedule)
 			{
@@ -239,19 +165,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return currentDateSource.now();
 		}
 
-		public function get isAverageAvailable():Boolean
-		{
-			return !isNaN(_bloodGlucoseAverage);
-		}
-
 		protected override function updateStep1State():void
 		{
-			step1StateDescription = (areBloodGlucoseRequirementsMet ?
+			step1StateDescription = (areProtocolMeasurementRequirementsMet ?
 					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET :
 					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET) +
 					StringUtil.substitute(BLOOD_GLUCOSE_REQUIREMENTS, bloodGlucoseRequirementsDetails);
 
-			step1State = areBloodGlucoseRequirementsMet ? STEP_SATISFIED : STEP_STOP;
+			step1State = areProtocolMeasurementRequirementsMet ? STEP_SATISFIED : STEP_STOP;
 			updateStep2State();
 		}
 
@@ -344,54 +265,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return _dosageDecreaseValue;
 		}
 
-		public function get bloodGlucoseAverage():Number
+		override protected function updateAlgorithmSuggestions():void
 		{
-			return _bloodGlucoseAverage;
-		}
-
-		public function set bloodGlucoseAverage(value:Number):void
-		{
-			_bloodGlucoseAverage = value;
-			updateOutsideRange();
-			updateAreBloodGlucoseRequirementsMet();
-			updateAlgorithmSuggestions();
-		}
-
-		private function updateOutsideRange():void
-		{
-			bloodGlucoseAverageRangeLimited = Math.min(verticalAxisMaximum, Math.max(verticalAxisMinimum, bloodGlucoseAverage));
-			isBloodGlucoseMaximumExceeded = bloodGlucoseAverage > verticalAxisMaximum;
-			isBloodGlucoseMinimumExceeded = bloodGlucoseAverage < verticalAxisMinimum;
-		}
-
-		public function updateAreBloodGlucoseRequirementsMet():void
-		{
-			areBloodGlucoseRequirementsMet = !isNaN(bloodGlucoseAverage) && _eligibleBloodGlucoseMeasurements != null &&
-					_eligibleBloodGlucoseMeasurements.length >= REQUIRED_BLOOD_GLUCOSE_MEASUREMENTS &&
-					isLastBloodGlucoseMeasurementFromToday();
-		}
-
-		private function isLastBloodGlucoseMeasurementFromToday():Boolean
-		{
-			var now:Date = currentDateSource.now();
-			var startOfToday:Date = new Date(DateUtil.roundTimeToNextDay(now).valueOf() -
-					DateUtil.MILLISECONDS_IN_DAY);
-
-			if (_eligibleBloodGlucoseMeasurements && _eligibleBloodGlucoseMeasurements.length > 0)
-			{
-				var bloodGlucose:VitalSign = _eligibleBloodGlucoseMeasurements[_eligibleBloodGlucoseMeasurements.length -
-						1];
-				return bloodGlucose && bloodGlucose.dateMeasuredStart != null &&
-						bloodGlucose.dateMeasuredStart.valueOf() >= startOfToday.valueOf();
-			}
-			return false;
-		}
-
-		private function updateAlgorithmSuggestions():void
-		{
-			algorithmSuggestsIncreaseDose = algorithmPrerequisitesSatisfied && algorithmValuesAvailable() && bloodGlucoseAverage > goalZoneMaximum;
-			algorithmSuggestsNoChangeDose = algorithmPrerequisitesSatisfied && algorithmValuesAvailable() && bloodGlucoseAverage <= goalZoneMaximum && bloodGlucoseAverage >= goalZoneMinimum;
-			algorithmSuggestsDecreaseDose = algorithmPrerequisitesSatisfied && algorithmValuesAvailable() && bloodGlucoseAverage < goalZoneMinimum;
+			algorithmSuggestsIncreaseDose = algorithmPrerequisitesSatisfied && algorithmValuesAvailable() && protocolMeasurementAverage > goalZoneMaximum;
+			algorithmSuggestsNoChangeDose = algorithmPrerequisitesSatisfied && algorithmValuesAvailable() && protocolMeasurementAverage <= goalZoneMaximum && protocolMeasurementAverage >= goalZoneMinimum;
+			algorithmSuggestsDecreaseDose = algorithmPrerequisitesSatisfied && algorithmValuesAvailable() && protocolMeasurementAverage < goalZoneMinimum;
 
 			if (algorithmSuggestsIncreaseDose)
 			{
@@ -413,80 +291,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				algorithmSuggestedDoseChange = NaN;
 				algorithmSuggestedDoseChangeLabel = "";
 			}
-		}
-
-		private function algorithmValuesAvailable():Boolean
-		{
-			return areBloodGlucoseRequirementsMet && !isNaN(goalZoneMinimum) && !isNaN(goalZoneMaximum);
-		}
-
-		public function get verticalAxisMinimum():Number
-		{
-			return _verticalAxisMinimum;
-		}
-
-		public function set verticalAxisMinimum(value:Number):void
-		{
-			_verticalAxisMinimum = value;
-		}
-
-		public function get verticalAxisMaximum():Number
-		{
-			return _verticalAxisMaximum;
-		}
-
-		public function set verticalAxisMaximum(value:Number):void
-		{
-			_verticalAxisMaximum = value;
-		}
-
-		public function get goalZoneMinimum():Number
-		{
-			return _goalZoneMinimum;
-		}
-
-		public function set goalZoneMinimum(value:Number):void
-		{
-			_goalZoneMinimum = value;
-			updateAlgorithmSuggestions();
-		}
-
-		public function get goalZoneMaximum():Number
-		{
-			return _goalZoneMaximum;
-		}
-
-		public function set goalZoneMaximum(value:Number):void
-		{
-			_goalZoneMaximum = value;
-			updateAlgorithmSuggestions();
-		}
-
-		public function get goalZoneColor():uint
-		{
-			return _goalZoneColor;
-		}
-
-		public function set goalZoneColor(value:uint):void
-		{
-			_goalZoneColor = value;
-		}
-
-		private function getBloodGlucoseAverage():Number
-		{
-			var bloodGlucoseSum:Number = 0;
-			var bloodGlucoseCount:int = 0;
-
-			for each (var bloodGlucose:VitalSign in _eligibleBloodGlucoseMeasurements)
-			{
-				bloodGlucoseSum += bloodGlucose.resultAsNumber;
-				bloodGlucoseCount++;
-			}
-
-			var average:Number = NaN;
-			if (bloodGlucoseCount > 0)
-				average = bloodGlucoseSum / bloodGlucoseCount;
-			return average;
 		}
 
 		public function evaluateForSave():void
@@ -536,7 +340,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			isNewDoseDifferentFromOtherPartyLatest = _newDose != _otherPartyLatestDecisionDose;
 
 			updateIsAdherencePerfect();
-			updateBloodGlucoseAverage();
+			updateProtocolMeasurementAverage();
 		}
 
 		private function updateLatestDecisionDoses():void
@@ -693,7 +497,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function get bloodGlucoseAverageLabel():String
 		{
-			return bloodGlucoseAverage.toFixed(0);
+			return protocolMeasurementAverage.toFixed(0);
 		}
 
 		private function saveDosageChange(currentMedicationScheduleItem:MedicationScheduleItem):Boolean
@@ -716,11 +520,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private static function createUnitsCodedValue():CollaboRhythmCodedValue
 		{
 			return new CollaboRhythmCodedValue("http://indivo.org/codes/units#", "Units", "U", "Units");
-		}
-
-		public function isMeasurementEligible(vitalSign:VitalSign):Boolean
-		{
-			return _eligibleBloodGlucoseMeasurements && _eligibleBloodGlucoseMeasurements.indexOf(vitalSign) != -1;
 		}
 
 		public function get currentDoseValue():Number
@@ -754,85 +553,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function set bloodGlucoseRequirementsDetails(value:String):void
 		{
 			_bloodGlucoseRequirementsDetails = value;
-		}
-
-		public function get isBloodGlucoseMaximumExceeded():Boolean
-		{
-			return _isBloodGlucoseMaximumExceeded;
-		}
-
-		public function set isBloodGlucoseMaximumExceeded(value:Boolean):void
-		{
-			_isBloodGlucoseMaximumExceeded = value;
-		}
-
-		public function get isBloodGlucoseMinimumExceeded():Boolean
-		{
-			return _isBloodGlucoseMinimumExceeded;
-		}
-
-		public function set isBloodGlucoseMinimumExceeded(value:Boolean):void
-		{
-			_isBloodGlucoseMinimumExceeded = value;
-		}
-
-		public function get bloodGlucoseAverageRangeLimited():Number
-		{
-			return _bloodGlucoseAverageRangeLimited;
-		}
-
-		public function set bloodGlucoseAverageRangeLimited(value:Number):void
-		{
-			_bloodGlucoseAverageRangeLimited = value;
-		}
-
-		public function get chartVerticalAxis():LinearAxis
-		{
-			return _chartVerticalAxis;
-		}
-
-		public function set chartVerticalAxis(value:LinearAxis):void
-		{
-			if (_chartVerticalAxis)
-				_chartVerticalAxis.removeEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT, chartVerticalAxis_axisChangeHandler);
-
-			_chartVerticalAxis = value;
-			if (_chartVerticalAxis)
-			{
-				updateConnectedChartVerticalAxisLimits();
-				_chartVerticalAxis.addEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT, chartVerticalAxis_axisChangeHandler, false, 0, true);
-			}
-		}
-
-		private function chartVerticalAxis_axisChangeHandler(event:Event):void
-		{
-			updateConnectedChartVerticalAxisLimits();
-		}
-
-		private function updateConnectedChartVerticalAxisLimits():void
-		{
-			connectedChartVerticalAxisMaximum = _chartVerticalAxis.maximum;
-			connectedChartVerticalAxisMinimum = _chartVerticalAxis.minimum;
-		}
-
-		public function get connectedChartVerticalAxisMaximum():Number
-		{
-			return _connectedChartVerticalAxisMaximum;
-		}
-
-		public function set connectedChartVerticalAxisMaximum(value:Number):void
-		{
-			_connectedChartVerticalAxisMaximum = value;
-		}
-
-		public function get connectedChartVerticalAxisMinimum():Number
-		{
-			return _connectedChartVerticalAxisMinimum;
-		}
-
-		public function set connectedChartVerticalAxisMinimum(value:Number):void
-		{
-			_connectedChartVerticalAxisMinimum = value;
 		}
 
 		public function get algorithmSuggestedDoseChange():Number

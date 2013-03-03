@@ -554,7 +554,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 		{
 			if (_model.isAverageAvailable)
 			{
-				if (_model.areBloodGlucoseRequirementsMet)
+				if (_model.areProtocolMeasurementRequirementsMet)
 				{
 					_averagePlotItemRenderer.alpha = 1;
 				}
@@ -563,23 +563,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 					_averagePlotItemRenderer.alpha = 0.5
 				}
 
-				_averagePlotItemRenderer.y = Math.round(chartValueToPosition(_model.bloodGlucoseAverageRangeLimited)
+				_averagePlotItemRenderer.y = Math.round(chartValueToPosition(_model.protocolMeasurementAverageRangeLimited)
 						- _averagePlotItemRenderer.height / 2
-						+ (_model.isBloodGlucoseMaximumExceeded ? -1 : 0)
-						+ (_model.isBloodGlucoseMinimumExceeded ? +1 : 0)
+						+ (_model.isVerticalAxisMaximumExceeded ? -1 : 0)
+						+ (_model.isVerticalAxisMinimumExceeded ? +1 : 0)
 					);
 				_maximumExceededIndicator.y = Math.round(_chartY + _chartHeight * 1 / 6 - _maximumExceededIndicator.height / 2);
 				_minimumExceededIndicator.y = Math.round(_chartY + _chartHeight * 5 / 6 - _minimumExceededIndicator.height / 2);
 				_averagePlotItemRenderer.visible = true;
-				_averageLabel.y = Math.round(chartValueToPosition(_model.bloodGlucoseAverageRangeLimited)
+				_averageLabel.y = Math.round(chartValueToPosition(_model.protocolMeasurementAverageRangeLimited)
 										- _averageLabel.height / 2
-										+ (_model.isBloodGlucoseMaximumExceeded ? -1 : 0)
-										+ (_model.isBloodGlucoseMinimumExceeded ? +1 : 0)
+										+ (_model.isVerticalAxisMaximumExceeded ? -1 : 0)
+										+ (_model.isVerticalAxisMinimumExceeded ? +1 : 0)
 					);
 				_averageLabel.text = _model.bloodGlucoseAverageLabel;
 				_averageLabel.visible = true;
-				_maximumExceededIndicator.visible = _model.isBloodGlucoseMaximumExceeded;
-				_minimumExceededIndicator.visible = _model.isBloodGlucoseMinimumExceeded;
+				_maximumExceededIndicator.visible = _model.isVerticalAxisMaximumExceeded;
+				_minimumExceededIndicator.visible = _model.isVerticalAxisMinimumExceeded;
 			}
 			else
 			{
@@ -929,7 +929,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.view
 			{
 				bloodGlucoseChange = -1;
 			}
-			_model.bloodGlucoseAverage += bloodGlucoseChange;
+			_model.protocolMeasurementAverage += bloodGlucoseChange;
 		}
 
 		public function set controller(controller:InsulinTitrationDecisionPanelController):void

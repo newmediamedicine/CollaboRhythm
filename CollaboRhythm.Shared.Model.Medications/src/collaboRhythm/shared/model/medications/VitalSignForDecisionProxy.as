@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.insulinTitrationSupport.model
+package collaboRhythm.shared.model.medications
 {
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
@@ -9,9 +9,9 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	public class VitalSignForDecisionProxy
 	{
 		private var _vitalSign:VitalSign;
-		private var _decisionModel:InsulinTitrationDecisionPanelModel;
+		private var _decisionModel:TitrationDecisionModelBase;
 
-		public function VitalSignForDecisionProxy(vitalSign:VitalSign, decisionModel:InsulinTitrationDecisionPanelModel)
+		public function VitalSignForDecisionProxy(vitalSign:VitalSign, decisionModel:TitrationDecisionModelBase)
 		{
 			_vitalSign = vitalSign;
 			_decisionModel = decisionModel;
@@ -27,12 +27,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_vitalSign = value;
 		}
 
-		public function get decisionModel():InsulinTitrationDecisionPanelModel
+		public function get decisionModel():TitrationDecisionModelBase
 		{
 			return _decisionModel;
 		}
 
-		public function set decisionModel(value:InsulinTitrationDecisionPanelModel):void
+		public function set decisionModel(value:TitrationDecisionModelBase):void
 		{
 			_decisionModel = value;
 		}
