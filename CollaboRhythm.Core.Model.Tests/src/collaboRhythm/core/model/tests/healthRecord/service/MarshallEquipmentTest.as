@@ -3,6 +3,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
 	import collaboRhythm.core.model.healthRecord.service.DocumentStorageServiceBase;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
+	import collaboRhythm.shared.model.healthRecord.document.Equipment;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
@@ -14,7 +15,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 	import org.flexunit.asserts.assertEquals;
 	import org.hamcrest.date.dateAfter;
 
-	public class MarshallHealthActionResultTest
+	public class MarshallEquipmentTest
 	{
 		private static var serviceFacade:HealthRecordServiceFacade;
 
@@ -25,45 +26,34 @@ package collaboRhythm.core.model.tests.healthRecord.service
 			{
 				var dateSource:DefaultCurrentDateSource = new DefaultCurrentDateSource();
 				WorkstationKernel.instance.registerComponentInstance("CurrentDateSource", ICurrentDateSource,
-																	 dateSource);
+						dateSource);
 			}
 			serviceFacade = new HealthRecordServiceFacade(null, null, "", null, false,
 					null);
 		}
 
-		public function MarshallHealthActionResultTest()
+		public function MarshallEquipmentTest()
 		{
 		}
+
 		[Test]
 		public function marshallHealthActionResult():void
 		{
 			var expected:XML =
-					<HealthActionResult xmlns="http://indivo.org/vocab/xml/documents/healthActionResult#"
-										xmlns:indivo="http://indivo.org/vocab/xml/documents#"
-										xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-						<name>Insulin Titration Decision</name>
-						<planType>Prescribed</planType>
-						<reportedBy>mbrooks@records.media.mit.edu</reportedBy>
-						<dateReported>2011-08-15T17:42:05Z</dateReported>
-						<actions>
-							<action xsi:type="ActionStepResult">
-								<name>Chose a new dose</name>
-							</action>
-						</actions>
-					</HealthActionResult>;
+					<Equipment xmlns="http://indivo.org/vocab/xml/documents#">
+						<dateStarted>2009-12-15</dateStarted>
+						<type>blood pressure monitor</type>
+						<name xmlns="">FORA D40b</name>
+					</Equipment>;
 
-			var service:DocumentStorageServiceBase = serviceFacade.getService("http://indivo.org/vocab/xml/documents/healthActionResult#HealthActionResult");
-			var document:HealthActionResult = new HealthActionResult();
-			document.name = new CollaboRhythmCodedValue(null, null, null, "Insulin Titration Decision");
-			document.planType = "Prescribed";
-			document.reportedBy = "mbrooks@records.media.mit.edu";
+			var service:DocumentStorageServiceBase = serviceFacade.getService("http://indivo.org/vocab/xml/documents#Equipment");
+			var document:Equipment = new Equipment();
+			document.name = "FORA D40b";
+			document.type = "blood pressure monitor";
 			var date:Date = new Date();
-			date.setUTCFullYear(2011, 8 - 1, 15);
-			date.setUTCHours(17, 42, 5, 0);
-			document.dateReported = date;
-			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, "Chose a new dose");
-			document.actions = new ArrayCollection([actionStepResult]);
+			date.setUTCFullYear(2009, 12 - 1, 15);
+			date.setUTCHours(0, 0, 0, 0);
+			document.dateStarted = date;
 
 			var resultXml = service.marshallToXml(document);
 

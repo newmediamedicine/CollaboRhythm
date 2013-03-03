@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="collaboRhythm.core.model.tests.healthRecord.service.MarshallEquipmentTest" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" singleton="true" appDescriptorForEmulator="Android" class_name="collaboRhythm.core.model.tests.healthRecord.service.MarshallEquipmentTest" emulatorAdlOptions="" method_name="adherenceItemMarshallToXml" output_log_level="null" package_name="collaboRhythm.core.model.tests" scope="Class">
+    <option name="BCName" value="CollaboRhythm.Core.Model.Tests" />
+    <option name="launcherParameters">
+      <LauncherParameters>
+        <option name="browserFamily" value="FIREFOX" />
+        <option name="launcherType" value="OSDefault" />
+        <option name="playerPath" value="FlashPlayerDebugger.exe" />
+      </LauncherParameters>
+    </option>
+    <option name="moduleName" value="CollaboRhythm.Core.Model.Tests" />
+    <option name="trusted" value="true" />
+    <RunnerSettings RunnerId="FlexDebugRunner" />
+    <RunnerSettings RunnerId="FlexRunner" />
+    <ConfigurationWrapper RunnerId="FlexDebugRunner" />
+    <ConfigurationWrapper RunnerId="FlexRunner" />
+    <method />
+  </configuration>
+</component>
