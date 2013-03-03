@@ -36,6 +36,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	 */
 	public class PersistableHypertensionMedicationTitrationModel extends HypertensionMedicationTitrationModel
 	{
+		private static const HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME:String = "Hypertension Medication Titration Decision";
+
+		private static const DECISION_ACTION_STEP_RESULT_NAME:String = "Decision Action";
+		private static const FINALIZE_ACTION_TYPE:String = "Finalize";
+		private static const PROPOSE_ACTION_TYPE:String = "Propose";
+		private static const SELECTION_ACTION_TYPE:String = "Selection";
+
 		private static const DEFAULT_RECURRENCE_COUNT:int = 120;
 		private static const ESSENTIAL_HYPERTENSION_INDICATION:String = "Essential Hypertension";
 		private static const DEFAULT_MEDICATION_INSTRUCTIONS:String = "take with water";
@@ -44,6 +51,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _decisionScheduleItemOccurrence:ScheduleItemOccurrence;
 		private var _settings:Settings;
 		private var _componentContainer:IComponentContainer;
+		private var _selectionsAgreeWithSystem:Boolean = true;
+		private var _headerMessage:String;
+		private var _selectionsMessage:String;
+		private var _mostRecentFinalizeDecisionDate:Date;
 
 		public function PersistableHypertensionMedicationTitrationModel(activeAccount:Account,
 																		activeRecordAccount:Account,
@@ -57,13 +68,17 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		override public function evaluateForInitialize():void
 		{
-			reloadCurrentDoses();
+			determineCurrentDoses();
+			updateIsAdherencePerfect();
+			updateProtocolMeasurementAverage();
 			reloadSelections();
 		}
 
-		private function reloadCurrentDoses():void
+		public function reloadSelections():void
 		{
-			updateSystemRecommendedDoseSelections();
+			clearSelections();
+			updateAlgorithmSuggestions();
+			loadSelections();
 		}
 
 		private function getMedications():Vector.<HypertensionMedication>
@@ -79,11 +94,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return medications;
 		}
 
-		public function reloadSelections():void
+		public function loadSelections():void
 		{
-			clearSelections();
-
 			var plan:DocumentBase = getParentForTitrationDecisionResult(false);
+			_mostRecentFinalizeDecisionDate = null;
 
 			if (plan)
 			{
@@ -96,6 +110,12 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 							HealthActionResult : null;
 					if (decisionResult && decisionResult.name.text == TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME)
 					{
+						checkForMostRecentFinalize(decisionResult);
+						if (_mostRecentFinalizeDecisionDate != null)
+						{
+							break;
+						}
+
 						// only use latest titration decision from each account (each person's latest decision)
 						if (decisionsFromAccounts.getValueByKey(decisionResult.reportedBy) != null)
 						{
@@ -103,6 +123,28 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 						}
 						decisionsFromAccounts.addKeyValue(decisionResult.reportedBy, decisionResult);
 						restoreSelectionsFromDecisionResult(decisionResult);
+					}
+				}
+			}
+		}
+
+		private function checkForMostRecentFinalize(decisionResult:HealthActionResult):void
+		{
+			if (decisionResult.actions && decisionResult.actions.length > 0)
+			{
+				for each (var actionResult:ActionResult in decisionResult.actions)
+				{
+					var actionStepResult:ActionStepResult = actionResult as ActionStepResult;
+
+					if (actionStepResult && actionStepResult.actionType == FINALIZE_ACTION_TYPE)
+					{
+						if (decisionResult.dateReported &&
+								(_mostRecentFinalizeDecisionDate == null ||
+										decisionResult.dateReported.valueOf() >
+												_mostRecentFinalizeDecisionDate.valueOf()))
+						{
+							_mostRecentFinalizeDecisionDate = decisionResult.dateReported;
+						}
 					}
 				}
 			}
@@ -116,7 +158,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					var actionStepResult:ActionStepResult = actionResult as ActionStepResult;
 
-					if (actionStepResult)
+					if (actionStepResult && actionStepResult.actionType == SELECTION_ACTION_TYPE)
 					{
 						var occurrence:Occurrence = actionStepResult.occurrences &&
 								actionStepResult.occurrences.length > 0 ? actionStepResult.occurrences[0] as
@@ -165,7 +207,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 		}
 
-		private function clearSelections():void
+		public function clearSelections():void
 		{
 			for each (var pair:HypertensionMedicationAlternatePair in
 					_hypertensionMedicationAlternatePairsVector)
@@ -231,8 +273,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				else
 					saveSucceeded = saveForClinician(shouldFinalize, plan, saveSucceeded);
 
-				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelections();
-				saveTitrationResult(selections);
+				sendMedicationTitrationAutomatedMessage(shouldFinalize);
+
+				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
+				saveTitrationResult(selections, shouldFinalize);
 
 				if (persist)
 				{
@@ -253,9 +297,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				saveSucceeded = persistMedicationChanges(saveSucceeded);
 			}
 
-			// TODO: create an appropriate clinician/coach message; see InsulinTitrationDecisionModelBase for an example
-			var message:String = "[Automated Message] " + confirmationMessage;
-			sendMessage(message);
 			return saveSucceeded;
 		}
 
@@ -270,10 +311,16 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				saveSucceeded = persistMedicationChanges(saveSucceeded);
 			}
 
-			// TODO: create an appropriate patient message; see InsulinTitrationDecisionModelBase for an example
-			var message:String = "[Automated Message] " + confirmationMessage;
-			sendMessage(message);
 			return saveSucceeded;
+		}
+
+		private function sendMedicationTitrationAutomatedMessage(shouldFinalize:Boolean):void
+		{
+			var proposeVsFinalizeString:String = shouldFinalize ? "finalized" : "proposed";
+			var agreeWithSystemString:String = selectionsAgreeWithSystem ? "(This decisions agrees with the MAP)" : "(This decision does not agree with the MAP)";
+
+			var message:String = "[Automated Message] The following decision has been " + proposeVsFinalizeString  + ": " + selectionsMessage + "\n" + agreeWithSystemString;
+			sendMessage(message);
 		}
 
 		private function persistMedicationChanges(saveSucceeded:Boolean):Boolean
@@ -467,27 +514,43 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			if (isChangeSpecified)
 			{
-				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelections();
-				var changeVerb:String = isPatient ? "make" : "suggest";
-				var maintainVerb:String = isPatient ? "keep" : "suggest keeping";
-				var medicationsOwner:String = isPatient ? "your" : "the patient's";
+				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
+				var agreeWithSystemString:String = selectionsAgreeWithSystem ? "agrees" : "does not agree";
+
+				headerMessage = "Your decision below " + agreeWithSystemString + " with the MAP";
+
 				if (selections.length > 0)
 				{
 					var parts:Array = getSelectionsSummary(selections);
-					confirmationMessage = "You have chosen to " + changeVerb + " the following " +
-							StringUtils.pluralize("change", parts.length) + " to " + medicationsOwner +
-							" hypertension medications.\n\n" +
-							parts.join("\n");
+					selectionsMessage = parts.join("\n");
 				}
 				else
 				{
-					confirmationMessage = "You have chosen to " + maintainVerb + " all of " + medicationsOwner +
-							" hypertension medications at current levels.";
+					selectionsMessage = "Keep all medications at current doses";
 				}
 
-				// TODO: Finalize should commit the current user's changes, not necessarily the patient's
-				confirmationMessage += "\n\nPropose will save your decision annotations for you and others to view." +
-						"\nFinalize will commit " + medicationsOwner + " changes to the medications and clear all annotations.";
+				confirmationMessage = headerMessage + "\n\n" + selectionsMessage;
+//				var changeVerb:String = isPatient ? "make" : "suggest";
+//				var maintainVerb:String = isPatient ? "keep" : "suggest keeping";
+//				var medicationsOwner:String = isPatient ? "your" : "the patient's";
+//				if (selections.length > 0)
+//				{
+//					var parts:Array = getSelectionsSummary(selections);
+//					confirmationMessage = "You have chosen to " + changeVerb + " the following " +
+//							StringUtils.pluralize("change", parts.length) + " to " + medicationsOwner +
+//							" hypertension medications.\n\n" +
+//							parts.join("\n");
+//				}
+//				else
+//				{
+//					confirmationMessage = "You have chosen to " + maintainVerb + " all of " + medicationsOwner +
+//							" hypertension medications at current levels.";
+//				}
+//
+//				// TODO: Finalize should commit the current user's changes, not necessarily the patient's
+//				confirmationMessage += "\n\nPropose will save your decision annotations for you and others to view." +
+//						"\nFinalize will commit " + medicationsOwner + " changes to the medications and clear all annotations.";
+
 			}
 			else
 			{
@@ -505,23 +568,55 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return parts;
 		}
 
-		private function getSelections():Vector.<HypertensionMedicationDoseSelection>
+		private function getSelectionsAndCompareWithSystem():Vector.<HypertensionMedicationDoseSelection>
 		{
+			selectionsAgreeWithSystem = true;
+
 			var selections:Vector.<HypertensionMedicationDoseSelection> = new <HypertensionMedicationDoseSelection>[];
 			for each (var pair:HypertensionMedicationAlternatePair in _hypertensionMedicationAlternatePairsVector)
 			{
 				for each (var medication:HypertensionMedication in pair.medications)
 				{
+					var systemSelection:HypertensionMedicationDoseSelection;
+					var userSelection:HypertensionMedicationDoseSelection;
+
 					for each (var selection:HypertensionMedicationDoseSelection in medication.doseSelections)
 					{
-						if (selection.selectionType != HypertensionMedicationDoseSelection.SYSTEM &&
-							selection.selectionByAccount && selection.selectionByAccount.accountId == accountId)
+						if (selection.selectionType == HypertensionMedicationDoseSelection.SYSTEM)
 						{
+							systemSelection = selection;
+						}
+						else if (selection.selectionByAccount && selection.selectionByAccount.accountId == accountId)
+						{
+							userSelection = selection;
 							selections.push(selection);
+						}
+					}
+
+					if (systemSelection)
+					{
+						if (userSelection)
+						{
+							if (systemSelection.newDose != userSelection.newDose)
+							{
+								selectionsAgreeWithSystem = false;
+							}
+						}
+						else
+						{
+							selectionsAgreeWithSystem = false;
+						}
+					}
+					else
+					{
+						if (userSelection)
+						{
+							selectionsAgreeWithSystem = false;
 						}
 					}
 				}
 			}
+
 			return selections;
 		}
 
@@ -538,7 +633,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return _decisionScheduleItemOccurrence;
 		}
 
-		private function saveTitrationResult(selections:Vector.<HypertensionMedicationDoseSelection>):void
+		private function saveTitrationResult(selections:Vector.<HypertensionMedicationDoseSelection>,
+											 shouldFinalize:Boolean):void
 		{
 			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult();
 
@@ -551,11 +647,18 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				titrationResult.actions = new ArrayCollection();
 			}
 
+			var actionStepResult:ActionStepResult = new ActionStepResult();
+			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null,
+					DECISION_ACTION_STEP_RESULT_NAME);
+			actionStepResult.actionType = shouldFinalize ? FINALIZE_ACTION_TYPE : PROPOSE_ACTION_TYPE;
+			titrationResult.actions.addItem(actionStepResult);
+
 			for each (var selection:HypertensionMedicationDoseSelection in selections)
 			{
 				selection.persisted = true;
 
 				var actionStepResult:ActionStepResult = new ActionStepResult();
+				actionStepResult.actionType = SELECTION_ACTION_TYPE;
 				actionStepResult.name = new CollaboRhythmCodedValue(null, null, null,
 						isPatient ? PATIENT_DECISION_ACTION_STEP_RESULT_NAME : CLINICIAN_DECISION_ACTION_STEP_RESULT_NAME);
 				actionStepResult.occurrences = new ArrayCollection();
@@ -584,8 +687,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 			record.addRelationship(HealthActionResult.RELATION_TYPE_TITRATION_DECISION, parentForTitrationDecisionResult, titrationResult, true);
 		}
-
-		private static const HYPERTENSION_MEDICATION_TITRATION_DECISION_PLAN_NAME:String = "Hypertension Medication Titration Decision";
 
 		/**
 		 * Finds the document that should be used as the parent for titration decision result(s), or creates one if it does not exist.
@@ -659,6 +760,36 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		override protected function get componentContainer():IComponentContainer
 		{
 			return _componentContainer;
+		}
+
+		public function get selectionsAgreeWithSystem():Boolean
+		{
+			return _selectionsAgreeWithSystem;
+		}
+
+		public function set selectionsAgreeWithSystem(value:Boolean):void
+		{
+			_selectionsAgreeWithSystem = value;
+		}
+
+		public function get selectionsMessage():String
+		{
+			return _selectionsMessage;
+		}
+
+		public function set selectionsMessage(value:String):void
+		{
+			_selectionsMessage = value;
+		}
+
+		public function get headerMessage():String
+		{
+			return _headerMessage;
+		}
+
+		public function set headerMessage(value:String):void
+		{
+			_headerMessage = value;
 		}
 	}
 }

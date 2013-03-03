@@ -259,13 +259,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private function initializeInsulinTitrationDecisionPanelModel():void
 		{
 			_insulinTitrationDecisionPanelModel = new InsulinTitrationDecisionPanelModel(chartModelDetails);
-			_insulinTitrationDecisionPanelModel.updateAreBloodGlucoseRequirementsMet();
+			_insulinTitrationDecisionPanelModel.updateAreVitalSignRequirementsMet();
 			_insulinTitrationDecisionPanelModel.updateIsAdherencePerfect();
-			_insulinTitrationDecisionPanelModel.verticalAxisMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MINIMUM;
-			_insulinTitrationDecisionPanelModel.verticalAxisMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_VERTICAL_AXIS_MAXIMUM;
-			_insulinTitrationDecisionPanelModel.goalZoneMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM;
-			_insulinTitrationDecisionPanelModel.goalZoneMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM;
-			_insulinTitrationDecisionPanelModel.goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
 		}
 
 		override public function set chartModelDetails(chartModelDetails:IChartModelDetails):void

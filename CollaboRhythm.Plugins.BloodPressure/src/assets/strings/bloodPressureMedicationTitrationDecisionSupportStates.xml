@@ -22,7 +22,7 @@
 			<selector>measurementGoalMet</selector>
 		</selectors>
 		<stepNumber>1</stepNumber>
-		<steps>			
+		<steps>
 			<step>
 				<stepText>Your average systolic blood pressure has been plotted with the orange triangle.</stepText>
 			</step>
@@ -48,6 +48,8 @@
 		<stepNumber>1</stepNumber>
 		<steps>
 			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
 				<stepText>Your average systolic blood pressure could not be plotted because you do not have 3 daily
 					blood pressure measurements in the past week, including one today.
 				</stepText>
@@ -86,6 +88,8 @@
 		<stepNumber>1</stepNumber>
 		<steps>
 			<step>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
 				<stepText>The average systolic blood pressure could not be plotted because there are not 3 daily blood
 					pressure measurements in the past week, including one today.
 				</stepText>
@@ -94,38 +98,41 @@
 	</titrationDecisionSupportState>
 	<titrationDecisionSupportState>
 		<selectors>
-			<selector>modePatient</selector>
 			<selector>durationSinceChangeGoalNotMet</selector>
 			<selector>medicationAdherenceGoalMet</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>
 			<step>
-				<stepText>It has not been 14 days since your last medication change, so the protocol does not recommend
-					a change in medication. Remember that the protocol is just a guide.
-				</stepText>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change on the MAP is not recommended because:</stepText>
+				<subSteps>
+					<subStep>Last medication change &lt; 14 days</subStep>
+				</subSteps>
 			</step>
 		</steps>
 	</titrationDecisionSupportState>
 	<titrationDecisionSupportState>
 		<selectors>
-			<selector>modePatient</selector>
 			<selector>durationSinceChangeGoalNotMet</selector>
 			<selector>medicationAdherenceGoalNotMet</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>
 			<step>
-				<stepText>It has not been 14 days since your last medication change, so the protocol does not recommend
-					a change in medication. Your medication adherence has also not been perfect. Remember that the
-					protocol is just a guide.
-				</stepText>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change on the MAP is not recommended because:</stepText>
+				<subSteps>
+					<subStep>Last medication change &lt; 14 days</subStep>
+					<subStep>Medication adherence is not perfect</subStep>
+				</subSteps>
 			</step>
 		</steps>
 	</titrationDecisionSupportState>
 	<titrationDecisionSupportState>
 		<selectors>
-			<selector>modePatient</selector>
 			<selector>durationSinceChangeGoalMet</selector>
 			<selector>medicationAdherenceGoalMet</selector>
 			<selector>measurementGoalNotMet</selector>
@@ -133,16 +140,17 @@
 		<stepNumber>2</stepNumber>
 		<steps>
 			<step>
-				<stepText>It has been 14 days since your last medication change, your medication adherence has been
-					perfect, and your average systolic blood pressure is greater than or equal to 140. An increase in
-					medication can be considered according to the protocol. Remember that the protocol is just a guide.
-				</stepText>
+				<stepText>An increase on the MAP can be considered because:</stepText>
+				<subSteps>
+					<subStep>Last medication change >= 14 days</subStep>
+					<subStep>Average systolic blood pressure >= 130</subStep>
+					<subStep>Medication adherence is perfect</subStep>
+				</subSteps>
 			</step>
 		</steps>
 	</titrationDecisionSupportState>
 	<titrationDecisionSupportState>
 		<selectors>
-			<selector>modePatient</selector>
 			<selector>durationSinceChangeGoalMet</selector>
 			<selector>medicationAdherenceGoalMet</selector>
 			<selector>measurementGoalMet</selector>
@@ -150,16 +158,17 @@
 		<stepNumber>2</stepNumber>
 		<steps>
 			<step>
-				<stepText>It has been 14 days since your last medication change, your medication adherence has been
-					perfect, and your average systolic blood pressure is less than 140. A decrease in medication can be
-					considered according to the protocol. Remember that the protocol is just a guide.
-				</stepText>
+				<stepText>A decrease on the MAP can be considered because:</stepText>
+				<subSteps>
+					<subStep>Last medication change >= 14 days</subStep>
+					<subStep>Average systolic blood pressure &lt; 130</subStep>
+					<subStep>Medication adherence is perfect</subStep>
+				</subSteps>
 			</step>
 		</steps>
 	</titrationDecisionSupportState>
 	<titrationDecisionSupportState>
 		<selectors>
-			<selector>modePatient</selector>
 			<selector>durationSinceChangeGoalMet</selector>
 			<selector>medicationAdherenceGoalMet</selector>
 			<selector>measurementGoalInsufficient</selector>
@@ -167,124 +176,29 @@
 		<stepNumber>2</stepNumber>
 		<steps>
 			<step>
-				<stepText>It has been 14 days since your last medication change, your medication adherence has been
-					perfect, but you do not have an average systolic blood pressure. The protocol cannot recommend a
-					change in medication. Remember that the protocol is just a guide.
-				</stepText>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change on the MAP is not recommended because:</stepText>
+				<subSteps>
+					<subStep>Average systolic blood pressure not available</subStep>
+				</subSteps>
 			</step>
 		</steps>
 	</titrationDecisionSupportState>
 	<titrationDecisionSupportState>
 		<selectors>
-			<selector>modePatient</selector>
 			<selector>durationSinceChangeGoalMet</selector>
 			<selector>medicationAdherenceGoalNotMet</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>
 			<step>
-				<stepText>It has been 14 days since your last medication change, but your medication adherence has not
-					been perfect. The protocol cannot recommend a change in medication. Remember that the protocol is
-					just a guide.
-				</stepText>
-			</step>
-		</steps>
-	</titrationDecisionSupportState>
-	<titrationDecisionSupportState>
-		<selectors>
-			<selector>modeClinician</selector>
-			<selector>durationSinceChangeGoalNotMet</selector>
-			<selector>medicationAdherenceGoalMet</selector>
-		</selectors>
-		<stepNumber>2</stepNumber>
-		<steps>
-			<step>
-				<stepText>It has not been 14 days since the last medication change, so the protocol does not recommend a
-					change in medication. Remember that the protocol is just a guide.
-				</stepText>
-			</step>
-		</steps>
-	</titrationDecisionSupportState>
-	<titrationDecisionSupportState>
-		<selectors>
-			<selector>modeClinician</selector>
-			<selector>durationSinceChangeGoalNotMet</selector>
-			<selector>medicationAdherenceGoalNotMet</selector>
-		</selectors>
-		<stepNumber>2</stepNumber>
-		<steps>
-			<step>
-				<stepText>It has not been 14 days since the last medication change, so the protocol does not recommend a
-					change in medication. The medication adherence has also not been perfect. Remember that the protocol
-					is just a guide.
-				</stepText>
-			</step>
-		</steps>
-	</titrationDecisionSupportState>
-	<titrationDecisionSupportState>
-		<selectors>
-			<selector>modeClinician</selector>
-			<selector>durationSinceChangeGoalMet</selector>
-			<selector>medicationAdherenceGoalMet</selector>
-			<selector>measurementGoalNotMet</selector>
-		</selectors>
-		<stepNumber>2</stepNumber>
-		<steps>
-			<step>
-				<stepText>It has been 14 days since your the medication change, the medication adherence has been
-					perfect, and the average systolic blood pressure is greater than or equal to 140. An increase in
-					medication can be considered according to the protocol. Remember that the protocol is just a guide.
-				</stepText>
-			</step>
-		</steps>
-	</titrationDecisionSupportState>
-	<titrationDecisionSupportState>
-		<selectors>
-			<selector>modeClinician</selector>
-			<selector>durationSinceChangeGoalMet</selector>
-			<selector>medicationAdherenceGoalMet</selector>
-			<selector>measurementGoalMet</selector>
-		</selectors>
-		<stepNumber>2</stepNumber>
-		<steps>
-			<step>
-				<stepText>It has been 14 days since the last medication change, the medication adherence has been
-					perfect, and the average systolic blood pressure is less than 140. A decrease in medication can be
-					considered according to the protocol. Remember that the protocol is just a guide.
-				</stepText>
-			</step>
-		</steps>
-	</titrationDecisionSupportState>
-	<titrationDecisionSupportState>
-		<selectors>
-			<selector>modeClinician</selector>
-			<selector>durationSinceChangeGoalMet</selector>
-			<selector>medicationAdherenceGoalMet</selector>
-			<selector>measurementGoalInsufficient</selector>
-		</selectors>
-		<stepNumber>2</stepNumber>
-		<steps>
-			<step>
-				<stepText>It has been 14 days since the last medication change, the medication adherence has been
-					perfect, but there is not an average systolic blood pressure. The protocol cannot recommend a change
-					in medication. Remember that the protocol is just a guide.
-				</stepText>
-			</step>
-		</steps>
-	</titrationDecisionSupportState>
-	<titrationDecisionSupportState>
-		<selectors>
-			<selector>modeClinician</selector>
-			<selector>durationSinceChangeGoalMet</selector>
-			<selector>medicationAdherenceGoalNotMet</selector>
-		</selectors>
-		<stepNumber>2</stepNumber>
-		<steps>
-			<step>
-				<stepText>It has been 14 days since the last medication change, but the medication adherence has not
-					been perfect. The protocol cannot recommend a change in medication. Remember that the protocol is
-					just a guide.
-				</stepText>
+				<stepIcon>warning</stepIcon>
+				<stepColor>grey</stepColor>
+				<stepText>A change on the MAP is not recommended because:</stepText>
+				<subSteps>
+					<subStep>Medication adherence is not perfect</subStep>
+				</subSteps>
 			</step>
 		</steps>
 	</titrationDecisionSupportState>

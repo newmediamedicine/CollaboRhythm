@@ -118,10 +118,14 @@ package collaboRhythm.plugins.medications.model
 			{
 				//TODO: Use the actual route from Indivo once it is modeled in the data
 				var route:String = "";
+				var totalDoseString:String = "";
 				switch (_medicationName.form)
 				{
 					case "Oral Tablet":
 						route = "by mouth";
+						var totalDose:Number = parseFloat(_medicationScheduleItem.dose.value) * parseFloat(_medicationName.strength);
+						//TODO: Parse the dose value and the dose unit as separate strings from the _medicationName because the dose unit may not always be MG
+						totalDoseString = " (" + totalDose.toString() + " MG total dose)";
 						break;
 					case "Prefilled Syringe":
 						route = "subcutaneous injection";
@@ -133,7 +137,7 @@ package collaboRhythm.plugins.medications.model
 				{
 					plural = "s";
 				}
-				return _medicationScheduleItem.dose.value + " " + _medicationScheduleItem.dose.unit.text + plural + " " + route;
+				return _medicationScheduleItem.dose.value + " " + _medicationScheduleItem.dose.unit.text + plural + " " + route + totalDoseString;
 			}
 			else
 				return "";

@@ -18,7 +18,8 @@
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:view="collaboRhythm.plugins.foraD40b.view.*"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-					   title="Abnormal Blood Pressure Action Plan">
+					   title="Abnormal Blood Pressure Action Plan"
+					   implements="collaboRhythm.plugins.schedule.shared.model.IHealthActionInputView">
 	<fx:Declarations>
 		<view:AbnormalBloodPressureQuitPopUp id="abnormalBloodPressureQuitPopUp"/>
 	</fx:Declarations>
@@ -26,6 +27,7 @@
 		import collaboRhythm.plugins.foraD40b.controller.ForaD40bHealthActionInputController;
 		import collaboRhythm.plugins.foraD40b.model.BloodPressureHealthActionInputModel;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
+		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
 
 		import mx.managers.PopUpManager;
 
@@ -73,6 +75,11 @@
 			{
 				_dataInputController.quitAbnormalBloodPressureActionPlan();
 			}
+		}
+
+		public function get healthActionInputController():IHealthActionInputController
+		{
+			return _dataInputController;
 		}
 		]]></fx:Script>
 </tablet:TabletViewBase>

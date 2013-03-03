@@ -179,7 +179,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 */
 			else
 			{
-				_confirmChangePopUpModel = new ConfirmChangePopUpModel(_model.confirmationMessage);
+				_confirmChangePopUpModel = new ConfirmChangePopUpModel(_model.confirmationMessage, _model.headerMessage, _model.selectionsAgreeWithSystem, _model.selectionsMessage);
 				confirmChangePopUp.model = _confirmChangePopUpModel;
 				confirmChangePopUp.addEventListener(PopUpEvent.CLOSE, confirmChangePopUp_closeHandler);
 				confirmChangePopUp.open(_viewNavigator, true);

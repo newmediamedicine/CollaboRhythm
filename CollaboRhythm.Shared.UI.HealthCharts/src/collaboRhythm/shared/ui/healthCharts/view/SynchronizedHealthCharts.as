@@ -2045,6 +2045,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			}
 		}
 
+		private static const SYNC_RANGE_TIMES_ON_UPDATE:Boolean = true;
+
 		private function synchronizeDateLimits():void
 		{
 			if (_traceEventHandlers)
@@ -2084,8 +2086,12 @@ package collaboRhythm.shared.ui.healthCharts.view
 					chart.initialRightRangeTime = initialRightRangeTime;
 					chart.minimumTime = minimum;
 					chart.maximumTime = maximum;
-					chart.rightRangeTime = initialRightRangeTime;
-					chart.leftRangeTime = initialLeftRangeTime;
+					// TODO: avoid changing range times if the user scrolled back to something other than today
+					if (SYNC_RANGE_TIMES_ON_UPDATE)
+					{
+						chart.rightRangeTime = initialRightRangeTime;
+						chart.leftRangeTime = initialLeftRangeTime;
+					}
 					chart.updateForScroll();
 					chart.focusTime = today.valueOf();
 

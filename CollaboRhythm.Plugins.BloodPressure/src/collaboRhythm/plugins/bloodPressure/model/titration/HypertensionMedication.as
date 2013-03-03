@@ -402,8 +402,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		public function getDoseDescription(doseSelected:int):String
 		{
-			if (doseSelected == DoseStrengthCode.HALF) return dose1;
-			if (doseSelected == DoseStrengthCode.FULL) return dose2;
+			if (doseSelected == DoseStrengthCode.LOW) return dose1;
+			if (doseSelected == DoseStrengthCode.HIGH) return dose2;
 			return null;
 		}
 

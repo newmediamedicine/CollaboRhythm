@@ -74,6 +74,9 @@ package collaboRhythm.plugins.messages.model
 		{
 			var message:Message;
 
+			// TODO: fix server bug which results in permission denied for any \n characters
+			body = body.replace("\n", " ");
+
 			if (_settings.isPatientMode)
 			{
 				message = sendMessageToClinicianTeamMemberAccounts(body);

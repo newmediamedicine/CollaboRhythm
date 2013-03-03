@@ -6,8 +6,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	public class DoseStrengthCode
 	{
 		public static const NONE:int = 0;
-		public static const HALF:int = 1;
-		public static const FULL:int = 2;
+		public static const LOW:int = 1;
+		public static const HIGH:int = 2;
 
 		public function DoseStrengthCode()
 		{
@@ -19,10 +19,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			{
 				case NONE:
 					return "none";
-				case HALF:
-					return "half strength";
-				case FULL:
-					return "full strength";
+				case LOW:
+					return "low dose";
+				case HIGH:
+					return "high dose";
 			}
 			return null;
 		}

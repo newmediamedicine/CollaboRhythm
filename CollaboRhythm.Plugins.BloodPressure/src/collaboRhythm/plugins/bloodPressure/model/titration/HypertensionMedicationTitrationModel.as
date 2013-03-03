@@ -9,6 +9,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
@@ -35,6 +36,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private static const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
 
+		protected static const REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE:int = 14;
+		protected static const REQUIRED_BLOOD_PRESSURE_MEASUREMENTS:int = 3;
+		protected static const NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_PRESSURE:int = 7;
+
 		protected var _record:Record;
 
 		protected var _medicationScheduleItemsCollection:ArrayCollection;
@@ -53,10 +58,19 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function HypertensionMedicationTitrationModel(activeAccount:Account, activeRecordAccount:Account)
 		{
 			super();
-			requiredDaysOfPerfectMedicationAdherence = 14;
+			_protocolVitalSignCategory = VitalSignsModel.SYSTOLIC_CATEGORY;
+			_requiredNumberVitalSigns = REQUIRED_BLOOD_PRESSURE_MEASUREMENTS;
+			_numberOfDaysForEligibleVitalSigns = NUMBER_OF_DAYS_FOR_ELIGIBLE_BLOOD_PRESSURE;
+			requiredDaysOfPerfectMedicationAdherence = REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE;
+			protocolMeasurementsMustBeAfterTitration = false;
 			_activeAccount = activeAccount;
 			_activeRecordAccount = activeRecordAccount;
 			_record = activeRecordAccount.primaryRecord;
+			verticalAxisMinimum = DefaultVitalSignChartModifier.SYSTOLIC_VERTICAL_AXIS_MINIMUM;
+			verticalAxisMaximum = DefaultVitalSignChartModifier.SYSTOLIC_VERTICAL_AXIS_MAXIMUM;
+			goalZoneMinimum = DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MINIMUM;
+			goalZoneMaximum = DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MAXIMUM;
+			goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
 
 			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
 
@@ -82,8 +96,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			updateForRecordChange();
 		}
 
-		protected function updateSystemRecommendedDoseSelections():void
+		override protected function updateAlgorithmSuggestions():void
 		{
+			// TODO: only consider hypertension medications for algorithm; using all medications (not just hypertension medications) may be problematic
 			_medicationScheduleItemsCollection = _record.medicationScheduleItemsModel.medicationScheduleItemCollection;
 			_systolicVitalSignsCollection = _record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY) as
 					ArrayCollection;
@@ -97,10 +112,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			if (_mostRecentDoseChange &&
 					(_currentDateSource.now().time - _mostRecentDoseChange.time) > NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS)
 			{
-				if (_mostRecentSystolicVitalSign)
+				if (algorithmValuesAvailable())
 				{
 					//TODO: This needs to be tested and needs to be implemented for average of last 3 blood pressures
-					if (_mostRecentSystolicVitalSign.resultAsNumber > 130)
+					if (protocolMeasurementAverage > goalZoneMaximum)
 					{
 						if (_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose <
 								2)
@@ -109,16 +124,17 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 									1, HypertensionMedicationDoseSelection.INCREASE,
 									HypertensionMedicationDoseSelection.SYSTEM, null);
 						}
-						else if (_highestHypertensionMedicationAlternatePairIndex < 2)
+						else if (_highestHypertensionMedicationAlternatePairIndex > 0)
 						{
-							_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex +
+							_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex -
 									1].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(1,
 											HypertensionMedicationDoseSelection.INCREASE,
 											HypertensionMedicationDoseSelection.SYSTEM, null);
 						}
 					}
-					else
+					else if (protocolMeasurementAverage < goalZoneMinimum)
 					{
+						// TODO: if there is some gap in the progression of meds (such as the 3rd med is scheduled, but 1st and 2nd are not) we should titrate down off of the remaining med(s)
 						_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose,
 								HypertensionMedicationDoseSelection.DECREASE,
 								HypertensionMedicationDoseSelection.SYSTEM, null);
@@ -129,22 +145,38 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private function determineHighestMedicationAlternatePair():void
 		{
-			_highestHypertensionMedicationAlternatePairIndex = 0;
+			_highestHypertensionMedicationAlternatePairIndex = _hypertensionMedicationAlternatePairsVector.length - 1;
+
+			for (var i:int = _hypertensionMedicationAlternatePairsVector.length - 1; i >= 0; i--)
+			{
+				var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair = _hypertensionMedicationAlternatePairsVector[i];
+				if (hypertensionMedicationAlternatePair.activeHypertensionMedication &&
+						hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose != DoseStrengthCode.NONE)
+				{
+					_highestHypertensionMedicationAlternatePairIndex = i;
+				}
+				if (hypertensionMedicationAlternatePair.activeHypertensionMedication &&
+										hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose < DoseStrengthCode.HIGH)
+				{
+					break;
+				}
+			}
+		}
+
+		protected function determineCurrentDoses():void
+		{
+			_medicationScheduleItemsCollection = _record.medicationScheduleItemsModel.medicationScheduleItemCollection;
 
 			for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in
 					_hypertensionMedicationAlternatePairsVector)
 			{
 				hypertensionMedicationAlternatePair.determineCurrentDose(_medicationScheduleItemsCollection);
-
-				if (hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose != 0)
-				{
-					_highestHypertensionMedicationAlternatePairIndex = _hypertensionMedicationAlternatePairsVector.indexOf(hypertensionMedicationAlternatePair);
-				}
 			}
 		}
 
 		private function determineMostRecentDoseChange():void
 		{
+			// TODO: detect schedule end times (effective end, with recurrence evaluated) as well as start times
 			for each (var medicationScheduleItem:MedicationScheduleItem in _medicationScheduleItemsCollection)
 			{
 				if (_mostRecentDoseChange)

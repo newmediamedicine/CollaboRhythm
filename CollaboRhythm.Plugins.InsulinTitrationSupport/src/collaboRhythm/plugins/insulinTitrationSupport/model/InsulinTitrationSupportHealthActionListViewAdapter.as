@@ -57,7 +57,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_dosageChangeValueLabel = medicationTitrationHelper.dosageChangeValueLabel;
 
 			_decisionModel = new InsulinTitrationDecisionHealthActionModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
-			_decisionModel.updateAreBloodGlucoseRequirementsMet();
+			_decisionModel.updateAreVitalSignRequirementsMet();
 			_decisionModel.updateIsAdherencePerfect();
 		}
 
