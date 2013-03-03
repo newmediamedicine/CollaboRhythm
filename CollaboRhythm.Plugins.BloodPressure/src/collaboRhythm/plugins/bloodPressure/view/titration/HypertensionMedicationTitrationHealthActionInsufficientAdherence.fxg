@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!---
+  - Copyright 2013 John Moore, Scott Gilroy
+  -
+  - This file is part of CollaboRhythm.
+  -
+  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  - version.
+  -
+  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  - details.
+  -
+  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  - <http://www.gnu.org/licenses/>.
+  -->
 <Graphic version="2.0" viewHeight="100" viewWidth="100" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
   <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
     <Group ai:objID="11064d80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <BitmapImage scaleX="1.00288" scaleY="1.00288" x="-0.365234" y="7.20801" source="@Embed('HypertensionMedicationTitrationHealthActionInsufficientAdherence.assets/images/HypertensionMedicationTitration.png')" fillMode="clip" ai:objID="11256800" ai:seqID="3"/>
+      <BitmapImage scaleX="1.00288" scaleY="1.00288" x="-0.365234" y="7.20801" source="@Embed('assets/TitrationIconBackground.png')" fillMode="clip" ai:objID="11256800" ai:seqID="3"/>
       <Ellipse x="35.5" y="64.5" width="28" height="28" ai:objID="1a815480" ai:seqID="4">
         <fill>
           <SolidColor color="#DBDBDC"/>
@@ -75,7 +91,7 @@
         </ai:DocData>
         <ai:AutoGenImageList>
           <ai:Dict>
-            <ai:Entry name="0" value="HypertensionMedicationTitration.png" valueType="U"/>
+            <ai:Entry name="0" value="TitrationIconBackground.png" valueType="U"/>
           </ai:Dict>
         </ai:AutoGenImageList>
       </ai:PrivateElement>
