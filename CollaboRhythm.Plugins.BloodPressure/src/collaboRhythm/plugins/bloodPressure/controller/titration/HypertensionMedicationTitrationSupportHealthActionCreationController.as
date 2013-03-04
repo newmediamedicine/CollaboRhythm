@@ -58,7 +58,7 @@ package collaboRhythm.plugins.bloodPressure.controller.titration
 			
 			creator.createDecisionHealthAction();
 			creator.createMeasurementHealthAction();
-			_activeRecordAccount.primaryRecord.saveAllChanges();
+//			_activeRecordAccount.primaryRecord.saveAllChanges();
 		}
 
 		public function showHealthActionEditView(scheduleItemOccurrence:ScheduleItemOccurrence):void

@@ -291,8 +291,6 @@ package collaboRhythm.plugins.schedule.model
 
 		public function unscheduleItem(moveData:MoveData):void
 		{
-//			stackingUpdated = false;
-
 			var scheduleItemOccurrence:ScheduleItemOccurrence = _scheduleModel.scheduleItemOccurrencesHashMap[moveData.id];
 			if (scheduleItemOccurrence)
 			{
@@ -310,8 +308,6 @@ package collaboRhythm.plugins.schedule.model
 				var scheduleChanger:ScheduleChanger = new ScheduleChanger(_scheduleModel.record, _scheduleModel.accountId, _scheduleModel.currentDateSource);
 				scheduleChanger.endSchedule(scheduleItemOccurrence.scheduleItem, scheduleItemOccurrence, true);
 			}
-
-//			stackingUpdated = true;
 		}
 
 		public function get stackingUpdated():Boolean
