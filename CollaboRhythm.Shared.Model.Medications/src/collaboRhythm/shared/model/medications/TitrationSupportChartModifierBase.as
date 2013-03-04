@@ -10,6 +10,8 @@ package collaboRhythm.shared.model.medications
 	import com.dougmccune.controls.ScrubChart;
 	import com.dougmccune.controls.SeriesDataSet;
 
+	import flash.events.Event;
+
 	import mx.charts.HitData;
 	import mx.charts.LinearAxis;
 	import mx.charts.chartClasses.CartesianChart;
@@ -202,6 +204,9 @@ package collaboRhythm.shared.model.medications
 			return false;
 		}
 
+		private var _titrationDecisionPanel:IVisualElement;
+		private var _spacerRects:Vector.<Rect> = new <Rect>[];
+
 		public override function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void
 		{
 			if (chartModelDetails.record.healthChartsModel.decisionPending)
@@ -218,17 +223,19 @@ package collaboRhythm.shared.model.medications
 
 					if (isProtocolMeasurementChartDescriptor(chartDescriptor))
 					{
-						var panel:IVisualElement = createTitrationDecisionPanel();
-						panel.percentHeight = 100;
-						extraPanel = panel;
+						_titrationDecisionPanel = createTitrationDecisionPanel();
+						_titrationDecisionPanel.percentHeight = 100;
+						_titrationDecisionPanel.addEventListener(Event.RESIZE, titrationDecisionPanel_resizeHandler);
+						extraPanel = _titrationDecisionPanel;
 
 						adherenceGroup.minHeight = PROTOCOL_MEASUREMENT_CHART_MIN_HEIGHT;
 					}
 					else
 					{
 						var spacerRect:Rect = new Rect();
-						spacerRect.width = titrationDecisionPanelWidth();
+						spacerRect.width = _titrationDecisionPanel ? _titrationDecisionPanel.width : titrationDecisionPanelWidth();
 						spacerRect.visible = false;
+						_spacerRects.push(spacerRect);
 						extraPanel = spacerRect;
 					}
 					adherenceGroup.addElement(extraPanel);
@@ -238,6 +245,14 @@ package collaboRhythm.shared.model.medications
 			{
 				while (adherenceGroup.numElements > 2)
 					adherenceGroup.removeElementAt(adherenceGroup.numElements - 1);
+			}
+		}
+
+		private function titrationDecisionPanel_resizeHandler(event:Event):void
+		{
+			for each (var rect:Rect in _spacerRects)
+			{
+				rect.width = _titrationDecisionPanel.width;
 			}
 		}
 	}

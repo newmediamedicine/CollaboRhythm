@@ -4,28 +4,27 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationFAQModel;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationFAQModelAndController;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationFAQView;
-	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
-	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.model.ICollaborationLobbyNetConnectionServiceProxy;
+	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
+	import collaboRhythm.shared.model.medications.controller.TitrationDecisionPanelControllerBase;
 
 	import spark.components.ViewNavigator;
 
-	public class InsulinTitrationDecisionPanelController
+	public class InsulinTitrationDecisionPanelController extends TitrationDecisionPanelControllerBase
 	{
-		private var _collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy;
 		private var _model:InsulinTitrationDecisionPanelModel;
-		private var _viewNavigator:ViewNavigator;
-		private var _synchronizationService:SynchronizationService;
 
 		public function InsulinTitrationDecisionPanelController(collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy,
 																insulinTitrationDecisionPanelModel:InsulinTitrationDecisionPanelModel,
 																viewNavigator:ViewNavigator)
 		{
-			_collaborationLobbyNetConnectionServiceProxy = collaborationLobbyNetConnectionServiceProxy;
+			super(collaborationLobbyNetConnectionServiceProxy, viewNavigator);
 			_model = insulinTitrationDecisionPanelModel;
-			_viewNavigator = viewNavigator;
-			_synchronizationService = new SynchronizationService(this, collaborationLobbyNetConnectionServiceProxy as
-					CollaborationLobbyNetConnectionServiceProxy);
+		}
+
+		override public function get modelBase():TitrationDecisionModelBase
+		{
+			return _model;
 		}
 
 		public function setDosageChangeValue(value:Number):void
@@ -38,14 +37,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			_model.dosageChangeValue = value;
 		}
 
-		public function send():void
+		override public function send():void
 		{
 			_model.record.healthChartsModel.save();
 		}
 
-		public function showInsulinTitrationFaq():void
+		override public function showFaq():void
 		{
-			if (_synchronizationService.synchronize("showInsulinTitrationFaq"))
+			if (_synchronizationService.synchronize("showFaq"))
 			{
 				return;
 			}
@@ -58,24 +57,5 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			_viewNavigator.pushView(InsulinTitrationFAQView, insulinTitrationFAQModelAndController);
 		}
 
-		public function setInstructionsScrollPosition(instructionsScrollPosition:Number):void
-		{
-			if (_synchronizationService.synchronize("setInstructionsScrollPosition",
-					instructionsScrollPosition, false))
-			{
-				return;
-			}
-
-			_model.instructionsScrollPosition = instructionsScrollPosition;
-		}
-
-		public function destroy():void
-		{
-			if (_synchronizationService)
-			{
-				_synchronizationService.removeEventListener(this);
-				_synchronizationService = null;
-			}
-		}
 	}
 }

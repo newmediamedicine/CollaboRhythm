@@ -57,7 +57,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationSupportChartModifierFactory).name,
 					IChartModifierFactory, new InsulinTitrationSupportChartModifierFactory());
 
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(ITitrationDecisionSupportStatesFileStore).name,
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(InsulinTitrationDecisionSupportStatesFileStore).name,
 					ITitrationDecisionSupportStatesFileStore,
 					new InsulinTitrationDecisionSupportStatesFileStore());
 

@@ -16,13 +16,12 @@ package collaboRhythm.plugins.bloodPressure.controller.titration
 	import flash.accessibility.AccessibilityProperties;
 
 	import mx.controls.Alert;
-
 	import mx.core.UIComponent;
 	import mx.managers.PopUpManager;
 
 	import spark.events.PopUpEvent;
 
-	public class HypertensionMedicationTitrationAppController extends AppControllerBase
+	public class HypertensionMedicationTitrationAppController extends AppControllerBase implements ITitrationMapController
 	{
 		public static const DEFAULT_NAME:String = "HypertensionMedicationTitration";
 
@@ -148,7 +147,7 @@ package collaboRhythm.plugins.bloodPressure.controller.titration
 		}
 
 		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
-															   doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
+																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
 		{
 			_model.handleHypertensionMedicationDoseSelected(hypertensionMedication, doseSelected, altKey, ctrlKey);
 		}

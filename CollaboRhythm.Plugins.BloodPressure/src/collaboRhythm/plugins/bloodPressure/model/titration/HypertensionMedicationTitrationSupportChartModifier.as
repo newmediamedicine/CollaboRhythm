@@ -9,6 +9,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.medications.TitrationSupportChartModifierBase;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
@@ -131,7 +133,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			activeRecordAccount.primaryRecord = chartModelDetails.record;
 
 			// TODO: how do we get the settings into the model?
-			_model = new PersistableHypertensionMedicationTitrationModel(activeAccount, activeRecordAccount, null, chartModelDetails.componentContainer);
+			var settings:Settings = WorkstationKernel.instance.resolve(Settings) as Settings;
+			_model = new PersistableHypertensionMedicationTitrationModel(activeAccount, activeRecordAccount, settings, chartModelDetails.componentContainer);
 			_model.updateAreVitalSignRequirementsMet();
 			_model.updateIsAdherencePerfect();
 		}

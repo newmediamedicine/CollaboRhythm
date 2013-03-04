@@ -106,6 +106,6 @@
 							paragraphSpaceAfter="10" paddingLeft="30" paddingRight="30"
 							clipAndEnableScrolling="true" interactionMode="touch" editable="false" selectable="false"
 							touchInteractionStart="faqRichEditableText_touchInteractionStartHandler()"
-							touchInteractionEnd="faqRichEditableText_touchInteractionEndHandler"/>
+							touchInteractionEnd="faqRichEditableText_touchInteractionEndHandler()"/>
 	</s:Scroller>
 </tablet:TabletViewBase>

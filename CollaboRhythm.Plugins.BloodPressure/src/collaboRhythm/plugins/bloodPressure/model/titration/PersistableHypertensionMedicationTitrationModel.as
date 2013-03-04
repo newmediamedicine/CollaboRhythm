@@ -65,6 +65,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			super(activeAccount, activeRecordAccount);
 			_settings = settings;
 			_componentContainer = componentContainer;
+			initializeStates();
 		}
 
 		override public function evaluateForInitialize():void
@@ -503,60 +504,26 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			validateDecisionPreConditions();
 			updateConfirmationMessage();
-			/*
-						_confirmationMessage = !isPatient ||
-								!_clinicianLatestDecisionResult ? (algorithmPrerequisitesSatisfied ? (_dosageChangeValue ==
-								algorithmSuggestedDoseChange ? "This change agrees with the 303 Protocol." : "This change does not agree with the 303 Protocol.") : "Prerequisites of the 303 Protocol not met.") : (_newDose ==
-								_clinicianLatestDecisionDose ? "This change agrees with your coach’s advice." : "This change does not agree with your coach’s advice.")
-			*/
 		}
 
 		private function updateConfirmationMessage():void
 		{
-			if (isChangeSpecified)
+			var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
+			var agreeWithSystemString:String = selectionsAgreeWithSystem ? "agrees" : "does not agree";
+
+			headerMessage = "Your decision below " + agreeWithSystemString + " with the MAP";
+
+			if (selections.length > 0)
 			{
-				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
-				var agreeWithSystemString:String = selectionsAgreeWithSystem ? "agrees" : "does not agree";
-
-				headerMessage = "Your decision below " + agreeWithSystemString + " with the MAP";
-
-				if (selections.length > 0)
-				{
-					var parts:Array = getSelectionsSummary(selections);
-					selectionsMessage = parts.join("\n");
-				}
-				else
-				{
-					selectionsMessage = "Keep all medications at current doses";
-				}
-
-				confirmationMessage = headerMessage + "\n\n" + selectionsMessage;
-//				var changeVerb:String = isPatient ? "make" : "suggest";
-//				var maintainVerb:String = isPatient ? "keep" : "suggest keeping";
-//				var medicationsOwner:String = isPatient ? "your" : "the patient's";
-//				if (selections.length > 0)
-//				{
-//					var parts:Array = getSelectionsSummary(selections);
-//					confirmationMessage = "You have chosen to " + changeVerb + " the following " +
-//							StringUtils.pluralize("change", parts.length) + " to " + medicationsOwner +
-//							" hypertension medications.\n\n" +
-//							parts.join("\n");
-//				}
-//				else
-//				{
-//					confirmationMessage = "You have chosen to " + maintainVerb + " all of " + medicationsOwner +
-//							" hypertension medications at current levels.";
-//				}
-//
-//				// TODO: Finalize should commit the current user's changes, not necessarily the patient's
-//				confirmationMessage += "\n\nPropose will save your decision annotations for you and others to view." +
-//						"\nFinalize will commit " + medicationsOwner + " changes to the medications and clear all annotations.";
-
+				var parts:Array = getSelectionsSummary(selections);
+				selectionsMessage = parts.join("\n");
 			}
 			else
 			{
-				confirmationMessage = null;
+				selectionsMessage = "Keep all medications at current doses";
 			}
+
+			confirmationMessage = headerMessage + "\n\n" + selectionsMessage;
 		}
 
 		private function getSelectionsSummary(selections:Vector.<HypertensionMedicationDoseSelection>):Array
@@ -798,16 +765,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function set headerMessage(value:String):void
 		{
 			_headerMessage = value;
-		}
-
-		public function get instructionsScrollPosition():Number
-		{
-			return _instructionsScrollPosition;
-		}
-
-		public function set instructionsScrollPosition(instructionsScrollPosition:Number):void
-		{
-			_instructionsScrollPosition = instructionsScrollPosition;
 		}
 	}
 }

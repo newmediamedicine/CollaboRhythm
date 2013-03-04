@@ -29,6 +29,15 @@
             <entry module-name="ChartBackgroundsLib" build-configuration-name="ChartBackgroundsLib">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="mobile" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.UI.Buttons" build-configuration-name="CollaboRhythm.Shared.UI.Buttons">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="CollaboRhythm.Shared.Collaboration" build-configuration-name="CollaboRhythm.Shared.Collaboration">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -55,6 +64,9 @@
     <orderEntry type="module" module-name="McCuneChart" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" exported="" />
     <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
+    <orderEntry type="library" exported="" name="mobile" level="project" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.Buttons" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.Collaboration" exported="" />
   </component>
 </module>
 

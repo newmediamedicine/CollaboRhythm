@@ -21,6 +21,7 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationAppController;
 
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureChartModifierFactory;
+	import collaboRhythm.plugins.bloodPressure.model.states.BloodPressureMedicationTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationSupportChartModifierFactory;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationSupportHealthActionCreationControllerFactory;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationSupportHealthActionInputControllerFactory;
@@ -80,11 +81,9 @@ package collaboRhythm.plugins.bloodPressure.controller
 			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(HypertensionMedicationTitrationSupportChartModifierFactory).name,
 					IChartModifierFactory, new HypertensionMedicationTitrationSupportChartModifierFactory());
 
-/*
-			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(ITitrationDecisionSupportStatesFileStore).name,
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(BloodPressureMedicationTitrationDecisionSupportStatesFileStore).name,
 					ITitrationDecisionSupportStatesFileStore,
-					new HypertensionMedicationTitrationDecisionSupportStatesFileStore());
-*/
+					new BloodPressureMedicationTitrationDecisionSupportStatesFileStore());
 
 			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(HypertensionMedicationTitrationSupportHealthActionCreationControllerFactory).name,
 					IHealthActionCreationControllerFactory,

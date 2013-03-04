@@ -16,6 +16,7 @@
   - <http://www.gnu.org/licenses/>.
   -->
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		  opaqueBackground="#F0F0F0"
 		creationComplete="creationCompleteHandler(event)"
 		resize="resizeHandler(event)">
 	<fx:Style>
@@ -26,6 +27,7 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationAppController;
+		import collaboRhythm.plugins.bloodPressure.controller.titration.ITitrationMapController;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 
@@ -37,13 +39,13 @@
 		private static const MEDICATION_PAIRS_GAP_MAX:int = 140;
 
 		[Bindable]
-		private var _controller:HypertensionMedicationTitrationAppController;
+		private var _controller:ITitrationMapController;
 		[Bindable]
 		private var _model:HypertensionMedicationTitrationModel;
 
-		public function set controller(value:HypertensionMedicationTitrationAppController):void
+		public function set controller(value:ITitrationMapController):void
 		{
-			_controller = value as HypertensionMedicationTitrationAppController;
+			_controller = value;
 			_model = _controller.model;
 			createAlternatePairs();
 		}
