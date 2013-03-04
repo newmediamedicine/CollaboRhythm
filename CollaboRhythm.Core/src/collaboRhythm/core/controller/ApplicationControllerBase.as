@@ -583,6 +583,8 @@ package collaboRhythm.core.controller
 						new DeviceSimulatorViewModifier());
 			}
 
+			_kernel.registerComponentInstance("Settings", Settings, _settings);
+
 			_componentContainer = new DefaultComponentContainer();
 			_pluginLoader = new PluginLoader(_settings);
 			_pluginLoader.addEventListener(Event.COMPLETE, pluginLoader_complete);
@@ -602,9 +604,10 @@ package collaboRhythm.core.controller
 				var step:Step = new Step();
 				var defStep:Object = getDefinitionByName(ReflectionUtils.getClassInfo(Step).name);
 
-				var fileStore:ITitrationDecisionSupportStatesFileStore = array[0] as
-						ITitrationDecisionSupportStatesFileStore;
-				fileStore.readStates();
+				for each (var fileStore:ITitrationDecisionSupportStatesFileStore in array)
+				{
+					fileStore.readStates();
+				}
 			}
 		}
 

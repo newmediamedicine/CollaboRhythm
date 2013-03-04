@@ -4,6 +4,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleChanger;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -100,7 +101,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		private var _previousDoseValue:Number;
 
 		private var _medicationTitrationHelper:MedicationTitrationHelper;
-		private var _bloodGlucoseRequirementsDetails:String;
+		private var _protocolMeasurementRequirementsDetails:String;
 		private var _algorithmSuggestedDoseChange:Number;
 		private var _algorithmSuggestedDoseChangeLabel:String;
 		private var _instructionsHtml:String;
@@ -126,18 +127,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			goalZoneMinimum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MINIMUM;
 			goalZoneMaximum = DefaultVitalSignChartModifier.BLOOD_GLUCOSE_GOAL_ZONE_MAXIMUM;
 			goalZoneColor = DefaultVitalSignChartModifier.GOAL_ZONE_COLOR;
-			initializeStates();
 		}
 
-		public function initializeStates():void
+		override protected function isFileStoreMatch(fileStore:ITitrationDecisionSupportStatesFileStore):Boolean
 		{
-			var array:Array = componentContainer.resolveAll(ITitrationDecisionSupportStatesFileStore);
-			if (array && array.length > 0)
-			{
-				var fileStore:InsulinTitrationDecisionSupportStatesFileStore = array[0] as
-						InsulinTitrationDecisionSupportStatesFileStore;
-				_states = fileStore.titrationDecisionSupportStates;
-			}
+			return fileStore is InsulinTitrationDecisionSupportStatesFileStore;
 		}
 
 		override protected function getFirstAdministrationDateOfPreviousSchedule():Date
@@ -153,7 +147,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 						var medicationAdministration:MedicationAdministration = adherenceResults.length > 0 ? adherenceResults[0] as MedicationAdministration : null;
 						if (medicationAdministration)
 						{
-							bloodGlucoseRequirementsDetails = StringUtil.substitute(BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_LAST_TITRATION, medicationAdministration.amountAdministered.value, medicationAdministration.dateAdministered.toLocaleString());
+							protocolMeasurementRequirementsDetails = StringUtil.substitute(BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_LAST_TITRATION, medicationAdministration.amountAdministered.value, medicationAdministration.dateAdministered.toLocaleString());
 							return medicationAdministration.dateAdministered;
 						}
 					}
@@ -161,45 +155,23 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			}
 
 			// schedule not yet determined or otherwise unavailable; use now as a conservative alternative for this constraint
-			bloodGlucoseRequirementsDetails = BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_NO_DOSE_INFORMATION;
+			protocolMeasurementRequirementsDetails = BLOOD_GLUCOSE_REQUIREMENTS_DETAILS_NO_DOSE_INFORMATION;
 			return currentDateSource.now();
 		}
 
-		protected override function updateStep1State():void
+		override protected function updateStep1StateDescription():void
 		{
 			step1StateDescription = (areProtocolMeasurementRequirementsMet ?
 					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_MET :
 					STEP_1_STATE_DESCRIPTION_REQUIREMENTS_NOT_MET) +
-					StringUtil.substitute(BLOOD_GLUCOSE_REQUIREMENTS, bloodGlucoseRequirementsDetails);
-
-			step1State = areProtocolMeasurementRequirementsMet ? STEP_SATISFIED : STEP_STOP;
-			updateStep2State();
+					StringUtil.substitute(BLOOD_GLUCOSE_REQUIREMENTS, protocolMeasurementRequirementsDetails);
 		}
 
-		protected override function updateStep2State():void
+		override protected function updateStep2StateDescription():void
 		{
 			step2StateDescription = isAdherencePerfect ?
 					STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_PERFECT :
 					STEP_2_STATE_DESCRIPTION_MEDICATION_ADHERENCE_NOT_PERFECT + nonAdherenceDescription;
-			step2State = step1State == STEP_SATISFIED ? (isAdherencePerfect ? STEP_SATISFIED : STEP_STOP) : STEP_PREVIOUS_STOP;
-			updateStep3State();
-		}
-
-		protected override function updateStep3State():void
-		{
-			step3State = step2State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
-			updateStep4State();
-		}
-
-		private function updateStep4State():void
-		{
-			step4State = step3State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
-			updateInstructions();
-		}
-
-		private function updateInstructions():void
-		{
-			instructionsSteps = getSteps();
 		}
 
 		public function get dosageChangeValue():Number
@@ -480,12 +452,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				if (_dosageChangeValue == algorithmSuggestedDoseChange)
 				{
 					message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_PROTOCOL_FOLLOWED, titrationPhrase,
-							bloodGlucoseAverageLabel);
+							protocolMeasurementAverageLabel);
 				}
 				else
 				{
 					message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_PROTOCOL_NOT_FOLLOWED, titrationPhrase,
-							algorithmSuggestedDoseChangeLabel, bloodGlucoseAverageLabel);
+							algorithmSuggestedDoseChangeLabel, protocolMeasurementAverageLabel);
 				}
 			}
 			else
@@ -493,11 +465,6 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				message = StringUtil.substitute(TITRATION_DECISION_MESSAGE_MISSING_PREREQUISITES, titrationPhrase);
 			}
 			return message;
-		}
-
-		public function get bloodGlucoseAverageLabel():String
-		{
-			return protocolMeasurementAverage.toFixed(0);
 		}
 
 		private function saveDosageChange(currentMedicationScheduleItem:MedicationScheduleItem):Boolean
@@ -545,14 +512,14 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 				return dosageChangeValue > 0 ? "+" + dosageChangeValue.toString() : dosageChangeValue.toString();
 		}
 
-		public function get bloodGlucoseRequirementsDetails():String
+		public function get protocolMeasurementRequirementsDetails():String
 		{
-			return _bloodGlucoseRequirementsDetails;
+			return _protocolMeasurementRequirementsDetails;
 		}
 
-		public function set bloodGlucoseRequirementsDetails(value:String):void
+		public function set protocolMeasurementRequirementsDetails(value:String):void
 		{
-			_bloodGlucoseRequirementsDetails = value;
+			_protocolMeasurementRequirementsDetails = value;
 		}
 
 		public function get algorithmSuggestedDoseChange():Number
@@ -648,6 +615,48 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 		public function get evaluateTodayOnly():Boolean
 		{
 			return false;
+		}
+
+		override public function getSteps():ArrayCollection
+		{
+			var patient:String = (_patientLatestDecisionResult ? (isDecisionResultAgreement(_patientLatestDecisionResult) ? AGREE : NEW) : NONE);
+			var clinician:String = (_clinicianLatestDecisionResult ? (isDecisionResultAgreement(_clinicianLatestDecisionResult) ? AGREE : NEW) : NONE);
+			var protocol:String = (algorithmPrerequisitesSatisfied ? "ConditionsMet" : (step2State ==
+					STEP_STOP ? "InsufficientAdherence" : "InsufficientBloodGlucose"));
+
+			if (patient == AGREE && clinician == AGREE)
+			{
+				if (_latestDecisionResult == _patientLatestDecisionResult)
+				{
+					clinician = NEW;
+				}
+				else
+				{
+					patient = NEW;
+				}
+			}
+			else if (patient == AGREE && clinician == NONE)
+			{
+				clinician = NEW;
+			}
+			else if (patient == NONE && clinician == AGREE)
+			{
+				patient = NEW;
+			}
+
+			for each (var state:TitrationDecisionSupportState in _states)
+			{
+				if (state.selectors.contains("mode" + (isPatient ? "Patient" : "Clinician")) &&
+						state.selectors.contains("decisionPatient" + patient) &&
+						state.selectors.contains("decisionClinician" + clinician) &&
+						state.selectors.contains("protocol" + protocol)
+						)
+				{
+					return state.steps;
+				}
+			}
+			// no match; return empty array collection
+			return new ArrayCollection();
 		}
 	}
 }

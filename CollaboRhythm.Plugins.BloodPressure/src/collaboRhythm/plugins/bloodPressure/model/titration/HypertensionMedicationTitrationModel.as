@@ -1,6 +1,10 @@
 package collaboRhythm.plugins.bloodPressure.model.titration
 {
+	import collaboRhythm.plugins.bloodPressure.model.states.BloodPressureMedicationTitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
@@ -256,6 +260,35 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		override protected function get currentDateSource():ICurrentDateSource
 		{
 			return _currentDateSource;
+		}
+
+		override protected function isFileStoreMatch(fileStore:ITitrationDecisionSupportStatesFileStore):Boolean
+		{
+			return fileStore is BloodPressureMedicationTitrationDecisionSupportStatesFileStore;
+		}
+
+		override public function getSteps():ArrayCollection
+		{
+			var steps:ArrayCollection = new ArrayCollection();
+			for each (var state:TitrationDecisionSupportState in _states)
+			{
+				if (state.stepNumber == steps.length + 1 &&
+						stateMatches(state))
+				{
+					for each (var step:Step in state.steps)
+					{
+						steps.addItem(step);
+					}
+				}
+			}
+			return steps;
+		}
+
+		private function stateMatches(state:TitrationDecisionSupportState):Boolean
+		{
+			// TODO: check that all selectors in the state match the current conditions
+			// state.selectors.contains("mode" + (isPatient ? "Patient" : "Clinician"))
+			return true;
 		}
 	}
 }

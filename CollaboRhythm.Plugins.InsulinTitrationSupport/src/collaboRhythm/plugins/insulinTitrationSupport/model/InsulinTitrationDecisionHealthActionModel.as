@@ -19,6 +19,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_healthActionModelDetailsProvider = healthActionModelDetailsProvider;
 			super();
 			updateForRecordChange();
+			initializeStates();
 		}
 
 		override public function get record():Record

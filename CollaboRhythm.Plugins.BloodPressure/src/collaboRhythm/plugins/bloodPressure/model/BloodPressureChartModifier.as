@@ -8,6 +8,7 @@ package collaboRhythm.plugins.bloodPressure.model
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.ChartModifierBase;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
 
 	import com.dougmccune.controls.ScrubChart;
@@ -31,8 +32,8 @@ package collaboRhythm.plugins.bloodPressure.model
 
 	public class BloodPressureChartModifier extends ChartModifierBase implements IChartModifier
 	{
-		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM:Number = 180;
-		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM:Number = 40;
+		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MAXIMUM:Number = DefaultVitalSignChartModifier.SYSTOLIC_VERTICAL_AXIS_MAXIMUM;
+		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM:Number = DefaultVitalSignChartModifier.SYSTOLIC_VERTICAL_AXIS_MINIMUM;
 
 		protected const GOAL_ZONE_COLOR:uint = 0x8DCB86;
 
@@ -123,16 +124,17 @@ package collaboRhythm.plugins.bloodPressure.model
 		{
 			canvas.clear();
 
-			var color:uint = GOAL_ZONE_COLOR;
-			canvas.beginFill(color, 1);
-			canvas.drawRect([Edge.LEFT, -1], 40, [Edge.RIGHT, 1], 120);
+			canvas.beginFill(DefaultVitalSignChartModifier.GOAL_ZONE_COLOR, DefaultVitalSignChartModifier.GOAL_ZONE_ALPHA);
+			canvas.drawRect([Edge.LEFT, -1], DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MINIMUM, [Edge.RIGHT, 1],
+					DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MAXIMUM);
 			canvas.endFill();
 
 			if (zoneLabel)
 			{
 				zoneLabel.visible = true;
-				zoneLabel.setStyle("color", color);
-				canvas.updateDataChild(zoneLabel, {left:Edge.LEFT, top:200});
+				zoneLabel.setStyle("color", DefaultVitalSignChartModifier.GOAL_ZONE_COLOR);
+				canvas.updateDataChild(zoneLabel,
+						{left: Edge.LEFT, top: DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MAXIMUM});
 			}
 		}
 

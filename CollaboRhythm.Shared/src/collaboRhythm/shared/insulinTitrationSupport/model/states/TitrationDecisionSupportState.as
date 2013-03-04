@@ -6,6 +6,7 @@ package collaboRhythm.shared.insulinTitrationSupport.model.states
 	{
 		private var _selectors:ArrayCollection; // Vector.<String>;
 		private var _steps:ArrayCollection; // Vector.<Step>;
+		private var _stepNumber:Number;
 
 		public function TitrationDecisionSupportState()
 		{
@@ -29,6 +30,16 @@ package collaboRhythm.shared.insulinTitrationSupport.model.states
 		public function set steps(value:ArrayCollection):void
 		{
 			_steps = value;
+		}
+
+		public function get stepNumber():Number
+		{
+			return _stepNumber;
+		}
+
+		public function set stepNumber(value:Number):void
+		{
+			_stepNumber = value;
 		}
 	}
 }

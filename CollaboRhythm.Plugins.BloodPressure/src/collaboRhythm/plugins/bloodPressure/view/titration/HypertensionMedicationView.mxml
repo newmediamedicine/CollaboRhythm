@@ -125,9 +125,14 @@
 			}
 		}
 
-		function set nextPairGap(nextPairGap:int):void
+		public function set nextPairGap(nextPairGap:int):void
 		{
 			_nextPairGap = nextPairGap;
+		}
+
+		public function get nextPairGap():int
+		{
+			return _nextPairGap;
 		}
 		]]></fx:Script>
 	<s:Label id="medicationClassLabel"/>
