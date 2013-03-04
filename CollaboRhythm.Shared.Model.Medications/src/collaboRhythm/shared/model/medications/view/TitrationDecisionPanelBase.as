@@ -255,6 +255,7 @@ package collaboRhythm.shared.model.medications.view
 			stepIcons.push(new Step3Icon());
 			stepIcons.push(new Step4Icon());
 
+			var isGrey:Boolean = false;
 			var currentStep:int = 0;
 			for each (var step:Step in steps)
 			{
@@ -271,7 +272,12 @@ package collaboRhythm.shared.model.medications.view
 					subStepsHtml += "</ul>";
 				}
 
-				var isGrey:Boolean = step.stepColor == "grey";
+				// Once a grey step is found, stay grey for subsequent steps
+				if (step.stepColor == "grey")
+				{
+					isGrey = true;
+				}
+
 				var stepHtml:String = "<Font color='" +
 						(isGrey ? "0x888888" : "0x000000") +
 						"'>" +

@@ -19,7 +19,7 @@
 	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
-			<selector>measurementGoalMet</selector>
+			<selector>measurementSufficient</selector>
 		</selectors>
 		<stepNumber>1</stepNumber>
 		<steps>
@@ -31,19 +31,7 @@
 	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modePatient</selector>
-			<selector>measurementGoalNotMet</selector>
-		</selectors>
-		<stepNumber>1</stepNumber>
-		<steps>
-			<step>
-				<stepText>Your average systolic blood pressure has been plotted with the orange triangle.</stepText>
-			</step>
-		</steps>
-	</titrationDecisionSupportState>
-	<titrationDecisionSupportState>
-		<selectors>
-			<selector>modePatient</selector>
-			<selector>measurementGoalInsufficient</selector>
+			<selector>measurementInsufficient</selector>
 		</selectors>
 		<stepNumber>1</stepNumber>
 		<steps>
@@ -59,7 +47,7 @@
 	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
-			<selector>measurementGoalMet</selector>
+			<selector>measurementSufficient</selector>
 		</selectors>
 		<stepNumber>1</stepNumber>
 		<steps>
@@ -71,19 +59,7 @@
 	<titrationDecisionSupportState>
 		<selectors>
 			<selector>modeClinician</selector>
-			<selector>measurementGoalNotMet</selector>
-		</selectors>
-		<stepNumber>1</stepNumber>
-		<steps>
-			<step>
-				<stepText>The average systolic blood pressure has been plotted with the orange triangle.</stepText>
-			</step>
-		</steps>
-	</titrationDecisionSupportState>
-	<titrationDecisionSupportState>
-		<selectors>
-			<selector>modeClinician</selector>
-			<selector>measurementGoalInsufficient</selector>
+			<selector>measurementInsufficient</selector>
 		</selectors>
 		<stepNumber>1</stepNumber>
 		<steps>
@@ -100,6 +76,7 @@
 		<selectors>
 			<selector>durationSinceChangeGoalNotMet</selector>
 			<selector>medicationAdherenceGoalMet</selector>
+			<selector>measurementSufficient</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>
@@ -117,6 +94,7 @@
 		<selectors>
 			<selector>durationSinceChangeGoalNotMet</selector>
 			<selector>medicationAdherenceGoalNotMet</selector>
+			<selector>measurementSufficient</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>
@@ -136,6 +114,7 @@
 			<selector>durationSinceChangeGoalMet</selector>
 			<selector>medicationAdherenceGoalMet</selector>
 			<selector>measurementGoalNotMet</selector>
+			<selector>measurementSufficient</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>
@@ -154,6 +133,7 @@
 			<selector>durationSinceChangeGoalMet</selector>
 			<selector>medicationAdherenceGoalMet</selector>
 			<selector>measurementGoalMet</selector>
+			<selector>measurementSufficient</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>
@@ -169,9 +149,7 @@
 	</titrationDecisionSupportState>
 	<titrationDecisionSupportState>
 		<selectors>
-			<selector>durationSinceChangeGoalMet</selector>
-			<selector>medicationAdherenceGoalMet</selector>
-			<selector>measurementGoalInsufficient</selector>
+			<selector>measurementInsufficient</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>
@@ -189,6 +167,7 @@
 		<selectors>
 			<selector>durationSinceChangeGoalMet</selector>
 			<selector>medicationAdherenceGoalNotMet</selector>
+			<selector>measurementSufficient</selector>
 		</selectors>
 		<stepNumber>2</stepNumber>
 		<steps>

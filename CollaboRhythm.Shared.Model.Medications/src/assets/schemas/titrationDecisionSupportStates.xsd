@@ -97,7 +97,8 @@
 			<xs:enumeration value="protocolInsufficientAdherence"/>
 			<xs:enumeration value="protocolInsufficientBloodGlucose"/>
 
-			<xs:enumeration value="measurementGoalInsufficient"/>
+			<xs:enumeration value="measurementInsufficient"/>
+			<xs:enumeration value="measurementSufficient"/>
 			<xs:enumeration value="measurementGoalNotMet"/>
 			<xs:enumeration value="measurementGoalMet"/>
 			<xs:enumeration value="durationSinceChangeGoalNotMet"/>

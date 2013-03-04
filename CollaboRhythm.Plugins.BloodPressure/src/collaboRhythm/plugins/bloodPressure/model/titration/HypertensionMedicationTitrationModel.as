@@ -1,7 +1,6 @@
 package collaboRhythm.plugins.bloodPressure.model.titration
 {
 	import collaboRhythm.plugins.bloodPressure.model.states.BloodPressureMedicationTitrationDecisionSupportStatesFileStore;
-	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
@@ -15,7 +14,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 
-	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 
 	/**
@@ -113,8 +111,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 			determineMostRecentSystolicVitalSign();
 
-			if (_mostRecentDoseChange &&
-					(_currentDateSource.now().time - _mostRecentDoseChange.time) > NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS)
+			if (isDurationSinceChangeGoalMet())
 			{
 				if (algorithmValuesAvailable())
 				{
@@ -145,6 +142,12 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					}
 				}
 			}
+		}
+
+		private function isDurationSinceChangeGoalMet():Boolean
+		{
+			return (_mostRecentDoseChange == null ||
+					(_currentDateSource.now().time - _mostRecentDoseChange.time) > NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS);
 		}
 
 		private function determineHighestMedicationAlternatePair():void
@@ -269,11 +272,18 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		override public function getSteps():ArrayCollection
 		{
+			var currentConditions:ArrayCollection = new ArrayCollection();
+			currentConditions.addItem("mode" + (isPatient ? "Patient" : "Clinician"));
+			currentConditions.addItem("measurement" + (areProtocolMeasurementRequirementsMet ? "Sufficient" : "Insufficient"));
+			currentConditions.addItem("measurementGoal" + (protocolMeasurementAverage < goalZoneMaximum ? "Met" : "NotMet"));
+			currentConditions.addItem("durationSinceChangeGoal" + (isDurationSinceChangeGoalMet() ? "Met" : "NotMet"));
+			currentConditions.addItem("medicationAdherenceGoal" + (isAdherencePerfect ? "Met" : "NotMet"));
+
 			var steps:ArrayCollection = new ArrayCollection();
 			for each (var state:TitrationDecisionSupportState in _states)
 			{
 				if (state.stepNumber == steps.length + 1 &&
-						stateMatches(state))
+						stateMatches(state, currentConditions))
 				{
 					for each (var step:Step in state.steps)
 					{
@@ -284,10 +294,17 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return steps;
 		}
 
-		private function stateMatches(state:TitrationDecisionSupportState):Boolean
+		private function stateMatches(state:TitrationDecisionSupportState,
+									  currentConditions:ArrayCollection):Boolean
 		{
-			// TODO: check that all selectors in the state match the current conditions
-			// state.selectors.contains("mode" + (isPatient ? "Patient" : "Clinician"))
+			// check that all selectors in the state match the current conditions
+			for each (var selector:String in state.selectors)
+			{
+				if (!currentConditions.contains(selector))
+				{
+					return false;
+				}
+			}
 			return true;
 		}
 	}
