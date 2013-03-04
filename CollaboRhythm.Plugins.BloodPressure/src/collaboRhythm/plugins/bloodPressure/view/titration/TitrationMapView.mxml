@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <!---
-  - Copyright 2013 John Moore, Scott Gilroy
-  -
-  - This file is part of CollaboRhythm.
-  -
-  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  - version.
-  -
-  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  - details.
-  -
-  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  - <http://www.gnu.org/licenses/>.
-  -->
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-		  opaqueBackground="#F0F0F0"
-		creationComplete="creationCompleteHandler(event)"
-		resize="resizeHandler(event)">
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 creationComplete="creationCompleteHandler(event)"
+		 resize="resizeHandler(event)">
 	<fx:Style>
 		.extremesLabels {
 			font-size: 36;
@@ -37,6 +37,8 @@
 
 		private static const MEDICATION_PAIRS_GAP_MIN:int = 5;
 		private static const MEDICATION_PAIRS_GAP_MAX:int = 140;
+
+		private static const PADDING:int = 30;
 
 		[Bindable]
 		private var _controller:ITitrationMapController;
@@ -131,7 +133,7 @@
 			{
 				var numPairs:int = hypertensionMedicationsVGroup.numElements;
 				var firstPairView:IVisualElement = hypertensionMedicationsVGroup.getElementAt(0);
-				var gap:Number = (parent.height - (numPairs * firstPairView.height) - startLabelGroup.height) /
+				var gap:Number = (height - (numPairs * firstPairView.height) - startLabelGroup.height - (2 * PADDING)) /
 						(numPairs - 1);
 				gap = Math.max(MEDICATION_PAIRS_GAP_MIN, Math.min(gap, MEDICATION_PAIRS_GAP_MAX));
 				hypertensionMedicationsVGroup.gap = gap;
@@ -145,13 +147,20 @@
 		}
 		]]>
 	</fx:Script>
-	<s:VGroup id="hypertensionMedicationsVGroup" width="50%" top="20" gap="{MEDICATION_PAIRS_GAP_MIN}">
-		<!-- medications get added here dynamically -->
-	</s:VGroup>
-	<s:Group includeInLayout="false">
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xF0F0F0"/>
+		</s:fill>
+	</s:Rect>
+	<s:Group left="{PADDING}" top="{PADDING}">
 		<s:Label text="Max" styleName="extremesLabels" x="456" mouseEnabled="false"/>
+		<s:VGroup>
+			<s:VGroup id="hypertensionMedicationsVGroup" width="50%" gap="{MEDICATION_PAIRS_GAP_MIN}">
+				<!-- medications get added here dynamically -->
+			</s:VGroup>
+			<s:Group id="startLabelGroup">
+				<s:Label text="Start" styleName="extremesLabels" x="456" mouseEnabled="false"/>
+			</s:Group>
+		</s:VGroup>
 	</s:Group>
-	<s:Group id="startLabelGroup">
-		<s:Label text="Start" styleName="extremesLabels" x="456" mouseEnabled="false"/>
-	</s:Group>
-</s:VGroup>
+</s:Group>

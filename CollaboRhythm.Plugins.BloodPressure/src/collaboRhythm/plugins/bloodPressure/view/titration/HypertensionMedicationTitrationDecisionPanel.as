@@ -75,10 +75,9 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			var chartsContainer:VGroup = this.owner.parent as VGroup;
 			var chartsContainerPaddingTop:Number = (chartsContainer ? chartsContainer.paddingTop : 0);
 			_mapView.height = chartsContainer ? chartsContainer.height : this.height;
-			_mapView.y = -_instructionsScroller.height - chartsContainerPaddingTop;
-			_mapView.x = chartsContainer ? (this.width - chartsContainer.width + chartsContainer.paddingLeft + chartsContainer.paddingRight) : 0;
-			_mapView.width = -_mapView.x;
-			_mapView.paddingLeft = 10;
+			_mapView.y = -_instructionsScroller.height - (chartsContainerPaddingTop * 2);
+			_mapView.width = chartsContainer ? (chartsContainer.width - chartsContainer.paddingLeft - chartsContainer.paddingRight - this.width) : 0;
+			_mapView.x = -_mapView.width;
 		}
 
 		public function get model():PersistableHypertensionMedicationTitrationModel
@@ -119,6 +118,15 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 		private function showMapButton_clickHandler(event:MouseEvent):void
 		{
 			_mapView.visible = !_mapView.visible;
+
+			if (_mapView.visible)
+			{
+				_showMapButton.label = "Hide\nMAP";
+			}
+			else
+			{
+				_showMapButton.label = "Show\nMAP";
+			}
 		}
 	}
 }
