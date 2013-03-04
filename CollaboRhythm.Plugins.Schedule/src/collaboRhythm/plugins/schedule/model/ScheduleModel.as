@@ -260,7 +260,7 @@ package collaboRhythm.plugins.schedule.model
 				addToScheduleGroup(scheduleItemOccurrence);
 			}
 			adherencePerformanceModel.scheduleModelIsInitialized = true;
-//			scheduleTimelineModel.stackingUpdated = false;
+			scheduleTimelineModel.stackingUpdated = false;
 			scheduleTimelineModel.determineStacking();
 		}
 
