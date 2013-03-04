@@ -760,8 +760,12 @@ package collaboRhythm.shared.model.medications.view
 
 		private function updateForStateChange(step:int):void
 		{
-			updateArrow(_arrowCalloutButtons[step], modelBase.getStepState(step), modelBase.getStepStateDescription(step));
-			updateBadge(_stepBadges[step], modelBase.getStepState(step));
+			if (step < numSteps)
+			{
+				updateArrow(_arrowCalloutButtons[step], modelBase.getStepState(step),
+						modelBase.getStepStateDescription(step));
+				updateBadge(_stepBadges[step], modelBase.getStepState(step));
+			}
 		}
 	}
 }
