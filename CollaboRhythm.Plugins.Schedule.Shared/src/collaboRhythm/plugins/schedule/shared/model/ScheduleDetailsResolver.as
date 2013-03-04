@@ -24,7 +24,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		{
 		}
 
-		public static function getCurrentScheduleDetails(scheduleItemNameValues:Vector.<String>, todayOnly:Boolean,
+		public static function getCurrentScheduleDetails(scheduleItemNames:Vector.<String>, todayOnly:Boolean,
 														 scheduleItemCollection:ArrayCollection,
 														 now:Date):ScheduleDetails
 		{
@@ -32,7 +32,7 @@ package collaboRhythm.plugins.schedule.shared.model
 			for each (var scheduleItem:ScheduleItemBase in
 					scheduleItemCollection)
 			{
-				if (scheduleItemNameValues.indexOf(scheduleItem.name.value) != -1)
+				if (scheduleItemNames.indexOf(scheduleItem.name.text) != -1)
 				{
 					var currentPeriodDateStart:Date;
 					var currentPeriodDateEnd:Date;

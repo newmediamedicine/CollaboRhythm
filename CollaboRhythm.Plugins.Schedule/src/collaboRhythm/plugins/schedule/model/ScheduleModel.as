@@ -260,6 +260,7 @@ package collaboRhythm.plugins.schedule.model
 				addToScheduleGroup(scheduleItemOccurrence);
 			}
 			adherencePerformanceModel.scheduleModelIsInitialized = true;
+//			scheduleTimelineModel.stackingUpdated = false;
 			scheduleTimelineModel.determineStacking();
 		}
 
@@ -420,7 +421,7 @@ package collaboRhythm.plugins.schedule.model
 				if (scheduleItemInGroup.dateStart.valueOf() != scheduleGroup.dateStart.valueOf() ||
 						scheduleItemInGroup.dateEnd.valueOf() != scheduleGroup.dateEnd.valueOf())
 				{
-					var scheduleDetails:ScheduleDetails = ScheduleDetailsResolver.getCurrentScheduleDetails(new <String>[scheduleItemInGroup.name.value],
+					var scheduleDetails:ScheduleDetails = ScheduleDetailsResolver.getCurrentScheduleDetails(new <String>[scheduleItemInGroup.name.text],
 							false, getScheduleItemCollection(scheduleItemInGroup), currentDateSource.now());
 					if (scheduleDetails && scheduleDetails.currentSchedule)
 					{

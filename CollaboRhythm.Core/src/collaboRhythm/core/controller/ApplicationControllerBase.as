@@ -27,6 +27,7 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.model.AutomaticTimer;
 	import collaboRhythm.core.model.RecordSynchronizer;
 	import collaboRhythm.core.model.healthRecord.HealthRecordServiceFacade;
+	import collaboRhythm.core.model.healthRecord.service.DemographicsHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.MessagesHealthRecordService;
 	import collaboRhythm.core.model.healthRecord.service.ProblemsHealthRecordService;
 	import collaboRhythm.core.pluginsManagement.DefaultComponentContainer;
@@ -47,8 +48,8 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.deviceSimulator.model.DeviceSimulatorViewModifier;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.Step;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.BackgroundProcessCollectionModel;
@@ -57,7 +58,6 @@ package collaboRhythm.core.controller
 	import collaboRhythm.shared.model.InteractionLogUtil;
 	import collaboRhythm.shared.model.healthRecord.AccountInformationHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.CreateSessionHealthRecordService;
-	import collaboRhythm.core.model.healthRecord.service.DemographicsHealthRecordService;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceBase;
 	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceEvent;
 	import collaboRhythm.shared.model.healthRecord.RecordsHealthRecordService;
@@ -91,7 +91,6 @@ package collaboRhythm.core.controller
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
 	import flash.text.Font;
-	import flash.utils.Timer;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 
@@ -99,7 +98,6 @@ package collaboRhythm.core.controller
 	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElementContainer;
 	import mx.events.PropertyChangeEvent;
-	import mx.formatters.DateFormatter;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
@@ -1585,7 +1583,7 @@ package collaboRhythm.core.controller
 			return _collaborationLobbyNetConnectionServiceProxy;
 		}
 
-		protected function getCollaborationActivityEventLabel():String
+		protected function getCollaborationActivityEventLabel(collaborationDurationMinutesString:String = null):String
 		{
 			var collaborationActivityEventLabel:String = "username=" + settings.username;
 			if (collaborationLobbyNetConnectionServiceProxy.collaborationModel.peerAccount)
@@ -1597,6 +1595,10 @@ package collaboRhythm.core.controller
 			{
 				collaborationActivityEventLabel = collaborationActivityEventLabel + "&startDate=" +
 						_dateFormatter.format(_collaborationController.collaborationModel.collaborationStart);
+			}
+			if (collaborationDurationMinutesString)
+			{
+				collaborationActivityEventLabel = collaborationActivityEventLabel + "&duration=" + collaborationDurationMinutesString + "min";
 			}
 
 			return collaborationActivityEventLabel;
@@ -1622,17 +1624,18 @@ package collaboRhythm.core.controller
 			var collaborationDuration:Number = (_currentDateSource.now().time -
 					_collaborationController.collaborationModel.collaborationStart.time);
 			var collaborationDurationMinutes:Number = collaborationDuration / MILLISECONDS_PER_MINUTE;
+			var collaborationDurationMinutesString:String = collaborationDurationMinutes.toFixed(2);
+			var collaborationDurationTimeString:String = _timeFormatter.formatUTC(new Date(collaborationDuration));
 
 			if (settings.mode == Settings.MODE_CLINICIAN)
 			{
 				if (settings.useGoogleAnalytics)
 				{
 					_analyticsTracker.trackEvent("collaborationActivity", "sessionDuration",
-							getCollaborationActivityEventLabel(), collaborationDurationMinutes);
+							getCollaborationActivityEventLabel(collaborationDurationMinutesString), collaborationDurationMinutes);
 				}
 
-				var collaborationDurationMinutesString:String = collaborationDurationMinutes.toFixed(2);
-				var collaborationDurationTimeString:String = _timeFormatter.formatUTC(new Date(collaborationDuration));
+
 				sendMessage("[Automated Message] Collaboration session between " + activeAccount.accountId + " and " +
 						_collaborationController.collaborationModel.peerAccount.accountId + " lasted " + collaborationDurationTimeString +
 						" (" + collaborationDurationMinutesString + " minute" + (collaborationDurationMinutesString == (1).toFixed(2) ? "" : "s") + ")." );
