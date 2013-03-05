@@ -129,11 +129,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			clearAlgorithmSuggestions();
 
-			// TODO: only consider hypertension medications for algorithm; using all medications (not just hypertension medications) may be problematic
-			_medicationScheduleItemsCollection = _record.medicationScheduleItemsModel.medicationScheduleItemCollection;
-
+			determineCurrentDoses();
 			determineHighestMedicationAlternatePair();
-
 			determineMostRecentDoseChange();
 
 			if (algorithmPrerequisitesSatisfied)
@@ -195,6 +192,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		protected function determineCurrentDoses():void
 		{
+			// TODO: only consider hypertension medications for algorithm; using all medications (not just hypertension medications) may be problematic
 			_medicationScheduleItemsCollection = _record.medicationScheduleItemsModel.medicationScheduleItemCollection;
 
 			for each (var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in

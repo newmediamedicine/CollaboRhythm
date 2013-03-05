@@ -125,10 +125,10 @@ package collaboRhythm.shared.model.medications
 		{
 			if (isInitialized)
 			{
-				var vitalSignsBloodGlucose:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
-				if (vitalSignsBloodGlucose)
+				var vitalSignsDocuments:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(_protocolVitalSignCategory);
+				if (vitalSignsDocuments)
 				{
-					vitalSignsBloodGlucose.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+					vitalSignsDocuments.addEventListener(CollectionEvent.COLLECTION_CHANGE,
 														vitalSignsDocuments_collectionChangeEvent);
 				}
 			}
