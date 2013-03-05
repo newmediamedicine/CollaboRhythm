@@ -13,6 +13,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 	import mx.core.ClassFactory;
 
 	import mx.core.IFactory;
+	import mx.core.IVisualElementContainer;
 
 	import mx.events.PropertyChangeEvent;
 
@@ -42,8 +43,6 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			_instructionsTitle = "Medication Adjustment Plan (MAP)";
 			_learnMoreLinkText = "Learn more about hypertension";
 			_instructionsTitleFontSize = 24;
-
-
 		}
 
 		override protected function createChildren():void
@@ -57,7 +56,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 			_showMapButton = new Button();
 			_showMapButton.setStyle("fontSize", SEND_BUTTON_FONT_SIZE);
-			_showMapButton.label = "Show\nMAP";
+			updateShowMapButtonLabel();
 			_showMapButton.x = getStepX(1);
 			updateArrowButtonY(_showMapButton);
 			_showMapButton.width = STEP_WIDTH;
@@ -82,7 +81,16 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			_mapView.visible = false;
 			_mapView.includeInLayout = false;
 			updateMapView();
-			addElement(_mapView);
+			var mapViewContainer:IVisualElementContainer = getHealthChartsView();
+			if (mapViewContainer == null) mapViewContainer = this;
+			mapViewContainer.addElement(_mapView);
+		}
+
+		protected function getHealthChartsView():IVisualElementContainer
+		{
+			var chartsContainer:VGroup = getChartsContainer();
+
+			return chartsContainer && chartsContainer.parent ? (chartsContainer.parent as IVisualElementContainer) : null;
 		}
 
 		private function createSelectionsList(stepNumber:int):List
@@ -111,13 +119,16 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 		protected function updateMapView():void
 		{
-			var chartsContainer:VGroup = this.owner.parent as VGroup;
-			var chartsContainerPaddingTop:Number = (chartsContainer ? chartsContainer.paddingTop : 0);
+			var chartsContainer:VGroup = getChartsContainer();
 			_mapView.height = chartsContainer ? chartsContainer.height : this.height;
-			_mapView.y = -_instructionsScroller.height - (chartsContainerPaddingTop * 2);
 			_mapView.width = chartsContainer ? (chartsContainer.width - chartsContainer.paddingLeft -
-					chartsContainer.paddingRight - this.width) : 0;
-			_mapView.x = -_mapView.width;
+					chartsContainer.paddingRight - this.width) : this.width;
+		}
+
+		protected function getChartsContainer():VGroup
+		{
+			var chartsContainer:VGroup = this.owner && this.owner.parent ? this.owner.parent as VGroup : null;
+			return chartsContainer;
 		}
 
 		public function get model():PersistableHypertensionMedicationTitrationModel
@@ -158,8 +169,12 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 		private function showMapButton_clickHandler(event:MouseEvent):void
 		{
 			_mapView.visible = !_mapView.visible;
+			updateShowMapButtonLabel();
+		}
 
-			if (_mapView.visible)
+		protected function updateShowMapButtonLabel():void
+		{
+			if (_mapView && _mapView.visible)
 			{
 				_showMapButton.label = "Hide\nMAP";
 			}
