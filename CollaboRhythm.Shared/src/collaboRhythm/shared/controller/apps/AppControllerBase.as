@@ -1072,8 +1072,8 @@ package collaboRhythm.shared.controller.apps
 		 */
 		public function close():void
 		{
-			destroyViews();
 			removeUserData();
+			destroyViews();
 		}
 
 		/**
