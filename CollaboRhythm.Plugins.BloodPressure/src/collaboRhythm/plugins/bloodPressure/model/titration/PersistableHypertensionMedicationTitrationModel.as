@@ -635,16 +635,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME);
 			titrationResult.reportedBy = accountId;
 			titrationResult.dateReported = currentDateSource.now();
-			if (selections.length > 0)
-			{
-				titrationResult.actions = new ArrayCollection();
-			}
+			titrationResult.actions = new ArrayCollection();
 
-			var actionStepResult:ActionStepResult = new ActionStepResult();
-			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null,
+			var finalizeOrProposeActionStepResult:ActionStepResult = new ActionStepResult();
+			finalizeOrProposeActionStepResult.name = new CollaboRhythmCodedValue(null, null, null,
 					DECISION_ACTION_STEP_RESULT_NAME);
-			actionStepResult.actionType = shouldFinalize ? FINALIZE_ACTION_TYPE : PROPOSE_ACTION_TYPE;
-			titrationResult.actions.addItem(actionStepResult);
+			finalizeOrProposeActionStepResult.actionType = shouldFinalize ? FINALIZE_ACTION_TYPE : PROPOSE_ACTION_TYPE;
+			titrationResult.actions.addItem(finalizeOrProposeActionStepResult);
 
 			for each (var selection:HypertensionMedicationDoseSelection in selections)
 			{
