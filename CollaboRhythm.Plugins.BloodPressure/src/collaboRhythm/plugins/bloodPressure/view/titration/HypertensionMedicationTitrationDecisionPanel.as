@@ -28,6 +28,8 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 	public class HypertensionMedicationTitrationDecisionPanel extends TitrationDecisionPanelBase
 	{
 		public static const TITRATION_DECISION_PANEL_WIDTH:Number = 567;
+		private static const SELECTION_LIST_VERTICAL_OFFSET:int = 6;
+
 		private var _model:PersistableHypertensionMedicationTitrationModel;
 		private var _controller:HypertensionMedicationTitrationDecisionPanelController;
 		private var _showMapButton:Button;
@@ -65,16 +67,16 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			addElement(_showMapButton);
 
 			_mapSelectionsList = createSelectionsList(2);
-			_mapSelectionsList.y = _showMapButton.y + 90;
 			_mapSelectionsList.itemRenderer = new ClassFactory(HypertensionMedicationDoseSelectionSmallItemRenderer);
 			_mapSelectionsList.dataProvider = _model.currentSelectionsArrayCollection;
 			addElement(_mapSelectionsList);
 
 			_currentAccountSelectionsList = createSelectionsList(3);
-			_currentAccountSelectionsList.y = _mapSelectionsList.y;
 			_currentAccountSelectionsList.itemRenderer = new ClassFactory(HypertensionMedicationDoseSelectionSmallItemRenderer);
 			_currentAccountSelectionsList.dataProvider = _model.currentActiveAccountSelectionsArrayCollection;
 			addElement(_currentAccountSelectionsList);
+
+			updateSelectionListsY();
 
 			_mapView = new TitrationMapView();
 			_mapView.controller = controller;
@@ -101,7 +103,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			selectionsList.layout = horizontalLayout;
 			selectionsList.setStyle("verticalScrollPolicy", ScrollPolicy.OFF);
 			selectionsList.setStyle("contentBackgroundAlpha", 0);
-			selectionsList.width = STEP_WIDTH;
+			selectionsList.maxWidth = STEP_WIDTH;
 			selectionsList.height = 32;
 			selectionsList.x = getStepX(stepNumber - 1);
 
@@ -114,6 +116,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 			// update components unique to this subclass
 			updateArrowButtonY(_showMapButton);
+			updateSelectionListsY();
 			updateMapView();
 		}
 
@@ -123,6 +126,13 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			_mapView.height = chartsContainer ? chartsContainer.height : this.height;
 			_mapView.width = chartsContainer ? (chartsContainer.width - chartsContainer.paddingLeft -
 					chartsContainer.paddingRight - this.width) : this.width;
+		}
+
+		private function updateSelectionListsY():void
+		{
+			var yPosition:int = _showMapButton.y + _showMapButton.height + SELECTION_LIST_VERTICAL_OFFSET;
+			_mapSelectionsList.y = yPosition;
+			_currentAccountSelectionsList.y = yPosition;
 		}
 
 		protected function getChartsContainer():VGroup

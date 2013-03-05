@@ -154,8 +154,6 @@
 		<stepNumber>2</stepNumber>
 		<steps>
 			<step>
-				<stepIcon>warning</stepIcon>
-				<stepColor>grey</stepColor>
 				<stepText>A change on the MAP is not recommended because:</stepText>
 				<subSteps>
 					<subStep>Average systolic blood pressure not available</subStep>
