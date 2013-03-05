@@ -10,12 +10,21 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.medications.TitrationSupportHealthActionListViewAdapterBase;
 
+	import flash.events.Event;
+
+	import mx.core.IVisualElement;
+	import mx.events.ResizeEvent;
+
 	import spark.components.Button;
+	import spark.components.Group;
 	import spark.components.Image;
+	import spark.components.Label;
+	import spark.components.RichText;
 	import spark.core.SpriteVisualElement;
 
 	public class HypertensionMedicationTitrationSupportHealthActionListViewAdapter extends TitrationSupportHealthActionListViewAdapterBase implements IHealthActionListViewAdapter
@@ -34,6 +43,52 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			activeRecordAccount.primaryRecord = healthActionModelDetailsProvider.record;
 			_decisionModel = new HypertensionMedicationTitrationModel(healthActionModelDetailsProvider.activeAccount, activeRecordAccount);
 			_decisionModel.evaluateForSteps();
+		}
+
+		override public function createCustomView():IVisualElement
+		{
+			var customView:IVisualElement = super.createCustomView();
+			var group:Group = customView as Group;
+			if (group)
+			{
+				var richText:RichText = new RichText();
+				richText.setStyle("textAlign", "center");
+				richText.setStyle("fontWeight", "normal");
+				richText.setStyle("fontSize", 16);
+				richText.text = "MAP\n(" + hypertensionMedicationTitrationModel.daysRemaining + " " + StringUtils.pluralize("day", hypertensionMedicationTitrationModel.daysRemaining) + ")";
+				richText.y = 20;
+				richText.horizontalCenter = 0;
+				updateRichText(richText, group);
+				group.addElement(richText);
+				group.addEventListener(Event.RESIZE, group_resizeHandler);
+			}
+
+			return customView;
+		}
+
+		protected function get hypertensionMedicationTitrationModel():HypertensionMedicationTitrationModel
+		{
+			return _decisionModel as HypertensionMedicationTitrationModel;
+		}
+
+		private function group_resizeHandler(event:ResizeEvent):void
+		{
+			var group:Group = event.currentTarget as Group;
+			var richText:RichText = group.getElementAt(group.numElements - 1) as RichText;
+
+			if (richText)
+			{
+				updateRichText(richText, group);
+			}
+		}
+
+		private function updateRichText(richText:RichText, group:Group):void
+		{
+			if (group && group.width > 0 && group.height > 0)
+			{
+				richText.y = 21 / 100 * group.height;
+				richText.setStyle("fontSize", 18 / 100 * group.width);
+			}
 		}
 
 		override protected function createConditionsMetIcon():SpriteVisualElement
@@ -83,7 +138,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		public function get secondaryInstructions():String
 		{
-			return "0 days until your next adjustment";
+			return hypertensionMedicationTitrationModel.daysRemaining + " " + StringUtils.pluralize("day", hypertensionMedicationTitrationModel.daysRemaining) + " until your next adjustment";
 		}
 
 		public function get instructionalVideoPath():String

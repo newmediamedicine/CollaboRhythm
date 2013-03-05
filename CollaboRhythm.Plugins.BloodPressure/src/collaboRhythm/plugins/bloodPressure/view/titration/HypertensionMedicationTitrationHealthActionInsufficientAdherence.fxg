@@ -53,9 +53,6 @@
           </Path>
         </Group>
       </Group>
-      <RichText x="7.5625" y="19.5259" columnCount="1" textAlign="center" tabStops="S36 S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" whiteSpaceCollapse="preserve" baselineShift="-5" width="84.4375" height="48.334" ai:aa="2" ai:objID="11066d80" ai:seqID="14" flm:variant="1" d:id="5">
-        <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">MAP</span></p><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">(0 days)</span></p></content>
-      </RichText>
       <Ellipse x="5.5" y="64.5" width="28" height="28" ai:objID="1125c200" ai:seqID="15">
         <fill>
           <SolidColor color="#F79520"/>
@@ -70,11 +67,6 @@
       <d:FontMap>
         <d:Map fontFamily="Myriad Pro" fontStyle="normal" fontWeight="normal" postScriptName="MyriadPro-Regular"/>
       </d:FontMap>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="09BDCC8E6D24FCAC11928F9C56478B14" flm:original="1" d:ref="#5">
-        <variant:RichText x="7.5625" y="19.5259" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="11066d80" ai:seqID="14" d:id="7">
-          <variant:content><variant:p fontFamily="Arial" d:id="8"><variant:span fontFamily="Arial" d:id="9">MAP</variant:span></variant:p><variant:p fontFamily="Arial" d:id="10"><variant:span fontFamily="Arial" d:id="11">(0 days)</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
       <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="57CC390A096DA8E65A4700C02B16295B" flm:original="2" d:ref="#6">
         <variant:RichText x="4" y="68.5398" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="1123d680" ai:seqID="16" d:id="12">
           <variant:content><variant:p fontFamily="Arial" d:id="13"><variant:span fontFamily="Arial" d:id="14">1</variant:span></variant:p></variant:content>

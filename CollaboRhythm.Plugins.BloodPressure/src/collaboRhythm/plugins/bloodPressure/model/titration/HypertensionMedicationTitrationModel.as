@@ -35,7 +35,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET:Array = ["199903", "Hydrochlorothiazide 12.5 MG Oral Tablet", "002282820"];
 		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET:Array = ["310798", "Hydrochlorothiazide 25 MG Oral Tablet", "006033856"];
 
-		private static const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 2;
+		private static const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 14;
 
 		protected static const REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE:int = 14;
 		protected static const REQUIRED_BLOOD_PRESSURE_MEASUREMENTS:int = 3;
@@ -365,6 +365,18 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			determineCurrentDoses();
 			updateIsAdherencePerfect();
 			updateProtocolMeasurementAverage();
+		}
+
+		public function get daysRemaining():int
+		{
+			if (_mostRecentDoseChange)
+			{
+				var delta:Number = NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS - (_currentDateSource.now().time - _mostRecentDoseChange.time);
+				if (delta < 0) delta = 0;
+				var days:int = Math.ceil(delta / (1000 * 60 * 60 * 24));
+				return days;
+			}
+			return 0;
 		}
 	}
 }

@@ -61,9 +61,6 @@
           </Path>
         </Group>
       </Group>
-      <RichText x="7.5625" y="19.5259" columnCount="1" textAlign="center" tabStops="S36 S72" fontFamily="Myriad Pro" fontSize="16" kerning="on" whiteSpaceCollapse="preserve" baselineShift="-5" width="84.4375" height="48.334" ai:aa="2" ai:objID="1105e880" ai:seqID="16" flm:variant="2" d:id="6">
-        <content><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">MAP</span></p><p fontFamily="Myriad Pro"><span fontFamily="Myriad Pro">(0 days)</span></p></content>
-      </RichText>
       <Ellipse x="5.5" y="64.5" width="28" height="28" ai:objID="1aaa8a00" ai:seqID="17">
         <fill>
           <SolidColor color="#F79520"/>
@@ -97,11 +94,6 @@
       <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="2800FC6DAC1E93C4C9EF395C425CD8C9" flm:original="1" d:ref="#3">
         <variant:RichText x="4" y="68.5398" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="1105b780" ai:seqID="5" d:id="10">
           <variant:content><variant:p fontFamily="Arial" d:id="11"><variant:span fontFamily="Arial" d:id="12">1</variant:span></variant:p></variant:content>
-        </variant:RichText>
-      </mngo:VariantContent>
-      <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="09BDCC8E6D24FCAC11928F9C56478B14" flm:original="2" d:ref="#6">
-        <variant:RichText x="7.5625" y="19.5259" fontFamily="Arial" whiteSpaceCollapse="preserve" ai:aa="2" ai:objID="1105e880" ai:seqID="16" d:id="13">
-          <variant:content><variant:p fontFamily="Arial" d:id="14"><variant:span fontFamily="Arial" d:id="15">MAP</variant:span></variant:p><variant:p fontFamily="Arial" d:id="16"><variant:span fontFamily="Arial" d:id="17">(0 days)</variant:span></variant:p></variant:content>
         </variant:RichText>
       </mngo:VariantContent>
       <mngo:VariantContent fpdNS="http://ns.adobe.com/flame/2008/apd" fpdPRE="variant" flm:hashcode="57CC390A096DA8E65A4700C02B16295B" flm:original="3" d:ref="#7">
