@@ -8,12 +8,20 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 	import flash.events.MouseEvent;
 
+	import flashx.textLayout.container.ScrollPolicy;
+
+	import mx.core.ClassFactory;
+
+	import mx.core.IFactory;
+
 	import mx.events.PropertyChangeEvent;
 
 	import spark.components.Button;
 
 	import spark.components.Group;
+	import spark.components.List;
 	import spark.components.VGroup;
+	import spark.layouts.HorizontalLayout;
 	import spark.skins.mobile.ButtonSkin;
 
 	public class HypertensionMedicationTitrationDecisionPanel extends TitrationDecisionPanelBase
@@ -22,6 +30,8 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 		private var _model:PersistableHypertensionMedicationTitrationModel;
 		private var _controller:HypertensionMedicationTitrationDecisionPanelController;
 		private var _showMapButton:Button;
+		private var _mapSelectionsList:List;
+		private var _currentAccountSelectionsList:List;
 		private var _mapView:TitrationMapView;
 
 		public function HypertensionMedicationTitrationDecisionPanel()
@@ -32,6 +42,8 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			_instructionsTitle = "Medication Adjustment Plan (MAP)";
 			_learnMoreLinkText = "Learn more about hypertension";
 			_instructionsTitleFontSize = 24;
+
+
 		}
 
 		override protected function createChildren():void
@@ -53,12 +65,39 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			_showMapButton.addEventListener(MouseEvent.CLICK, showMapButton_clickHandler);
 			addElement(_showMapButton);
 
+			_mapSelectionsList = createSelectionsList(2);
+			_mapSelectionsList.y = _showMapButton.y + 90;
+			_mapSelectionsList.itemRenderer = new ClassFactory(HypertensionMedicationDoseSelectionSmallItemRenderer);
+			_mapSelectionsList.dataProvider = _model.currentSelectionsArrayCollection;
+			addElement(_mapSelectionsList);
+
+			_currentAccountSelectionsList = createSelectionsList(3);
+			_currentAccountSelectionsList.y = _mapSelectionsList.y;
+			_currentAccountSelectionsList.itemRenderer = new ClassFactory(HypertensionMedicationDoseSelectionSmallItemRenderer);
+			_currentAccountSelectionsList.dataProvider = _model.currentActiveAccountSelectionsArrayCollection;
+			addElement(_currentAccountSelectionsList);
+
 			_mapView = new TitrationMapView();
 			_mapView.controller = controller;
 			_mapView.visible = false;
 			_mapView.includeInLayout = false;
 			updateMapView();
 			addElement(_mapView);
+		}
+
+		private function createSelectionsList(stepNumber:int):List
+		{
+			var selectionsList:List = new List();
+			var horizontalLayout:HorizontalLayout = new HorizontalLayout();
+			horizontalLayout.gap = 1;
+			selectionsList.layout = horizontalLayout;
+			selectionsList.setStyle("verticalScrollPolicy", ScrollPolicy.OFF);
+			selectionsList.setStyle("contentBackgroundAlpha", 0);
+			selectionsList.width = STEP_WIDTH;
+			selectionsList.height = 32;
+			selectionsList.x = getStepX(stepNumber - 1);
+
+			return selectionsList;
 		}
 
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
@@ -76,7 +115,8 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			var chartsContainerPaddingTop:Number = (chartsContainer ? chartsContainer.paddingTop : 0);
 			_mapView.height = chartsContainer ? chartsContainer.height : this.height;
 			_mapView.y = -_instructionsScroller.height - (chartsContainerPaddingTop * 2);
-			_mapView.width = chartsContainer ? (chartsContainer.width - chartsContainer.paddingLeft - chartsContainer.paddingRight - this.width) : 0;
+			_mapView.width = chartsContainer ? (chartsContainer.width - chartsContainer.paddingLeft -
+					chartsContainer.paddingRight - this.width) : 0;
 			_mapView.x = -_mapView.width;
 		}
 

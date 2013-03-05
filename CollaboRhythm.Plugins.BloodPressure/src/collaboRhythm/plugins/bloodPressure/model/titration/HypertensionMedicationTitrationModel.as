@@ -12,6 +12,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultMedicationChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 
 	import mx.collections.ArrayCollection;
@@ -57,6 +58,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		protected var _activeRecordAccount:Account;
 		protected var _activeAccount:Account;
 
+		private var _currentSelectionsArrayCollection:ArrayCollection = new ArrayCollection();
+		private var _currentActiveAccountSelectionsArrayCollection:ArrayCollection = new ArrayCollection();
+
 		public function HypertensionMedicationTitrationModel(activeAccount:Account, activeRecordAccount:Account)
 		{
 			super();
@@ -96,6 +100,19 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 									VALSARTAN_320_MG_ORAL_TABLET)));
 
 			updateForRecordChange();
+		}
+
+		protected function getMedications():Vector.<HypertensionMedication>
+		{
+			var medications:Vector.<HypertensionMedication> = new <HypertensionMedication>[];
+			for each (var pair:HypertensionMedicationAlternatePair in _hypertensionMedicationAlternatePairsVector)
+			{
+				for each (var medication:HypertensionMedication in pair.medications)
+				{
+					medications.push(medication);
+				}
+			}
+			return medications;
 		}
 
 		override protected function updateAlgorithmSuggestions():void
@@ -158,12 +175,14 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			{
 				var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair = _hypertensionMedicationAlternatePairsVector[i];
 				if (hypertensionMedicationAlternatePair.activeHypertensionMedication &&
-						hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose != DoseStrengthCode.NONE)
+						hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose !=
+								DoseStrengthCode.NONE)
 				{
 					_highestHypertensionMedicationAlternatePairIndex = i;
 				}
 				if (hypertensionMedicationAlternatePair.activeHypertensionMedication &&
-										hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose < DoseStrengthCode.HIGH)
+						hypertensionMedicationAlternatePair.activeHypertensionMedication.currentDose <
+								DoseStrengthCode.HIGH)
 				{
 					break;
 				}
@@ -202,7 +221,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private function determineMostRecentSystolicVitalSign():void
 		{
-			_mostRecentSystolicVitalSign = _systolicVitalSignsCollection.length > 0 ? _systolicVitalSignsCollection.getItemAt(_systolicVitalSignsCollection.length -
+			_mostRecentSystolicVitalSign = _systolicVitalSignsCollection.length >
+					0 ? _systolicVitalSignsCollection.getItemAt(_systolicVitalSignsCollection.length -
 					1) as VitalSign : null;
 		}
 
@@ -221,6 +241,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			hypertensionMedication.handleDoseSelected(doseSelected, altKey, ctrlKey,
 					getAccountForSelectionAction(ctrlKey),
 					_activeAccount.accountId == _activeRecordAccount.accountId);
+			updateSummaryCollections();
 			if (!ctrlKey && !altKey)
 			{
 				isChangeSpecified = true;
@@ -233,9 +254,36 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			hypertensionMedicationAlternatePair.handleAlternateSelected(altKey, ctrlKey,
 					getAccountForSelectionAction(ctrlKey),
 					_activeAccount.accountId == _activeRecordAccount.accountId);
+			updateSummaryCollections();
 			if (!ctrlKey && !altKey)
 			{
 				isChangeSpecified = true;
+			}
+		}
+
+		protected function updateSummaryCollections():void
+		{
+			_currentSelectionsArrayCollection.removeAll();
+			_currentActiveAccountSelectionsArrayCollection.removeAll();
+
+			var hypertensionMedications:Vector.<HypertensionMedication> = getMedications();
+			for each (var medication:HypertensionMedication in hypertensionMedications)
+			{
+				var activeAccountSelection:HypertensionMedicationDoseSelection = medication.getSelectionForAccount(_activeAccount);
+				var allSelections:Vector.<HypertensionMedicationDoseSelection> = medication.doseSelections;
+
+				if (activeAccountSelection != null)
+				{
+					_currentActiveAccountSelectionsArrayCollection.addItem(activeAccountSelection);
+				}
+
+				if (allSelections.length != 0)
+				{
+					for each (var selection:HypertensionMedicationDoseSelection in allSelections)
+					{
+						_currentSelectionsArrayCollection.addItem(selection);
+					}
+				}
 			}
 		}
 
@@ -274,8 +322,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			var currentConditions:ArrayCollection = new ArrayCollection();
 			currentConditions.addItem("mode" + (isPatient ? "Patient" : "Clinician"));
-			currentConditions.addItem("measurement" + (areProtocolMeasurementRequirementsMet ? "Sufficient" : "Insufficient"));
-			currentConditions.addItem("measurementGoal" + (protocolMeasurementAverage < goalZoneMaximum ? "Met" : "NotMet"));
+			currentConditions.addItem("measurement" +
+					(areProtocolMeasurementRequirementsMet ? "Sufficient" : "Insufficient"));
+			currentConditions.addItem("measurementGoal" +
+					(protocolMeasurementAverage < goalZoneMaximum ? "Met" : "NotMet"));
 			currentConditions.addItem("durationSinceChangeGoal" + (isDurationSinceChangeGoalMet() ? "Met" : "NotMet"));
 			currentConditions.addItem("medicationAdherenceGoal" + (isAdherencePerfect ? "Met" : "NotMet"));
 
@@ -294,8 +344,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return steps;
 		}
 
-		private function stateMatches(state:TitrationDecisionSupportState,
-									  currentConditions:ArrayCollection):Boolean
+		private function stateMatches(state:TitrationDecisionSupportState, currentConditions:ArrayCollection):Boolean
 		{
 			// check that all selectors in the state match the current conditions
 			for each (var selector:String in state.selectors)
@@ -306,6 +355,16 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				}
 			}
 			return true;
+		}
+
+		public function get currentSelectionsArrayCollection():ArrayCollection
+		{
+			return _currentSelectionsArrayCollection;
+		}
+
+		public function get currentActiveAccountSelectionsArrayCollection():ArrayCollection
+		{
+			return _currentActiveAccountSelectionsArrayCollection;
 		}
 	}
 }

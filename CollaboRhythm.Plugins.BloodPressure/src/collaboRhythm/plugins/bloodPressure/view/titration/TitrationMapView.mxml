@@ -149,7 +149,7 @@
 	</fx:Script>
 	<s:Rect width="100%" height="100%">
 		<s:fill>
-			<s:SolidColor color="0xF0F0F0"/>
+			<s:SolidColor color="0xE6E7E8"/>
 		</s:fill>
 	</s:Rect>
 	<s:Group left="{PADDING}" top="{PADDING}">

@@ -58,8 +58,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _instructionsScrollPosition:Number;
 
 		public function PersistableHypertensionMedicationTitrationModel(activeAccount:Account,
-																		activeRecordAccount:Account,
-																		settings:Settings,
+																		activeRecordAccount:Account, settings:Settings,
 																		componentContainer:IComponentContainer)
 		{
 			super(activeAccount, activeRecordAccount);
@@ -81,19 +80,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			clearSelections();
 			updateAlgorithmSuggestions();
 			loadSelections();
-		}
-
-		private function getMedications():Vector.<HypertensionMedication>
-		{
-			var medications:Vector.<HypertensionMedication> = new <HypertensionMedication>[];
-			for each (var pair:HypertensionMedicationAlternatePair in _hypertensionMedicationAlternatePairsVector)
-			{
-				for each (var medication:HypertensionMedication in pair.medications)
-				{
-					medications.push(medication);
-				}
-			}
-			return medications;
+			updateSummaryCollections();
 		}
 
 		public function loadSelections():void
@@ -290,8 +277,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return saveSucceeded;
 		}
 
-		protected function saveForClinician(shouldFinalize:Boolean,
-											plan:HealthActionPlan,
+		protected function saveForClinician(shouldFinalize:Boolean, plan:HealthActionPlan,
 											saveSucceeded:Boolean):Boolean
 		{
 			if (shouldFinalize)
@@ -302,9 +288,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return saveSucceeded;
 		}
 
-		protected function saveForPatient(shouldFinalize:Boolean,
-										  plan:HealthActionPlan,
-										  saveSucceeded:Boolean):Boolean
+		protected function saveForPatient(shouldFinalize:Boolean, plan:HealthActionPlan, saveSucceeded:Boolean):Boolean
 		{
 			saveNewScheduledDecision(plan);
 
@@ -321,7 +305,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			var proposeVsFinalizeString:String = shouldFinalize ? "finalized" : "proposed";
 			var agreeWithSystemString:String = selectionsAgreeWithSystem ? "(This decisions agrees with the MAP)" : "(This decision does not agree with the MAP)";
 
-			var message:String = "[Automated Message] The following decision has been " + proposeVsFinalizeString  + ": " + selectionsMessage + "\n" + agreeWithSystemString;
+			var message:String = "[Automated Message] The following decision has been " + proposeVsFinalizeString +
+					": " + selectionsMessage + "\n" + agreeWithSystemString;
 			sendMessage(message);
 		}
 
@@ -373,8 +358,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		}
 
 		private function updateSchedule(medicationScheduleItem:MedicationScheduleItem,
-										selection:HypertensionMedicationDoseSelection,
-										saveSucceeded:Boolean):Boolean
+										selection:HypertensionMedicationDoseSelection, saveSucceeded:Boolean):Boolean
 		{
 			var medicationTitrationHelper:MedicationTitrationHelper = new MedicationTitrationHelper(record,
 					currentDateSource);
@@ -431,7 +415,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			var codedValueFactory:CodedValueFactory = new CodedValueFactory();
 
 			var medicationOrder:MedicationOrder = new MedicationOrder();
-			medicationOrder.name = new CollaboRhythmCodedValue(MedicationOrder.RXCUI_CODED_VALUE_TYPE, selection.rxNorm, null,
+			medicationOrder.name = new CollaboRhythmCodedValue(MedicationOrder.RXCUI_CODED_VALUE_TYPE, selection.rxNorm,
+					null,
 					selection.medicationName.rawName);
 			// TODO: should there be a different order type for this type of situation?
 			medicationOrder.orderType = MedicationOrder.PRESCRIBED_ORDER_TYPE;
@@ -441,7 +426,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			//Alternatively, the UI could allow an indication to be specified
 			medicationOrder.indication = ESSENTIAL_HYPERTENSION_INDICATION;
 			var doseUnit:CollaboRhythmCodedValue = codedValueFactory.createTabletCodedValue();
-			medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(), doseUnit);
+			medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(),
+					doseUnit);
 			medicationOrder.instructions = DEFAULT_MEDICATION_INSTRUCTIONS;
 
 			medicationOrder.pendingAction = DocumentBase.ACTION_CREATE;
@@ -470,9 +456,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					medicationOrder, medicationFill, true);
 		}
 
-		private function createMedicationScheduleItems(medicationOrder:MedicationOrder, selection:HypertensionMedicationDoseSelection):void
+		private function createMedicationScheduleItems(medicationOrder:MedicationOrder,
+													   selection:HypertensionMedicationDoseSelection):void
 		{
-			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord, _activeAccount.accountId, _currentDateSource);
+			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord,
+					_activeAccount.accountId, _currentDateSource);
 
 			for (var i:int = 0; i < DEFAULT_SCHEDULE_ADMINISTRATIONS_PER_DAY; i++)
 			{
@@ -482,7 +470,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				scheduleCreator.initializeDefaultSchedule(medicationScheduleItem);
 
 				var codedValueFactory:CodedValueFactory = new CodedValueFactory();
-				medicationScheduleItem.dose = new CollaboRhythmValueAndUnit(selection.getScheduleDose(medicationOrder).toString(), codedValueFactory.createTabletCodedValue());
+				medicationScheduleItem.dose = new CollaboRhythmValueAndUnit(selection.getScheduleDose(medicationOrder).toString(),
+						codedValueFactory.createTabletCodedValue());
 				medicationScheduleItem.instructions = DEFAULT_MEDICATION_INSTRUCTIONS;
 
 				medicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;
@@ -590,10 +579,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		override protected function validateDecisionPreConditions():void
 		{
-/*
-			if (decisionScheduleItemOccurrence == null)
-				throw new Error("Failed to save. Decision data not available.");
-*/
+			/*
+			 if (decisionScheduleItemOccurrence == null)
+			 throw new Error("Failed to save. Decision data not available.");
+			 */
 		}
 
 		override protected function get decisionScheduleItemOccurrence():ScheduleItemOccurrence
@@ -607,7 +596,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			var parentForTitrationDecisionResult:DocumentBase = getParentForTitrationDecisionResult();
 
 			var titrationResult:HealthActionResult = new HealthActionResult();
-			titrationResult.name = new CollaboRhythmCodedValue(null, null, null, TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME);
+			titrationResult.name = new CollaboRhythmCodedValue(null, null, null,
+					TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME);
 			titrationResult.reportedBy = accountId;
 			titrationResult.dateReported = currentDateSource.now();
 			if (selections.length > 0)
@@ -653,7 +643,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 			record.addDocument(titrationResult, true);
 
-			record.addRelationship(HealthActionResult.RELATION_TYPE_TITRATION_DECISION, parentForTitrationDecisionResult, titrationResult, true);
+			record.addRelationship(HealthActionResult.RELATION_TYPE_TITRATION_DECISION,
+					parentForTitrationDecisionResult, titrationResult, true);
 		}
 
 		/**
@@ -712,7 +703,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private static function createDoseStrengthCodeCodedValue():CollaboRhythmCodedValue
 		{
-			return new CollaboRhythmCodedValue("http://indivo.org/codes/units#", "DoseStrengthCode", "DSU", "DoseStrengthCode");
+			return new CollaboRhythmCodedValue("http://indivo.org/codes/units#", "DoseStrengthCode", "DSU",
+					"DoseStrengthCode");
 		}
 
 
