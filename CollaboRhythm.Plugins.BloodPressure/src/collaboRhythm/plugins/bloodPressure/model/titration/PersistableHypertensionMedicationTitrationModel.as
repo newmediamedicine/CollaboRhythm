@@ -92,11 +92,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			{
 				var decisionsFromAccounts:OrderedMap = new OrderedMap();
 
-				for (var i:int = plan.relatesTo.length - 1; i >= 0; i--)
+				var decisionResultsDescending:Vector.<HealthActionResult> = getRelatedDecisionResults(plan);
+
+				for each (var decisionResult:HealthActionResult in decisionResultsDescending)
 				{
-					var relationship:Relationship = plan.relatesTo[i];
-					var decisionResult:HealthActionResult = relationship ? relationship.relatesTo as
-							HealthActionResult : null;
 					if (decisionResult && decisionResult.name.text == TITRATION_DECISION_HEALTH_ACTION_RESULT_NAME)
 					{
 						checkForMostRecentFinalize(decisionResult);
@@ -115,6 +114,42 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					}
 				}
 			}
+		}
+
+		private function getRelatedDecisionResults(plan:DocumentBase):Vector.<HealthActionResult>
+		{
+			var decisionResults:Vector.<HealthActionResult> = new <HealthActionResult>[];
+			for each (var relationship:Relationship in plan.relatesTo)
+			{
+				var decisionResult:HealthActionResult = relationship ? relationship.relatesTo as
+						HealthActionResult : null;
+				if (decisionResult)
+				{
+					decisionResults.push(decisionResult);
+				}
+			}
+			decisionResults.sort(function compare(x:HealthActionResult, y:HealthActionResult):Number
+			{
+				var xNull:Boolean = x == null || x.dateReported == null;
+				var yNull:Boolean = y == null || y.dateReported == null;
+				if (xNull && yNull)
+				{
+					return 0;
+				}
+				else if (xNull)
+				{
+					return 1;
+				}
+				else if (yNull)
+				{
+					return -1;
+				}
+				else
+				{
+					return y.dateReported.valueOf() - x.dateReported.valueOf();
+				}
+			});
+			return decisionResults;
 		}
 
 		private function checkForMostRecentFinalize(decisionResult:HealthActionResult):void
