@@ -16,6 +16,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 	import mx.core.IVisualElementContainer;
 
 	import mx.events.PropertyChangeEvent;
+	import mx.managers.IFocusManagerComponent;
 
 	import spark.components.Button;
 
@@ -25,7 +26,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 	import spark.layouts.HorizontalLayout;
 	import spark.skins.mobile.ButtonSkin;
 
-	public class HypertensionMedicationTitrationDecisionPanel extends TitrationDecisionPanelBase
+	public class HypertensionMedicationTitrationDecisionPanel extends TitrationDecisionPanelBase implements IFocusManagerComponent
 	{
 		public static const TITRATION_DECISION_PANEL_WIDTH:Number = 567;
 		private static const SELECTION_LIST_VERTICAL_OFFSET:int = 6;
