@@ -205,13 +205,17 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		}
 
 		/**
-		 * Returns true if the otherSelection should be ordered before this selection.
+		 * Returns true if this selection should be ordered before the otherSelection.
 		 * @param otherSelection
 		 * @return
 		 */
 		public function isBefore(otherSelection:HypertensionMedicationDoseSelection):Boolean
 		{
 			if (selectionType == HypertensionMedicationDoseSelection.SYSTEM)
+			{
+				return true;
+			}
+			else if (otherSelection.selectionType == HypertensionMedicationDoseSelection.SYSTEM)
 			{
 				return false;
 			}

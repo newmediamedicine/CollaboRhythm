@@ -153,7 +153,7 @@ package collaboRhythm.shared.model.medications
 			if (isInitialized)
 			{
 				record.adherenceItemsModel.documents.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-													adherenceItemsModelDocuments_collectionChangeEvent, false);
+													adherenceItemsModelDocuments_collectionChangeEvent, false, 0, true);
 			}
 			this.isInitialized = determineIsInitialized();
 		}

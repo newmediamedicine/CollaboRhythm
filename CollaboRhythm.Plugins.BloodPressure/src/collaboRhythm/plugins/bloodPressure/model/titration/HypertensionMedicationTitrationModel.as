@@ -46,13 +46,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		protected var _record:Record;
 
 		protected var _medicationScheduleItemsCollection:ArrayCollection;
-		protected var _systolicVitalSignsCollection:ArrayCollection;
 
 		protected var _hypertensionMedicationAlternatePairsVector:Vector.<HypertensionMedicationAlternatePair> = new Vector.<HypertensionMedicationAlternatePair>();
 
 		protected var _highestHypertensionMedicationAlternatePairIndex:int;
 		protected var _mostRecentDoseChange:Date;
-		protected var _mostRecentSystolicVitalSign:VitalSign;
 
 		protected var _currentDateSource:ICurrentDateSource;
 		protected var _activeRecordAccount:Account;
@@ -115,48 +113,54 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return medications;
 		}
 
+		public function clearAlgorithmSuggestions():void
+		{
+			for each (var pair:HypertensionMedicationAlternatePair in
+					_hypertensionMedicationAlternatePairsVector)
+			{
+				for each (var medication:HypertensionMedication in pair.medications)
+				{
+					medication.clearSystemSelections();
+				}
+			}
+		}
+
 		override protected function updateAlgorithmSuggestions():void
 		{
+			clearAlgorithmSuggestions();
+
 			// TODO: only consider hypertension medications for algorithm; using all medications (not just hypertension medications) may be problematic
 			_medicationScheduleItemsCollection = _record.medicationScheduleItemsModel.medicationScheduleItemCollection;
-			_systolicVitalSignsCollection = _record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.SYSTOLIC_CATEGORY) as
-					ArrayCollection;
 
 			determineHighestMedicationAlternatePair();
 
 			determineMostRecentDoseChange();
 
-			determineMostRecentSystolicVitalSign();
-
-			if (isDurationSinceChangeGoalMet())
+			if (algorithmPrerequisitesSatisfied)
 			{
-				if (algorithmValuesAvailable())
+				if (protocolMeasurementAverage > goalZoneMaximum)
 				{
-					//TODO: This needs to be tested and needs to be implemented for average of last 3 blood pressures
-					if (protocolMeasurementAverage > goalZoneMaximum)
+					if (_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose <
+							2)
 					{
-						if (_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose <
-								2)
-						{
-							_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose +
-									1, HypertensionMedicationDoseSelection.INCREASE,
-									HypertensionMedicationDoseSelection.SYSTEM, null);
-						}
-						else if (_highestHypertensionMedicationAlternatePairIndex > 0)
-						{
-							_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex -
-									1].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(1,
-											HypertensionMedicationDoseSelection.INCREASE,
-											HypertensionMedicationDoseSelection.SYSTEM, null);
-						}
-					}
-					else if (protocolMeasurementAverage < goalZoneMinimum)
-					{
-						// TODO: if there is some gap in the progression of meds (such as the 3rd med is scheduled, but 1st and 2nd are not) we should titrate down off of the remaining med(s)
-						_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose,
-								HypertensionMedicationDoseSelection.DECREASE,
+						_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose +
+								1, HypertensionMedicationDoseSelection.INCREASE,
 								HypertensionMedicationDoseSelection.SYSTEM, null);
 					}
+					else if (_highestHypertensionMedicationAlternatePairIndex > 0)
+					{
+						_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex -
+								1].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(1,
+										HypertensionMedicationDoseSelection.INCREASE,
+										HypertensionMedicationDoseSelection.SYSTEM, null);
+					}
+				}
+				else if (protocolMeasurementAverage < goalZoneMinimum)
+				{
+					// TODO: if there is some gap in the progression of meds (such as the 3rd med is scheduled, but 1st and 2nd are not) we should titrate down off of the remaining med(s)
+					_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose,
+							HypertensionMedicationDoseSelection.DECREASE,
+							HypertensionMedicationDoseSelection.SYSTEM, null);
 				}
 			}
 		}
@@ -217,13 +221,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					_mostRecentDoseChange = medicationScheduleItem.dateStart;
 				}
 			}
-		}
-
-		private function determineMostRecentSystolicVitalSign():void
-		{
-			_mostRecentSystolicVitalSign = _systolicVitalSignsCollection.length >
-					0 ? _systolicVitalSignsCollection.getItemAt(_systolicVitalSignsCollection.length -
-					1) as VitalSign : null;
 		}
 
 		/**

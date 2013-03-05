@@ -171,7 +171,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
 							action, selectionType, selectionByAccount, false, this, _currentDateSource.now());
-					_dose1SelectionArrayCollection.addItem(hypertensionMedicationDoseSelection);
+					addSelectionToCollection(hypertensionMedicationDoseSelection, _dose1SelectionArrayCollection);
 				}
 			}
 			else if (doseSelected == 2)
@@ -184,8 +184,21 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
 							action, selectionType, selectionByAccount, false, this, _currentDateSource.now());
-					_dose2SelectionArrayCollection.addItem(hypertensionMedicationDoseSelection);
+					addSelectionToCollection(hypertensionMedicationDoseSelection, _dose2SelectionArrayCollection);
 				}
+			}
+		}
+
+		protected function addSelectionToCollection(hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection,
+													doseSelectionCollection:ArrayCollection):void
+		{
+			if (hypertensionMedicationDoseSelection.selectionType == HypertensionMedicationDoseSelection.SYSTEM)
+			{
+				doseSelectionCollection.addItemAt(hypertensionMedicationDoseSelection, 0);
+			}
+			else
+			{
+				doseSelectionCollection.addItem(hypertensionMedicationDoseSelection);
 			}
 		}
 
@@ -461,6 +474,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 			patientDoseSelected = -1;
 			patientDoseAction = null;
+		}
+
+		public function clearSystemSelections():void
+		{
+			removeAllHypertensionMedicationDoseSelections(HypertensionMedicationDoseSelection.SYSTEM, matchSelectionByType);
 		}
 
 		public static function getMatchParameters(isSystem:Boolean, selectionByAccount:Account):MatchParameters
