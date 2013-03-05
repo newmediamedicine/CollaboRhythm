@@ -1845,20 +1845,20 @@
     
     <organDonar>true</organDonar>
     
-    <recordId/>
+    <recordId>dd39853c-1a8e-47ef-9ed6-56e17b8173ef</recordId>
     
-    <accessKey/>
+    <accessKey>TMgiL9gfFnIT2PIV2l7Y</accessKey>
     
-    <accessSecret/>
+    <accessSecret>Yk1K4ffp1Du6BBvsb7mM</accessSecret>
     
-    <status/>
+    <status>Record shared.</status>
     
-    <demographicsId>84f096b3-88e3-4999-8843-1f7d5ec9452c</demographicsId>
+    <demographicsId>4c35608e-fdfb-45e0-b006-1a5f651c069b</demographicsId>
     
     <recordSeed/>
     
     <mode>patient</mode>
-  </AccountSource>
+  <shareAccountId>jking@records.media.mit.edu</shareAccountId><shareRole>Coach</shareRole></AccountSource>
   
   <AccountSource>
     
