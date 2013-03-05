@@ -28,7 +28,10 @@ package collaboRhythm.plugins.bloodPressure.model
 	import qs.charts.dataShapes.DataDrawingCanvas;
 	import qs.charts.dataShapes.Edge;
 
+	import spark.components.Image;
+
 	import spark.components.Label;
+	import spark.skins.spark.ImageSkin;
 
 	public class BloodPressureChartModifier extends ChartModifierBase implements IChartModifier
 	{
@@ -36,6 +39,9 @@ package collaboRhythm.plugins.bloodPressure.model
 		private static const BLOOD_PRESSURE_VERTICAL_AXIS_MINIMUM:Number = DefaultVitalSignChartModifier.SYSTOLIC_VERTICAL_AXIS_MINIMUM;
 
 		protected const GOAL_ZONE_COLOR:uint = 0x8DCB86;
+
+		[Embed("/assets/images/FORA_D40b.png")]
+		private var _foraD40bImageClass:Class;
 
 		public function BloodPressureChartModifier(chartDescriptor:VitalSignChartDescriptor,
 												   chartModelDetails:IChartModelDetails,
@@ -61,9 +67,7 @@ package collaboRhythm.plugins.bloodPressure.model
 			return hitData.displayText;
 		}
 
-		public function modifyCartesianChart(chart:ScrubChart,
-											 cartesianChart:CartesianChart,
-											 isMainChart:Boolean):void
+		public function modifyCartesianChart(chart:ScrubChart, cartesianChart:CartesianChart, isMainChart:Boolean):void
 		{
 			if (decoratedModifier)
 				decoratedModifier.modifyCartesianChart(chart, cartesianChart, isMainChart);
@@ -113,10 +117,13 @@ package collaboRhythm.plugins.bloodPressure.model
 
 		public function createImage(currentChartImage:IVisualElement):IVisualElement
 		{
-			var image:BloodPressureScheduleItemClockView = new BloodPressureScheduleItemClockView();
+			var image:Image = new Image();
+			image.setStyle("skinClass", ImageSkin);
+			image.source = _foraD40bImageClass;
+			image.smooth = true;
 			image.width = 100;
 			image.height = 100;
-			image.verticalCenter = 100;
+
 			return image;
 		}
 
@@ -124,7 +131,8 @@ package collaboRhythm.plugins.bloodPressure.model
 		{
 			canvas.clear();
 
-			canvas.beginFill(DefaultVitalSignChartModifier.GOAL_ZONE_COLOR, DefaultVitalSignChartModifier.GOAL_ZONE_ALPHA);
+			canvas.beginFill(DefaultVitalSignChartModifier.GOAL_ZONE_COLOR,
+					DefaultVitalSignChartModifier.GOAL_ZONE_ALPHA);
 			canvas.drawRect([Edge.LEFT, -1], DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MINIMUM, [Edge.RIGHT, 1],
 					DefaultVitalSignChartModifier.SYSTOLIC_GOAL_ZONE_MAXIMUM);
 			canvas.endFill();
