@@ -19,7 +19,7 @@
   <Library/>
   <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="100" d:pageWidth="100" d:type="layer" d:userLabel="Artboard 1">
     <Group ai:objID="11064d80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
-      <BitmapImage scaleX="1.00288" scaleY="1.00288" x="-0.365234" y="7.20801" source="@Embed('assets/TitrationIconBackground.png')" fillMode="clip" ai:objID="11256800" ai:seqID="3"/>
+      <BitmapImage scaleX="1" scaleY="1" x="0" y="7" source="@Embed('assets/TitrationIconBackground.png')" fillMode="clip" ai:objID="11256800" ai:seqID="3"/>
       <Ellipse x="35.5" y="64.5" width="28" height="28" ai:objID="1a815480" ai:seqID="4">
         <fill>
           <SolidColor color="#DBDBDC"/>

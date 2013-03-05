@@ -7,12 +7,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
-	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultMedicationChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
 
 	import mx.collections.ArrayCollection;
@@ -360,6 +358,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public function get currentActiveAccountSelectionsArrayCollection():ArrayCollection
 		{
 			return _currentActiveAccountSelectionsArrayCollection;
+		}
+
+		override public function evaluateForSteps():void
+		{
+			determineCurrentDoses();
+			updateIsAdherencePerfect();
+			updateProtocolMeasurementAverage();
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package collaboRhythm.shared.model.medications
 {
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
@@ -14,7 +13,6 @@ package collaboRhythm.shared.model.medications
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 	import collaboRhythm.shared.model.services.DateUtil;
@@ -1081,6 +1079,16 @@ package collaboRhythm.shared.model.medications
 					}
 				}
 			}
+		}
+
+		/**
+		 * Loads enough information to determine the state of each step, but does not load in
+		 * previous decisions/selections.
+		 */
+		public function evaluateForSteps():void
+		{
+			updateIsAdherencePerfect();
+			updateProtocolMeasurementAverage();
 		}
 	}
 }

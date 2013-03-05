@@ -2,7 +2,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 {
 	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationHealthActionConditionsMet;
 	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationHealthActionInsufficientAdherence;
-	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationHealthActionInsufficientBloodPressure;
+	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationHealthActionInsufficientMeasurement;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionListViewControllerBase;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionBase;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapter;
@@ -33,8 +33,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			activeRecordAccount.accountId = healthActionModelDetailsProvider.accountId;
 			activeRecordAccount.primaryRecord = healthActionModelDetailsProvider.record;
 			_decisionModel = new HypertensionMedicationTitrationModel(healthActionModelDetailsProvider.activeAccount, activeRecordAccount);
-			_decisionModel.updateAreVitalSignRequirementsMet();
-			_decisionModel.updateIsAdherencePerfect();
+			_decisionModel.evaluateForSteps();
 		}
 
 		override protected function createConditionsMetIcon():SpriteVisualElement
@@ -49,7 +48,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		override protected function createInsufficientMeasurementIcon():SpriteVisualElement
 		{
-			return new HypertensionMedicationTitrationHealthActionInsufficientBloodPressure();
+			return new HypertensionMedicationTitrationHealthActionInsufficientMeasurement();
 		}
 
 		public function get healthAction():HealthActionBase
