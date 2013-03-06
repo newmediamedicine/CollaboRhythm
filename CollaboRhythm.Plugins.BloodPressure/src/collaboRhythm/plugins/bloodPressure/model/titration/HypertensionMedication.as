@@ -88,8 +88,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			currentDose = 0;
 		}
 
-		public function handleDoseSelected(doseSelected:int, altKey:Boolean, ctrlKey:Boolean, selectionByAccount:Account,
-										   isPatient:Boolean):void
+		public function handleDoseSelected(doseSelected:int, altKey:Boolean, ctrlKey:Boolean,
+										   selectionByAccountId:String, isPatient:Boolean):void
 		{
 			if (altKey && ctrlKey)
 			{
@@ -122,7 +122,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					selectionType = HypertensionMedicationDoseSelection.PATIENT;
 				}
 
-				addOrRemoveHypertensionMedicationDoseSelection(doseSelected, action, selectionType, selectionByAccount);
+				addOrRemoveHypertensionMedicationDoseSelection(doseSelected, action, selectionType, selectionByAccountId);
 			}
 		}
 
@@ -157,9 +157,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		}
 
 		public function addOrRemoveHypertensionMedicationDoseSelection(doseSelected:int, action:String,
-																		selectionType:String, selectionByAccount:Account):void
+																	   selectionType:String,
+																	   selectionByAccountId:String):void
 		{
-			var matchParameters:MatchParameters = HypertensionMedication.getMatchParameters(selectionType == HypertensionMedicationDoseSelection.SYSTEM, selectionByAccount);
+			var matchParameters:MatchParameters = HypertensionMedication.getMatchParameters(selectionType ==
+					HypertensionMedicationDoseSelection.SYSTEM, selectionByAccountId);
 
 			if (doseSelected == 1)
 			{
@@ -170,7 +172,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				if (!remove)
 				{
 					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
-							action, selectionType, selectionByAccount, false, this, _currentDateSource.now());
+							action, selectionType, selectionByAccountId, false, this, _currentDateSource.now());
 					addSelectionToCollection(hypertensionMedicationDoseSelection, _dose1SelectionArrayCollection);
 				}
 			}
@@ -183,7 +185,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				if (!remove)
 				{
 					var hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
-							action, selectionType, selectionByAccount, false, this, _currentDateSource.now());
+							action, selectionType, selectionByAccountId, false, this, _currentDateSource.now());
 					addSelectionToCollection(hypertensionMedicationDoseSelection, _dose2SelectionArrayCollection);
 				}
 			}
@@ -227,7 +229,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		public static function matchSelectionByAccountId(selection:HypertensionMedicationDoseSelection, selectionByAccountId:String):Boolean
 		{
 			return selection.selectionType != HypertensionMedicationDoseSelection.SYSTEM &&
-					selection.selectionByAccount && selection.selectionByAccount.accountId == selectionByAccountId;
+					selection.selectionByAccountId == selectionByAccountId;
 		}
 
 		/**
@@ -430,14 +432,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return _pair;
 		}
 
-		public function restoreMedicationDoseSelection(doseSelected:int, newDose:int, selectionByAccount:Account, patientAccountId:String,
-													   decisionDate:Date):void
+		public function restoreMedicationDoseSelection(doseSelected:int, newDose:int, selectionByAccountId:String,
+													   patientAccountId:String, decisionDate:Date):void
 		{
 			var selection:HypertensionMedicationDoseSelection = new HypertensionMedicationDoseSelection(doseSelected,
-					determineAction(doseSelected),
-					selectionByAccount && selectionByAccount.accountId ==
+					determineAction(doseSelected), selectionByAccountId ==
 							patientAccountId ? HypertensionMedicationDoseSelection.PATIENT : HypertensionMedicationDoseSelection.COACH,
-					selectionByAccount, true, this, decisionDate);
+					selectionByAccountId, true, this, decisionDate);
 
 			if (selection.newDose == newDose)
 			{
@@ -481,7 +482,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			removeAllHypertensionMedicationDoseSelections(HypertensionMedicationDoseSelection.SYSTEM, matchSelectionByType);
 		}
 
-		public static function getMatchParameters(isSystem:Boolean, selectionByAccount:Account):MatchParameters
+		public static function getMatchParameters(isSystem:Boolean, selectionByAccountId:String):MatchParameters
 		{
 			var matchData:String;
 			var matchFunction:Function;
@@ -492,7 +493,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 			else
 			{
-				matchData = selectionByAccount.accountId;
+				matchData = selectionByAccountId;
 				matchFunction = matchSelectionByAccountId;
 			}
 			return new MatchParameters(matchData, matchFunction);

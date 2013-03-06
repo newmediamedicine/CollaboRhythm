@@ -26,8 +26,8 @@
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationAppController;
 		import collaboRhythm.plugins.bloodPressure.controller.titration.ITitrationMapController;
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationActionSynchronizationDetails;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 
@@ -69,24 +69,40 @@
 			var hypertensionMedicationAlternatePairView:HypertensionMedicationAlternatePairView = new HypertensionMedicationAlternatePairView();
 			hypertensionMedicationAlternatePairView.init(hypertensionMedicationAlternatePair,
 					hypertensionMedicationsVGroup.gap, nextPair);
-			addEventListener(HypertensionMedicationViewEvent.DOSE_SELECTED,
+			addEventListener(HypertensionMedicationDoseSelectionEvent.DOSE_SELECTED,
 					hypertensionMedicationViewEvent_doseSelectedHandler);
-			addEventListener(HypertensionMedicationAlternatePairViewEvent.ALTERNATE_SELECTED,
+			addEventListener(HypertensionMedicationAlternateSelectionEvent.ALTERNATE_SELECTED,
 					hypertensionMedicationViewEvent_alternateSelectedHandler);
 
 			hypertensionMedicationsVGroup.addElement(hypertensionMedicationAlternatePairView);
 		}
 
-		private function hypertensionMedicationViewEvent_doseSelectedHandler(event:HypertensionMedicationViewEvent):void
+		private function hypertensionMedicationViewEvent_doseSelectedHandler(event:HypertensionMedicationDoseSelectionEvent):void
 		{
-			_controller.handleHypertensionMedicationDoseSelected(event.hypertensionMedication, event.doseSelected,
-					event.altKey, event.ctrlKey);
+			var hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails = createHypertensionMedicationActionSynchronizationDetails(event.altKey,
+					event.ctrlKey);
+			hypertensionMedicationActionSynchronizationDetails.hypertensionMedicationClass = event.hypertensionMedication.medicationClass;
+			hypertensionMedicationActionSynchronizationDetails.doseSelected = event.doseSelected;
+			_controller.handleHypertensionMedicationDoseSelected(hypertensionMedicationActionSynchronizationDetails);
 		}
 
-		private function hypertensionMedicationViewEvent_alternateSelectedHandler(event:HypertensionMedicationAlternatePairViewEvent):void
+		private function hypertensionMedicationViewEvent_alternateSelectedHandler(event:HypertensionMedicationAlternateSelectionEvent):void
 		{
-			_controller.handleHypertensionMedicationAlternateSelected(event.hypertensionMedicationAlternatePair,
-					event.altKey, event.ctrlKey);
+			var hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails = createHypertensionMedicationActionSynchronizationDetails(event.altKey,
+					event.ctrlKey);
+			hypertensionMedicationActionSynchronizationDetails.hypertensionMedicationClass = event.hypertensionMedicationAlternatePair.primaryHypertensionMedication.medicationClass;
+			_controller.handleHypertensionMedicationAlternateSelected(hypertensionMedicationActionSynchronizationDetails);
+		}
+
+		private function createHypertensionMedicationActionSynchronizationDetails(altKey:Boolean,
+																				  ctrlKey:Boolean):HypertensionMedicationActionSynchronizationDetails
+		{
+			var hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails = new HypertensionMedicationActionSynchronizationDetails();
+			hypertensionMedicationActionSynchronizationDetails.altKey = altKey;
+			hypertensionMedicationActionSynchronizationDetails.ctrlKey = ctrlKey;
+			hypertensionMedicationActionSynchronizationDetails.selectionByAccountId = _model.activeAccount.accountId;
+
+			return hypertensionMedicationActionSynchronizationDetails;
 		}
 
 		private function saveButton_clickHandler(event:MouseEvent):void
@@ -153,13 +169,15 @@
 		</s:fill>
 	</s:Rect>
 	<s:Group left="{PADDING}" top="{PADDING}">
-		<s:Label text="Max" styleName="extremesLabels" x="456" mouseEnabled="false"/>
+		<s:Label text="Max" styleName="extremesLabels" x="{HypertensionMedicationView.MEDICATION_LABELS_GROUP_WIDTH + HypertensionMedicationView.MEDICATION_HGROUP_GAP}"
+				 mouseEnabled="false"/>
 		<s:VGroup>
-			<s:VGroup id="hypertensionMedicationsVGroup" width="50%" gap="{MEDICATION_PAIRS_GAP_MIN}">
+			<s:VGroup id="hypertensionMedicationsVGroup" gap="{MEDICATION_PAIRS_GAP_MIN}">
 				<!-- medications get added here dynamically -->
 			</s:VGroup>
 			<s:Group id="startLabelGroup">
-				<s:Label text="Start" styleName="extremesLabels" x="456" mouseEnabled="false"/>
+				<s:Label text="Start" styleName="extremesLabels" x="{HypertensionMedicationView.MEDICATION_LABELS_GROUP_WIDTH  + HypertensionMedicationView.MEDICATION_HGROUP_GAP}"
+						 mouseEnabled="false"/>
 			</s:Group>
 		</s:VGroup>
 	</s:Group>

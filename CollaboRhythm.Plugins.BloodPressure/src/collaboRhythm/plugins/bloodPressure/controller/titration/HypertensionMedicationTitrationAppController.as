@@ -1,8 +1,7 @@
 package collaboRhythm.plugins.bloodPressure.controller.titration
 {
 	import collaboRhythm.plugins.bloodPressure.model.ConfirmChangePopUpModel;
-	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
-	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationActionSynchronizationDetails;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 	import collaboRhythm.plugins.bloodPressure.model.titration.PersistableHypertensionMedicationTitrationModel;
 	import collaboRhythm.plugins.bloodPressure.view.titration.ConfirmChangePopUp;
@@ -146,16 +145,14 @@ package collaboRhythm.plugins.bloodPressure.controller.titration
 			return _model;
 		}
 
-		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
-																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
+		public function handleHypertensionMedicationDoseSelected(hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails):void
 		{
-			_model.handleHypertensionMedicationDoseSelected(hypertensionMedication, doseSelected, altKey, ctrlKey);
+			_model.handleHypertensionMedicationDoseSelected(hypertensionMedicationActionSynchronizationDetails);
 		}
 
-		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
-																	  altKey:Boolean, ctrlKey:Boolean):void
+		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails):void
 		{
-			_model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair, altKey, ctrlKey);
+			_model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationActionSynchronizationDetails);
 		}
 
 		public function save():Boolean

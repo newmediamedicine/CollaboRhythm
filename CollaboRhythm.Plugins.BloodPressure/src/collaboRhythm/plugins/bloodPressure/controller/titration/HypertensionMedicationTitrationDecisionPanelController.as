@@ -3,8 +3,7 @@ package collaboRhythm.plugins.bloodPressure.controller.titration
 	import collaboRhythm.plugins.bloodPressure.controller.BloodPressureMedicationTitrationFAQController;
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureMedicationTitrationFAQModel;
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureMedicationTitrationFAQModelAndController;
-	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
-	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationActionSynchronizationDetails;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 	import collaboRhythm.plugins.bloodPressure.model.titration.PersistableHypertensionMedicationTitrationModel;
 	import collaboRhythm.plugins.bloodPressure.view.BloodPressureMedicationTitrationFAQView;
@@ -19,8 +18,8 @@ package collaboRhythm.plugins.bloodPressure.controller.titration
 		private var _model:PersistableHypertensionMedicationTitrationModel;
 
 		public function HypertensionMedicationTitrationDecisionPanelController(collaborationLobbyNetConnectionServiceProxy:ICollaborationLobbyNetConnectionServiceProxy,
-																model:PersistableHypertensionMedicationTitrationModel,
-																viewNavigator:ViewNavigator)
+																			   model:PersistableHypertensionMedicationTitrationModel,
+																			   viewNavigator:ViewNavigator)
 		{
 			super(collaborationLobbyNetConnectionServiceProxy, viewNavigator);
 			_model = model;
@@ -51,16 +50,36 @@ package collaboRhythm.plugins.bloodPressure.controller.titration
 			_viewNavigator.pushView(BloodPressureMedicationTitrationFAQView, faqModelAndController);
 		}
 
-		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
-																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
+		public function toggleMapViewVisibility():void
 		{
-			model.handleHypertensionMedicationDoseSelected(hypertensionMedication, doseSelected, altKey, ctrlKey);
+			if (_synchronizationService.synchronize("toggleMapViewVisibility"))
+			{
+				return;
+			}
+
+			model.isMapViewVisible = !model.isMapViewVisible;
 		}
 
-		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
-																	  altKey:Boolean, ctrlKey:Boolean):void
+		public function handleHypertensionMedicationDoseSelected(hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails):void
 		{
-			model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair, altKey, ctrlKey);
+			if (_synchronizationService.synchronize("handleHypertensionMedicationDoseSelected",
+					hypertensionMedicationActionSynchronizationDetails))
+			{
+				return;
+			}
+
+			model.handleHypertensionMedicationDoseSelected(hypertensionMedicationActionSynchronizationDetails);
+		}
+
+		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails):void
+		{
+			if (_synchronizationService.synchronize("handleHypertensionMedicationAlternateSelected",
+					hypertensionMedicationActionSynchronizationDetails))
+			{
+				return;
+			}
+
+			model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationActionSynchronizationDetails);
 		}
 
 		public function save():Boolean

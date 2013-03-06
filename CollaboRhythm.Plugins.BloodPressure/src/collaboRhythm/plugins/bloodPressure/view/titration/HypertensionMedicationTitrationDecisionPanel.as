@@ -179,13 +179,28 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 		private function showMapButton_clickHandler(event:MouseEvent):void
 		{
-			_mapView.visible = !_mapView.visible;
+			_controller.toggleMapViewVisibility();
+		}
+
+		override protected function model_propertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			super.model_propertyChangeHandler(event);
+			if (event.property == "isMapViewVisible")
+			{
+				updateMapViewVisibility();
+			}
+		}
+
+		private function updateMapViewVisibility():void
+		{
+			_mapView.visible = _model.isMapViewVisible;
+
 			updateShowMapButtonLabel();
 		}
 
 		protected function updateShowMapButtonLabel():void
 		{
-			if (_mapView && _mapView.visible)
+			if (_model.isMapViewVisible)
 			{
 				_showMapButton.label = "Hide\nMAP";
 			}

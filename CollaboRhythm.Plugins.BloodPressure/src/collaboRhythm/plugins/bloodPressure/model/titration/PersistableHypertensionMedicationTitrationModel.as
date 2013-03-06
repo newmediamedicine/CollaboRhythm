@@ -5,7 +5,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetails;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CodedValueFactory;
-	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -225,8 +224,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			var medication:HypertensionMedication = getMedication(occurrence.additionalDetails);
 			if (medication)
 			{
-				medication.restoreMedicationDoseSelection(doseSelected, newDose,
-						getAccount(decisionResult.reportedBy),
+				medication.restoreMedicationDoseSelection(doseSelected, newDose, decisionResult.reportedBy,
 						_activeRecordAccount.accountId, decisionResult.dateReported);
 			}
 		}
@@ -242,26 +240,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				}
 			}
 			isChangeSpecified = false;
-		}
-
-		private function getAccount(targetAccountId:String):Account
-		{
-			if (targetAccountId == _activeAccount.accountId)
-			{
-				return _activeAccount;
-			}
-			else if (targetAccountId == _activeRecordAccount.accountId)
-			{
-				return _activeRecordAccount;
-			}
-			else
-			{
-				// TODO: make this more robust; find the correct account
-				_logger.warn("Creating fake Account for accountId " + targetAccountId);
-				var account:Account = new Account();
-				account.accountId = targetAccountId;
-				return account;
-			}
 		}
 
 		private function getMedication(medicationName:String):HypertensionMedication
@@ -351,7 +329,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			var medications:Vector.<HypertensionMedication> = getMedications();
 			for each (var medication:HypertensionMedication in medications)
 			{
-				var selection:HypertensionMedicationDoseSelection = medication.getSelectionForAccount(_activeAccount);
+				var selection:HypertensionMedicationDoseSelection = medication.getSelectionForAccount(activeAccount);
 
 				if (selection != null)
 				{
@@ -455,7 +433,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 					selection.medicationName.rawName);
 			// TODO: should there be a different order type for this type of situation?
 			medicationOrder.orderType = MedicationOrder.PRESCRIBED_ORDER_TYPE;
-			medicationOrder.orderedBy = _activeAccount.accountId;
+			medicationOrder.orderedBy = activeAccount.accountId;
 			medicationOrder.dateOrdered = _currentDateSource.now();
 			//TODO: Indication should not be required by the server. This can be removed once this is fixed
 			//Alternatively, the UI could allow an indication to be specified
@@ -478,7 +456,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			var medicationFill:MedicationFill = new MedicationFill();
 			medicationFill.name = medicationOrder.name;
-			medicationFill.filledBy = _activeAccount.accountId;
+			medicationFill.filledBy = activeAccount.accountId;
 			medicationFill.dateFilled = _currentDateSource.now();
 			medicationFill.amountFilled = medicationOrder.amountOrdered;
 			medicationFill.ndc = new CollaboRhythmCodedValue(null, null, null, selection.defaultNdcCode);
@@ -495,7 +473,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 													   selection:HypertensionMedicationDoseSelection):void
 		{
 			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord,
-					_activeAccount.accountId, _currentDateSource);
+					activeAccount.accountId, _currentDateSource);
 
 			for (var i:int = 0; i < DEFAULT_SCHEDULE_ADMINISTRATIONS_PER_DAY; i++)
 			{
@@ -578,7 +556,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 						{
 							systemSelection = selection;
 						}
-						else if (selection.selectionByAccount && selection.selectionByAccount.accountId == accountId)
+						else if (selection.selectionByAccountId == accountId)
 						{
 							userSelection = selection;
 							selections.push(selection);
@@ -740,20 +718,14 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		}
 
 
-		override protected function getAccountForSelectionAction(ctrlKey:Boolean):Account
+		override protected function getAccountIdForSelectionAction(ctrlKey:Boolean, selectionByAccountId:String):String
 		{
-			return ctrlKey ? (isPatient ? getCoachAccount() : _activeRecordAccount) : _activeAccount;
+			return ctrlKey ? (isPatient ? getCoachAccountId() : _activeRecordAccount.accountId) : selectionByAccountId;
 		}
 
-		private function getCoachAccount():Account
+		private function getCoachAccountId():String
 		{
-			if (_settings.primaryClinicianTeamMember)
-			{
-				var account:Account = new Account();
-				account.accountId = _settings.primaryClinicianTeamMember;
-				return account;
-			}
-			return null;
+			return _settings.primaryClinicianTeamMember;
 		}
 
 		override protected function get componentContainer():IComponentContainer

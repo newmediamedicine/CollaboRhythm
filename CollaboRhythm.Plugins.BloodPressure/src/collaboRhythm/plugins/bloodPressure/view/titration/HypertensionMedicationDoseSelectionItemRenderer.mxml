@@ -21,6 +21,7 @@
 				autoDrawBackground="false" width="50" height="50">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationDoseSelection;
+		import collaboRhythm.shared.model.Account;
 		import collaboRhythm.shared.model.services.IImageCacheService;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -30,12 +31,12 @@
 		{
 			// start by hiding everything because this is an item renderer and may be recycled, leaving artifacts from previous data
 			imageGroup.visible =
-			doseIncreaseArrowSystem.visible =
-			doseDecreaseArrowSystem.visible =
-			doseIncreaseArrowPatient.visible =
-			doseDecreaseArrowPatient.visible =
-			doseIncreaseArrowCoach.visible =
-			doseDecreaseArrowCoach.visible = false;
+					doseIncreaseArrowSystem.visible =
+							doseDecreaseArrowSystem.visible =
+									doseIncreaseArrowPatient.visible =
+											doseDecreaseArrowPatient.visible =
+													doseIncreaseArrowCoach.visible =
+															doseDecreaseArrowCoach.visible = false;
 
 			_hypertensionMedicationDoseSelection = value as HypertensionMedicationDoseSelection;
 
@@ -88,10 +89,13 @@
 
 			imageGroup.visible = true;
 
-			if (_hypertensionMedicationDoseSelection.selectionByAccount)
+			if (_hypertensionMedicationDoseSelection.selectionByAccountId)
 			{
+				// TODO: make this more robust; find the correct account
+				var account:Account = new Account();
+				account.accountId = _hypertensionMedicationDoseSelection.selectionByAccountId;
 				accountImage.source = imageCacheService.getImage(accountImage,
-						_hypertensionMedicationDoseSelection.selectionByAccount.imageURI);
+						account.imageURI);
 			}
 		}
 		]]></fx:Script>

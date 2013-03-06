@@ -52,10 +52,12 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		protected var _currentDateSource:ICurrentDateSource;
 		protected var _activeRecordAccount:Account;
-		protected var _activeAccount:Account;
+		private var _activeAccount:Account;
 
 		private var _currentSelectionsArrayCollection:ArrayCollection = new ArrayCollection();
 		private var _currentActiveAccountSelectionsArrayCollection:ArrayCollection = new ArrayCollection();
+
+		private var _isMapViewVisible:Boolean = false;
 
 		public function HypertensionMedicationTitrationModel(activeAccount:Account, activeRecordAccount:Account)
 		{
@@ -154,8 +156,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				{
 					// TODO: if there is some gap in the progression of meds (such as the 3rd med is scheduled, but 1st and 2nd are not) we should titrate down off of the remaining med(s)
 					_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.addOrRemoveHypertensionMedicationDoseSelection(_hypertensionMedicationAlternatePairsVector[_highestHypertensionMedicationAlternatePairIndex].activeHypertensionMedication.currentDose,
-							HypertensionMedicationDoseSelection.DECREASE,
-							HypertensionMedicationDoseSelection.SYSTEM, null);
+							HypertensionMedicationDoseSelection.DECREASE, HypertensionMedicationDoseSelection.SYSTEM,
+							null);
 				}
 			}
 		}
@@ -222,35 +224,65 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		/**
 		 * Handle a change to the dose selected.
 		 *
-		 * @param hypertensionMedication The medication to change
-		 * @param doseSelected Code indicating selected level, where 0 means none, 1 means half of max, and 2 means max
-		 * @param altKey
-		 * @param ctrlKey
-		 * @see DoseStrengthCode
+		 * @param hypertensionMedicationActionSynchronizationDetails A class that represents all of the necessary details about the dose selection
 		 */
-		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
-																 doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
+		public function handleHypertensionMedicationDoseSelected(hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails):void
 		{
-			hypertensionMedication.handleDoseSelected(doseSelected, altKey, ctrlKey,
-					getAccountForSelectionAction(ctrlKey),
-					_activeAccount.accountId == _activeRecordAccount.accountId);
-			updateSummaryCollections();
-			if (!ctrlKey && !altKey)
+			var hypertensionMedication:HypertensionMedication;
+			for each (var possibleHypertensionMedication:HypertensionMedication in getMedications())
 			{
-				isChangeSpecified = true;
+				if (hypertensionMedicationActionSynchronizationDetails.hypertensionMedicationClass ==
+						possibleHypertensionMedication.medicationClass)
+				{
+					hypertensionMedication = possibleHypertensionMedication;
+				}
+			}
+
+			if (hypertensionMedication)
+			{
+				hypertensionMedication.handleDoseSelected(hypertensionMedicationActionSynchronizationDetails.doseSelected,
+						hypertensionMedicationActionSynchronizationDetails.altKey,
+						hypertensionMedicationActionSynchronizationDetails.ctrlKey,
+						getAccountIdForSelectionAction(hypertensionMedicationActionSynchronizationDetails.ctrlKey,
+								hypertensionMedicationActionSynchronizationDetails.selectionByAccountId),
+						hypertensionMedicationActionSynchronizationDetails.selectionByAccountId ==
+								_activeRecordAccount.accountId);
+				updateSummaryCollections();
+				if (!hypertensionMedicationActionSynchronizationDetails.ctrlKey &&
+						!hypertensionMedicationActionSynchronizationDetails.altKey)
+				{
+					isChangeSpecified = true;
+				}
 			}
 		}
 
-		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
-																	  altKey:Boolean, ctrlKey:Boolean):void
+		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails):void
 		{
-			hypertensionMedicationAlternatePair.handleAlternateSelected(altKey, ctrlKey,
-					getAccountForSelectionAction(ctrlKey),
-					_activeAccount.accountId == _activeRecordAccount.accountId);
-			updateSummaryCollections();
-			if (!ctrlKey && !altKey)
+			var hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair;
+			for each (var possibleHypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair in
+					_hypertensionMedicationAlternatePairsVector)
 			{
-				isChangeSpecified = true;
+				if (hypertensionMedicationActionSynchronizationDetails.hypertensionMedicationClass ==
+						possibleHypertensionMedicationAlternatePair.primaryHypertensionMedication.medicationClass)
+				{
+					hypertensionMedicationAlternatePair = possibleHypertensionMedicationAlternatePair;
+				}
+			}
+
+			if (hypertensionMedicationAlternatePair)
+			{
+				hypertensionMedicationAlternatePair.handleAlternateSelected(hypertensionMedicationActionSynchronizationDetails.altKey,
+						hypertensionMedicationActionSynchronizationDetails.ctrlKey,
+						getAccountIdForSelectionAction(hypertensionMedicationActionSynchronizationDetails.ctrlKey,
+								hypertensionMedicationActionSynchronizationDetails.selectionByAccountId),
+						hypertensionMedicationActionSynchronizationDetails.selectionByAccountId ==
+								_activeRecordAccount.accountId);
+				updateSummaryCollections();
+				if (!hypertensionMedicationActionSynchronizationDetails.ctrlKey &&
+						!hypertensionMedicationActionSynchronizationDetails.altKey)
+				{
+					isChangeSpecified = true;
+				}
 			}
 		}
 
@@ -280,10 +312,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 		}
 
-		protected function getAccountForSelectionAction(ctrlKey:Boolean):Account
+		protected function getAccountIdForSelectionAction(ctrlKey:Boolean, selectionByAccountId:String):String
 		{
 			// TODO: when in patient mode, control click should be for simulating the clinician
-			return ctrlKey ? _activeRecordAccount : _activeAccount;
+			return ctrlKey ? _activeRecordAccount.accountId : selectionByAccountId;
 		}
 
 		public function get hypertensionMedicationAlternatePairsVector():Vector.<HypertensionMedicationAlternatePair>
@@ -371,12 +403,28 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		{
 			if (_mostRecentDoseChange)
 			{
-				var delta:Number = NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS - (_currentDateSource.now().time - _mostRecentDoseChange.time);
+				var delta:Number = NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS -
+						(_currentDateSource.now().time - _mostRecentDoseChange.time);
 				if (delta < 0) delta = 0;
 				var days:int = Math.ceil(delta / (1000 * 60 * 60 * 24));
 				return days;
 			}
 			return 0;
+		}
+
+		public function get activeAccount():Account
+		{
+			return _activeAccount;
+		}
+
+		public function get isMapViewVisible():Boolean
+		{
+			return _isMapViewVisible;
+		}
+
+		public function set isMapViewVisible(value:Boolean):void
+		{
+			_isMapViewVisible = value;
 		}
 	}
 }
