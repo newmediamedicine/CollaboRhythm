@@ -767,5 +767,9 @@ package collaboRhythm.shared.model.medications.view
 				updateBadge(_stepBadges[step], modelBase.getStepState(step));
 			}
 		}
+
+		public function destroy():void
+		{
+		}
 	}
 }

@@ -10,6 +10,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.medications.TitrationSupportChartModifierBase;
+	import collaboRhythm.shared.model.medications.view.TitrationDecisionPanelBase;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.model.settings.Settings;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
@@ -106,7 +107,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			return reorderedChartDescriptors;
 		}
 
-		override protected function createTitrationDecisionPanel():IVisualElement
+		override protected function createTitrationDecisionPanel():TitrationDecisionPanelBase
 		{
 			var panel:HypertensionMedicationTitrationDecisionPanel = new HypertensionMedicationTitrationDecisionPanel();
 			panel.model = _model;

@@ -1,6 +1,7 @@
 package collaboRhythm.shared.model.medications
 {
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+	import collaboRhythm.shared.model.medications.view.TitrationDecisionPanelBase;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
@@ -189,7 +190,7 @@ package collaboRhythm.shared.model.medications
 			}
 		}
 
-		protected function createTitrationDecisionPanel():IVisualElement
+		protected function createTitrationDecisionPanel():TitrationDecisionPanelBase
 		{
 			return null;
 		}
@@ -204,7 +205,7 @@ package collaboRhythm.shared.model.medications
 			return false;
 		}
 
-		private var _titrationDecisionPanel:IVisualElement;
+		private var _titrationDecisionPanel:TitrationDecisionPanelBase;
 		private var _spacerRects:Vector.<Rect> = new <Rect>[];
 
 		public override function prepareAdherenceGroup(chartDescriptor:IChartDescriptor, adherenceGroup:Group):void
@@ -243,6 +244,12 @@ package collaboRhythm.shared.model.medications
 			}
 			else
 			{
+				if (_titrationDecisionPanel)
+				{
+					_titrationDecisionPanel.destroy();
+					_titrationDecisionPanel = null;
+				}
+
 				while (adherenceGroup.numElements > 2)
 					adherenceGroup.removeElementAt(adherenceGroup.numElements - 1);
 			}
@@ -250,9 +257,12 @@ package collaboRhythm.shared.model.medications
 
 		private function titrationDecisionPanel_resizeHandler(event:Event):void
 		{
-			for each (var rect:Rect in _spacerRects)
+			if (_titrationDecisionPanel)
 			{
-				rect.width = _titrationDecisionPanel.width;
+				for each (var rect:Rect in _spacerRects)
+				{
+					rect.width = _titrationDecisionPanel.width;
+				}
 			}
 		}
 	}

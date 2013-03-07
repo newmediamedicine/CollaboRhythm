@@ -6,6 +6,8 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 	import collaboRhythm.shared.model.medications.controller.TitrationDecisionPanelControllerBase;
 	import collaboRhythm.shared.model.medications.view.TitrationDecisionPanelBase;
 
+	import flash.display.DisplayObjectContainer;
+
 	import flash.events.MouseEvent;
 
 	import flashx.textLayout.container.ScrollPolicy;
@@ -81,7 +83,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 			_mapView = new TitrationMapView();
 			_mapView.controller = controller;
-			_mapView.visible = false;
+			updateMapViewVisibility();
 			_mapView.includeInLayout = false;
 			updateMapView();
 			var mapViewContainer:IVisualElementContainer = getHealthChartsView();
@@ -123,10 +125,13 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 		protected function updateMapView():void
 		{
-			var chartsContainer:VGroup = getChartsContainer();
-			_mapView.height = chartsContainer ? chartsContainer.height : this.height;
-			_mapView.width = chartsContainer ? (chartsContainer.width - chartsContainer.paddingLeft -
-					chartsContainer.paddingRight - this.width) : this.width;
+			if (_mapView)
+			{
+				var chartsContainer:VGroup = getChartsContainer();
+				_mapView.height = chartsContainer ? chartsContainer.height : this.height;
+				_mapView.width = chartsContainer ? (chartsContainer.width - chartsContainer.paddingLeft -
+						chartsContainer.paddingRight - this.width) : this.width;
+			}
 		}
 
 		private function updateSelectionListsY():void
@@ -193,7 +198,10 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 		private function updateMapViewVisibility():void
 		{
-			_mapView.visible = _model.isMapViewVisible;
+			if (_mapView)
+			{
+				_mapView.visible = _model.isMapViewVisible;
+			}
 
 			updateShowMapButtonLabel();
 		}
@@ -207,6 +215,18 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 			else
 			{
 				_showMapButton.label = "Show\nMAP";
+			}
+		}
+
+		override public function destroy():void
+		{
+			super.destroy();
+			if (_mapView)
+			{
+				_mapView.visible = false;
+				var mapViewContainer:IVisualElementContainer = _mapView.parent as IVisualElementContainer;
+				mapViewContainer.removeElement(_mapView);
+				_mapView = null;
 			}
 		}
 	}
