@@ -200,10 +200,17 @@ package collaboRhythm.plugins.healthCharts.controller
 				_fullView = null;
 			}
 			_healthChartsModel = null;
+		}
+
+		override public function close():void
+		{
 			if (_synchronizationService)
 			{
 				_synchronizationService.removeEventListener(this);
+				_synchronizationService = null;
 			}
+
+			super.close();
 		}
 
 		override protected function hideFullViewComplete():void
