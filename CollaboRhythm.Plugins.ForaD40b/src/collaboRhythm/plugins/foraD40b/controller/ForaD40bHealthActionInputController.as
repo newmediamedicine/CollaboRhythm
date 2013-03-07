@@ -284,12 +284,20 @@ package collaboRhythm.plugins.foraD40b.controller
 		{
 			var isDebugger:Boolean = Capabilities.isDebugger;
 			var playerType:String = Capabilities.playerType;
+			var urlVariablesMeasurementKey:String = DeviceGatewayConstants.BLOOD_GLUCOSE_KEY;
+			var category:String = VitalSignsModel.BLOOD_GLUCOSE_CATEGORY;
 
-			// check all existing blood glucose measurements
-			for each (var bloodGlucoseVitalSign:VitalSign in
-					_dataInputModelCollection.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY))
+			if (urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] == DeviceGatewayConstants.BLOOD_PRESSURE_HEALTH_ACTION_NAME)
 			{
-				if (isDuplicate(urlVariables, bloodGlucoseVitalSign))
+				urlVariablesMeasurementKey = DeviceGatewayConstants.SYSTOLIC_KEY;
+				category = VitalSignsModel.SYSTOLIC_CATEGORY;
+			}
+
+			for each (var vitalSign:VitalSign in
+					_dataInputModelCollection.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(category))
+			{
+				// check all existing blood glucose measurements
+				if (isDuplicate(urlVariables, vitalSign, urlVariablesMeasurementKey))
 				{
 					if (playerType == "Desktop" && isDebugger)
 					{
@@ -312,13 +320,14 @@ package collaboRhythm.plugins.foraD40b.controller
 					"healthActionStringTest1");
 		}
 
-		private static function isDuplicate(urlVariables:URLVariables, bloodGlucoseVitalSign:VitalSign):Boolean
+		private static function isDuplicate(urlVariables:URLVariables, vitalSign:VitalSign,
+											urlVariablesMeasurementKey:String):Boolean
 		{
-			if (bloodGlucoseVitalSign.result &&
-					bloodGlucoseVitalSign.result.value == urlVariables[DeviceGatewayConstants.BLOOD_GLUCOSE_KEY])
+			if (vitalSign.result &&
+					vitalSign.result.value == urlVariables[urlVariablesMeasurementKey])
 			{
 				var deviceMeasuredDateKey:String = "deviceMeasuredDate";
-				var existingDeviceMeasuredDateString:String = parseVitalSignComment(bloodGlucoseVitalSign.comments,
+				var existingDeviceMeasuredDateString:String = parseVitalSignComment(vitalSign.comments,
 						deviceMeasuredDateKey);
 				if (existingDeviceMeasuredDateString)
 				{
@@ -328,8 +337,8 @@ package collaboRhythm.plugins.foraD40b.controller
 				{
 					// if the comments can't be parsed or do not include the deviceMeasuredDate, check to see if the dateMeasured is close to the correctedMeasuredDate
 					var correctedMeasuredDate:Date = DateUtil.parseW3CDTF(urlVariables[DeviceGatewayConstants.CORRECTED_MEASURED_DATE_KEY]);
-					return correctedMeasuredDate == null || bloodGlucoseVitalSign.dateMeasuredStart == null ||
-							Math.abs(bloodGlucoseVitalSign.dateMeasuredStart.valueOf() -
+					return correctedMeasuredDate == null || vitalSign.dateMeasuredStart == null ||
+							Math.abs(vitalSign.dateMeasuredStart.valueOf() -
 									correctedMeasuredDate.valueOf()) < 1000 * 60 * 60;
 				}
 			}
