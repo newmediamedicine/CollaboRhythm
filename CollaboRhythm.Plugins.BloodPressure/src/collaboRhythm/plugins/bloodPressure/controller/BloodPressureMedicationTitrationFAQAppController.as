@@ -81,13 +81,15 @@ package collaboRhythm.plugins.bloodPressure.controller
 			_viewNavigator.pushView(BloodPressureMedicationTitrationFAQView, bloodPressureMedicationTitrationFAQModelAndController);
 		}
 
-		override protected function removeUserData():void
+		override public function close():void
 		{
-			super.removeUserData();
 			if (_synchronizationService)
 			{
 				_synchronizationService.removeEventListener(this);
+				_synchronizationService = null;
 			}
+
+			super.close();
 		}
 	}
 }
