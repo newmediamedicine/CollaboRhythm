@@ -58,11 +58,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		public function PersistableHypertensionMedicationTitrationModel(activeAccount:Account,
 																		activeRecordAccount:Account, settings:Settings,
-																		componentContainer:IComponentContainer)
+																		componentContainer:IComponentContainer,
+																		decisionScheduleItemOccurrence:ScheduleItemOccurrence)
 		{
 			super(activeAccount, activeRecordAccount);
 			_settings = settings;
 			_componentContainer = componentContainer;
+			_decisionScheduleItemOccurrence = decisionScheduleItemOccurrence;
 			initializeStates();
 		}
 

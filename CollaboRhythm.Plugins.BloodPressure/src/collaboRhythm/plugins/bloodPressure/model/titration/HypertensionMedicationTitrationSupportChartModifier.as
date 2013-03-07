@@ -6,6 +6,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.plugins.bloodPressure.view.titration.ConfirmChangePopUp;
 	import collaboRhythm.plugins.bloodPressure.view.titration.HypertensionMedicationTitrationDecisionPanel;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.medications.TitrationSupportChartModifierBase;
@@ -132,9 +133,10 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			activeRecordAccount.accountId = chartModelDetails.record.ownerAccountId;
 			activeRecordAccount.primaryRecord = chartModelDetails.record;
 
-			// TODO: how do we get the settings into the model?
 			var settings:Settings = WorkstationKernel.instance.resolve(Settings) as Settings;
-			_model = new PersistableHypertensionMedicationTitrationModel(activeAccount, activeRecordAccount, settings, chartModelDetails.componentContainer);
+			// TODO: the decisionScheduleItemOccurrence needs to get updated in the PersistableHypertensionMedicationTitrationModel when the chart is prepared for a decision (generally it is null here)
+			_model = new PersistableHypertensionMedicationTitrationModel(activeAccount, activeRecordAccount, settings, chartModelDetails.componentContainer,
+					chartModelDetails && chartModelDetails.healthChartsModel ? chartModelDetails.healthChartsModel.decisionData as ScheduleItemOccurrence : null);
 			_model.updateAreVitalSignRequirementsMet();
 			_model.updateIsAdherencePerfect();
 		}
