@@ -57,7 +57,8 @@ package collaboRhythm.plugins.bloodPressure.controller.titration
 		{
 			if (_model == null)
 			{
-				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount, _settings, _componentContainer);
+				// TODO: find the decision schedule item occurrence (if any) so that a change will result in creating an adherence item for the scheduled decision
+				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount, _settings, _componentContainer, null);
 			}
 		}
 

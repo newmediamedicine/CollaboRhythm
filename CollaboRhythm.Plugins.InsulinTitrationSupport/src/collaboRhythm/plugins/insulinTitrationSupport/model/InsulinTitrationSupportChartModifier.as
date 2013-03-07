@@ -6,6 +6,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
 	import collaboRhythm.shared.model.medications.TitrationSupportChartModifierBase;
+	import collaboRhythm.shared.model.medications.view.TitrationDecisionPanelBase;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
@@ -89,7 +90,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			return reorderedChartDescriptors;
 		}
 
-		override protected function createTitrationDecisionPanel():IVisualElement
+		override protected function createTitrationDecisionPanel():TitrationDecisionPanelBase
 		{
 			var panel:InsulinTitrationDecisionPanel = new InsulinTitrationDecisionPanel();
 			panel.model = _insulinTitrationDecisionPanelModel;
