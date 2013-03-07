@@ -1631,8 +1631,10 @@ package collaboRhythm.core.controller
 			{
 				if (settings.useGoogleAnalytics)
 				{
+					// Using a value for the event does not seem to work with this client library for Google Analytics
+					// Of note, the value is supposed to be an integer, but this library accepts a Number
 					_analyticsTracker.trackEvent("collaborationActivity", "sessionDuration",
-							getCollaborationActivityEventLabel(collaborationDurationMinutesString), collaborationDurationMinutes);
+							getCollaborationActivityEventLabel(collaborationDurationMinutesString));
 				}
 
 
