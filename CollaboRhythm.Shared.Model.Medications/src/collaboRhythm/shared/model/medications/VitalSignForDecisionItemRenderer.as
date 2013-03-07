@@ -104,8 +104,8 @@ package collaboRhythm.shared.model.medications
 
 				var directionScale:Number = -1;
 
-				var deltaY:Number = 8 * directionScale;
-				var deltaX:Number = 8;
+				var deltaY:Number = 16 * directionScale;
+				var deltaX:Number = 10;
 
                 // left top corner
                 g.moveTo(cx - deltaX, cy + deltaY);

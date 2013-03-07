@@ -149,7 +149,7 @@ package collaboRhythm.plugins.bloodPressure.view
          *  @playerversion AIR 1.1
          *  @productversion Flex 3
          */
-        public var deltaY:Number = -8;
+        public var deltaY:Number = -16;
 
         [Inspectable]
 
@@ -161,7 +161,7 @@ package collaboRhythm.plugins.bloodPressure.view
          *  @playerversion AIR 1.1
          *  @productversion Flex 3
          */
-        public var deltaX:Number = 8;
+        public var deltaX:Number = 10;
 
         //--------------------------------------------------------------------------
         //
@@ -249,11 +249,14 @@ package collaboRhythm.plugins.bloodPressure.view
 
                 var g:Graphics = graphics;
                 g.clear();
-                if (stroke)
-				{
-					stroke.apply(g, null, null);
+//                if (stroke)
+//				{
+//					stroke.apply(g, null, null);
 //					g.lineStyle(stroke.weight, color);
-				}
+//				}
+				if (fill)
+					fill = new SolidColor(0, 0.25);
+					fill.begin(g, rcFill, null);
 
                 // left top corner
                 g.moveTo(cx - deltaX, cy + deltaY);
@@ -263,6 +266,9 @@ package collaboRhythm.plugins.bloodPressure.view
 
                 // right top corner
                 g.lineTo(cx + deltaX, cy + deltaY);
+
+				if (fill)
+					fill.end(g);
             }
         }
     }
