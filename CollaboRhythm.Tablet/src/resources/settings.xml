@@ -84,7 +84,6 @@
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.messages.controller::MessagesAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller.titration::HypertensionMedicationTitrationAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureMedicationTitrationFAQAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>

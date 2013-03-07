@@ -421,7 +421,7 @@ package collaboRhythm.plugins.schedule.model
 				if (scheduleItemInGroup.dateStart.valueOf() != scheduleGroup.dateStart.valueOf() ||
 						scheduleItemInGroup.dateEnd.valueOf() != scheduleGroup.dateEnd.valueOf())
 				{
-					var scheduleDetails:ScheduleDetails = ScheduleDetailsResolver.getCurrentScheduleDetails(new <String>[scheduleItemInGroup.name.text],
+					var scheduleDetails:ScheduleDetails = ScheduleDetailsResolver.getCurrentScheduleDetails(new <String>[scheduleItemInGroup.name.value],
 							false, getScheduleItemCollection(scheduleItemInGroup), currentDateSource.now());
 					if (scheduleDetails && scheduleDetails.currentSchedule)
 					{

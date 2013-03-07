@@ -266,7 +266,9 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 			var plan:HealthActionPlan = getTitrationDecisionPlan(true);
 
-			if (isChangeSpecified)
+			var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
+
+			if (selections.length != 0)
 			{
 				evaluateForSave();
 
@@ -277,7 +279,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 				sendMedicationTitrationAutomatedMessage(shouldFinalize);
 
-				var selections:Vector.<HypertensionMedicationDoseSelection> = getSelectionsAndCompareWithSystem();
 				saveTitrationResult(selections, shouldFinalize);
 
 				if (persist)
@@ -351,6 +352,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 						if (medicationScheduleItem)
 						{
 							endSchedule(medicationScheduleItem, saveSucceeded);
+							medication.medicationScheduleItem = null;
 						}
 					}
 				}

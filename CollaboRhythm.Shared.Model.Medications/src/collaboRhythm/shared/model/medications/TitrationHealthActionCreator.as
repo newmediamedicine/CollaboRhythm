@@ -61,7 +61,7 @@ package collaboRhythm.shared.model.medications
 			var healthActionSchedule:HealthActionSchedule = new HealthActionSchedule();
 			healthActionSchedule.meta.id = UIDUtil.createUID();
 
-			healthActionSchedule.name = new CollaboRhythmCodedValue(null, null, null, _decisionPlanName);
+			healthActionSchedule.name = new CollaboRhythmCodedValue(null, _decisionPlanName, null, _decisionPlanName);
 
 			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_record, _activeAccountId, _currentDateSource);
 			scheduleCreator.initializeDefaultSchedule(healthActionSchedule);
@@ -193,7 +193,7 @@ package collaboRhythm.shared.model.medications
 			var healthActionSchedule:HealthActionSchedule = new HealthActionSchedule();
 			healthActionSchedule.meta.id = UIDUtil.createUID();
 
-			healthActionSchedule.name = new CollaboRhythmCodedValue(null, null, null, _equipmentName);
+			healthActionSchedule.name = new CollaboRhythmCodedValue(null, _equipmentName, null, _equipmentName);
 			healthActionSchedule.instructions = _equipmentInstructions;
 
 			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_record, _activeAccountId, _currentDateSource);
