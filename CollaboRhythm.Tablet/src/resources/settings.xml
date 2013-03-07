@@ -31,8 +31,6 @@
 	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
 	<collaborationEnabled>false</collaborationEnabled>
 	<rtmpBaseURI>rtmfp://adrenaline.media.mit.edu</rtmpBaseURI>
-	<debuggingToolsEnabled>true</debuggingToolsEnabled>
-	<deviceSimulatorEnabled>true</deviceSimulatorEnabled>
 	<oauthChromeConsumerKey>collaboRhythmChrome</oauthChromeConsumerKey>
 	<oauthChromeConsumerSecret>collaboRhythmChrome_secret93452</oauthChromeConsumerSecret>
 	<pluginSearchPaths>
@@ -40,33 +38,27 @@
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/HealthChartsPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/MedicationsPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/EquipmentPluginModule.swf</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/InsulinPluginModule.swf</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins/InsulinTitrationSupportPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_STORAGE_DIRECTORY$/plugins</pluginSearchPath>
 		<!-- The following paths are to allow the plugins to load during development without deploying them -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Schedule/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.HealthCharts/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Equipment/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Medications.Insulin/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Messages/bin-debug</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Problems.HIV/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
 		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/SchedulePluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/HealthChartsPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/MedicationsPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/EquipmentPluginModule.swf</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/InsulinPluginModule.swf</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/InsulinTitrationSupportPluginModule.swf</pluginSearchPath>
-		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/HIVPluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins</pluginSearchPath>
 	</pluginSearchPaths>
-	<demoModeEnabled>true</demoModeEnabled>
-	<adherenceVoidingEnabled>true</adherenceVoidingEnabled>
-	<includeAdherenceVoidingMenuItem>true</includeAdherenceVoidingMenuItem>
+	<demoModeEnabled>false</demoModeEnabled>
+	<debuggingToolsEnabled>false</debuggingToolsEnabled>
+	<adherenceVoidingEnabled>false</adherenceVoidingEnabled>
+	<includeAdherenceVoidingMenuItem>false</includeAdherenceVoidingMenuItem>
+	<deviceSimulatorEnabled>false</deviceSimulatorEnabled>
 	<targetDate>2011-08-13T10:40:00-5:00</targetDate>
 	<demoDatePresets>
 		<demoDatePreset>2011-07-14T09:10:00-5:00</demoDatePreset>
