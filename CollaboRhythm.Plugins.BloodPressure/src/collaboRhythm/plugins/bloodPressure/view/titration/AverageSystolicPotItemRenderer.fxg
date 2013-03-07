@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!---
-  - Copyright 2012 John Moore, Scott Gilroy
-  -
-  - This file is part of CollaboRhythm.
-  -
-  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  - version.
-  -
-  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  - details.
-  -
-  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  - <http://www.gnu.org/licenses/>.
-  -->
-<Graphic version="2.0" viewHeight="29" viewWidth="29" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+<Graphic version="2.0" viewHeight="40" viewWidth="24" ai:appVersion="15.1.0.39" ATE:version="1.0.0" flm:version="1.0.0" d:id="1" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
   <Library/>
-  <Group ai:seqID="1" d:layerType="page" d:pageHeight="29" d:pageWidth="29" d:type="layer" d:userLabel="Artboard 1">
-    <Group ai:seqID="2" d:type="layer" d:userLabel="Layer 1">
-      <Rect rotation="225.001" x="14.5002" y="24.6306" width="14.3269" height="14.3269" ai:seqID="3">
+  <Group ai:artboardActive="1" ai:artboardIndex="0" ai:seqID="1" d:layerType="page" d:pageHeight="40" d:pageWidth="24" d:type="layer" d:userLabel="Artboard 1">
+    <Group ai:objID="1f74eb80" ai:seqID="2" d:id="2" d:type="layer" d:userLabel="Layer 1">
+      <Path x="2" y="4" winding="nonZero" ai:objID="1f9bf300" ai:seqID="3" data="M10.0005 16 5.00049 8.00049 0 0 10.0005 0 20 0 15 8.00049 10.0005 16Z">
         <fill>
-          <SolidColor color="#F7941E"/>
+          <SolidColor color="#F89624"/>
         </fill>
-      </Rect>
-      <Path winding="nonZero" ai:seqID="4" data="M14.5005 29 0 14.5 14.5005 0 29 14.5 14.5005 29ZM8.74023 14.5 14.5005 20.2598 20.2598 14.5 14.5005 8.74023 8.74023 14.5Z">
-        <fill>
-          <SolidColor/>
-        </fill>
+        <stroke>
+          <SolidColorStroke weight="2" caps="none" joints="miter" miterLimit="10"/>
+        </stroke>
       </Path>
     </Group>
   </Group>
-  <Private/>
-</Graphic>
+  <Private>
+      <ai:PrivateElement d:ref="#1">
+        <ai:SaveOptions>
+          <ai:Dict data="B includeXMP 0 B includeSymbol 0 B aiEditCap 1 B writeImages 1 I versionKey 2 I preserveTextPolicy 4 I preserveGradientPolicy 4 I rasterizeResolution 72 B downsampleLinkedImages 0 I preserveFilterPolicy 3 I expandBlendsOption 5 B includeObjectOutsideArtboard 0 "/>
+        </ai:SaveOptions>
+        <ai:DocData base="AverageSystolicPotItemRenderer.assets/images" rulerCanvasDiffH="15.5" rulerCanvasDiffV="13.5">
+          <ai:DocRasterSettings>
+            <ai:Dict data="R padd 36 B mask 0 B spot 1 B alis 0 I dpi. 300 I colr 5 "/>
+          </ai:DocRasterSettings>
+        </ai:DocData>
+        <ai:AutoGenImageList>
+          <ai:Dict/>
+        </ai:AutoGenImageList>
+      </ai:PrivateElement>
+      <ai:PrivateElement flm:hashcode="7F528C45849A9E9C2D2D1E1DE0E9AB3E" d:ref="#2">
+        <ai:LayerOptions color="5 79.31 257 128.502"/>
+      </ai:PrivateElement>
+    </Private>
+  </Graphic>

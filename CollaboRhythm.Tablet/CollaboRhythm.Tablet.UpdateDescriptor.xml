@@ -17,8 +17,8 @@
   -->
 <update xmlns="http://ns.riaspace.com/air/framework/update/description/1.1">
 	<android>
-		<version>0.6.2</version>
-		<url>http://www.mit.edu/~sgilroy/CollaboRhythmUpdates/CollaboRhythm.Tablet.0.6.2.apk</url>
+		<version>0.7.0</version>
+		<url>https://indivo-apf.media.mit.edu/jmvc/CollaboRhythmUpdates/CollaboRhythm.Tablet.Release.apk</url>
 	    <description>
     	    <![CDATA[
         	* Added integrated update capability
@@ -28,7 +28,7 @@
 	</android>
 	<exe>
 		<version>999</version>
-		<url>http://www.mit.edu/~sgilroy/CollaboRhythmUpdates/CollaboRhythm.Tablet.0.4.4.apk</url>
+		<url>https://indivo-apf.media.mit.edu/jmvc/CollaboRhythmUpdates/CollaboRhythm.Tablet.Release.apk</url>
 		<description>
 			<![CDATA[
 			* You cannot run the updater when running CollaboRhythm.Tablet in the debugger
