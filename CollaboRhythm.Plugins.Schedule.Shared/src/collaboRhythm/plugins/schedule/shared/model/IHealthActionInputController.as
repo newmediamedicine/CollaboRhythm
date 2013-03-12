@@ -55,5 +55,11 @@ package collaboRhythm.plugins.schedule.shared.model
 		function get isReview():Boolean;
 
 		function destroy():void;
+
+		/**
+		 * Clears any measurements or other data related to the health action. Called when a previous health action
+		 * is voided or deleted.
+		 */
+		function clearInputData():void;
 	}
 }

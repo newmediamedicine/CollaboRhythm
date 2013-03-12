@@ -723,5 +723,14 @@ package collaboRhythm.plugins.foraD40b.controller
 
 			_dataInputModelCollection.quitAbnormalBloodPressureActionPlan(_synchronizationService.initiatedLocally);
 		}
+
+		override public function clearInputData():void
+		{
+			super.clearInputData();
+			if (_dataInputModelCollection)
+			{
+				_dataInputModelCollection.clearMeasurements();
+			}
+		}
 	}
 }
