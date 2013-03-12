@@ -455,6 +455,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function startWaitTimer():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("startWaitTimer"))
 			{
 				return;
@@ -465,6 +466,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function updateManualBloodGlucose(text:String = ""):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService && _synchronizationService.synchronize("updateManualBloodGlucose", text))
 			{
 				return;
@@ -475,6 +477,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function updateDateMeasuredStart(selectedDate:Date):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService && _synchronizationService.synchronize("updateDateMeasuredStart", selectedDate))
 			{
 				return;
@@ -485,6 +488,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function quitHypoglycemiaActionPlan():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("quitHypoglycemiaActionPlan"))
 			{
 				return;
@@ -495,6 +499,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function addEatCarbsHealthAction(description:String):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("addEatCarbsHealthAction", description))
 			{
 				return;
@@ -505,6 +510,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSignDate:Date):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("showHypoglycemiaActionPlanSummaryView", bloodGlucoseVitalSignDate))
 			{
 				return;
@@ -516,6 +522,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function addWaitHealthAction(seconds:int):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("addWaitHealthAction", seconds))
 			{
 				return;
@@ -526,6 +533,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function setBloodGlucoseHistoryListScrollPosition(scrollPosition:Number = 0):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("setBloodGlucoseHistoryListScrollPosition", scrollPosition, false))
 			{
 				return;
@@ -536,6 +544,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function simpleCarbsItemList_changeHandler(selectedIndex:int):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("simpleCarbsItemList_changeHandler", selectedIndex, false))
 			{
 				return;
@@ -546,6 +555,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function complexCarbs15gItemList_changeHandler(selectedIndex:int):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("complexCarbs15gItemList_changeHandler", selectedIndex, false))
 			{
 				return;
@@ -556,6 +566,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function complexCarbs30gItemList_changeHandler(selectedIndex:int):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("complexCarbs30gItemList_changeHandler", selectedIndex, false))
 			{
 				return;
@@ -566,6 +577,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function synchronizeActionsListScrollPosition(verticalScrollPosition:Number = 0):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("synchronizeActionsListScrollPosition", verticalScrollPosition,
 					false))
 			{
@@ -613,6 +625,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function showBloodGlucoseHistoryView():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("showBloodGlucoseHistoryView"))
 			{
 				return;
@@ -660,6 +673,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function setReportBloodGlucoseListScrollPosition(value:Number):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("setReportBloodGlucoseListScrollPosition",
 					value, false))
 			{
@@ -690,6 +704,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function abnormalBloodPressureSymptomsHandler(symptomsPresent:Boolean):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("abnormalBloodPressureSymptomsHandler", symptomsPresent))
 			{
 				return;
@@ -700,6 +715,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function quitAbnormalBloodPressureActionPlan():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("quitAbnormalBloodPressureActionPlan"))
 			{
 				return;
