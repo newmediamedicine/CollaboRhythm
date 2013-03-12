@@ -1,6 +1,6 @@
 package collaboRhythm.shared.model.medications
 {
-	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
@@ -13,13 +13,15 @@ package collaboRhythm.shared.model.medications
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
-	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.ActionStepResult;
 	import collaboRhythm.shared.model.healthRecord.document.healthActionResult.Occurrence;
 	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 
+	import com.dougmccune.controls.LimitedLinearAxis;
+
+	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;
 
 	import mx.binding.utils.BindingUtils;
@@ -48,9 +50,11 @@ package collaboRhythm.shared.model.medications
 		protected static const AGREE_STOP_CONDITION_NAME:String = "Agree";
 		protected static const NEW_STOP_CONDITION_NAME:String = "New";
 
-		private static const AGREE:String = "Agree";
-		private static const NEW:String = "New";
-		private static const NONE:String = "None";
+		protected static const AGREE:String = "Agree";
+		protected static const NEW:String = "New";
+		protected static const NONE:String = "None";
+
+		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
 
 		private var _isInitialized:Boolean;
 		private var _areProtocolMeasurementRequirementsMet:Boolean = true;
@@ -81,41 +85,24 @@ package collaboRhythm.shared.model.medications
 		protected var _logger:ILogger;
 		private var _requiredDaysOfPerfectMedicationAdherence:int;
 
-		private static const CHOSE_A_NEW_DOSE_ACTION_STEP_RESULT_TEXT:String = "Chose a new dose";
-
 		private var _protocolMeasurementAverage:Number;
-
 		private var _verticalAxisMinimum:Number;
-
 		private var _verticalAxisMaximum:Number;
-
 		private var _goalZoneMinimum:Number;
-
 		private var _goalZoneMaximum:Number;
-
 		private var _goalZoneColor:uint;
-
 		private var _eligibleVitalSigns:Vector.<VitalSign>;
-
 		private var _isVerticalAxisMaximumExceeded:Boolean;
-
 		private var _isVerticalAxisMinimumExceeded:Boolean;
-
 		private var _protocolMeasurementAverageRangeLimited:Number;
-
 		protected var _chartVerticalAxis:LinearAxis;
-
 		private var _connectedChartVerticalAxisMaximum:Number;
-
 		private var _connectedChartVerticalAxisMinimum:Number;
-
 		protected var _numberOfDaysForEligibleVitalSigns:int;
-
 		protected var _requiredNumberVitalSigns:int;
-
 		protected var _protocolVitalSignCategory:String;
 		private var _protocolMeasurementsMustBeAfterTitration:Boolean = true;
-
+		private var _instructionsScrollPosition:Number;
 
 		public function TitrationDecisionModelBase()
 		{
@@ -136,10 +123,10 @@ package collaboRhythm.shared.model.medications
 		{
 			if (isInitialized)
 			{
-				var vitalSignsBloodGlucose:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(VitalSignsModel.BLOOD_GLUCOSE_CATEGORY);
-				if (vitalSignsBloodGlucose)
+				var vitalSignsDocuments:ArrayCollection = record.vitalSignsModel.getVitalSignsByCategory(_protocolVitalSignCategory);
+				if (vitalSignsDocuments)
 				{
-					vitalSignsBloodGlucose.addEventListener(CollectionEvent.COLLECTION_CHANGE,
+					vitalSignsDocuments.addEventListener(CollectionEvent.COLLECTION_CHANGE,
 														vitalSignsDocuments_collectionChangeEvent);
 				}
 			}
@@ -164,7 +151,7 @@ package collaboRhythm.shared.model.medications
 			if (isInitialized)
 			{
 				record.adherenceItemsModel.documents.addEventListener(CollectionEvent.COLLECTION_CHANGE,
-													adherenceItemsModelDocuments_collectionChangeEvent, false);
+													adherenceItemsModelDocuments_collectionChangeEvent, false, 0, true);
 			}
 			this.isInitialized = determineIsInitialized();
 		}
@@ -243,6 +230,13 @@ package collaboRhythm.shared.model.medications
 
 		protected function updateStep1State():void
 		{
+			updateStep1StateDescription();
+			step1State = areProtocolMeasurementRequirementsMet ? STEP_SATISFIED : STEP_STOP;
+			updateStep2State();
+		}
+
+		protected function updateStep1StateDescription():void
+		{
 
 		}
 
@@ -269,7 +263,19 @@ package collaboRhythm.shared.model.medications
 
 		protected function updateStep3State():void
 		{
+			step3State = step2State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
+			updateStep4State();
+		}
 
+		protected function updateStep4State():void
+		{
+			step4State = step3State == STEP_SATISFIED ? STEP_SATISFIED : STEP_PREVIOUS_STOP;
+			updateInstructions();
+		}
+
+		protected function updateInstructions():void
+		{
+			instructionsSteps = getSteps();
 		}
 
 		public function get isAdherencePerfect():Boolean
@@ -287,6 +293,13 @@ package collaboRhythm.shared.model.medications
 		}
 
 		protected function updateStep2State():void
+		{
+			updateStep2StateDescription();
+			step2State = step1State == STEP_SATISFIED ? (isAdherencePerfect ? STEP_SATISFIED : STEP_STOP) : STEP_PREVIOUS_STOP;
+			updateStep3State();
+		}
+
+		protected function updateStep2StateDescription():void
 		{
 
 		}
@@ -541,43 +554,6 @@ package collaboRhythm.shared.model.medications
 
 		public function getSteps():ArrayCollection
 		{
-			var patient:String = (_patientLatestDecisionResult ? (isDecisionResultAgreement(_patientLatestDecisionResult) ? AGREE : NEW) : NONE);
-			var clinician:String = (_clinicianLatestDecisionResult ? (isDecisionResultAgreement(_clinicianLatestDecisionResult) ? AGREE : NEW) : NONE);
-			var protocol:String = (algorithmPrerequisitesSatisfied ? "ConditionsMet" : (step2State ==
-					STEP_STOP ? "InsufficientAdherence" : "InsufficientBloodGlucose"));
-
-			if (patient == AGREE && clinician == AGREE)
-			{
-				if (_latestDecisionResult == _patientLatestDecisionResult)
-				{
-					clinician = NEW;
-				}
-				else
-				{
-					patient = NEW;
-				}
-			}
-			else if (patient == AGREE && clinician == NONE)
-			{
-				clinician = NEW;
-			}
-			else if (patient == NONE && clinician == AGREE)
-			{
-				patient = NEW;
-			}
-
-			for each (var state:TitrationDecisionSupportState in _states)
-			{
-				if (state.selectors.contains("mode" + (isPatient ? "Patient" : "Clinician")) &&
-						state.selectors.contains("decisionPatient" + patient) &&
-						state.selectors.contains("decisionClinician" + clinician) &&
-						state.selectors.contains("protocol" + protocol)
-						)
-				{
-					return state.steps;
-				}
-			}
-			// no match; return empty array collection
 			return new ArrayCollection();
 		}
 
@@ -1002,6 +978,117 @@ package collaboRhythm.shared.model.medications
 		public function set protocolMeasurementsMustBeAfterTitration(value:Boolean):void
 		{
 			_protocolMeasurementsMustBeAfterTitration = value;
+		}
+
+		public function get chartVerticalAxis():LinearAxis
+		{
+			return _chartVerticalAxis;
+		}
+
+		public function set chartVerticalAxis(value:LinearAxis):void
+		{
+			if (_chartVerticalAxis)
+				_chartVerticalAxis.removeEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT,
+						chartVerticalAxis_axisChangeHandler);
+
+			_chartVerticalAxis = value;
+			if (_chartVerticalAxis)
+			{
+				updateConnectedChartVerticalAxisLimits();
+				_chartVerticalAxis.addEventListener(LimitedLinearAxis.AXIS_CHANGE_EVENT,
+						chartVerticalAxis_axisChangeHandler, false, 0, true);
+			}
+		}
+
+		private function chartVerticalAxis_axisChangeHandler(event:Event):void
+		{
+			updateConnectedChartVerticalAxisLimits();
+		}
+
+		private function updateConnectedChartVerticalAxisLimits():void
+		{
+			connectedChartVerticalAxisMaximum = _chartVerticalAxis.maximum;
+			connectedChartVerticalAxisMinimum = _chartVerticalAxis.minimum;
+		}
+
+		public function get protocolMeasurementAverageLabel():String
+		{
+			return protocolMeasurementAverage.toFixed(0);
+		}
+
+		public function get instructionsScrollPosition():Number
+		{
+			return _instructionsScrollPosition;
+		}
+
+		public function set instructionsScrollPosition(value:Number):void
+		{
+			_instructionsScrollPosition = value;
+		}
+
+		public function getStepState(step:int):String
+		{
+			switch (step)
+			{
+				case 0:
+					return _step1State;
+				case 1:
+					return _step2State;
+				case 2:
+					return _step3State;
+				case 3:
+					return _step4State;
+				default:
+					throw new Error("Invalid step " + step);
+			}
+		}
+
+		public function getStepStateDescription(step:int):String
+		{
+			switch (step)
+			{
+				case 0:
+					return _step1StateDescription;
+				case 1:
+					return _step2StateDescription;
+				case 2:
+					return _step3StateDescription;
+				case 3:
+					return _step4StateDescription;
+				default:
+					throw new Error("Invalid step " + step);
+			}
+		}
+
+		protected function isFileStoreMatch(fileStore:ITitrationDecisionSupportStatesFileStore):Boolean
+		{
+			return false;
+		}
+
+		public function initializeStates():void
+		{
+			var array:Array = componentContainer.resolveAll(ITitrationDecisionSupportStatesFileStore);
+			if (array && array.length > 0)
+			{
+				for each (var fileStore:ITitrationDecisionSupportStatesFileStore in array)
+				{
+					if (isFileStoreMatch(fileStore))
+					{
+						_states = fileStore.titrationDecisionSupportStates;
+						break;
+					}
+				}
+			}
+		}
+
+		/**
+		 * Loads enough information to determine the state of each step, but does not load in
+		 * previous decisions/selections.
+		 */
+		public function evaluateForSteps():void
+		{
+			updateIsAdherencePerfect();
+			updateProtocolMeasurementAverage();
 		}
 	}
 }

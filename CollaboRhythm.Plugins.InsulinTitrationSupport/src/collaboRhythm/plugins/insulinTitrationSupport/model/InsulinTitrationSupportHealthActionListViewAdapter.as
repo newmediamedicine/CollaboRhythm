@@ -13,36 +13,21 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.medications.MedicationTitrationHelper;
-	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
+	import collaboRhythm.shared.model.medications.TitrationSupportHealthActionListViewAdapterBase;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
-	import mx.core.IVisualElement;
-	import mx.events.PropertyChangeEvent;
-
 	import spark.components.Button;
-	import spark.components.Group;
 	import spark.components.Image;
 	import spark.core.SpriteVisualElement;
-	import spark.filters.ColorMatrixFilter;
-	import spark.skins.spark.ImageSkin;
 
-	public class InsulinTitrationSupportHealthActionListViewAdapter implements IHealthActionListViewAdapter
+	public class InsulinTitrationSupportHealthActionListViewAdapter extends TitrationSupportHealthActionListViewAdapterBase implements IHealthActionListViewAdapter
 	{
-		[Embed("/assets/images/titrateLevemir.png")]
-		private var _titrateLevemirImageClass:Class;
-
-		[Embed("/assets/images/titrateLantus.png")]
-		private var _titrateLantusImageClass:Class;
-
 		private var _healthAction:InsulinTitrationSupportHealthAction;
 		private var _model:InsulinTitrationSupportHealthActionListViewModel;
-		private var _controller:HealthActionListViewControllerBase;
 		private var _dosageChangeValueLabel:String;
 
 		private var _medicationScheduleDetails:ScheduleDetails;
-		private var _decisionModel:InsulinTitrationDecisionModelBase;
-		private var _greyScaleFilter:ColorMatrixFilter = new ColorMatrixFilter([0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0]);
 
 		public function InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence:ScheduleItemOccurrence,
 																		   healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
@@ -57,8 +42,22 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			_dosageChangeValueLabel = medicationTitrationHelper.dosageChangeValueLabel;
 
 			_decisionModel = new InsulinTitrationDecisionHealthActionModel(scheduleItemOccurrence, healthActionModelDetailsProvider);
-			_decisionModel.updateAreVitalSignRequirementsMet();
-			_decisionModel.updateIsAdherencePerfect();
+			_decisionModel.evaluateForSteps();
+		}
+
+		override protected function createConditionsMetIcon():SpriteVisualElement
+		{
+			return new InsulinTitrationHealthActionConditionsMet();
+		}
+
+		override protected function createInsufficientAdherenceIcon():SpriteVisualElement
+		{
+			return new InsulinTitrationHealthActionInsufficientAdherence();
+		}
+
+		override protected function createInsufficientMeasurementIcon():SpriteVisualElement
+		{
+			return new InsulinTitrationHealthActionInsufficientBloodGlucose();
 		}
 
 		public function get healthAction():HealthActionBase
@@ -68,96 +67,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 
 		public function createImage():Image
 		{
-			var image:Image = new Image();
-			image.setStyle("skinClass", ImageSkin);
-
-			if (_medicationScheduleDetails.currentSchedule && _medicationScheduleDetails.currentSchedule.name && _medicationScheduleDetails.currentSchedule.name.value == InsulinTitrationSupportChartModifier.INSULIN_LANTUS_CODE)
-			{
-				image.source = _titrateLantusImageClass;
-			}
-			else
-			{
-				image.source = _titrateLevemirImageClass;
-			}
-			image.smooth = true;
-			updateImageForPrerequisites(image);
-			_decisionModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, function (event:PropertyChangeEvent):void
-					{
-						if (event.property == "algorithmPrerequisitesSatisfied")
-						{
-							updateImageForPrerequisites(image);
-						}
-					}, false, 0, true);
-			return image;
-		}
-
-		private function updateImageForPrerequisites(image:Image):void
-		{
-			if (_decisionModel && !_decisionModel.algorithmPrerequisitesSatisfied)
-			{
-				image.alpha = 0.3;
-				image.filters = [_greyScaleFilter];
-			}
-			else
-			{
-				image.alpha = 1;
-				image.filters = [];
-			}
-		}
-
-		public function createCustomView():IVisualElement
-		{
-			var group:Group = new Group();
-			group.percentWidth = 100;
-			group.percentHeight = 100;
-
-			var insufficientBloodGlucoseIcon:InsulinTitrationHealthActionInsufficientBloodGlucose = new InsulinTitrationHealthActionInsufficientBloodGlucose();
-			initializeIcon(insufficientBloodGlucoseIcon, group);
-			var insufficientAdherenceIcon:InsulinTitrationHealthActionInsufficientAdherence = new InsulinTitrationHealthActionInsufficientAdherence();
-			initializeIcon(insufficientAdherenceIcon, group);
-			var conditionsMetIcon:InsulinTitrationHealthActionConditionsMet = new InsulinTitrationHealthActionConditionsMet();
-			initializeIcon(conditionsMetIcon, group);
-
-			updateIconsForPrerequisites(insufficientBloodGlucoseIcon, insufficientAdherenceIcon, conditionsMetIcon);
-			_decisionModel.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, function (event:PropertyChangeEvent):void
-					{
-						if (event.property == "algorithmPrerequisitesSatisfied" || event.property == "step2State")
-						{
-							updateIconsForPrerequisites(insufficientBloodGlucoseIcon, insufficientAdherenceIcon, conditionsMetIcon);
-						}
-					}, false, 0, true);
-
-			return group;
-		}
-
-		private function updateIconsForPrerequisites(insufficientBloodGlucoseIcon:InsulinTitrationHealthActionInsufficientBloodGlucose,
-													 insufficientAdherenceIcon:InsulinTitrationHealthActionInsufficientAdherence,
-													 conditionsMetIcon:InsulinTitrationHealthActionConditionsMet):void
-		{
-			insufficientBloodGlucoseIcon.visible = false;
-			insufficientAdherenceIcon.visible = false;
-			conditionsMetIcon.visible = false;
-			if (_decisionModel)
-			{
-				if (_decisionModel.algorithmPrerequisitesSatisfied)
-				{
-					conditionsMetIcon.visible = true;
-				}
-				else if (_decisionModel.step2State == TitrationDecisionModelBase.STEP_STOP)
-				{
-					insufficientAdherenceIcon.visible = true;
-				}
-				else
-				{
-					insufficientBloodGlucoseIcon.visible = true;
-				}
-			}
-		}
-
-		private function initializeIcon(icon:SpriteVisualElement, group:Group):void
-		{
-			icon.percentWidth = icon.percentHeight = 100;
-			group.addElement(icon);
+			return null;
 		}
 
 		public function get name():String

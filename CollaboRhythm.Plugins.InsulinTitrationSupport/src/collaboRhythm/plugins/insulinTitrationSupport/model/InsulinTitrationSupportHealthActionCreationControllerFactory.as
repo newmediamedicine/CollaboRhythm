@@ -1,5 +1,6 @@
 package collaboRhythm.plugins.insulinTitrationSupport.model
 {
+	import collaboRhythm.plugins.insulinTitrationSupport.controller.InsulinTitrationSupportHealthActionCreationController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationControllerFactory;
 	import collaboRhythm.shared.model.Account;

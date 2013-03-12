@@ -29,9 +29,15 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 															   currentHealthActionListViewAdapter:IHealthActionListViewAdapter):IHealthActionListViewAdapter
 		{
 			var healthActionSchedule:HealthActionSchedule = scheduleItemOccurrence.scheduleItem as HealthActionSchedule;
-			if (healthActionSchedule && healthActionSchedule.scheduledHealthAction is HealthActionPlan && healthActionModelDetailsProvider.record)
-				return new InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
-
+			if (healthActionSchedule && healthActionSchedule.scheduledHealthAction is HealthActionPlan
+					&& healthActionModelDetailsProvider.record)
+			{
+				var healthActionPlan:HealthActionPlan = (healthActionSchedule.scheduledHealthAction as HealthActionPlan);
+				if (healthActionPlan.name.text == TitratingInsulinHealthActionListViewAdapter.INSULIN_TITRATION_DECISION_HEALTH_ACTION_SCHEDULE_NAME)
+				{
+					return new InsulinTitrationSupportHealthActionListViewAdapter(scheduleItemOccurrence, healthActionModelDetailsProvider);
+				}
+			}
 
 			var medicationScheduleItem:MedicationScheduleItem = scheduleItemOccurrence.scheduleItem as MedicationScheduleItem;
 			if (medicationScheduleItem)

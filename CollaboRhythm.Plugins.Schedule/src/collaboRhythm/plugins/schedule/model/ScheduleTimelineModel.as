@@ -265,6 +265,16 @@ package collaboRhythm.plugins.schedule.model
 				// because we needed to remove it before modifying the collection of occurrences in the group to avoid
 				// changing the group's id.
 			}
+
+			for each (var scheduleGroup:ScheduleGroup in _scheduleModel.scheduleGroupsCollection)
+			{
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleGroup.scheduleItemsOccurrencesCollection)
+				{
+					scheduleItemOccurrence.dateStart = scheduleGroup.dateStart;
+					scheduleItemOccurrence.dateEnd = scheduleGroup.dateEnd;
+				}
+			}
+
 			stackingUpdated = true;
 		}
 

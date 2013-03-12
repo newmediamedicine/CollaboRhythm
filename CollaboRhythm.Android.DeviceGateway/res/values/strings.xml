@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">This app runs in the background to handle connections with the FORA D40b</string>
-    <string name="app_name">CollaboRhythm Android Device Gateway</string>
+    <string name="hello">This app runs in the background to handle connections with the FORA D40b.</string>
+    <string name="app_name">CollaboRhythm Android Device Gateway (Version 1.3.6)</string>
 </resources>

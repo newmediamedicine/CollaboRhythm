@@ -4,6 +4,8 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 
+	import com.theory9.data.types.OrderedMap;
+
 	import mx.collections.ArrayCollection;
 
 	import spark.components.Group;
@@ -69,7 +71,11 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 
 		public function destroy():void
 		{
+		}
 
+		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
+		{
+			return chartDescriptors;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.insulinTitrationSupport.model
+package collaboRhythm.shared.model.medications
 {
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.shared.model.services.DateUtil;
@@ -11,10 +11,13 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 	public class DecisionScheduleItemOccurrenceFinder
 	{
 		private var _healthActionModelDetailsProvider:IHealthActionModelDetailsProvider;
+		private var _scheduleItemName:String;
 
-		public function DecisionScheduleItemOccurrenceFinder(healthActionModelDetailsProvider:IHealthActionModelDetailsProvider)
+		public function DecisionScheduleItemOccurrenceFinder(healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
+															 scheduleItemName:String)
 		{
 			_healthActionModelDetailsProvider = healthActionModelDetailsProvider;
+			_scheduleItemName = scheduleItemName;
 		}
 
 		public function getDecisionScheduleItemOccurrence():ScheduleItemOccurrence
@@ -25,7 +28,7 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var endOfToday:Number = DateUtil.roundTimeToNextDay(now).valueOf();
 			for each (var scheduleItem:ScheduleItemBase in scheduleItemCollection)
 			{
-				if (scheduleItemMatches(scheduleItem, TitratingInsulinHealthActionListViewAdapter.INSULIN_TITRATION_DECISION_HEALTH_ACTION_SCHEDULE_NAME))
+				if (scheduleItemMatches(scheduleItem, _scheduleItemName))
 				{
 					var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> =
 							scheduleItem.getScheduleItemOccurrences(new Date(endOfToday -

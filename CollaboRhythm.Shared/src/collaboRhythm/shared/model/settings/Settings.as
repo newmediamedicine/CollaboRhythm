@@ -52,7 +52,7 @@ package collaboRhythm.shared.model.settings
 		private var _demoModeEnabled:Boolean;
 		private var _adherenceVoidingEnabled:Boolean;
 		private var _includeAdherenceVoidingMenuItem:Boolean;
-		private var _scheduleEditingEnabled:Boolean
+		private var _scheduleEditingEnabled:Boolean;
 		private var _targetDate:Date;
 		private var _modality:String;
 		private var _demoDatePresets:ArrayCollection;

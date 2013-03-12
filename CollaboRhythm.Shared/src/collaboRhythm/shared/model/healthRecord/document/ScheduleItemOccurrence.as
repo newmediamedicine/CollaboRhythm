@@ -60,9 +60,11 @@ package collaboRhythm.shared.model.healthRecord.document
 						persist);
 				record.addDocument(adherenceResult, persist);
 			}
-			record.addDocument(newAdherenceItem, persist);
 
 			adherenceItem = newAdherenceItem;
+
+			// add toe document to the record last so that when the collection change event is dispatched, everything else will be complete
+			record.addDocument(newAdherenceItem, persist);
 		}
 
 		public function createHealthActionOccurrence(results:Vector.<DocumentBase>,

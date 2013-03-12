@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.insulinTitrationSupport.controller
 {
-	import collaboRhythm.plugins.insulinTitrationSupport.model.DecisionScheduleItemOccurrenceFinder;
+	import collaboRhythm.plugins.insulinTitrationSupport.model.TitratingInsulinHealthActionListViewAdapter;
+	import collaboRhythm.shared.model.medications.DecisionScheduleItemOccurrenceFinder;
 	import collaboRhythm.plugins.insulinTitrationSupport.model.InsulinTitrationSupportHealthActionInputModel;
 	import collaboRhythm.plugins.insulinTitrationSupport.view.InsulinTitrationSupportHealthActionInputView;
 	import collaboRhythm.plugins.schedule.shared.controller.HealthActionInputControllerBase;
@@ -51,7 +52,8 @@ package collaboRhythm.plugins.insulinTitrationSupport.controller
 
 		private function getDecisionScheduleItemOccurrence():ScheduleItemOccurrence
 		{
-			var finder:DecisionScheduleItemOccurrenceFinder = new DecisionScheduleItemOccurrenceFinder(_healthActionModelDetailsProvider);
+			var finder:DecisionScheduleItemOccurrenceFinder = new DecisionScheduleItemOccurrenceFinder(_healthActionModelDetailsProvider,
+					TitratingInsulinHealthActionListViewAdapter.INSULIN_TITRATION_DECISION_HEALTH_ACTION_SCHEDULE_NAME);
 			return finder.getDecisionScheduleItemOccurrence();
 		}
 

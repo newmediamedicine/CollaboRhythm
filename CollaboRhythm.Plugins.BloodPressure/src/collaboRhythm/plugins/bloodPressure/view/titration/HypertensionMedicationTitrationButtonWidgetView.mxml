@@ -23,7 +23,7 @@
 		@namespace s "library://ns.adobe.com/flex/spark";
 	</fx:Style>
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.bloodPressure.controller.HypertensionMedicationTitrationAppController;
+		import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationAppController;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 
 		private var _controller:HypertensionMedicationTitrationAppController;

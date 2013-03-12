@@ -28,6 +28,15 @@ package collaboRhythm.core.model.tests.healthRecord.service
 		{
 			return [
 				[
+					"Equipment",
+					"http://indivo.org/vocab/xml/documents#Equipment",
+					<Equipment xmlns="http://indivo.org/vocab/xml/documents#">
+						<dateStarted>2009-12-15</dateStarted>
+						<type>blood pressure monitor</type>
+						<name xmlns="">FORA D40b</name>
+					</Equipment>
+				],
+				[
 					"AdherenceItem simple",
 					"http://indivo.org/vocab/xml/documents#AdherenceItem",
 					<AdherenceItem xmlns="http://indivo.org/vocab/xml/documents#">

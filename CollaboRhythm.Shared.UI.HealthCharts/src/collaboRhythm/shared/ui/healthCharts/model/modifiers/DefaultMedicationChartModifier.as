@@ -155,10 +155,5 @@ package collaboRhythm.shared.ui.healthCharts.model.modifiers
 				}
 			}
 		}
-
-		public function updateChartDescriptors(chartDescriptors:OrderedMap):OrderedMap
-		{
-			return chartDescriptors;
-		}
 	}
 }

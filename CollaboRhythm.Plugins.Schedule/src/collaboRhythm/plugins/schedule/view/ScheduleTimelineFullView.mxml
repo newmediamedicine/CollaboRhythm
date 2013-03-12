@@ -200,6 +200,15 @@
 					destroyScheduleGroupView(scheduleGroupRemoved);
 				}
 			}
+			else if (event.kind == CollectionEventKind.RESET)
+			{
+				var numScheduleGroupTimelineViews:int = _scheduleGroupTimelineViews.length - 1;
+				for (var scheduleGroupTimelineViewIndex:int = numScheduleGroupTimelineViews; scheduleGroupTimelineViewIndex >= 0; scheduleGroupTimelineViewIndex--)
+				{
+					var scheduleGroupTimelineView:ScheduleGroupTimelineView = _scheduleGroupTimelineViews[scheduleGroupTimelineViewIndex];
+					destroyScheduleGroupView(scheduleGroupTimelineView.scheduleGroup);
+				}
+			}
 		}
 
 		public function createScheduleGroupView(scheduleGroup:ScheduleGroup):ScheduleGroupTimelineView

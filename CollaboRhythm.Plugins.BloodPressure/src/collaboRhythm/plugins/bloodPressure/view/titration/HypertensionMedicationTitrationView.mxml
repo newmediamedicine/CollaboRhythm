@@ -21,7 +21,7 @@
 					   xmlns:titration="collaboRhythm.plugins.bloodPressure.view.titration.*"
 					   title="Medication Adjustment Plan (MAP)">
 	<fx:Script><![CDATA[
-		import collaboRhythm.plugins.bloodPressure.controller.HypertensionMedicationTitrationAppController;
+		import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationAppController;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
 		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
@@ -56,7 +56,6 @@
 		{
 			_controller.reset();
 		}
-
 		]]></fx:Script>
 	<s:HGroup width="100%" height="100%">
 		<s:Scroller height="100%">

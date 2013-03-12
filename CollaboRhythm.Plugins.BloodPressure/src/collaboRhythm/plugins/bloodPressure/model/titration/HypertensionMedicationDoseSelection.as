@@ -22,20 +22,19 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private var _newDose:int;
 		private var _action:String;
 		private var _selectionType:String;
-		private var _selectionByAccount:Account;
+		private var _selectionByAccountId:String;
 		private var _persisted:Boolean;
 		private var _medication:HypertensionMedication;
 		private var _selectionDate:Date;
 
 		public function HypertensionMedicationDoseSelection(doseSelected:int, action:String, selectionType:String,
-															selectionByAccount:Account,
-															persisted:Boolean,
+															selectionByAccountId:String, persisted:Boolean,
 															medication:HypertensionMedication, selectionDate:Date)
 		{
 			_doseSelected = doseSelected;
 			_action = action;
 			_selectionType = selectionType;
-			_selectionByAccount = selectionByAccount;
+			_selectionByAccountId = selectionByAccountId;
 			_persisted = persisted;
 			_medication = medication;
 			_selectionDate = selectionDate;
@@ -99,14 +98,14 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		/**
 		 * The account that made the selection (if applicable)
 		 */
-		public function get selectionByAccount():Account
+		public function get selectionByAccountId():String
 		{
-			return _selectionByAccount;
+			return _selectionByAccountId;
 		}
 
-		public function set selectionByAccount(value:Account):void
+		public function set selectionByAccountId(value:String):void
 		{
-			_selectionByAccount = value;
+			_selectionByAccountId = value;
 		}
 
 		/**
@@ -205,13 +204,17 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		}
 
 		/**
-		 * Returns true if the otherSelection should be ordered before this selection.
+		 * Returns true if this selection should be ordered before the otherSelection.
 		 * @param otherSelection
 		 * @return
 		 */
 		public function isBefore(otherSelection:HypertensionMedicationDoseSelection):Boolean
 		{
 			if (selectionType == HypertensionMedicationDoseSelection.SYSTEM)
+			{
+				return true;
+			}
+			else if (otherSelection.selectionType == HypertensionMedicationDoseSelection.SYSTEM)
 			{
 				return false;
 			}

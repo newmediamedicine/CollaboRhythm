@@ -28,7 +28,6 @@
 		<s:Move id="stackEffect" target="{this}"/>
 		<s:Fade id="fadeOutEffect" target="{frame}" alphaFrom="{frame.alpha}" alphaTo="0"/>
 		<s:Fade id="fadeInEffect" target="{frame}" alphaFrom="{frame.alpha}" alphaTo="1"/>
-		<s:Fade id="fadeEffect" target="{this}" alphaFrom="{this.alpha}" alphaTo="0" duration="0.01"/>
 	</fx:Declarations>
 	<s:layout>
 		<controls:ChildIndependentLayout/>
@@ -264,9 +263,12 @@
 
 		private function resize():void
 		{
-			height = _scheduleItemTimelineViews.length *
-					(ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT +
-							SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) + SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH;
+			if (_scheduleItemTimelineViews)
+			{
+				height = _scheduleItemTimelineViews.length *
+						(ScheduleItemOccurrenceTimelineView.SCHEDULE_ITEM_TIMELINE_VIEW_HEIGHT +
+								SCHEDULE_GROUP_TIMELINE_VIEW_BUFFER_WIDTH) + SCHEDULE_GROUP_TIMELINE_VIEW_TOP_WIDTH;
+			}
 			updateYPosition();
 		}
 
@@ -536,7 +538,6 @@
 			stackEffect.end();
 			fadeInEffect.end();
 			fadeOutEffect.end();
-			fadeEffect.end();
 
 			_addedToStage = false;
 

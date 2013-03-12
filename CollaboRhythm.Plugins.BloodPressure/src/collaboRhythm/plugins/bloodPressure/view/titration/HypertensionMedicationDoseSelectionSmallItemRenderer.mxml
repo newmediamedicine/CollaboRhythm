@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:titration="collaboRhythm.plugins.bloodPressure.view.titration.*"
+				autoDrawBackground="false" width="30" height="30">
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationDoseSelection;
+		import collaboRhythm.shared.model.Account;
+		import collaboRhythm.shared.model.services.IImageCacheService;
+		import collaboRhythm.shared.model.services.WorkstationKernel;
+
+		private var _hypertensionMedicationDoseSelection:HypertensionMedicationDoseSelection;
+
+		override public function set data(value:Object):void
+		{
+			// start by hiding everything because this is an item renderer and may be recycled, leaving artifacts from previous data
+			imageGroup.visible =
+					doseIncreaseArrowSystem.visible =
+							doseDecreaseArrowSystem.visible =
+									doseIncreaseArrowPatient.visible =
+											doseDecreaseArrowPatient.visible =
+													doseIncreaseArrowCoach.visible =
+															doseDecreaseArrowCoach.visible = false;
+
+			_hypertensionMedicationDoseSelection = value as HypertensionMedicationDoseSelection;
+
+			if (_hypertensionMedicationDoseSelection)
+			{
+				if (_hypertensionMedicationDoseSelection.selectionType == HypertensionMedicationDoseSelection.SYSTEM)
+				{
+					if (_hypertensionMedicationDoseSelection.action == HypertensionMedicationDoseSelection.INCREASE)
+					{
+						doseIncreaseArrowSystem.visible = true;
+					}
+					else
+					{
+						doseDecreaseArrowSystem.visible = true;
+					}
+				}
+				else if (_hypertensionMedicationDoseSelection.selectionType ==
+						HypertensionMedicationDoseSelection.PATIENT)
+				{
+					showImage();
+					if (_hypertensionMedicationDoseSelection.action == HypertensionMedicationDoseSelection.INCREASE)
+					{
+						doseIncreaseArrowPatient.visible = true;
+					}
+					else
+					{
+						doseDecreaseArrowPatient.visible = true;
+					}
+				}
+				else if (_hypertensionMedicationDoseSelection.selectionType ==
+						HypertensionMedicationDoseSelection.COACH)
+				{
+					showImage();
+					if (_hypertensionMedicationDoseSelection.action == HypertensionMedicationDoseSelection.INCREASE)
+					{
+						doseIncreaseArrowCoach.visible = true;
+					}
+					else
+					{
+						doseDecreaseArrowCoach.visible = true;
+					}
+				}
+			}
+		}
+
+		private function showImage():void
+		{
+			var imageCacheService:IImageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as
+					IImageCacheService;
+
+			imageGroup.visible = true;
+
+			if (_hypertensionMedicationDoseSelection.selectionByAccountId)
+			{
+				// TODO: make this more robust; find the correct account
+				var account:Account = new Account();
+				account.accountId = _hypertensionMedicationDoseSelection.selectionByAccountId;
+				accountImage.source = imageCacheService.getImage(accountImage,
+						account.imageURI);
+			}
+		}
+		]]></fx:Script>
+	<titration:DoseIncreaseArrowSystem id="doseIncreaseArrowSystem" visible="false" horizontalCenter="0" width="30" height="30"/>
+	<titration:DoseDecreaseArrowSystem id="doseDecreaseArrowSystem" visible="false" horizontalCenter="0" width="30" height="30"/>
+	<s:Group id="imageGroup" width="25" height="25" left="0" bottom="0" visible="false">
+		<s:Image id='accountImage' width="100%" height="100%"/>
+		<s:Rect width="100%" height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000"/>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+	<titration:DoseIncreaseArrowPatient id="doseIncreaseArrowPatient" top="0" right="0" visible="false" width="10" height="10"/>
+	<titration:DoseDecreaseArrowPatient id="doseDecreaseArrowPatient" top="0" right="0" visible="false" width="10" height="10"/>
+	<titration:DoseIncreaseArrowCoach id="doseIncreaseArrowCoach" top="0" right="0" visible="false" width="10" height="10"/>
+	<titration:DoseDecreaseArrowCoach id="doseDecreaseArrowCoach" top="0" right="0" visible="false" width="10" height="10"/>
+</s:ItemRenderer>
+

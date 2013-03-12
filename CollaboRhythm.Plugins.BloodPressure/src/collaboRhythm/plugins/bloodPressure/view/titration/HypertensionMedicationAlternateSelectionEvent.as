@@ -4,7 +4,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 
 	import flash.events.Event;
 
-	public class HypertensionMedicationAlternatePairViewEvent extends Event
+	public class HypertensionMedicationAlternateSelectionEvent extends Event
 	{
 		public static const ALTERNATE_SELECTED:String = "HypertensionMedicationAlternateSelected";
 
@@ -12,7 +12,7 @@ package collaboRhythm.plugins.bloodPressure.view.titration
 		private var _altKey:Boolean;
 		private var _ctrlKey:Boolean;
 
-		public function HypertensionMedicationAlternatePairViewEvent(type:String,
+		public function HypertensionMedicationAlternateSelectionEvent(type:String,
 																	 hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
 																	 altKey:Boolean, ctrlKey:Boolean)
 		{

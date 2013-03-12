@@ -5,7 +5,7 @@ package collaboRhythm.plugins.bloodPressure.view
 		public function BloodPressureDiastolicPlotItemRenderer()
 		{
 			super();
-			deltaY = 8;
+			deltaY = 16;
 		}
 	}
 }

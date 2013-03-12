@@ -18,9 +18,20 @@ package collaboRhythm.plugins.bloodPressure.controller
 {
 	import castle.flexbridge.reflection.ReflectionUtils;
 
+	import collaboRhythm.plugins.bloodPressure.controller.titration.HypertensionMedicationTitrationAppController;
+
 	import collaboRhythm.plugins.bloodPressure.model.BloodPressureChartModifierFactory;
+	import collaboRhythm.plugins.bloodPressure.model.states.BloodPressureMedicationTitrationDecisionSupportStatesFileStore;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationSupportChartModifierFactory;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationSupportHealthActionCreationControllerFactory;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationSupportHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationSupportHealthActionListViewAdapterFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationControllerFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputControllerFactory;
+	import collaboRhythm.plugins.schedule.shared.model.IHealthActionListViewAdapterFactory;
 	import collaboRhythm.shared.controller.apps.AppControllerInfo;
 	import collaboRhythm.shared.controller.apps.AppOrderConstraint;
+	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.model.services.IComponentContainer;
 	import collaboRhythm.shared.pluginsSupport.IPlugin;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
@@ -59,6 +70,24 @@ package collaboRhythm.plugins.bloodPressure.controller
 			typeName = ReflectionUtils.getClassInfo(BloodPressureChartModifierFactory).name;
 			componentContainer.registerComponentInstance(typeName, IChartModifierFactory,
 					new BloodPressureChartModifierFactory());
+
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(HypertensionMedicationTitrationSupportHealthActionListViewAdapterFactory).name,
+					IHealthActionListViewAdapterFactory,
+					new HypertensionMedicationTitrationSupportHealthActionListViewAdapterFactory());
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(HypertensionMedicationTitrationSupportHealthActionInputControllerFactory).name,
+					IHealthActionInputControllerFactory,
+					new HypertensionMedicationTitrationSupportHealthActionInputControllerFactory());
+
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(HypertensionMedicationTitrationSupportChartModifierFactory).name,
+					IChartModifierFactory, new HypertensionMedicationTitrationSupportChartModifierFactory());
+
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(BloodPressureMedicationTitrationDecisionSupportStatesFileStore).name,
+					ITitrationDecisionSupportStatesFileStore,
+					new BloodPressureMedicationTitrationDecisionSupportStatesFileStore());
+
+			componentContainer.registerComponentInstance(ReflectionUtils.getClassInfo(HypertensionMedicationTitrationSupportHealthActionCreationControllerFactory).name,
+					IHealthActionCreationControllerFactory,
+					new HypertensionMedicationTitrationSupportHealthActionCreationControllerFactory());
 		}
 	}
 }

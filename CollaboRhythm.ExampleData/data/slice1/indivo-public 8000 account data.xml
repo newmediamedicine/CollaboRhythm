@@ -154,6 +154,7 @@
     <recordSeed/>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -231,6 +232,7 @@
     <recordSeed/>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -308,6 +310,7 @@
     <recordSeed/>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -385,6 +388,7 @@
     <recordSeed/>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -462,6 +466,7 @@
     <recordSeed/>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -539,6 +544,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -616,6 +622,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -695,6 +702,7 @@
     <shareAccountId>jking@records.media.mit.edu</shareAccountId>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -776,6 +784,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -855,6 +864,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -936,6 +946,7 @@
     <documentsDirectory>invalid-document</documentsDirectory>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1015,6 +1026,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1092,6 +1104,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1171,6 +1184,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1242,6 +1256,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1315,6 +1330,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1390,6 +1406,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1471,6 +1488,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1548,6 +1566,7 @@
     <notes>Demo for diabetes with titration</notes>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1623,6 +1642,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1702,6 +1722,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1783,6 +1804,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -1845,15 +1867,15 @@
     
     <organDonar>true</organDonar>
     
-    <recordId/>
+    <recordId>dd39853c-1a8e-47ef-9ed6-56e17b8173ef</recordId>
     
-    <accessKey/>
+    <accessKey>TMgiL9gfFnIT2PIV2l7Y</accessKey>
     
-    <accessSecret/>
+    <accessSecret>Yk1K4ffp1Du6BBvsb7mM</accessSecret>
     
-    <status/>
+    <status>Record shared.</status>
     
-    <demographicsId>84f096b3-88e3-4999-8843-1f7d5ec9452c</demographicsId>
+    <demographicsId>4c35608e-fdfb-45e0-b006-1a5f651c069b</demographicsId>
     
     <recordSeed/>
     
@@ -1937,6 +1959,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2016,6 +2039,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2091,6 +2115,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2168,6 +2193,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2249,6 +2275,7 @@
     <shareRole>Patient</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2328,6 +2355,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2407,6 +2435,7 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2486,6 +2515,7 @@
     <documentsDirectory>jking</documentsDirectory>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2569,6 +2599,7 @@
     <notes>Endometrioisis HIV demo patient</notes>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2652,6 +2683,7 @@
     <documentsDirectory>csantos</documentsDirectory>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2731,6 +2763,7 @@
     <documentsDirectory>jking</documentsDirectory>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2814,6 +2847,7 @@
     <notes>GSK HIV demo patient</notes>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2897,6 +2931,7 @@
     <notes>Demo patient for CollaboRhythm video Nov 2012</notes>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -2974,6 +3009,7 @@
     <recordSeed/>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -3053,6 +3089,7 @@
     <documentsDirectory>jking</documentsDirectory>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -3136,6 +3173,7 @@
     <notes>Test1 HIV demo patient</notes>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -3219,6 +3257,7 @@
     <documentsDirectory>csantos</documentsDirectory>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -3302,6 +3341,7 @@
     <documentsDirectory/>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -3385,6 +3425,7 @@
     <documentsDirectory>test1-mbrooks</documentsDirectory>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -3468,6 +3509,7 @@
     <documentsDirectory>csantos</documentsDirectory>
     
     <mode>patient</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -3545,6 +3587,7 @@
     <recordSeed/>
     
     <mode>clinician</mode>
+    
   </AccountSource>
   
   <AccountSource>
@@ -3790,5 +3833,414 @@
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
+    
+  </AccountSource>
+  
+  <AccountSource>
+    
+    <accountId>shared-csantos2@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>shared-csantos2</username>
+    
+    <password>shared-csantos</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>3023ce5f-bf30-4339-9423-1dc85719c63e</recordId>
+    
+    <accessKey>sDzL5S1KifMPTdAxcXpg</accessKey>
+    
+    <accessSecret>b4Jgs3UgZE5v6HX3K5bf</accessSecret>
+    
+    <status>Created 336/336 documents, 330/331 relationships</status>
+    
+    <demographicsId>af233304-b30c-49c9-bd73-cba4ba6a37ee</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>Shared hypertension account</notes>
+    
+    <shareAccountId>shared-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>csantos</documentsDirectory>
+    
+    <mode>patient</mode>
+    
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>shared-cjames@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Carlos Santos</fullName>
+    
+    <username>shared-cjames</username>
+    
+    <password>shared-cjames</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>James</familyName>
+    
+    <streetAddress>30 Green St</streetAddress>
+    
+    <postalCode>94101</postalCode>
+    
+    <locality>San Francisco</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>csantos@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>csantos@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1955-04-17T00:00:00Z</dateOfBirth>
+    
+    <age>54</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Latino</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Banking</employmentIndustry>
+    
+    <occupation>Branch Manager</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>dadc0f14-c7c0-43dc-b90c-304bfa23db6c</recordId>
+    
+    <accessKey>3UlMrg2A39PF4C3kLdRC</accessKey>
+    
+    <accessSecret>sUGiPJsHPL1ZAc3I2rS7</accessSecret>
+    
+    <status>Login successful</status>
+    
+    <demographicsId>5580186f-bea4-4c68-92c8-8f5dffad12e7</demographicsId>
+    
+    <recordSeed>53</recordSeed>
+    
+    <notes>Shared hypertension account</notes>
+    
+    <shareAccountId>shared-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <documentsDirectory>cjames</documentsDirectory>
+    
+    <mode>patient</mode>
+    
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>demo-csantos@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks</fullName>
+    
+    <username>demo-csantos</username>
+    
+    <password>demo-csantos</password>
+    
+    <givenName>Carlos</givenName>
+    
+    <familyName>Santos</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>05087333-c485-4f74-b9b4-7bdccdfc72d5</recordId>
+    
+    <accessKey>E853cZApwD3avi2kr2Hp</accessKey>
+    
+    <accessSecret>gO0RXB36oVADssoTUROe</accessSecret>
+    
+    <status>Record shared.</status>
+    
+    <demographicsId>3a923aa6-a5bb-4261-80b5-ea553fb0fecf</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>APF patient</notes>
+    
+    <shareAccountId>demo-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <mode>patient</mode>
+    
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>demo-jking@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>James King</fullName>
+    
+    <username>demo-jking</username>
+    
+    <password>demo-jking</password>
+    
+    <givenName>James</givenName>
+    
+    <familyName>King</familyName>
+    
+    <streetAddress>1066 Spinel Rd</streetAddress>
+    
+    <postalCode>2142</postalCode>
+    
+    <locality>Cambridge</locality>
+    
+    <region>Massachusetts</region>
+    
+    <country>US</country>
+    
+    <timeZone>-5GMT</timeZone>
+    
+    <emailPersonal>jking@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>jking@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1957-03-29T00:00:00Z</dateOfBirth>
+    
+    <age>53</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>White</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Medical</employmentIndustry>
+    
+    <occupation>Doctor</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>1fee7564-be3a-42bd-92da-aedbc917a942</recordId>
+    
+    <status>Demographics document created. Id: 57647a0a-2df6-4c62-8fb8-7cb7a6907340</status>
+    
+    <accessKey>bAdllydJ2I0EHw0659bE</accessKey>
+    
+    <accessSecret>sPoheyQkN7PoGScn9FjX</accessSecret>
+    
+    <demographicsId>57647a0a-2df6-4c62-8fb8-7cb7a6907340</demographicsId>
+    
+    <notes>APF physician</notes>
+    
+    <recordSeed/>
+    
+    <documentsDirectory/>
+    
+    <mode>clinician</mode>
+    
+  </AccountSource>
+  <AccountSource>
+    
+    <accountId>demo-jmoore@records.media.mit.edu</accountId>
+    
+    <contactEmail>sgilroy@mit.edu</contactEmail>
+    
+    <fullName>Michael Brooks</fullName>
+    
+    <username>demo-jmoore</username>
+    
+    <password>demo-jmoore</password>
+    
+    <givenName>John</givenName>
+    
+    <familyName>Moore</familyName>
+    
+    <streetAddress>22 Green Street</streetAddress>
+    
+    <postalCode>92101</postalCode>
+    
+    <locality>San Diego</locality>
+    
+    <region>California</region>
+    
+    <country>US</country>
+    
+    <timeZone>-8GMT</timeZone>
+    
+    <emailPersonal>mbrooks@records.media.mit.edu</emailPersonal>
+    
+    <phoneNumberHome>1-555-555-6548</phoneNumberHome>
+    
+    <phoneNumberWork>1-555-555-8654</phoneNumberWork>
+    
+    <instantMessengerName>mbrooks@records.media.mit.edu</instantMessengerName>
+    
+    <dateOfBirth>1963-12-03T00:00:00Z</dateOfBirth>
+    
+    <age>46</age>
+    
+    <gender>Male</gender>
+    
+    <ethnicity>Black</ethnicity>
+    
+    <language>English</language>
+    
+    <maritalStatus>Married</maritalStatus>
+    
+    <employmentStatus>Employed</employmentStatus>
+    
+    <employmentIndustry>Law</employmentIndustry>
+    
+    <occupation>Lawyer</occupation>
+    
+    <religion>Protestant</religion>
+    
+    <highestEducation>University</highestEducation>
+    
+    <organDonar>true</organDonar>
+    
+    <recordId>80239ba8-6ae7-4588-b3d8-fa04e84a04e4</recordId>
+    
+    <accessKey>wqywhbPIyall9BSA8R0s</accessKey>
+    
+    <accessSecret>QtlUuZLFaCcrwltNlCLU</accessSecret>
+    
+    <status>Record shared.</status>
+    
+    <demographicsId>359ca31b-525c-4eff-a34b-fe24fd09a127</demographicsId>
+    
+    <recordSeed/>
+    
+    <notes>APF patient</notes>
+    
+    <shareAccountId>demo-jking@records.media.mit.edu</shareAccountId>
+    
+    <shareRole>Coach</shareRole>
+    
+    <mode>patient</mode>
+    
   </AccountSource>
 </dataroot>

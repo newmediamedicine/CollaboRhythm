@@ -12,6 +12,7 @@ package collaboRhythm.core.model.tests.healthRecord.service
 	import mx.collections.ArrayCollection;
 
 	import org.flexunit.asserts.assertEquals;
+	import org.hamcrest.date.dateAfter;
 
 	public class MarshallHealthActionResultTest
 	{
@@ -56,7 +57,10 @@ package collaboRhythm.core.model.tests.healthRecord.service
 			document.name = new CollaboRhythmCodedValue(null, null, null, "Insulin Titration Decision");
 			document.planType = "Prescribed";
 			document.reportedBy = "mbrooks@records.media.mit.edu";
-			document.dateReported = new Date(2011, 8 - 1, 15, 13, 42, 5);
+			var date:Date = new Date();
+			date.setUTCFullYear(2011, 8 - 1, 15);
+			date.setUTCHours(17, 42, 5, 0);
+			document.dateReported = date;
 			var actionStepResult:ActionStepResult = new ActionStepResult();
 			actionStepResult.name = new CollaboRhythmCodedValue(null, null, null, "Chose a new dose");
 			document.actions = new ArrayCollection([actionStepResult]);

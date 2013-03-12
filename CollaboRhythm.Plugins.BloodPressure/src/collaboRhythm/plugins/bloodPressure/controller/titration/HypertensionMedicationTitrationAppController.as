@@ -1,8 +1,7 @@
-package collaboRhythm.plugins.bloodPressure.controller
+package collaboRhythm.plugins.bloodPressure.controller.titration
 {
 	import collaboRhythm.plugins.bloodPressure.model.ConfirmChangePopUpModel;
-	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedication;
-	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationAlternatePair;
+	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationActionSynchronizationDetails;
 	import collaboRhythm.plugins.bloodPressure.model.titration.HypertensionMedicationTitrationModel;
 	import collaboRhythm.plugins.bloodPressure.model.titration.PersistableHypertensionMedicationTitrationModel;
 	import collaboRhythm.plugins.bloodPressure.view.titration.ConfirmChangePopUp;
@@ -16,13 +15,12 @@ package collaboRhythm.plugins.bloodPressure.controller
 	import flash.accessibility.AccessibilityProperties;
 
 	import mx.controls.Alert;
-
 	import mx.core.UIComponent;
 	import mx.managers.PopUpManager;
 
 	import spark.events.PopUpEvent;
 
-	public class HypertensionMedicationTitrationAppController extends AppControllerBase
+	public class HypertensionMedicationTitrationAppController extends AppControllerBase implements ITitrationMapController
 	{
 		public static const DEFAULT_NAME:String = "HypertensionMedicationTitration";
 
@@ -59,7 +57,8 @@ package collaboRhythm.plugins.bloodPressure.controller
 		{
 			if (_model == null)
 			{
-				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount, _settings, _componentContainer);
+				// TODO: find the decision schedule item occurrence (if any) so that a change will result in creating an adherence item for the scheduled decision
+				_model = new PersistableHypertensionMedicationTitrationModel(_activeAccount, _activeRecordAccount, _settings, _componentContainer, null);
 			}
 		}
 
@@ -147,16 +146,14 @@ package collaboRhythm.plugins.bloodPressure.controller
 			return _model;
 		}
 
-		public function handleHypertensionMedicationDoseSelected(hypertensionMedication:HypertensionMedication,
-															   doseSelected:int, altKey:Boolean, ctrlKey:Boolean):void
+		public function handleHypertensionMedicationDoseSelected(hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails):void
 		{
-			_model.handleHypertensionMedicationDoseSelected(hypertensionMedication, doseSelected, altKey, ctrlKey);
+			_model.handleHypertensionMedicationDoseSelected(hypertensionMedicationActionSynchronizationDetails);
 		}
 
-		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
-																	  altKey:Boolean, ctrlKey:Boolean):void
+		public function handleHypertensionMedicationAlternateSelected(hypertensionMedicationActionSynchronizationDetails:HypertensionMedicationActionSynchronizationDetails):void
 		{
-			_model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationAlternatePair, altKey, ctrlKey);
+			_model.handleHypertensionMedicationAlternateSelected(hypertensionMedicationActionSynchronizationDetails);
 		}
 
 		public function save():Boolean

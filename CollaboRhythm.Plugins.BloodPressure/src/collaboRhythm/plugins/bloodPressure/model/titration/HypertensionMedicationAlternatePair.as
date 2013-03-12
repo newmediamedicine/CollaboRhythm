@@ -47,7 +47,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			}
 		}
 
-		public function handleAlternateSelected(altKey:Boolean, ctrlKey:Boolean, selectionByAccount:Account,
+		public function handleAlternateSelected(altKey:Boolean, ctrlKey:Boolean, selectionByAccountId:String,
 												   isPatient:Boolean):void
 		{
 			if (altKey && ctrlKey)
@@ -57,7 +57,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			else
 			{
 				var isSystem:Boolean = altKey && !ctrlKey;
-				var matchParameters:MatchParameters = HypertensionMedication.getMatchParameters(isSystem, selectionByAccount);
+				var matchParameters:MatchParameters = HypertensionMedication.getMatchParameters(isSystem,
+						selectionByAccountId);
 				activeHypertensionMedication.removeAllHypertensionMedicationDoseSelections(matchParameters.matchData, matchParameters.matchFunction);
 			}
 

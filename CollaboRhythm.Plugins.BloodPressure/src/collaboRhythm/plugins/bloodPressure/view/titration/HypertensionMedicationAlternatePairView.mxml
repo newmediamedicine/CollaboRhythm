@@ -29,8 +29,8 @@
 		private var _nextPairGap:int;
 		private var _nextPair:HypertensionMedicationAlternatePair;
 
-		public function init(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair,
-							 nextPairGap:int, nextPair:HypertensionMedicationAlternatePair):void
+		public function init(hypertensionMedicationAlternatePair:HypertensionMedicationAlternatePair, nextPairGap:int,
+							 nextPair:HypertensionMedicationAlternatePair):void
 		{
 			_hypertensionMedicationAlternatePair = hypertensionMedicationAlternatePair;
 			_nextPairGap = nextPairGap;
@@ -61,7 +61,7 @@
 
 		private function alternateMedicationLebel_clickHandler(event:MouseEvent):void
 		{
-			dispatchEvent(new HypertensionMedicationAlternatePairViewEvent(HypertensionMedicationAlternatePairViewEvent.ALTERNATE_SELECTED,
+			dispatchEvent(new HypertensionMedicationAlternateSelectionEvent(HypertensionMedicationAlternateSelectionEvent.ALTERNATE_SELECTED,
 					_hypertensionMedicationAlternatePair, event.altKey, event.ctrlKey))
 		}
 
@@ -101,10 +101,10 @@
 									 visible="{_hypertensionMedicationAlternatePair.primaryHypertensionMedication == _hypertensionMedicationAlternatePair.activeHypertensionMedication}"/>
 	<titration:HypertensionMedicationView id="secondaryHypertensionMedicationView"
 									 visible="{_hypertensionMedicationAlternatePair.secondaryHypertensionMedication == _hypertensionMedicationAlternatePair.activeHypertensionMedication}"/>
-	<s:HGroup id="alternateMedicationHGroup" verticalAlign="middle" left="230" height="30" visible="false">
-		<s:Label id="alternateMedicationLabel" click="alternateMedicationLebel_clickHandler(event)"
-				 text="Switch to {_hypertensionMedicationAlternatePair.inactiveHypertensionMedication.medicationClass}"/>
+	<s:HGroup id="alternateMedicationHGroup" verticalAlign="middle" right="{primaryHypertensionMedicationView.width - HypertensionMedicationView.MEDICATION_LABELS_GROUP_WIDTH}" height="30" visible="false">
 		<view:WarningIcon width="30" height="30"
 						  visible="{showWarningIcon(_hypertensionMedicationAlternatePair.inactiveHypertensionMedication)}"/>
+		<s:Label id="alternateMedicationLabel" click="alternateMedicationLebel_clickHandler(event)"
+				 text="Switch to {_hypertensionMedicationAlternatePair.inactiveHypertensionMedication.medicationClass}"/>
 	</s:HGroup>
 </s:Group>
