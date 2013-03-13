@@ -10,6 +10,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
+	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -115,22 +116,31 @@ package collaboRhythm.plugins.foraD40b.model
 
 		override public function createResult():Boolean
 		{
-			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
+			if (StringUtils.isNumeric(systolic) && StringUtils.isNumeric(diastolic))
+			{
+				var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
 
-			var comments:String = duplicatePreventionComments();
-			var bloodPressureSystolic:VitalSign = vitalSignFactory.createBloodPressureSystolic(dateMeasuredStart,
-					systolic, null, null, site, position, null, comments);
-			var bloodPressureDiastolic:VitalSign = vitalSignFactory.createBloodPressureDiastolic(dateMeasuredStart,
-					diastolic, null, null, site, position, null, comments);
-			var heartRate:VitalSign = vitalSignFactory.createHeartRate(dateMeasuredStart, heartRate, null, null,
-					site, position, null, comments);
+				results = new Vector.<DocumentBase>();
+				var comments:String = duplicatePreventionComments();
+				var bloodPressureSystolic:VitalSign = vitalSignFactory.createBloodPressureSystolic(dateMeasuredStart,
+						systolic, null, null, site, position, null, comments);
+				results.push(bloodPressureSystolic);
+				var bloodPressureDiastolic:VitalSign = vitalSignFactory.createBloodPressureDiastolic(dateMeasuredStart,
+						diastolic, null, null, site, position, null, comments);
+				results.push(bloodPressureDiastolic);
+				if (StringUtils.isNumeric(heartRate))
+				{
+					var heartRateVitalSign:VitalSign = vitalSignFactory.createHeartRate(dateMeasuredStart, heartRate,
+							null, null,
+							site, position, null, comments);
+					results.push(heartRateVitalSign);
+				}
 
-			results = new Vector.<DocumentBase>();
-			results.push(bloodPressureSystolic, bloodPressureDiastolic, heartRate);
+				evaluateBloodPressureState();
 
-			evaluateBloodPressureState();
-
-			return true;
+				return true;
+			}
+			return false;
 		}
 
 		private function evaluateBloodPressureState():void
