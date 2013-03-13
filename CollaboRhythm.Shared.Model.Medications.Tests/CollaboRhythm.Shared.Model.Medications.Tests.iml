@@ -2,8 +2,8 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="CollaboRhythm.Shared.Model.Medications.Tests">
     <configurations>
-      <configuration name="CollaboRhythm.Shared.Model.Medications.Tests" target-platform="Desktop" output-file="CollaboRhythm_Shared_Model_Medications_Tests.swf" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Shared.Model.Medications.Tests">
-        <dependencies target-player="11.5">
+      <configuration name="CollaboRhythm.Shared.Model.Medications.Tests" target-platform="Desktop" output-type="Library" output-file="CollaboRhythm_Shared_Model_Medications_Tests.swc" output-folder="$MODULE_DIR$/../out/production/CollaboRhythm.Shared.Model.Medications.Tests">
+        <dependencies>
           <entries>
             <entry library-name="FlexUnit" library-level="project">
               <dependency linkage="Merged" />
@@ -24,7 +24,7 @@
           <sdk name="4.6.0" />
         </dependencies>
         <compiler-options />
-        <packaging-air-desktop package-file-name="CollaboRhythm_Shared_Model_Medications_Tests" />
+        <packaging-air-desktop />
         <packaging-android />
         <packaging-ios />
       </configuration>
