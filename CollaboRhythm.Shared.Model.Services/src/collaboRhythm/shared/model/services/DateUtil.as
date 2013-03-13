@@ -75,6 +75,11 @@ package collaboRhythm.shared.model.services
 			return new Date(newTime + timezoneOffsetMilliseconds);
 		}
 
+		public static function roundTimeToPreviousDay(date:Date):Date
+		{
+			return new Date(roundTimeToNextDay(date).valueOf() - MILLISECONDS_IN_DAY);
+		}
+
 		/**
 		 * Parse W3CDTF format string
 		 *

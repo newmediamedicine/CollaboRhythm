@@ -1880,7 +1880,7 @@
     <recordSeed/>
     
     <mode>patient</mode>
-  </AccountSource>
+  <shareAccountId>jking@records.media.mit.edu</shareAccountId><shareRole>Coach</shareRole></AccountSource>
   
   <AccountSource>
     

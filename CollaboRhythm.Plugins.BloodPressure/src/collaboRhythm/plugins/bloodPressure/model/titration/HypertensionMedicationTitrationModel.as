@@ -6,9 +6,13 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
+	import collaboRhythm.shared.model.medications.MedicationTitrationAnalyzer;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
+	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.DefaultVitalSignChartModifier;
@@ -204,21 +208,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private function determineMostRecentDoseChange():void
 		{
-			// TODO: detect schedule end times (effective end, with recurrence evaluated) as well as start times
-			for each (var medicationScheduleItem:MedicationScheduleItem in _medicationScheduleItemsCollection)
-			{
-				if (_mostRecentDoseChange)
-				{
-					if (_mostRecentDoseChange.time < medicationScheduleItem.dateStart.time)
-					{
-						_mostRecentDoseChange = medicationScheduleItem.dateStart;
-					}
-				}
-				else
-				{
-					_mostRecentDoseChange = medicationScheduleItem.dateStart;
-				}
-			}
+			var analyzer:MedicationTitrationAnalyzer = new MedicationTitrationAnalyzer(_medicationScheduleItemsCollection, currentDateSource);
+			_mostRecentDoseChange = analyzer.getMostRecentDoseChange();
 		}
 
 		/**

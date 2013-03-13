@@ -64,5 +64,16 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			return new CollaboRhythmValueAndUnit(value, unit, textValue);
 		}
+
+		public static function areEqual(a:CollaboRhythmValueAndUnit, b:CollaboRhythmValueAndUnit):Boolean
+		{
+			if (a == b)
+				return true;
+			if (a == null && b != null)
+				return false;
+			if (a != null && b == null)
+				return false;
+			return a.value == b.value && a.textValue == b.textValue && CollaboRhythmCodedValue.areEqual(a.unit, b.unit);
+		}
 	}
 }
