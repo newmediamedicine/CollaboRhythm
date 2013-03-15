@@ -18,7 +18,9 @@ package collaboRhythm.tablet.controller
 {
 
 	import collaboRhythm.core.controller.ApplicationControllerBase;
+	import collaboRhythm.core.controller.HealthRecordTreeController;
 	import collaboRhythm.core.controller.apps.AppControllersMediatorBase;
+	import collaboRhythm.core.model.HealthRecordTreeModel;
 	import collaboRhythm.shared.collaboration.model.CollaborationModel;
 	import collaboRhythm.shared.collaboration.model.SynchronizationService;
 	import collaboRhythm.shared.collaboration.view.CollaborationInvitationPopUp;
@@ -31,6 +33,7 @@ package collaboRhythm.tablet.controller
 	import collaboRhythm.shared.view.tablet.TabletViewBase;
 	import collaboRhythm.tablet.model.ViewNavigatorExtended;
 	import collaboRhythm.tablet.model.ViewNavigatorExtendedEvent;
+	import collaboRhythm.tablet.view.HealthRecordTreeView;
 	import collaboRhythm.tablet.view.SelectRecordView;
 	import collaboRhythm.tablet.view.TabletFullViewContainer;
 	import collaboRhythm.tablet.view.TabletHomeView;
@@ -533,6 +536,12 @@ package collaboRhythm.tablet.controller
 		private function viewNavigator_viewPopped(event:ViewNavigatorExtendedEvent):void
 		{
 			synchronizeBack();
+		}
+
+		override public function showHealthRecordTreeView():void
+		{
+			var controller:HealthRecordTreeController = new HealthRecordTreeController(new HealthRecordTreeModel(activeRecordAccount.primaryRecord, _healthRecordServiceFacade), navigator);
+			navigator.pushView(HealthRecordTreeView, controller);
 		}
 	}
 }

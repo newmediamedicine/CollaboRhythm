@@ -1627,5 +1627,9 @@ package collaboRhythm.core.controller
 				getMessages();
 			}
 		}
+
+		public function showHealthRecordTreeView():void
+		{
+		}
 	}
 }

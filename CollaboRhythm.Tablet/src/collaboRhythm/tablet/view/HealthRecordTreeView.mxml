@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*" xmlns:view="collaboRhythm.core.view.*">
+	<view:HealthRecordTree id="healthRecordTree" record="{record}"/>
+	<fx:Declarations>
+		<s:Button id="saveActionButton" label="Save" click="saveActionButton_clickHandler(event)"/>
+		<s:Button id="voidActionButton" label="Void" click="voidActionButton_clickHandler(event)"/>
+		<s:Button id="viewActionButton" label="View" click="viewActionButton_clickHandler(event)"/>
+	</fx:Declarations>
+	<fx:Script><![CDATA[
+		import collaboRhythm.core.controller.HealthRecordTreeController;
+		import collaboRhythm.shared.model.Record;
+
+		private var _record:Record;
+		private var _controller:HealthRecordTreeController;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+			controller = value as HealthRecordTreeController;
+			updateController();
+			record = controller.model.record;
+		}
+
+		[Bindable]
+		public function get record():Record
+		{
+			return _record;
+		}
+
+		public function set record(value:Record):void
+		{
+			_record = value;
+			if (record)
+			{
+				title = record.contact.fullName +
+						(record.dateLoaded ? (" - " + record.dateLoaded.toLocaleString()) : "");
+			}
+		}
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			actionContent.unshift(saveActionButton);
+			actionContent.unshift(viewActionButton);
+			actionContent.unshift(voidActionButton);
+			updateController();
+		}
+
+		private function viewActionButton_clickHandler(event:MouseEvent):void
+		{
+			_controller.viewSelectedDocument();
+		}
+
+		private function voidActionButton_clickHandler(event:MouseEvent):void
+		{
+			_controller.voidSelectedDocument();
+		}
+
+		private function saveActionButton_clickHandler(event:MouseEvent):void
+		{
+			_controller.save();
+		}
+
+		public function get controller():HealthRecordTreeController
+		{
+			return _controller;
+		}
+
+		public function set controller(value:HealthRecordTreeController):void
+		{
+			_controller = value;
+		}
+
+		private function updateController():void
+		{
+			controller.healthRecordTree = healthRecordTree;
+		}
+		]]></fx:Script>
+</tablet:TabletViewBase>

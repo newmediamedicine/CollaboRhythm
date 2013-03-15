@@ -434,5 +434,6 @@
 		<s:CalloutButton visible="false" includeInLayout="false"/>
 		<s:Callout visible="false" includeInLayout="false"/>
 		<s:DateSpinner visible='false' includeInLayout="false"/>
+		<mx:AdvancedDataGrid visible="false" includeInLayout="false"/>
 	</s:navigationContent>
 </s:ViewNavigatorApplication>

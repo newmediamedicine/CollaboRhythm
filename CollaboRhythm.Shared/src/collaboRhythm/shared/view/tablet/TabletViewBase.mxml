@@ -162,6 +162,11 @@
 		{
 			_trackingUrl = value;
 		}
+
+		private function treeViewButton_clickHandler(event:MouseEvent):void
+		{
+			tabletApplicationController.showHealthRecordTreeView();
+		}
 		]]></fx:Script>
 	<s:viewMenuItems>
 		<s:ViewMenuItem label="{createDemoDateLabel(_isControllerReady, 0)}" includeIn="debuggingToolsEnabled"
@@ -189,6 +194,7 @@
 		<s:ViewMenuItem label="Reload Plugins" includeIn="debuggingToolsEnabled"
 						click="reloadPluginsViewMenuItem_clickHandler()"/>
 		<s:ViewMenuItem label="About" id="aboutButton" click="aboutButton_clickHandler(event)"/>
+		<s:ViewMenuItem label="Tree View" id="treeViewButton" click="treeViewButton_clickHandler(event)" includeIn="debuggingToolsEnabled"/>
 		<s:ViewMenuItem label="Quit" id="quitButton" click="quitButton_clickHandler(event)"/>
 	</s:viewMenuItems>
 	<s:actionContent>

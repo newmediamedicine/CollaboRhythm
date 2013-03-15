@@ -4,6 +4,7 @@
       <root url="jar://$PROJECT_FRAMEWORKS$/libs/mx/mx.swc!/" />
       <root url="jar://$PROJECT_FRAMEWORKS$/libs/charts.swc!/" />
       <root url="jar://$PROJECT_FRAMEWORKS$/libs/sparkskins.swc!/" />
+      <root url="jar://$PROJECT_FRAMEWORKS$/libs/advancedgrids.swc!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
