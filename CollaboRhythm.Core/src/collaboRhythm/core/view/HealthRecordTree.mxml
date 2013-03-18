@@ -1,64 +1,66 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
-	xmlns:mx="library://ns.adobe.com/flex/mx"
-		width="100%"
-		height="100%">
-	<mx:AdvancedDataGrid id="healthRecordTree"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="collaboRhythm.core.view.*"
+		 width="100%"
+		 height="100%">
+	<view:AdvancedDataGridFixed id="healthRecordTree"
 		width="100%"
 		height="100%"
 		displayItemsExpanded="false">
-		<mx:dataProvider>
-			<mx:HierarchicalData id="recordHierarchicalData" source="{record.documentCollections.values()}" childrenField="documents"/>
-		</mx:dataProvider>
-		<mx:columns>
-			<mx:AdvancedDataGridColumn headerText="Name" labelFunction="nameLabelFunction"/>
+		<view:columns>
+			<mx:AdvancedDataGridColumn headerText="Name" labelFunction="nameLabelFunction" sortCompareFunction="nameSortCompareFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Type" labelFunction="typeLabelFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Count" labelFunction="countLabelFunction"/>
-			<mx:AdvancedDataGridColumn headerText="Date Start" labelFunction="dateStartLabelFunction"/>
+			<mx:AdvancedDataGridColumn headerText="Date Start" labelFunction="dateStartLabelFunction" sortCompareFunction="dateStartSortCompareFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Date End" labelFunction="dateEndLabelFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Date Created" labelFunction="dateCreatedLabelFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Relates To" labelFunction="relatesToLabelFunction"/>
 			<mx:AdvancedDataGridColumn headerText="Related From" labelFunction="relatedFromLabelFunction"/>
-		</mx:columns>
-
-	</mx:AdvancedDataGrid>
+		</view:columns>
+	</view:AdvancedDataGridFixed>
 	<fx:Script><![CDATA[
+		import collaboRhythm.core.model.HierarchicalCollectionViewEx;
+		import collaboRhythm.core.model.HierarchicalCollectionViewFixed;
 		import collaboRhythm.shared.model.Record;
+		import collaboRhythm.shared.model.healthRecord.CodedValue;
 		import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 		import collaboRhythm.shared.model.healthRecord.IDocument;
 		import collaboRhythm.shared.model.healthRecord.IDocumentCollection;
 		import collaboRhythm.shared.model.healthRecord.Relationship;
 
+		import mx.collections.ArrayCollection;
+		import mx.collections.HierarchicalCollectionView;
+
 		import mx.collections.HierarchicalData;
+		import mx.collections.IHierarchicalCollectionView;
+		import mx.collections.Sort;
+		import mx.collections.SortField;
+		import mx.utils.ObjectUtil;
+		import mx.utils.StringUtil;
 
 		private var _recordHierarchy:HierarchicalData;
 		private var _record:Record;
+		private var hierarchicalCollectionView:IHierarchicalCollectionView;
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			updateHierarchicalCollectionView();
+		}
 
 		private function nameLabelFunction(item:Object, column:AdvancedDataGridColumn):String
 		{
 			var documentCollection:IDocumentCollection = item as IDocumentCollection;
 			if (documentCollection)
 			{
-				if (!documentCollection.documentType) return null;
-
-				var parts:Array = documentCollection.documentType.split("#");
-				return parts[parts.length - 1];
+				return documentCollection.documentShortType;
 			}
 			else
 			{
 				var document:IDocument = item as IDocument;
 				if (document)
 				{
-					if ((document as Object).hasOwnProperty("name"))
-					{
-						var documentName:Object = document["name"];
-						var documentNameCodedValue:CollaboRhythmCodedValue = documentName as CollaboRhythmCodedValue;
-						if (documentNameCodedValue)
-						{
-							return documentNameCodedValue.text;
-						}
-						return documentName ? documentName.toString() : null;
-					}
+					return getDocumentName(document);
 				}
 				else
 				{
@@ -70,6 +72,41 @@
 				}
 			}
 			return null;
+		}
+
+		private function nameSortCompareFunction(obj1:Object, obj2:Object):int
+		{
+			return defaultSortCompareFunction(obj1, obj2);
+		}
+
+		private function defaultSortCompareFunction(obj1:Object, obj2:Object, fields:Array = null):int
+		{
+			var documentCollection1:IDocumentCollection = obj1 as IDocumentCollection;
+			if (documentCollection1)
+			{
+				var documentCollection2:IDocumentCollection = obj2 as IDocumentCollection;
+				return ObjectUtil.stringCompare(documentCollection1.documentShortType,
+						documentCollection2.documentShortType);
+			}
+			else
+			{
+				var document1:IDocument = obj1 as IDocument;
+				if (document1)
+				{
+					var document2:IDocument = obj2 as IDocument;
+					return ObjectUtil.stringCompare(getDocumentName(document1), getDocumentName(document2));
+				}
+				else
+				{
+					var relationship1:Relationship = obj1 as Relationship;
+					if (relationship1)
+					{
+						var relationship2:Relationship = obj2 as Relationship;
+						return ObjectUtil.stringCompare(relationship1.shortType, relationship2.shortType);
+					}
+				}
+			}
+			return 0;
 		}
 
 		private function typeLabelFunction(item:Object, column:AdvancedDataGridColumn):String
@@ -108,15 +145,35 @@
 			return null;
 		}
 
+		private static const dateStartPropertyNames:Array = ["date", "dateStart", "dateMeasuredStart", "dateOrdered", "dateOnset", "dateReported", "dateFilled", "dateRecorded"];
+
 		private function dateStartLabelFunction(item:Object, column:AdvancedDataGridColumn):String
 		{
 			var document:IDocument = item as IDocument;
 			if (document)
 			{
-				var propertyNames:Array = ["date", "dateStart", "dateMeasuredStart", "dateOrdered", "dateOnset", "dateReported", "dateFilled", "dateRecorded"];
-				return getDateValue(propertyNames, document);
+				var propertyNames:Array = dateStartPropertyNames;
+				return getDateLocaleString(propertyNames, document);
 			}
 			return null;
+		}
+
+		private function dateStartSortCompareFunction(obj1:Object, obj2:Object, fields:Array = null):int
+		{
+			var document1:IDocument = obj1 as IDocument;
+			if (document1)
+			{
+				var document2:IDocument = obj2 as IDocument;
+				return getDateValue(dateStartPropertyNames, document1) -
+						getDateValue(dateStartPropertyNames, document2);
+			}
+			return 0;
+		}
+
+		private function getDateValue(propertyNames:Array, document:IDocument):Number
+		{
+			var date:Date = getDate(propertyNames, document);
+			return date ? date.valueOf() : NaN;
 		}
 
 		private function dateEndLabelFunction(item:Object, column:AdvancedDataGridColumn):String
@@ -125,7 +182,7 @@
 			if (document)
 			{
 				var propertyNames:Array = ["dateEnd", "dateMeasuredEnd", "dateExpires", "dateResolution", "dateAdministered", "dateSent"];
-				return getDateValue(propertyNames, document);
+				return getDateLocaleString(propertyNames, document);
 			}
 			return null;
 		}
@@ -171,7 +228,50 @@
 			_record = value;
 		}
 
-		private function getDateValue(propertyNames:Array, document:IDocument):String
+		private function getDateLocaleString(propertyNames:Array, document:IDocument):String
+		{
+			var date:Date = getDate(propertyNames, document);
+			return date ? date.toLocaleString() : null;
+		}
+
+		public function get selectedDocument():IDocument
+		{
+			return healthRecordTree.selectedItem ? healthRecordTree.selectedItem as IDocument : null;
+		}
+
+		private function getDocumentName(document:IDocument):String
+		{
+			var name:String = null;
+			if ((document as Object).hasOwnProperty("name"))
+			{
+				var documentName:Object = document["name"];
+				var documentNameCodedValue:CollaboRhythmCodedValue = documentName as CollaboRhythmCodedValue;
+				if (documentNameCodedValue)
+				{
+					name = documentNameCodedValue.text;
+				}
+				else
+				{
+					name = documentName ? documentName.toString() : null;
+				}
+			}
+			return name;
+		}
+
+		private function updateHierarchicalCollectionView():void
+		{
+			var hierarchicalData:HierarchicalData = new HierarchicalData(record.documentCollections.values());
+			hierarchicalData.childrenField = "documents";
+			hierarchicalCollectionView = new HierarchicalCollectionViewFixed(hierarchicalData);
+			hierarchicalCollectionView.sort = new Sort();
+			hierarchicalCollectionView.sort.compareFunction = defaultSortCompareFunction;
+			hierarchicalCollectionView.sort.fields = [];
+			hierarchicalCollectionView.refresh();
+			healthRecordTree.dataProvider = hierarchicalCollectionView;
+			healthRecordTree.hierarchicalCollectionView = hierarchicalCollectionView;
+		}
+
+		private function getDate(propertyNames:Array, document:IDocument):Date
 		{
 			var date:Date;
 			for each (var propertyName:String in propertyNames)
@@ -182,7 +282,7 @@
 					break;
 				}
 			}
-			return date ? date.toLocaleString() : null;
+			return date;
 		}
 		]]></fx:Script>
 </s:Group>

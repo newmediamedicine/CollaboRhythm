@@ -1,11 +1,8 @@
 package collaboRhythm.plugins.physicalTherapy.model
 {
-	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.ui.healthCharts.model.IChartModelDetails;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.IChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MeasurementChartDescriptor;
-	import collaboRhythm.shared.ui.healthCharts.model.descriptors.MedicationChartDescriptor;
-	import collaboRhythm.shared.ui.healthCharts.model.descriptors.VitalSignChartDescriptor;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifier;
 	import collaboRhythm.shared.ui.healthCharts.model.modifiers.IChartModifierFactory;
 
