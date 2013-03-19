@@ -493,5 +493,10 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			_abnormalBloodPressureActionPlanHealthActionResult = value;
 		}
+
+		override public function get measurementValue():String
+		{
+			return systolic;
+		}
 	}
 }

@@ -29,6 +29,8 @@ package collaboRhythm.shared.deviceSimulator.model
 		private var _viewMenuItems:Array;
 		private var _previousInputDateValue:Number;
 		private var _nextInputDateValue:Number;
+		private var _previousHealthActionName:String;
+		private var _previousUrlVariables:URLVariables;
 
 		public function DeviceSimulator()
 		{
@@ -126,6 +128,8 @@ package collaboRhythm.shared.deviceSimulator.model
 							HealthActionInputControllerBase.BATCH_TRANSFER_URL_VARIABLE +
 							"=" +
 							batchTransfer]));
+
+			previousHealthActionName = healthActionName;
 		}
 
 		public function simulateSingleBloodGlucoseFromDevice(bloodGlucose:int):void
@@ -175,6 +179,8 @@ package collaboRhythm.shared.deviceSimulator.model
 			var uriString:String = "collaborhythm://loadData?" + urlVariables.toString();
 			NativeApplication.nativeApplication.dispatchEvent(new InvokeEvent(InvokeEvent.INVOKE, false, false, null,
 					[uriString]));
+			_previousUrlVariables = urlVariables;
+			previousHealthActionName = healthActionName;
 			updatePreviousNextDates(correctedMeasuredDate);
 		}
 
@@ -191,7 +197,6 @@ package collaboRhythm.shared.deviceSimulator.model
 
 		private function addMenuItems():void
 		{
-
 			if (viewMenuItems)
 			{
 				// TODO: perhaps we should also include these menu items when debug tools is enabled or allow independent control via a new setting
@@ -242,6 +247,26 @@ package collaboRhythm.shared.deviceSimulator.model
 		public function resetNextInputDate():void
 		{
 			nextInputDate = _currentDateSource.now();
+		}
+
+		public function resendPrevious():void
+		{
+			if (_previousHealthActionName && _previousUrlVariables)
+			{
+				simulateDeviceBatchTransferBegin(_previousHealthActionName);
+				simulateDevice(_previousUrlVariables, new Date(previousInputDateValue), _previousHealthActionName);
+				simulateDeviceBatchTransferEnd(_previousHealthActionName);
+			}
+		}
+
+		public function get previousHealthActionName():String
+		{
+			return _previousHealthActionName;
+		}
+
+		public function set previousHealthActionName(value:String):void
+		{
+			_previousHealthActionName = value;
 		}
 	}
 }
