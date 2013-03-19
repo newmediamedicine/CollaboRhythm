@@ -7,6 +7,8 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+	import collaboRhythm.shared.model.services.WorkstationKernel;
+	import collaboRhythm.shared.model.settings.Settings;
 
 	import mx.collections.ArrayCollection;
 
@@ -21,6 +23,8 @@ package collaboRhythm.plugins.foraD40b.model
 		private var _healthActionInputController:ForaD40bHealthActionInputController;
 		private var _isReportingExplicit:Boolean;
 
+		private var _settings:Settings;
+
 		public function ForaD40bHealthActionInputModelCollection(healthAction:ForaD40bHealthAction,
 																 scheduleItemOccurrence:ScheduleItemOccurrence,
 																 healthActionModelDetailsProvider:IHealthActionModelDetailsProvider,
@@ -31,6 +35,8 @@ package collaboRhythm.plugins.foraD40b.model
 			super(scheduleItemOccurrence, healthActionModelDetailsProvider, scheduleCollectionsProvider);
 			_reportForaD40bItemDataCollection = new ArrayCollection();
 			_healthActionInputController = healthActionInputController;
+			_settings = WorkstationKernel.instance.resolve(Settings) as Settings;
+
 			initializeModel();
 		}
 
@@ -350,6 +356,13 @@ package collaboRhythm.plugins.foraD40b.model
 			{
 				firstBloodPressureInputModel.quitAbnormalBloodPressureActionPlan(initiatedLocally);
 			}
+		}
+
+		public function get canSave():Boolean
+		{
+			return healthActionModelDetailsProvider.accountId ==
+					healthActionModelDetailsProvider.activeAccount.accountId ||
+					(_settings && _settings.reportForOtherRecordEnabled);
 		}
 	}
 }

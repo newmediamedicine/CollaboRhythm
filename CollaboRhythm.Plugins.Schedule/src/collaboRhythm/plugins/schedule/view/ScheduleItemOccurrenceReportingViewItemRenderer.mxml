@@ -109,7 +109,7 @@
 		private function isAdherenceCheckBoxEnabled(adherenceItem:AdherenceItem, pendingAction:String = null,
 													adherenceVoidingEnabled:Boolean = false):Boolean
 		{
-			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId)
+			if (_scheduleModel.accountId == _scheduleModel.activeAccount.accountId || _scheduleModel.settings.reportForOtherRecordEnabled)
 			{
 				if (_scheduleModel.settings.adherenceVoidingEnabled)
 				{

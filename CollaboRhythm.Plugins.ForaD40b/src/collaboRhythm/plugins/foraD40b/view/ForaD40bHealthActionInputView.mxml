@@ -30,6 +30,7 @@
 		import collaboRhythm.plugins.foraD40b.model.ForaD40bHealthActionInputModelCollection;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionInputModelAndController;
 		import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputController;
+		import collaboRhythm.shared.model.StringUtils;
 		import collaboRhythm.shared.model.services.ICurrentDateSource;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -94,26 +95,14 @@
 
 		private function setManualBloodGlucose(manualBloodGlucose:String):void
 		{
-			if (manualBloodGlucose == "")
-			{
-				saveActionButton.enabled = saveButton.enabled = false;
-			}
-			else if (manualBloodGlucose != "" &&
-					_dataInputModel.healthActionModelDetailsProvider.accountId ==
-							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
-			{
-				saveActionButton.enabled = saveButton.enabled = true;
-			}
+			saveActionButton.enabled = saveButton.enabled = manualBloodGlucose != "" &&
+					_dataInputModel.canSave;
 		}
 
 		private function setDeviceBloodGlucose(deviceBloodGlucose:String):void
 		{
-			if (deviceBloodGlucose != "" &&
-					_dataInputModel.healthActionModelDetailsProvider.accountId ==
-							_dataInputModel.healthActionModelDetailsProvider.activeAccount.accountId)
-			{
-				saveActionButton.enabled = saveButton.enabled = !_dataInputModel.firstInputModel.isDuplicate;
-			}
+			saveActionButton.enabled = saveButton.enabled = deviceBloodGlucose != "" &&
+					_dataInputModel.canSave && !_dataInputModel.firstInputModel.isDuplicate;
 		}
 
 		public function get healthActionInputController():IHealthActionInputController
