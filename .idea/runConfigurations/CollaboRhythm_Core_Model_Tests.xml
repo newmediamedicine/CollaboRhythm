@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CollaboRhythm.Core.Model.Tests" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" output_log_level="null" package_name="collaboRhythm.core.model.tests" scope="Package">
+  <configuration default="false" name="CollaboRhythm.Core.Model.Tests" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" singleton="true" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" output_log_level="null" package_name="collaboRhythm.core.model.tests" scope="Package">
     <option name="BCName" value="CollaboRhythm.Core.Model.Tests" />
     <option name="launcherParameters">
       <LauncherParameters>

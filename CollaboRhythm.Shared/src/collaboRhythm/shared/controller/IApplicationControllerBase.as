@@ -57,5 +57,7 @@ package collaboRhythm.shared.controller
 		function synchronizeBack():void;
 
 		function get collaborationLobbyNetConnectionServiceProxy():ICollaborationLobbyNetConnectionServiceProxy
+
+		function showHealthRecordTreeView():void;
 	}
 }

@@ -38,5 +38,10 @@ package collaboRhythm.plugins.schedule.shared.controller
 				_synchronizationService = null;
 			}
 		}
+
+		public function clearInputData():void
+		{
+
+		}
 	}
 }

@@ -145,6 +145,12 @@ package collaboRhythm.shared.model.healthRecord
 			return _documentType;
 		}
 
+		public function get documentShortType():String
+		{
+			var parts:Array = documentType.split("#");
+			return parts[parts.length - 1];
+		}
+
 		public function set documentType(value:String):void
 		{
 			_documentType = value;

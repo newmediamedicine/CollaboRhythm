@@ -39,6 +39,10 @@ package collaboRhythm.plugins.schedule.shared.controller
 					_healthActionListViewModel.scheduleItemOccurrence.adherenceItem)
 			{
 				_healthActionListViewModel.voidHealthActionResult(_synchronizationService.initiatedLocally);
+				if (_healthActionListViewModel.healthActionInputController)
+				{
+					_healthActionListViewModel.healthActionInputController.clearInputData();
+				}
 			}
 			else
 			{

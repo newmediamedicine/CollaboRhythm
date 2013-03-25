@@ -81,5 +81,16 @@ package collaboRhythm.shared.model.healthRecord
 		{
 			return text + " (type=" + String(_type) + ", value=" + String(_value) + ")";
 		}
+
+		public static function areEqual(a:CollaboRhythmCodedValue, b:CollaboRhythmCodedValue):Boolean
+		{
+			if (a == b)
+				return true;
+			if (a == null && b != null)
+				return false;
+			if (a != null && b == null)
+				return false;
+			return a.value == b.value && a.abbrev == b.abbrev && a.type == b.type && a.text == b.text;
+		}
 	}
 }

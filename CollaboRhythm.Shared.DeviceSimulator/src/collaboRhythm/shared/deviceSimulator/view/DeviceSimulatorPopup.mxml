@@ -137,6 +137,12 @@
 					int(diastolicTextInput.text), int(heartRateTextInput.text));
 			PopUpManager.removePopUp(this);
 		}
+
+		private function resendButton_clickHandler(event:MouseEvent):void
+		{
+			_deviceSimulator.resendPrevious();
+			PopUpManager.removePopUp(this);
+		}
 		]]></fx:Script>
 	<s:Group id="dialogGroup" verticalCenter="0" horizontalCenter="0" width="80%" click="dialogGroup_clickHandler(event)">
 		<s:Rect width="100%" height="100%">
@@ -170,6 +176,7 @@
 				<s:TextInput id="heartRateTextInput" text="{_deviceSimulator.defaultHeartRate}"/>
 				<s:Button id="simulateBloodPressureButton" label="Simulate" click="simulateBloodPressureButton_clickHandler(event)"/>
 			</s:HGroup>
+			<s:Button id="resendButton" label="Resend Previous" click="resendButton_clickHandler(event)" enabled="{_deviceSimulator.previousHealthActionName != null}"/>
 		</s:VGroup>
 	</s:Group>
 </s:SkinnablePopUpContainer>

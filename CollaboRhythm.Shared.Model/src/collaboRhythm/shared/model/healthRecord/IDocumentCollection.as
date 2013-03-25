@@ -16,6 +16,8 @@ package collaboRhythm.shared.model.healthRecord
 		 */
 		function get documentType():String;
 
+		function get documentShortType():String;
+
 		function get isInitialized():Boolean;
 
 		function set isInitialized(value:Boolean):void;

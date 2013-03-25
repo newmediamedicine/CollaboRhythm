@@ -200,14 +200,15 @@ package collaboRhythm.plugins.foraD40b.controller
 					0 ? _dataInputModelCollection.reportForaD40bItemDataCollection[0] as
 					ReportForaD40bItemData : null;
 			/**
-			 * True if this is the first measurement in this batch from the device
+			 * True if the measurement should be treated as the first measurement (replacing any existing measurement)
 			 */
-			var isFirstFromDevice:Boolean =
-					!(_dataInputModelCollection.reportForaD40bItemDataCollection.length > 1 ||
-							_dataInputModelCollection.reportForaD40bItemDataCollection.length == 1 &&
-									(itemData).dataInputModel.isFromDevice);
+			var treatAsFirst:Boolean =
+					_dataInputModelCollection.reportForaD40bItemDataCollection.length <= 1 &&
+							(_dataInputModelCollection.reportForaD40bItemDataCollection.length == 0 ||
+									!itemData.dataInputModel.isFromDevice ||
+									itemData.dataInputModel.isDuplicate);
 
-			if (isFirstFromDevice || !_duplicateDetected)
+			if (treatAsFirst || !_duplicateDetected)
 			{
 				if (!isValidMeasurement(urlVariables))
 				{
@@ -217,7 +218,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 				var isBloodGlucose:Boolean = urlVariables[DeviceGatewayConstants.HEALTH_ACTION_NAME_KEY] ==
 						DeviceGatewayConstants.BLOOD_GLUCOSE_HEALTH_ACTION_NAME;
-				if (isFirstFromDevice)
+				if (treatAsFirst)
 				{
 					if (itemData.dataInputModel is BloodGlucoseHealthActionInputModel != isBloodGlucose)
 					{
@@ -282,8 +283,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		private function detectDuplicates(urlVariables:URLVariables):Boolean
 		{
-			var isDebugger:Boolean = Capabilities.isDebugger;
-			var playerType:String = Capabilities.playerType;
+			var shouldSendBroadcast:Boolean = getShouldSendBroadcast();
 			var urlVariablesMeasurementKey:String = DeviceGatewayConstants.BLOOD_GLUCOSE_KEY;
 			var category:String = VitalSignsModel.BLOOD_GLUCOSE_CATEGORY;
 
@@ -293,24 +293,58 @@ package collaboRhythm.plugins.foraD40b.controller
 				category = VitalSignsModel.SYSTOLIC_CATEGORY;
 			}
 
+			// check all existing (persisted) vital sign documents
 			for each (var vitalSign:VitalSign in
 					_dataInputModelCollection.healthActionModelDetailsProvider.record.vitalSignsModel.getVitalSignsByCategory(category))
 			{
-				// check all existing blood glucose measurements
-				if (isDuplicate(urlVariables, vitalSign, urlVariablesMeasurementKey))
+				if (isDuplicateOfVitalSign(urlVariables, vitalSign, urlVariablesMeasurementKey))
 				{
-					if (playerType == "Desktop" && isDebugger)
-					{
-					}
-					else
+					if (shouldSendBroadcast)
 					{
 						sendBroadcastDuplicateDetected();
 					}
+					return true;
+				}
+			}
 
+			// check all pending (non-persisted) data input models
+			for each (var itemData:ReportForaD40bItemData in _dataInputModelCollection.reportForaD40bItemDataCollection)
+			{
+				if (isDuplicateOfDataInputModel(urlVariables, itemData.dataInputModel, urlVariablesMeasurementKey))
+				{
+					if (shouldSendBroadcast)
+					{
+						sendBroadcastDuplicateDetected();
+					}
 					return true;
 				}
 			}
 			return false;
+		}
+
+		private function isDuplicateOfDataInputModel(urlVariables:URLVariables,
+													 dataInputModel:ForaD40bHealthActionInputModelBase,
+													 urlVariablesMeasurementKey:String):Boolean
+		{
+			if (dataInputModel.measurementValue == urlVariables[urlVariablesMeasurementKey])
+			{
+				var deviceMeasuredDateKey:String = "deviceMeasuredDate";
+				var existingDeviceMeasuredDate:Date = dataInputModel.dateMeasuredStart;
+				var deviceMeasuredDate:Date = DateUtil.parse(urlVariables[deviceMeasuredDateKey]);
+				if (existingDeviceMeasuredDate && deviceMeasuredDate)
+				{
+					return existingDeviceMeasuredDate.valueOf() == deviceMeasuredDate.valueOf();
+				}
+			}
+			return false;
+		}
+
+		private function getShouldSendBroadcast():Boolean
+		{
+			var isDebugger:Boolean = Capabilities.isDebugger;
+			var playerType:String = Capabilities.playerType;
+			var shouldSendBroadcast:Boolean = !(playerType == "Desktop" && isDebugger);
+			return shouldSendBroadcast;
 		}
 
 		private function sendBroadcastDuplicateDetected():void
@@ -320,7 +354,7 @@ package collaboRhythm.plugins.foraD40b.controller
 					"healthActionStringTest1");
 		}
 
-		private static function isDuplicate(urlVariables:URLVariables, vitalSign:VitalSign,
+		private static function isDuplicateOfVitalSign(urlVariables:URLVariables, vitalSign:VitalSign,
 											urlVariablesMeasurementKey:String):Boolean
 		{
 			if (vitalSign.result &&
@@ -455,6 +489,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function startWaitTimer():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("startWaitTimer"))
 			{
 				return;
@@ -465,6 +500,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function updateManualBloodGlucose(text:String = ""):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService && _synchronizationService.synchronize("updateManualBloodGlucose", text))
 			{
 				return;
@@ -475,6 +511,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function updateDateMeasuredStart(selectedDate:Date):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService && _synchronizationService.synchronize("updateDateMeasuredStart", selectedDate))
 			{
 				return;
@@ -485,6 +522,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function quitHypoglycemiaActionPlan():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("quitHypoglycemiaActionPlan"))
 			{
 				return;
@@ -495,6 +533,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function addEatCarbsHealthAction(description:String):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("addEatCarbsHealthAction", description))
 			{
 				return;
@@ -505,6 +544,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function showHypoglycemiaActionPlanSummaryView(bloodGlucoseVitalSignDate:Date):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("showHypoglycemiaActionPlanSummaryView", bloodGlucoseVitalSignDate))
 			{
 				return;
@@ -516,6 +556,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function addWaitHealthAction(seconds:int):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("addWaitHealthAction", seconds))
 			{
 				return;
@@ -526,6 +567,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function setBloodGlucoseHistoryListScrollPosition(scrollPosition:Number = 0):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("setBloodGlucoseHistoryListScrollPosition", scrollPosition, false))
 			{
 				return;
@@ -536,6 +578,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function simpleCarbsItemList_changeHandler(selectedIndex:int):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("simpleCarbsItemList_changeHandler", selectedIndex, false))
 			{
 				return;
@@ -546,6 +589,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function complexCarbs15gItemList_changeHandler(selectedIndex:int):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("complexCarbs15gItemList_changeHandler", selectedIndex, false))
 			{
 				return;
@@ -556,6 +600,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function complexCarbs30gItemList_changeHandler(selectedIndex:int):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("complexCarbs30gItemList_changeHandler", selectedIndex, false))
 			{
 				return;
@@ -566,6 +611,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function synchronizeActionsListScrollPosition(verticalScrollPosition:Number = 0):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("synchronizeActionsListScrollPosition", verticalScrollPosition,
 					false))
 			{
@@ -613,6 +659,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function showBloodGlucoseHistoryView():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("showBloodGlucoseHistoryView"))
 			{
 				return;
@@ -660,6 +707,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function setReportBloodGlucoseListScrollPosition(value:Number):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("setReportBloodGlucoseListScrollPosition",
 					value, false))
 			{
@@ -690,6 +738,7 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function abnormalBloodPressureSymptomsHandler(symptomsPresent:Boolean):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("abnormalBloodPressureSymptomsHandler", symptomsPresent))
 			{
 				return;
@@ -700,12 +749,22 @@ package collaboRhythm.plugins.foraD40b.controller
 
 		public function quitAbnormalBloodPressureActionPlan():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("quitAbnormalBloodPressureActionPlan"))
 			{
 				return;
 			}
 
 			_dataInputModelCollection.quitAbnormalBloodPressureActionPlan(_synchronizationService.initiatedLocally);
+		}
+
+		override public function clearInputData():void
+		{
+			super.clearInputData();
+			if (_dataInputModelCollection)
+			{
+				_dataInputModelCollection.clearMeasurements();
+			}
 		}
 	}
 }

@@ -5,11 +5,11 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
-	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
+	import collaboRhythm.shared.model.services.DateUtil;
 
 	import flash.net.URLVariables;
 
@@ -212,6 +212,11 @@ package collaboRhythm.plugins.foraD40b.model
 		public function get isReview():Boolean
 		{
 			return scheduleItemOccurrence && scheduleItemOccurrence.adherenceItem && currentView == ForaD40bHealthActionInputView;
+		}
+
+		public function get measurementValue():String
+		{
+			return null;
 		}
 	}
 }

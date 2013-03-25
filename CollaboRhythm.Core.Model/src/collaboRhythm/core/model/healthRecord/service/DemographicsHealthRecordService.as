@@ -8,7 +8,6 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.*;
 
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.Contact;
 	import collaboRhythm.shared.model.demographics.Demographics;
 	import collaboRhythm.shared.model.Record;
 

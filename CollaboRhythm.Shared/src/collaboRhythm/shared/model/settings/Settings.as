@@ -61,6 +61,7 @@ package collaboRhythm.shared.model.settings
 		private var _applicationUpdateDescriptorURL:String;
 		private var _clockAnimationMode:String;
 		private var _deviceSimulatorEnabled:Boolean;
+		private var _reportForOtherRecordEnabled:Boolean;
 
 		public function Settings()
 		{
@@ -407,6 +408,16 @@ package collaboRhythm.shared.model.settings
 		public function set scheduleEditingEnabled(value:Boolean):void
 		{
 			_scheduleEditingEnabled = value;
+		}
+
+		public function get reportForOtherRecordEnabled():Boolean
+		{
+			return _reportForOtherRecordEnabled;
+		}
+
+		public function set reportForOtherRecordEnabled(value:Boolean):void
+		{
+			_reportForOtherRecordEnabled = value;
 		}
 	}
 }

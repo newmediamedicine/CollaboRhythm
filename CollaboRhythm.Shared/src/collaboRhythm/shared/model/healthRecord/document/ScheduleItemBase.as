@@ -195,59 +195,65 @@ package collaboRhythm.shared.model.healthRecord.document
 		{
 			//TODO: Implement for the case that the recurrence rule uses until instead of count
 			var scheduleItemOccurrencesVector:Vector.<ScheduleItemOccurrence> = new Vector.<ScheduleItemOccurrence>();
-			var frequencyMilliseconds:int = getEffectiveFrequencyMilliseconds();
-			var excludeOccurrencesBecauseReplaced:int = -1;
-
-			if (intersect)
+			if (recurrenceRule)
 			{
-				if (searchStart)
-				{
-					searchStart = new Date(searchStart.valueOf() - (_dateEnd.valueOf() - _dateStart.valueOf()));
-				}
-			}
+				var frequencyMilliseconds:int = getEffectiveFrequencyMilliseconds();
+				var excludeOccurrencesBecauseReplaced:int = -1;
 
-			for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
-			{
-				var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
-				if (meta.replacedBy != null)
+				if (intersect)
 				{
-					var replacedByScheduleItem:ScheduleItemBase = meta.replacedBy as ScheduleItemBase;
-					if (occurrenceDateStart.time >= replacedByScheduleItem.dateStart.time)
+					if (searchStart)
 					{
-						// newer schedule item replaces this one, so ignore this and subsequent occurrences
-						excludeOccurrencesBecauseReplaced = recurrenceIndex;
-						break;
+						searchStart = new Date(searchStart.valueOf() - (_dateEnd.valueOf() - _dateStart.valueOf()));
 					}
 				}
 
-				if ((searchStart == null || occurrenceDateStart.time >= searchStart.time) && (searchEnd == null || occurrenceDateStart.time <= searchEnd.time))
+				for (var recurrenceIndex:int = 0; recurrenceIndex < _recurrenceRule.count; recurrenceIndex++)
 				{
-					var scheduleItemOccurrence:ScheduleItemOccurrence = _occurrences.getValueByKey(recurrenceIndex);
-					if (scheduleItemOccurrence == null)
+					var occurrenceDateStart:Date = new Date(_dateStart.time + frequencyMilliseconds * recurrenceIndex);
+					if (meta.replacedBy != null)
 					{
-						var occurrenceDateEnd:Date = new Date(_dateEnd.time + frequencyMilliseconds * recurrenceIndex);
-						scheduleItemOccurrence = new ScheduleItemOccurrence(this,
-								occurrenceDateStart,
-								occurrenceDateEnd,
-								recurrenceIndex);
-						updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence,
-								occurrenceDateStart);
-						_occurrences.addKeyValue(recurrenceIndex, scheduleItemOccurrence);
+						var replacedByScheduleItem:ScheduleItemBase = meta.replacedBy as ScheduleItemBase;
+						if (occurrenceDateStart.time >= replacedByScheduleItem.dateStart.time)
+						{
+							// newer schedule item replaces this one, so ignore this and subsequent occurrences
+							excludeOccurrencesBecauseReplaced = recurrenceIndex;
+							break;
+						}
 					}
-					scheduleItemOccurrencesVector.push(scheduleItemOccurrence);
+
+					if ((searchStart == null || occurrenceDateStart.time >= searchStart.time) &&
+							(searchEnd == null || occurrenceDateStart.time <= searchEnd.time))
+					{
+						var scheduleItemOccurrence:ScheduleItemOccurrence = _occurrences.getValueByKey(recurrenceIndex);
+						if (scheduleItemOccurrence == null)
+						{
+							var occurrenceDateEnd:Date = new Date(_dateEnd.time +
+									frequencyMilliseconds * recurrenceIndex);
+							scheduleItemOccurrence = new ScheduleItemOccurrence(this,
+									occurrenceDateStart,
+									occurrenceDateEnd,
+									recurrenceIndex);
+							updateScheduleItemOccurrenceAdherenceItem(recurrenceIndex, scheduleItemOccurrence,
+									occurrenceDateStart);
+							_occurrences.addKeyValue(recurrenceIndex, scheduleItemOccurrence);
+						}
+						scheduleItemOccurrencesVector.push(scheduleItemOccurrence);
+					}
 				}
-			}
-			if (_logGetScheduleItemOccurrences)
-			{
-				_logger.debug("getScheduleItemOccurrences got " + scheduleItemOccurrencesVector.length +
-						" occurrences for " + this.name.text + " " + this.dateStart.toLocaleString() + " to " +
-						new Date(_dateStart.time + frequencyMilliseconds * _recurrenceRule.count).toLocaleString() +
-						((searchStart != null && searchEnd != null) ? (" in range " + searchStart.toLocaleString() + " to " +
-								searchEnd.toLocaleString()) : "")
-						+ ". Recurrence count " + _recurrenceRule.count + " excludeOccurrencesBecauseReplaced " +
-						excludeOccurrencesBecauseReplaced + " replacedById " + meta.replacedById +
-						(this as MedicationScheduleItem ? " order " +
-								(this as MedicationScheduleItem).scheduledMedicationOrder : ""));
+				if (_logGetScheduleItemOccurrences)
+				{
+					_logger.debug("getScheduleItemOccurrences got " + scheduleItemOccurrencesVector.length +
+							" occurrences for " + this.name.text + " " + this.dateStart.toLocaleString() + " to " +
+							new Date(_dateStart.time + frequencyMilliseconds * _recurrenceRule.count).toLocaleString() +
+							((searchStart != null && searchEnd != null) ? (" in range " + searchStart.toLocaleString() +
+									" to " +
+									searchEnd.toLocaleString()) : "")
+							+ ". Recurrence count " + _recurrenceRule.count + " excludeOccurrencesBecauseReplaced " +
+							excludeOccurrencesBecauseReplaced + " replacedById " + meta.replacedById +
+							(this as MedicationScheduleItem ? " order " +
+									(this as MedicationScheduleItem).scheduledMedicationOrder : ""));
+				}
 			}
 			return scheduleItemOccurrencesVector;
 		}

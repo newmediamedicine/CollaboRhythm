@@ -91,6 +91,7 @@ package collaboRhythm.plugins.medications.controller
 
 		public function createAndSaveMedicationAdministration():void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("createAndSaveMedicationAdministration"))
 			{
 				return;
@@ -108,6 +109,7 @@ package collaboRhythm.plugins.medications.controller
 
 		public function updateDateMeasuredStart(date:Date):void
 		{
+			addCollaborationViewSynchronizationEventListener();
 			if (_synchronizationService.synchronize("updateDateMeasuredStart", date))
 			{
 				return;

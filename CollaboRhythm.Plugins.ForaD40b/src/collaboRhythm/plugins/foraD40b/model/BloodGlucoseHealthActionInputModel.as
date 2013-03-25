@@ -568,5 +568,10 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			saveBloodGlucose(bloodGlucoseVitalSign, initiatedLocally, persist);
 		}
+
+		override public function get measurementValue():String
+		{
+			return deviceBloodGlucose;
+		}
 	}
 }

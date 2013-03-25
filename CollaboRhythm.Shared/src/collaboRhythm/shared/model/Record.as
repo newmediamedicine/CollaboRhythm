@@ -57,7 +57,6 @@ package collaboRhythm.shared.model
 		private var _shared:Boolean = false;
 		private var _role_label:String;
 		private var _demographics:Demographics;
-		private var _contact:Contact;
 
 		[ArrayElementType("collaboRhythm.shared.model.healthRecord.IDocumentCollection")]
 		private var _documentCollections:HashMap = new HashMap(); // key: document type, value: IDocumentCollection
@@ -186,18 +185,6 @@ package collaboRhythm.shared.model
 		public function set demographics(value:Demographics):void
 		{
 			_demographics = value;
-		}
-
-		public function get contact():Contact
-		{
-			return _contact;
-		}
-
-		public function set contact(value:Contact):void
-		{
-			_contact = value;
-
-			// TODO: store the images with the record (as a binary document) or use some other identifier for the file name
 		}
 
 		public function get equipmentModel():EquipmentModel

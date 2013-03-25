@@ -25,7 +25,21 @@
 		 mouseOut="mouseOutHandler()"
 		 click="clickHandler()">
 	<fx:Declarations>
-			<s:GlowFilter id="glowFilter" inner="true" blurX="64" blurY="64" strength="255" color="0x6dcaec"/>
+		<s:GradientGlowFilter id="defaultFilter" blurX="16" blurY="16" strength="1" type="{BitmapFilterType.INNER}">
+			<s:entries>
+				<s:GradientEntry color="#888888"/>
+				<s:GradientEntry color="#FFFFFF"/>
+				<s:GradientEntry color="#FFFFFF"/>
+			</s:entries>
+		</s:GradientGlowFilter>
+		<s:GradientGlowFilter id="selectedFilter" blurX="64" blurY="64" strength="1" type="{BitmapFilterType.INNER}">
+			<s:entries>
+				<s:GradientEntry color="#014A5E"/>
+				<s:GradientEntry color="#00B8EA"/>
+				<s:GradientEntry color="#6dcaec"/>
+				<s:GradientEntry color="#6dcaec"/>
+			</s:entries>
+		</s:GradientGlowFilter>
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
@@ -34,6 +48,8 @@
 		import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 		import com.leebrimelow.drawing.Wedge;
+
+		import flash.filters.BitmapFilterType;
 
 		import mx.binding.utils.BindingUtils;
 		import mx.binding.utils.ChangeWatcher;
@@ -182,6 +198,7 @@
 			var arc:Number = endAngle - startAngle;
 
 			scheduleGroupWedge.graphics.clear();
+			scheduleGroupWedge.graphics.lineStyle(1, 0xA0A0A, 0.5);
 			scheduleGroupWedge.graphics.beginFill(0xFFFFFF, 0.5);
 			Wedge.draw(scheduleGroupWedge, _scheduleGroupsContainer.width / 2, _scheduleGroupsContainer.width / 2,
 					_scheduleGroupsContainer.width / 2 - 1, arc, startAngle - 90);
@@ -242,12 +259,12 @@
 
 		private function mouseDownHandler():void
 		{
-			scheduleGroupWedge.filters = [glowFilter];
+			scheduleGroupWedge.filters = [selectedFilter];
 		}
 
 		private function mouseOutHandler():void
 		{
-			scheduleGroupWedge.filters = [];
+			scheduleGroupWedge.filters = [defaultFilter];
 		}
 
 		private function clickHandler():void
@@ -268,6 +285,6 @@
 		}
 		]]>
 	</fx:Script>
-	<s:Group id="scheduleGroupWedge" width="100%" height="100%"/>
+	<s:Group id="scheduleGroupWedge" width="100%" height="100%" filters="{[defaultFilter]}"/>
 	<s:Group id="scheduleItemOccurrencesContainer" width="100%" height="100%"/>
 </s:Group>
