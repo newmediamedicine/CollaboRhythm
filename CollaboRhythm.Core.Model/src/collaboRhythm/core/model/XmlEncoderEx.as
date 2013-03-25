@@ -136,6 +136,11 @@ package collaboRhythm.core.model
 			name = new QName(type.uri, name.localName);
 
 			super.encodeType(type, parent, name, value, restriction);
+			if (type.toString() == schemaManager.schemaDatatypes.dateQName.toString())
+			{
+				// Drop the trailing Z character
+				parent.setChildren(parent.text().toString().substr(0, 4 + 1 + 2 + 1 + 2));
+			}
 		}
 
 		/**

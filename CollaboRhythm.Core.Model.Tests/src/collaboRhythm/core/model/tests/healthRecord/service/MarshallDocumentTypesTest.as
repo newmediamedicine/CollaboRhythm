@@ -150,18 +150,6 @@ package collaboRhythm.core.model.tests.healthRecord.service
 					</HealthActionSchedule>
 				],
 				[
-					"VideoMessage",
-					"http://indivo.org/vocab/xml/documents#VideoMessage",
-					<VideoMessage xmlns="http://indivo.org/vocab/xml/documents#">
-						<fileId>rpoole1</fileId>
-						<storageType>FlashMediaServer</storageType>
-						<subject>Nice Job Robert</subject>
-						<from>jking@records.media.mit.edu</from>
-						<dateRecorded>2009-05-17T12:52:21Z</dateRecorded>
-						<dateSent>2009-05-17T12:52:21Z</dateSent>
-					</VideoMessage>
-				],
-				[
 					"HealthActionPlan complex 1",
 					"http://indivo.org/vocab/xml/documents/healthActionPlan#HealthActionPlan",
 					<HealthActionPlan xmlns="http://indivo.org/vocab/xml/documents/healthActionPlan#"
