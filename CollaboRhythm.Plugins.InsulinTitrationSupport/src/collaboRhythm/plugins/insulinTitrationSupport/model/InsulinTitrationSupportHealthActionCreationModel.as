@@ -103,11 +103,11 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord, _activeAccount.accountId, _currentDateSource);
 			scheduleCreator.initializeDefaultSchedule(healthActionSchedule);
 
-			_activeRecordAccount.primaryRecord.addDocument(healthActionSchedule, true);
-
 			healthActionSchedule.scheduledHealthAction = decisionHealthActionPlan;
 			_activeRecordAccount.primaryRecord.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
 					decisionHealthActionPlan, healthActionSchedule, true);
+
+			_activeRecordAccount.primaryRecord.addDocument(healthActionSchedule, true);
 
 			_activeRecordAccount.primaryRecord.saveAllChanges();
 		}
@@ -177,11 +177,12 @@ package collaboRhythm.plugins.insulinTitrationSupport.model
 			var scheduleCreator:ScheduleCreator = new ScheduleCreator(_activeRecordAccount.primaryRecord, _activeAccount.accountId, _currentDateSource);
 			scheduleCreator.initializeDefaultSchedule(healthActionSchedule);
 
-			_activeRecordAccount.primaryRecord.addDocument(healthActionSchedule, true);
-
 			healthActionSchedule.scheduledHealthAction = bloodGlucoseEquipment;
+			healthActionSchedule.scheduledEquipment = bloodGlucoseEquipment;
 			_activeRecordAccount.primaryRecord.addRelationship(ScheduleItemBase.RELATION_TYPE_SCHEDULE_ITEM,
 					bloodGlucoseEquipment, healthActionSchedule, true);
+
+			_activeRecordAccount.primaryRecord.addDocument(healthActionSchedule, true);
 
 			_activeRecordAccount.primaryRecord.saveAllChanges();
 		}
