@@ -145,12 +145,12 @@ package collaboRhythm.plugins.foraD40b.model
 		{
 			var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
 
-			if (deviceBloodGlucose != "")
+			if (isValidValue(deviceBloodGlucose))
 			{
 				bloodGlucoseVitalSign = vitalSignFactory.createBloodGlucose(dateMeasuredStart, deviceBloodGlucose, null,
 						null, null, null, null, FROM_DEVICE + ForaD40bAppController.DEFAULT_NAME + " " + _urlVariables.toString());
 			}
-			else if (manualBloodGlucose != "")
+			else if (isValidValue(manualBloodGlucose))
 			{
 				bloodGlucoseVitalSign = vitalSignFactory.createBloodGlucose(dateMeasuredStart, manualBloodGlucose, null,
 						null, null, null, null, SELF_REPORT);
