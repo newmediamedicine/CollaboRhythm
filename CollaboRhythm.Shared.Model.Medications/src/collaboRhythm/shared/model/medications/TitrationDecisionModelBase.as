@@ -3,7 +3,9 @@ package collaboRhythm.shared.model.medications
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.ITitrationDecisionSupportStatesFileStore;
 	import collaboRhythm.shared.messages.model.IIndividualMessageHealthRecordService;
 	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.Relationship;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
@@ -758,7 +760,8 @@ package collaboRhythm.shared.model.medications
 				for each (var vitalSign:VitalSign in vitalSignsArrayCollection)
 				{
 					if (vitalSign.dateMeasuredStart.valueOf() > eligibleWindowCutoff.valueOf() &&
-							vitalSign.dateMeasuredStart.valueOf() < now.valueOf())
+							vitalSign.dateMeasuredStart.valueOf() < now.valueOf() &&
+							isValidResult(vitalSign))
 					{
 						for each (var relationship:Relationship in vitalSign.isRelatedFrom)
 						{
@@ -785,6 +788,11 @@ package collaboRhythm.shared.model.medications
 					_eligibleVitalSigns.shift();
 				}
 			}
+		}
+
+		protected function isValidResult(vitalSign:VitalSign):Boolean
+		{
+			return vitalSign.result && !StringUtils.isEmpty(vitalSign.result.value) && vitalSign.result.value != "0";
 		}
 
 		public function get isAverageAvailable():Boolean
