@@ -6,9 +6,6 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 	import collaboRhythm.shared.insulinTitrationSupport.model.states.TitrationDecisionSupportState;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.Record;
-	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
-	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.medications.MedicationTitrationAnalyzer;
 	import collaboRhythm.shared.model.medications.TitrationDecisionModelBase;
@@ -39,7 +36,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private static const HYDROCHLOROTHIAZIDE_12_5_MG_ORAL_TABLET:Array = ["199903", "Hydrochlorothiazide 12.5 MG Oral Tablet", "002282820"];
 		private static const HYDROCHLOROTHIAZIDE_25_MG_ORAL_TABLET:Array = ["310798", "Hydrochlorothiazide 25 MG Oral Tablet", "006033856"];
 
-		private static const NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS:Number = 1000 * 60 * 60 * 24 * 14;
+		private static const NUMBER_OF_DAYS_BEFORE_TITRATION:int = 14;
+		private static const NUMBER_OF_MILLISECONDS_BEFORE_TITRATION:Number = 1000 * 60 * 60 * 24 * NUMBER_OF_DAYS_BEFORE_TITRATION;
 
 		protected static const REQUIRED_DAYS_OF_PERFECT_MEDICATION_ADHERENCE:int = 14;
 		protected static const REQUIRED_BLOOD_PRESSURE_MEASUREMENTS:int = 3;
@@ -52,7 +50,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		protected var _hypertensionMedicationAlternatePairsVector:Vector.<HypertensionMedicationAlternatePair> = new Vector.<HypertensionMedicationAlternatePair>();
 
 		protected var _highestHypertensionMedicationAlternatePairIndex:int;
-		protected var _mostRecentDoseChange:Date;
+		protected var _timeSinceLastChange:Number;
 
 		protected var _currentDateSource:ICurrentDateSource;
 		protected var _activeRecordAccount:Account;
@@ -168,8 +166,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		private function isDurationSinceChangeGoalMet():Boolean
 		{
-			return (_mostRecentDoseChange == null ||
-					(_currentDateSource.now().time - _mostRecentDoseChange.time) > NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS);
+			return daysRemaining <= 0;
 		}
 
 		private function determineHighestMedicationAlternatePair():void
@@ -209,7 +206,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 		private function determineMostRecentDoseChange():void
 		{
 			var analyzer:MedicationTitrationAnalyzer = new MedicationTitrationAnalyzer(_medicationScheduleItemsCollection, currentDateSource);
-			_mostRecentDoseChange = analyzer.getMostRecentDoseChange();
+			_timeSinceLastChange = analyzer.calculateTimeSinceChange();
 		}
 
 		/**
@@ -392,12 +389,11 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 
 		public function get daysRemaining():int
 		{
-			if (_mostRecentDoseChange)
+			if (!isNaN(_timeSinceLastChange))
 			{
-				var delta:Number = NUMBER_OF_MILLISECONDS_IN_TWO_WEEKS -
-						(_currentDateSource.now().time - _mostRecentDoseChange.time);
+				var delta:Number = NUMBER_OF_MILLISECONDS_BEFORE_TITRATION - _timeSinceLastChange;
 				if (delta < 0) delta = 0;
-				var days:int = Math.ceil(delta / (1000 * 60 * 60 * 24));
+				var days:int = Math.floor(delta / (1000 * 60 * 60 * 24));
 				return days;
 			}
 			return 0;

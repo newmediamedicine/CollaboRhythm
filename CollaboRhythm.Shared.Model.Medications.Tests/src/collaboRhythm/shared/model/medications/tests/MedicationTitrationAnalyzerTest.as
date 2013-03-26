@@ -1,8 +1,12 @@
 package collaboRhythm.shared.model.medications.tests
 {
+	import collaboRhythm.shared.model.Record;
 	import collaboRhythm.shared.model.RecurrenceRule;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
+	import collaboRhythm.shared.model.healthRecord.DocumentBase;
+	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.medications.MedicationTitrationAnalyzer;
 	import collaboRhythm.shared.model.services.DateUtil;
 	import collaboRhythm.shared.model.services.DefaultCurrentDateSource;
@@ -15,9 +19,15 @@ package collaboRhythm.shared.model.medications.tests
 	import org.flexunit.asserts.assertEquals;
 
 	import org.flexunit.asserts.assertNull;
+	import org.flexunit.asserts.assertStrictlyEquals;
 	import org.hamcrest.assertThat;
 	import org.hamcrest.date.dateEqual;
+	import org.hamcrest.object.equalTo;
 
+	/**
+	 * Tests for MedicationTitrationAnalyzer.
+	 * Warning: These tests currently suffer from the flaw of only working reliably in the timezone for which they were intended, EDT (-6:00).
+	 */
 	public class MedicationTitrationAnalyzerTest
 	{
 		private var analyzer:MedicationTitrationAnalyzer;
@@ -67,7 +77,7 @@ package collaboRhythm.shared.model.medications.tests
 			assertNull(result);
 		}
 
-		[Test(description = "Tests that the dateEnd of the occurrence after the last occurrence is returned for a single medication that ends before now.")]
+		[Test(description = "Tests that the dateStart of the last occurrence is returned for a single medication that ends before now.")]
 		public function oneMedicationEndingBeforeNow():void
 		{
 			var schedule:MedicationScheduleItem = createSchedule();
@@ -76,7 +86,7 @@ package collaboRhythm.shared.model.medications.tests
 
 			var result:Date = analyzer.getMostRecentDoseChange();
 
-			assertThat(result, dateEqual(DateUtil.parse("2011-01-08T08:00:00Z")));
+			assertThat(result, dateEqual(DateUtil.parse("2011-01-08T06:00:00Z")));
 		}
 
 		[Test(description = "Tests that the dateStart of the first occurrence is returned for a single medication that ends after now.")]
@@ -120,7 +130,7 @@ package collaboRhythm.shared.model.medications.tests
 			assertThat(result, dateEqual(DateUtil.parse("2011-01-01T06:00:00Z")));
 		}
 
-		[Test(description = "Tests that the dateEnd of the occurrence after the last occurrence of the later medication is returned for two medications which end before now.")]
+		[Test(description = "Tests that the dateStart of the occurrence after the last occurrence of the later medication is returned for two medications which end before now.")]
 		public function medicationEndingBeforeNowWithAnotherBefore():void
 		{
 			var schedule1:MedicationScheduleItem = createSchedule("2010-12-01T12:00:00Z", "2010-12-01T14:00:00Z", 31);
@@ -130,7 +140,7 @@ package collaboRhythm.shared.model.medications.tests
 
 			var result:Date = analyzer.getMostRecentDoseChange();
 
-			assertThat(result, dateEqual(DateUtil.parse("2011-01-08T08:00:00Z")));
+			assertThat(result, dateEqual(DateUtil.parse("2011-01-08T06:00:00Z")));
 		}
 
 		private function createSchedule(dateStartString:String = "2011-01-01T06:00:00Z",
@@ -147,6 +157,112 @@ package collaboRhythm.shared.model.medications.tests
 			schedule.recurrenceRule.count = recurrenceCount;
 			schedule.recurrenceRule.frequency = "DAILY";
 			return schedule;
+		}
+
+		[Test(description = "Time since change should be NaN if there are no medications")]
+		public function timeSinceChangeNaN():void
+		{
+			analyzer.medicationScheduleItemsCollection = new ArrayCollection();
+
+			var result:Number = analyzer.calculateTimeSinceChange();
+
+			assertThat(isNaN(result));
+		}
+
+		[Test(description = "Time since change should be NaN if one invalid medication (no occurrences) is in the collection")]
+		public function invalidMedicationTimeSinceChangeNaN():void
+		{
+			var schedule:MedicationScheduleItem = new MedicationScheduleItem();
+
+			analyzer.medicationScheduleItemsCollection = new ArrayCollection([schedule]);
+
+			var result:Number = analyzer.calculateTimeSinceChange();
+
+			assertThat(isNaN(result));
+		}
+
+		[Test(description = "Time since change should be one day when the current time is two days after the start of the last occurrence")]
+		public function oneMedicationEndingBeforeNowTimeSinceChange():void
+		{
+			var schedule:MedicationScheduleItem = createSchedule();
+			dateSource.targetDate = DateUtil.parse("2011-01-09T06:00:00Z");
+
+			analyzer.medicationScheduleItemsCollection = new ArrayCollection([schedule]);
+
+			var result:Number = analyzer.calculateTimeSinceChange();
+
+			assertThat(result, equalTo(DateUtil.MILLISECONDS_IN_DAY));
+		}
+
+		[Test(description = "Time since change should be one day when the current time is one day after the start of the first occurrence")]
+		public function oneMedicationOneDayAfterStartTimeSinceChange():void
+		{
+			var schedule:MedicationScheduleItem = createSchedule();
+			dateSource.targetDate = DateUtil.parse("2011-01-02T06:00:00Z");
+
+			analyzer.medicationScheduleItemsCollection = new ArrayCollection([schedule]);
+
+			var result:Number = analyzer.calculateTimeSinceChange();
+
+			assertThat(result, equalTo(DateUtil.MILLISECONDS_IN_DAY));
+		}
+
+		[Test(description = "Time since change should be 0 when the current time is one hour after the start of the first occurrence")]
+		public function oneMedicationOneHourAfterStartTimeSinceChange():void
+		{
+			var schedule:MedicationScheduleItem = createSchedule();
+			dateSource.targetDate = DateUtil.parse("2011-01-01T07:00:00Z");
+
+			analyzer.medicationScheduleItemsCollection = new ArrayCollection([schedule]);
+
+			var result:Number = analyzer.calculateTimeSinceChange();
+
+			assertThat(result, equalTo(0));
+		}
+
+
+		[Test(description = "Time since change should be 0 when the current time is one hour after the start of the first occurrence")]
+		public function oneMedicationThreeHoursAfterStartTimeSinceChange():void
+		{
+			var schedule:MedicationScheduleItem = createSchedule();
+			dateSource.targetDate = DateUtil.parse("2011-01-01T09:00:00Z");
+
+			analyzer.medicationScheduleItemsCollection = new ArrayCollection([schedule]);
+
+			var result:Number = analyzer.calculateTimeSinceChange();
+
+			assertThat(result, equalTo(DateUtil.MILLISECONDS_IN_DAY));
+		}
+
+		[Test(description = "Time since change should be two days when the current time is a little under two days after the start of the first occurrence")]
+		public function oneMedicationTwoDaysAfterStartTimeSinceChange():void
+		{
+			var schedule:MedicationScheduleItem = createSchedule();
+			dateSource.targetDate = DateUtil.parse("2011-01-03T06:30:00Z");
+
+			analyzer.medicationScheduleItemsCollection = new ArrayCollection([schedule]);
+
+			var result:Number = analyzer.calculateTimeSinceChange();
+
+			assertThat(result / DateUtil.MILLISECONDS_IN_DAY, equalTo(2));
+			assertThat(result, equalTo(DateUtil.MILLISECONDS_IN_DAY * 2));
+		}
+
+		[Test(description = "Time since change should be one day when the current time is one hour after the start of the first occurrence, but the first occurrence has been administered")]
+		public function oneMedicationOneHourAfterStartAlreadyAdministeredTimeSinceChange():void
+		{
+			var schedule:MedicationScheduleItem = createSchedule();
+			dateSource.targetDate = DateUtil.parse("2011-01-01T07:00:00Z");
+			var scheduleItemOccurrence:ScheduleItemOccurrence = schedule.getScheduleItemOccurrences()[0];
+			var newAdherenceItem:AdherenceItem = new AdherenceItem();
+			newAdherenceItem.init(schedule.name, "me", dateSource.now(), scheduleItemOccurrence.recurrenceIndex);
+			scheduleItemOccurrence.adherenceItem = newAdherenceItem;
+
+			analyzer.medicationScheduleItemsCollection = new ArrayCollection([schedule]);
+
+			var result:Number = analyzer.calculateTimeSinceChange();
+
+			assertThat(result, equalTo(DateUtil.MILLISECONDS_IN_DAY));
 		}
 	}
 }
