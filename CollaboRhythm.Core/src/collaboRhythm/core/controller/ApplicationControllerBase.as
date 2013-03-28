@@ -484,6 +484,9 @@ package collaboRhythm.core.controller
 				Log.addTarget(tcpSyslogTarget);
 			}
 
+			// Due to a settings file deployment issue in a study, always use google analytics, even if the settings file says not to
+			_settings.useGoogleAnalytics = true;
+
 			if (_settings.useGoogleAnalytics)
 			{
 				_analyticsTracker = new GATracker(_application, _settings.googleAnalyticsTrackingId, "AS3");

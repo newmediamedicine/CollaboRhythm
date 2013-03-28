@@ -27,6 +27,7 @@
 	<useFileTarget>true</useFileTarget>
 	<useTraceTarget>true</useTraceTarget>
 	<useSyslogTarget>false</useSyslogTarget>
+	<!--This setting is currently always overridden to true in the code because of a settings deployment issue in a study-->
 	<useGoogleAnalytics>false</useGoogleAnalytics>
 	<logSourceIdentifier>CollaboRhythmDefault</logSourceIdentifier>
 	<rtmpBaseURI>rtmfp://adrenaline.media.mit.edu</rtmpBaseURI>
