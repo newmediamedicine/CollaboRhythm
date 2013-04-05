@@ -101,7 +101,21 @@
           </files-to-package>
           <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" use-temp-certificate="false" />
         </packaging-android>
-        <packaging-ios package-file-name="CollaboRhythm_Tablet_Release" />
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/CollaboRhythmTabletApplication-app.xml" package-file-name="CollaboRhythm_Tablet_Release">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/assets/images/icons" path-in-package="assets/images/icons" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Schedule/bin-debug/SchedulePluginModule.swf" path-in-package="plugins/SchedulePluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications/bin-debug/MedicationsPluginModule.swf" path-in-package="plugins/MedicationsPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HealthCharts/bin-debug/HealthChartsPluginModule.swf" path-in-package="plugins/HealthChartsPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Equipment/bin-debug/EquipmentPluginModule.swf" path-in-package="plugins/EquipmentPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.ForaD40b/bin-debug/ForaD40bPluginModule.swf" path-in-package="plugins/ForaD40bPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Messages/bin-debug/MessagesPluginModule.swf" path-in-package="plugins/MessagesPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications.Insulin/bin-debug/InsulinPluginModule.swf" path-in-package="plugins/InsulinPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.InsulinTitrationSupport/bin-debug/CollaboRhythm_Plugins_InsulinTitrationSupportPluginModule.swf" path-in-package="plugins/InsulinTitrationSupportPluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Problems.HIV/bin-debug/HIVPluginModule.swf" path-in-package="plugins/HIVPluginModule.swf" />
+          </files-to-package>
+          <AirSigningOptions keystore-path="$MODULE_DIR$/iphone_dev.p12" provisioning-profile-path="$MODULE_DIR$/CollaboRhythm_Tablet.mobileprovision" />
+        </packaging-ios>
       </configuration>
       <configuration name="CollaboRhythm.Tablet Emulator" target-platform="Mobile" main-class="CollaboRhythmTabletApplication" output-file="CollaboRhythm_Tablet_Emulator.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
