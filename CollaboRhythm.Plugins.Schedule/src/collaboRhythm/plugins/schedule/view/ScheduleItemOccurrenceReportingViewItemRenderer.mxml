@@ -139,7 +139,7 @@
 			{
 				_scheduleItemOccurrenceReportingController.removeEventListener();
 			}
-			if (_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController)
+			if (_scheduleItemOccurrenceReportingViewAdapter && _scheduleItemOccurrenceReportingViewAdapter.model && _scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController)
 			{
 				_scheduleItemOccurrenceReportingViewAdapter.model.healthActionInputController.destroy();
 			}
