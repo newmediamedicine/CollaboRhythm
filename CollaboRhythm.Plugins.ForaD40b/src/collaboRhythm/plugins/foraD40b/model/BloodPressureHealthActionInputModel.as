@@ -10,7 +10,6 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
-	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.VitalSignFactory;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
@@ -116,7 +115,7 @@ package collaboRhythm.plugins.foraD40b.model
 
 		override public function createResult():Boolean
 		{
-			if (StringUtils.isNumeric(systolic) && StringUtils.isNumeric(diastolic))
+			if (isValidValue(systolic) && isValidValue(diastolic))
 			{
 				var vitalSignFactory:VitalSignFactory = new VitalSignFactory();
 
@@ -128,7 +127,7 @@ package collaboRhythm.plugins.foraD40b.model
 				var bloodPressureDiastolic:VitalSign = vitalSignFactory.createBloodPressureDiastolic(dateMeasuredStart,
 						diastolic, null, null, site, position, null, comments);
 				results.push(bloodPressureDiastolic);
-				if (StringUtils.isNumeric(heartRate))
+				if (isValidValue(heartRate))
 				{
 					var heartRateVitalSign:VitalSign = vitalSignFactory.createHeartRate(dateMeasuredStart, heartRate,
 							null, null,

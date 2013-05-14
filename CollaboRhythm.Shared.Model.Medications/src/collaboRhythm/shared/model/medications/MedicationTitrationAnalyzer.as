@@ -1,5 +1,6 @@
 package collaboRhythm.shared.model.medications
 {
+	import collaboRhythm.plugins.schedule.shared.model.ScheduleDetailsResolver;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -12,6 +13,7 @@ package collaboRhythm.shared.model.medications
 	{
 		private var _medicationScheduleItemsCollection:ArrayCollection;
 		private var _currentDateSource:ICurrentDateSource;
+		private var _mostRecentDoseChangeMedication:MedicationScheduleItem;
 
 		public function MedicationTitrationAnalyzer(medicationScheduleItemsCollection:ArrayCollection, currentDateSource:ICurrentDateSource)
 		{
@@ -34,11 +36,13 @@ package collaboRhythm.shared.model.medications
 						if (mostRecentDoseChange.time < doseChangeDate.time)
 						{
 							mostRecentDoseChange = doseChangeDate;
+							mostRecentDoseChangeMedication = medicationScheduleItem;
 						}
 					}
 					else
 					{
 						mostRecentDoseChange = doseChangeDate;
+						mostRecentDoseChangeMedication = medicationScheduleItem;
 					}
 				}
 			}
@@ -66,7 +70,7 @@ package collaboRhythm.shared.model.medications
 				var firstOccurrenceDayStart:Date = DateUtil.roundTimeToPreviousDay(firstOccurrence.dateStart);
 				var lastOccurrenceDayAfterEnd:Date = new Date(DateUtil.roundTimeToNextDay(lastOccurrence.dateEnd).valueOf() + DateUtil.MILLISECONDS_IN_DAY);
 
-				// If the medication schedule has ended, only consider the possibility that the start is a change
+				// If the medication schedule has not ended, only consider the possibility that the start is a change
 				var endIsChange:Boolean = getScheduleHasEnded(medicationScheduleItem);
 				var startIsChange:Boolean = true;
 
@@ -106,7 +110,7 @@ package collaboRhythm.shared.model.medications
 						}
 					}
 				}
-				return endIsChange ? new Date(lastOccurrence.dateEnd.valueOf() + DateUtil.MILLISECONDS_IN_DAY) :
+				return endIsChange ? new Date(lastOccurrence.dateStart.valueOf() + DateUtil.MILLISECONDS_IN_DAY) :
 						(startIsChange ? firstOccurrence.dateStart : null);
 			}
 			return null;
@@ -134,6 +138,40 @@ package collaboRhythm.shared.model.medications
 		public function set medicationScheduleItemsCollection(value:ArrayCollection):void
 		{
 			_medicationScheduleItemsCollection = value;
+		}
+
+		public function get mostRecentDoseChangeMedication():MedicationScheduleItem
+		{
+			return _mostRecentDoseChangeMedication;
+		}
+
+		public function set mostRecentDoseChangeMedication(value:MedicationScheduleItem):void
+		{
+			_mostRecentDoseChangeMedication = value;
+		}
+
+		/**
+		 * Calculates the difference in time from the most recent dose change to the next possible occurrence (future
+		 * and not yet acted upon) of the most recently changed medication.
+		 * @return The difference in time (milliseconds) from the most recent dose change to the next possible
+		 * occurrence
+		 */
+		public function calculateTimeSinceChange():Number
+		{
+			var mostRecentDoseChange:Date = getMostRecentDoseChange();
+
+			if (mostRecentDoseChange)
+			{
+				var dateOfNextOccurrence:Date = ScheduleDetailsResolver.getPossibleDateOfNextOccurrence(new <String>[_mostRecentDoseChangeMedication.name.value],
+						_medicationScheduleItemsCollection, _currentDateSource.now());
+
+				if (dateOfNextOccurrence)
+				{
+					return dateOfNextOccurrence.valueOf() - mostRecentDoseChange.valueOf();
+				}
+			}
+
+			return NaN;
 		}
 	}
 }

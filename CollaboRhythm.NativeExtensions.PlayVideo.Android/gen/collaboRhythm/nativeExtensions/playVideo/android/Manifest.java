@@ -1,3 +1,5 @@
+/*___Generated_by_IDEA___*/
+
 package collaboRhythm.nativeExtensions.playVideo.android;
 
 /* This stub is for using by IDE only. It is NOT the Manifest class actually packed into APK */

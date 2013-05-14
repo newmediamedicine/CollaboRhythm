@@ -5,6 +5,7 @@ package collaboRhythm.plugins.foraD40b.model
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionInputModel;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionModelDetailsProvider;
 	import collaboRhythm.plugins.schedule.shared.model.IScheduleCollectionsProvider;
+	import collaboRhythm.shared.model.StringUtils;
 	import collaboRhythm.shared.model.healthRecord.DocumentBase;
 	import collaboRhythm.shared.model.healthRecord.document.HealthActionSchedule;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
@@ -217,6 +218,11 @@ package collaboRhythm.plugins.foraD40b.model
 		public function get measurementValue():String
 		{
 			return null;
+		}
+
+		public static function isValidValue(value:String):Boolean
+		{
+			return StringUtils.isNumeric(value) && parseFloat(value) > 0;
 		}
 	}
 }
