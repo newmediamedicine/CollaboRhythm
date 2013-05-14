@@ -1764,26 +1764,26 @@
     
     <organDonar>true</organDonar>
     
-    <recordId/>
+    <recordId>eb3d3144-02d7-4bdd-a623-4f5ee279a3b7</recordId>
     
-    <accessKey/>
+    <accessKey>XVkFK2xgZwTfbmDAersF</accessKey>
     
-    <accessSecret/>
+    <accessSecret>X2g5p5e2I5mZ4amjk21E</accessSecret>
     
-    <status/>
+    <status>Login successful</status>
     
-    <demographicsId>4efcc45c-1435-4f86-abbb-8c72635b9213</demographicsId>
+    <demographicsId>1dc08b67-5955-42eb-b65e-24a95bb348c6</demographicsId>
     
-    <recordSeed/>
+    <recordSeed>2</recordSeed>
     
     <notes>Primary demo account with hypertension data</notes>
     
-    <shareAccountId>jking@records.media.mit.edu,akiel@records.media.mit.edu</shareAccountId>
+    <shareAccountId>jking@records.media.mit.edu</shareAccountId>
     
     <shareRole>Coach</shareRole>
     
     <mode>patient</mode>
-  </AccountSource>
+  <documentsDirectory>hypertension</documentsDirectory></AccountSource>
   
   <AccountSource>
     
