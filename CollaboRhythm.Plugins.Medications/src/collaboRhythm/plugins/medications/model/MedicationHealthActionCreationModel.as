@@ -1,6 +1,7 @@
 package collaboRhythm.plugins.medications.model
 {
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationModel;
+	import collaboRhythm.plugins.schedule.shared.model.SaveMedicationCompleteEvent;
 	import collaboRhythm.plugins.schedule.shared.model.ScheduleCreator;
 	import collaboRhythm.shared.model.Account;
 	import collaboRhythm.shared.model.CodedValueFactory;

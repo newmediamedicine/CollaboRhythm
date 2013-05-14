@@ -24,7 +24,9 @@ package collaboRhythm.shared.model.healthRecord.document
 		public static const CALORIC_INTAKE_CATEGORY:String = "Caloric Intake";
 		public static const PEAK_EXPIRATORY_FLOW_RATE_CATEGORY:String = "Peak Expiratory Flow Rate";
 		public static const STEP_COUNT_CATEGORY:String = "Step Count";
-		
+		public static const VIRAL_LOAD_CATEGORY:String = "Viral Load";
+		public static const TCELL_COUNT_CATEGORY:String = "TCell Count";
+
 		public static const SUPPORTED_CATEGORIES:Vector.<String> = new <String>[
 			SYSTOLIC_CATEGORY,
 			DIASTOLIC_CATEGORY,
@@ -37,6 +39,8 @@ package collaboRhythm.shared.model.healthRecord.document
 			CALORIC_INTAKE_CATEGORY,
 			PEAK_EXPIRATORY_FLOW_RATE_CATEGORY,
 			STEP_COUNT_CATEGORY,
+			VIRAL_LOAD_CATEGORY,
+			TCELL_COUNT_CATEGORY
 		];
 
 		public function VitalSignsModel()

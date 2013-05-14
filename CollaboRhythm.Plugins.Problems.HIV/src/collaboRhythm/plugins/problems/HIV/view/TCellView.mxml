@@ -22,7 +22,6 @@
 		import collaboRhythm.plugins.problems.HIV.model.HIVSimulationModel;
 
 		import spark.effects.Move;
-
 		import spark.primitives.Graphic;
 
 		private var openvirusPos:Array = [
@@ -80,11 +79,11 @@
 
 		[Embed(source="/assets/images/tcell.png")]
 		public var tCellImageClass:Class;
-		private var _hivSumulationView:HIVSimulationView;
+		private var _hivSimulationView:HIVSimulationView;
 
 		public function init(hivSimulationModel:HIVSimulationModel, hivSimulationView:HIVSimulationView):void
 		{
-			_hivSumulationView = hivSimulationView;
+			_hivSimulationView = hivSimulationView;
 
 			_animationTimer = new Timer(100);
 			_animationTimer.addEventListener(TimerEvent.TIMER, animationTimerEventHandler);
@@ -131,7 +130,7 @@
 			tCellImage.alpha = 0.4;
 			if (openvirusPos.length == 0)
 			{
-				_hivSumulationView.freeTcells.splice(tcellNumber, 1);
+				_hivSimulationView.freeTcells.splice(tcellNumber, 1);
 			}
 			return virusView;
 		}
@@ -150,18 +149,19 @@
 		{
 			for (var virusnum = 0; virusnum < attachedViruses.length; virusnum++)
 			{
-				if (usedvirusPos[virusnum][0] == virusPos[0] &&	usedvirusPos[virusnum][1] == virusPos[1]			)
+				if (usedvirusPos[virusnum][0] == virusPos[0] && usedvirusPos[virusnum][1] == virusPos[1])
 				{
 					var attachedVirus:VirusView = attachedViruses[virusnum];
 					attachedViruses.splice(virusnum, 1);
 					usedvirusPos.splice(virusnum, 1);
 					removeElement(attachedVirus);
-					_hivSumulationView.addLooseVirus();
+					_hivSimulationView.addLooseVirus();
 				}
 			}
 		}
 
-		function drawMedication(medicationGraphic:Graphic, startAngle:Number, endAngle:Number, medColor, medAlpha:Number)
+		function drawMedication(medicationGraphic:Graphic, startAngle:Number, endAngle:Number, medColor,
+								medAlpha:Number)
 		{
 
 			if (medAlpha == 50)
@@ -212,7 +212,8 @@
 			{
 				var angles:Array = [0, 360];
 
-				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor,
+						medAlpha);
 				if (medicationNumber == 0)
 				{
 					removeVirusatPosition([-24, 0]);
@@ -226,7 +227,8 @@
 			{
 				var angles:Array = [180, 360, 540];
 
-				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor,
+						medAlpha);
 				if (medicationNumber == 0)
 				{
 					removeVirusatPosition([-24, 0]);
@@ -242,7 +244,8 @@
 			{
 				var angles:Array = [240, 360, 480, 600];
 
-				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor,
+						medAlpha);
 				if (medicationNumber == 0)
 				{
 					removeVirusatPosition([-24, 0]);
@@ -260,7 +263,8 @@
 			{
 				var angles:Array = [225, 315, 405, 495, 585];
 
-				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor,
+						medAlpha);
 				if (medicationNumber == 0)
 				{
 					removeVirusatPosition([-24, 0]);
@@ -280,7 +284,8 @@
 			{
 				var angles:Array = [216, 288, 360, 432, 504, 576];
 
-				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor, medAlpha);
+				drawMedication(medicationGraphic, angles[medicationNumber], angles[medicationNumber + 1], medColor,
+						medAlpha);
 				if (medicationNumber == 0)
 				{
 					removeVirusatPosition([-24, 0]);

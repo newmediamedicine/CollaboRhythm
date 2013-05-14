@@ -17,7 +17,8 @@
 -->
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:tablet="collaboRhythm.shared.view.tablet.*">
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+		title="HIV Simulation">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.problems.HIV.controller.HIVAppController;
 		import collaboRhythm.plugins.problems.HIV.model.HIVSimulationModel;
@@ -36,18 +37,22 @@
 		private var attachedViruses:Array = [];
 		private var looseViruses:Array = [];
 
+		private var _xScaleFactor:Number;
+		private var _yScaleFactor:Number;
+
 		override public function set data(value:Object):void
 		{
 			_hivSimulationModel = value as HIVSimulationModel;
 
 			_hivSimulationModel.updateSimulationData();
-
-
 		}
 
 		override protected function createChildren():void
 		{
 			super.createChildren();
+
+			_xScaleFactor = this.width / 320;
+			_yScaleFactor = this.height / 240;
 
 			placeTCells();
 			placeViruses();
@@ -81,7 +86,7 @@
 					viruses.push(virusView);
 					attachedViruses.push(virusView);
 				}
-				else if (_hivSimulationModel.openLooseVirusPos.length != 0)
+				else
 				{
 					addLooseVirus();
 				}
@@ -90,34 +95,39 @@
 
 		public function addLooseVirus()
 		{
-			var looseVirusesLength:Number = looseViruses.length;
-			var virusView:VirusView = new VirusView();
-			virusView.init(false);
-			simulationGroup.addElement(virusView);
-			virusView.alpha = 0.6;
-			var virusPosNumber:Number = Math.floor(Math.random() * _hivSimulationModel.openLooseVirusPos.length);
-			var virusPos:Array = _hivSimulationModel.openLooseVirusPos[virusPosNumber];
-			var xwiggle:Number = Math.floor(Math.random() * 5) - 2;
-			var ywiggle:Number = Math.floor(Math.random() * 5) - 2;
-			virusView.x = (virusPos[0] + xwiggle) * 3;
-			virusView.y = (virusPos[1] + ywiggle) * 3;
-			_hivSimulationModel.openLooseVirusPos.splice(virusPosNumber, 1);
-			viruses.push(virusView);
-			looseViruses.push(virusView);
+			if (_hivSimulationModel.openLooseVirusPos.length != 0)
+			{
+				var looseVirusesLength:Number = looseViruses.length;
+				var virusView:VirusView = new VirusView();
+				virusView.init(false);
+				simulationGroup.addElement(virusView);
+				virusView.alpha = 0.6;
+				var virusPosNumber:Number = Math.floor(Math.random() * _hivSimulationModel.openLooseVirusPos.length);
+				var virusPos:Array = _hivSimulationModel.openLooseVirusPos[virusPosNumber];
+				var xwiggle:Number = Math.floor(Math.random() * 5) - 2;
+				var ywiggle:Number = Math.floor(Math.random() * 5) - 2;
+				virusView.x = (virusPos[0] + xwiggle) * 3;
+				virusView.y = (virusPos[1] + ywiggle) * 3;
+				_hivSimulationModel.openLooseVirusPos.splice(virusPosNumber, 1);
+				viruses.push(virusView);
+				looseViruses.push(virusView);
+			}
 		}
 
 		private function placeMeds():void
 		{
 			var med:int = 0;
-			for each (var medicationFill:MedicationFill in _hivSimulationModel.activeRecord.medicationFillsModel.medicationFillsCollection)
+			for each (var medicationFill:MedicationFill in
+					_hivSimulationModel.activeRecord.medicationFillsModel.medicationFillsCollection)
 			{
 
 				var medConcentration:Number = _hivSimulationModel.medConcentrations[med];
-				var medGoalConcentration:Number = 1; //medGoalConcentrations[med];
+				var medGoalConcentration:Number = _hivSimulationModel.medGoalConcentrations[med];
+				var medColor:uint = _hivSimulationModel.medColors[med];
 				var percentGoal:Number = (medConcentration / medGoalConcentration) * 100;
 
 				var medicationView:MedicationView = new MedicationView();
-				medicationView.init(medicationFill, percentGoal);
+				medicationView.init(medicationFill, percentGoal, medColor);
 				medicationsGroup.addElement(medicationView);
 
 				var addMedication:String = "";
@@ -188,7 +198,7 @@
 		}
 		]]></fx:Script>
 	<s:HGroup width="100%" height="100%">
-		<s:VGroup id="medicationsGroup" width="100%" height="100%" gap="130" paddingTop="100" paddingLeft="80"/>
+		<s:VGroup id="medicationsGroup" width="100%" height="100%" gap="20" paddingTop="20" paddingLeft="20"/>
 		<s:Group id="simulationGroup" width="960" height="100%"/>
 	</s:HGroup>
 </tablet:TabletViewBase>

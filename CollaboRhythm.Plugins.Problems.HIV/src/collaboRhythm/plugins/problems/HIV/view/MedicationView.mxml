@@ -1,35 +1,85 @@
 <?xml version="1.0"?>
 <!---
-  - Copyright 2012 John Moore, Scott Gilroy
-  -
-  - This file is part of CollaboRhythm.
-  -
-  - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
-  - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
-  - version.
-  -
-  - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-  - details.
-  -
-  - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
-  - <http://www.gnu.org/licenses/>.
-  -->
+ - Copyright 2012 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Style>
+		#medicationNameLabel {
+			font-size: 16;
+		}
+	</fx:Style>
 	<fx:Script><![CDATA[
+		import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
+		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
+		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
 		import collaboRhythm.shared.model.services.IImageCacheService;
 		import collaboRhythm.shared.model.services.WorkstationKernel;
 
 		private var _imageCacheService:IImageCacheService;
+		[Bindable]
+		private var _medColor:uint;
+		[Bindable]
+		private var _percentGoalConcentration:Number;
 
-		public function init(medicationFill:MedicationFill, percentGoalConcentration:Number):void
+		public function init(medicationFill:MedicationFill, percentGoalConcentration:Number, medColor:uint):void
 		{
 			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
-			medicationImage.source = _imageCacheService.getImage(medicationImage, MedicationFillsModel.MEDICATION_API_URL_BASE + medicationFill.ndc.text + "-front.png");
+			_medColor = medColor;
+			_percentGoalConcentration = percentGoalConcentration;
+			medicationImage.source = _imageCacheService.getImage(medicationImage,
+					MedicationFillsModel.MEDICATION_API_URL_BASE + medicationFill.ndc.text + "-front.png");
+			var medicationName:MedicationName = MedicationNameUtil.parseName(medicationFill.name.text);
+			if (medicationName.proprietaryName)
+			{
+				medicationNameLabel.text = medicationName.proprietaryName.substring(1,
+						medicationName.proprietaryName.length - 1);
+			}
+			else
+			{
+				medicationNameLabel.text = medicationName.medicationName;
+			}
 		}
 		]]></fx:Script>
-	<s:Image id="medicationImage" width="100" height="100"/>
+	<s:VGroup horizontalAlign="center">
+		<s:HGroup gap="10">
+			<s:Image id="medicationImage" width="100" height="100"/>
+			<s:Group width="30" height="100">
+				<s:Rect width="100%"
+						height="{(SimulationModel.QD_HIGH0 - SimulationModel.QD_GOAL) / (SimulationModel.QD_HIGH1) * 100}"
+						bottom="{SimulationModel.QD_GOAL / SimulationModel.QD_HIGH1 * 100}">
+					<s:fill>
+						<s:SolidColor color="{_medColor}" alpha="0.5"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect width="50%" horizontalCenter="0" height="{_percentGoalConcentration * (SimulationModel.QD_GOAL / SimulationModel.QD_HIGH1)}"
+						bottom="0">
+					<s:fill>
+						<s:SolidColor color="{_medColor}"/>
+					</s:fill>
+				</s:Rect>
+				<s:Rect width="100%" height="100%">
+					<s:stroke>
+						<s:SolidColorStroke color="0x000000"/>
+					</s:stroke>
+				</s:Rect>
+			</s:Group>
+		</s:HGroup>
+		<s:Label id="medicationNameLabel"/>
+	</s:VGroup>
 </s:Group>

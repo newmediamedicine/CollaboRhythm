@@ -1,4 +1,4 @@
-package collaboRhythm.plugins.medications.model
+package collaboRhythm.plugins.schedule.shared.model
 {
 	import flash.events.Event;
 

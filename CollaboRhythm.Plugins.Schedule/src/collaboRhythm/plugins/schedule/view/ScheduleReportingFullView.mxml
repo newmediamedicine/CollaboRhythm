@@ -43,6 +43,8 @@
 		import mx.events.PropertyChangeEvent;
 		import mx.logging.ILogger;
 
+		private const MINIMUM_WIDTH_FOR_DISPLAYING_INSTRUCTIONS:Number = 1000;
+
 		private var _scheduleAppController:ScheduleAppController;
 		private var _scheduleReportingController:ScheduleReportingController;
 		private var _scheduleModel:ScheduleModel;
@@ -151,7 +153,7 @@
 
 		private function resizeHandler():void
 		{
-			if (width > height)
+			if (width > height && width > MINIMUM_WIDTH_FOR_DISPLAYING_INSTRUCTIONS)
 			{
 				reportingGroup.width = width * 0.5;
 			}

@@ -23,6 +23,14 @@ package collaboRhythm.shared.model
 		public static const BLOOD_GLUCOSE_CODED_VALUE_ABBREV:String = "BG";
 		public static const BLOOD_GLUCOSE_CODED_VALUE_TEXT:String = "Blood Glucose";
 
+		public static const VIRAL_LOAD_CODED_VALUE:String = "127";
+		public static const VIRAL_LOAD_CODED_VALUE_ABBREV:String = "VL";
+		public static const VIRAL_LOAD_CODED_VALUE_TEXT:String = "Viral Load";
+
+		public static const TCELL_COUNT_CODED_VALUE:String = "128";
+		public static const TCELL_COUNT_CODED_VALUE_ABBREV:String = "CD4";
+		public static const TCELL_COUNT_CODED_VALUE_TEXT:String = "TCell Count";
+
 		public static const MILLIMETERS_OF_MERCURY_CODED_VALUE:String = "31";
 		public static const MILLIMETERS_OF_MERCURY_CODED_VALUE_ABBREV:String = "mmHg";
 		public static const MILLIMETERS_OF_MERCURY_CODED_VALUE_TEXT:String = "millimeters of mercury";
@@ -47,6 +55,14 @@ package collaboRhythm.shared.model
 		public static const PREFILLED_SYRINGE_CODED_VALUE_ABBREV:String = "prefilled syringe";
 		public static const PREFILLED_SYRINGE_CODED_VALUE_TEXT:String = "prefilled syringe";
 
+		public static const COPIES_PER_MILLILITER_CODED_VALUE:String = "copies per milliliter";
+		public static const COPIES_PER_MILLILITER_CODED_VALUE_ABBREV:String = "copies/mL";
+		public static const COPIES_PER_MILLILITER_CODED_VALUE_TEXT:String = "copies per milliliter";
+
+		public static const CELLS_PER_MILLILITER_CODED_VALUE:String = "cells per milliliter";
+		public static const CELLS_PER_MILLILITER_CODED_VALUE_ABBREV:String = "cells/mL";
+		public static const CELLS_PER_MILLILITER_CODED_VALUE_TEXT:String = "cells per milliliter";
+
 		public function CodedValueFactory()
 		{
 		}
@@ -65,7 +81,8 @@ package collaboRhythm.shared.model
 
 		public function createHeartRateCodedValue():CollaboRhythmCodedValue
 		{
-			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, HEART_RATE_CODED_VALUE, HEART_RATE_CODED_VALUE_ABBREV,
+			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, HEART_RATE_CODED_VALUE,
+					HEART_RATE_CODED_VALUE_ABBREV,
 					HEART_RATE_CODED_VALUE_TEXT);
 		}
 
@@ -73,6 +90,18 @@ package collaboRhythm.shared.model
 		{
 			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, BLOOD_GLUCOSE_CODED_VALUE,
 					BLOOD_GLUCOSE_CODED_VALUE_ABBREV, BLOOD_GLUCOSE_CODED_VALUE_TEXT);
+		}
+
+		public function createViralLoadCodedValue():CollaboRhythmCodedValue
+		{
+			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, VIRAL_LOAD_CODED_VALUE,
+					VIRAL_LOAD_CODED_VALUE_ABBREV, VIRAL_LOAD_CODED_VALUE_TEXT);
+		}
+
+		public function createTCellCountCodedValue():CollaboRhythmCodedValue
+		{
+			return new CollaboRhythmCodedValue(VITAL_SIGN_CODED_VALUE_TYPE, TCELL_COUNT_CODED_VALUE,
+					TCELL_COUNT_CODED_VALUE_ABBREV, TCELL_COUNT_CODED_VALUE_TEXT);
 		}
 
 		public function createMillimetersOfMercuryCodedValue():CollaboRhythmCodedValue
@@ -108,7 +137,19 @@ package collaboRhythm.shared.model
 		public function createPrefilledSyringeCodedValue():CollaboRhythmCodedValue
 		{
 			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, PREFILLED_SYRINGE_CODED_VALUE,
-					PREFILLED_SYRINGE_CODED_VALUE_ABBREV, PREFILLED_SYRINGE_CODED_VALUE_TEXT)
+					PREFILLED_SYRINGE_CODED_VALUE_ABBREV, PREFILLED_SYRINGE_CODED_VALUE_TEXT);
+		}
+
+		public function createCopiesPerMilliliterCodedValue():CollaboRhythmCodedValue
+		{
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, COPIES_PER_MILLILITER_CODED_VALUE,
+					COPIES_PER_MILLILITER_CODED_VALUE_ABBREV, COPIES_PER_MILLILITER_CODED_VALUE_TEXT);
+		}
+
+		public function createCellsPerMilliliterCodedValue():CollaboRhythmCodedValue
+		{
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, CELLS_PER_MILLILITER_CODED_VALUE,
+					CELLS_PER_MILLILITER_CODED_VALUE_ABBREV, CELLS_PER_MILLILITER_CODED_VALUE_TEXT);
 		}
 	}
 }

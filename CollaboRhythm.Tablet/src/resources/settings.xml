@@ -47,6 +47,7 @@
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.ForaD40b/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Messages/bin-debug</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.BloodPressure/bin-debug</pluginSearchPath>
+		<pluginSearchPath>$APPLICATION_DIRECTORY$/../../CollaboRhythm.Plugins.Problems.HIV/bin-debug</pluginSearchPath>
 		<!-- This path is for the plugins that are installed with the application -->
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/SchedulePluginModule.swf</pluginSearchPath>
 		<pluginSearchPath>$APPLICATION_DIRECTORY$/plugins/HealthChartsPluginModule.swf</pluginSearchPath>
@@ -76,7 +77,7 @@
 			<appDescriptors>
 				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
 				<appDescriptor>collaboRhythm.plugins.messages.controller::MessagesAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.bloodPressure.controller::BloodPressureMedicationTitrationFAQAppController</appDescriptor>
+				<appDescriptor>collaboRhythm.plugins.problems.HIV.controller::HIVAppController</appDescriptor>
 			</appDescriptors>
 		</appGroup>
 	</appGroups>

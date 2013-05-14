@@ -66,8 +66,10 @@ package collaboRhythm.shared.model.services
 			{key: "504190863", value: 0xb4b9b3}, // acarabose
 			{key: "001730595", value: 0x217ab4},
 			{key: "001730721", value: 0xd79b9b}, // Lexiva
-			{key: "005970046", value: 0x888d95}
-
+			{key: "005970046", value: 0x888d95},
+			{key: "000740522", value: 0xc8b278}, // kaletra
+			{key: "000746799", value: 0xe2be6d}, // kaletra
+			{key: "000743333", value: 0xcbccc4}  // norvir
 		];
 
 		private var _medicationColorsDictionary:Dictionary = new Dictionary();

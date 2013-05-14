@@ -2,7 +2,7 @@ package collaboRhythm.plugins.medications.controller
 {
 	import collaboRhythm.plugins.medications.model.MedicationHealthActionCreationModel;
 	import collaboRhythm.plugins.medications.model.RxNormConcept;
-	import collaboRhythm.plugins.medications.model.SaveMedicationCompleteEvent;
+	import collaboRhythm.plugins.schedule.shared.model.SaveMedicationCompleteEvent;
 	import collaboRhythm.plugins.medications.view.CreateMedicationOrderView;
 	import collaboRhythm.plugins.medications.view.FindNdcCodeView;
 	import collaboRhythm.plugins.medications.view.FindRxNormConceptView;

@@ -1,12 +1,13 @@
 package collaboRhythm.shared.model
 {
+	import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 	import collaboRhythm.shared.model.healthRecord.CollaboRhythmValueAndUnit;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 
 	public class VitalSignFactory
 	{
 		private var _codedValueFactory:CodedValueFactory;
-		
+
 		public function VitalSignFactory()
 		{
 			_codedValueFactory = new CodedValueFactory();
@@ -30,6 +31,16 @@ package collaboRhythm.shared.model
 		public function createBloodGlucose(dateMeasuredStart:Date, resultValue:String, measuredBy:String = null, dateMeasuredEnd:Date = null, site:String = null, position:String = null, technique:String = null, comments:String = null):VitalSign
 		{
 			return new VitalSign(_codedValueFactory.createBloodGlucoseCodedValue(), measuredBy, dateMeasuredStart, dateMeasuredEnd, new CollaboRhythmValueAndUnit(resultValue, _codedValueFactory.createMilligramsPerDeciliterCodedValue()), site,  position, technique, comments);
+		}
+
+		public function createViralLoad(dateMeasuredStart:Date, resultValue:String, measuredBy:String = null, dateMeasuredEnd:Date = null, site:String = null, position:String = null, technique:String = null, comments:String = null):VitalSign
+		{
+			return new VitalSign(_codedValueFactory.createViralLoadCodedValue(), measuredBy, dateMeasuredStart, dateMeasuredEnd, new CollaboRhythmValueAndUnit(resultValue, _codedValueFactory.createCopiesPerMilliliterCodedValue()), site,  position, technique, comments);
+		}
+
+		public function createTCellCount(dateMeasuredStart:Date, resultValue:String, measuredBy:String = null, dateMeasuredEnd:Date = null, site:String = null, position:String = null, technique:String = null, comments:String = null):VitalSign
+		{
+			return new VitalSign(_codedValueFactory.createTCellCountCodedValue(), measuredBy, dateMeasuredStart, dateMeasuredEnd, new CollaboRhythmValueAndUnit(resultValue, _codedValueFactory.createCellsPerMilliliterCodedValue()), site,  position, technique, comments);
 		}
 	}
 }

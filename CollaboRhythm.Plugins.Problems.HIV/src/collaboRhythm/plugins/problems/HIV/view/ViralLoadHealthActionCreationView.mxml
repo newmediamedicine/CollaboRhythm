@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:sharedView="collaboRhythm.plugins.schedule.shared.view.*"
+		title="Add Viral Load">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+
+		.viralLoadInputText {
+			fontSize: 60;
+		}
+
+	</fx:Style>
+	<fx:Script><![CDATA[
+		import collaboRhythm.plugins.problems.HIV.controller.ViralLoadHealthActionCreationController;
+		import collaboRhythm.plugins.problems.HIV.model.ViralLoadHealthActionCreationModel;
+		import collaboRhythm.plugins.schedule.shared.model.HealthActionCreationModelAndController;
+
+		private var _viralLoadHealthActionCreationModel:ViralLoadHealthActionCreationModel;
+		private var _viralLoadHealthActionCreationController:ViralLoadHealthActionCreationController;
+
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+
+			var healthActionCreationModelAndController:HealthActionCreationModelAndController = value as
+					HealthActionCreationModelAndController;
+
+			_viralLoadHealthActionCreationModel = healthActionCreationModelAndController.healthActionCreationModel as
+					ViralLoadHealthActionCreationModel;
+			_viralLoadHealthActionCreationController = healthActionCreationModelAndController.healthActionCreationController as
+					ViralLoadHealthActionCreationController;
+		}
+
+		private function viralLoadTextInput_changeHandler():void
+		{
+			saveButton.enabled = (viralLoadTextInput.text != "");
+		}
+
+		private function saveButton_clickHandler():void
+		{
+			_viralLoadHealthActionCreationController.saveViralLoad(viralLoadTextInput.text, dateSpinner.selectedDate);
+		}
+		]]></fx:Script>
+	<s:VGroup verticalCenter="0" horizontalCenter="0" horizontalAlign="center" gap="50">
+		<s:HGroup verticalAlign="middle" gap="40">
+			<s:TextInput id="viralLoadTextInput"
+								 width="300" height="100"
+								 skinClass="spark.skins.mobile.StageTextInputSkin"
+								 styleName="viralLoadInputText"
+								 contentBackgroundAlpha="1"
+								 textAlign="right"
+								 restrict="0-9" softKeyboardType="number"
+								 needsSoftKeyboard="true"
+							change="viralLoadTextInput_changeHandler()"/>
+			<s:DateSpinner id="dateSpinner" displayMode="dateAndTime"/>
+		</s:HGroup>
+		<s:Button id="saveButton" label="Save" enabled="false" click="saveButton_clickHandler()"/>
+	</s:VGroup>
+</tablet:TabletViewBase>
