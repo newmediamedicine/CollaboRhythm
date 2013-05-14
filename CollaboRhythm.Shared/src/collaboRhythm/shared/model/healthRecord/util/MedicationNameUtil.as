@@ -23,10 +23,40 @@ package collaboRhythm.shared.model.healthRecord.util
 		 */
 		public static function parseName(medicationNameText:String):MedicationName
 		{
+			var substrings:Array = medicationNameText.split(" / ");
+
+			if (substrings.length == 1)
+			{
+				return  parseSingleIngredientName(medicationNameText);
+			}
+			else
+			{
+				var combinedName:MedicationName = new MedicationName();
+				for each (var ingredient:String in substrings)
+				{
+					var medicationName:MedicationName = parseSingleIngredientName(ingredient);
+
+					if (medicationName.medicationName)
+						combinedName.medicationName = (combinedName.medicationName == null ? "" : (combinedName.medicationName + " / ")) +  medicationName.medicationName;
+					if (medicationName.fillQuantity)
+						combinedName.fillQuantity = (combinedName.fillQuantity == null ? "" : combinedName.fillQuantity + " / ") +  medicationName.fillQuantity;
+					if (medicationName.strength)
+						combinedName.strength = (combinedName.strength == null ? "" : combinedName.strength + " / ") +  medicationName.strength;
+					if (medicationName.form)
+						combinedName.form = (combinedName.form == null ? "" : combinedName.form + " / ") +  medicationName.form;
+					if (medicationName.proprietaryName)
+						combinedName.proprietaryName = (combinedName.proprietaryName == null ? "" : combinedName.proprietaryName + " / ") +  medicationName.proprietaryName;
+				}
+				return combinedName;
+			}
+		}
+
+		private static function parseSingleIngredientName(medicationNameText:String):MedicationName
+		{
 			var medicationName:MedicationName = new MedicationName();
 			medicationName.rawName = medicationNameText;
 
-			var rxNormRegExp:RegExp = /(?:(\d+ HR) )?(?:(\d+(?:\.\d+)? (?:ML|MG|ACTUAT)) )?([A-Za-z\s]+) (\d+(?:\.\d+)? (?:MG|UNT\/ML|ML|MG\/ACTUAT|MG\/ML)) ([A-Za-z\s]+)(?:(\[[A-Za-z]+\]))?/;
+			var rxNormRegExp:RegExp = /(?:(\d+ HR) )?(?:(\d+(?:\.\d+)? (?:ML|MG|ACTUAT)) )?([A-Za-z\s]+) (\d+(?:\.\d+)? (?:UNT\/ML|ML|MG\/ACTUAT|MG\/ML|MG))(?:([A-Za-z\s]+))?(?:(\[[A-Za-z]+\]))?/;
 
 			var substrings:Array = medicationNameText.split(rxNormRegExp);
 
