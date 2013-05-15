@@ -24,7 +24,7 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
-		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
+		import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
@@ -37,14 +37,15 @@
 		[Bindable]
 		private var _percentGoalConcentration:Number;
 
-		public function init(medicationFill:MedicationFill, percentGoalConcentration:Number, medColor:uint):void
+		public function init(medName:String, medNdc:String, percentGoalConcentration:Number,
+							 medColor:uint):void
 		{
 			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
 			_medColor = medColor;
 			_percentGoalConcentration = percentGoalConcentration;
 			medicationImage.source = _imageCacheService.getImage(medicationImage,
-					MedicationFillsModel.MEDICATION_API_URL_BASE + medicationFill.ndc.text + "-front.png");
-			var medicationName:MedicationName = MedicationNameUtil.parseName(medicationFill.name.text);
+					MedicationFillsModel.MEDICATION_API_URL_BASE + medNdc + "-front.png");
+			var medicationName:MedicationName = MedicationNameUtil.parseName(medName);
 			if (medicationName.proprietaryName)
 			{
 				medicationNameLabel.text = medicationName.proprietaryName.substring(1,

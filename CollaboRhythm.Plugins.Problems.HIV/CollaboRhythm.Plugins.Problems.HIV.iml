@@ -32,6 +32,15 @@
             <entry module-name="CollaboRhythm.Shared.Model.Services" build-configuration-name="CollaboRhythm.Shared.Model.Services">
               <dependency linkage="Merged" />
             </entry>
+            <entry module-name="CollaboRhythm.Shared.UI.HealthCharts" build-configuration-name="CollaboRhythm.Shared.UI.HealthCharts">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="McCuneChart" build-configuration-name="McCuneChart">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="ChartBackgroundsLib" build-configuration-name="ChartBackgroundsLib">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="4.6.0" />
         </dependencies>
@@ -87,6 +96,9 @@
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Plugins.Schedule.Shared" exported="" />
     <orderEntry type="module" module-name="CollaboRhythm.Shared.Model.Services" exported="" />
+    <orderEntry type="module" module-name="CollaboRhythm.Shared.UI.HealthCharts" exported="" />
+    <orderEntry type="module" module-name="McCuneChart" exported="" />
+    <orderEntry type="module" module-name="ChartBackgroundsLib" exported="" />
   </component>
 </module>
 

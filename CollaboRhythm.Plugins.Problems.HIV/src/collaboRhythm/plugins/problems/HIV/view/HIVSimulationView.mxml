@@ -18,11 +18,13 @@
 <tablet:TabletViewBase xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:tablet="collaboRhythm.shared.view.tablet.*"
-		title="HIV Simulation">
+		title="HIV Simulation"
+		resize="resizeHandler()">
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.problems.HIV.controller.HIVAppController;
 		import collaboRhythm.plugins.problems.HIV.model.HIVSimulationModel;
 		import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionServiceProxy;
+		import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 
 		private var _hivAppController:HIVAppController;
@@ -117,17 +119,18 @@
 		private function placeMeds():void
 		{
 			var med:int = 0;
-			for each (var medicationFill:MedicationFill in
-					_hivSimulationModel.activeRecord.medicationFillsModel.medicationFillsCollection)
+			for each (var medName:String in
+					_hivSimulationModel.medNames)
 			{
 
+				var medNdc:String = _hivSimulationModel.medNdcs[med];
 				var medConcentration:Number = _hivSimulationModel.medConcentrations[med];
 				var medGoalConcentration:Number = _hivSimulationModel.medGoalConcentrations[med];
 				var medColor:uint = _hivSimulationModel.medColors[med];
 				var percentGoal:Number = (medConcentration / medGoalConcentration) * 100;
 
-				var medicationView:MedicationView = new MedicationView();
-				medicationView.init(medicationFill, percentGoal, medColor);
+				var medicationView:HIVMedicationView = new HIVMedicationView();
+				medicationView.init(medName, medNdc, percentGoal, medColor);
 				medicationsGroup.addElement(medicationView);
 
 				var addMedication:String = "";
@@ -196,10 +199,20 @@
 		{
 			return _freeTcells;
 		}
+
+		private function resizeHandler():void
+		{
+			simulationGroup.scaleX = (this.width - 170) / 1080;
+			simulationGroup.scaleY = this.height / 720;
+		}
 		]]></fx:Script>
-	<s:HGroup width="100%" height="100%">
-		<s:VGroup id="medicationsGroup" width="100%" height="100%" gap="20" paddingTop="20" paddingLeft="20"/>
-		<s:Group id="simulationGroup" width="960" height="100%"/>
+	<s:HGroup width="100%" height="100%" gap="20">
+		<s:Scroller width="150" height="100%" horizontalScrollPolicy="off" verticalScrollPolicy="auto">
+			<s:VGroup id="medicationsGroup" gap="20" paddingTop="10" paddingLeft="10"/>
+		</s:Scroller>
+		<s:Group width="100%" height="100%">
+			<s:Group id="simulationGroup" horizontalCenter="0" verticalCenter="0"/>
+		</s:Group>
 	</s:HGroup>
 </tablet:TabletViewBase>
 

@@ -32,6 +32,7 @@ package collaboRhythm.shared.model.healthRecord.util
 			else
 			{
 				var combinedName:MedicationName = new MedicationName();
+				combinedName.rawName = medicationNameText;
 				for each (var ingredient:String in substrings)
 				{
 					var medicationName:MedicationName = parseSingleIngredientName(ingredient);

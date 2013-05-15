@@ -7,9 +7,11 @@ package collaboRhythm.plugins.problems.HIV.model
 	import collaboRhythm.shared.model.healthRecord.derived.MedicationConcentrationSample;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSign;
 	import collaboRhythm.shared.model.healthRecord.document.VitalSignsModel;
 	import collaboRhythm.shared.model.services.DefaultMedicationColorSource;
+	import collaboRhythm.shared.model.services.ICurrentDateSource;
 	import collaboRhythm.shared.model.services.IMedicationColorSource;
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
@@ -19,6 +21,8 @@ package collaboRhythm.plugins.problems.HIV.model
 
 	public class HIVSimulationModel
 	{
+		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
+
 		public static const HIV_LEXIVA_CODE:String = "001730721";
 		public static const HIV_EMTRIVA_CODE:String = "001730595";
 		public static const HIV_VIRAMUNE_CODE:String = "005970046";
@@ -31,28 +35,33 @@ package collaboRhythm.plugins.problems.HIV.model
 		private var attachedViruses:Array;
 		private var looseViruses:Array;
 
-		private var _cd4Count:Number = 438;
-		private var _viralLoad:Number = 6400;
+		private var _cd4Count:Number;
+		private var _viralLoad:Number;
 
 		private var _numTCells:Number;
 		private var _numViruses:Number;
-		private var _medConcentrations:Array = [1.5, 1.5, 0.75];
-		private var _medGoalConcentrations:Array = [1, 1, 1];
-		private var _medColors:Array = [0x217ab4, 0xd79b9b, 0x888d95];
+		private var _medNames:Array = [];
+		private var _medNdcs:Array = [];
+		private var _medConcentrations:Array = [];
+		private var _medGoalConcentrations:Array = [];
+		private var _medColors:Array = [];
 
 		private var _openLooseVirusPos:Array = [];
-
 		private var opentcellPos:Array;
 		private var _usedtcellPos:Array;
+
 		private var _activeRecord:Record;
 
+		private var _currentDateSource:ICurrentDateSource;
 		private var _medicationColorSource:IMedicationColorSource;
 
 		public function HIVSimulationModel(activeRecordAccount:Account)
 		{
 			_activeRecord = activeRecordAccount.primaryRecord;
 
-			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as IMedicationColorSource;
+			_currentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as ICurrentDateSource;
+			_medicationColorSource = WorkstationKernel.instance.resolve(IMedicationColorSource) as
+					IMedicationColorSource;
 		}
 
 		public function updateSimulationData():void
@@ -66,6 +75,10 @@ package collaboRhythm.plugins.problems.HIV.model
 						1) as VitalSign;
 				_viralLoad = mostRecentViralLoad.resultAsNumber;
 			}
+			else
+			{
+				_viralLoad = 0;
+			}
 
 			if (tCellCountArrayCollection.length != 0)
 			{
@@ -73,18 +86,46 @@ package collaboRhythm.plugins.problems.HIV.model
 						1) as VitalSign;
 				_cd4Count = mostRecentCd4Count.resultAsNumber;
 			}
+			else
+			{
+				_cd4Count = 0;
+			}
 
+			_medNames = [];
+			_medNdcs = [];
 			_medConcentrations = [];
 			_medGoalConcentrations = [];
 			_medColors = [];
 
-			for each (var medicationScheduleItem:MedicationScheduleItem in _activeRecord.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			var currentDate:Date = _currentDateSource.now();
+			var dateStart:Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+			var dateEnd:Date = new Date(dateStart.valueOf() + MILLISECONDS_IN_DAY - 1);
+
+			for each (var medicationScheduleItem:MedicationScheduleItem in
+					_activeRecord.medicationScheduleItemsModel.medicationScheduleItemCollection)
 			{
-				var concentrationsArrayCollection:ArrayCollection = _activeRecord.medicationAdministrationsModel.getMedicationConcentrationCurveByCode(medicationScheduleItem.name.value);
-				var mostRecentConcentrationSample:MedicationConcentrationSample = concentrationsArrayCollection.getItemAt(concentrationsArrayCollection.length - 1) as MedicationConcentrationSample;
-				_medConcentrations.push(mostRecentConcentrationSample.concentration);
-				_medGoalConcentrations.push(SimulationModel.QD_GOAL);
-				_medColors.push(_medicationColorSource.getMedicationColor(medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text));
+
+				var scheduleItemOccurrenceVector:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(dateStart,
+						dateEnd);
+				if (scheduleItemOccurrenceVector.length > 0 && _medNames.indexOf(medicationScheduleItem.name.text) == -1)
+				{
+					_medNames.push(medicationScheduleItem.name.text);
+					_medNdcs.push(medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text);
+					var concentrationsArrayCollection:ArrayCollection = _activeRecord.medicationAdministrationsModel.getMedicationConcentrationCurveByCode(medicationScheduleItem.name.value);
+					if (concentrationsArrayCollection.length != 0)
+					{
+						var mostRecentConcentrationSample:MedicationConcentrationSample = concentrationsArrayCollection.getItemAt(concentrationsArrayCollection.length -
+								1) as MedicationConcentrationSample;
+						_medConcentrations.push(mostRecentConcentrationSample.concentration);
+
+					}
+					else
+					{
+						_medConcentrations.push(0);
+					}
+					_medGoalConcentrations.push(SimulationModel.QD_GOAL);
+					_medColors.push(_medicationColorSource.getMedicationColor(medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text));
+				}
 			}
 
 			tcells = [];
@@ -259,6 +300,16 @@ package collaboRhythm.plugins.problems.HIV.model
 			}
 
 			return false;
+		}
+
+		public function get medNames():Array
+		{
+			return _medNames;
+		}
+
+		public function get medNdcs():Array
+		{
+			return _medNdcs;
 		}
 	}
 }
