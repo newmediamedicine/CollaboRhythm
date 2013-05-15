@@ -62,6 +62,8 @@ package collaboRhythm.shared.model.settings
 		private var _clockAnimationMode:String;
 		private var _deviceSimulatorEnabled:Boolean;
 		private var _reportForOtherRecordEnabled:Boolean;
+		private var _requireInAppPassCode:Boolean;
+		private var _inAppPassCode:String;
 
 		public function Settings()
 		{
@@ -418,6 +420,26 @@ package collaboRhythm.shared.model.settings
 		public function set reportForOtherRecordEnabled(value:Boolean):void
 		{
 			_reportForOtherRecordEnabled = value;
+		}
+
+		public function get requireInAppPassCode():Boolean
+		{
+			return _requireInAppPassCode;
+		}
+
+		public function set requireInAppPassCode(value:Boolean):void
+		{
+			_requireInAppPassCode = value;
+		}
+
+		public function get inAppPassCode():String
+		{
+			return _inAppPassCode;
+		}
+
+		public function set inAppPassCode(value:String):void
+		{
+			_inAppPassCode = value;
 		}
 	}
 }

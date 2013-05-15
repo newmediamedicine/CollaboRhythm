@@ -19,7 +19,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark">
 	<fx:Style>
 		#medicationNameLabel {
-			font-size: 16;
+			fontSize: 16;
 		}
 	</fx:Style>
 	<fx:Script><![CDATA[

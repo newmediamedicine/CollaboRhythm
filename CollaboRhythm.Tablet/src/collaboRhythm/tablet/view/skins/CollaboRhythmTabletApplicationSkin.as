@@ -4,6 +4,7 @@ package collaboRhythm.tablet.view.skins
 	import collaboRhythm.core.view.AboutApplicationView;
 	import collaboRhythm.core.view.BusyView;
 	import collaboRhythm.core.view.ConnectivityView;
+	import collaboRhythm.core.view.InAppPassCodeView;
 	import collaboRhythm.tablet.model.ViewNavigatorExtended;
 
 	import flash.events.Event;
@@ -20,6 +21,7 @@ package collaboRhythm.tablet.view.skins
 		public var aboutApplicationView:AboutApplicationView;
 		public var patientPointer:Graphic;
 		public var clinicianPointer:Graphic;
+		public var inAppPassCodeView:InAppPassCodeView;
 
 		public function CollaboRhythmTabletApplicationSkin()
 		{
@@ -64,6 +66,12 @@ package collaboRhythm.tablet.view.skins
 			clinicianPointer.visible = false;
 			clinicianPointer.mouseEnabled = false;
 			addChild(clinicianPointer);
+
+			inAppPassCodeView = new InAppPassCodeView();
+			inAppPassCodeView.width = 800;
+			inAppPassCodeView.height = 600;
+			inAppPassCodeView.visible = false;
+			addChild(inAppPassCodeView);
 		}
 
 		private function resizeHandler(event:Event):void
@@ -74,6 +82,8 @@ package collaboRhythm.tablet.view.skins
 			busyView.height = height;
 			aboutApplicationView.width = width;
 			aboutApplicationView.height = height;
+			inAppPassCodeView.width = width;
+			inAppPassCodeView.height = height;
 		}
 	}
 }

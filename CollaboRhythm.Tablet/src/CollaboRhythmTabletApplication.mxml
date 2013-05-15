@@ -100,6 +100,7 @@
 		import collaboRhythm.core.view.AboutApplicationView;
 		import collaboRhythm.core.view.BusyView;
 		import collaboRhythm.core.view.ConnectivityView;
+		import collaboRhythm.core.view.InAppPassCodeView;
 		import collaboRhythm.shared.collaboration.controller.CollaborationController;
 		import collaboRhythm.shared.collaboration.model.CollaborationModel;
 		import collaboRhythm.shared.collaboration.model.CollaborationPointerSynchronizationEvent;
@@ -135,6 +136,9 @@
 
 		[SkinPart(required="false")]
 		public var clinicianPointer:Graphic;
+
+		[SkinPart(required="false")]
+		public var inAppPassCodeView:InAppPassCodeView;
 
 		[Bindable]
 		private var _collaborationController:CollaborationController;

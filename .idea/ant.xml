@@ -1,41 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AntConfiguration">
+    <defaultAnt bundledAnt="true" />
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Shared.PluginsSupport/deploy/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Schedule/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Medications/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Equipment/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.BloodPressure/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.CataractMap/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Mobile/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Tablet/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.Diary/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.HypertensionEducation/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Plugins.ForaD40b/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/CollaboRhythm.Shared/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
       <customJdkName value="1.6" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="2" />
+      <properties />
     </buildFile>
   </component>
 </project>

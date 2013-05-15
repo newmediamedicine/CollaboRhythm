@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!---
+ - Copyright 2013 John Moore, Scott Gilroy
+ -
+ - This file is part of CollaboRhythm.
+ -
+ - CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ - License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+ - version.
+ -
+ - CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ - warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ - details.
+ -
+ - You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+ - <http://www.gnu.org/licenses/>.
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 height="100%" width="100%">
+	<fx:Style>
+		#passCodeTextInput {
+			fontSize: 80;
+		}
+
+		#enterPassCodeLabel {
+			fontSize: 26;
+			color: #FFFFFF;
+		}
+
+		#incorrectPassCodeLabel {
+			fontSize: 26;
+			color: #FFFFFF;
+		}
+	</fx:Style>
+	<fx:Script><![CDATA[
+		private function passCodeTextInput_changeHandler():void
+		{
+			okButton.enabled = (passCodeTextInput.text.length == 4)
+		}
+
+		private function okButton_clickHandler():void
+		{
+			dispatchEvent(new InAppPassCodeEvent(InAppPassCodeEvent.PASSCODE_ENTERED, passCodeTextInput.text))
+		}
+
+		public function reset():void
+		{
+			passCodeTextInput.text = "";
+			incorrectPassCodeLabel.visible = false;
+		}
+
+		public function passCodeFailed():void
+		{
+			passCodeTextInput.text = "";
+			incorrectPassCodeLabel.visible = true;
+		}
+		]]></fx:Script>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0x000000"/>
+		</s:fill>
+	</s:Rect>
+	<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center" gap="20">
+		<s:Label id="enterPassCodeLabel" text="Enter PassCode"/>
+		<s:TextInput id="passCodeTextInput"
+					 width="200" height="100"
+					 skinClass="spark.skins.mobile.StageTextInputSkin"
+					 contentBackgroundAlpha="1"
+					 textAlign="right"
+					 restrict="0-9" softKeyboardType="number"
+					 maxChars="4"
+					 needsSoftKeyboard="true"
+					 change="passCodeTextInput_changeHandler()"/>
+		<s:Button id="okButton" label="OK" enabled="false" width="80" click="okButton_clickHandler()"/>
+		<s:Label id="incorrectPassCodeLabel" text="Entered PassCode was Incorrect" visible="false"/>
+	</s:VGroup>
+</s:Group>

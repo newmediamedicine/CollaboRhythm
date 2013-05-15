@@ -79,7 +79,9 @@ package collaboRhythm.tablet.controller
 			_connectivityView = collaboRhythmTabletApplication.connectivityView;
 			_busyView = collaboRhythmTabletApplication.busyView;
 			_aboutApplicationView = collaboRhythmTabletApplication.aboutApplicationView;
+			_inAppPassCodeView = collaboRhythmTabletApplication.inAppPassCodeView;
 			initializeConnectivityView();
+			initializeInAppPassCodeView();
 		}
 
 		override public function main():void
@@ -279,6 +281,14 @@ package collaboRhythm.tablet.controller
 			{
 				_sessionIdleTimer.start();
 				trackActiveView();
+			}
+		}
+
+		override protected function showInAppPassCodeView():void
+		{
+			if (settings.requireInAppPassCode)
+			{
+				_inAppPassCodeView.visible = true;
 			}
 		}
 

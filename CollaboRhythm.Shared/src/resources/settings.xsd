@@ -152,6 +152,20 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element type="xs:boolean" name="requireInAppPassCode" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Require the user to enter a passcode each time that the app loses focus.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="xs:string" name="inAppPassCode" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						The passcode that the user must enter each time that the app loses focus.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element type="xs:dateTime" name="targetDate" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">

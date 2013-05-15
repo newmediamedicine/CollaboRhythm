@@ -36,6 +36,8 @@ package collaboRhythm.core.controller
 	import collaboRhythm.core.view.BusyView;
 	import collaboRhythm.core.view.ConnectivityEvent;
 	import collaboRhythm.core.view.ConnectivityView;
+	import collaboRhythm.core.view.InAppPassCodeEvent;
+	import collaboRhythm.core.view.InAppPassCodeView;
 	import collaboRhythm.shared.collaboration.controller.CollaborationController;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionEvent;
 	import collaboRhythm.shared.collaboration.model.CollaborationLobbyNetConnectionService;
@@ -145,6 +147,7 @@ package collaboRhythm.core.controller
 		protected var _connectivityView:ConnectivityView;
 		protected var _busyView:BusyView;
 		protected var _aboutApplicationView:AboutApplicationView;
+		protected var _inAppPassCodeView:InAppPassCodeView;
 
 		private var _pendingServices:ArrayCollection = new ArrayCollection();
 		private var failedRequestEvent:HealthRecordServiceEvent;
@@ -202,6 +205,11 @@ package collaboRhythm.core.controller
 
 			// initSettings needs to be called prior to initLogging because the settings for logging need to be loaded first
 			initSettings();
+
+			if (settings.requireInAppPassCode)
+			{
+				_inAppPassCodeView.visible = true;
+			}
 
 			// TODO: provide feedback if there is not an active NetworkInterface
 			checkNetworkStatus();
@@ -337,9 +345,16 @@ package collaboRhythm.core.controller
 
 		}
 
+		// virtual method to be overridden by subclasses
+		protected function showInAppPassCodeView():void
+		{
+
+		}
+
 		private function nativeApplication_deactivateHandler(event:Event):void
 		{
 			deactivateTracking();
+			showInAppPassCodeView();
 			InteractionLogUtil.log(_logger, "Application deactivate");
 
 			if (isAutoSaveOnDeactivateEnabled && activeRecordAccount)
@@ -1059,7 +1074,7 @@ package collaboRhythm.core.controller
 		{
 			_settings.targetDate = value;
 			_settings.demoModeEnabled = value != null;
-			
+
 			var dateSource:DemoCurrentDateSource = WorkstationKernel.instance.resolve(ICurrentDateSource) as
 					DemoCurrentDateSource;
 			if (dateSource != null)
@@ -1341,13 +1356,15 @@ package collaboRhythm.core.controller
 				{
 					connectivityState = ConnectivityView.CONNECTION_ERRORS_SAVING_STATE;
 					_connectivityView.detailsMessage = "Connection to health record server " +
-							settings.indivoServerBaseURL + " failed. " + _healthRecordServiceFacade.errorsSavingLongDescription;
+							settings.indivoServerBaseURL + " failed. " +
+							_healthRecordServiceFacade.errorsSavingLongDescription;
 				}
 				else if (_healthRecordServiceFacade && _healthRecordServiceFacade.hasUnexpectedErrorsSaving)
 				{
 					connectivityState = ConnectivityView.UNEXPECTED_ERRORS_SAVING_STATE;
 					_connectivityView.detailsMessage = "Unexpected errors occurred while saving changes to health record server " +
-							settings.indivoServerBaseURL + ". " + _healthRecordServiceFacade.errorsSavingLongDescription;
+							settings.indivoServerBaseURL + ". " +
+							_healthRecordServiceFacade.errorsSavingLongDescription;
 				}
 				else if (_collaborationLobbyNetConnectionService &&
 						_collaborationLobbyNetConnectionService.hasConnectionFailed)
@@ -1370,6 +1387,24 @@ package collaboRhythm.core.controller
 			_connectivityView.addEventListener(ConnectivityEvent.IGNORE, connectivityView_ignoreHandler);
 			_connectivityView.addEventListener(ConnectivityEvent.QUIT, connectivityView_quitHandler);
 			_connectivityView.addEventListener(ConnectivityEvent.RETRY, connectivityView_retryHandler);
+		}
+
+		protected function initializeInAppPassCodeView():void
+		{
+			_inAppPassCodeView.addEventListener(InAppPassCodeEvent.PASSCODE_ENTERED, inAppPassCodeEvent_passCodeEnteredHandler);
+		}
+
+		private function inAppPassCodeEvent_passCodeEnteredHandler(event:InAppPassCodeEvent):void
+		{
+			if (event.passcode == settings.inAppPassCode)
+			{
+				_inAppPassCodeView.visible = false;
+				_inAppPassCodeView.reset();
+			}
+			else
+			{
+				_inAppPassCodeView.passCodeFailed();
+			}
 		}
 
 		public function getExtendedErrorDetails():String
@@ -1417,7 +1452,8 @@ package collaboRhythm.core.controller
 				_healthRecordServiceFacade.resetConnectionErrorChangeSet();
 				_healthRecordServiceFacade.saveAllChanges(_healthRecordServiceFacade.currentRecord);
 			}
-			if (_settings.collaborationEnabled && _collaborationLobbyNetConnectionService && _collaborationLobbyNetConnectionService.hasConnectionFailed)
+			if (_settings.collaborationEnabled && _collaborationLobbyNetConnectionService &&
+					_collaborationLobbyNetConnectionService.hasConnectionFailed)
 			{
 				_collaborationLobbyNetConnectionService.enterCollaborationLobby();
 			}
@@ -1598,7 +1634,8 @@ package collaboRhythm.core.controller
 			}
 			if (collaborationDurationMinutesString)
 			{
-				collaborationActivityEventLabel = collaborationActivityEventLabel + "&duration=" + collaborationDurationMinutesString + "min";
+				collaborationActivityEventLabel = collaborationActivityEventLabel + "&duration=" +
+						collaborationDurationMinutesString + "min";
 			}
 
 			return collaborationActivityEventLabel;
@@ -1639,8 +1676,10 @@ package collaboRhythm.core.controller
 
 
 				sendMessage("[Automated Message] Collaboration session between " + activeAccount.accountId + " and " +
-						_collaborationController.collaborationModel.peerAccount.accountId + " lasted " + collaborationDurationTimeString +
-						" (" + collaborationDurationMinutesString + " minute" + (collaborationDurationMinutesString == (1).toFixed(2) ? "" : "s") + ")." );
+						_collaborationController.collaborationModel.peerAccount.accountId + " lasted " +
+						collaborationDurationTimeString +
+						" (" + collaborationDurationMinutesString + " minute" +
+						(collaborationDurationMinutesString == (1).toFixed(2) ? "" : "s") + ").");
 			}
 		}
 
