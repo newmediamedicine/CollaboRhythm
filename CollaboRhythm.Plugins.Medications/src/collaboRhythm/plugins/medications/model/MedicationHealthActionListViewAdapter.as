@@ -118,14 +118,21 @@ package collaboRhythm.plugins.medications.model
 			{
 				//TODO: Use the actual route from Indivo once it is modeled in the data
 				var route:String = "";
+				//TODO: Implement the totalDoseString so that it works with combination medications
 				var totalDoseString:String = "";
 				switch (_medicationName.form)
 				{
 					case "Oral Tablet":
 						route = "by mouth";
-						var totalDose:Number = parseFloat(_medicationScheduleItem.dose.value) * parseFloat(_medicationName.strength);
+//						var totalDose:Number = parseFloat(_medicationScheduleItem.dose.value) * parseFloat(_medicationName.strength);
 						//TODO: Parse the dose value and the dose unit as separate strings from the _medicationName because the dose unit may not always be MG
-						totalDoseString = " (" + totalDose.toString() + " MG total dose)";
+//						totalDoseString = " (" + totalDose.toString() + " MG total dose)";
+						break;
+					case "Oral Capsule":
+						route = "by mouth";
+						break;
+					case "Enteric Coated Capsule":
+						route = "by mouth";
 						break;
 					case "Prefilled Syringe":
 						route = "subcutaneous injection";

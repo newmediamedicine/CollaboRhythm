@@ -43,10 +43,6 @@ package collaboRhythm.shared.model
 		public static const MILLIGRAMS_PER_DECILITER_CODED_VALUE_ABBREV:String = "mg/dL";
 		public static const MILLIGRAMS_PER_DECILITER_CODED_VALUE_TEXT:String = "milligrams per deciliter";
 
-		public static const TABLET_CODED_VALUE:String = "tablet";
-		public static const TABLET_CODED_VALUE_ABBREV:String = "tab";
-		public static const TABLET_CODED_VALUE_TEXT:String = "tablet";
-
 		public static const UNIT_CODED_VALUE:String = "Unit";
 		public static const UNIT_CODED_VALUE_ABBREV:String = "U";
 		public static const UNIT_CODED_VALUE_TEXT:String = "Unit";
@@ -122,10 +118,9 @@ package collaboRhythm.shared.model
 					MILLIGRAMS_PER_DECILITER_CODED_VALUE_ABBREV, MILLIGRAMS_PER_DECILITER_CODED_VALUE_TEXT);
 		}
 
-		public function createTabletCodedValue():CollaboRhythmCodedValue
+		public function createDoseUnitCodedValue(form:String):CollaboRhythmCodedValue
 		{
-			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, TABLET_CODED_VALUE,
-					TABLET_CODED_VALUE_ABBREV, TABLET_CODED_VALUE_TEXT);
+			return new CollaboRhythmCodedValue(UNITS_CODED_VALUE_TYPE, form, form, form);
 		}
 
 		public function createUnitCodedValue():CollaboRhythmCodedValue

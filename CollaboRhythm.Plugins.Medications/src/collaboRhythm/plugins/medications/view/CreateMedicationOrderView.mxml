@@ -102,15 +102,15 @@
 			if (_medicationHealthActionCreationModel.dose)
 				doseTextInput.text = _medicationHealthActionCreationModel.dose;
 
-			if (medicationName.form == "Oral Tablet")
-			{
-				_medicationHealthActionCreationModel.doseUnit = codedValueFactory.createTabletCodedValue();
-				doseUnitLabel.text = "tablet(s)"
-			}
-			else if (medicationName.form == "Prefilled Syringe")
+			if (medicationName.form == "Prefilled Syringe")
 			{
 				_medicationHealthActionCreationModel.doseUnit = codedValueFactory.createUnitCodedValue();
 				doseUnitLabel.text = "Unit(s)"
+			}
+			else
+			{
+				_medicationHealthActionCreationModel.doseUnit = codedValueFactory.createDoseUnitCodedValue(medicationName.form);
+				doseUnitLabel.text = medicationName.form + "(s)"
 			}
 
 			if (!isNaN(_medicationHealthActionCreationModel.frequency))

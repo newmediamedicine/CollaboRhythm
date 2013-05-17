@@ -442,7 +442,7 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 			//TODO: Indication should not be required by the server. This can be removed once this is fixed
 			//Alternatively, the UI could allow an indication to be specified
 			medicationOrder.indication = ESSENTIAL_HYPERTENSION_INDICATION;
-			var doseUnit:CollaboRhythmCodedValue = codedValueFactory.createTabletCodedValue();
+			var doseUnit:CollaboRhythmCodedValue = codedValueFactory.createDoseUnitCodedValue(selection.medicationName.form)
 			medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(),
 					doseUnit);
 			medicationOrder.instructions = DEFAULT_MEDICATION_INSTRUCTIONS;
@@ -486,9 +486,8 @@ package collaboRhythm.plugins.bloodPressure.model.titration
 				medicationScheduleItem.name = medicationOrder.name.clone();
 				scheduleCreator.initializeDefaultSchedule(medicationScheduleItem);
 
-				var codedValueFactory:CodedValueFactory = new CodedValueFactory();
 				medicationScheduleItem.dose = new CollaboRhythmValueAndUnit(selection.getScheduleDose(medicationOrder).toString(),
-						codedValueFactory.createTabletCodedValue());
+						medicationOrder.amountOrdered.unit);
 				medicationScheduleItem.instructions = DEFAULT_MEDICATION_INSTRUCTIONS;
 
 				medicationScheduleItem.pendingAction = DocumentBase.ACTION_CREATE;

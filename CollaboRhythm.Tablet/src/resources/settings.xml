@@ -67,18 +67,18 @@
 		<demoDatePreset>2011-07-26T09:20:00-5:00</demoDatePreset>
 		<demoDatePreset>2011-08-13T10:40:00-5:00</demoDatePreset>
 	</demoDatePresets>
-	<appGroups>
-		<appGroup id="mainWidgets">
-			<appDescriptors>
-				<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>
-			</appDescriptors>
-		</appGroup>
-		<appGroup id="buttonWidgets">
-			<appDescriptors>
-				<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.messages.controller::MessagesAppController</appDescriptor>
-				<appDescriptor>collaboRhythm.plugins.problems.HIV.controller::HIVAppController</appDescriptor>
-			</appDescriptors>
-		</appGroup>
-	</appGroups>
+	<!--<appGroups>-->
+		<!--<appGroup id="mainWidgets">-->
+			<!--<appDescriptors>-->
+				<!--<appDescriptor>collaboRhythm.plugins.schedule.controller::ScheduleAppController</appDescriptor>-->
+			<!--</appDescriptors>-->
+		<!--</appGroup>-->
+		<!--<appGroup id="buttonWidgets">-->
+			<!--<appDescriptors>-->
+				<!--<appDescriptor>collaboRhythm.plugins.healthCharts.controller::HealthChartsAppController</appDescriptor>-->
+				<!--<appDescriptor>collaboRhythm.plugins.messages.controller::MessagesAppController</appDescriptor>-->
+				<!--<appDescriptor>collaboRhythm.plugins.problems.HIV.controller::HIVAppController</appDescriptor>-->
+			<!--</appDescriptors>-->
+		<!--</appGroup>-->
+	<!--</appGroups>-->
 </settings>

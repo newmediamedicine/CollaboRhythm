@@ -24,7 +24,6 @@
 	</fx:Style>
 	<fx:Script><![CDATA[
 		import collaboRhythm.shared.apps.healthCharts.model.SimulationModel;
-		import collaboRhythm.shared.model.healthRecord.CollaboRhythmCodedValue;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFillsModel;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationName;
 		import collaboRhythm.shared.model.healthRecord.util.MedicationNameUtil;
@@ -36,13 +35,25 @@
 		private var _medColor:uint;
 		[Bindable]
 		private var _percentGoalConcentration:Number;
+		private var _medConcentration:Number;
+		[Bindable]
+		private var _medGoalConcentration:Number;
+		[Bindable]
+		private var _medHigh0Concentration:Number;
+		[Bindable]
+		private var _medHigh1Concentration:Number;
 
-		public function init(medName:String, medNdc:String, percentGoalConcentration:Number,
-							 medColor:uint):void
+		public function init(medName:String, medNdc:String, medConcentration:Number, medGoalConcentration:Number,
+							 medHigh0Concentration:Number, medHigh1Concentration:Number, medColor:uint):void
 		{
+
 			_imageCacheService = WorkstationKernel.instance.resolve(IImageCacheService) as IImageCacheService;
 			_medColor = medColor;
-			_percentGoalConcentration = percentGoalConcentration;
+			_medConcentration = medConcentration;
+			_medGoalConcentration = medGoalConcentration;
+			_medHigh0Concentration = medHigh0Concentration;
+			_medHigh1Concentration = medHigh1Concentration;
+			_percentGoalConcentration = (medConcentration / medGoalConcentration) * 100;
 			medicationImage.source = _imageCacheService.getImage(medicationImage,
 					MedicationFillsModel.MEDICATION_API_URL_BASE + medNdc + "-front.png");
 			var medicationName:MedicationName = MedicationNameUtil.parseName(medName);
@@ -62,13 +73,13 @@
 			<s:Image id="medicationImage" width="100" height="100"/>
 			<s:Group width="30" height="100">
 				<s:Rect width="100%"
-						height="{(SimulationModel.QD_HIGH0 - SimulationModel.QD_GOAL) / (SimulationModel.QD_HIGH1) * 100}"
-						bottom="{SimulationModel.QD_GOAL / SimulationModel.QD_HIGH1 * 100}">
+						height="{(_medHigh0Concentration - _medGoalConcentration) / (_medHigh1Concentration) * 100}"
+						bottom="{_medGoalConcentration / _medHigh1Concentration * 100}">
 					<s:fill>
 						<s:SolidColor color="{_medColor}" alpha="0.5"/>
 					</s:fill>
 				</s:Rect>
-				<s:Rect width="50%" horizontalCenter="0" height="{_percentGoalConcentration * (SimulationModel.QD_GOAL / SimulationModel.QD_HIGH1)}"
+				<s:Rect width="50%" horizontalCenter="0" height="{_percentGoalConcentration * (_medGoalConcentration / _medHigh1Concentration)}"
 						bottom="0">
 					<s:fill>
 						<s:SolidColor color="{_medColor}"/>

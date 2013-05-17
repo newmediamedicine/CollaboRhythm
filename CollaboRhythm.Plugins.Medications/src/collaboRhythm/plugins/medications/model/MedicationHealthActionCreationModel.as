@@ -137,14 +137,14 @@ package collaboRhythm.plugins.medications.model
 			//TODO: Indication should not be required by the server. This can be removed once this is fixed
 			//Alternatively, the UI could allow an indication to be specified
 			medicationOrder.indication = "Diabetes";
-			if (doseUnit.text == "tablet")
-			{
-				medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(), doseUnit);
-			}
-			else if (doseUnit.text == "Unit")
+			if (doseUnit.text == "Unit")
 			{
 				medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit("1",
 						codedValueFactory.createPrefilledSyringeCodedValue());
+			}
+			else
+			{
+				medicationOrder.amountOrdered = new CollaboRhythmValueAndUnit(DEFAULT_RECURRENCE_COUNT.toString(), doseUnit);
 			}
 			medicationOrder.instructions = instructions;
 

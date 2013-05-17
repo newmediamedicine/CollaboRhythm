@@ -16,6 +16,9 @@ package collaboRhythm.plugins.problems.HIV.model
 	import collaboRhythm.shared.model.services.WorkstationKernel;
 
 	import flash.display.MovieClip;
+	import flash.utils.Dictionary;
+
+	import j2as3.collection.HashMap;
 
 	import mx.collections.ArrayCollection;
 
@@ -38,14 +41,16 @@ package collaboRhythm.plugins.problems.HIV.model
 		private var _medNdcs:Array = [];
 		private var _medConcentrations:Array = [];
 		private var _medGoalConcentrations:Array = [];
+		private var _medHigh0Concentrations:Array = [];
+		private var _medHigh1Concentrations:Array = [];
 		private var _medColors:Array = [];
 
 		private var _openLooseVirusPos:Array = [];
+
 		private var opentcellPos:Array;
+
 		private var _usedtcellPos:Array;
-
 		private var _activeRecord:Record;
-
 		private var _currentDateSource:ICurrentDateSource;
 		private var _medicationColorSource:IMedicationColorSource;
 
@@ -89,19 +94,40 @@ package collaboRhythm.plugins.problems.HIV.model
 			_medNdcs = [];
 			_medConcentrations = [];
 			_medGoalConcentrations = [];
+			_medHigh0Concentrations = [];
+			_medHigh1Concentrations = [];
 			_medColors = [];
 
 			var currentDate:Date = _currentDateSource.now();
 			var dateStart:Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 			var dateEnd:Date = new Date(dateStart.valueOf() + MILLISECONDS_IN_DAY - 1);
 
+			var scheduleItemOccurrencesPerDayHashMap:HashMap = new HashMap();
 			for each (var medicationScheduleItem:MedicationScheduleItem in
 					_activeRecord.medicationScheduleItemsModel.medicationScheduleItemCollection)
 			{
-
 				var scheduleItemOccurrenceVector:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(dateStart,
 						dateEnd);
-				if (scheduleItemOccurrenceVector.length > 0 && _medNames.indexOf(medicationScheduleItem.name.text) == -1)
+				if (scheduleItemOccurrencesPerDayHashMap[medicationScheduleItem.name.text] == null)
+				{
+					scheduleItemOccurrencesPerDayHashMap[medicationScheduleItem.name.text] = scheduleItemOccurrenceVector.length;
+
+				}
+				else
+				{
+					scheduleItemOccurrencesPerDayHashMap[medicationScheduleItem.name.text] = scheduleItemOccurrencesPerDayHashMap[medicationScheduleItem.name.text] +
+												scheduleItemOccurrenceVector.length;
+				}
+
+			}
+
+			for each (var medicationScheduleItem:MedicationScheduleItem in
+					_activeRecord.medicationScheduleItemsModel.medicationScheduleItemCollection)
+			{
+				var scheduleItemOccurrenceVector:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(dateStart,
+						dateEnd);
+				if (scheduleItemOccurrenceVector.length > 0 &&
+						_medNames.indexOf(medicationScheduleItem.name.text) == -1)
 				{
 					_medNames.push(medicationScheduleItem.name.text);
 					_medNdcs.push(medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text);
@@ -117,7 +143,30 @@ package collaboRhythm.plugins.problems.HIV.model
 					{
 						_medConcentrations.push(0);
 					}
-					_medGoalConcentrations.push(SimulationModel.QD_GOAL);
+					if (scheduleItemOccurrencesPerDayHashMap[medicationScheduleItem.name.text] == 1)
+					{
+						_medGoalConcentrations.push(SimulationModel.QD_GOAL);
+						_medHigh0Concentrations.push(SimulationModel.QD_HIGH0);
+						_medHigh1Concentrations.push(SimulationModel.QD_HIGH1);
+					}
+					else if (scheduleItemOccurrencesPerDayHashMap[medicationScheduleItem.name.text] == 2)
+					{
+						_medGoalConcentrations.push(SimulationModel.BID_GOAL);
+						_medHigh0Concentrations.push(SimulationModel.BID_HIGH0);
+						_medHigh1Concentrations.push(SimulationModel.BID_HIGH1);
+					}
+					else if (scheduleItemOccurrencesPerDayHashMap[medicationScheduleItem.name.text] == 3)
+					{
+						_medGoalConcentrations.push(SimulationModel.TID_GOAL);
+						_medHigh0Concentrations.push(SimulationModel.TID_HIGH0);
+						_medHigh1Concentrations.push(SimulationModel.TID_HIGH1);
+					}
+					else
+					{
+						_medGoalConcentrations.push(SimulationModel.QD_GOAL);
+						_medHigh0Concentrations.push(SimulationModel.QD_HIGH0);
+						_medHigh1Concentrations.push(SimulationModel.QD_HIGH1);
+					}
 					_medColors.push(_medicationColorSource.getMedicationColor(medicationScheduleItem.scheduledMedicationOrder.medicationFill.ndc.text));
 				}
 			}
@@ -287,7 +336,8 @@ package collaboRhythm.plugins.problems.HIV.model
 		{
 			for each (var medicationFill:MedicationFill in activeRecord.medicationFillsModel.medicationFillsCollection)
 			{
-				if (AddHivMedicationHealthActionCreationModel._hivMedicationNdcArray.indexOf(medicationFill.ndc.text) != -1)
+				if (AddHivMedicationHealthActionCreationModel._hivMedicationNdcArray.indexOf(medicationFill.ndc.text) !=
+						-1)
 				{
 					return true;
 				}
@@ -304,6 +354,26 @@ package collaboRhythm.plugins.problems.HIV.model
 		public function get medNdcs():Array
 		{
 			return _medNdcs;
+		}
+
+		public function get medHigh0Concentrations():Array
+		{
+			return _medHigh0Concentrations;
+		}
+
+		public function set medHigh0Concentrations(value:Array):void
+		{
+			_medHigh0Concentrations = value;
+		}
+
+		public function get medHigh1Concentrations():Array
+		{
+			return _medHigh1Concentrations;
+		}
+
+		public function set medHigh1Concentrations(value:Array):void
+		{
+			_medHigh1Concentrations = value;
 		}
 	}
 }

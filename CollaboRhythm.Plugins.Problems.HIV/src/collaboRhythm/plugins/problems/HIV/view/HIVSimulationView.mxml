@@ -126,11 +126,13 @@
 				var medNdc:String = _hivSimulationModel.medNdcs[med];
 				var medConcentration:Number = _hivSimulationModel.medConcentrations[med];
 				var medGoalConcentration:Number = _hivSimulationModel.medGoalConcentrations[med];
+				var medHigh0Concentration:Number = _hivSimulationModel.medHigh0Concentrations[med];
+				var medHigh1Concentration:Number = _hivSimulationModel.medHigh1Concentrations[med];
 				var medColor:uint = _hivSimulationModel.medColors[med];
 				var percentGoal:Number = (medConcentration / medGoalConcentration) * 100;
 
 				var medicationView:HIVMedicationView = new HIVMedicationView();
-				medicationView.init(medName, medNdc, percentGoal, medColor);
+				medicationView.init(medName, medNdc, medConcentration, medGoalConcentration, medHigh0Concentration, medHigh1Concentration, medColor);
 				medicationsGroup.addElement(medicationView);
 
 				var addMedication:String = "";
