@@ -34,53 +34,61 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * @return
 		 */
 		public static function getCurrentScheduleDetails(scheduleItemValues:Vector.<String>, todayOnly:Boolean,
-														 scheduleItemCollection:ArrayCollection,
-														 now:Date):ScheduleDetails
+														 scheduleItemCollection:ArrayCollection, now:Date,
+														 parentScheduleItem:ScheduleItemBase = null):ScheduleDetails
 		{
 			var scheduleDetails:ScheduleDetails;
-			for each (var scheduleItem:ScheduleItemBase in scheduleItemCollection)
+
+			if (parentScheduleItem == null)
 			{
-				if (scheduleItemValues.indexOf(scheduleItem.name.value) != -1)
+				for each (var scheduleItem:ScheduleItemBase in scheduleItemCollection)
 				{
-					var currentPeriodDateStart:Date;
-					var currentPeriodDateEnd:Date;
+					if (scheduleItemValues.indexOf(scheduleItem.name.value) != -1)
+					{
+						parentScheduleItem = scheduleItem;
+					}
+				}
+			}
+
+			if (parentScheduleItem)
+			{
+				var currentPeriodDateStart:Date;
+				var currentPeriodDateEnd:Date;
+				if (todayOnly)
+				{
+					currentPeriodDateEnd = DateUtil.roundTimeToNextDay(now);
+					currentPeriodDateStart = new Date(currentPeriodDateEnd.valueOf() -
+							ScheduleItemBase.MILLISECONDS_IN_DAY);
+				}
+				else
+				{
+					// TODO: exactly what span of time should we use to look for the "next" scheduled item? Currently we are using the entirety of the current day plus 48 hours after the current time
+					currentPeriodDateStart = new Date(DateUtil.roundTimeToNextDay(now).valueOf() -
+							ScheduleItemBase.MILLISECONDS_IN_DAY);
+					currentPeriodDateEnd = new Date(now.valueOf() + 2 * ScheduleItemBase.MILLISECONDS_IN_DAY);
+				}
+
+				var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = parentScheduleItem.getScheduleItemOccurrences(
+						currentPeriodDateStart, currentPeriodDateEnd, true);
+				for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
+				{
 					if (todayOnly)
 					{
-						currentPeriodDateEnd = DateUtil.roundTimeToNextDay(now);
-						currentPeriodDateStart = new Date(currentPeriodDateEnd.valueOf() -
-								ScheduleItemBase.MILLISECONDS_IN_DAY);
+						scheduleDetails = new ScheduleDetails(parentScheduleItem, scheduleItemOccurrence);
+						break;
 					}
 					else
 					{
-						// TODO: exactly what span of time should we use to look for the "next" scheduled item? Currently we are using the 48 hours after the current time (a 2 day window)
-						currentPeriodDateStart = now;
-						currentPeriodDateEnd = new Date(now.valueOf() + 2 * ScheduleItemBase.MILLISECONDS_IN_DAY);
-					}
-
-					var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = scheduleItem.getScheduleItemOccurrences(
-							currentPeriodDateStart, currentPeriodDateEnd, true);
-					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
-					{
-						if (todayOnly)
+						var currentScheduleCutoff:Number = ALLOW_CHANGE_LATE_OCCURRENCE ? DateUtil.roundTimeToNextDay(now).valueOf() -
+								ScheduleItemBase.MILLISECONDS_IN_DAY : (now.valueOf() - NEXT_OCCURRENCE_DELTA);
+						if ((scheduleItemOccurrence.adherenceItem == null ||
+								scheduleItemOccurrence.adherenceItem.adherence == false) &&
+								scheduleItemOccurrence.dateEnd.valueOf() >= currentScheduleCutoff)
 						{
-							scheduleDetails = new ScheduleDetails(scheduleItem, scheduleItemOccurrence);
+							scheduleDetails = new ScheduleDetails(parentScheduleItem, scheduleItemOccurrence);
 							break;
 						}
-						else
-						{
-							var currentScheduleCutoff:Number = ALLOW_CHANGE_LATE_OCCURRENCE ? DateUtil.roundTimeToNextDay(now).valueOf() -
-									ScheduleItemBase.MILLISECONDS_IN_DAY : (now.valueOf() - NEXT_OCCURRENCE_DELTA);
-							if ((scheduleItemOccurrence.adherenceItem == null ||
-									scheduleItemOccurrence.adherenceItem.adherence == false) &&
-									scheduleItemOccurrence.dateEnd.valueOf() >= currentScheduleCutoff)
-							{
-								scheduleDetails = new ScheduleDetails(scheduleItem, scheduleItemOccurrence);
-								break;
-							}
-						}
 					}
-					if (scheduleDetails)
-						break;
 				}
 			}
 
@@ -123,10 +131,10 @@ package collaboRhythm.plugins.schedule.shared.model
 		 * @return
 		 */
 		public static function getPossibleDateOfNextOccurrence(scheduleItemValues:Vector.<String>,
-																 scheduleItemCollection:ArrayCollection,
-																 now:Date):Date
+															   scheduleItemCollection:ArrayCollection, now:Date):Date
 		{
-			var scheduleDetails:ScheduleDetails = getCurrentScheduleDetails(scheduleItemValues, false, scheduleItemCollection, now);
+			var scheduleDetails:ScheduleDetails = getCurrentScheduleDetails(scheduleItemValues, false,
+					scheduleItemCollection, now);
 			if (scheduleDetails && scheduleDetails.occurrence)
 			{
 				return scheduleDetails.occurrence.dateStart;
@@ -157,7 +165,7 @@ package collaboRhythm.plugins.schedule.shared.model
 		}
 
 		public static function getLatestMatchingSchedule(scheduleItemValues:Vector.<String>,
-												  scheduleItemCollection:ArrayCollection):ScheduleItemBase
+														 scheduleItemCollection:ArrayCollection):ScheduleItemBase
 		{
 			var latestMatchingSchedule:ScheduleItemBase;
 			for (var i:int = scheduleItemCollection.length - 1; i >= 0; i--)

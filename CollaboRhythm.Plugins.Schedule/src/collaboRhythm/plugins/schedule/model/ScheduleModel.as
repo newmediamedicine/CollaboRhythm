@@ -422,7 +422,7 @@ package collaboRhythm.plugins.schedule.model
 						scheduleItemInGroup.dateEnd.valueOf() != scheduleGroup.dateEnd.valueOf())
 				{
 					var scheduleDetails:ScheduleDetails = ScheduleDetailsResolver.getCurrentScheduleDetails(new <String>[scheduleItemInGroup.name.value],
-							false, getScheduleItemCollection(scheduleItemInGroup), currentDateSource.now());
+							false, getScheduleItemCollection(scheduleItemInGroup), currentDateSource.now(), scheduleItemOccurrence.scheduleItem);
 					if (scheduleDetails && scheduleDetails.currentSchedule)
 					{
 						var scheduleChanger:ScheduleChanger = new ScheduleChanger(record, accountId, currentDateSource);
