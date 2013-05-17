@@ -92,6 +92,13 @@ package collaboRhythm.shared.apps.healthCharts.model
 		public static const BID_HIGH1:Number = 1;
 		public static const BID_MAXIMUM:Number = 1;
 
+		public static const TID_MINIMUM:Number = 0;
+		public static const TID_LOW:Number = BID_GOAL / 2;
+		public static const TID_GOAL:Number = 0.5;
+		public static const TID_HIGH0:Number = 1.1;
+		public static const TID_HIGH1:Number = 1.2;
+		public static const TID_MAXIMUM:Number = 1.2;
+
 		/**
 		 * Values lower than this are considered "very highly" hypotensive. Note that his value has been chosen somewhat arbitrarily.
 		 */
@@ -140,6 +147,11 @@ package collaboRhythm.shared.apps.healthCharts.model
 			BID_GOAL,
 			BID_HIGH0,
 			BID_HIGH1];
+		public static const tidConcentrationRanges:Vector.<Number> = new <Number>[
+			TID_LOW,
+			TID_GOAL,
+			TID_HIGH0,
+			TID_HIGH1];
 
 
 		private var _mode:String;
@@ -310,7 +322,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 					break;
 			}
 			BindingUtils.bindSetter(medicationConcentrationSeverityLevel_changeHandler, medication,
-									"concentrationSeverityLevel");
+					"concentrationSeverityLevel");
 			dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, "medications", null, medications));
 		}
 
@@ -318,7 +330,7 @@ package collaboRhythm.shared.apps.healthCharts.model
 		{
 			updateSimulationData();
 		}
-		
+
 		public function addVitalSign(vitalSign:VitalSign):void
 		{
 			if (vitalSignsByCategory.getIndexByKey(vitalSign.name.text) != -1)

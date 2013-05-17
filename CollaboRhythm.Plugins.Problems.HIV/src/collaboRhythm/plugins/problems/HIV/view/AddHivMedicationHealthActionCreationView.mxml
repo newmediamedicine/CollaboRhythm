@@ -23,6 +23,7 @@
 	<fx:Script><![CDATA[
 		import collaboRhythm.plugins.problems.HIV.controller.AddHivMedicationHealthActionCreationController;
 		import collaboRhythm.plugins.problems.HIV.model.AddHivMedicationHealthActionCreationModel;
+		import collaboRhythm.plugins.problems.HIV.model.HIVMedicationChoice;
 		import collaboRhythm.plugins.schedule.shared.model.HealthActionCreationModelAndController;
 		import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 
@@ -46,17 +47,19 @@
 
 		private function creationCompleteHandler():void
 		{
-			hivMedicationsList.dataProvider = _addHivMedicationHealthActionCreationModel.hivMedicationsArrayCollection;
+			hivMedicationsList.dataProvider = _addHivMedicationHealthActionCreationModel.hivMedicationChoicesArrayCollection;
 		}
 
 		private function hivMedicationList_changeHandler(event:IndexChangeEvent):void
 		{
-			var medicationFill:MedicationFill = _addHivMedicationHealthActionCreationModel.hivMedicationsArrayCollection.getItemAt(event.newIndex) as MedicationFill;
-			_addHivMedicationHealthActionCreationController.scheduleMedication(medicationFill);
+			var hivMedicationChoice:HIVMedicationChoice = _addHivMedicationHealthActionCreationModel.hivMedicationChoicesArrayCollection.getItemAt(event.newIndex) as
+					HIVMedicationChoice;
+			_addHivMedicationHealthActionCreationController.scheduleMedication(hivMedicationChoice);
 		}
 		]]></fx:Script>
 	<s:List id="hivMedicationsList"
 			width="100%" height="100%"
-			itemRenderer="collaboRhythm.plugins.problems.HIV.view.HivMedicationItemRenderer"
-			change="hivMedicationList_changeHandler(event)"/>
+			itemRenderer="collaboRhythm.plugins.problems.HIV.view.HivMedicationChoiceItemRenderer"
+			change="hivMedicationList_changeHandler(event)"
+			horizontalScrollPolicy="off"/>
 </tablet:TabletViewBase>

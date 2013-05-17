@@ -69,7 +69,29 @@ package collaboRhythm.shared.model.services
 			{key: "005970046", value: 0x888d95},
 			{key: "000740522", value: 0xc8b278}, // kaletra
 			{key: "000746799", value: 0xe2be6d}, // kaletra
-			{key: "000743333", value: 0xcbccc4}  // norvir
+			{key: "000743333", value: 0xcbccc4}, // norvir
+			{key: "497020221", value: 0xfec678}, // ziagen
+			{key: "497020206", value: 0xfdae6e}, // epzicom
+			{key: "001730470", value: 0xd7d3ca}, // epivir
+			{key: "619580601", value: 0x79b3db}, // emtriva
+			{key: "619580401", value: 0xadc3d0}, // viraed
+			{key: "596760562", value: 0xadc3d0}, // prezista
+			{key: "596760561", value: 0xadc3d0}, // prezista
+			{key: "596760570", value: 0xadc3d0}, // intelence
+			{key: "000876672", value: 0xadc3d0}, // videx
+			{key: "000876673", value: 0xadc3d0}, // videx
+			{key: "000876674", value: 0xadc3d0}, // videx
+			{key: "000060227", value: 0xadc3d0}, // isentress
+			{key: "000560474", value: 0xadc3d0}, // sustiva
+			{key: "000560510", value: 0xadc3d0}, // sustiva
+			{key: "000033624", value: 0xadc3d0}, // reyataz
+			{key: "000033631", value: 0xadc3d0}, // reyataz
+			{key: "005970046", value: 0xadc3d0}, // viramune
+			{key: "001730595", value: 0xadc3d0}, // combivir
+			{key: "127830967", value: 0xadc3d0}, // reyataz
+			{key: "000060573", value: 0xadc3d0}, // reyataz
+			{key: "155840101", value: 0xadc3d0}, // viramune
+			{key: "619580701", value: 0xadc3d0} // combivir
 		];
 
 		private var _medicationColorsDictionary:Dictionary = new Dictionary();

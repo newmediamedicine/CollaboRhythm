@@ -27,20 +27,23 @@ package collaboRhythm.core.model.healthRecord.service
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrder;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationOrdersModel;
 	import collaboRhythm.shared.model.healthRecord.document.MedicationScheduleItem;
+	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayCollection;
 
 	public class HealthChartsInitializationService extends DocumentStorageServiceBase
 	{
+		private static const MILLISECONDS_IN_DAY:Number = 1000 * 60 * 60 * 24;
+
 		private var _record:Record;
 
 
 		public function HealthChartsInitializationService(consumerKey:String, consumerSecret:String, baseURL:String,
-																  account:Account, debuggingToolsEnabled:Boolean)
+														  account:Account, debuggingToolsEnabled:Boolean)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, null,
-				  null, null);
+					null, null);
 		}
 
 
@@ -92,9 +95,9 @@ package collaboRhythm.core.model.healthRecord.service
 			if (isDoneLoading)
 			{
 				initializeMedicationSimulationModel(record.healthChartsModel.focusSimulation,
-													record.medicationAdministrationsModel, record.medicationOrdersModel);
+						record.medicationAdministrationsModel, record.medicationOrdersModel);
 				initializeMedicationSimulationModel(record.healthChartsModel.currentSimulation,
-													record.medicationAdministrationsModel, record.medicationOrdersModel);
+						record.medicationAdministrationsModel, record.medicationOrdersModel);
 				initializeVitalSignSimulationModel(record.healthChartsModel.focusSimulation);
 				initializeVitalSignSimulationModel(record.healthChartsModel.currentSimulation);
 			}
@@ -134,7 +137,8 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			if (!simulation.isInitialized)
 			{
-				for each (var medicationAdministrationCollection:ArrayCollection in medicationAdministrationsModel.medicationAdministrationsCollectionsByCode)
+				for each (var medicationAdministrationCollection:ArrayCollection in
+						medicationAdministrationsModel.medicationAdministrationsCollectionsByCode)
 				{
 					if (medicationAdministrationCollection.length > 0)
 					{
@@ -152,7 +156,8 @@ package collaboRhythm.core.model.healthRecord.service
 			}
 		}
 
-		private function createMedication(simulation:SimulationModel, medicationNameCodedValue:CollaboRhythmCodedValue):void
+		private function createMedication(simulation:SimulationModel,
+										  medicationNameCodedValue:CollaboRhythmCodedValue):void
 		{
 			var index:int = simulation.medicationsByCode.getIndexByKey(medicationNameCodedValue.value);
 			if (index == -1)
@@ -170,50 +175,44 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			var drugClass:String;
 			var stepsProvider:StepsProvider;
-			var concentrationSeverityProvider:ConcentrationSeverityProvider;
+			var medicationOrder:MedicationOrder = getMedicationOrder(medication.name.value);
+			var concentrationSeverityProvider:ConcentrationSeverityProvider = determineConcentrationSeverityProvider(medicationOrder);
 			switch (medication.name.value)
 			{
 				case "310798":
 				case "429503":
 					drugClass = SimulationModel.THIAZIDE_DIURETIC;
 					stepsProvider = preloadReducerStepsProvider;
-					concentrationSeverityProvider = qdConcentrationSeverityProvider;
 					break;
 				case "866511":
 				case "866924":
 				case "866429":
 					drugClass = SimulationModel.BETA_BLOCKER;
 					stepsProvider = afterloadAndContractilityStepsProvider;
-					concentrationSeverityProvider = bidConcentrationSeverityProvider;
 					break;
 				case "866427":
 					drugClass = SimulationModel.BETA_BLOCKER;
 					stepsProvider = afterloadAndContractilityStepsProvider;
-					concentrationSeverityProvider = qdConcentrationSeverityProvider;
 					break;
 				case "979487":
 				case "979492":
 					drugClass = SimulationModel.ANGIOTENSIN_RECEPTOR_BLOCKER;
 					stepsProvider = preloadAndAfterloadStepsProvider;
-					concentrationSeverityProvider = qdConcentrationSeverityProvider;
 					break;
 				case "212575":
 				case "212549":
 				case "830837":
 					drugClass = SimulationModel.CALCIUM_CHANNEL_BLOCKER;
 					stepsProvider = afterloadAndContractilityStepsProvider;
-					concentrationSeverityProvider = qdConcentrationSeverityProvider;
 					break;
 				case "197628":
 					drugClass = SimulationModel.ALPHA_BLOCKER;
 					stepsProvider = afterloadAndContractilityStepsProvider;
-					concentrationSeverityProvider = qdConcentrationSeverityProvider;
 					break;
 				case "104375":
 				case "206766":
 					drugClass = SimulationModel.ACE_INHIBITOR;
 					stepsProvider = preloadAndAfterloadStepsProvider;
-					concentrationSeverityProvider = qdConcentrationSeverityProvider;
 					break;
 				default:
 					drugClass = SimulationModel.DRUG_CLASS_UNKNOWN;
@@ -231,10 +230,58 @@ package collaboRhythm.core.model.healthRecord.service
 
 			// TODO: find a more robust way to get a medicationScheduleItem without depending on an AdherenceItem
 			medication.medicationScheduleItem = getMedicationScheduleItem(medication.name.value);
-			if (medication.medicationScheduleItem && medication.medicationScheduleItem.scheduledMedicationOrder && medication.medicationScheduleItem.scheduledMedicationOrder.medicationFill)
+			if (medication.medicationScheduleItem && medication.medicationScheduleItem.scheduledMedicationOrder &&
+					medication.medicationScheduleItem.scheduledMedicationOrder.medicationFill)
+			{
 				medication.medicationFill = medication.medicationScheduleItem.scheduledMedicationOrder.medicationFill;
+			}
 			else
 				medication.medicationFill = getMedicationFill(medication.name.value);
+		}
+
+		private function getMedicationOrder(medicationCode:String):MedicationOrder
+		{
+			for each (var medicationOrder:MedicationOrder in record.medicationOrdersModel.documents)
+			{
+				if (medicationOrder.name.value == medicationCode)
+				{
+					return medicationOrder;
+				}
+			}
+
+			return null;
+		}
+
+		private function determineConcentrationSeverityProvider(medicationOrder:MedicationOrder):ConcentrationSeverityProvider
+		{
+			if (medicationOrder)
+			{
+				var currentDate:Date = _currentDateSource.now();
+							var dateStart:Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+							var dateEnd:Date = new Date(dateStart.valueOf() + MILLISECONDS_IN_DAY - 1);
+
+				var currentMedicationScheduleItemCount:int = 0;
+				for each (var medicationScheduleItem:MedicationScheduleItem in medicationOrder.scheduleItems)
+				{
+					var medicationScheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = medicationScheduleItem.getScheduleItemOccurrences(dateStart, dateEnd);
+					currentMedicationScheduleItemCount += medicationScheduleItemOccurrences.length;
+				}
+
+				if (currentMedicationScheduleItemCount == 1)
+				{
+					return qdConcentrationSeverityProvider;
+				}
+				else if (currentMedicationScheduleItemCount == 2)
+				{
+					return bidConcentrationSeverityProvider;
+				}
+				else if (currentMedicationScheduleItemCount == 3)
+				{
+					return tidConcentrationSeverityProvider;
+				}
+			}
+
+			return qdConcentrationSeverityProvider;
 		}
 
 		private function getMedicationScheduleItem(medicationCode:String):MedicationScheduleItem
@@ -244,7 +291,8 @@ package collaboRhythm.core.model.healthRecord.service
 			{
 				for each (var adherenceItem:AdherenceItem in adherenceItemsCollection)
 				{
-					var medicationScheduleItem:MedicationScheduleItem = adherenceItem.scheduleItem as MedicationScheduleItem;
+					var medicationScheduleItem:MedicationScheduleItem = adherenceItem.scheduleItem as
+							MedicationScheduleItem;
 					if (medicationScheduleItem)
 					{
 						return medicationScheduleItem;
@@ -279,79 +327,85 @@ package collaboRhythm.core.model.healthRecord.service
 		private function get qdConcentrationSeverityProvider():ConcentrationSeverityProvider
 		{
 			return new ConcentrationSeverityProvider(SimulationModel.qdConcentrationRanges,
-													 SimulationModel.concentrationColors);
+					SimulationModel.concentrationColors);
 		}
 
 		private function get bidConcentrationSeverityProvider():ConcentrationSeverityProvider
 		{
 			return new ConcentrationSeverityProvider(SimulationModel.bidConcentrationRanges,
-													 SimulationModel.concentrationColors);
+					SimulationModel.concentrationColors);
+		}
+
+		private function get tidConcentrationSeverityProvider():ConcentrationSeverityProvider
+		{
+			return new ConcentrationSeverityProvider(SimulationModel.tidConcentrationRanges,
+					SimulationModel.concentrationColors);
 		}
 
 		private function get preloadReducerStepsProvider():StepsProvider
 		{
 			return new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
-									 new <Vector.<String>>[
-										 new <String>[
-											 "Less salt and urine output",
-											 "More blood in veins (blue)",
-											 "More work for your heart",
-											 "Increased blood pressure"],
-										 new <String>[
-											 "Less salt and urine output",
-											 "More blood volume",
-											 "More work for your heart",
-											 "Increased blood pressure"],
-										 new <String>[
-											 "More salt and urine output",
-											 "Less blood volume",
-											 "Less work for your heart",
-											 "Decreased blood pressure"]]);
+					new <Vector.<String>>[
+						new <String>[
+							"Less salt and urine output",
+							"More blood in veins (blue)",
+							"More work for your heart",
+							"Increased blood pressure"],
+						new <String>[
+							"Less salt and urine output",
+							"More blood volume",
+							"More work for your heart",
+							"Increased blood pressure"],
+						new <String>[
+							"More salt and urine output",
+							"Less blood volume",
+							"Less work for your heart",
+							"Decreased blood pressure"]]);
 		}
 
 		private function get preloadAndAfterloadStepsProvider():StepsProvider
 		{
 			return new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
-									 new <Vector.<String>>[
-										 new <String>[
-											 "Less salt and urine output",
-											 "More blood in veins (blue)",
-											 "More constricted arteries (red)",
-											 "More work for your heart",
-											 "Increased blood pressure"],
-										 new <String>[
-											 "Less salt and urine output",
-											 "More blood in veins (blue)",
-											 "More constricted arteries (red)",
-											 "More work for your heart",
-											 "Increased blood pressure"],
-										 new <String>[
-											 "More salt and urine output",
-											 "Less blood in veins (blue)",
-											 "Less constricted arteries (red)",
-											 "Less work for your heart",
-											 "Decreased blood pressure"]]);
+					new <Vector.<String>>[
+						new <String>[
+							"Less salt and urine output",
+							"More blood in veins (blue)",
+							"More constricted arteries (red)",
+							"More work for your heart",
+							"Increased blood pressure"],
+						new <String>[
+							"Less salt and urine output",
+							"More blood in veins (blue)",
+							"More constricted arteries (red)",
+							"More work for your heart",
+							"Increased blood pressure"],
+						new <String>[
+							"More salt and urine output",
+							"Less blood in veins (blue)",
+							"Less constricted arteries (red)",
+							"Less work for your heart",
+							"Decreased blood pressure"]]);
 		}
 
 		private function get afterloadAndContractilityStepsProvider():StepsProvider
 		{
 			return new StepsProvider(new <Number>[SimulationModel.HYDROCHLOROTHIAZIDE_LOW, SimulationModel.HYDROCHLOROTHIAZIDE_GOAL],
-									 new <Vector.<String>>[
-										 new <String>[
-											 "Harder contractions of heart",
-											 "More constricted arteries (red)",
-											 "More work for your heart",
-											 "Increased blood pressure"],
-										 new <String>[
-											 "Harder contractions of heart",
-											 "More constricted arteries (red)",
-											 "More work for your heart",
-											 "Increased blood pressure"],
-										 new <String>[
-											 "Softer contractions of heart",
-											 "Less constricted arteries (red)",
-											 "Less work for your heart",
-											 "Decreased blood pressure"]]);
+					new <Vector.<String>>[
+						new <String>[
+							"Harder contractions of heart",
+							"More constricted arteries (red)",
+							"More work for your heart",
+							"Increased blood pressure"],
+						new <String>[
+							"Harder contractions of heart",
+							"More constricted arteries (red)",
+							"More work for your heart",
+							"Increased blood pressure"],
+						new <String>[
+							"Softer contractions of heart",
+							"Less constricted arteries (red)",
+							"Less work for your heart",
+							"Decreased blood pressure"]]);
 		}
 
 		protected function get record():Record

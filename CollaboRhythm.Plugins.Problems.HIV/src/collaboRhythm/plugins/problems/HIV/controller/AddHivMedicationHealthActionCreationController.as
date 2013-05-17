@@ -1,12 +1,12 @@
 package collaboRhythm.plugins.problems.HIV.controller
 {
 	import collaboRhythm.plugins.problems.HIV.model.AddHivMedicationHealthActionCreationModel;
+	import collaboRhythm.plugins.problems.HIV.model.HIVMedicationChoice;
 	import collaboRhythm.plugins.problems.HIV.view.AddHivMedicationHealthActionCreationView;
 	import collaboRhythm.plugins.schedule.shared.model.HealthActionCreationModelAndController;
 	import collaboRhythm.plugins.schedule.shared.model.IHealthActionCreationController;
 	import collaboRhythm.plugins.schedule.shared.model.SaveMedicationCompleteEvent;
 	import collaboRhythm.shared.model.Account;
-	import collaboRhythm.shared.model.healthRecord.document.MedicationFill;
 	import collaboRhythm.shared.model.healthRecord.document.ScheduleItemOccurrence;
 
 	import flash.events.MouseEvent;
@@ -48,11 +48,11 @@ package collaboRhythm.plugins.problems.HIV.controller
 		{
 		}
 
-		public function scheduleMedication(medicationFill:MedicationFill):void
+		public function scheduleMedication(hivMedicationChoice:HIVMedicationChoice):void
 		{
 			_addHivMedicationHealthActionCreationModel.addEventListener(SaveMedicationCompleteEvent.SAVE_MEDICATION, saveMedication_completeEventHandler);
 
-			_addHivMedicationHealthActionCreationModel.scheduleMedication(medicationFill);
+			_addHivMedicationHealthActionCreationModel.scheduleMedication(hivMedicationChoice);
 		}
 
 		private function saveMedication_completeEventHandler(event:SaveMedicationCompleteEvent):void
