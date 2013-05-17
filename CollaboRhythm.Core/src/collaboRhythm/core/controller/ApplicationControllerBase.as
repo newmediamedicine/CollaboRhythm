@@ -1159,6 +1159,11 @@ package collaboRhythm.core.controller
 			return _settings;
 		}
 
+		public function set settings(value:Settings):void
+		{
+			_settings = value;
+		}
+
 		public function get currentFullView():String
 		{
 			throw new Error("virtual function must be overriden in subclass");

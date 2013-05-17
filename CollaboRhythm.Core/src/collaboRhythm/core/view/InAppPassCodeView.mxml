@@ -24,12 +24,12 @@
 		}
 
 		#enterPassCodeLabel {
-			fontSize: 26;
+			fontSize: 30;
 			color: #FFFFFF;
 		}
 
 		#incorrectPassCodeLabel {
-			fontSize: 26;
+			fontSize: 30;
 			color: #FFFFFF;
 		}
 	</fx:Style>
@@ -64,7 +64,7 @@
 	<s:VGroup horizontalCenter="0" verticalCenter="0" horizontalAlign="center" gap="20">
 		<s:Label id="enterPassCodeLabel" text="Enter PassCode"/>
 		<s:TextInput id="passCodeTextInput"
-					 width="200" height="100"
+					 width="220" height="140"
 					 skinClass="spark.skins.mobile.StageTextInputSkin"
 					 contentBackgroundAlpha="1"
 					 textAlign="right"
@@ -72,7 +72,7 @@
 					 maxChars="4"
 					 needsSoftKeyboard="true"
 					 change="passCodeTextInput_changeHandler()"/>
-		<s:Button id="okButton" label="OK" enabled="false" width="80" click="okButton_clickHandler()"/>
+		<s:Button id="okButton" label="OK" enabled="false" width="150" click="okButton_clickHandler()"/>
 		<s:Label id="incorrectPassCodeLabel" text="Entered PassCode was Incorrect" visible="false"/>
 	</s:VGroup>
 </s:Group>

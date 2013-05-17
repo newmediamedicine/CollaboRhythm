@@ -97,10 +97,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Schedule/bin-debug/SchedulePluginModule.swf" path-in-package="plugins/SchedulePluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Medications/bin-debug/MedicationsPluginModule.swf" path-in-package="plugins/MedicationsPluginModule.swf" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.HealthCharts/bin-debug/HealthChartsPluginModule.swf" path-in-package="plugins/HealthChartsPluginModule.swf" />
-            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Equipment/bin-debug/EquipmentPluginModule.swf" path-in-package="plugins/EquipmentPluginModule.swf" />
-            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.ForaD40b/bin-debug/ForaD40bPluginModule.swf" path-in-package="plugins/ForaD40bPluginModule.swf" />
-            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Messages/bin-debug/MessagesPluginModule.swf" path-in-package="plugins/MessagesPluginModule.swf" />
-            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.BloodPressure/bin-debug/BloodPressurePluginModule.swf" path-in-package="plugins/BloodPressurePluginModule.swf" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/../CollaboRhythm.Plugins.Problems.HIV/bin-debug/HIVPluginModule.swf" path-in-package="plugins/HIVPluginModule.swf" />
           </files-to-package>
           <AirSigningOptions keystore-path="$MODULE_DIR$/../CollaboRhythm.Workstation/CollaboRhythmKeystore.p12" use-temp-certificate="false" />
         </packaging-android>

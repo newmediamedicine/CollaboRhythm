@@ -17,8 +17,8 @@
   -->
 <update xmlns="http://ns.riaspace.com/air/framework/update/description/1.1">
 	<android>
-		<version>0.7.3</version>
-		<url>https://indivo-apf.media.mit.edu/jmvc/CollaboRhythmUpdates/CollaboRhythm.Tablet.Release.apk</url>
+		<version>0.7.4</version>
+		<url>https://indivo-public.media.mit.edu/jmvc/CollaboRhythmUpdates/CollaboRhythm.Tablet.Release.apk</url>
 	    <description>
     	    <![CDATA[
         	* Added integrated update capability

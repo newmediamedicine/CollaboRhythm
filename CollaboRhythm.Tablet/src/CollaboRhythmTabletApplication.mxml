@@ -180,6 +180,12 @@
 			_collaborationController.collaborationModel.collaborationLobbyNetConnectionService.addEventListener(CollaborationPointerSynchronizationEvent.HIDE_POINTER,
 					hidePointerHandler);
 
+			if (!_applicationController.settings.collaborationEnabled && collaborationStatusGroup)
+			{
+				collaborationStatusGroup.visible = false;
+				collaborationStatusGroup.includeInLayout = false;
+			}
+
 			BindingUtils.bindSetter(activeView_changeHandler, navigator, "activeView");
 			BindingUtils.bindSetter(mode_changeHandler, _applicationController.settings, "mode");
 			BindingUtils.bindSetter(collaborationState_changeHandler, _collaborationController.collaborationModel,
@@ -403,7 +409,7 @@
 			</s:Group>
 			<s:HGroup gap="0" includeInLayout="{_applicationController.activeRecordAccount != null}"
 					  visible="{_applicationController.activeRecordAccount != null}">
-				<s:Group>
+				<s:Group id="collaborationStatusGroup">
 					<s:Button width="44" height="46"
 							  enabled="false" enabled.patientCollaborationInactive="true"
 							  click="_applicationController.setCollaborationLobbyConnectionStatus()"/>
@@ -433,8 +439,8 @@
 				</s:Group>
 				<s:Group includeIn="CollaborationInactive, CollaborationOutOfSync"
 						 click="synchronize()">
-					<s:Button width="44" height="46"/>
-					<view:SynchronizeIcon id="synchronizeIcon" width="26" height="26" verticalCenter="0"
+					<s:Button width="{backGroup.height}" height="{backGroup.height}"/>
+					<view:SynchronizeIcon id="synchronizeIcon" width="{backGroup.height - 20}" height="{backGroup.height - 20}" verticalCenter="0"
 										  horizontalCenter="0"
 										  mouseEnabled="false" mouseChildren="false"/>
 				</s:Group>
