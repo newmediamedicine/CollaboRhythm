@@ -50,7 +50,7 @@ package collaboRhythm.core.model.healthRecord.service
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled,
 				  MedicationAdministration.DOCUMENT_TYPE, MedicationAdministration,
-				  Schemas.MedicationAdministrationSchema, "MedicationAdministration", null, 1000, "dateAdministeredValue");
+				  Schemas.MedicationAdministrationSchema, "MedicationAdministration", "dateAdministered", 1000, "dateAdministeredValue");
 
 			_autoUpdateTimer.addEventListener(TimerEvent.TIMER, autoUpdateTimer_timerHandler, false, 0, true);
 			_currentDateSource.addEventListener(Event.CHANGE, currentDateSource_changeHandler, false, 0, true);

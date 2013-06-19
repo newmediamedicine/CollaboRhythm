@@ -139,9 +139,13 @@ package collaboRhythm.core.model.healthRecord.service
 						// validate that the current date is not before the previous date
 						if (dataItem.dateAdministered.time < previousDate.time)
 						{
+/*
 							_logger.warn("Medication concentration curve can not be built. Dates are not in ascending order: " + previousDate.toString() + ", " +
 									dataItem.dateAdministered.toString());
 							return currentConcentrationCurve;
+*/
+							// skip over any that seem out of order or too close together
+							continue;
 						}
 
 						intervalsToAdvance = Math.ceil((dataItem.dateAdministered.time - previousDate.time) / intervalDuration);
