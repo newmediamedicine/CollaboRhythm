@@ -5,9 +5,6 @@
       <configuration name="AIR Application" target-platform="Desktop" main-class="CollaboRhythmMobileApplication" output-file="CollaboRhythmMobileApplication.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
-            <entry library-name="Android 2.2 Platform" library-level="application">
-              <dependency linkage="External" />
-            </entry>
             <entry library-id="cb855614-0520-4356-b496-33f89aad7f96">
               <dependency linkage="Merged" />
             </entry>

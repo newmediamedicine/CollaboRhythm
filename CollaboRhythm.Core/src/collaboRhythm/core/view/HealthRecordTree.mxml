@@ -164,8 +164,9 @@
 			if (document1)
 			{
 				var document2:IDocument = obj2 as IDocument;
-				return getDateValue(dateStartPropertyNames, document1) -
+				var difference:Number = getDateValue(dateStartPropertyNames, document1) -
 						getDateValue(dateStartPropertyNames, document2);
+				return difference == 0 ? 0 : (difference > 0 ? 1 : -1);
 			}
 			return 0;
 		}

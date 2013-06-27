@@ -19,16 +19,36 @@ package collaboRhythm.core.model.healthRecord.service
 
 	import collaboRhythm.core.model.healthRecord.Schemas;
 	import collaboRhythm.shared.model.Account;
+	import collaboRhythm.shared.model.Record;
+	import collaboRhythm.shared.model.healthRecord.HealthRecordServiceRequestDetails;
 	import collaboRhythm.shared.model.healthRecord.document.AdherenceItem;
+
+	import org.indivo.client.IndivoClientEvent;
 
 	public class AdherenceItemsHealthRecordService extends DocumentStorageSingleReportServiceBase
 	{
+		private var _curvesBuilder:MedicationConcentrationCurvesBuilder;
 
 		public function AdherenceItemsHealthRecordService(consumerKey:String, consumerSecret:String, baseURL:String,
 														  account:Account, debuggingToolsEnabled:Boolean)
 		{
 			super(consumerKey, consumerSecret, baseURL, account, debuggingToolsEnabled, AdherenceItem.DOCUMENT_TYPE,
 				  AdherenceItem, Schemas.AdherenceItemSchema, "AdherenceItem", null, 1000, "dateReportedValue");
+
+			_curvesBuilder = new MedicationConcentrationCurvesBuilder();
+		}
+
+		override protected function updateModelAfterHandleReportResponse(event:IndivoClientEvent, responseXml:XML,
+																		 healthRecordServiceRequestDetails:HealthRecordServiceRequestDetails):void
+		{
+			super.updateModelAfterHandleReportResponse(event, responseXml, healthRecordServiceRequestDetails);
+
+			createMedicationConcentrationCollections(healthRecordServiceRequestDetails.record);
+		}
+
+		public function createMedicationConcentrationCollections(record:Record):void
+		{
+			_curvesBuilder.createMedicationConcentrationCollections(record);
 		}
 	}
 }

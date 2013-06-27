@@ -1979,6 +1979,8 @@ package collaboRhythm.shared.ui.healthCharts.view
 			var lastDateEnd:Date;
 
 			var color:uint = getItemColor(chartDescriptor);
+			var adherenceItemsCollection:ArrayCollection = new ArrayCollection();
+			adherenceItemsCollection.addAll(model.getAdherenceItemsCollectionByCode(scheduleItemName));
 
 			for each (var scheduleItem:ScheduleItemBase in scheduleItemCollection)
 			{
@@ -1987,6 +1989,14 @@ package collaboRhythm.shared.ui.healthCharts.view
 					var scheduleItemOccurrences:Vector.<ScheduleItemOccurrence> = scheduleItem.getScheduleItemOccurrences();
 					for each (var scheduleItemOccurrence:ScheduleItemOccurrence in scheduleItemOccurrences)
 					{
+						if (scheduleItemOccurrence.adherenceItem)
+						{
+							var itemIndex:int = adherenceItemsCollection.getItemIndex(scheduleItemOccurrence.adherenceItem);
+							if (itemIndex > -1)
+							{
+								adherenceItemsCollection.removeItemAt(itemIndex);
+							}
+						}
 						var proxy:AdherenceStripItemProxy = new AdherenceStripItemProxy(model.currentDateSource, proxyType, scheduleItemOccurrence, null, color);
 						adherenceStripItemProxies.addItem(proxy);
 					}
@@ -2003,14 +2013,10 @@ package collaboRhythm.shared.ui.healthCharts.view
 			// Also include all AdherenceItem instances that are not associated with any schedule item
 			// Note that in general, there shouldn't be any orphaned AdherenceItem instances, but if it does happen we want
 			// to include them anyways.
-			var adherenceItemsCollection:ArrayCollection = model.getAdherenceItemsCollectionByCode(scheduleItemName);
 			for each (var adherenceItem:AdherenceItem in adherenceItemsCollection)
 			{
-				if (adherenceItem.scheduleItem == null)
-				{
-					proxy = new AdherenceStripItemProxy(model.currentDateSource, proxyType, null, adherenceItem, color);
-					adherenceStripItemProxies.addItem(proxy);
-				}
+				proxy = new AdherenceStripItemProxy(model.currentDateSource, proxyType, null, adherenceItem, color);
+				adherenceStripItemProxies.addItem(proxy);
 			}
 
 			var sort:Sort = new Sort();

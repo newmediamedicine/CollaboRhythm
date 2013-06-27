@@ -116,8 +116,8 @@ package collaboRhythm.core.model.healthRecord.service
 				var previousAdministrationIndex:int = 0; // index into medicationAdministrationCollection for beginning of previous curve
 
 				var maxTime:Number = currentDateSource.now().time;
-				var lastMedicationAdministration:MedicationAdministration = medicationAdministrationCollection[medicationAdministrationCollection.length - 1];
-				var lastAdministrationDate:Date = lastMedicationAdministration.dateAdministered;
+				var lastMedicationAdministration:AdherenceItem = medicationAdministrationCollection[medicationAdministrationCollection.length - 1];
+				var lastAdministrationDate:Date = lastMedicationAdministration.dateReported;
 				var previousRemainder:Number = 0;
 				maxTime = Math.min(maxTime, lastAdministrationDate.time + singleCurve.length * intervalDuration);
 
@@ -128,7 +128,7 @@ package collaboRhythm.core.model.healthRecord.service
 						extendConcentrationCurveCollection(currentConcentrationCurve, data[0].date, 1, maxTime);
 				}
 
-				for each (var dataItem:MedicationAdministration in medicationAdministrationCollection)
+				for each (var dataItem:AdherenceItem in medicationAdministrationCollection)
 				{
 					var intervalsToAdvance:int;
 					if (currentConcentrationCurve.length > 0)
@@ -137,7 +137,7 @@ package collaboRhythm.core.model.healthRecord.service
 						var previousDate:Date = currentConcentrationCurve[previousAdministrationIndex].date;
 
 						// validate that the current date is not before the previous date
-						if (dataItem.dateAdministered.time < previousDate.time)
+						if (dataItem.dateReported.time < previousDate.time)
 						{
 /*
 							_logger.warn("Medication concentration curve can not be built. Dates are not in ascending order: " + previousDate.toString() + ", " +
@@ -148,9 +148,9 @@ package collaboRhythm.core.model.healthRecord.service
 							continue;
 						}
 
-						intervalsToAdvance = Math.ceil((dataItem.dateAdministered.time - previousDate.time) / intervalDuration);
+						intervalsToAdvance = Math.ceil((dataItem.dateReported.time - previousDate.time) / intervalDuration);
 
-						previousRemainder = (intervalsToAdvance * intervalDuration) - (dataItem.dateAdministered.time - previousDate.time);
+						previousRemainder = (intervalsToAdvance * intervalDuration) - (dataItem.dateReported.time - previousDate.time);
 						if (previousRemainder > intervalDuration)
 							throw new Error("Unexpected previousRemainder " + previousRemainder + " greater than intervalDuration " + intervalDuration);
 					}
@@ -172,7 +172,7 @@ package collaboRhythm.core.model.healthRecord.service
 						// curve of current dose starts beyond the end of the complete curve (end of previous curve)
 						currentAdministrationIndex = currentConcentrationCurve.length;
 						additionalIntervalsRequired = singleCurve.length;
-						extensionStartDate = dataItem.dateAdministered;
+						extensionStartDate = dataItem.dateReported;
 					}
 					else
 					{

@@ -139,9 +139,7 @@
 				record.addDocument(medicationAdministration);
 			}
 
-			var administrationsService:MedicationAdministrationsHealthRecordService = new MedicationAdministrationsHealthRecordService(null,
-					null, null, null, false);
-			administrationsService.createMedicationConcentrationCollections(record.medicationAdministrationsModel);
+			adherenceItemService.createMedicationConcentrationCollections(record);
 
 			record.medicationAdministrationsModel.isInitialized = true;
 			record.medicationOrdersModel.isInitialized = true;
