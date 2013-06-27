@@ -17,12 +17,11 @@
   -->
 <update xmlns="http://ns.riaspace.com/air/framework/update/description/1.1">
 	<android>
-		<version>0.7.5</version>
+		<version>0.8.0</version>
 		<url>https://indivo-public.media.mit.edu/jmvc/CollaboRhythmUpdates/CollaboRhythm.Tablet.Release.apk</url>
 	    <description>
     	    <![CDATA[
-        	* Added integrated update capability
-        	* Fixed playing of insulin video
+        	* Fixed bug in medication concentration calculation
 	        ]]>
     	</description>
 	</android>
