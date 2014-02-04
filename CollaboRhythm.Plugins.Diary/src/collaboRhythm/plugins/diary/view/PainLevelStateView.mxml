@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+		<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 width="100%" height="100%">
+
+    <fx:Script><![CDATA[
+        import mx.graphics.ImageSnapshot;
+        import mx.graphics.SolidColor;
+
+        import spark.primitives.Rect;
+
+        private function painImageClickHandler(event:MouseEvent):void {
+            var painArea:* = new Rect;
+            painArea.radiusX = 30;
+            painArea.radiusY = 30;
+            painArea.height = 30;
+            painArea.width = 30;
+            painArea.fill = new SolidColor(0xff0000, .5);
+            painArea.alpha = .5;
+            painArea.x = painImageGroup.contentMouseX-15;
+            painArea.y = painImageGroup.contentMouseY-15;
+            painImageGroup.addElement(painArea);
+        }
+
+        public var pass:Boolean = false;
+        public var pictureChecker:Boolean = false;
+        public var submit1:Number;
+        public var submit2:ByteArray;
+        public var submit3:String;
+        public var alertText:String = '';
+        private var imageSnap:ImageSnapshot;
+        private var imageByteArray:ByteArray;
+
+        public function submit():void{
+            if ( painLevel.value == -1){
+                alertText = 'Please select a level';
+            }
+            else {
+                pass = true;
+                submit1 = painLevel.value;
+                takeSnapshot(painImageGroup);
+                submit2 = imageByteArray;
+                submit3 = painDescription.text;
+            }
+        }
+        public function clear():void{
+            pass = false;
+            painLevel.value = -1;
+            submit1 = painLevel.value;
+            painDescription.text = '';
+            submit3 = painDescription.text;
+            if (pictureChecker){
+                painImageGroup.removeAllElements();
+                painImageGroup.addElement(painImage);
+                takeSnapshot(painImageGroup);
+            }
+            submit2 = imageByteArray
+        }
+        private function takeSnapshot(source:IBitmapDrawable):void {
+            imageSnap = ImageSnapshot.captureImage(source);
+            imageByteArray = imageSnap.data as ByteArray;
+            pictureChecker = true;
+/*
+            access with: SWFLoader.load(imageByteArray);
+*/
+        }
+
+        private function clearClickHandler(event:MouseEvent):void {
+            painImageGroup.removeAllElements();
+            painImageGroup.addElement(painImage);
+            takeSnapshot(painImageGroup);
+        }
+
+        ]]></fx:Script>
+
+    <s:VGroup height="100%" width="100%">
+        <s:VGroup height="41%" width="100%">
+            <s:HGroup height="20%" width="100%">
+                <s:Image source="@Embed(source='../../../../assets/images/HappyFace.jpg')" scaleX=".5" scaleY=".5"
+                         skinClass="spark.skins.spark.ImageSkin"/>
+                <s:HSlider id="painLevel" height="50" scaleX="2" width="100%" value="-1" minimum="0" maximum="10" skinClass="spark.skins.spark.HSliderSkin"/>
+                <s:Image source="@Embed(source='../../../../assets/images/SadFace.jpg')" scaleX=".5" scaleY=".5"
+                         skinClass="spark.skins.spark.ImageSkin"/>
+            </s:HGroup>
+            <s:Label text="Describe your pain (optional)" height="10%" width="100%"/>
+            <s:BorderContainer height="70%" width="100%"
+                                  cornerRadius="4" borderWeight="2"
+                                  backgroundAlpha="0">
+                <s:RichEditableText id="painDescription" color="0x000000" text=""
+                                   width="100%" height="100%"
+                                   backgroundColor="0xffffff"
+                                   paddingTop="5" fontSize="30"/>
+            </s:BorderContainer>
+
+        </s:VGroup>
+        <s:HGroup height="59%" width="100%">
+            <s:Group>
+                <s:Group height="100%" width="50%">
+                    <s:VGroup height="100%" width="100%">
+                        <s:Spacer height="100%"/>
+                        <s:Button label="Clear" height="20%" width="20%" click="clearClickHandler(event)"/>
+                        <s:Image scaleX=".6" scaleY=".6" visible="false" focusEnabled="false"
+                                 source="@Embed(source='../../../../assets/images/bodyOutline.gif')" bottom="0"
+                                 skinClass="spark.skins.spark.ImageSkin"/>
+                    </s:VGroup>
+                </s:Group>
+                <s:Group id="painImageGroup" height="100%" width="50%">
+                    <s:VGroup id="painImage" height="100%" width="100%">
+                        <s:Spacer height="100%"/>
+                        <s:Image scaleX=".6" scaleY=".6"
+                                 source="@Embed(source='../../../../assets/images/bodyOutline.gif')" bottom="0"
+                                 click="painImageClickHandler(event)" skinClass="spark.skins.spark.ImageSkin"/>
+                    </s:VGroup>
+                </s:Group>
+            </s:Group>
+            <s:Group height="100%" width="50%">
+                <s:Spacer height="100%" width="100%"/>
+            </s:Group>
+        </s:HGroup>
+    </s:VGroup>
+</s:Group>

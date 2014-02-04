@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+		<!--~
+  ~ Copyright 2011 John Moore, Scott Gilroy
+  ~
+  ~ This file is part of CollaboRhythm.
+  ~
+  ~ CollaboRhythm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+  ~ License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later
+  ~ version.
+  ~
+  ~ CollaboRhythm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with CollaboRhythm.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:views="collaboRhythm.plugins.diary.view.*"
+		 width="100%" height="100%">
+    <fx:Script><![CDATA[
+        import mx.controls.Alert;
+        import mx.core.UIComponent;
+
+        private function onActivating(event:SoftKeyboardEvent):void {
+            event.preventDefault();
+        }
+        private function setFocusHandler(com:UIComponent):void {
+            numberPad.visible = true;
+            this.numberPad.newFocus(com);
+            addEventListener(NumberPadEvent.CLOSE_NUMBER_PAD, numberPadClose)
+        }
+        public function numberPadClose(event:NumberPadEvent):void {
+            numberPad.visible = false;
+            focusManager.setFocus(dummyFocus);
+        }
+
+        public var pass:Boolean = false;
+        public var submit1:String;
+        public var submit2:String;
+        public var submit3:String;
+        public var alertText:String = '';
+
+        public function submit():void{
+            if (urineInputText.text == '') {
+                alertText = 'Please enter a volume';
+            }
+            else if (urineColorText.text == ''){
+                alertText = 'Please enter a color';
+            }
+            else {
+                pass = true;
+                submit1 = urineInputText.text;
+                submit2 = urineColorText.text;
+                submit3 = urineText.text;
+            }
+        }
+        public function clear():void{
+            pass = false;
+            urineInputText.text = '';
+            urineColorText.text = '';
+            urineText.text = '';
+            submit1 = urineInputText.text;
+            submit2 = urineColorText.text;
+            submit3 = urineText.text;
+        }
+
+        ]]></fx:Script>
+
+    <s:VGroup height="100%" width="100%">
+        <s:Group height="41%" width="100%">
+            <s:HGroup height="100%" width="100%">
+                <s:VGroup height="100%" width="50%">
+                    <s:Label text="Urine volume (mL):" height="10%" width="100%" fontSize="20"/>
+                    <s:BorderContainer height="90%" width="60%"
+                                           cornerRadius="4" borderWeight="2"
+                                           backgroundAlpha="0">
+                        <s:RichEditableText id="urineInputText" color="0x000000" text="" restrict="0-9 ."
+                                            width="100%" height="100%"
+                                            backgroundColor="0xffffff"
+                                            paddingTop="5" fontSize="160"
+                                            softKeyboardActivating="onActivating(event)"
+                                            focusIn="setFocusHandler(urineInputText)"/>
+                    </s:BorderContainer>
+                </s:VGroup>
+                <s:VGroup height="100%" width="25%">
+                    <s:Label text="Color" height="10%" width="100%" fontSize="20"/>
+                    <s:BorderContainer height="90%" width="60%"
+                                       cornerRadius="4" borderWeight="2"
+                                       backgroundAlpha="0">
+                        <s:RichEditableText id="urineColorText" color="0x000000" text=""
+                                            width="100%" height="100%"
+                                            backgroundColor="0xffffff"
+                                            paddingTop="5" fontSize="30" focusIn="numberPad.visible = false"/>
+                    </s:BorderContainer>
+                </s:VGroup>
+                <s:VGroup height="100%" width="25%">
+                    <s:Label text="Comments" height="10%" width="100%" fontSize="20"/>
+                    <s:BorderContainer height="90%" width="100%"
+                                          cornerRadius="4" borderWeight="2"
+                                          backgroundAlpha="0">
+                        <s:RichEditableText id="urineText" color="0x000000" text=""
+                                           width="100%" height="100%"
+                                           backgroundColor="0xffffff"
+                                           paddingTop="5" fontSize="30" focusIn="numberPad.visible = false"/>
+                     </s:BorderContainer>
+                </s:VGroup>
+            </s:HGroup>
+        </s:Group>
+        <s:HGroup height="59%" width="100%">
+            <s:Group height="100%" width="50%">
+                <s:VGroup height="100%" width="100%">
+                    <s:Spacer height="100%" width="100%"/>
+                    <views:NumberPad id="numberPad" visible="false" bottom="0"
+                                     height="300" width="300"/>
+                </s:VGroup>
+                <s:Button id="dummyFocus" visible="false"/>
+            </s:Group>
+            <s:Group height="100%" width="50%">
+                <s:Spacer height="100%" width="100%"/>
+            </s:Group>
+        </s:HGroup>
+    </s:VGroup>
+</s:Group>
